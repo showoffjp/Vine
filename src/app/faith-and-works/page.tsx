@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "paul" | "james" | "living" | "videos";
+type Tab = "theology" | "paul" | "james" | "living" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -201,8 +203,23 @@ export default function FaithAndWorksPage() {
     { id: "paul", label: "Paul on Justification" },
     { id: "james", label: "James 2:14-26" },
     { id: "living", label: "Living Faith" },
+    { id: "journal", label: "My Journal" },
     { id: "videos", label: "Videos" },
   ];
+
+  const [fwEntries, setFwEntries] = useState<{ id: string; date: string; faith: string; work: string; tension: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fw_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fwForm, setFwForm] = useState({ faith: "", work: "", tension: "" });
+  const [fwSaved, setFwSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fw_entries", JSON.stringify(fwEntries)); }, [fwEntries]);
+  function saveFwEntry() {
+    if (!fwForm.faith.trim() && !fwForm.work.trim()) return;
+    setFwEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fwForm }, ...prev]);
+    setFwForm({ faith: "", work: "", tension: "" });
+    setFwSaved(true); setTimeout(() => setFwSaved(false), 2000);
+  }
+  function deleteFwEntry(id: string) { setFwEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div
@@ -531,6 +548,55 @@ export default function FaithAndWorksPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                James 2:17: "Faith by itself, if it is not accompanied by action, is dead." Journal how your faith is expressing itself in works — and where the two feel disconnected.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Faith & Works Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Faith that moved me today</label>
+                <textarea value={fwForm.faith} onChange={e => setFwForm(f => ({ ...f, faith: e.target.value }))} rows={2}
+                  placeholder="A Scripture that gripped you, a promise you rested in, trust you exercised in uncertainty..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Work that expressed it</label>
+                <textarea value={fwForm.work} onChange={e => setFwForm(f => ({ ...f, work: e.target.value }))} rows={2}
+                  placeholder="How your faith showed up in action — serving, giving, forgiving, speaking up, persisting..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where faith and works feel disconnected</label>
+                <textarea value={fwForm.tension} onChange={e => setFwForm(f => ({ ...f, tension: e.target.value }))} rows={2}
+                  placeholder="Where do you believe something you are not yet acting on? Where is the gap?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFwEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {fwSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fwEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Faith & Works Journal ({fwEntries.length})</h3>
+                {fwEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteFwEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.faith && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}><span style={{ fontWeight: 600 }}>Faith: </span>{e.faith}</p>}
+                    {e.work && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Work: </span>{e.work}</p>}
+                    {e.tension && <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", margin: 0 }}>Gap: {e.tension}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -540,20 +606,14 @@ export default function FaithAndWorksPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "4aBTTEbDvW4", title: "Does James Contradict Paul?", teacher: "John Piper" },
-                { id: "QecyvLgSuN8", title: "Piper & Keller on Sanctification", teacher: "John Piper & Tim Keller" },
-                { id: "x2ZUeFYlk-I", title: "Faith and Work", teacher: "Timothy Keller" },
-                { id: "VGyBrSmiyFA", title: "The Fruit of Faith: Galatians 5", teacher: "John Piper" },
+                { id: "KwX1f2gYKZ4", title: "Does James Contradict Paul?", teacher: "John Piper" },
+                { id: "YNd-PbVhnvA", title: "Piper & Keller on Sanctification", teacher: "John Piper & Tim Keller" },
+                { id: "XtwIT8JjddM", title: "Faith and Work", teacher: "Timothy Keller" },
+                { id: "jH_aojNJM3E", title: "The Fruit of Faith: Galatians 5", teacher: "John Piper" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

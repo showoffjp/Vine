@@ -178,6 +178,7 @@ export default function PrayerPage() {
   });
   const [prayingAnimation, setPrayingAnimation] = useState<Set<number>>(new Set());
   const [requestText, setRequestText] = useState("");
+  const [userName, setUserName] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [amenedCards, setAmenedCards] = useState<Set<number>>(() => {
@@ -246,6 +247,7 @@ export default function PrayerPage() {
     if (!requestText.trim()) return;
     setSubmitted(true);
     setRequestText("");
+    setUserName("");
     setSelectedTopic("");
     setTimeout(() => {
       setSubmitted(false);
@@ -375,6 +377,8 @@ export default function PrayerPage() {
                   </label>
                   <input
                     type="text"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                     placeholder={isAnonymous ? "Posting anonymously" : "Your first name..."}
                     disabled={isAnonymous}
                     className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"

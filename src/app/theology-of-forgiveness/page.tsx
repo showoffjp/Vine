@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "process" | "hard" | "videos";
+type Tab = "theology" | "jesus" | "process" | "hard" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -201,11 +203,26 @@ export default function TheologyOfForgivenessPage() {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
+  type JournalEntry = { id: string; date: string; person: string; where: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_tofj_entries") ?? "[]"); } catch { return []; } });
+  const [jPerson, setJPerson] = useState("");
+  const [jWhere, setJWhere] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_tofj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jPerson.trim() && !jWhere.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), person: jPerson, where: jWhere, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJPerson(""); setJWhere(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Forgiveness" },
     { id: "jesus", label: "Jesus and Forgiveness" },
     { id: "process", label: "The Process of Forgiveness" },
     { id: "hard", label: "Hard Cases" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -500,6 +517,39 @@ export default function TheologyOfForgivenessPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Forgiveness Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record where you are in the journey of forgiving — who, where you are, and your next step.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jPerson} onChange={e => setJPerson(e.target.value)} placeholder="Who or what you are working to forgive" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jWhere} onChange={e => setJWhere(e.target.value)} placeholder="Where are you in the process? What is God showing you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step in the forgiveness journey" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your forgiveness journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>Forgiveness Journal</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.person && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Forgiving:</strong> {entry.person}</p>}
+                    {entry.where && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Where I am:</strong> {entry.where}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -509,19 +559,13 @@ export default function TheologyOfForgivenessPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "k0W7h8zLztQ", title: "Guilt and Forgiveness: Pleasing God", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul examines the central message of Scripture — forgiveness — and what it means for the guilty conscience to be fully and finally released." },
-                  { videoId: "WZMY748_U1o", title: "Forgiveness, Resurrection, and Life Everlasting", channel: "Ligonier Ministries (R.C. Sproul)", description: "Because of our sin, all human beings share one desperate need: the need for forgiveness. Sproul traces how the resurrection grounds the promise of forgiveness." },
-                  { videoId: "SWe1E8AMMr8", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller on how the gospel — including the message of forgiveness — must reach the heart, not just the mind, to produce genuine transformation." },
-                  { videoId: "iEwtnsEuLJc", title: "John Piper and Tim Keller on Expositional Preaching", channel: "The Gospel Coalition", description: "Piper and Keller discuss preaching the whole gospel, including the difficult dimensions of sin, judgment, and the radical forgiveness that only the cross can provide." },
+                  { videoId: "iK0NjiBXKN4", title: "Guilt and Forgiveness: Pleasing God", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul examines the central message of Scripture — forgiveness — and what it means for the guilty conscience to be fully and finally released." },
+                  { videoId: "zDnSbLd9LFg", title: "Forgiveness, Resurrection, and Life Everlasting", channel: "Ligonier Ministries (R.C. Sproul)", description: "Because of our sin, all human beings share one desperate need: the need for forgiveness. Sproul traces how the resurrection grounds the promise of forgiveness." },
+                  { videoId: "bQFIuYOg7uo", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller on how the gospel — including the message of forgiveness — must reach the heart, not just the mind, to produce genuine transformation." },
+                  { videoId: "7_CGP-12AE0", title: "John Piper and Tim Keller on Expositional Preaching", channel: "The Gospel Coalition", description: "Piper and Keller discuss preaching the whole gospel, including the difficult dimensions of sin, judgment, and the radical forgiveness that only the cross can provide." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

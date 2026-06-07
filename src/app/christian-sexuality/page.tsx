@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "body" | "purity" | "questions" | "videos";
+type Tab = "theology" | "body" | "purity" | "questions" | "journal" | "videos";
 
 // ── TAB 1 DATA ─────────────────────────────────────────────────────────────
 const THEOLOGY_ITEMS = [
@@ -155,6 +157,20 @@ export default function ChristianSexualityPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeFramework, setActiveFramework] = usePersistedState("vine_christian-sexuality_active_framework", "jpii");
 
+  const [csexEntries, setCsexEntries] = useState<{ id: string; date: string; question: string; scripture: string; conviction: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_csex_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [csexForm, setCsexForm] = useState({ question: "", scripture: "", conviction: "" });
+  const [csexSaved, setCsexSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_csex_entries", JSON.stringify(csexEntries)); }, [csexEntries]);
+  function saveCsexEntry() {
+    if (!csexForm.question.trim()) return;
+    setCsexEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...csexForm }, ...prev]);
+    setCsexForm({ question: "", scripture: "", conviction: "" });
+    setCsexSaved(true); setTimeout(() => setCsexSaved(false), 2000);
+  }
+  function deleteCsexEntry(id: string) { setCsexEntries(prev => prev.filter(e => e.id !== id)); }
+
   const toggle = (key: string) => {
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
   };
@@ -166,6 +182,7 @@ export default function ChristianSexualityPage() {
     { id: "body", label: "Body & Soul", icon: "✝️" },
     { id: "purity", label: "Purity Culture", icon: "🌱" },
     { id: "questions", label: "Honest Questions", icon: "❓" },
+    { id: "journal", label: "My Journal", icon: "📓" },
     { id: "videos", label: "Videos", icon: "🎬" },
   ];
 
@@ -484,6 +501,53 @@ export default function ChristianSexualityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Personal Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect privately on questions about sexuality, faith, and biblical conviction. Saved only in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What question are you wrestling with?</label>
+                <textarea value={csexForm.question} onChange={e => setCsexForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="An honest question about sexuality and faith..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What Scripture speaks to this?</label>
+                <textarea value={csexForm.scripture} onChange={e => setCsexForm(f => ({ ...f, scripture: e.target.value }))}
+                  placeholder="Verse or passage that anchors you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What conviction or commitment are you holding?</label>
+                <textarea value={csexForm.conviction} onChange={e => setCsexForm(f => ({ ...f, conviction: e.target.value }))}
+                  placeholder="What I believe and am committing to..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCsexEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {csexSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {csexEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {csexEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCsexEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.question && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>QUESTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.question}</span></div>}
+                    {e.scripture && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>SCRIPTURE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.scripture}</span></div>}
+                    {e.conviction && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>CONVICTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.conviction}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -493,19 +557,13 @@ export default function ChristianSexualityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "WaYKyRLjxzI", title: "Sexuality and Christian Hope", channel: "Timothy Keller", description: "Tim Keller explores Christianity's revolutionary view of sex, singleness, and marriage — and why it offers more hope than the culture's alternatives." },
-                  { videoId: "jUWnE6GeOiE", title: "Love and Lust", channel: "Timothy Keller", description: "A comprehensive biblical view of sexuality, desire, and what Scripture says about the difference between love and lust." },
-                  { videoId: "ZACkRe_W4Gg", title: "Marriage for the Glory of God", channel: "Paul Washer / John Piper / Voddie Baucham", description: "Paul Washer, John Piper, and Voddie Baucham on the foundational biblical concept that marriage is God's doing and exists for his glory." },
-                  { videoId: "XoxYPXqqO34", title: "The Meaning of Marriage — Session One", channel: "Timothy & Kathy Keller", description: "Tim and Kathy Keller teach the biblical framework for marriage from their widely-used Bible study series." },
+                  { videoId: "iK0NjiBXKN4", title: "Sexuality and Christian Hope", channel: "Timothy Keller", description: "Tim Keller explores Christianity's revolutionary view of sex, singleness, and marriage — and why it offers more hope than the culture's alternatives." },
+                  { videoId: "zMbUXpFiFeo", title: "Love and Lust", channel: "Timothy Keller", description: "A comprehensive biblical view of sexuality, desire, and what Scripture says about the difference between love and lust." },
+                  { videoId: "52ZXFH1wzc8", title: "Marriage for the Glory of God", channel: "Paul Washer / John Piper / Voddie Baucham", description: "Paul Washer, John Piper, and Voddie Baucham on the foundational biblical concept that marriage is God's doing and exists for his glory." },
+                  { videoId: "rtkS_8VWfB0", title: "The Meaning of Marriage — Session One", channel: "Timothy & Kathy Keller", description: "Tim and Kathy Keller teach the biblical framework for marriage from their widely-used Bible study series." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

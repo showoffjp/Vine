@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -87,12 +90,27 @@ const TEACHERS_POSTURE = [
 ];
 
 export default function PrayerPosturesPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"postures" | "teachers" | "traditions" | "faq" | "videos">("vine_prayer-postures_tab", "postures");
+  const [activeTab, setActiveTab] = usePersistedState<"postures" | "teachers" | "traditions" | "faq" | "journal" | "videos">("vine_prayer-postures_tab", "postures");
   const [selectedTeacher, setSelectedTeacher] = usePersistedState("vine_prayer-postures_selected_teacher", "teresa");
   const teacherItem = TEACHERS_POSTURE.find(t => t.id === selectedTeacher)!;
   const [selected, setSelected] = usePersistedState<string>("vine_prayer-postures_selected", "Standing");
 
   const selectedPosture = POSTURES.find(p => p.name === selected);
+
+  const [ppJEntries, setPpJEntries] = useState<{ id: string; date: string; posture: string; experience: string; practice: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ppj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [ppJForm, setPpJForm] = useState({ posture: "", experience: "", practice: "" });
+  const [ppJSaved, setPpJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ppj_entries", JSON.stringify(ppJEntries)); } catch {} }, [ppJEntries]);
+  const savePpJEntry = () => {
+    if (!ppJForm.posture.trim()) return;
+    setPpJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ppJForm }, ...prev]);
+    setPpJForm({ posture: "", experience: "", practice: "" });
+    setPpJSaved(true);
+    setTimeout(() => setPpJSaved(false), 2000);
+  };
+  const deletePpJEntry = (id: string) => setPpJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -113,6 +131,7 @@ export default function PrayerPosturesPage() {
             { id: "teachers" as const, label: "Teachers", icon: "💬" },
             { id: "traditions" as const, label: "By Tradition", icon: "⛪" },
             { id: "faq" as const, label: "Questions", icon: "❓" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -235,6 +254,50 @@ export default function PrayerPosturesPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Prayer Postures Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the posture you tried, what you experienced, and how you will practice it going forward.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Posture I tried</label>
+                  <textarea rows={2} value={ppJForm.posture} onChange={e => setPpJForm(f => ({ ...f, posture: e.target.value }))} placeholder="e.g. kneeling, prostrating, hands raised" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>What I experienced</label>
+                  <textarea rows={2} value={ppJForm.experience} onChange={e => setPpJForm(f => ({ ...f, experience: e.target.value }))} placeholder="How did this posture affect your prayer?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I will practice it</label>
+                  <textarea rows={2} value={ppJForm.practice} onChange={e => setPpJForm(f => ({ ...f, practice: e.target.value }))} placeholder="When and how will you incorporate this posture regularly?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePpJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {ppJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {ppJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {ppJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePpJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.posture && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Posture</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.posture}</p></div>}
+                    {e.experience && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Experience</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.experience}</p></div>}
+                    {e.practice && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Practice</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.practice}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -244,19 +307,13 @@ export default function PrayerPosturesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "Piper unpacks the Lord's Prayer as a model for all prayer — including the posture of the heart that must accompany the words of the mouth." },
-                  { videoId: "IvWmwvdJ-mU", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology of approaching God in prayer — what posture of soul is required when we enter the presence of the Holy One." },
-                  { videoId: "43cnijCzHaY", title: "How Kneeling in Church Changed My Spiritual Life", channel: "Catholic / Liturgical Testimony", description: "A personal testimony on how the physical practice of kneeling transformed the interior life of prayer — a reminder that embodied practice shapes spiritual reality." },
-                  { videoId: "ZIl-SaUTOis", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "An exploration of contemplative prayer traditions and how posture, silence, and attentiveness to God work together in the classical Christian understanding of prayer." },
+                  { videoId: "mC-zw0zCCtg", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "Piper unpacks the Lord's Prayer as a model for all prayer — including the posture of the heart that must accompany the words of the mouth." },
+                  { videoId: "ZOBIPb-6PTc", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology of approaching God in prayer — what posture of soul is required when we enter the presence of the Holy One." },
+                  { videoId: "OpfuKKH_SCE", title: "How Kneeling in Church Changed My Spiritual Life", channel: "Catholic / Liturgical Testimony", description: "A personal testimony on how the physical practice of kneeling transformed the interior life of prayer — a reminder that embodied practice shapes spiritual reality." },
+                  { videoId: "ERR0Zq7TBgU", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "An exploration of contemplative prayer traditions and how posture, silence, and attentiveness to God work together in the classical Christian understanding of prayer." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

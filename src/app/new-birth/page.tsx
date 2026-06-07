@@ -2,18 +2,21 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "models" | "voices" | "practices" | "videos";
+type Tab = "theology" | "models" | "voices" | "practices" | "journal" | "videos";
 
 const VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "You Must Be Born Again — What Jesus Really Meant", channel: "Tim Keller / Gospel in Life", description: "Keller unpacks John 3 and the radical claim that religious people need regeneration just as much as irreligious ones." },
-  { videoId: "fJnGJN6laqE", title: "What Does It Mean to Be Born Again?", channel: "Desiring God", description: "John Piper answers the question with precision and pastoral warmth — what changes, what doesn't, and how you know." },
-  { videoId: "ACZbpLkY8To", title: "The New Birth — Regeneration Explained", channel: "Ligonier Ministries", description: "R.C. Sproul explains the Reformed doctrine of regeneration: why the new birth must precede faith, not follow it." },
-  { videoId: "Z8lkuuhVkOI", title: "Regeneration and Conversion", channel: "Theology of the Cross", description: "A careful theological treatment of the ordo salutis — how regeneration, faith, repentance, and justification relate." },
+  { videoId: "rtkS_8VWfB0", title: "You Must Be Born Again — What Jesus Really Meant", channel: "Tim Keller / Gospel in Life", description: "Keller unpacks John 3 and the radical claim that religious people need regeneration just as much as irreligious ones." },
+  { videoId: "4Eg_di-O8nM", title: "What Does It Mean to Be Born Again?", channel: "Desiring God", description: "John Piper answers the question with precision and pastoral warmth — what changes, what doesn't, and how you know." },
+  { videoId: "ej_6dVdJSIU", title: "The New Birth — Regeneration Explained", channel: "Ligonier Ministries", description: "R.C. Sproul explains the Reformed doctrine of regeneration: why the new birth must precede faith, not follow it." },
+  { videoId: "gV9JugO_5Mk", title: "Regeneration and Conversion", channel: "Theology of the Cross", description: "A careful theological treatment of the ordo salutis — how regeneration, faith, repentance, and justification relate." },
 ];
 
 const VOICES = [
@@ -123,7 +126,21 @@ export default function NewBirthPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_new-birth_voice", "augustine");
   const voice = VOICES.find(v => v.id === selectedVoice)!;
 
-  const model = MODELS.find(m => m.name === selectedModel)!;
+  const model = MODELS.find(m => m.name === selectedModel)!
+
+  const [nbEntries, setNbEntries] = useState<{ id: string; date: string; evidence: string; struggle: string; gratitude: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_nb_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [nbForm, setNbForm] = useState({ evidence: "", struggle: "", gratitude: "" });
+  const [nbSaved, setNbSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_nb_entries", JSON.stringify(nbEntries)); }, [nbEntries]);
+  function saveNbEntry() {
+    if (!nbForm.evidence.trim() && !nbForm.gratitude.trim()) return;
+    setNbEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...nbForm }, ...prev]);
+    setNbForm({ evidence: "", struggle: "", gratitude: "" });
+    setNbSaved(true); setTimeout(() => setNbSaved(false), 2000);
+  }
+  function deleteNbEntry(id: string) { setNbEntries(prev => prev.filter(e => e.id !== id)); };
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -144,6 +161,7 @@ export default function NewBirthPage() {
             { id: "models" as const, label: "Views", icon: "⚖️" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -230,12 +248,60 @@ export default function NewBirthPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                John 3:8: "The wind blows wherever it pleases... so it is with everyone born of the Spirit." Journal the evidence of new life, the ongoing struggles, and gratitude for the Spirit's work.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>New Life Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Evidence of new birth in my life today</label>
+                <textarea value={nbForm.evidence} onChange={e => setNbForm(f => ({ ...f, evidence: e.target.value }))} rows={2}
+                  placeholder="Desires changed, love for God's Word, repentance, love for others, sensitivity to sin, hope..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I am still struggling (the old nature)</label>
+                <textarea value={nbForm.struggle} onChange={e => setNbForm(f => ({ ...f, struggle: e.target.value }))} rows={2}
+                  placeholder="The new birth does not remove the old nature immediately — be honest about where it still pulls you."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Gratitude for the Spirit's work</label>
+                <textarea value={nbForm.gratitude} onChange={e => setNbForm(f => ({ ...f, gratitude: e.target.value }))} rows={2}
+                  placeholder="What is the Spirit doing in you that you could not do yourself?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveNbEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {nbSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {nbEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>New Life Journal ({nbEntries.length})</h3>
+                {nbEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteNbEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.evidence && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}>{e.evidence}</p>}
+                    {e.struggle && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ color: MUTED, fontWeight: 600 }}>Struggle: </span>{e.struggle}</p>}
+                    {e.gratitude && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.gratitude}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

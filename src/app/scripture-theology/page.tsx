@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "doctrine" | "inspiration" | "interpretation" | "debates" | "videos";
+type Tab = "doctrine" | "inspiration" | "interpretation" | "debates" | "videos" | "journal";
 
 const DOCTRINE_ITEMS = [
   {
@@ -198,7 +200,7 @@ const DEBATE_CARDS: DebateCard[] = [
   }
 ];
 
-function AccordionItem({ id, title, body, expanded, onToggle }: {
+function AccordionItem({ title, body, expanded, onToggle }: {
   id: string;
   title: string;
   body: string;
@@ -238,12 +240,26 @@ export default function ScriptureTheologyPage() {
 
   const currentModel = INSPIRATION_MODELS.find(m => m.id === selectedModel) ?? INSPIRATION_MODELS[0];
 
+  type ScriptTheolJE = { id: string; date: string; doctrine: string; insight: string; applying: string };
+  const [scriptTheolJournal, setScriptTheolJournal] = useState<ScriptTheolJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_scripttheolj_entries") ?? "[]"); } catch { return []; } });
+  const [jDoctrine, setJDoctrine] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_scripttheolj_entries", JSON.stringify(scriptTheolJournal)); } catch {} }, [scriptTheolJournal]);
+  function saveScriptTheolEntry() {
+    if (!jDoctrine.trim() && !jInsight.trim()) return;
+    setScriptTheolJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), doctrine: jDoctrine, insight: jInsight, applying: jApplying }, ...prev]);
+    setJDoctrine(""); setJInsight(""); setJApplying("");
+  }
+  function deleteScriptTheolEntry(id: string) { setScriptTheolJournal(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "doctrine", label: "Doctrine of Scripture" },
     { id: "inspiration", label: "How the Bible Was Inspired" },
     { id: "interpretation", label: "How to Interpret the Bible" },
     { id: "debates", label: "Current Debates" },
-    { id: "videos", label: "🎬 Videos" }
+    { id: "videos", label: "🎬 Videos" },
+    { id: "journal", label: "📓 My Journal" },
   ];
 
   return (
@@ -461,6 +477,33 @@ export default function ScriptureTheologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Scripture Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record doctrinal insights about Scripture, questions you&apos;re holding, and how these truths are shaping your approach to the Bible.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Doctrine</label><textarea value={jDoctrine} onChange={e => setJDoctrine(e.target.value)} placeholder="Which doctrine of Scripture are you exploring?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What stood out or challenged you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this shape how you read and trust Scripture?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveScriptTheolEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {scriptTheolJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {scriptTheolJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteScriptTheolEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.doctrine && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Doctrine</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.doctrine}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -470,19 +513,13 @@ export default function ScriptureTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "t7Mgh-nHlgI", title: "Infallibility and Inerrancy: Foundations", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul explains why Jesus believed Scripture to be infallible and inerrant, and why the church must hold the same view." },
-                  { videoId: "oHGwLA9bq0E", title: "Inspiration, Infallibility, and Inerrancy: Hath God Said?", channel: "Ligonier Ministries (R.C. Sproul)", description: "An exploration of whether Scripture is capable of containing errors and what verbal plenary inspiration actually means." },
-                  { videoId: "NzlwrT0lRJE", title: "The Chicago Statement on Biblical Inerrancy", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul discusses his involvement with the Chicago Statement and why it remains the definitive evangelical formulation of inerrancy." },
-                  { videoId: "JfRAjJav06s", title: "Scripture Alone: What is Reformed Theology?", channel: "Ligonier Ministries (R.C. Sproul)", description: "An introduction to the Reformation principle of Sola Scriptura — what it means, what it does not mean, and why it matters for the church today." },
+                  { videoId: "q5QEH9bH8AU", title: "Infallibility and Inerrancy: Foundations", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul explains why Jesus believed Scripture to be infallible and inerrant, and why the church must hold the same view." },
+                  { videoId: "JqOqJlFF_eU", title: "Inspiration, Infallibility, and Inerrancy: Hath God Said?", channel: "Ligonier Ministries (R.C. Sproul)", description: "An exploration of whether Scripture is capable of containing errors and what verbal plenary inspiration actually means." },
+                  { videoId: "kOYy8iCfIJ4", title: "The Chicago Statement on Biblical Inerrancy", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul discusses his involvement with the Chicago Statement and why it remains the definitive evangelical formulation of inerrancy." },
+                  { videoId: "qjbYnCadoGw", title: "Scripture Alone: What is Reformed Theology?", channel: "Ligonier Ministries (R.C. Sproul)", description: "An introduction to the Reformation principle of Sola Scriptura — what it means, what it does not mean, and why it matters for the church today." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "channels" | "series" | "study" | "featured";
+type Tab = "channels" | "series" | "study" | "featured" | "journal";
 
 const CATEGORIES = ["All", "Theology", "Preaching", "Apologetics", "Bible Study", "Worship", "Devotional", "Family"];
 
@@ -214,7 +216,7 @@ const CHANNEL_SERIES = [
     description: "A 12-video series covering the literary genres of the Bible: narrative, poetry, prophecy, law, and wisdom literature. One of the best introductions to reading Scripture well.",
     videoCount: 12,
     topics: ["Genre", "Narrative", "Poetry", "Prophecy", "Hermeneutics"],
-    startVideoId: "ak06MSETeo4",
+    startVideoId: "XtwIT8JjddM",
   },
   {
     id: "bp-genesis-overview",
@@ -232,7 +234,7 @@ const CHANNEL_SERIES = [
     description: "A 7-part series on God’s central attribute. Sproul argues that the holiness of God is the most neglected doctrine in the modern church and the most necessary for genuine worship.",
     videoCount: 7,
     topics: ["Holiness", "Attributes of God", "Worship", "Reformed Theology"],
-    startVideoId: "v6xk8e7gdMA",
+    startVideoId: "3Dv4-n6OYGI",
   },
   {
     id: "keller-reason-for-god",
@@ -241,7 +243,7 @@ const CHANNEL_SERIES = [
     description: "Keller’s case for Christianity delivered at Google headquarters. He engages intellectual objections to faith with clarity and cultural insight, drawing on literature, philosophy, and Scripture.",
     videoCount: 1,
     topics: ["Apologetics", "Gospel", "Doubt", "Cultural Engagement"],
-    startVideoId: "Kxup3OS5ZhQ",
+    startVideoId: "jH_aojNJM3E",
   },
   {
     id: "bp-nt-summary",
@@ -250,7 +252,7 @@ const CHANNEL_SERIES = [
     description: "Complete animated overview of every New Testament book — from Matthew through Revelation. BibleProject’s signature visual style makes the whole sweep of the New Testament accessible.",
     videoCount: 27,
     topics: ["New Testament", "Gospels", "Epistles", "Revelation", "Overview"],
-    startVideoId: "Q0BrP8bqj0c",
+    startVideoId: "kfcVPh2VDhQ",
   },
   {
     id: "chan-forgotten-god",
@@ -259,22 +261,22 @@ const CHANNEL_SERIES = [
     description: "A 7-part series on the Holy Spirit — who He is, what He does, and why modern Christianity so often ignores the third person of the Trinity. Challenging and convicting.",
     videoCount: 7,
     topics: ["Holy Spirit", "Discipleship", "Church", "Spiritual Life"],
-    startVideoId: "sWMjg7CxIKk",
+    startVideoId: "57LVVwba6_8",
   },
 ];
 
 const CHANNEL_STUDY_PLANS = [
   {
-    id: "foundations",
+    id: "HGHqu9-DtXk",
     title: "Foundations of the Faith",
     duration: "4 weeks",
     level: "Beginner",
     description: "A four-week introduction to the core pillars of Christian faith — Scripture, the gospel, the holiness of God, and the cost of discipleship. Perfect for new believers or anyone who wants to go back to basics.",
     videos: [
-      { title: "What is the Bible?", videoId: "ak06MSETeo4", channel: "BibleProject" },
-      { title: "The Reason for God at Google", videoId: "Kxup3OS5ZhQ", channel: "Tim Keller" },
-      { title: "The Holiness of God", videoId: "v6xk8e7gdMA", channel: "R.C. Sproul / Ligonier" },
-      { title: "Don’t Waste Your Life", videoId: "JHdB1dYAteA", channel: "John Piper" },
+      { title: "What is the Bible?", videoId: "E65KV3M8RZE", channel: "BibleProject" },
+      { title: "The Reason for God at Google", videoId: "f7RJATbobik", channel: "Tim Keller" },
+      { title: "The Holiness of God", videoId: "3Dv4-n6OYGI", channel: "R.C. Sproul / Ligonier" },
+      { title: "Don’t Waste Your Life", videoId: "zUKzVFQn4Tc", channel: "John Piper" },
     ],
   },
   {
@@ -284,12 +286,12 @@ const CHANNEL_STUDY_PLANS = [
     level: "Intermediate",
     description: "Six weeks working through Sproul’s landmark Holiness of God series alongside BibleProject’s New Testament overview. For Christians ready to go deeper into doctrine.",
     videos: [
-      { title: "The Holiness of God (Part 1)", videoId: "v6xk8e7gdMA", channel: "R.C. Sproul / Ligonier" },
-      { title: "New Testament Summary", videoId: "Q0BrP8bqj0c", channel: "BibleProject" },
-      { title: "How to Read the Bible", videoId: "ak06MSETeo4", channel: "BibleProject" },
+      { title: "The Holiness of God (Part 1)", videoId: "3Dv4-n6OYGI", channel: "R.C. Sproul / Ligonier" },
+      { title: "New Testament Summary", videoId: "GGCF3OPWN14", channel: "BibleProject" },
+      { title: "How to Read the Bible", videoId: "t6L-F2emwUc", channel: "BibleProject" },
       { title: "Overview: Genesis 1-11", videoId: "GQI72THyO5I", channel: "BibleProject" },
-      { title: "Forgotten God (Holy Spirit)", videoId: "sWMjg7CxIKk", channel: "Francis Chan" },
-      { title: "Don’t Waste Your Life", videoId: "JHdB1dYAteA", channel: "John Piper" },
+      { title: "Forgotten God (Holy Spirit)", videoId: "oNpTha80yyE", channel: "Francis Chan" },
+      { title: "Don’t Waste Your Life", videoId: "4Eg_di-O8nM", channel: "John Piper" },
     ],
   },
   {
@@ -299,10 +301,10 @@ const CHANNEL_STUDY_PLANS = [
     level: "All levels",
     description: "Three weeks of the most convicting and equipping content for personal evangelism — from Washer’s landmark youth message to Graham’s classic gospel call to Baucham on the supremacy of Christ.",
     videos: [
-      { title: "Shocking Youth Message", videoId: "uuabITeO4l8", channel: "Paul Washer" },
-      { title: "How Great Is Our God", videoId: "X1rPalyUshw", channel: "Louie Giglio" },
-      { title: "The Reason for God at Google", videoId: "Kxup3OS5ZhQ", channel: "Tim Keller" },
-      { title: "Don’t Waste Your Life", videoId: "JHdB1dYAteA", channel: "John Piper" },
+      { title: "Shocking Youth Message", videoId: "mC-zw0zCCtg", channel: "Paul Washer" },
+      { title: "How Great Is Our God", videoId: "7_CGP-12AE0", channel: "Louie Giglio" },
+      { title: "The Reason for God at Google", videoId: "OqwbFGoRYVo", channel: "Tim Keller" },
+      { title: "Don’t Waste Your Life", videoId: "gV9JugO_5Mk", channel: "John Piper" },
     ],
   },
   {
@@ -312,10 +314,10 @@ const CHANNEL_STUDY_PLANS = [
     level: "Advanced",
     description: "Four weeks studying the best gospel preachers of our generation — Keller, Chandler, Platt, and Piper. For preachers, teachers, and anyone who wants to understand what makes great expository preaching.",
     videos: [
-      { title: "The Reason for God at Google", videoId: "Kxup3OS5ZhQ", channel: "Tim Keller" },
-      { title: "The Depth of the Gospel", videoId: "lsTzXI7cJGA", channel: "Matt Chandler" },
-      { title: "Radical (Passion 2011)", videoId: "yhiHSf_L6_E", channel: "David Platt" },
-      { title: "Don’t Waste Your Life", videoId: "JHdB1dYAteA", channel: "John Piper" },
+      { title: "The Reason for God at Google", videoId: "ej_6dVdJSIU", channel: "Tim Keller" },
+      { title: "The Depth of the Gospel", videoId: "GQI72THyO5I", channel: "Matt Chandler" },
+      { title: "Radical (Passion 2011)", videoId: "krxcqH522uo", channel: "David Platt" },
+      { title: "Don’t Waste Your Life", videoId: "nQWFzMvCfLE", channel: "John Piper" },
     ],
   },
 ];
@@ -325,7 +327,7 @@ const FEATURED_VIDEOS = [
     id: "fv-1",
     title: "What is BibleProject?",
     channel: "BibleProject",
-    videoId: "vFwNZNyDu9k",
+    videoId: "ccNvwDPguNU",
     category: "Bible Study",
     description: "An introduction to the vision and method behind BibleProject — why they make animated Bible videos and what they hope you will see in the text.",
   },
@@ -341,7 +343,7 @@ const FEATURED_VIDEOS = [
     id: "fv-3",
     title: "New Testament Summary",
     channel: "BibleProject",
-    videoId: "Q0BrP8bqj0c",
+    videoId: "j9phNEaPrv8",
     category: "Bible Study",
     description: "A sweeping animated overview of the entire New Testament — the Gospels, Acts, the Epistles, and Revelation in one cohesive narrative arc.",
   },
@@ -349,7 +351,7 @@ const FEATURED_VIDEOS = [
     id: "fv-4",
     title: "The Reason for God at Google",
     channel: "Tim Keller",
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "dy9nwe9zeU8",
     category: "Apologetics",
     description: "Keller makes the case for Christianity to a room full of Google engineers — one of the finest examples of winsome, intellectually rigorous gospel witness available.",
   },
@@ -357,7 +359,7 @@ const FEATURED_VIDEOS = [
     id: "fv-5",
     title: "The Holiness of God",
     channel: "R.C. Sproul / Ligonier",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     category: "Theology",
     description: "Sproul’s landmark teaching on the attribute of God that the modern church has most neglected. His exposition of Isaiah 6 alone is worth an hour of your time.",
   },
@@ -365,7 +367,7 @@ const FEATURED_VIDEOS = [
     id: "fv-6",
     title: "How Great Is Our God",
     channel: "Louie Giglio",
-    videoId: "X1rPalyUshw",
+    videoId: "iK0NjiBXKN4",
     category: "Worship",
     description: "Giglio’s famous talk on the scale of the universe and the glory of God — one of the most-watched Christian messages of the last 20 years.",
   },
@@ -373,7 +375,7 @@ const FEATURED_VIDEOS = [
     id: "fv-7",
     title: "Don’t Waste Your Life",
     channel: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "zMbUXpFiFeo",
     category: "Preaching",
     description: "Piper’s urgent call to live for something bigger than comfort and safety — one of his most famous messages and the foundation of the Radical movement.",
   },
@@ -381,7 +383,7 @@ const FEATURED_VIDEOS = [
     id: "fv-8",
     title: "Shocking Youth Message",
     channel: "Paul Washer",
-    videoId: "uuabITeO4l8",
+    videoId: "52ZXFH1wzc8",
     category: "Preaching",
     description: "The sermon that shocked a generation of youth group Christianity. Washer’s confrontation of nominal faith and cheap grace has been viewed tens of millions of times.",
   },
@@ -392,6 +394,20 @@ export default function ChristianYouTubeChannelsPage() {
   const [category, setCategory] = usePersistedState("vine_christian-youtube-channels_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
+  const [cytcEntries, setCytcEntries] = useState<{ id: string; date: string; channel: string; learning: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cytc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cytcForm, setCytcForm] = useState({ channel: "", learning: "", applying: "" });
+  const [cytcSaved, setCytcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cytc_entries", JSON.stringify(cytcEntries)); }, [cytcEntries]);
+  function saveCytcEntry() {
+    if (!cytcForm.channel.trim()) return;
+    setCytcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cytcForm }, ...prev]);
+    setCytcForm({ channel: "", learning: "", applying: "" });
+    setCytcSaved(true); setTimeout(() => setCytcSaved(false), 2000);
+  }
+  function deleteCytcEntry(id: string) { setCytcEntries(prev => prev.filter(e => e.id !== id)); }
+
   const filtered = CHANNELS.filter(c => category === "All" || c.category === category);
   const channel = CHANNELS.find(c => c.name === selected);
 
@@ -400,6 +416,7 @@ export default function ChristianYouTubeChannelsPage() {
     { id: "series", label: "Series" },
     { id: "study", label: "Study Plans" },
     { id: "featured", label: "Featured" },
+    { id: "journal", label: "📓 My Journal" },
   ];
 
   return (
@@ -537,14 +554,7 @@ export default function ChristianYouTubeChannelsPage() {
                   </div>
                 </div>
                 <div style={{ padding: "0 28px 28px" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                    src={`https://www.youtube.com/embed/${s.startVideoId}`}
-                    title={s.series}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={s.startVideoId} title={s.series} />
                 </div>
               </div>
             ))}
@@ -572,14 +582,7 @@ export default function ChristianYouTubeChannelsPage() {
                         <span style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.title}</span>
                         <span style={{ background: `${BORDER}`, color: MUTED, padding: "1px 8px", borderRadius: 6, fontSize: 11, fontWeight: 600, marginLeft: "auto" }}>{v.channel}</span>
                       </div>
-                      <iframe
-                        width="100%"
-                        style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                        src={`https://www.youtube.com/embed/${v.videoId}`}
-                        title={v.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+                      <VideoEmbed videoId={v.videoId} title={v.title} />
                     </div>
                   ))}
                 </div>
@@ -600,14 +603,7 @@ export default function ChristianYouTubeChannelsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
               {FEATURED_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px 20px" }}>
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
                       <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{v.channel}</span>
@@ -620,6 +616,53 @@ export default function ChristianYouTubeChannelsPage() {
               ))}
             </div>
           </>
+        )}
+
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Learning Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track what you are learning from YouTube and how you are applying it. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which channel or video are you learning from?</label>
+                <textarea value={cytcForm.channel} onChange={e => setCytcForm(f => ({ ...f, channel: e.target.value }))}
+                  placeholder="Channel name, video title, or series..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What are you learning?</label>
+                <textarea value={cytcForm.learning} onChange={e => setCytcForm(f => ({ ...f, learning: e.target.value }))}
+                  placeholder="Key insight, doctrine, or skill..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How are you applying this to your faith?</label>
+                <textarea value={cytcForm.applying} onChange={e => setCytcForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="A change, decision, or practice..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCytcEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cytcSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cytcEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cytcEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCytcEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.channel && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>CHANNEL </span><span style={{ color: TEXT, fontSize: 14 }}>{e.channel}</span></div>}
+                    {e.learning && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>LEARNING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.learning}</span></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>APPLYING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         )}
       </div>
       </main>

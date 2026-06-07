@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -14,7 +15,6 @@ import {
   Baby,
   Briefcase,
   GraduationCap,
-  ShoppingBag,
   Headphones,
   Star,
   Zap,
@@ -165,9 +165,9 @@ export default function CommunityPage() {
     try { localStorage.setItem("vine_comm_nearby", JSON.stringify([...joinedNearby])); } catch {}
   }, [joinedNearby]);
 
-  const toggleFeatured = (i: number) => setJoinedFeatured(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
-  const toggleActive = (i: number) => setJoinedActive(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
-  const toggleNearby = (i: number) => setJoinedNearby(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleFeatured = (i: number) => setJoinedFeatured(prev => { const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; });
+  const toggleActive = (i: number) => setJoinedActive(prev => { const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; });
+  const toggleNearby = (i: number) => setJoinedNearby(prev => { const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; });
   const handleInvite = () => {
     if (!inviteEmail.trim()) return;
     setInviteSent(true);
@@ -261,10 +261,11 @@ export default function CommunityPage() {
               {visibleFeatured.map((circle) => {
                 const i = featuredCircles.indexOf(circle);
                 return (
-                <div
+                <Link
                   key={circle.name}
+                  href="/groups"
                   className="rounded-2xl overflow-hidden card-glow cursor-pointer"
-                  style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                  style={{ display: "block", background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                 >
                   {/* Cover */}
                   <div
@@ -301,7 +302,7 @@ export default function CommunityPage() {
                       </div>
                     </div>
                     <button type="button"
-                      onClick={() => toggleFeatured(i)}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFeatured(i); }}
                       className="w-full py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5"
                       style={{
                         background: joinedFeatured.has(i) ? circle.accent : `${circle.accent}18`,
@@ -312,7 +313,7 @@ export default function CommunityPage() {
                       {joinedFeatured.has(i) ? "✓ Joined!" : "Join Circle"}
                     </button>
                   </div>
-                </div>
+                </Link>
                 );
               })}
             </div>
@@ -325,10 +326,11 @@ export default function CommunityPage() {
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {categories.map((cat) => (
-                <div
+                <Link
                   key={cat.name}
+                  href="/groups"
                   className="rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer transition-all duration-200 hover:bg-[#18182A] card-glow"
-                  style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                  style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center mb-2"
@@ -342,7 +344,7 @@ export default function CommunityPage() {
                   <p className="text-[10px]" style={{ color: "#6A6A88" }}>
                     {cat.members} members
                   </p>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -363,10 +365,11 @@ export default function CommunityPage() {
                 <p className="text-sm col-span-full" style={{ color: "#6A6A88" }}>No nearby circles match your search.</p>
               )}
               {matchedNearby.map((circle, i) => (
-                <div
+                <Link
                   key={circle.name}
+                  href="/groups"
                   className="rounded-2xl p-5 card-glow cursor-pointer"
-                  style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                  style={{ display: "block", background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
@@ -394,7 +397,7 @@ export default function CommunityPage() {
                     {circle.description}
                   </p>
                   <button type="button"
-                    onClick={() => toggleNearby(i)}
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleNearby(i); }}
                     className="text-xs px-4 py-1.5 rounded-xl font-semibold transition-all"
                     style={{
                       background: joinedNearby.has(i) ? "#3a7d56" : "transparent",
@@ -404,7 +407,7 @@ export default function CommunityPage() {
                   >
                     {joinedNearby.has(i) ? "✓ Joined!" : "Join Circle"}
                   </button>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -422,10 +425,11 @@ export default function CommunityPage() {
                 <p className="text-sm" style={{ color: "#6A6A88" }}>No active circles match your search.</p>
               )}
               {matchedActive.map((circle, i) => (
-                <div
+                <Link
                   key={circle.name}
+                  href="/groups"
                   className="rounded-2xl p-4 flex items-center gap-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
-                  style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                  style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -453,7 +457,7 @@ export default function CommunityPage() {
                     </p>
                   </div>
                   <button type="button"
-                    onClick={() => toggleActive(i)}
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleActive(i); }}
                     className="text-xs px-3 py-1.5 rounded-xl font-semibold flex-shrink-0 transition-all"
                     style={{
                       background: joinedActive.has(i) ? "#3a7d56" : "transparent",
@@ -463,7 +467,7 @@ export default function CommunityPage() {
                   >
                     {joinedActive.has(i) ? "✓ Joined" : "Join"}
                   </button>
-                </div>
+                </Link>
               ))}
             </div>
           </section>

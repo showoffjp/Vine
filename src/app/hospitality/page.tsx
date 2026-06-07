@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -83,7 +85,7 @@ const HISTORY = [
   },
 ];
 
-type Tab = "theology" | "obstacles" | "history" | "practices" | "videos";
+type Tab = "theology" | "obstacles" | "history" | "practices" | "journal" | "videos";
 
 export default function HospitalityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_hospitality_tab", "theology");
@@ -91,6 +93,20 @@ export default function HospitalityPage() {
   const [selectedHistory, setSelectedHistory] = usePersistedState("vine_hospitality_selected_history", "desert");
 
   const history = HISTORY.find(h => h.id === selectedHistory)!;
+
+  const [hospEntries, setHospEntries] = useState<{ id: string; date: string; obstacle: string; practice: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_hosp_entries") ?? "[]"); } catch { return []; }
+  });
+  const [hospForm, setHospForm] = useState({ obstacle: "", practice: "", step: "" });
+  const [hospSaved, setHospSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_hosp_entries", JSON.stringify(hospEntries)); } catch {} }, [hospEntries]);
+  const saveHospEntry = () => {
+    if (!hospForm.obstacle.trim()) return;
+    setHospEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hospForm }, ...prev]);
+    setHospForm({ obstacle: "", practice: "", step: "" });
+    setHospSaved(true); setTimeout(() => setHospSaved(false), 2000);
+  };
+  const deleteHospEntry = (id: string) => setHospEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -111,6 +127,7 @@ export default function HospitalityPage() {
             { id: "obstacles" as const, label: "Obstacles", icon: "🚧" },
             { id: "history" as const, label: "Through History", icon: "🕰️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -225,17 +242,64 @@ export default function HospitalityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Hospitality Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record obstacles you are working through, practices you are building, and steps toward more generous welcome. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I AM WORKING THROUGH *</label>
+                <textarea value={hospForm.obstacle} onChange={e => setHospForm(f => ({ ...f, obstacle: e.target.value }))}
+                  placeholder="What makes hospitality feel difficult for you right now?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE I AM BUILDING</label>
+                <textarea value={hospForm.practice} onChange={e => setHospForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What hospitality practice are you cultivating (open table, welcoming strangers, caring for neighbors)?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+                <textarea value={hospForm.step} onChange={e => setHospForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What specific invitation or act of welcome will you extend this week?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHospEntry}
+                style={{ background: hospSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {hospSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hospEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({hospEntries.length})</h3>
+                {hospEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHospEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.obstacle}</span></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {[
-              { videoId: "vjnPe-Zs5_8", title: "Biblical Hospitality", channel: "The Gospel Coalition", description: "The Gospel Coalition explores the biblical foundations of hospitality — what it means, why it is commanded, and how it serves the mission of the church." },
-              { videoId: "E9P76VJIcRY", title: "Practicing Christian Hospitality", channel: "Ligonier Ministries", description: "Ligonier Ministries offers practical guidance on what Christian hospitality looks like in daily life, grounded in the New Testament's vision of philoxenia — love of the stranger." },
-              { videoId: "dXxmSDhvbHY", title: "Show Hospitality to One Another", channel: "Desiring God", description: "Desiring God unpacks the command to show hospitality to one another without grumbling, exploring what genuine welcome costs and what it communicates about the gospel." },
-              { videoId: "Hr3PkGXYRvI", title: "The Ministry of Hospitality", channel: "Tim Keller", description: "Tim Keller examines hospitality as a form of ministry — how opening your home and table participates in the kingdom work of the church and reflects the welcome of Christ." },
+              { videoId: "HGHqu9-DtXk", title: "Biblical Hospitality", channel: "The Gospel Coalition", description: "The Gospel Coalition explores the biblical foundations of hospitality — what it means, why it is commanded, and how it serves the mission of the church." },
+              { videoId: "E65KV3M8RZE", title: "Practicing Christian Hospitality", channel: "Ligonier Ministries", description: "Ligonier Ministries offers practical guidance on what Christian hospitality looks like in daily life, grounded in the New Testament's vision of philoxenia — love of the stranger." },
+              { videoId: "f7RJATbobik", title: "Show Hospitality to One Another", channel: "Desiring God", description: "Desiring God unpacks the command to show hospitality to one another without grumbling, exploring what genuine welcome costs and what it communicates about the gospel." },
+              { videoId: "zUKzVFQn4Tc", title: "The Ministry of Hospitality", channel: "Tim Keller", description: "Tim Keller examines hospitality as a form of ministry — how opening your home and table participates in the kingdom work of the church and reflects the welcome of Christ." },
             ].map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

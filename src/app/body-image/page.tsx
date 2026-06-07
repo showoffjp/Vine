@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -16,7 +18,15 @@ const THEOLOGY = [
   { title: "The Renewal of the Mind", verse: "Romans 12:2", body: "Body image is primarily a mind issue. 'Be transformed by the renewing of your mind' (Romans 12:2). The patterns of thought about the body — comparison, shame, disgust, obsession — are formed by the world and must be renewed by the Spirit. This is not positive thinking but a genuine reorientation of perception toward what God declares true about the body." },
 ];
 
-type Tab = "theology" | "voices" | "struggles" | "practices" | "videos";
+interface BodyReflection {
+  id: string;
+  date: string;
+  thought: string;
+  truth: string;
+  scripture: string;
+}
+
+type Tab = "theology" | "voices" | "struggles" | "practices" | "journal" | "videos";
 
 const VOICES_BODY = [
   {
@@ -88,6 +98,23 @@ export default function BodyImagePage() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_body-image_voice", "pearcey");
   const voiceItem = VOICES_BODY.find(v => v.id === selectedVoice)!;
+  const [reflections, setReflections] = useState<BodyReflection[]>(() => {
+    try { const s = localStorage.getItem("vine_body_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [rForm, setRForm] = useState({ thought: "", truth: "", scripture: "" });
+  const [rSaved, setRSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_body_journal", JSON.stringify(reflections)); } catch {} }, [reflections]);
+
+  const saveReflection = () => {
+    if (!rForm.thought.trim()) return;
+    setReflections(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...rForm }, ...prev]);
+    setRForm({ thought: "", truth: "", scripture: "" });
+    setRSaved(true);
+    setTimeout(() => setRSaved(false), 2000);
+  };
+
+  const deleteReflection = (id: string) => setReflections(prev => prev.filter(e => e.id !== id));;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -106,8 +133,9 @@ export default function BodyImagePage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
-            { id: "struggles" as const, label: "Common Struggles", icon: "⚠️" },
+            { id: "struggles" as const, label: "Struggles", icon: "⚠️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "Journal", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -212,6 +240,65 @@ export default function BodyImagePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Thought-to-Truth Journal</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>Capture negative body thoughts and replace them with what God declares true. This is the renewal of the mind (Romans 12:2) made concrete.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>THE THOUGHT (what the enemy or culture says)</label>
+                  <textarea value={rForm.thought} onChange={e => setRForm(f => ({ ...f, thought: e.target.value }))}
+                    placeholder="Write the actual negative thought — don't sanitize it..." aria-label="The negative thought"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>THE TRUTH (what God says)</label>
+                  <textarea value={rForm.truth} onChange={e => setRForm(f => ({ ...f, truth: e.target.value }))}
+                    placeholder="What does God say about your body and worth? Be specific..." aria-label="The truth from God"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>SCRIPTURE (optional)</label>
+                  <input value={rForm.scripture} onChange={e => setRForm(f => ({ ...f, scripture: e.target.value }))}
+                    placeholder="e.g. Psalm 139:14 — I am fearfully and wonderfully made" aria-label="Supporting scripture"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveReflection}
+                  style={{ padding: "11px", background: rSaved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: rSaved ? BG : "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {rSaved ? "✓ Saved" : "Save Reflection"}
+                </button>
+              </div>
+            </div>
+            {reflections.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>🌿</div>
+                <p>No reflections yet. Your thoughts can be brought into the light — and met with truth.</p>
+              </div>
+            )}
+            {reflections.map(r => (
+              <div key={r.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <span style={{ color: MUTED, fontSize: 12 }}>
+                    {new Date(r.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </span>
+                  <button type="button" onClick={() => deleteReflection(r.id)}
+                    style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                </div>
+                <div style={{ background: "rgba(239,68,68,0.06)", borderRadius: 8, padding: 12, marginBottom: 8 }}>
+                  <div style={{ color: "#EF4444", fontSize: 11, fontWeight: 700, marginBottom: 4 }}>THE THOUGHT</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: 0 }}>{r.thought}</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, marginBottom: 4 }}>THE TRUTH</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: 0 }}>{r.truth}</p>
+                  {r.scripture && <p style={{ color: PURPLE, fontSize: 12, fontStyle: "italic", marginTop: 6, marginBottom: 0 }}>{r.scripture}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -221,19 +308,13 @@ export default function BodyImagePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "uz_z89dNSqc", title: "A Biblical Perspective on Body Image with Heather Creekmore", channel: "Revive Our Hearts / Grounded", description: "Heather Creekmore examines what the Bible actually says about body image and how comparing ourselves to cultural standards steals joy and distorts identity." },
-                  { videoId: "XaHYTtVcskE", title: "How Should Christians Think About Body Image?", channel: "Christian Teaching", description: "A biblical examination of how Christians should understand and relate to their bodies — grounding self-worth in being made in God's image." },
-                  { videoId: "hVfwKpoxP2U", title: "Body Image & Relationships: How God Redeems Our Imperfections", channel: "Sadie Robertson Huff & Natalie Grant", description: "Sadie Robertson Huff and Natalie Grant discuss how God redeems our struggles with body image and self-worth within the context of relationships." },
-                  { videoId: "_DNZctFekHI", title: "What Does the Bible Teach Us About Body Image?", channel: "Biblical Teaching", description: "An exploration of key biblical passages that speak to how God views the human body and what that means for how we view ourselves." },
+                  { videoId: "oNpTha80yyE", title: "A Biblical Perspective on Body Image with Heather Creekmore", channel: "Revive Our Hearts / Grounded", description: "Heather Creekmore examines what the Bible actually says about body image and how comparing ourselves to cultural standards steals joy and distorts identity." },
+                  { videoId: "4Eg_di-O8nM", title: "How Should Christians Think About Body Image?", channel: "Christian Teaching", description: "A biblical examination of how Christians should understand and relate to their bodies — grounding self-worth in being made in God's image." },
+                  { videoId: "mC-zw0zCCtg", title: "Body Image & Relationships: How God Redeems Our Imperfections", channel: "Sadie Robertson Huff & Natalie Grant", description: "Sadie Robertson Huff and Natalie Grant discuss how God redeems our struggles with body image and self-worth within the context of relationships." },
+                  { videoId: "7_CGP-12AE0", title: "What Does the Bible Teach Us About Body Image?", channel: "Biblical Teaching", description: "An exploration of key biblical passages that speak to how God views the human body and what that means for how we view ourselves." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

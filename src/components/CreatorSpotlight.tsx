@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, Video, FileText, Mic, Users, PlusCircle } from "lucide-react";
+import { useState, useRef } from "react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight, Video, FileText, Mic, Users, PlusCircle, ArrowRight } from "lucide-react";
 
 const CREATORS = [
   {
@@ -75,21 +76,16 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
 const FOLLOWED_STORAGE_KEY = "vine:creators:followed";
 
 export default function CreatorSpotlight() {
-  const [followed, setFollowed] = useState<Record<string, boolean>>({});
+  const [followed, setFollowed] = useState<Record<string, boolean>>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const stored = localStorage.getItem(FOLLOWED_STORAGE_KEY);
+      return stored ? Object.fromEntries((JSON.parse(stored) as string[]).map((name) => [name, true])) : {};
+    } catch { return {}; }
+  });
   const [applied, setApplied] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(FOLLOWED_STORAGE_KEY);
-      if (stored) {
-        setFollowed(Object.fromEntries((JSON.parse(stored) as string[]).map((name) => [name, true])));
-      }
-    } catch {
-      /* ignore malformed storage */
-    }
-  }, []);
 
   const toggleFollow = (name: string) => {
     setFollowed((prev) => {
@@ -161,6 +157,26 @@ export default function CreatorSpotlight() {
             </h2>
           </div>
 
+          {/* Header right: See all + scroll arrows */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <Link
+              href="/creators"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.78rem",
+                fontWeight: 500,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#c9a227",
+                textDecoration: "none",
+              }}
+            >
+              All Creators <ArrowRight size={14} />
+            </Link>
+          </div>
           {/* Scroll arrows */}
           <div style={{ display: "flex", gap: 8 }}>
             {(["left", "right"] as const).map((dir) => (
@@ -209,28 +225,30 @@ export default function CreatorSpotlight() {
           {CREATORS.map((creator) => {
             const isFollowed = followed[creator.name];
             return (
-              <div
+              <Link
                 key={creator.name}
+                href="/creators"
                 style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
                   background: "#050e07",
                   border: "0.5px solid rgba(201,162,39,0.13)",
                   borderRadius: 3,
                   padding: "1.8rem 1.5rem",
                   minWidth: 260,
                   maxWidth: 260,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
                   flexShrink: 0,
                   position: "relative",
                   transition: "border-color 0.2s",
+                  textDecoration: "none",
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.3)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.3)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.13)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.13)";
                 }}
               >
                 {/* Top accent line */}
@@ -361,7 +379,7 @@ export default function CreatorSpotlight() {
                 </p>
 
                 <button
-                  onClick={() => toggleFollow(creator.name)}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFollow(creator.name); }}
                   style={{
                     width: "100%",
                     padding: "8px 0",
@@ -386,7 +404,7 @@ export default function CreatorSpotlight() {
                 >
                   {isFollowed ? "Following" : "Follow"}
                 </button>
-              </div>
+              </Link>
             );
           })}
         </div>

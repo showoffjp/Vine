@@ -2,15 +2,17 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const VIEWS = [
   {
-    id: "amillennial",
+    id: "npEDqbE6faE",
     name: "Amillennialism",
     icon: "♾️",
     color: "#3B82F6",
@@ -119,10 +121,24 @@ const THINKERS_ESC = [
 ];
 
 export default function EndTimesPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"views" | "thinkers" | "essentials" | "practical" | "videos">("vine_end-times_tab", "essentials");
+  const [activeTab, setActiveTab] = usePersistedState<"views" | "thinkers" | "essentials" | "practical" | "journal" | "videos">("vine_end-times_tab", "essentials");
   const [selectedView, setSelectedView] = usePersistedState("vine_end-times_selected_view", "amillennial");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_end-times_selected_thinker", "wright");
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  const [etEntries, setEtEntries] = useState<{ id: string; date: string; view: string; conviction: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_et_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [etForm, setEtForm] = useState({ view: "", conviction: "", applying: "" });
+  const [etSaved, setEtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_et_entries", JSON.stringify(etEntries)); }, [etEntries]);
+  function saveEtEntry() {
+    if (!etForm.view.trim()) return;
+    setEtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...etForm }, ...prev]);
+    setEtForm({ view: "", conviction: "", applying: "" });
+    setEtSaved(true); setTimeout(() => setEtSaved(false), 2000);
+  }
+  function deleteEtEntry(id: string) { setEtEntries(prev => prev.filter(e => e.id !== id)); }
 
   const view = VIEWS.find(v => v.id === selectedView)!;
   const thinker = THINKERS_ESC.find(t => t.id === selectedThinker)!;
@@ -146,6 +162,7 @@ export default function EndTimesPage() {
             { id: "views" as const, label: "Views", icon: "📖" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🏛️" },
             { id: "practical" as const, label: "Q&A", icon: "❓" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -271,6 +288,54 @@ export default function EndTimesPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Eschatology Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record your view of the end times, the convictions you hold most firmly, and how eschatology shapes your life now. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY END-TIMES VIEW *</label>
+                <textarea value={etForm.view} onChange={e => setEtForm(f => ({ ...f, view: e.target.value }))}
+                  placeholder="Which eschatological view (amillennial, premillennial, postmillennial) resonates most with you, and why?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CONVICTION I HOLD FIRMLY</label>
+                <textarea value={etForm.conviction} onChange={e => setEtForm(f => ({ ...f, conviction: e.target.value }))}
+                  placeholder="What eschatological conviction is non-negotiable for you? What grounds it?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW IT SHAPES MY LIFE NOW</label>
+                <textarea value={etForm.applying} onChange={e => setEtForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How does your view of the end times change how you live, serve, or relate to others today?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEtEntry}
+                style={{ background: etSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {etSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {etEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({etEntries.length})</h3>
+                {etEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEtEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.view && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>VIEW: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.view}</span></div>}
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>CONVICTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.conviction}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -280,19 +345,13 @@ export default function EndTimesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "4S0TQ2dXnms", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright's definitive explanation of the Christian hope: not escape to a disembodied heaven, but the resurrection of the body and the renewal of creation. Challenges much popular end-times thinking." },
-                  { videoId: "yqWn5Ovv8V0", title: "The Second Coming of Christ — What Does the Bible Teach?", channel: "Desiring God", description: "John Piper walks through the key New Testament passages on Christ's return, clarifying what all Christians agree on and where the major debates lie." },
-                  { videoId: "-a-4XwDYTMU", title: "Amillennialism vs. Premillennialism: A Fair Debate", channel: "Sam Storms", description: "A gracious, scholarly comparison of the two dominant evangelical views on the millennium, with attention to the key passages in Revelation 20 and Daniel." },
-                  { videoId: "3ijQGmgF5nE", title: "Reading Revelation: How to Approach the Last Book of the Bible", channel: "The Bible Project", description: "An accessible guide to reading Revelation as its first-century audience would have — as apocalyptic literature full of symbols, not a prophetic timeline." },
+                  { videoId: "IvSuGyJQ6oM", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright's definitive explanation of the Christian hope: not escape to a disembodied heaven, but the resurrection of the body and the renewal of creation. Challenges much popular end-times thinking." },
+                  { videoId: "sIaT8Jl2zpI", title: "The Second Coming of Christ — What Does the Bible Teach?", channel: "Desiring God", description: "John Piper walks through the key New Testament passages on Christ's return, clarifying what all Christians agree on and where the major debates lie." },
+                  { videoId: "3Dv4-n6OYGI", title: "Amillennialism vs. Premillennialism: A Fair Debate", channel: "Sam Storms", description: "A gracious, scholarly comparison of the two dominant evangelical views on the millennium, with attention to the key passages in Revelation 20 and Daniel." },
+                  { videoId: "5nvVVcYD-0w", title: "Reading Revelation: How to Approach the Last Book of the Bible", channel: "The Bible Project", description: "An accessible guide to reading Revelation as its first-century audience would have — as apocalyptic literature full of symbols, not a prophetic timeline." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

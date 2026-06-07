@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -145,13 +148,13 @@ const READING_GUIDE = [
 ];
 
 const OT_VIDEOS = [
-  { videoId: "ACZbpLkY8To", title: "The Old Testament: A Crash Course", channel: "The Bible Project", desc: "An animated overview of the Old Testament's structure, story, and themes — one of the clearest introductions available." },
-  { videoId: "Z8lkuuhVkOI", title: "How to Read the Old Testament", channel: "Tim Keller / Gospel in Life", desc: "Keller explains how Christians should read the OT — not as a collection of moral stories but as the unified story that Jesus came to complete." },
-  { videoId: "fJnGJN6laqE", title: "The Story of the Bible", channel: "Desiring God", desc: "How the 39 books of the OT fit together into a single coherent narrative — and why understanding that narrative changes how you read every individual text." },
-  { videoId: "sxMhDVkdULw", title: "Old Testament Overview", channel: "Ligonier Ministries", desc: "A scholarly survey of the OT's major sections, literary genres, and theological themes from a Reformed perspective." },
+  { videoId: "ej_6dVdJSIU", title: "The Old Testament: A Crash Course", channel: "The Bible Project", desc: "An animated overview of the Old Testament's structure, story, and themes — one of the clearest introductions available." },
+  { videoId: "gV9JugO_5Mk", title: "How to Read the Old Testament", channel: "Tim Keller / Gospel in Life", desc: "Keller explains how Christians should read the OT — not as a collection of moral stories but as the unified story that Jesus came to complete." },
+  { videoId: "4Eg_di-O8nM", title: "The Story of the Bible", channel: "Desiring God", desc: "How the 39 books of the OT fit together into a single coherent narrative — and why understanding that narrative changes how you read every individual text." },
+  { videoId: "JqOqJlFF_eU", title: "Old Testament Overview", channel: "Ligonier Ministries", desc: "A scholarly survey of the OT's major sections, literary genres, and theological themes from a Reformed perspective." },
 ];
 
-type Tab = "overview" | "books" | "themes" | "scholars" | "reading" | "videos";
+type Tab = "overview" | "books" | "themes" | "scholars" | "reading" | "journal" | "videos";
 
 export default function OldTestamentSurveyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_old-testament-survey_tab", "overview");
@@ -160,6 +163,21 @@ export default function OldTestamentSurveyPage() {
 
   const section = SECTIONS.find(s => s.name === selected)!;
   const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
+
+  const [otsJEntries, setOtsJEntries] = useState<{ id: string; date: string; passage: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ots_entries") ?? "[]"); } catch { return []; }
+  });
+  const [otsJForm, setOtsJForm] = useState({ passage: "", insight: "", applying: "" });
+  const [otsJSaved, setOtsJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ots_entries", JSON.stringify(otsJEntries)); } catch {} }, [otsJEntries]);
+  const saveOtsJEntry = () => {
+    if (!otsJForm.passage.trim()) return;
+    setOtsJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...otsJForm }, ...prev]);
+    setOtsJForm({ passage: "", insight: "", applying: "" });
+    setOtsJSaved(true);
+    setTimeout(() => setOtsJSaved(false), 2000);
+  };
+  const deleteOtsJEntry = (id: string) => setOtsJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -181,6 +199,7 @@ export default function OldTestamentSurveyPage() {
             { id: "themes" as const, label: "Themes", icon: "🧵" },
             { id: "scholars" as const, label: "Scholars", icon: "🧠" },
             { id: "reading" as const, label: "Reading Guide", icon: "🗺️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -332,6 +351,50 @@ export default function OldTestamentSurveyPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My OT Survey Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the Old Testament passages you are studying, the key insight God gave you, and how you are applying it.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>OT passage or book I am studying</label>
+                  <textarea rows={2} value={otsJForm.passage} onChange={e => setOtsJForm(f => ({ ...f, passage: e.target.value }))} placeholder="e.g. Genesis 12, Psalm 22, Isaiah 53" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Key insight</label>
+                  <textarea rows={2} value={otsJForm.insight} onChange={e => setOtsJForm(f => ({ ...f, insight: e.target.value }))} placeholder="What did you discover about God, humanity, or the covenant?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am applying it</label>
+                  <textarea rows={2} value={otsJForm.applying} onChange={e => setOtsJForm(f => ({ ...f, applying: e.target.value }))} placeholder="How does this shape your prayer, worship, or obedience?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveOtsJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {otsJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {otsJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {otsJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteOtsJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.passage && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Passage</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.passage}</p></div>}
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.insight}</p></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -342,8 +405,7 @@ export default function OldTestamentSurveyPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))", gap: 16 }}>
               {OT_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ color: PURPLE, fontSize: 12, fontWeight: 600, marginBottom: 4 }}>{v.channel}</div>

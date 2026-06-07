@@ -1,12 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "methods" | "evangelists" | "essentials" | "objections" | "videos";
+type Tab = "methods" | "evangelists" | "essentials" | "objections" | "convolog" | "videos";
 
 const EVANGELISTS = [
   {
@@ -158,6 +161,20 @@ export default function EvangelismMethodsPage() {
 
   const method = METHODS.find(m => m.name === selected)!;
 
+  const [convoLogs, setConvoLogs] = useState<{ id: string; date: string; person: string; method: string; what: string; nextStep: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_convo_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [convoForm, setConvoForm] = useState({ person: "", method: "Friendship", what: "", nextStep: "" });
+  const [convoSaved, setConvoSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_convo_logs", JSON.stringify(convoLogs)); }, [convoLogs]);
+  function saveConvoLog() {
+    if (!convoForm.person.trim() && !convoForm.what.trim()) return;
+    setConvoLogs(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...convoForm }, ...prev]);
+    setConvoForm({ person: "", method: "Friendship", what: "", nextStep: "" });
+    setConvoSaved(true); setTimeout(() => setConvoSaved(false), 2000);
+  }
+  function deleteConvoLog(id: string) { setConvoLogs(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -174,9 +191,10 @@ export default function EvangelismMethodsPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "methods" as const, label: "Methods", icon: "📋" },
-            { id: "evangelists" as const, label: "Evangelists", icon: "🔥" },
+            { id: "UJlLkZ6tCG0" as const, label: "Evangelists", icon: "🔥" },
             { id: "essentials" as const, label: "The Essentials", icon: "🔑" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
+            { id: "convolog" as const, label: "Conversation Log", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -289,6 +307,67 @@ export default function EvangelismMethodsPage() {
             ))}
           </div>
         )}
+        {activeTab === "convolog" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Log your gospel conversations. Reviewing them reveals patterns — who God is putting in your path, what approaches are working, and where the Holy Spirit is moving.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Log a Conversation</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Person (first name or description)</label>
+                <input value={convoForm.person} onChange={e => setConvoForm(f => ({ ...f, person: e.target.value }))} placeholder="e.g. 'coworker James', 'neighbor', 'friend from gym'..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Approach used</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Friendship", "Proclamation", "Testimony", "Question-Based", "Service", "Invitation"].map(m => (
+                    <button type="button" key={m} onClick={() => setConvoForm(f => ({ ...f, method: m }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${convoForm.method === m ? PURPLE : BORDER}`, background: convoForm.method === m ? `${PURPLE}20` : "transparent", color: convoForm.method === m ? PURPLE : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What happened</label>
+                <textarea value={convoForm.what} onChange={e => setConvoForm(f => ({ ...f, what: e.target.value }))} rows={3}
+                  placeholder="What was said, how they responded, what questions came up, what the Spirit seemed to be doing..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Next step</label>
+                <input value={convoForm.nextStep} onChange={e => setConvoForm(f => ({ ...f, nextStep: e.target.value }))} placeholder="Pray for them, follow up, invite to church, give a book..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveConvoLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {convoSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {convoLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Conversation Log ({convoLogs.length})</h3>
+                {convoLogs.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteConvoLog(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.person}</span>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.method}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.what}</p>}
+                    {e.nextStep && <p style={{ color: GREEN, fontSize: 13, fontWeight: 600, margin: 0 }}>Next: {e.nextStep}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -298,19 +377,13 @@ export default function EvangelismMethodsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "G4-WT4NvC14", title: "How to Share the Gospel Simply and Clearly", channel: "The Gospel Coalition", description: "A practical guide to presenting the gospel clearly in everyday conversation — the core content every evangelist needs to know and how to communicate it without jargon or pressure." },
-                  { videoId: "uJseEBHjQDQ", title: "Friendship Evangelism: Sharing Faith Through Relationship", channel: "Cru", description: "How to share the gospel naturally through authentic friendship — listening first, asking good questions, and letting the gospel emerge from genuine relationship rather than scripted presentations." },
-                  { videoId: "tx-wnK8isWk", title: "Answering Tough Questions About the Faith", channel: "Ravi Zacharias International Ministries", description: "Practical training for handling the hardest objections to Christianity — intellectual, moral, and experiential — with both conviction and grace." },
-                  { videoId: "Hbdt_sPkluA", title: "The Fear That Keeps Christians from Evangelizing", channel: "Desiring God", description: "Why Christians don't share their faith — and what the gospel itself says about the fear of rejection. Practical encouragement for those who know they should evangelize but don't." },
+                  { videoId: "f7RJATbobik", title: "How to Share the Gospel Simply and Clearly", channel: "The Gospel Coalition", description: "A practical guide to presenting the gospel clearly in everyday conversation — the core content every evangelist needs to know and how to communicate it without jargon or pressure." },
+                  { videoId: "krxcqH522uo", title: "Friendship Evangelism: Sharing Faith Through Relationship", channel: "Cru", description: "How to share the gospel naturally through authentic friendship — listening first, asking good questions, and letting the gospel emerge from genuine relationship rather than scripted presentations." },
+                  { videoId: "52ZXFH1wzc8", title: "Answering Tough Questions About the Faith", channel: "Ravi Zacharias International Ministries", description: "Practical training for handling the hardest objections to Christianity — intellectual, moral, and experiential — with both conviction and grace." },
+                  { videoId: "OU69so6VjHA", title: "The Fear That Keeps Christians from Evangelizing", channel: "Desiring God", description: "Why Christians don't share their faith — and what the gospel itself says about the fear of rejection. Practical encouragement for those who know they should evangelize but don't." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

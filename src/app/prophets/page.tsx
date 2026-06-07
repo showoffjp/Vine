@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -103,7 +105,7 @@ const SCHOLARS_PROPHETS = [
   { id: "motyer", name: "J. Alec Motyer", era: "1924-2016", context: "Isaiah commentaries; Tyndale OT series", bio: "Motyer wrote what many consider the finest evangelical commentary on Isaiah (The Prophecy of Isaiah, 1993) and was a master of the whole prophetic literature. He insisted on reading each prophet as a unified literary whole rather than a collection of fragments, which made him an outlier in the critical tradition but right about the texts. His attention to the Hebrew poetry and his Christological reading of the servant songs have made him indispensable for those who want both scholarly rigor and devotional depth.", quote: "Isaiah 53 is the most important chapter in the Old Testament — the theological center of biblical soteriology, written seven centuries before the event.", contribution: "Established the literary unity and theological coherence of Isaiah against the critical tradition's fragmentation. His servant song expositions remain the standard evangelical treatment of messianic prophecy." },
   { id: "bright", name: "John Bright", era: "1908-1995", context: "A History of Israel; Jeremiah (Anchor Bible)", bio: "Bright's A History of Israel remains the classic evangelical account of Israelite history and is indispensable for reading the prophets in context. His Anchor Bible commentary on Jeremiah is the most detailed English treatment. He brought archaeological and historical rigor to OT study while maintaining the historical reliability of the biblical narrative — a combination that made him influential across evangelical and mainline scholarship.", quote: "The prophet is not primarily a predictor of future events but a proclaimer of the divine word into a specific historical situation. The prediction serves the proclamation.", contribution: "Gave evangelical scholars the historical-critical tools necessary to read the prophets in their historical context without abandoning their theological authority. His History of Israel set the framework for OT historical study for a generation." },
   { id: "oswalt", name: "John Oswalt", era: "b. 1940", context: "Isaiah (NICOT); Asbury Theological Seminary", bio: "Oswalt's two-volume commentary on Isaiah in the New International Commentary on the Old Testament (NICOT) is the most comprehensive evangelical treatment of the book. He defends the unity of Isaiah and provides detailed exegesis of every pericope, with particular attention to the theology of holiness (the 'Holy One of Israel' as Isaiah's distinctive divine name) and the servant songs. His engagement with critical scholarship is thorough and his evangelical conclusions are carefully argued.", quote: "Isaiah's vision of the Holy One of Israel is the controlling theological center of the whole book — a God so utterly other that only his servant can approach and only his grace can reach human beings.", contribution: "Provided the definitive evangelical commentary on Isaiah. His treatment of the servant of the LORD is the most careful and thorough available in the evangelical tradition." },
-  { id: "brueggemann", name: "Walter Brueggemann", era: "b. 1933", context: "The Prophetic Imagination (1978); Columbia Theological Seminary", bio: "Brueggemann's The Prophetic Imagination is a landmark in prophetic theology. His argument: the prophets perform two functions — criticizing the dominant consciousness (naming what is wrong with the current order) and energizing an alternative community (offering a vision of what God intends). Moses and Jesus are the paradigmatic prophets. This framework has been enormously influential in pastoral theology and social ethics, giving Christians a way to understand the prophets as speaking to present realities rather than merely predicting future events.", quote: "The task of prophetic ministry is to nurture, nourish, and evoke a consciousness and perception alternative to the consciousness and perception of the dominant culture.", contribution: "Made prophetic theology politically and pastorally relevant. His framework of prophetic criticism and energizing has shaped how seminary-trained pastors understand the prophetic task of the church in society." },
+  { id: "j9phNEaPrv8", name: "Walter Brueggemann", era: "b. 1933", context: "The Prophetic Imagination (1978); Columbia Theological Seminary", bio: "Brueggemann's The Prophetic Imagination is a landmark in prophetic theology. His argument: the prophets perform two functions — criticizing the dominant consciousness (naming what is wrong with the current order) and energizing an alternative community (offering a vision of what God intends). Moses and Jesus are the paradigmatic prophets. This framework has been enormously influential in pastoral theology and social ethics, giving Christians a way to understand the prophets as speaking to present realities rather than merely predicting future events.", quote: "The task of prophetic ministry is to nurture, nourish, and evoke a consciousness and perception alternative to the consciousness and perception of the dominant culture.", contribution: "Made prophetic theology politically and pastorally relevant. His framework of prophetic criticism and energizing has shaped how seminary-trained pastors understand the prophetic task of the church in society." },
   { id: "longman", name: "Tremper Longman III", era: "b. 1952", context: "How to Read the Prophets; Regent College", bio: "Longman's introduction to the prophetic literature gives students and non-specialists the literary and hermeneutical tools necessary to read the prophets well. He addresses the genres within prophetic literature (oracles of judgment, oracles of salvation, woe oracles, visions), the mechanics of prophetic fulfillment (how an OT prophecy can have multiple fulfillments), and the Christological reading of messianic passages. His framework prevents both over-literal and over-allegorical readings.", quote: "Prophecy is not a newspaper of future events but a covenant lawsuit — the prophet is God's attorney, bringing charges against a faithless people and declaring the verdict.", contribution: "Gave students the interpretive framework for reading prophetic literature as a literary genre rather than a collection of predictions. His treatment of typological and Christological prophecy is the best short introduction available." }
 ];
 
@@ -117,12 +119,27 @@ const CHRISTOLOGICAL_PROPHECIES = [
 ];
 
 export default function ProphetsPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"prophets" | "scholars" | "christological" | "howto" | "videos">("vine_prophets_tab", "prophets");
+  const [activeTab, setActiveTab] = usePersistedState<"prophets" | "scholars" | "christological" | "howto" | "journal" | "videos">("vine_prophets_tab", "prophets");
   const [selectedScholar, setSelectedScholar] = usePersistedState("vine_prophets_selected_scholar", "motyer");
   const scholarItem = SCHOLARS_PROPHETS.find(s => s.id === selectedScholar)!;
   const [selected, setSelected] = usePersistedState("vine_prophets_selected", "Isaiah");
 
   const prophet = PROPHETS.find(p => p.name === selected)!;
+
+  const [prophJEntries, setProphJEntries] = useState<{ id: string; date: string; prophet: string; message: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_prophj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [prophJForm, setProphJForm] = useState({ prophet: "", message: "", applying: "" });
+  const [prophJSaved, setProphJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_prophj_entries", JSON.stringify(prophJEntries)); } catch {} }, [prophJEntries]);
+  const saveProphJEntry = () => {
+    if (!prophJForm.prophet.trim()) return;
+    setProphJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...prophJForm }, ...prev]);
+    setProphJForm({ prophet: "", message: "", applying: "" });
+    setProphJSaved(true);
+    setTimeout(() => setProphJSaved(false), 2000);
+  };
+  const deleteProphJEntry = (id: string) => setProphJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -143,6 +160,7 @@ export default function ProphetsPage() {
             { id: "scholars" as const, label: "Scholars", icon: "🏛️" },
             { id: "christological" as const, label: "Christ in Prophecy", icon: "✝️" },
             { id: "howto" as const, label: "How to Read", icon: "📖" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -275,6 +293,50 @@ export default function ProphetsPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Prophets Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the prophet you studied, the message that struck you, and how you are applying it to your life today.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Prophet I studied</label>
+                  <textarea rows={2} value={prophJForm.prophet} onChange={e => setProphJForm(f => ({ ...f, prophet: e.target.value }))} placeholder="e.g. Isaiah, Jeremiah, Amos, Hosea" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Message that struck me</label>
+                  <textarea rows={2} value={prophJForm.message} onChange={e => setProphJForm(f => ({ ...f, message: e.target.value }))} placeholder="What did God say through this prophet that you needed to hear?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am applying it</label>
+                  <textarea rows={2} value={prophJForm.applying} onChange={e => setProphJForm(f => ({ ...f, applying: e.target.value }))} placeholder="What changes in your repentance, hope, or obedience?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveProphJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {prophJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {prophJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {prophJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteProphJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.prophet && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Prophet</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.prophet}</p></div>}
+                    {e.message && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Message</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.message}</p></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -284,19 +346,13 @@ export default function ProphetsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "ACrxFNSHnSY", title: "Introduction to the Old Testament Prophets", channel: "The Bible Project", description: "An animated overview of the prophetic literature — what prophets were, how they functioned in Israel's history, and how their words point toward Jesus." },
-                  { videoId: "pk4CNj1gOKQ", title: "The Suffering Servant of Isaiah 53", channel: "R.C. Sproul / Ligonier", description: "Sproul expounds Isaiah 53 — the most quoted OT passage in the New Testament — and shows why it is the theological center of biblical soteriology." },
-                  { videoId: "3XOAQ8vJQjY", title: "Jeremiah: The Weeping Prophet", channel: "The Bible Project", description: "An overview of the book of Jeremiah — his call, his suffering, his proclamation of the new covenant, and his enduring hope in God's faithfulness." },
-                  { videoId: "g9M2ovB-MpE", title: "Christ in the Old Testament Prophets", channel: "Desiring God", description: "A teaching on how Jesus understood himself as the fulfillment of the prophets (Luke 24:44), with attention to specific messianic passages and their New Testament fulfillment." },
+                  { videoId: "AzmYV8GNAIM", title: "Introduction to the Old Testament Prophets", channel: "The Bible Project", description: "An animated overview of the prophetic literature — what prophets were, how they functioned in Israel's history, and how their words point toward Jesus." },
+                  { videoId: "Cus-z1hgAXw", title: "The Suffering Servant of Isaiah 53", channel: "R.C. Sproul / Ligonier", description: "Sproul expounds Isaiah 53 — the most quoted OT passage in the New Testament — and shows why it is the theological center of biblical soteriology." },
+                  { videoId: "iVwauTiyFjM", title: "Jeremiah: The Weeping Prophet", channel: "The Bible Project", description: "An overview of the book of Jeremiah — his call, his suffering, his proclamation of the new covenant, and his enduring hope in God's faithfulness." },
+                  { videoId: "3Dv4-n6OYGI", title: "Christ in the Old Testament Prophets", channel: "Desiring God", description: "A teaching on how Jesus understood himself as the fulfillment of the prophets (Luke 24:44), with attention to specific messianic passages and their New Testament fulfillment." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

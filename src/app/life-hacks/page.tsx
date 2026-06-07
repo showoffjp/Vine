@@ -15,11 +15,12 @@ import {
   Moon,
   Baby,
   Smartphone,
-  Clock,
   Send,
   Trophy,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const LH_THEOLOGY = [
   {
@@ -362,11 +363,13 @@ const mostSaved = [
 ];
 
 export default function LifeHacksPage() {
-  const [mainTab, setMainTab] = usePersistedState<"hacks" | "theology" | "rhythms" | "voices" | "videos">("vine_life-hacks_main_tab", "hacks");
+  const [mainTab, setMainTab] = usePersistedState<"hacks" | "theology" | "rhythms" | "voices" | "journal" | "videos">("vine_life-hacks_main_tab", "hacks");
   const [selectedVoiceLH, setSelectedVoiceLH] = useState(VOICES_LH[0]);
   const [activeCategory, setActiveCategory] = usePersistedState("vine_life-hacks_active_category", "All");
   const [submitted, setSubmitted] = useState(false);
   const [hackTitle, setHackTitle] = useState("");
+  const [hackDesc, setHackDesc] = useState("");
+  const [hackVerse, setHackVerse] = useState("");
   const [savedHacks, setSavedHacks] = useState<Set<string>>(() => {
     try {
       const s = localStorage.getItem("vine_lifehacks_saved");
@@ -398,10 +401,26 @@ export default function LifeHacksPage() {
     ? hacks
     : hacks.filter((h) => h.category === activeCategory);
 
+  const [lhEntries, setLhEntries] = useState<{ id: string; date: string; hack: string; result: string; keepGoing: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_lh_entries") ?? "[]"); } catch { return []; }
+  });
+  const [lhForm, setLhForm] = useState({ hack: "", result: "", keepGoing: "" });
+  const [lhSaved, setLhSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_lh_entries", JSON.stringify(lhEntries)); } catch {} }, [lhEntries]);
+  const saveLhEntry = () => {
+    if (!lhForm.hack.trim()) return;
+    setLhEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...lhForm }, ...prev]);
+    setLhForm({ hack: "", result: "", keepGoing: "" });
+    setLhSaved(true); setTimeout(() => setLhSaved(false), 2000);
+  };
+  const deleteLhEntry = (id: string) => setLhEntries(prev => prev.filter(e => e.id !== id));
+
   const handleSubmit = () => {
     if (!hackTitle.trim()) return;
     setSubmitted(true);
     setHackTitle("");
+    setHackDesc("");
+    setHackVerse("");
     setTimeout(() => setSubmitted(false), 3000);
   };
 
@@ -515,10 +534,10 @@ export default function LifeHacksPage() {
 
         {/* MAIN TAB BAR */}
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", borderBottom: "1px solid #1E1E32", display: "flex", gap: 0 }}>
-          {(["hacks", "theology", "rhythms", "voices", "videos"] as const).map(tab => (
+          {(["hacks", "theology", "rhythms", "voices", "journal", "videos"] as const).map(tab => (
             <button type="button" key={tab} onClick={() => setMainTab(tab)}
               style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
-              {tab === "hacks" ? "Life Hacks" : tab === "theology" ? "📖 Theology" : tab === "rhythms" ? "⏰ Rhythms" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
+              {tab === "hacks" ? "Life Hacks" : tab === "theology" ? "📖 Theology" : tab === "rhythms" ? "⏰ Rhythms" : tab === "voices" ? "🎓 Voices" : tab === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -895,7 +914,8 @@ export default function LifeHacksPage() {
                       }}
                     />
                     <textarea
-                      readOnly
+                      value={hackDesc}
+                      onChange={(e) => setHackDesc(e.target.value)}
                       aria-label="Describe the hack in 2–3 sentences. What do you do? How does it help?" placeholder="Describe the hack in 2–3 sentences. What do you do? How does it help?"
                       rows={3}
                       style={{
@@ -911,7 +931,8 @@ export default function LifeHacksPage() {
                       }}
                     />
                     <input
-                      readOnly
+                      value={hackVerse}
+                      onChange={(e) => setHackVerse(e.target.value)}
                       aria-label="Scripture basis (e.g. 'Proverbs 16:3')" placeholder="Scripture basis (e.g. 'Proverbs 16:3')"
                       style={{
                         background: "#12121F",
@@ -1121,6 +1142,42 @@ export default function LifeHacksPage() {
         )}
 
         {/* VIDEOS TAB */}
+        {mainTab === "journal" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Life Hacks Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20 }}>Record hacks you're trying and what difference they're making.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={lhForm.hack} onChange={e => setLhForm(f => ({ ...f, hack: e.target.value }))}
+                  placeholder="Which hack or practice are you trying?" aria-label="Hack"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14 }} />
+                <textarea value={lhForm.result} onChange={e => setLhForm(f => ({ ...f, result: e.target.value }))}
+                  placeholder="What result or change have you noticed?" aria-label="Result"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={lhForm.keepGoing} onChange={e => setLhForm(f => ({ ...f, keepGoing: e.target.value }))}
+                  placeholder="Will you keep this habit? (optional)" aria-label="Keep going"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14 }} />
+                <button type="button" onClick={saveLhEntry}
+                  style={{ padding: "10px 20px", background: "#3a7d56", border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {lhSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {lhEntries.length === 0 && <p style={{ color: "#9898B3", fontSize: 14 }}>No entries yet. Record your first hack experiment above.</p>}
+              {lhEntries.map(e => (
+                <div key={e.id} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: "#9898B3", fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteLhEntry(e.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.hack}</p>
+                  {e.result && <p style={{ color: "#F2F2F8", fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.result}</p>}
+                  {e.keepGoing && <p style={{ color: "#3a7d56", fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.keepGoing}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {mainTab === "videos" && (
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 24px 80px" }}>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -1130,19 +1187,13 @@ export default function LifeHacksPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "vd8f7EGjY1s", title: "Discipling Your Church into Spiritual Practices", channel: "John Mark Comer / Vineyard Insights", description: "Comer on how to form a congregation into people who actually practice the spiritual disciplines — not just know about them." },
-                  { videoId: "LiEG629mpoE", title: "John Mark Comer's Call to Practice, Not Performance", channel: "John Mark Comer", description: "What it means to be a 'practicing Christian' — an exploration of how intentional spiritual disciplines form us into apprentices of Jesus." },
-                  { videoId: "c9Clqp737uA", title: "Spiritual Formation and Emotional Health", channel: "John Mark Comer", description: "Comer on the connection between spiritual formation and the interior life — why hurry is the enemy of formation and how to build life-giving rhythms." },
-                  { videoId: "w6-exryo5LQ", title: "Practicing the Way: Apprentice to Jesus", channel: "John Mark Comer / Practicing the Way", description: "The foundational episode of Comer's Practicing the Way series — what it means to be an apprentice of Jesus and take his yoke seriously." },
+                  { videoId: "HGHqu9-DtXk", title: "Discipling Your Church into Spiritual Practices", channel: "John Mark Comer / Vineyard Insights", description: "Comer on how to form a congregation into people who actually practice the spiritual disciplines — not just know about them." },
+                  { videoId: "E65KV3M8RZE", title: "John Mark Comer's Call to Practice, Not Performance", channel: "John Mark Comer", description: "What it means to be a 'practicing Christian' — an exploration of how intentional spiritual disciplines form us into apprentices of Jesus." },
+                  { videoId: "f7RJATbobik", title: "Spiritual Formation and Emotional Health", channel: "John Mark Comer", description: "Comer on the connection between spiritual formation and the interior life — why hurry is the enemy of formation and how to build life-giving rhythms." },
+                  { videoId: "zUKzVFQn4Tc", title: "Practicing the Way: Apprentice to Jesus", channel: "John Mark Comer / Practicing the Way", description: "The foundational episode of Comer's Practicing the Way series — what it means to be an apprentice of Jesus and take his yoke seriously." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

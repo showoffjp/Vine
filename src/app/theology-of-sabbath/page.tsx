@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "history" | "practice" | "rest" | "videos";
+type Tab = "theology" | "history" | "practice" | "rest" | "journal" | "videos";
 
 const theologyItems = [
   {
@@ -220,11 +222,26 @@ export default function TheologyOfSabbathPage() {
   const toggle = (k: string) =>
     setExpanded((prev) => ({ ...prev, [k]: !prev[k] }));
 
+  type JournalEntry = { id: string; date: string; reflection: string; practice: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_tosabbj_entries") ?? "[]"); } catch { return []; } });
+  const [jReflection, setJReflection] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_tosabbj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jReflection.trim() && !jPractice.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jReflection, practice: jPractice, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJReflection(""); setJPractice(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Sabbath" },
     { id: "history", label: "History of Sabbath Practice" },
     { id: "practice", label: "Sabbath Practice" },
     { id: "rest", label: "Rest and the Soul" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -427,6 +444,45 @@ export default function TheologyOfSabbathPage() {
           />
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Sabbath Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your reflections on rest, Sabbath practices, and next steps toward deeper rhythm.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Reflection</label>
+                  <textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What is God showing you about rest and Sabbath?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Practice</label>
+                  <textarea value={jPractice} onChange={e => setJPractice(e.target.value)} placeholder="What Sabbath practice are you trying or exploring?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete step toward a more faithful Sabbath this week" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.reflection}</p></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Practice</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.practice}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -436,20 +492,14 @@ export default function TheologyOfSabbathPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "ux0_5zctrsI", title: "Work and Rest", channel: "Timothy Keller", description: "Tim Keller explores the theology of sabbath, examining how religious leaders in Jesus's time had distorted it and how Jesus restores its true meaning." },
-                  { videoId: "Oh4_Iks09Zk", title: "Jesus Gives You Deep Rest of the Soul", channel: "Timothy Keller", description: "A sermon jam from Keller on how Jesus offers the deep soul-rest that Sabbath always pointed to — rest that no amount of leisure or sleep can provide." },
-                  { videoId: "Gn9DygofZyc", title: "Balancing Work and Rest: Timothy Keller's Biblical Wisdom", channel: "Timothy Keller", description: "Keller addresses the modern world's inability to rest, drawing on biblical wisdom about the relationship between meaningful work and genuine rest." },
-                  { videoId: "T6XtUdUkuN8", title: "Work and Rest — God's Message for You", channel: "Timothy Keller", description: "A reflective teaching from Keller on how the gospel transforms our relationship to both work and rest, freeing us from both workaholism and sloth." },
-                  { videoId: "1qtig6ARbY4", title: "The Sabbath Practice: Week Three — Delight", channel: "Church Teaching", description: "A teaching on what it looks like to practice sabbath as delight rather than duty — turning the day of rest into a day of genuine renewal." },
+                  { videoId: "HGHqu9-DtXk", title: "Work and Rest", channel: "Timothy Keller", description: "Tim Keller explores the theology of sabbath, examining how religious leaders in Jesus's time had distorted it and how Jesus restores its true meaning." },
+                  { videoId: "E65KV3M8RZE", title: "Jesus Gives You Deep Rest of the Soul", channel: "Timothy Keller", description: "A sermon jam from Keller on how Jesus offers the deep soul-rest that Sabbath always pointed to — rest that no amount of leisure or sleep can provide." },
+                  { videoId: "Z-17KxpjL0Q", title: "Balancing Work and Rest: Timothy Keller's Biblical Wisdom", channel: "Timothy Keller", description: "Keller addresses the modern world's inability to rest, drawing on biblical wisdom about the relationship between meaningful work and genuine rest." },
+                  { videoId: "ej_6dVdJSIU", title: "Work and Rest — God's Message for You", channel: "Timothy Keller", description: "A reflective teaching from Keller on how the gospel transforms our relationship to both work and rest, freeing us from both workaholism and sloth." },
+                  { videoId: "G-2e9mMf7E8", title: "The Sabbath Practice: Week Three — Delight", channel: "Church Teaching", description: "A teaching on what it looks like to practice sabbath as delight rather than duty — turning the day of rest into a day of genuine renewal." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

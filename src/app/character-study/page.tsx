@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -409,15 +411,15 @@ const VOICES_CHAR = [
 ];
 
 const CHAR_VIDEOS = [
-  { id: "cv1", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "lsTzXI7cJGA", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
-  { id: "cv2", title: "Don't Waste Your Life", preacher: "John Piper", videoId: "JHdB1dYAteA", description: "Piper's urgent call to live for something worthy of the one life God has given you — grounded in Paul's example in Philippians." },
-  { id: "cv3", title: "Radical", preacher: "David Platt", videoId: "yhiHSf_L6_E", description: "Platt challenges comfortable Christianity and calls believers to the radical obedience modeled by the disciples in Acts." },
-  { id: "cv4", title: "Shocking Youth Message", preacher: "Paul Washer", videoId: "uuabITeO4l8", description: "Washer's famous message challenging a generation of professing Christians to examine whether their faith is genuine." },
-  { id: "cv5", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham", videoId: "by8ykv7-A3c", description: "Baucham makes a compelling case for the exclusive supremacy of Christ in a pluralistic culture." },
-  { id: "cv6", title: "The Reason for God", preacher: "Tim Keller at Google", videoId: "Kxup3OS5ZhQ", description: "Keller presents the intellectual and existential case for Christian faith to a skeptical audience at Google." },
+  { id: "cv1", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "rtkS_8VWfB0", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
+  { id: "cv2", title: "Don't Waste Your Life", preacher: "John Piper", videoId: "npEDqbE6faE", description: "Piper's urgent call to live for something worthy of the one life God has given you — grounded in Paul's example in Philippians." },
+  { id: "cv3", title: "Radical", preacher: "David Platt", videoId: "IvSuGyJQ6oM", description: "Platt challenges comfortable Christianity and calls believers to the radical obedience modeled by the disciples in Acts." },
+  { id: "cv4", title: "Shocking Youth Message", preacher: "Paul Washer", videoId: "sIaT8Jl2zpI", description: "Washer's famous message challenging a generation of professing Christians to examine whether their faith is genuine." },
+  { id: "cv5", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham", videoId: "mC-zw0zCCtg", description: "Baucham makes a compelling case for the exclusive supremacy of Christ in a pluralistic culture." },
+  { id: "cv6", title: "The Reason for God", preacher: "Tim Keller at Google", videoId: "3Dv4-n6OYGI", description: "Keller presents the intellectual and existential case for Christian faith to a skeptical audience at Google." },
 ];
 
-type MainTab = "characters" | "themes" | "voices" | "videos";
+type MainTab = "characters" | "themes" | "voices" | "videos" | "journal";
 
 export default function CharacterStudyPage() {
   const [mainTab, setMainTab] = usePersistedState<MainTab>("vine_character-study_main_tab", "characters");
@@ -434,6 +436,20 @@ export default function CharacterStudyPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_character-study_voice", "meyer-fb");
   const voiceItem = VOICES_CHAR.find(v => v.id === selectedVoice)!;
 
+
+  // Journal state
+  type CharJE = { id: string; date: string; character: string; insight: string; applying: string };
+  const [charJournal, setCharJournal] = useState<CharJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_charj_entries") ?? "[]"); } catch { return []; } });
+  const [jcCharacter, setJcCharacter] = useState("");
+  const [jcInsight, setJcInsight] = useState("");
+  const [jcApplying, setJcApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_charj_entries", JSON.stringify(charJournal)); } catch {} }, [charJournal]);
+  function saveCharEntry() {
+    if (!jcCharacter.trim() && !jcInsight.trim()) return;
+    setCharJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), character: jcCharacter, insight: jcInsight, applying: jcApplying }, ...prev]);
+    setJcCharacter(""); setJcInsight(""); setJcApplying("");
+  }
+  function deleteCharEntry(id: string) { setCharJournal(prev => prev.filter(e => e.id !== id)); }
 
   const handleSave = (id: string) => {
     setSavedIds((prev) => {
@@ -491,9 +507,9 @@ export default function CharacterStudyPage() {
 
         {/* Main Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["characters", "themes", "voices", "videos"] as const).map(t => (
+          {(["characters", "themes", "voices", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setMainTab(t)} style={{ background: mainTab === t ? PURPLE : "transparent", color: mainTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "characters" ? "Characters" : t === "themes" ? "Themes" : t === "voices" ? "Voices" : "Videos"}
+              {t === "characters" ? "Characters" : t === "themes" ? "Themes" : t === "voices" ? "Voices" : t === "videos" ? "Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -626,6 +642,65 @@ export default function CharacterStudyPage() {
           </div>
         )}
 
+        {/* Journal Tab */}
+        {mainTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Character Study Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Record lessons from the lives of biblical characters and how they apply to your walk today.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input
+                  value={jcCharacter}
+                  onChange={e => setJcCharacter(e.target.value)}
+                  placeholder="Biblical character (e.g. Joseph, Ruth, David)..."
+                  style={{ background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }}
+                />
+                <textarea
+                  value={jcInsight}
+                  onChange={e => setJcInsight(e.target.value)}
+                  placeholder="What lesson or principle stood out to you?"
+                  rows={3}
+                  style={{ background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }}
+                />
+                <input
+                  value={jcApplying}
+                  onChange={e => setJcApplying(e.target.value)}
+                  placeholder="How will you apply this to your life?"
+                  style={{ background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={saveCharEntry}
+                  style={{ alignSelf: "flex-start", background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+                >
+                  Save Entry
+                </button>
+              </div>
+            </div>
+            {charJournal.length === 0 ? (
+              <div style={{ textAlign: "center", color: MUTED, padding: "40px 0" }}>No entries yet. Record your first character study reflection above.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {charJournal.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                      <div>
+                        <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{e.character || "Unnamed"}</span>
+                        <span style={{ color: MUTED, fontSize: 12, marginLeft: 10 }}>{e.date}</span>
+                      </div>
+                      <button type="button" onClick={() => deleteCharEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.insight && <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}>{e.insight}</p>}
+                    {e.applying && <p style={{ color: "#3a7d56", fontSize: 13, fontStyle: "italic" }}>→ {e.applying}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos Tab */}
         {mainTab === "videos" && (
           <div>
@@ -636,14 +711,7 @@ export default function CharacterStudyPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))", gap: 24 }}>
               {CHAR_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
                       <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${PURPLE}20`, color: PURPLE, fontWeight: 700, border: `1px solid ${PURPLE}40` }}>{v.preacher}</span>

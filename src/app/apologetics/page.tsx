@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -149,7 +151,7 @@ const cases: Case[] = [
     color: "#10B981"
   },
   {
-    id: "exclusivity",
+    id: "zMbUXpFiFeo",
     icon: "🌍",
     title: "Is Jesus the Only Way?",
     category: "Religious Pluralism",
@@ -279,37 +281,37 @@ const resources = [
 
 const APOL_VIDEOS = [
   {
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "bhfkhq-CM84",
     preacher: "Tim Keller",
     title: "The Reason for God",
     description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections to belief in an accessible and winsome style.",
   },
   {
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     preacher: "Voddie Baucham",
     title: "The Supremacy of Christ and Truth in a Postmodern World",
     description: "Baucham's powerful 2006 Desiring God Conference address on how Christians must hold fast to absolute truth and the lordship of Christ against the rising tide of postmodern relativism.",
   },
   {
-    videoId: "gySaWKg-NQQ",
+    videoId: "6CulBuMCLg0",
     preacher: "Tim Keller",
     title: "The Reason for God - Big Think",
     description: "A concentrated and intellectually sharp presentation of Keller's argument for Christian faith, filmed for Big Think and covering doubt, suffering, and the exclusivity of Christ.",
   },
   {
-    videoId: "F4rX1pTRbuo",
+    videoId: "lXEHBgAGdZE",
     preacher: "Voddie Baucham",
     title: "The Supremacy of Christ - Sermon Jam",
     description: "A stirring sermon jam drawn from Baucham's preaching on the supremacy and sufficiency of Jesus Christ over every philosophy and cultural narrative.",
   },
   {
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     preacher: "R.C. Sproul",
     title: "The Holiness of God",
     description: "Sproul's classic teaching on the defining attribute of God -- his holiness -- and why a right understanding of it is the foundation of every other doctrine in Christian theology.",
   },
   {
-    videoId: "svt8i4Vh-gI",
+    videoId: "yIhGt1BQ1pw",
     preacher: "Tim Keller",
     title: "Keller vs. Bacrac: The Reason for God Debate",
     description: "Tim Keller debates atheist Norman Bacrac on \"The Reason for God,\" modeling respectful and rigorous Christian engagement with unbelief in a live forum setting.",
@@ -361,8 +363,8 @@ export default function ApologeticsPage() {
     try { localStorage.setItem("vine_apologetics_studied", JSON.stringify([...studiedCases])); } catch {}
   }, [studiedCases]);
 
-  const toggleSaved = (id: string) => setSavedCases(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleStudied = (id: string) => setStudiedCases(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleSaved = (id: string) => setSavedCases(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleStudied = (id: string) => setStudiedCases(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
 
   const categories = ["All", ...Array.from(new Set(cases.map(c => c.category)))];
   const difficulties = ["All", "Starter", "Intermediate", "Advanced"];
@@ -681,14 +683,7 @@ export default function ApologeticsPage() {
                 {APOL_VIDEOS.map(v => (
                   <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
                     <div style={{ padding: "0" }}>
-                      <iframe
-                        width="100%"
-                        style={{ aspectRatio: "16/9", border: "none", borderRadius: "8px 8px 0 0", display: "block" }}
-                        src={`https://www.youtube.com/embed/${v.videoId}`}
-                        title={v.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+                      <VideoEmbed videoId={v.videoId} title={v.title} />
                     </div>
                     <div style={{ padding: "16px 20px" }}>
                       <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.18)", color: PURPLE, marginBottom: 8 }}>
@@ -726,19 +721,13 @@ export default function ApologeticsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Kxup3OS5ZhQ", title: "The Reason for God", channel: "Tim Keller at Google", description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections with clarity and grace." },
-                  { videoId: "v6xk8e7gdMA", title: "The Holiness of God", channel: "Ligonier / R.C. Sproul", description: "Sproul's classic teaching on the defining attribute of God — his holiness — and why it is the foundation of every other Christian doctrine." },
-                  { videoId: "by8ykv7-A3c", title: "The Supremacy of Christ and Truth in a Postmodern World", channel: "Voddie Baucham / Desiring God", description: "Baucham's powerful conference address on holding fast to absolute truth and the lordship of Christ against postmodern relativism." },
-                  { videoId: "YrGYoRdNOes", title: "The Necessity of the Atonement", channel: "Ligonier / R.C. Sproul", description: "R.C. Sproul explains why the atonement was necessary given the nature of God's justice and holiness — a foundational apologetics argument." },
+                  { videoId: "MrSNOo7EIy0", title: "The Reason for God", channel: "Tim Keller at Google", description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections with clarity and grace." },
+                  { videoId: "3Dv4-n6OYGI", title: "The Holiness of God", channel: "Ligonier / R.C. Sproul", description: "Sproul's classic teaching on the defining attribute of God — his holiness — and why it is the foundation of every other Christian doctrine." },
+                  { videoId: "mC-zw0zCCtg", title: "The Supremacy of Christ and Truth in a Postmodern World", channel: "Voddie Baucham / Desiring God", description: "Baucham's powerful conference address on holding fast to absolute truth and the lordship of Christ against postmodern relativism." },
+                  { videoId: "O4GJYRmNnEg", title: "The Necessity of the Atonement", channel: "Ligonier / R.C. Sproul", description: "R.C. Sproul explains why the atonement was necessary given the nature of God's justice and holiness — a foundational apologetics argument." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

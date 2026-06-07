@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { Trophy, Flame, Star, Heart, BookOpen, MessageSquare, Globe, Shield, ChevronRight, Crown } from "lucide-react";
+import { Trophy, Flame, Heart, BookOpen, MessageSquare, Globe, Shield, ChevronRight, Crown } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const periods = ["This Week", "This Month", "All Time"];
@@ -104,6 +104,20 @@ export default function LeaderboardPage() {
 
   const board = leaderboards[activeCategory] ?? leaderboards.Overall;
 
+  const [myStats, setMyStats] = useState<{ points: number; prayers: number; chapters: number; devotionals: number } | null>(null);
+  useEffect(() => {
+    const parseLen = (k: string) => { try { const v = JSON.parse(localStorage.getItem(k) || "[]"); return Array.isArray(v) ? v.length : 0; } catch { return 0; } };
+    const prayers = parseLen("vine_prayer_wall_prayed");
+    const chapters = parseLen("vine_reading_plan");
+    const devotionals = parseLen("vine_daily_completed");
+    const journal = parseLen("vine_journal_entries");
+    const posts = parseLen("vine_user_posts");
+    const verses = parseLen("vine_verse_memory");
+    const points = prayers * 10 + chapters * 15 + devotionals * 20 + journal * 12 + posts * 25 + verses * 30;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMyStats({ points, prayers, chapters, devotionals });
+  }, []);
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -126,6 +140,37 @@ export default function LeaderboardPage() {
               Recognizing the faithful — those who pray the hardest, teach the clearest, and serve the widest.
             </p>
           </div>
+
+          {/* Your real stats card */}
+          {myStats && myStats.points > 0 && (
+            <div className="max-w-2xl mx-auto mt-8 rounded-2xl p-5" style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.12), rgba(107,79,187,0.08))", border: "1px solid rgba(58,125,86,0.25)" }}>
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-black" style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", color: "#07070F" }}>★</div>
+                  <div>
+                    <p className="font-black text-sm" style={{ color: "#F2F2F8" }}>Your Faithfulness Points</p>
+                    <p className="text-xs" style={{ color: "#8A8AA8" }}>Earned from your real activity on Vine</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-black" style={{ color: "#3a7d56" }}>{myStats.points.toLocaleString()}</p>
+                  <p className="text-[11px]" style={{ color: "#6A6A88" }}>pts</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 mt-4">
+                {[
+                  { label: "Prayers", value: myStats.prayers },
+                  { label: "Chapters", value: myStats.chapters },
+                  { label: "Devotionals", value: myStats.devotionals },
+                ].map((s) => (
+                  <div key={s.label} className="rounded-xl p-2 text-center" style={{ background: "rgba(255,255,255,0.03)" }}>
+                    <p className="text-base font-black" style={{ color: "#F2F2F8" }}>{s.value}</p>
+                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "#6A6A88" }}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

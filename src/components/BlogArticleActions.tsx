@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Heart, Bookmark, Share2 } from "lucide-react";
 
 interface Props {
@@ -11,18 +11,15 @@ export default function BlogArticleActions({ slug }: Props) {
   const likeKey = slug ? `vine_blog_likes_${slug}` : null;
   const saveKey = slug ? `vine_blog_saves_${slug}` : null;
 
-  const [liked, setLiked] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [liked, setLiked] = useState(() => {
+    if (typeof window === "undefined" || !likeKey) return false;
+    try { return localStorage.getItem(likeKey) === "1"; } catch { return false; }
+  });
+  const [saved, setSaved] = useState(() => {
+    if (typeof window === "undefined" || !saveKey) return false;
+    try { return localStorage.getItem(saveKey) === "1"; } catch { return false; }
+  });
   const [shared, setShared] = useState(false);
-
-  useEffect(() => {
-    if (likeKey) {
-      try { setLiked(localStorage.getItem(likeKey) === "1"); } catch {}
-    }
-    if (saveKey) {
-      try { setSaved(localStorage.getItem(saveKey) === "1"); } catch {}
-    }
-  }, [likeKey, saveKey]);
 
   const toggleLike = () => {
     const next = !liked;

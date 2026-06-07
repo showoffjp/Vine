@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,16 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "forms" | "obstacles" | "videos";
+const FORM_TYPE_COLORS: Record<string, string> = {
+  Petition: "#3a7d56",
+  Intercession: "#6B4FBB",
+  Thanksgiving: "#D4A017",
+  Confession: "#C0392B",
+  Lament: "#5B8CB7",
+  Contemplation: "#9898B3",
+};
+
+type Tab = "theology" | "jesus" | "forms" | "obstacles" | "prayerlog" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -240,11 +251,29 @@ export default function TheologyOfPrayerPage() {
 
   const selectedEpisode = JESUS_EPISODES.find((e) => e.id === selectedJesus) ?? JESUS_EPISODES[0];
 
+  const [pEntries, setPEntries] = useState<{ id: string; date: string; form: string; what: string; outcome: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_top_prayers"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [pForm2, setPForm2] = useState({ form: "Petition", what: "", outcome: "" });
+  const [pSaved2, setPSaved2] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_top_prayers", JSON.stringify(pEntries)); } catch {} }, [pEntries]);
+
+  const savePEntry = () => {
+    setPEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...pForm2 }, ...prev]);
+    setPForm2(f => ({ ...f, what: "", outcome: "" }));
+    setPSaved2(true);
+    setTimeout(() => setPSaved2(false), 2000);
+  };
+
+  const deletePEntry = (id: string) => setPEntries(prev => prev.filter(e => e.id !== id));
+
   const TABS: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Prayer" },
     { id: "jesus", label: "Jesus on Prayer" },
     { id: "forms", label: "Forms of Prayer" },
     { id: "obstacles", label: "Obstacles to Prayer" },
+    { id: "prayerlog", label: "Prayer Log" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -491,6 +520,66 @@ export default function TheologyOfPrayerPage() {
           </div>
         )}
 
+        {activeTab === "prayerlog" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Prayer that is recorded is prayer that can be reviewed — and reviewing prayer over months and years reveals a record of God's faithfulness that feelings alone cannot provide.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Prayer Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Form of prayer</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Petition", "Intercession", "Thanksgiving", "Confession", "Lament", "Contemplation"].map(form => (
+                    <button type="button" key={form} onClick={() => setPForm2(f => ({ ...f, form }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${pForm2.form === form ? GREEN : BORDER}`, background: pForm2.form === form ? `${GREEN}20` : "transparent", color: pForm2.form === form ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {form}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I prayed</label>
+                <textarea value={pForm2.what} onChange={e => setPForm2(f => ({ ...f, what: e.target.value }))} rows={3}
+                  placeholder="What you brought to God, what you confessed, what you asked for, what you thanked him for..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What happened (if anything)</label>
+                <textarea value={pForm2.outcome} onChange={e => setPForm2(f => ({ ...f, outcome: e.target.value }))} rows={2}
+                  placeholder="A sense of peace, a word received, silence, a shift in perspective..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={savePEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {pSaved2 ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {pEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Prayer History ({pEntries.length})</h3>
+                {pEntries.map(e => {
+                  const formColor = (FORM_TYPE_COLORS as Record<string, string>)[e.form] ?? MUTED;
+                  return (
+                    <div key={e.id} style={{ background: CARD, border: `1px solid ${formColor}25`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                      <button type="button" onClick={() => deletePEntry(e.id)}
+                        style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                        <span style={{ background: `${formColor}20`, color: formColor, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.form}</span>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      </div>
+                      {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.what}</p>}
+                      {e.outcome && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.outcome}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -500,20 +589,14 @@ export default function TheologyOfPrayerPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "LnaxpQa1Xyk", title: "Prayer Causes Things to Happen", channel: "Desiring God / John Piper", description: "John Piper unpacks the biblical theology of intercessory prayer — why and how prayer actually causes things to happen in God's sovereign purposes." },
-                  { videoId: "40AiZnMH9Do", title: "Prayer and the Victory of God", channel: "Desiring God / John Piper", description: "Piper shows how prayer is not merely a spiritual practice but a weapon in the cosmic battle — and what it means to pray in partnership with God's purposes." },
-                  { videoId: "4_dCFApRdzY", title: "What Makes the Lord's Prayer a Christian Prayer?", channel: "Desiring God / John Piper", description: "Piper examines what is distinctively Christian about the Lord's Prayer and why its structure is a model for all Christian prayer." },
-                  { videoId: "4K2mPNUWPCQ", title: "Hallowed Be Your Name — The Lord's Prayer, Part 2", channel: "Desiring God / John Piper", description: "A sermon on the opening petition of the Lord's Prayer — what it means to pray that God's name is glorified, adored, and honored as holy throughout the earth." },
-                  { videoId: "9wFp7ytj9g8", title: "Prayer Vocalizes Our Abiding in Christ", channel: "Desiring God / John Piper", description: "Based on John 15:1-11, Piper explores the deep connection between abiding in Christ and the practice of prayer — why prayer is not just a discipline but a relationship." },
+                  { videoId: "rtkS_8VWfB0", title: "Prayer Causes Things to Happen", channel: "Desiring God / John Piper", description: "John Piper unpacks the biblical theology of intercessory prayer — why and how prayer actually causes things to happen in God's sovereign purposes." },
+                  { videoId: "iK0NjiBXKN4", title: "Prayer and the Victory of God", channel: "Desiring God / John Piper", description: "Piper shows how prayer is not merely a spiritual practice but a weapon in the cosmic battle — and what it means to pray in partnership with God's purposes." },
+                  { videoId: "j9phNEaPrv8", title: "What Makes the Lord's Prayer a Christian Prayer?", channel: "Desiring God / John Piper", description: "Piper examines what is distinctively Christian about the Lord's Prayer and why its structure is a model for all Christian prayer." },
+                  { videoId: "mC-zw0zCCtg", title: "Hallowed Be Your Name — The Lord's Prayer, Part 2", channel: "Desiring God / John Piper", description: "A sermon on the opening petition of the Lord's Prayer — what it means to pray that God's name is glorified, adored, and honored as holy throughout the earth." },
+                  { videoId: "ZOBIPb-6PTc", title: "Prayer Vocalizes Our Abiding in Christ", channel: "Desiring God / John Piper", description: "Based on John 15:1-11, Piper explores the deep connection between abiding in Christ and the practice of prayer — why prayer is not just a discipline but a relationship." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

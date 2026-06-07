@@ -15,8 +15,6 @@ import {
   Flame,
   BookOpen,
   Globe,
-  Star,
-  ChevronRight,
   Feather,
 } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -260,6 +258,15 @@ const trendingNow = [
 
 type PostLikes = { [key: number]: boolean };
 type PostSaved = { [key: number]: boolean };
+interface UserPost {
+  id: number;
+  content: string;
+  time: string;
+  type: string;
+  authorName: string;
+  authorAvatar: string;
+  authorColor: string;
+}
 
 export default function FeedPage() {
   const [likedPosts, setLikedPosts] = useState<PostLikes>(() => {
@@ -274,10 +281,16 @@ export default function FeedPage() {
       return s ? JSON.parse(s) : { 3: true, 5: true };
     } catch { return { 3: true, 5: true }; }
   });
+  const [userPosts, setUserPosts] = useState<UserPost[]>(() => {
+    try {
+      const s = localStorage.getItem("vine_user_posts");
+      return s ? JSON.parse(s) : [];
+    } catch { return []; }
+  });
   const [postText, setPostText] = useState("");
   const [postShared, setPostShared] = useState(false);
   const [feedSort, setFeedSort] = usePersistedState<string>("vine_feed_feed_sort", "Latest");
-  const [userName, setUserName] = useState(() => {
+  const [userName] = useState(() => {
     try { const u = localStorage.getItem("vine_user"); if (u) { const p = JSON.parse(u); if (p.firstName) return p.firstName as string; } } catch {} return "Friend";
   });
   const [openMenu, setOpenMenu] = useState<number | null>(null);
@@ -315,6 +328,24 @@ export default function FeedPage() {
 
   const handleShare = () => {
     if (!postText.trim()) return;
+    const text = postText.trim();
+    const userRaw = (() => { try { return JSON.parse(localStorage.getItem("vine_user") || "{}"); } catch { return {}; } })();
+    const authorName = userRaw.name || userName || "You";
+    const initials = authorName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "ME";
+    const newPost: UserPost = {
+      id: Date.now(),
+      content: text,
+      time: "Just now",
+      type: text.startsWith("🙏 Prayer request:") ? "prayer" : text.startsWith("✨ Testimony:") ? "testimony" : text.startsWith("❓ Question:") ? "question" : "text",
+      authorName,
+      authorAvatar: initials,
+      authorColor: "#3a7d56",
+    };
+    setUserPosts((prev) => {
+      const updated = [newPost, ...prev];
+      try { localStorage.setItem("vine_user_posts", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
     setPostShared(true);
     setPostText("");
     setTimeout(() => setPostShared(false), 3000);
@@ -398,7 +429,7 @@ export default function FeedPage() {
               >
                 <div className="flex gap-3 overflow-x-auto pb-1">
                   {stories.map((s) => (
-                    <div key={s.name} className="flex flex-col items-center gap-1.5 cursor-pointer shrink-0">
+                    <Link key={s.name} href="/stories" className="flex flex-col items-center gap-1.5 cursor-pointer shrink-0" style={{ textDecoration: "none" }}>
                       <div
                         className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black relative"
                         style={{
@@ -412,7 +443,7 @@ export default function FeedPage() {
                       <span className="text-xs" style={{ color: "#6A6A88" }}>
                         {s.isYou ? "Add" : s.name}
                       </span>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -439,7 +470,7 @@ export default function FeedPage() {
                   />
                 </div>
                 <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                  <div role="button" tabIndex={0} className="flex gap-3">
+                  <div className="flex gap-3">
                     <button aria-label="Read" type="button" onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <BookOpen size={14} /> Verse
                     </button>
@@ -480,6 +511,35 @@ export default function FeedPage() {
                   </button>
                 ))}
               </div>
+
+              {/* User Posts (from localStorage) */}
+              {userPosts.map((up) => (
+                <div key={up.id} className="rounded-2xl p-5" style={{ background: "rgba(58,125,86,0.04)", border: "1px solid rgba(58,125,86,0.15)", scrollMarginTop: 90 }}>
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black shrink-0"
+                      style={{ background: `${up.authorColor}25`, color: up.authorColor, border: `2px solid ${up.authorColor}30` }}>
+                      {up.authorAvatar}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm" style={{ color: "#F2F2F8" }}>{up.authorName}</p>
+                      <p className="text-xs" style={{ color: "#4A4A68" }}>You · {up.time}</p>
+                    </div>
+                    <button type="button" onClick={() => {
+                      setUserPosts((prev) => {
+                        const updated = prev.filter((p) => p.id !== up.id);
+                        try { localStorage.setItem("vine_user_posts", JSON.stringify(updated)); } catch {}
+                        return updated;
+                      });
+                    }} style={{ color: "#4A4A68", cursor: "pointer", fontSize: 11 }}>✕</button>
+                  </div>
+                  <p className="text-sm leading-relaxed" style={{ color: "#C0C0D8" }}>{up.content}</p>
+                  <div className="flex items-center gap-4 mt-3">
+                    <span className="text-xs" style={{ color: "#3a7d56" }}>❤ 0</span>
+                    <span className="text-xs" style={{ color: "#6A6A88" }}>💬 0</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}>Your post</span>
+                  </div>
+                </div>
+              ))}
 
               {/* Posts */}
               {[...posts]

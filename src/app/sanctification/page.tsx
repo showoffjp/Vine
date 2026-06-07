@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "means" | "struggle" | "videos";
+type Tab = "theology" | "views" | "means" | "struggle" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -17,7 +19,7 @@ const THEOLOGY_ITEMS = [
     body: "Before progressive sanctification can be rightly understood, definitive sanctification must be grasped. Romans 6:1-11 declares that the believer has already died to sin — not is dying, not should die, but has died. Paul grounds the imperative to stop sinning in an accomplished indicative: 'You also must consider yourselves dead to sin' (6:11). This is not fiction but forensic and spiritual reality. 1 Corinthians 6:11 seals the point with three aorist past-tense verbs: 'you were washed, you were sanctified, you were justified.' The indicative precedes and enables the imperative. The one who died to sin is, in a decisive sense, dead to it. Moral effort flows from identity, not toward it.",
   },
   {
-    id: "progressive",
+    id: "j9phNEaPrv8",
     title: "Progressive Sanctification",
     verse: "Philippians 2:12-13 / 2 Peter 3:18 / 2 Corinthians 3:18",
     body: "Alongside definitive sanctification, Scripture calls believers into a lifelong process of moral and spiritual transformation. Philippians 2:12-13 commands believers to 'work out your salvation with fear and trembling' — the same salvation they already possess is to be worked out in daily obedience. 2 Peter 3:18 closes the letter with a summary exhortation: 'grow in the grace and knowledge of our Lord and Savior Jesus Christ.' Growth is expected, not optional. 2 Corinthians 3:18 provides the mechanism and the goal: 'we all, with unveiled face, beholding the glory of the Lord, are being transformed into the same image from one degree of glory to another.' Transformation is gradual, Spirit-mediated, and glory-oriented. The process runs the full length of the Christian life and is never complete in this age.",
@@ -156,7 +158,7 @@ const STRUGGLE_ITEMS = [
     body: "Martin Luther opened the Ninety-Five Theses with a thesis that has not received sufficient attention: 'When our Lord and Master Jesus Christ said, Repent, he willed the entire life of believers to be one of repentance.' Repentance is not a one-time act performed at conversion and then left behind as one 'moves on' to more advanced Christianity. It is an ongoing posture — a continuous turning from self toward God. The person who thinks they have repented enough has not yet understood either their own sin or the grace that receives it. Repentance is not grief that leads to paralysis; it is the turn that leads to life. It is, properly understood, a form of joy — the joy of the prodigal returning.",
   },
   {
-    id: "long-defeat",
+    id: "AzmYV8GNAIM",
     title: "The Long Defeat",
     verse: "Hebrews 12:1-3",
     body: "J.R.R. Tolkien described his own vocation as fighting the 'long defeat' — the sense that one is working against forces that will ultimately overwhelm, that every victory is temporary and costly. The phrase captures something true about the experience of sanctification in this age. Progress is not linear. The believer who has grown significantly in patience may find themselves blindsided by a failure in a domain they thought settled. Setbacks are not necessarily failures of faith — they may be the normal texture of formation. Hebrews 12:1-3 does not promise that the race is short or easy; it promises that Jesus, who endured the cross, is the pioneer and perfecter of faith. The long arc bends toward completion, but the arc is genuinely long.",
@@ -315,11 +317,29 @@ export default function SanctificationPage() {
 
   const activeView = VIEWS.find((v) => v.id === selectedView) ?? VIEWS[0];
 
+  const [sEntries, setSEntries] = useState<{ id: string; date: string; sin: string; means: string; grace: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_sanct_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [sForm, setSForm] = useState({ sin: "", means: "", grace: "" });
+  const [sSaved, setSSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_sanct_entries", JSON.stringify(sEntries)); } catch {} }, [sEntries]);
+
+  const saveSEntry = () => {
+    setSEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...sForm }, ...prev]);
+    setSForm({ sin: "", means: "", grace: "" });
+    setSSaved(true);
+    setTimeout(() => setSSaved(false), 2000);
+  };
+
+  const deleteSEntry = (id: string) => setSEntries(prev => prev.filter(e => e.id !== id));
+
   const TABS: { key: Tab; label: string }[] = [
     { key: "theology", label: "Theology of Sanctification" },
     { key: "views", label: "Views on Sanctification" },
     { key: "means", label: "Means of Sanctification" },
     { key: "struggle", label: "The Struggle" },
+    { key: "journal", label: "My Journal" },
     { key: "videos", label: "Videos" },
   ];
 
@@ -597,6 +617,56 @@ export default function SanctificationPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Sanctification is a long war, not a single battle. Journal your ongoing struggle and growth — and watch God's faithfulness accumulate over time.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 20 }}>Sanctification Log</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A pattern of sin I'm working to put to death</label>
+                <textarea value={sForm.sin} onChange={e => setSForm(f => ({ ...f, sin: e.target.value }))} rows={2}
+                  placeholder="Name it honestly: a recurring temptation, a persistent habit, a heart attitude..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Means of grace I'm using</label>
+                <textarea value={sForm.means} onChange={e => setSForm(f => ({ ...f, means: e.target.value }))} rows={2}
+                  placeholder="Scripture I'm memorizing, a discipline I'm practicing, a person I'm accountable to..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Grace I've received or noticed</label>
+                <textarea value={sForm.grace} onChange={e => setSForm(f => ({ ...f, grace: e.target.value }))} rows={2}
+                  placeholder="A moment of victory, a change I noticed, evidence that God is at work in me..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveSEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {sSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {sEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Previous Entries</h3>
+                {sEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteSEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 10 }}>{e.date}</div>
+                    {e.sin && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 8px", lineHeight: 1.6 }}><strong style={{ color: "#EF4444" }}>Struggle:</strong> {e.sin}</p>}
+                    {e.means && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 8px", lineHeight: 1.6 }}><strong style={{ color: PURPLE }}>Means:</strong> {e.means}</p>}
+                    {e.grace && <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}><strong style={{ color: GREEN }}>Grace:</strong> {e.grace}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -606,19 +676,13 @@ export default function SanctificationPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "tJvLyusFOR8", title: "Sanctification (Romans 8:9–17)", channel: "Ligonier Ministries", description: "R.C. Sproul preaches through Romans 8, showing how the Holy Spirit is the agent who leads God's people toward genuine holiness." },
-                  { videoId: "1mP8ZCayUAs", title: "Sanctification: Foundations of Systematic Theology", channel: "Ligonier Ministries", description: "R.C. Sproul gives an overview of sanctification, explaining why there is no fast track to holiness and how growth is a Spirit-sustained daily process." },
-                  { videoId: "rHCfMj9IQ8Y", title: "The Sovereignty of God", channel: "Desiring God", description: "John Piper explains how God's sovereignty undergirds sanctification — the Christian strives because God is already at work within them." },
-                  { videoId: "XQFihHHjIt4", title: "God's Sovereignty and Our Responsibility", channel: "Desiring God", description: "John Piper addresses the apparent tension between divine sovereignty and human effort in the process of sanctification." },
+                  { videoId: "Cus-z1hgAXw", title: "Sanctification (Romans 8:9–17)", channel: "Ligonier Ministries", description: "R.C. Sproul preaches through Romans 8, showing how the Holy Spirit is the agent who leads God's people toward genuine holiness." },
+                  { videoId: "iVwauTiyFjM", title: "Sanctification: Foundations of Systematic Theology", channel: "Ligonier Ministries", description: "R.C. Sproul gives an overview of sanctification, explaining why there is no fast track to holiness and how growth is a Spirit-sustained daily process." },
+                  { videoId: "3Dv4-n6OYGI", title: "The Sovereignty of God", channel: "Desiring God", description: "John Piper explains how God's sovereignty undergirds sanctification — the Christian strives because God is already at work within them." },
+                  { videoId: "GGCF3OPWN14", title: "God's Sovereignty and Our Responsibility", channel: "Desiring God", description: "John Piper addresses the apparent tension between divine sovereignty and human effort in the process of sanctification." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

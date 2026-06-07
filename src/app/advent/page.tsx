@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -246,19 +248,13 @@ export default function AdventPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "cefE418Z9IY", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller", description: "Keller preaches on the astonishing claim at the center of Advent: that the eternal Word became flesh and dwelt among us." },
-                  { videoId: "fVZDBticoZk", title: "The History of Grace", channel: "Timothy Keller", description: "An Advent sermon tracing the thread of God's redeeming grace across the whole sweep of Scripture, from promise to fulfillment." },
-                  { videoId: "hOwe-54Bigo", title: "Advent: Born Again", channel: "Timothy Keller", description: "Keller explores the new birth that Advent anticipates — how the coming of Jesus makes possible a complete transformation of the human heart." },
-                  { videoId: "RWIYRMJxm8s", title: "Advent: The Power of the Incarnation", channel: "Timothy Keller", description: "A sermon on why the incarnation is not just historically significant but personally transforming — Christ came to dwell with his people." },
+                  { videoId: "otmBLQJ7IUQ", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller", description: "Keller preaches on the astonishing claim at the center of Advent: that the eternal Word became flesh and dwelt among us." },
+                  { videoId: "Sc6SSHuZvQE", title: "The History of Grace", channel: "Timothy Keller", description: "An Advent sermon tracing the thread of God's redeeming grace across the whole sweep of Scripture, from promise to fulfillment." },
+                  { videoId: "XtwIT8JjddM", title: "Advent: Born Again", channel: "Timothy Keller", description: "Keller explores the new birth that Advent anticipates — how the coming of Jesus makes possible a complete transformation of the human heart." },
+                  { videoId: "C_Bstciam1E", title: "Advent: The Power of the Incarnation", channel: "Timothy Keller", description: "A sermon on why the incarnation is not just historically significant but personally transforming — Christ came to dwell with his people." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

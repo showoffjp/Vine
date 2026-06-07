@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { ChevronRight, Clock, Eye } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
@@ -11,6 +12,7 @@ const FEATURED = {
   views: "184K",
   rating: "4.9",
   author: "Dr. Angela Osei & Pastor Tim Reeves",
+  href: "/mental-health",
   sections: [
     "Understanding Anxiety Through a Biblical Lens",
     "When to Seek Professional Help",
@@ -23,6 +25,7 @@ const FEATURED = {
 const ARTICLES = [
   {
     tag: "Finance",
+    href: "/blog/biblical-finances-stewardship",
     title: "7 Biblical Principles for Financial Freedom",
     desc: "From tithing to stewardship, these time-tested principles will transform your relationship with money.",
     readTime: "8 min",
@@ -30,6 +33,7 @@ const ARTICLES = [
   },
   {
     tag: "Relationships",
+    href: "/blog/when-marriage-is-hard",
     title: "How to Have Hard Conversations With Grace",
     desc: "James 1:19 gives us a framework that actually works in marriage, friendships, and the workplace.",
     readTime: "6 min",
@@ -37,6 +41,7 @@ const ARTICLES = [
   },
   {
     tag: "Theology",
+    href: "/blog/problem-of-evil",
     title: "What the Bible Actually Says About Suffering",
     desc: "A deep dive into Job, Romans 8, and the consistent thread of redemptive suffering across all of Scripture.",
     readTime: "12 min",
@@ -44,6 +49,7 @@ const ARTICLES = [
   },
   {
     tag: "Parenting",
+    href: "/blog/raising-faith-filled-children",
     title: "Raising Kids in a Digital Age With Christian Values",
     desc: "Practical guidelines for screen time, social media, and teaching discernment to the next generation.",
     readTime: "9 min",
@@ -51,6 +57,7 @@ const ARTICLES = [
   },
   {
     tag: "Leadership",
+    href: "/blog/servant-leadership-jesus",
     title: "Servant Leadership: Jesus' Model for Today",
     desc: "What does it look like to lead like Christ in a secular organization? Real examples, real challenges.",
     readTime: "7 min",
@@ -58,6 +65,7 @@ const ARTICLES = [
   },
   {
     tag: "Rest",
+    href: "/blog/digital-sabbath",
     title: "The Sabbath Principle and Modern Productivity",
     desc: "Rest is not laziness. Here is the science and Scripture behind why rest makes us more fruitful, not less.",
     readTime: "5 min",
@@ -184,8 +192,10 @@ export default function ResourceHub() {
         </div>
 
         {/* Featured article */}
-        <div
+        <Link
+          href={FEATURED.href}
           style={{
+            display: "block",
             background: "#0f2318",
             border: "0.5px solid rgba(201,162,39,0.22)",
             borderRadius: 3,
@@ -193,12 +203,13 @@ export default function ResourceHub() {
             marginBottom: "1.5rem",
             cursor: "pointer",
             transition: "border-color 0.2s",
+            textDecoration: "none",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.45)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.45)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.22)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.22)";
           }}
         >
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "center" }}>
@@ -260,8 +271,7 @@ export default function ResourceHub() {
                 </span>
                 <span style={{ color: "#c9a227" }}>★ {FEATURED.rating}</span>
               </div>
-              <a
-                href="/resources"
+              <span
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -275,14 +285,10 @@ export default function ResourceHub() {
                   fontWeight: 600,
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  textDecoration: "none",
-                  transition: "background 0.2s",
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "#e8c162"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "#c9a227"; }}
               >
                 Read Full Guide
-              </a>
+              </span>
             </div>
 
             <div
@@ -337,7 +343,7 @@ export default function ResourceHub() {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Article Grid */}
         <div
@@ -349,20 +355,23 @@ export default function ResourceHub() {
           }}
         >
           {filteredArticles.map((a, i) => (
-            <div
+            <Link
               key={i}
+              href={a.href}
               style={{
+                display: "block",
                 background: "#050e07",
                 padding: "1.8rem",
                 cursor: "pointer",
                 transition: "background 0.2s",
                 position: "relative",
+                textDecoration: "none",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.background = "#0a1a0e";
+                (e.currentTarget as HTMLAnchorElement).style.background = "#0a1a0e";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.background = "#050e07";
+                (e.currentTarget as HTMLAnchorElement).style.background = "#050e07";
               }}
             >
               <div
@@ -433,7 +442,7 @@ export default function ResourceHub() {
                   <Eye size={10} /> {a.views}
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

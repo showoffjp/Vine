@@ -3,8 +3,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { Users, Plus, X, CheckCircle2, Circle, MessageSquare, Flame, Shield, ChevronRight, Clock } from "lucide-react";
+import { Plus, X, CheckCircle2, Circle, MessageSquare, Flame, Shield, Clock, Trash2, Archive } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 interface CheckIn {
   date: string;
@@ -336,6 +338,15 @@ export default function AccountabilityPage() {
     setShowCompose(false);
   };
 
+  const deleteGoal = (id: string) => {
+    setGoals((prev) => prev.filter((g) => g.id !== id));
+    if (selectedGoal === id) setSelectedGoal(null);
+  };
+
+  const archiveGoal = (id: string) => {
+    setGoals((prev) => prev.map((g) => g.id === id ? { ...g, active: false } : g));
+  };
+
   const activeGoals = goals.filter((g) => g.active);
   const completedGoals = goals.filter((g) => !g.active);
   const selectedGoalData = goals.find((g) => g.id === selectedGoal);
@@ -345,7 +356,7 @@ export default function AccountabilityPage() {
     const d = new Date(); d.setDate(d.getDate() - 6 + i);
     return d.toISOString().split("T")[0];
   });
-  const todayCheckedIn = selectedGoalData?.checkIns.find((c) => c.date === today);
+  // todayCheckedIn removed - unused
   const recentCheckIns = selectedGoalData?.checkIns.slice(-14).reverse() ?? [];
   const weekCheckIns = selectedGoalData?.checkIns.filter((c) => thisWeek.includes(c.date)) ?? [];
   const weekCompletedCount = weekCheckIns.filter((c) => c.completed).length;
@@ -586,9 +597,27 @@ export default function AccountabilityPage() {
                             {cat.icon}
                           </div>
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${cat.color}15`, color: cat.color, border: `1px solid ${cat.color}30` }}>{cat.label}</span>
-                              <span className="text-xs font-semibold capitalize" style={{ color: "#4A4A68" }}>{g.frequency} check-ins</span>
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${cat.color}15`, color: cat.color, border: `1px solid ${cat.color}30` }}>{cat.label}</span>
+                                <span className="text-xs font-semibold capitalize" style={{ color: "#4A4A68" }}>{g.frequency} check-ins</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                {g.active && (
+                                  <button type="button" onClick={() => archiveGoal(g.id)} title="Mark as completed"
+                                    className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all"
+                                    style={{ background: "rgba(16,185,129,0.08)", color: "#10B981", border: "1px solid rgba(16,185,129,0.2)" }}>
+                                    <Archive size={11} /> Complete
+                                  </button>
+                                )}
+                                <button type="button" onClick={() => deleteGoal(g.id)} title="Delete goal"
+                                  className="p-1.5 rounded-lg transition-all"
+                                  style={{ color: "#3A3A58" }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.color = "#EF4444"; e.currentTarget.style.background = "rgba(239,68,68,0.08)"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.color = "#3A3A58"; e.currentTarget.style.background = "transparent"; }}>
+                                  <Trash2 size={13} />
+                                </button>
+                              </div>
                             </div>
                             <h2 className="font-black text-xl leading-snug mb-2" style={{ color: "#F2F2F8" }}>{g.title}</h2>
                             {g.description && <p className="text-sm" style={{ color: "#8A8AA8" }}>{g.description}</p>}
@@ -798,19 +827,13 @@ export default function AccountabilityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "t3ZYiRM0PN8", title: "John Piper and Darrin Patrick on Biblical Manhood (Part 1)", channel: "Desiring God", description: "Piper and Patrick discuss what it means to build deep, accountable friendships among Christian men — the kind that ask hard questions." },
-                  { videoId: "DUVKRVJYzYc", title: "Helping Relationships: Course Lecture by Ed Welch", channel: "CCEF School of Biblical Counseling", description: "Ed Welch teaches how to build genuine, Christ-centered accountability and care in relationships — drawn from his work at CCEF." },
-                  { videoId: "GfdP2o5NXWI", title: "Hope and Power to Change", channel: "CCEF", description: "A CCEF teaching on how the gospel provides the actual power for lasting change — the foundation of any real accountability relationship." },
-                  { videoId: "LA7GitzS-bY", title: "What Is Biblical Counseling?", channel: "Edward T. Welch / CCEF", description: "Ed Welch explains what biblical counseling is and how the Scriptures speak practically into the struggles of real life." },
+                  { videoId: "7_CGP-12AE0", title: "John Piper and Darrin Patrick on Biblical Manhood (Part 1)", channel: "Desiring God", description: "Piper and Patrick discuss what it means to build deep, accountable friendships among Christian men — the kind that ask hard questions." },
+                  { videoId: "OqwbFGoRYVo", title: "Helping Relationships: Course Lecture by Ed Welch", channel: "CCEF School of Biblical Counseling", description: "Ed Welch teaches how to build genuine, Christ-centered accountability and care in relationships — drawn from his work at CCEF." },
+                  { videoId: "gV9JugO_5Mk", title: "Hope and Power to Change", channel: "CCEF", description: "A CCEF teaching on how the gospel provides the actual power for lasting change — the foundation of any real accountability relationship." },
+                  { videoId: "ej_6dVdJSIU", title: "What Is Biblical Counseling?", channel: "Edward T. Welch / CCEF", description: "Ed Welch explains what biblical counseling is and how the Scriptures speak practically into the struggles of real life." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

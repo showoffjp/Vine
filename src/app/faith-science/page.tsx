@@ -2,16 +2,18 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
 const FS_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Science and Christianity — Are They Compatible?", channel: "Gospel in Life / Tim Keller", description: "Keller's definitive talk on the relationship between science and faith — why the conflict is mostly a myth and where the real tensions lie." },
-  { videoId: "ACZbpLkY8To", title: "The Heavens Declare — Cosmology and Creation", channel: "Ligonier Ministries", description: "How modern cosmology — the Big Bang, fine-tuning, and the anthropic principle — speaks to the existence of God." },
-  { videoId: "fJnGJN6laqE", title: "Evolution, Creation, and the Christian", channel: "Desiring God", description: "A pastoral approach to the origins debate — how Christians can hold their convictions with confidence and humility." },
-  { videoId: "Z8lkuuhVkOI", title: "Faith and Science — John Lennox", channel: "Unbelievable?", description: "Oxford mathematician and Christian apologist John Lennox makes the case that science and faith are not in conflict but mutually enriching." },
+  { videoId: "rtkS_8VWfB0", title: "Science and Christianity — Are They Compatible?", channel: "Gospel in Life / Tim Keller", description: "Keller's definitive talk on the relationship between science and faith — why the conflict is mostly a myth and where the real tensions lie." },
+  { videoId: "ej_6dVdJSIU", title: "The Heavens Declare — Cosmology and Creation", channel: "Ligonier Ministries", description: "How modern cosmology — the Big Bang, fine-tuning, and the anthropic principle — speaks to the existence of God." },
+  { videoId: "4Eg_di-O8nM", title: "Evolution, Creation, and the Christian", channel: "Desiring God", description: "A pastoral approach to the origins debate — how Christians can hold their convictions with confidence and humility." },
+  { videoId: "gV9JugO_5Mk", title: "Faith and Science — John Lennox", channel: "Unbelievable?", description: "Oxford mathematician and Christian apologist John Lennox makes the case that science and faith are not in conflict but mutually enriching." },
 ];
 
 const TOPICS = [
@@ -338,7 +340,21 @@ const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"];
 
 export default function FaithSciencePage() {
   // Tab state
-  const [activeTab, setActiveTab] = usePersistedState<"topics" | "thinkers" | "qa" | "history" | "videos">("vine_faith-science_tab", "topics");
+  const [activeTab, setActiveTab] = usePersistedState<"topics" | "thinkers" | "qa" | "history" | "journal" | "videos">("vine_faith-science_tab", "topics");
+
+  const [fsEntries, setFsEntries] = useState<{ id: string; date: string; tension: string; thinker: string; resolution: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fs_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fsForm, setFsForm] = useState({ tension: "", thinker: "", resolution: "" });
+  const [fsSaved, setFsSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fs_entries", JSON.stringify(fsEntries)); }, [fsEntries]);
+  function saveFsEntry() {
+    if (!fsForm.tension.trim()) return;
+    setFsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fsForm }, ...prev]);
+    setFsForm({ tension: "", thinker: "", resolution: "" });
+    setFsSaved(true); setTimeout(() => setFsSaved(false), 2000);
+  }
+  function deleteFsEntry(id: string) { setFsEntries(prev => prev.filter(e => e.id !== id)); }
 
   // Saved topics (localStorage)
   const [savedTopics, setSavedTopics] = useState<Set<string>>(() => {
@@ -518,8 +534,8 @@ export default function FaithSciencePage() {
       {/* ── Tabs ───────────────────────────────────────────────────────────── */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, position: "sticky", top: 0, background: BG, zIndex: 40 }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex gap-1">
-          {(["topics", "thinkers", "qa", "history", "videos"] as const).map((tab) => {
-            const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A", history: "History", videos: "Videos" };
+          {(["topics", "thinkers", "qa", "history", "journal", "videos"] as const).map((tab) => {
+            const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A", history: "History", journal: "📓 Journal", videos: "Videos" };
             const isActive = activeTab === tab;
             return (
               <button type="button"
@@ -984,12 +1000,59 @@ export default function FaithSciencePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Faith & Science Journal</h2>
+            <p style={{ color: SECONDARY, fontSize: 15, marginBottom: 24 }}>Record tensions you are working through, thinkers helping you, and the resolution you are arriving at. Saved privately in your browser.</p>
+            <div style={{ background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>TENSION I AM WORKING THROUGH *</label>
+                <textarea value={fsForm.tension} onChange={e => setFsForm(f => ({ ...f, tension: e.target.value }))}
+                  placeholder="What specific faith-science tension (evolution, cosmology, miracles...) are you grappling with?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>THINKER HELPING ME</label>
+                <textarea value={fsForm.thinker} onChange={e => setFsForm(f => ({ ...f, thinker: e.target.value }))}
+                  placeholder="Which scientist, theologian, or thinker is most helpfully addressing this tension?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: SECONDARY, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>RESOLUTION I AM ARRIVING AT</label>
+                <textarea value={fsForm.resolution} onChange={e => setFsForm(f => ({ ...f, resolution: e.target.value }))}
+                  placeholder="What are you becoming more certain about? What remains unsettled?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFsEntry}
+                style={{ background: fsSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {fsSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fsEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: SECONDARY, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fsEntries.length})</h3>
+                {fsEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: SECONDARY, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFsEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: SECONDARY, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.tension && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>TENSION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.tension}</span></div>}
+                    {entry.thinker && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>THINKER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.thinker}</span></div>}
+                    {entry.resolution && <div><span style={{ color: SECONDARY, fontWeight: 700, fontSize: 11 }}>RESOLUTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.resolution}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24, padding: "0 0 40px" }}>
             {FS_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

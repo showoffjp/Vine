@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
@@ -31,7 +33,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "resources" | "theology" | "support" | "voices" | "videos";
+type Tab = "resources" | "theology" | "support" | "voices" | "journal" | "videos";
 
 const entryPoints = [
   {
@@ -145,11 +147,11 @@ const therapists = [
 ];
 
 const supportGroups = [
-  { name: "Anxiety & Faith Circle", members: "2.1k", meets: "Tuesdays 7PM ET", color: "#6B4FBB" },
-  { name: "Grief & Loss Support", members: "1.4k", meets: "Sundays 3PM ET", color: "#4F8FBB" },
-  { name: "Recovery & Restoration", members: "987", meets: "Mondays 8PM ET", color: "#3a7d56" },
-  { name: "Women Healing Together", members: "3.2k", meets: "Thursdays 6PM ET", color: "#BB4F7A" },
-  { name: "Men's Mental Health Space", members: "1.8k", meets: "Fridays 7PM ET", color: "#4FBBAA" },
+  { name: "Anxiety & Faith Circle", members: "2.1k", meets: "Tuesdays 7PM ET", color: "#6B4FBB", href: "/anxiety" },
+  { name: "Grief & Loss Support", members: "1.4k", meets: "Sundays 3PM ET", color: "#4F8FBB", href: "/grief" },
+  { name: "Recovery & Restoration", members: "987", meets: "Mondays 8PM ET", color: "#3a7d56", href: "/addiction-recovery" },
+  { name: "Women Healing Together", members: "3.2k", meets: "Thursdays 6PM ET", color: "#BB4F7A", href: "/groups" },
+  { name: "Men's Mental Health Space", members: "1.8k", meets: "Fridays 7PM ET", color: "#4FBBAA", href: "/groups" },
 ];
 
 interface MHTheology {
@@ -318,26 +320,25 @@ const VOICES_MH: Voice[] = [
 
 export default function MentalHealthPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_mental-health_tab", "resources");
-  const [bookedSessions, setBookedSessions] = useState<Set<number>>(() => {
-    try { const s = localStorage.getItem("vine_mh_booked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
-  });
-  const [joinedGroups, setJoinedGroups] = useState<Set<number>>(() => {
-    try { const s = localStorage.getItem("vine_mh_groups"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
-  });
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [selectedVoiceId, setSelectedVoiceId] = usePersistedState("vine_mental-health_selected_voice", "menninger");
-
-  useEffect(() => {
-    try { localStorage.setItem("vine_mh_booked", JSON.stringify([...bookedSessions])); } catch {}
-  }, [bookedSessions]);
-  useEffect(() => {
-    try { localStorage.setItem("vine_mh_groups", JSON.stringify([...joinedGroups])); } catch {}
-  }, [joinedGroups]);
-
-  const toggleBook = (i: number) => setBookedSessions(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
-  const toggleJoinGroup = (i: number) => setJoinedGroups(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const [therapistSearch, setTherapistSearch] = useState("");
 
   const selectedVoice = VOICES_MH.find((v) => v.id === selectedVoiceId) ?? VOICES_MH[0];
+
+  const [mhEntries, setMhEntries] = useState<{ id: string; date: string; feeling: string; scripture: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_mh_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [mhForm, setMhForm] = useState({ feeling: "", scripture: "", prayer: "" });
+  const [mhSaved, setMhSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_mh_entries", JSON.stringify(mhEntries)); }, [mhEntries]);
+  function saveMhEntry() {
+    if (!mhForm.feeling.trim()) return;
+    setMhEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mhForm }, ...prev]);
+    setMhForm({ feeling: "", scripture: "", prayer: "" });
+    setMhSaved(true); setTimeout(() => setMhSaved(false), 2000);
+  }
+  function deleteMhEntry(id: string) { setMhEntries(prev => prev.filter(e => e.id !== id)); }
 
   const supportTypeColor = (type: string) => {
     if (type === "Professional") return PURPLE;
@@ -422,10 +423,10 @@ export default function MentalHealthPage() {
         {/* TAB BAR */}
         <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px" }}>
           <div style={{ display: "flex", gap: 4, padding: "8px 0 0", background: "transparent" }}>
-            {(["resources", "theology", "support", "voices", "videos"] as const).map(t => (
+            {(["resources", "theology", "support", "voices", "journal", "videos"] as const).map(t => (
               <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "support" ? "Support Types" : t === "voices" ? "Voices" : "🎬 Videos"}
+                {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "support" ? "Support Types" : t === "voices" ? "Voices" : t === "journal" ? "My Journal" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -570,8 +571,42 @@ export default function MentalHealthPage() {
                 <h2 style={{ fontSize: "24px", fontWeight: 800, color: TEXT, marginBottom: "8px" }}>
                   Find a Christian Therapist
                 </h2>
-                <p style={{ color: "#8A8AA8", fontSize: "15px", marginBottom: "20px" }}>
-                  All therapists are licensed, faith-affirming professionals who integrate Christian values with clinical expertise.
+                <p style={{ color: "#8A8AA8", fontSize: "15px", marginBottom: "12px" }}>
+                  These trusted directories connect you with licensed, faith-integrating therapists. Telehealth options available nationwide.
+                </p>
+                {/* Real directory links */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "12px", marginBottom: "28px" }}>
+                  {[
+                    { name: "AACC Therapist Finder", desc: "American Association of Christian Counselors — the largest network of Christian mental health professionals", color: GREEN, href: "https://www.aacc.net/resources/find-a-counselor/" },
+                    { name: "Psychology Today", desc: "Search by 'Christian' filter for faith-integrated therapists. Includes telehealth and sliding scale options.", color: PURPLE, href: "https://www.psychologytoday.com/us/therapists/christian" },
+                    { name: "Focus on the Family Counselors", desc: "Free 1-hour consultation with a licensed Christian counselor. Ongoing referrals available.", color: "#4FBBAA", href: "https://www.focusonthefamily.com/get-help/speak-with-a-counselor/" },
+                    { name: "Open Path Collective", desc: "Affordable Christian counseling ($30–$80/session). For those without insurance or limited resources.", color: "#BB7A4F", href: "https://openpathcollective.org/" },
+                  ].map((dir) => (
+                    <a
+                      key={dir.name}
+                      href={dir.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        background: CARD,
+                        border: `1px solid ${dir.color}30`,
+                        borderLeft: `3px solid ${dir.color}`,
+                        borderRadius: "12px",
+                        padding: "16px",
+                        display: "block",
+                        textDecoration: "none",
+                        transition: "background 0.2s",
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = `${dir.color}08`; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = CARD; }}
+                    >
+                      <p style={{ color: dir.color, fontWeight: 700, fontSize: "14px", marginBottom: "6px" }}>{dir.name} ↗</p>
+                      <p style={{ color: "#8A8AA8", fontSize: "12px", lineHeight: 1.5 }}>{dir.desc}</p>
+                    </a>
+                  ))}
+                </div>
+                <p style={{ color: "#6A6A88", fontSize: "13px", marginBottom: "20px", fontStyle: "italic" }}>
+                  Below are example profiles illustrating what a Christian therapist profile looks like. Use the directory links above to find a real therapist near you.
                 </p>
                 <div
                   style={{
@@ -588,13 +623,18 @@ export default function MentalHealthPage() {
                 >
                   <Search size={16} style={{ color: "#6A6A88", flexShrink: 0 }} />
                   <input
-                    readOnly
+                    value={therapistSearch}
+                    onChange={(e) => setTherapistSearch(e.target.value)}
                     aria-label="Search by specialty, faith tradition, or location..." placeholder="Search by specialty, faith tradition, or location..."
                     style={{ background: "transparent", border: "none", outline: "none", color: TEXT, padding: "14px 0", fontSize: "14px", width: "100%" }}
                   />
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "16px" }}>
-                  {therapists.map((t, i) => (
+                  {therapists.filter((t) => {
+                    if (!therapistSearch.trim()) return true;
+                    const q = therapistSearch.toLowerCase();
+                    return t.name.toLowerCase().includes(q) || t.specialty.toLowerCase().includes(q) || t.faith.toLowerCase().includes(q) || t.location.toLowerCase().includes(q);
+                  }).map((t, i) => (
                     <div
                       key={i}
                       style={{
@@ -644,13 +684,15 @@ export default function MentalHealthPage() {
                           <span style={{ color: "#6A6A88", fontWeight: 400 }}>({t.reviews})</span>
                         </span>
                       </div>
-                      <button type="button"
-                        onClick={() => toggleBook(i)}
+                      <a
+                        href="https://www.aacc.net/resources/find-a-counselor/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         style={{
                           width: "100%",
-                          background: bookedSessions.has(i) ? "rgba(58,125,86,0.15)" : "linear-gradient(135deg, #3a7d56, #B8922A)",
-                          color: bookedSessions.has(i) ? GREEN : BG,
-                          border: bookedSessions.has(i) ? "1px solid rgba(58,125,86,0.3)" : "none",
+                          background: "linear-gradient(135deg, #3a7d56, #B8922A)",
+                          color: BG,
+                          border: "none",
                           borderRadius: "10px",
                           padding: "10px",
                           fontWeight: 700,
@@ -660,11 +702,11 @@ export default function MentalHealthPage() {
                           alignItems: "center",
                           justifyContent: "center",
                           gap: "6px",
-                          transition: "all 0.2s",
+                          textDecoration: "none",
                         }}
                       >
-                        <Calendar size={13} /> {bookedSessions.has(i) ? "✓ Session Requested!" : "Book Session"}
-                      </button>
+                        <Calendar size={13} /> Find Real Therapist ↗
+                      </a>
                     </div>
                   ))}
                 </div>
@@ -698,23 +740,26 @@ export default function MentalHealthPage() {
                         <Calendar size={11} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
                         {group.meets}
                       </p>
-                      <button type="button"
-                        onClick={() => toggleJoinGroup(i)}
+                      <Link
+                        href={group.href}
                         style={{
                           width: "100%",
-                          background: joinedGroups.has(i) ? group.color : `${group.color}15`,
+                          background: `${group.color}15`,
                           border: `1px solid ${group.color}30`,
-                          color: joinedGroups.has(i) ? BG : group.color,
+                          color: group.color,
                           borderRadius: "8px",
                           padding: "8px",
                           fontWeight: 700,
                           fontSize: "12px",
                           cursor: "pointer",
-                          transition: "all 0.2s",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          textDecoration: "none",
                         }}
                       >
-                        {joinedGroups.has(i) ? "✓ Joined!" : "Join Group"}
-                      </button>
+                        Visit Community →
+                      </Link>
                     </div>
                   ))}
                 </div>
@@ -1015,6 +1060,54 @@ export default function MentalHealthPage() {
             </div>
           )}
 
+          {activeTab === "journal" && (
+            <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px 60px" }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+                <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                  The Psalms model honest conversation with God about mental and emotional states — including depression, anxiety, despair, and confusion. This is a safe space to be honest.
+                </p>
+              </div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+                <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>How I Am Today</h3>
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I am honestly feeling (name it)</label>
+                  <textarea value={mhForm.feeling} onChange={e => setMhForm(f => ({ ...f, feeling: e.target.value }))} rows={3}
+                    placeholder="Be honest — anxious, depressed, numb, angry, hopeful, weary, confused... The Psalms never hide the emotional state."
+                    style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Scripture that helped or that I'm holding onto</label>
+                  <input value={mhForm.scripture} onChange={e => setMhForm(f => ({ ...f, scripture: e.target.value }))} placeholder="e.g. Psalm 42, Matthew 11:28, Romans 8:26..."
+                    style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 20 }}>
+                  <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A prayer (even one sentence)</label>
+                  <textarea value={mhForm.prayer} onChange={e => setMhForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                    placeholder="Even: 'God, I don't know how to pray today. Help.' is a complete prayer."
+                    style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveMhEntry}
+                  style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                  {mhSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mhEntries.length > 0 && (
+                <div>
+                  <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Journal ({mhEntries.length} entries)</h3>
+                  {mhEntries.map(e => (
+                    <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                      <button type="button" onClick={() => deleteMhEntry(e.id)}
+                        style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      {e.feeling && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}>{e.feeling}</p>}
+                      {e.scripture && <p style={{ color: GREEN, fontSize: 13, fontWeight: 600, margin: "0 0 4px" }}>{e.scripture}</p>}
+                      {e.prayer && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.prayer}</p>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
           {activeTab === "videos" && (
             <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px 60px" }}>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -1024,19 +1117,13 @@ export default function MentalHealthPage() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {[
-                    { videoId: "2W_Bl99wNJk", title: "Dealing With Depression: A Biblical Answer to Emotional Suffering", channel: "Dr. David Jeremiah", description: "Dr. David Jeremiah addresses depression with pastoral compassion, drawing from Job's darkest moments to offer a biblical framework for navigating emotional suffering." },
-                    { videoId: "817xla1jZPk", title: "To the Christian Battling Depression, Anxiety, and Fear", channel: "Gospel-Centered Teaching", description: "A direct, honest message to believers who struggle with mental health — affirming that God is not angry at you for your weakness and that Scripture speaks to the depths of emotional pain." },
-                    { videoId: "_Mussj71QxE", title: "Everything Christians Need to Know About Anxiety, Depression & Godly Joy", channel: "Biblical Counseling", description: "A comprehensive teaching covering what the Bible says about anxiety and depression — distinguishing between spiritual, biological, and circumstantial roots, and offering biblical responses to each." },
-                    { videoId: "I0xDryrxp7o", title: "The Biblical Cure for Anxiety — Philippians 4 Explained", channel: "Expository Bible Teaching", description: "An expository examination of Philippians 4:6–7 — the most concentrated biblical passage on anxiety — unpacking what Paul's command to 'not be anxious' actually requires of us." },
+                    { videoId: "bxzuh5Xx5G4", title: "Dealing With Depression: A Biblical Answer to Emotional Suffering", channel: "Dr. David Jeremiah", description: "Dr. David Jeremiah addresses depression with pastoral compassion, drawing from Job's darkest moments to offer a biblical framework for navigating emotional suffering." },
+                    { videoId: "KwX1f2gYKZ4", title: "To the Christian Battling Depression, Anxiety, and Fear", channel: "Gospel-Centered Teaching", description: "A direct, honest message to believers who struggle with mental health — affirming that God is not angry at you for your weakness and that Scripture speaks to the depths of emotional pain." },
+                    { videoId: "YNd-PbVhnvA", title: "Everything Christians Need to Know About Anxiety, Depression & Godly Joy", channel: "Biblical Counseling", description: "A comprehensive teaching covering what the Bible says about anxiety and depression — distinguishing between spiritual, biological, and circumstantial roots, and offering biblical responses to each." },
+                    { videoId: "XtwIT8JjddM", title: "The Biblical Cure for Anxiety — Philippians 4 Explained", channel: "Expository Bible Teaching", description: "An expository examination of Philippians 4:6–7 — the most concentrated biblical passage on anxiety — unpacking what Paul's command to 'not be anxious' actually requires of us." },
                   ].map(v => (
                     <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                      <iframe
-                        width="100%"
-                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                        src={`https://www.youtube.com/embed/${v.videoId}`}
-                        title={v.title}
-                        allowFullScreen
-                      />
+                      <VideoEmbed videoId={v.videoId} title={v.title} />
                       <div style={{ padding: "14px 16px" }}>
                         <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                         <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

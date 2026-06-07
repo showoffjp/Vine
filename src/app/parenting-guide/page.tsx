@@ -4,16 +4,18 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "principles" | "books" | "ages" | "worship" | "resources" | "videos";
 
 const PARENTING_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Gospel-Centered Family — Tim Keller", channel: "Gospel in Life", description: "Keller on how the gospel reshapes every aspect of family life — discipline, forgiveness, and the goal of Christian parenting." },
-  { videoId: "ACZbpLkY8To", title: "Parenting and the Sovereignty of God", channel: "Ligonier Ministries", description: "What it means to parent as a steward, not an owner — trusting God's sovereignty while being faithful in our role." },
-  { videoId: "fJnGJN6laqE", title: "How to Raise Children Who Love God", channel: "Desiring God", description: "Piper on the parenting patterns that form lasting faith — not just behavior management but heart formation." },
-  { videoId: "Z8lkuuhVkOI", title: "Faith at Home — Deuteronomy 6 and Christian Parenting", channel: "The Gospel Coalition", description: "What Deuteronomy 6's command to teach children 'as you walk, sit, and rise' looks like in a contemporary Christian home." },
+  { videoId: "rtkS_8VWfB0", title: "The Gospel-Centered Family — Tim Keller", channel: "Gospel in Life", description: "Keller on how the gospel reshapes every aspect of family life — discipline, forgiveness, and the goal of Christian parenting." },
+  { videoId: "ej_6dVdJSIU", title: "Parenting and the Sovereignty of God", channel: "Ligonier Ministries", description: "What it means to parent as a steward, not an owner — trusting God's sovereignty while being faithful in our role." },
+  { videoId: "4Eg_di-O8nM", title: "How to Raise Children Who Love God", channel: "Desiring God", description: "Piper on the parenting patterns that form lasting faith — not just behavior management but heart formation." },
+  { videoId: "gV9JugO_5Mk", title: "Faith at Home — Deuteronomy 6 and Christian Parenting", channel: "The Gospel Coalition", description: "What Deuteronomy 6's command to teach children 'as you walk, sit, and rise' looks like in a contemporary Christian home." },
 ];
 
 const WORSHIP_ELEMENTS = [
@@ -240,8 +242,7 @@ export default function ParentingGuidePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {PARENTING_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

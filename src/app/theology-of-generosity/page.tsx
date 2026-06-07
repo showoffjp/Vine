@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "motivations" | "practices" | "stories" | "videos";
+type Tab = "theology" | "motivations" | "practices" | "stories" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -251,11 +253,26 @@ export default function TheologyOfGenerosityPage() {
 
   const activeMotivationData = MOTIVATIONS.find((m) => m.id === activeMotivation);
 
+  type JournalEntry = { id: string; date: string; gift: string; story: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_togenj_entries") ?? "[]"); } catch { return []; } });
+  const [jGift, setJGift] = useState("");
+  const [jStory, setJStory] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_togenj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jGift.trim() && !jStory.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), gift: jGift, story: jStory, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJGift(""); setJStory(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Generosity" },
     { id: "motivations", label: "Motivations for Giving" },
     { id: "practices", label: "Practices of Generosity" },
     { id: "stories", label: "Stories of Radical Generosity" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -597,6 +614,38 @@ export default function TheologyOfGenerosityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Generosity Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record gifts you have given, stories of generosity that moved you, and your next step toward radical giving.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jGift} onChange={e => setJGift(e.target.value)} placeholder="Gift or act of generosity (what you gave)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jStory} onChange={e => setJStory(e.target.value)} placeholder="Story or conviction that moved you to give" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step of generosity" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your generosity journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.gift || "Generosity Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.story && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Story:</strong> {entry.story}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -606,20 +655,14 @@ export default function TheologyOfGenerosityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "_4IIW9AWYEM", title: "The Theology of Generosity", channel: "Christian Teaching", description: "A foundational exploration of why generosity is central to the Christian life, rooted in the generous character of God himself." },
-                  { videoId: "2VIh7ojLYpU", title: "Generosity 01: Jesus's Surprising Teaching on Money", channel: "Gospel Teaching", description: "The practice of generosity is not a peripheral issue in Jesus's teaching — this video unpacks why he talked about money more than almost any other topic." },
-                  { videoId: "Qlllx4IvujI", title: "Am I Generous? Biblical Giving, Tithing, Offerings & God's Heart for Money", channel: "Church Teaching", description: "A thorough biblical examination of giving, tithing, and what God's heart for money looks like in the life of a faithful disciple." },
-                  { videoId: "DvFu9QEy2eM", title: "The Power of Generosity in Christian Life", channel: "Church Teaching", description: "Drawing from Philippians, this message explores how the Philippian church's constant generosity became a witness to the transforming power of the gospel." },
-                  { videoId: "z8IlSC4xMsg", title: "Generosity Starts With One Thing", channel: "Christian Teaching", description: "A focused sermon on 2 Corinthians 9:6-8, exploring how the gospel produces cheerful, sacrificial givers who give not out of compulsion but out of love." },
+                  { videoId: "t6L-F2emwUc", title: "The Theology of Generosity", channel: "Christian Teaching", description: "A foundational exploration of why generosity is central to the Christian life, rooted in the generous character of God himself." },
+                  { videoId: "jH_aojNJM3E", title: "Generosity 01: Jesus's Surprising Teaching on Money", channel: "Gospel Teaching", description: "The practice of generosity is not a peripheral issue in Jesus's teaching — this video unpacks why he talked about money more than almost any other topic." },
+                  { videoId: "oNpTha80yyE", title: "Am I Generous? Biblical Giving, Tithing, Offerings & God's Heart for Money", channel: "Church Teaching", description: "A thorough biblical examination of giving, tithing, and what God's heart for money looks like in the life of a faithful disciple." },
+                  { videoId: "IJ-FekWUZzE", title: "The Power of Generosity in Christian Life", channel: "Church Teaching", description: "Drawing from Philippians, this message explores how the Philippian church's constant generosity became a witness to the transforming power of the gospel." },
+                  { videoId: "tp5MIrMZFqo", title: "Generosity Starts With One Thing", channel: "Christian Teaching", description: "A focused sermon on 2 Corinthians 9:6-8, exploring how the gospel produces cheerful, sacrificial givers who give not out of compulsion but out of love." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

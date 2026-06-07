@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -57,10 +59,10 @@ const BARRIERS = [
 ];
 
 const CONFESSION_VIDEOS = [
-  { videoId: "rnzFxODtUSU", title: "The Practice of Confession", channel: "Desiring God", description: "John Piper on what biblical confession of sin looks like and why it is essential to the Christian life." },
-  { videoId: "8KHpjrzVm-Q", title: "Why Confession Matters", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology and practice of confession — both to God and to one another." },
-  { videoId: "ZP0CtLMzqPk", title: "Confession and Repentance", channel: "Paul David Tripp", description: "Paul Tripp on the connection between true confession and genuine repentance, and how both produce lasting change." },
-  { videoId: "kbFKcFxqVlo", title: "Confessing Sin in Community", channel: "The Gospel Coalition", description: "Why James 5:16 calls us to confess our sins to one another and how this works in healthy church community." },
+  { videoId: "zMbUXpFiFeo", title: "The Practice of Confession", channel: "Desiring God", description: "John Piper on what biblical confession of sin looks like and why it is essential to the Christian life." },
+  { videoId: "bhfkhq-CM84", title: "Why Confession Matters", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology and practice of confession — both to God and to one another." },
+  { videoId: "6CulBuMCLg0", title: "Confession and Repentance", channel: "Paul David Tripp", description: "Paul Tripp on the connection between true confession and genuine repentance, and how both produce lasting change." },
+  { videoId: "lXEHBgAGdZE", title: "Confessing Sin in Community", channel: "The Gospel Coalition", description: "Why James 5:16 calls us to confess our sins to one another and how this works in healthy church community." },
 ];
 
 export default function ConfessionPage() {
@@ -250,8 +252,7 @@ export default function ConfessionPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {CONFESSION_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

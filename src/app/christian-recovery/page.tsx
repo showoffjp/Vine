@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,13 +14,13 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "steps" | "programs" | "community" | "videos";
+type Tab = "theology" | "steps" | "programs" | "community" | "journal" | "videos";
 
 const RECOVERY_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Gospel and Addiction — Tim Keller", channel: "Gospel in Life", description: "Keller addresses addiction as a spiritual and anthropological problem, and why the gospel offers what no program alone can." },
-  { videoId: "ACZbpLkY8To", title: "Grace and Recovery — The Theological Foundations", channel: "Ligonier Ministries", description: "How the doctrines of grace, repentance, and sanctification apply to the specific struggles of addiction and recovery." },
-  { videoId: "fJnGJN6laqE", title: "Celebrate Recovery — The Story and the Method", channel: "Saddleback Church", description: "An overview of the Celebrate Recovery program — how it integrates 12 steps with Scripture and why it works." },
-  { videoId: "Z8lkuuhVkOI", title: "Redemption Groups — Theology-Driven Recovery", channel: "The Gospel Coalition", description: "What happens when you build a recovery community on deep gospel theology rather than behavior management." },
+  { videoId: "rtkS_8VWfB0", title: "The Gospel and Addiction — Tim Keller", channel: "Gospel in Life", description: "Keller addresses addiction as a spiritual and anthropological problem, and why the gospel offers what no program alone can." },
+  { videoId: "ej_6dVdJSIU", title: "Grace and Recovery — The Theological Foundations", channel: "Ligonier Ministries", description: "How the doctrines of grace, repentance, and sanctification apply to the specific struggles of addiction and recovery." },
+  { videoId: "4Eg_di-O8nM", title: "Celebrate Recovery — The Story and the Method", channel: "Saddleback Church", description: "An overview of the Celebrate Recovery program — how it integrates 12 steps with Scripture and why it works." },
+  { videoId: "gV9JugO_5Mk", title: "Redemption Groups — Theology-Driven Recovery", channel: "The Gospel Coalition", description: "What happens when you build a recovery community on deep gospel theology rather than behavior management." },
 ];
 
 const theologyItems = [
@@ -47,7 +49,7 @@ const theologyItems = [
       "Addiction thrives in isolation. The shame and secrecy that addiction generates are precisely the conditions it needs to survive. The church's role in recovery is not to make the addict feel judged (which deepens shame and drives the behavior underground) but to create the conditions for the honesty that James 5:16 describes: 'Confess your sins to one another and pray for one another, that you may be healed.' The healing James promises is linked to the practice of honest, mutual confession. This is the counter-cultural heart of every effective recovery program: saying the true thing out loud in front of other people who are saying their true thing. The church that makes this possible — that normalizes honest confession, that provides community without requiring performance — is providing genuine medical-grade treatment.",
   },
   {
-    id: "forgiveness",
+    id: "zMbUXpFiFeo",
     title: "Forgiveness, Shame, and the Gospel",
     content:
       "Shame is the deepest driver of addictive behavior. The addict who has done genuinely shameful things — hurt their children, destroyed their marriage, stolen from their employer — carries a weight of shame that no self-help program can lift. The gospel's specific address to shame is the heart of Christian recovery: 'There is therefore now no condemnation for those who are in Christ Jesus' (Romans 8:1). The cross takes shame: Jesus was stripped naked, publicly humiliated, and died with criminals — bearing specifically the shame of sin. The resurrection reverses it: the one who bore shame is now glorified. For the recovering person carrying the specific shameful memories of their addiction, the gospel is precisely targeted medical care: 'Your guilt is taken away, and your sin atoned for' (Isaiah 6:7).",
@@ -298,6 +300,20 @@ export default function ChristianRecoveryPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedProgram, setSelectedProgram] = useState(programs[0]);
 
+  const [crecEntries, setCrecEntries] = useState<{ id: string; date: string; struggle: string; step: string; community: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_crec_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [crecForm, setCrecForm] = useState({ struggle: "", step: "", community: "" });
+  const [crecSaved, setCrecSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_crec_entries", JSON.stringify(crecEntries)); }, [crecEntries]);
+  function saveCrecEntry() {
+    if (!crecForm.struggle.trim()) return;
+    setCrecEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...crecForm }, ...prev]);
+    setCrecForm({ struggle: "", step: "", community: "" });
+    setCrecSaved(true); setTimeout(() => setCrecSaved(false), 2000);
+  }
+  function deleteCrecEntry(id: string) { setCrecEntries(prev => prev.filter(e => e.id !== id)); }
+
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
@@ -345,6 +361,7 @@ export default function ChristianRecoveryPage() {
               { id: "steps", label: "The 12 Steps" },
               { id: "programs", label: "Programs" },
               { id: "community", label: "Church & Community" },
+              { id: "journal", label: "📓 My Journal" },
               { id: "videos", label: "▶️ Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -500,13 +517,60 @@ export default function ChristianRecoveryPage() {
           </div>
         )}
 
+        {/* Tab: Journal */}
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Recovery Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your struggles, steps forward, and community support. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What struggle are you facing or working through?</label>
+                <textarea value={crecForm.struggle} onChange={e => setCrecForm(f => ({ ...f, struggle: e.target.value }))}
+                  placeholder="Name the struggle honestly..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What step or action are you taking?</label>
+                <textarea value={crecForm.step} onChange={e => setCrecForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="One step toward healing..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Who or what is supporting you in community?</label>
+                <textarea value={crecForm.community} onChange={e => setCrecForm(f => ({ ...f, community: e.target.value }))}
+                  placeholder="Sponsor, group, friend, Scripture..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCrecEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {crecSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {crecEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {crecEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCrecEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.struggle && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>STRUGGLE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.struggle}</span></div>}
+                    {e.step && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>STEP </span><span style={{ color: TEXT, fontSize: 14 }}>{e.step}</span></div>}
+                    {e.community && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>COMMUNITY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.community}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Tab: Videos */}
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {RECOVERY_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

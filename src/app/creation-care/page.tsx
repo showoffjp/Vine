@@ -5,10 +5,12 @@ import Footer from "@/components/Footer";
 import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "thinkers" | "practices" | "objections" | "videos";
+type Tab = "theology" | "thinkers" | "practices" | "objections" | "videos" | "journal";
 
 const THINKERS = [
   {
@@ -127,6 +129,19 @@ export default function CreationCarePage() {
   const toggle = (id: string) => setChecklist(prev => prev.map(c => c.id === id ? { ...c, done: !c.done } : c));
   const doneCount = checklist.filter(c => c.done).length;
 
+  type CCJE = { id: string; date: string; conviction: string; action: string; step: string };
+  const [ccJournal, setCCJournal] = useState<CCJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_ccj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jAction, setJAction] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_ccj_entries", JSON.stringify(ccJournal)); } catch {} }, [ccJournal]);
+  function saveCCEntry() {
+    if (!jConviction.trim() && !jAction.trim()) return;
+    setCCJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, action: jAction, step: jStep }, ...prev]);
+    setJConviction(""); setJAction(""); setJStep("");
+  }
+  function deleteCCEntry(id: string) { setCCJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -147,6 +162,7 @@ export default function CreationCarePage() {
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "objections" as const, label: "Common Objections", icon: "❓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
+            { id: "journal" as const, label: "📓 Journal", icon: "📓" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -244,6 +260,33 @@ export default function CreationCarePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Creation Care Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your convictions about creation stewardship, actions you&apos;re taking, and next steps for faithful care of the earth.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Conviction</label><textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What do you believe about Christian responsibility for creation?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Action</label><textarea value={jAction} onChange={e => setJAction(e.target.value)} placeholder="What are you doing or want to do to care for creation?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label><textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete step you&apos;ll take this week..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveCCEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {ccJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {ccJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteCCEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.conviction}</p></div>}
+                    {entry.action && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Action</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.action}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -253,19 +296,13 @@ export default function CreationCarePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "AHn1TrRgQ-E", title: "Christians and Creation Care", channel: "Sandra Richter", description: "OT scholar Sandra Richter makes the biblical case for environmental stewardship, arguing that caring for creation is central to the Abrahamic covenant and not a liberal import." },
-                  { videoId: "wGthaQWzC0M", title: "What Does the Bible Say About Creation Care?", channel: "BioLogos", description: "An accessible overview of the biblical foundations for creation care — from Genesis 1-2 mandate to the new creation vision of Revelation — showing that stewardship is a core Christian calling." },
-                  { videoId: "me3WSUmz5i0", title: "Creation Care: A Biblical Theology", channel: "Moo / Crossway", description: "Jonathan and Douglas Moo present the biblical theology case for creation care, working through the Old and New Testament witness to human responsibility for the natural world." },
-                  { videoId: "pjbSx53afWo", title: "The Essential Christian Practice of Creation Care", channel: "Steven Bouma-Prediger", description: "Bouma-Prediger argues that caring for the earth is not optional for Christians but flows necessarily from the character of God as Creator and sustainer of all things." },
+                  { videoId: "j9phNEaPrv8", title: "Christians and Creation Care", channel: "Sandra Richter", description: "OT scholar Sandra Richter makes the biblical case for environmental stewardship, arguing that caring for creation is central to the Abrahamic covenant and not a liberal import." },
+                  { videoId: "dy9nwe9zeU8", title: "What Does the Bible Say About Creation Care?", channel: "BioLogos", description: "An accessible overview of the biblical foundations for creation care — from Genesis 1-2 mandate to the new creation vision of Revelation — showing that stewardship is a core Christian calling." },
+                  { videoId: "iK0NjiBXKN4", title: "Creation Care: A Biblical Theology", channel: "Moo / Crossway", description: "Jonathan and Douglas Moo present the biblical theology case for creation care, working through the Old and New Testament witness to human responsibility for the natural world." },
+                  { videoId: "zMbUXpFiFeo", title: "The Essential Christian Practice of Creation Care", channel: "Steven Bouma-Prediger", description: "Bouma-Prediger argues that caring for the earth is not optional for Christians but flows necessarily from the character of God as Creator and sustainer of all things." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "models" | "philia" | "practices" | "videos";
+type Tab = "theology" | "models" | "philia" | "practices" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -195,10 +197,10 @@ const PRACTICES_ITEMS = [
 ];
 
 const FRIENDSHIP_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Theology of Friendship — Tim Keller", channel: "Gospel in Life", description: "Keller on deep friendship, the weakness of modern loneliness, and how the gospel creates the conditions for true philia." },
-  { videoId: "ACZbpLkY8To", title: "Christian Friendship — What Sets It Apart", channel: "Ligonier Ministries", description: "How the New Testament reshapes friendship around shared mission, mutual accountability, and love ordered by the gospel." },
-  { videoId: "fJnGJN6laqE", title: "Do We Really Have Friends? — The Crisis of Modern Loneliness", channel: "Desiring God", description: "Piper on the epidemic of loneliness in the church and what biblical community is designed to provide." },
-  { videoId: "Z8lkuuhVkOI", title: "Jonathan and David — The Model of Christian Brotherhood", channel: "The Gospel Coalition", description: "What the friendship of David and Jonathan reveals about covenant love, sacrifice, and the kind of friendship the church should cultivate." },
+  { videoId: "rtkS_8VWfB0", title: "The Theology of Friendship — Tim Keller", channel: "Gospel in Life", description: "Keller on deep friendship, the weakness of modern loneliness, and how the gospel creates the conditions for true philia." },
+  { videoId: "ej_6dVdJSIU", title: "Christian Friendship — What Sets It Apart", channel: "Ligonier Ministries", description: "How the New Testament reshapes friendship around shared mission, mutual accountability, and love ordered by the gospel." },
+  { videoId: "4Eg_di-O8nM", title: "Do We Really Have Friends? — The Crisis of Modern Loneliness", channel: "Desiring God", description: "Piper on the epidemic of loneliness in the church and what biblical community is designed to provide." },
+  { videoId: "gV9JugO_5Mk", title: "Jonathan and David — The Model of Christian Brotherhood", channel: "The Gospel Coalition", description: "What the friendship of David and Jonathan reveals about covenant love, sacrifice, and the kind of friendship the church should cultivate." },
 ];
 
 export default function ChristianFriendshipTheologyPage() {
@@ -215,11 +217,26 @@ export default function ChristianFriendshipTheologyPage() {
     setExpandedCard((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const [cftEntries, setCftEntries] = useState<{ id: string; date: string; friendship: string; love: string; obstacle: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cft_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cftForm, setCftForm] = useState({ friendship: "", love: "", obstacle: "" });
+  const [cftSaved, setCftSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cft_entries", JSON.stringify(cftEntries)); }, [cftEntries]);
+  function saveCftEntry() {
+    if (!cftForm.friendship.trim()) return;
+    setCftEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cftForm }, ...prev]);
+    setCftForm({ friendship: "", love: "", obstacle: "" });
+    setCftSaved(true); setTimeout(() => setCftSaved(false), 2000);
+  }
+  function deleteCftEntry(id: string) { setCftEntries(prev => prev.filter(e => e.id !== id)); }
+
   const TAB_LABELS: Record<Tab, string> = {
     theology: "A Theology of Friendship",
     models: "Biblical Models",
     philia: "The Five Loves",
     practices: "Practices",
+    journal: "📓 My Journal",
     videos: "Videos",
   };
 
@@ -246,7 +263,7 @@ export default function ChristianFriendshipTheologyPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4, flexWrap: "wrap" as const }}>
-          {(["theology", "models", "philia", "practices", "videos"] as Tab[]).map((t) => (
+          {(["theology", "models", "philia", "practices", "journal", "videos"] as Tab[]).map((t) => (
             <button type="button"
               key={t}
               onClick={() => setTab(t)}
@@ -566,12 +583,54 @@ export default function ChristianFriendshipTheologyPage() {
         )}
 
         {/* Tab 5: Videos */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Friendship Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Reflect on your most significant friendships, the loves that define them, and what is working against them.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Friendship You Are Reflecting On</label>
+                <input value={cftForm.friendship} onChange={e => setCftForm(f => ({ ...f, friendship: e.target.value }))} placeholder="Name or describe a friendship you want to grow in..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Kind of Love Is Present Here?</label>
+                <textarea value={cftForm.love} onChange={e => setCftForm(f => ({ ...f, love: e.target.value }))} placeholder="Is this philia, storge, agape? How is Christ-like love showing up or needing to grow?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Is the Obstacle Right Now?</label>
+                <textarea value={cftForm.obstacle} onChange={e => setCftForm(f => ({ ...f, obstacle: e.target.value }))} placeholder="What is the enemy of this friendship — pride, busyness, fear of vulnerability, sin?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCftEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cftSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cftEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cftEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.friendship}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCftEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.love && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Love Present</div><div style={{ color: TEXT, fontSize: 13 }}>{e.love}</div></div>}
+                    {e.obstacle && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Obstacle</div><div style={{ color: TEXT, fontSize: 13 }}>{e.obstacle}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {FRIENDSHIP_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

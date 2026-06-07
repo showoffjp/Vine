@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,13 +14,13 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "texts" | "pastoral" | "videos";
+type Tab = "theology" | "views" | "texts" | "pastoral" | "journal" | "videos";
 
 const PRED_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Predestination — What It Is and Why It Matters", channel: "Tim Keller / Gospel in Life", description: "Keller explains election, predestination, and their relationship to assurance, evangelism, and love of God." },
-  { videoId: "ACZbpLkY8To", title: "The Five Points of Calvinism", channel: "Ligonier Ministries", description: "R.C. Sproul's classic teaching on TULIP — what the five points actually say and why they matter theologically." },
-  { videoId: "fJnGJN6laqE", title: "Does God Choose Who Will Be Saved?", channel: "Desiring God", description: "John Piper exegetes key Pauline texts on election and shows how unconditional election produces humility, not pride." },
-  { videoId: "Z8lkuuhVkOI", title: "Calvinist vs. Arminian — What's at Stake?", channel: "The Gospel Coalition", description: "A fair presentation of both views, exploring where they agree and disagree on grace, faith, and salvation." },
+  { videoId: "rtkS_8VWfB0", title: "Predestination — What It Is and Why It Matters", channel: "Tim Keller / Gospel in Life", description: "Keller explains election, predestination, and their relationship to assurance, evangelism, and love of God." },
+  { videoId: "ej_6dVdJSIU", title: "The Five Points of Calvinism", channel: "Ligonier Ministries", description: "R.C. Sproul's classic teaching on TULIP — what the five points actually say and why they matter theologically." },
+  { videoId: "4Eg_di-O8nM", title: "Does God Choose Who Will Be Saved?", channel: "Desiring God", description: "John Piper exegetes key Pauline texts on election and shows how unconditional election produces humility, not pride." },
+  { videoId: "gV9JugO_5Mk", title: "Calvinist vs. Arminian — What's at Stake?", channel: "The Gospel Coalition", description: "A fair presentation of both views, exploring where they agree and disagree on grace, faith, and salvation." },
 ];
 
 const THEOLOGY_ITEMS = [
@@ -174,11 +176,27 @@ export default function PredestinationPage() {
 
   const currentView = VIEWS_DATA.find(v => v.id === selectedView) ?? VIEWS_DATA[0];
 
+  const [predJEntries, setPredJEntries] = useState<{ id: string; date: string; view: string; insight: string; pastoral: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_predj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [predJForm, setPredJForm] = useState({ view: "", insight: "", pastoral: "" });
+  const [predJSaved, setPredJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_predj_entries", JSON.stringify(predJEntries)); } catch {} }, [predJEntries]);
+  const savePredJEntry = () => {
+    if (!predJForm.view.trim()) return;
+    setPredJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...predJForm }, ...prev]);
+    setPredJForm({ view: "", insight: "", pastoral: "" });
+    setPredJSaved(true);
+    setTimeout(() => setPredJSaved(false), 2000);
+  };
+  const deletePredJEntry = (id: string) => setPredJEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Biblical Theology of Election" },
     { id: "views", label: "The Major Views" },
     { id: "texts", label: "Key Texts" },
     { id: "pastoral", label: "Pastoral Wisdom" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -340,12 +358,55 @@ export default function PredestinationPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Predestination Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record your view, the insight that most shaped your thinking, and how this doctrine affects your pastoral life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>My current view or conviction</label>
+                  <textarea rows={2} value={predJForm.view} onChange={e => setPredJForm(f => ({ ...f, view: e.target.value }))} placeholder="e.g. Calvinist, Arminian, Open Theist, still wrestling" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Insight that shaped my thinking</label>
+                  <textarea rows={2} value={predJForm.insight} onChange={e => setPredJForm(f => ({ ...f, insight: e.target.value }))} placeholder="What argument or text most informed your view?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Pastoral application</label>
+                  <textarea rows={2} value={predJForm.pastoral} onChange={e => setPredJForm(f => ({ ...f, pastoral: e.target.value }))} placeholder="How does this doctrine affect your assurance, evangelism, or prayer?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePredJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {predJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {predJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {predJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePredJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.view && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>My View</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.view}</p></div>}
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.insight}</p></div>}
+                    {e.pastoral && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Pastoral Application</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.pastoral}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {PRED_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

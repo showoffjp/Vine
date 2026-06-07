@@ -3,7 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { Search, X, BookOpen, MessageSquare, Users, Flame, Globe, Star, ChevronRight, Clock, Heart, Shield, Video } from "lucide-react";
+import { Search, X, Flame, ChevronRight, Clock, Heart } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 

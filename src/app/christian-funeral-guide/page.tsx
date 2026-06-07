@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "service" | "pastoral" | "resources" | "videos";
+type Tab = "theology" | "service" | "pastoral" | "resources" | "journal" | "videos";
 
 const theologyPoints = [
   {
@@ -214,11 +216,26 @@ export default function ChristianFuneralGuidePage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  const [cfunEntries, setCfunEntries] = useState<{ id: string; date: string; person: string; comfort: string; hope: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfun_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfunForm, setCfunForm] = useState({ person: "", comfort: "", hope: "" });
+  const [cfunSaved, setCfunSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfun_entries", JSON.stringify(cfunEntries)); }, [cfunEntries]);
+  function saveCfunEntry() {
+    if (!cfunForm.person.trim()) return;
+    setCfunEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfunForm }, ...prev]);
+    setCfunForm({ person: "", comfort: "", hope: "" });
+    setCfunSaved(true); setTimeout(() => setCfunSaved(false), 2000);
+  }
+  function deleteCfunEntry(id: string) { setCfunEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Death" },
     { id: "service", label: "The Service" },
     { id: "pastoral", label: "Pastoral Situations" },
     { id: "resources", label: "Resources" },
+    { id: "journal" as Tab, label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -356,6 +373,49 @@ export default function ChristianFuneralGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Grief & Hope Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record those you have lost, the comforts that sustained you, and the hope that carries you forward.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Person / Loss</label>
+                <input value={cfunForm.person} onChange={e => setCfunForm(f => ({ ...f, person: e.target.value }))} placeholder="Who have you lost, or who are you walking alongside in grief?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Comfort Has God Given?</label>
+                <textarea value={cfunForm.comfort} onChange={e => setCfunForm(f => ({ ...f, comfort: e.target.value }))} placeholder="What Scripture, person, or grace has been comfort in this grief?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>The Hope of the Resurrection</label>
+                <textarea value={cfunForm.hope} onChange={e => setCfunForm(f => ({ ...f, hope: e.target.value }))} placeholder="How does the resurrection of Jesus speak into this loss? What do you look forward to?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfunEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfunSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cfunEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cfunEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.person}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCfunEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.comfort && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Comfort Given</div><div style={{ color: TEXT, fontSize: 13 }}>{e.comfort}</div></div>}
+                    {e.hope && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Hope of Resurrection</div><div style={{ color: TEXT, fontSize: 13 }}>{e.hope}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -365,19 +425,13 @@ export default function ChristianFuneralGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Os6BbIwrZR8", title: "R.C. Sproul Memorial Service", channel: "Ligonier Ministries", description: "A memorial service honoring Dr. R.C. Sproul, modeling what a gospel-centered funeral looks like in practice." },
-                  { videoId: "J-MXmGZxN7w", title: "John Piper's Funeral Prayer for a Family of Five", channel: "Desiring God", description: "John Piper shares a funeral prayer and pastoral counsel for a family who lost five members in a tragedy." },
-                  { videoId: "AIe9kF2RbJQ", title: "Do You Conduct Funerals for Non-Christians?", channel: "Desiring God", description: "John Piper addresses the hard pastoral question of how to handle funerals for those who showed no faith in Christ." },
-                  { videoId: "0k9kGCmY6Jg", title: "R.C. Sproul's Final Sermon: A Great Salvation", channel: "Ligonier Ministries", description: "Dr. R.C. Sproul's final sermon, preached weeks before his death — a powerful testimony to how Christians face death." },
+                  { videoId: "ej_6dVdJSIU", title: "R.C. Sproul Memorial Service", channel: "Ligonier Ministries", description: "A memorial service honoring Dr. R.C. Sproul, modeling what a gospel-centered funeral looks like in practice." },
+                  { videoId: "GQI72THyO5I", title: "John Piper's Funeral Prayer for a Family of Five", channel: "Desiring God", description: "John Piper shares a funeral prayer and pastoral counsel for a family who lost five members in a tragedy." },
+                  { videoId: "krxcqH522uo", title: "Do You Conduct Funerals for Non-Christians?", channel: "Desiring God", description: "John Piper addresses the hard pastoral question of how to handle funerals for those who showed no faith in Christ." },
+                  { videoId: "nQWFzMvCfLE", title: "R.C. Sproul's Final Sermon: A Great Salvation", channel: "Ligonier Ministries", description: "Dr. R.C. Sproul's final sermon, preached weeks before his death — a powerful testimony to how Christians face death." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -28,7 +30,7 @@ const PHASES = [
     verse: "How are they to preach unless they are sent? — Romans 10:15",
   },
   {
-    id: "preparation",
+    id: "rtkS_8VWfB0",
     phase: 2,
     name: "Preparation",
     icon: "🛠️",
@@ -174,7 +176,7 @@ export default function ChurchPlantingPage() {
                     const key = `${phase.id}-q-${i}`;
                     const checked = checkedQuestions.has(key);
                     return (
-                      <div role="button" tabIndex={0} key={i} onClick={() => setCheckedQuestions(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                      <div role="button" tabIndex={0} key={i} onClick={() => setCheckedQuestions(prev => { const n = new Set(prev); if (n.has(key)) { n.delete(key); } else { n.add(key); } return n; })}
                         style={{ display: "flex", gap: 10, cursor: "pointer", padding: 10, borderRadius: 8, background: checked ? `${phase.color}10` : BG, border: `1px solid ${checked ? phase.color + "30" : BORDER}` }}>
                         <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${checked ? phase.color : BORDER}`, background: checked ? phase.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                           {checked && <span style={{ color: BG, fontSize: 10, fontWeight: 900 }}>✓</span>}
@@ -243,19 +245,13 @@ export default function ChurchPlantingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "fY4Yt8gRz3A", title: "Interview with Tim Keller: Church Planting — Networks, Denominations, and Broader Ministry", channel: "Timothy Keller", description: "Tim Keller reflects on his model for church planting, the role of networks and denominations, and what makes urban church planting distinctive." },
-                  { videoId: "R3MO7CtP6WU", title: "How Gospel-Shaped Ministry Looks", channel: "The Gospel Coalition / Tim Keller", description: "Tim Keller on what gospel-centered ministry looks like in practice — the theological and practical foundations for planting healthy churches." },
-                  { videoId: "X_r8IMU647g", title: "The Depth of the Gospel", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on how a deep, gospel-centered foundation is the essential prerequisite for every church plant that wants to last." },
-                  { videoId: "1R4wP4xIydU", title: "Thrones & Thorns — Week 1", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on servant leadership — the character model every church planter must embody before they can build a healthy community." },
+                  { videoId: "npEDqbE6faE", title: "Interview with Tim Keller: Church Planting — Networks, Denominations, and Broader Ministry", channel: "Timothy Keller", description: "Tim Keller reflects on his model for church planting, the role of networks and denominations, and what makes urban church planting distinctive." },
+                  { videoId: "IvSuGyJQ6oM", title: "How Gospel-Shaped Ministry Looks", channel: "The Gospel Coalition / Tim Keller", description: "Tim Keller on what gospel-centered ministry looks like in practice — the theological and practical foundations for planting healthy churches." },
+                  { videoId: "sIaT8Jl2zpI", title: "The Depth of the Gospel", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on how a deep, gospel-centered foundation is the essential prerequisite for every church plant that wants to last." },
+                  { videoId: "3Dv4-n6OYGI", title: "Thrones & Thorns — Week 1", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on servant leadership — the character model every church planter must embody before they can build a healthy community." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

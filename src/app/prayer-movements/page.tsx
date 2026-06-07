@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "movements" | "history" | "voices" | "videos";
+type Tab = "movements" | "history" | "voices" | "journal" | "videos";
 
 const TYPE_FILTERS = ["All", "24/7 Prayer Houses", "Missions Prayer", "Intercession Networks", "Youth & Campus", "Historical Movements"];
 
@@ -267,12 +269,12 @@ const VOICES_PRM = [
 ];
 
 const VIDEOS_PRM = [
-  { id: "sWMjg7CxIKk", title: "Forgotten God Part 1", speaker: "Francis Chan" },
-  { id: "SCUEicqda1g", title: "Forgotten God Part 3: Theology of the Holy Spirit", speaker: "Francis Chan" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
-  { id: "uuabITeO4l8", title: "Shocking Youth Message", speaker: "Paul Washer" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
+  { id: "KRsuCQe7aVk", title: "Forgotten God Part 1", speaker: "Francis Chan" },
+  { id: "52ZXFH1wzc8", title: "Forgotten God Part 3: Theology of the Holy Spirit", speaker: "Francis Chan" },
+  { id: "5vp9hV8bOjk", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "OU69so6VjHA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "3DRE5kgbYjU", title: "Shocking Youth Message", speaker: "Paul Washer" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
 ];
 
 export default function PrayerMovementsPage() {
@@ -284,6 +286,21 @@ export default function PrayerMovementsPage() {
   const filtered = MOVEMENTS.filter(m => type === "All" || m.type === type);
   const movement = MOVEMENTS.find(m => m.name === selected);
   const voice = VOICES_PRM.find(v => v.id === selectedVoice);
+
+  const [prmJEntries, setPrmJEntries] = useState<{ id: string; date: string; movement: string; inspired: string; join: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_prmj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [prmJForm, setPrmJForm] = useState({ movement: "", inspired: "", join: "" });
+  const [prmJSaved, setPrmJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_prmj_entries", JSON.stringify(prmJEntries)); } catch {} }, [prmJEntries]);
+  const savePrmJEntry = () => {
+    if (!prmJForm.movement.trim()) return;
+    setPrmJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...prmJForm }, ...prev]);
+    setPrmJForm({ movement: "", inspired: "", join: "" });
+    setPrmJSaved(true);
+    setTimeout(() => setPrmJSaved(false), 2000);
+  };
+  const deletePrmJEntry = (id: string) => setPrmJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -301,9 +318,9 @@ export default function PrayerMovementsPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["movements", "history", "voices", "videos"] as const).map(t => (
+          {(["movements", "history", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "movements" ? "Movements" : t === "history" ? "History" : t === "voices" ? "Voices" : "Videos"}
+              {t === "movements" ? "Movements" : t === "history" ? "History" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -453,6 +470,50 @@ export default function PrayerMovementsPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Prayer Movement Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the movement that inspired you, what stirred your heart, and how you might join what God is doing in prayer.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Movement that moved me</label>
+                  <textarea rows={2} value={prmJForm.movement} onChange={e => setPrmJForm(f => ({ ...f, movement: e.target.value }))} placeholder="e.g. Moravian prayer watch, IHOPKC, 24-7 Prayer" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>What inspired me</label>
+                  <textarea rows={2} value={prmJForm.inspired} onChange={e => setPrmJForm(f => ({ ...f, inspired: e.target.value }))} placeholder="What in this movement's story or practice stirs your heart?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I might join</label>
+                  <textarea rows={2} value={prmJForm.join} onChange={e => setPrmJForm(f => ({ ...f, join: e.target.value }))} placeholder="What practical step could you take to participate in prayer?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePrmJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {prmJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {prmJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {prmJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePrmJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.movement && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Movement</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.movement}</p></div>}
+                    {e.inspired && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Inspired By</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.inspired}</p></div>}
+                    {e.join && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>How I Will Join</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.join}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -465,14 +526,7 @@ export default function PrayerMovementsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 20 }}>
               {VIDEOS_PRM.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.id}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 3 }}>{v.title}</div>
                     <div style={{ color: PURPLE, fontSize: 12, fontWeight: 600 }}>{v.speaker}</div>

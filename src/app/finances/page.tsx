@@ -8,9 +8,7 @@ import {
   DollarSign,
   TrendingUp,
   PiggyBank,
-  BookOpen,
   Heart,
-  AlertCircle,
   CheckCircle,
   ChevronRight,
   Coins,
@@ -166,10 +164,24 @@ export default function FinancesPage() {
   const toggleSavedPrinciple = (i: number) => {
     setSavedPrinciples((prev) => {
       const next = new Set(prev);
-      next.has(i) ? next.delete(i) : next.add(i);
+      if (next.has(i)) { next.delete(i); } else { next.add(i); }
       return next;
     });
   };
+
+  const [finEntries, setFinEntries] = useState<{ id: string; date: string; goal: string; obstacle: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_fin_entries") ?? "[]"); } catch { return []; }
+  });
+  const [finForm, setFinForm] = useState({ goal: "", obstacle: "", step: "" });
+  const [finSaved, setFinSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_fin_entries", JSON.stringify(finEntries)); } catch {} }, [finEntries]);
+  const saveFinEntry = () => {
+    if (!finForm.goal.trim()) return;
+    setFinEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...finForm }, ...prev]);
+    setFinForm({ goal: "", obstacle: "", step: "" });
+    setFinSaved(true); setTimeout(() => setFinSaved(false), 2000);
+  };
+  const deleteFinEntry = (id: string) => setFinEntries(prev => prev.filter(e => e.id !== id));
 
   const monthly = period === "monthly" ? parseFloat(income) || 0 : (parseFloat(income) || 0) / 12;
   const give = monthly * 0.10;
@@ -300,17 +312,18 @@ export default function FinancesPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {resources.map((r, i) => (
-              <div
+              <Link
                 key={i}
+                href="/resources"
                 className="group rounded-xl p-5 flex gap-4 cursor-pointer transition-all"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                style={{ display: "flex", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(58,125,86,0.15)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.04)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(58,125,86,0.15)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.02)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
                 }}
               >
                 <span className="text-3xl shrink-0">{r.emoji}</span>
@@ -329,7 +342,7 @@ export default function FinancesPage() {
                   </h3>
                   <p className="text-sm" style={{ color: "#6A6A88" }}>{r.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -388,6 +401,53 @@ export default function FinancesPage() {
               </p>
             )}
           </div>
+        </div>
+
+        {/* Journal */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+          <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: "#F2F2F8" }}>My Financial Stewardship Journal</h2>
+          <p style={{ color: "#9898B3", fontSize: 15, marginBottom: 24 }}>Record financial goals, obstacles you face, and the next step you are taking. Saved privately in your browser.</p>
+          <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: "block", color: "#3a7d56", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>FINANCIAL GOAL *</label>
+              <textarea value={finForm.goal} onChange={e => setFinForm(f => ({ ...f, goal: e.target.value }))}
+                placeholder="What financial goal or area of stewardship are you working on?" rows={2}
+                style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: "block", color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I AM FACING</label>
+              <textarea value={finForm.obstacle} onChange={e => setFinForm(f => ({ ...f, obstacle: e.target.value }))}
+                placeholder="What makes this area of stewardship difficult for you?" rows={2}
+                style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ display: "block", color: "#9898B3", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+              <textarea value={finForm.step} onChange={e => setFinForm(f => ({ ...f, step: e.target.value }))}
+                placeholder="What is one concrete action you will take this week?" rows={2}
+                style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+            </div>
+            <button type="button" onClick={saveFinEntry}
+              style={{ background: finSaved ? "#3a7d56" : "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+              {finSaved ? "Saved ✓" : "Save Entry"}
+            </button>
+          </div>
+          {finEntries.length > 0 && (
+            <div>
+              <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({finEntries.length})</h3>
+              {finEntries.map(entry => (
+                <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                    <button type="button" onClick={() => deleteFinEntry(entry.id)}
+                      style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                  </div>
+                  {entry.goal && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11 }}>GOAL: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.goal}</span></div>}
+                  {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.obstacle}</span></div>}
+                  {entry.step && <div><span style={{ color: "#9898B3", fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.step}</span></div>}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* CTA */}

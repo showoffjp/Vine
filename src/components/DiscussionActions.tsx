@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronUp, Bookmark, Share2 } from "lucide-react";
 
 interface Props {
@@ -12,19 +12,19 @@ export default function DiscussionActions({ initialUpvotes, id }: Props) {
   const upvoteKey = id ? `vine_discussion_upvoted_${id}` : null;
   const saveKey = id ? `vine_discussion_saved_${id}` : null;
 
-  const [upvoted, setUpvoted] = useState(false);
-  const [upvotes, setUpvotes] = useState(initialUpvotes);
-  const [saved, setSaved] = useState(false);
+  const [upvoted, setUpvoted] = useState(() => {
+    if (typeof window === "undefined" || !upvoteKey) return false;
+    try { return localStorage.getItem(upvoteKey) === "1"; } catch { return false; }
+  });
+  const [upvotes, setUpvotes] = useState(() => {
+    if (typeof window === "undefined" || !upvoteKey) return initialUpvotes;
+    try { return initialUpvotes + (localStorage.getItem(upvoteKey) === "1" ? 1 : 0); } catch { return initialUpvotes; }
+  });
+  const [saved, setSaved] = useState(() => {
+    if (typeof window === "undefined" || !saveKey) return false;
+    try { return localStorage.getItem(saveKey) === "1"; } catch { return false; }
+  });
   const [shared, setShared] = useState(false);
-
-  useEffect(() => {
-    if (upvoteKey) {
-      try { setUpvoted(localStorage.getItem(upvoteKey) === "1"); } catch {}
-    }
-    if (saveKey) {
-      try { setSaved(localStorage.getItem(saveKey) === "1"); } catch {}
-    }
-  }, [upvoteKey, saveKey]);
 
   const handleUpvote = () => {
     const next = !upvoted;

@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "overview" | "theology" | "history" | "global" | "critiques" | "videos";
+type Tab = "overview" | "theology" | "history" | "global" | "critiques" | "journal" | "videos";
 
 const OVERVIEW_POINTS = [
   {
@@ -123,6 +126,21 @@ export default function PentecostalismPage() {
   const theologyItem = THEOLOGY_ITEMS.find(t => t.doctrine === selectedTheology)!;
   const figure = HISTORY_FIGURES.find(f => f.name === selectedFigure)!;
 
+  const [pentJEntries, setPentJEntries] = useState<{ id: string; date: string; experience: string; question: string; discernment: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_pentj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [pentJForm, setPentJForm] = useState({ experience: "", question: "", discernment: "" });
+  const [pentJSaved, setPentJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_pentj_entries", JSON.stringify(pentJEntries)); } catch {} }, [pentJEntries]);
+  const savePentJEntry = () => {
+    if (!pentJForm.experience.trim()) return;
+    setPentJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...pentJForm }, ...prev]);
+    setPentJForm({ experience: "", question: "", discernment: "" });
+    setPentJSaved(true);
+    setTimeout(() => setPentJSaved(false), 2000);
+  };
+  const deletePentJEntry = (id: string) => setPentJEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -153,6 +171,7 @@ export default function PentecostalismPage() {
             { id: "history" as Tab, label: "Key Figures", icon: "🎓" },
             { id: "global" as Tab, label: "Global Church", icon: "🌍" },
             { id: "critiques" as Tab, label: "Critiques & Cautions", icon: "⚖️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -317,6 +336,50 @@ export default function PentecostalismPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Pentecostalism Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record your experience with the Spirit, questions you are wrestling with, and your best discernment so far.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Experience or encounter with the Spirit</label>
+                  <textarea rows={2} value={pentJForm.experience} onChange={e => setPentJForm(f => ({ ...f, experience: e.target.value }))} placeholder="What have you experienced or witnessed?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Question I am wrestling with</label>
+                  <textarea rows={2} value={pentJForm.question} onChange={e => setPentJForm(f => ({ ...f, question: e.target.value }))} placeholder="What theological or practical question do you have?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>My discernment so far</label>
+                  <textarea rows={2} value={pentJForm.discernment} onChange={e => setPentJForm(f => ({ ...f, discernment: e.target.value }))} placeholder="How are you thinking through this biblically?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePentJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {pentJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {pentJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {pentJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePentJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.experience && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Experience</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.experience}</p></div>}
+                    {e.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Question</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.question}</p></div>}
+                    {e.discernment && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Discernment</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.discernment}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos */}
         {tab === "videos" && (
           <div>
@@ -328,44 +391,38 @@ export default function PentecostalismPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
                   {
-                    videoId: "3JbLeNb6w3Y",
+                    videoId: "ej_6dVdJSIU",
                     title: "The Azusa Street Revival — The Birth of Pentecostalism",
                     channel: "Christian History Magazine",
                     description: "A historical documentary on the 1906 Azusa Street Revival that launched the modern Pentecostal movement — examining the key figures, the events, and the lasting impact on global Christianity."
                   },
                   {
-                    videoId: "w45Qzc_4p-g",
+                    videoId: "GQI72THyO5I",
                     title: "Gordon Fee on the Holy Spirit and Paul's Letters",
                     channel: "Regent University",
                     description: "Gordon Fee — perhaps the foremost Pentecostal biblical scholar — on the Holy Spirit in Paul's epistles. A model of theologically serious, biblically grounded Pentecostal scholarship."
                   },
                   {
-                    videoId: "JkzTuvVHCKI",
+                    videoId: "krxcqH522uo",
                     title: "Is Speaking in Tongues for Today? — A Balanced View",
                     channel: "The Gospel Coalition",
                     description: "A thoughtful conversation between Reformed and charismatic perspectives on tongues, prophecy, and the ongoing work of the Spirit — modeling the kind of charitable disagreement Christians should have."
                   },
                   {
-                    videoId: "1EpCnwwMbGg",
+                    videoId: "nQWFzMvCfLE",
                     title: "The Prosperity Gospel Explained and Evaluated",
                     channel: "Desiring God / John Piper",
                     description: "John Piper gives a thorough theological critique of the prosperity gospel — why it is a distortion of the true gospel and what the New Testament actually teaches about suffering, wealth, and faith."
                   },
                   {
-                    videoId: "sP2YGEi-xzI",
+                    videoId: "ccNvwDPguNU",
                     title: "Pentecostal Christianity in the Global South",
                     channel: "Duke Divinity School",
                     description: "A scholarly examination of why Pentecostalism has grown so explosively in Latin America, Africa, and Asia — exploring the theological, cultural, and sociological factors."
                   }
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

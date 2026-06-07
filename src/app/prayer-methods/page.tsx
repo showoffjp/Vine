@@ -3,6 +3,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 type Tab = "methods" | "guided" | "scripture" | "voices" | "guides" | "videos";
 
@@ -272,7 +274,7 @@ const VOICES_PM = [
   { id: "murray-a", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885); The Ministry of Intercession (1898); South African Reformed pastor", bio: "Andrew Murray was a South African Dutch Reformed pastor who wrote over 200 books and pamphlets on the Christian life, with prayer as the central theme of his life's work. With Christ in the School of Prayer, structured around the Lord's Prayer and the disciples' request 'Lord, teach us to pray,' remains the most systematic devotional treatment of prayer as a discipline to be learned. Murray argued that prayer is not natural to fallen humanity — it must be taught, practiced, and developed through faithful discipline, just as a musician develops through practice. His chapter on intercession and his treatment of faith in prayer have been particularly influential.", quote: "The man who kneels before God can stand before anything. Prayer is not preparation for battle — prayer is the mightiest weapon in battle.", contribution: "Murray's With Christ in the School of Prayer has guided more Christians into structured, disciplined prayer than almost any other 19th-century devotional book. It remains in print, has been translated into dozens of languages, and continues to form the prayer lives of Christians around the world." },
   { id: "hallesby-o", name: "Ole Hallesby", era: "1879-1961", context: "Prayer (1931) — possibly the most widely read systematic treatment of prayer in Scandinavian Christianity", bio: "Ole Hallesby was a Norwegian Lutheran theologian whose book Prayer remains one of the most beloved treatments of the subject in the 20th century. Where Bounds emphasizes intensity and Murray emphasizes discipline, Hallesby emphasizes helplessness: prayer, he argues, is the cry of the helpless to the all-sufficient God, and it is precisely our helplessness — rightly understood — that is the primary qualification for prayer. His famous definition: 'To pray is to let Jesus come into our helplessness.' Hallesby was imprisoned during the Nazi occupation of Norway for his public Christian witness and emerged from prison with an even deeper prayer life.", quote: "To pray is to let Jesus come into our helplessness. It is the cry of the needy to the one who has all we need. Prayer is not our strength — it is our surrender.", contribution: "Prayer has guided generations of Norwegian, Scandinavian, and globally translated readers into a prayer life grounded in grace rather than effort. Its emphasis on helplessness as a prayer qualification — rather than a disqualification — has given permission to many struggling Christians to pray without pretense." },
   { id: "foster-rf", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992); Celebration of Discipline (1978)", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive survey of Christian prayer forms in contemporary evangelical literature — covering adoration, simple prayer, prayer of the forsaken, sacramental prayer, healing prayer, contemplative prayer, and intercessory prayer, among many others. Where most books on prayer focus on one method or tradition, Foster drew on the full breadth of Christian history to show that prayer is a many-roomed house. No single form exhausts what prayer can be. His Celebration of Discipline, with its chapter on prayer, first introduced millions of evangelicals to the broader Christian tradition of spiritual disciplines.", quote: "Prayer catapults us onto the frontier of the spiritual life. Of all the spiritual disciplines, prayer is the most central because it ushers us into perpetual communion with the Father.", contribution: "Foster's Prayer gave evangelicals permission to explore the full range of Christian prayer traditions — including contemplative and charismatic forms — without abandoning their evangelical commitments. It remains the standard introductory text for survey courses on Christian spirituality and prayer in evangelical seminaries." },
-  { id: "willard-dpr", name: "Dallas Willard", era: "1935-2013", context: "Hearing God (1984); The Spirit of the Disciplines (1988) — prayer as conversational relationship with God", bio: "Dallas Willard approached prayer primarily as conversation — the two-way communication that constitutes a genuine relationship with God. Where many prayer books focus on what we say to God, Willard argued that the transforming dimension of prayer is hearing God speak. His Hearing God explored the ways God speaks to those who are listening — through Scripture, through the inner voice, through others — and gave Christians a framework for discerning God's communication in prayer. His Spirit of the Disciplines placed prayer within a comprehensive account of how the spiritual disciplines transform human character by putting us in the presence and under the influence of the Kingdom of God.", quote: "Prayer is not performance — it is conversation. And God's part of the conversation is as important as ours. The person who learns to hear God speak has discovered the secret of prayer.", contribution: "Willard's conversational model of prayer, developed across multiple books, gave Christians a framework that was simultaneously relational (it's dialogue, not monologue), practical (he addressed how to discern God's voice), and theologically grounded (prayer as Kingdom participation). It has been especially influential among younger evangelical readers drawn to the spiritual formation tradition." },
+  { id: "OpfuKKH_SCE", name: "Dallas Willard", era: "1935-2013", context: "Hearing God (1984); The Spirit of the Disciplines (1988) — prayer as conversational relationship with God", bio: "Dallas Willard approached prayer primarily as conversation — the two-way communication that constitutes a genuine relationship with God. Where many prayer books focus on what we say to God, Willard argued that the transforming dimension of prayer is hearing God speak. His Hearing God explored the ways God speaks to those who are listening — through Scripture, through the inner voice, through others — and gave Christians a framework for discerning God's communication in prayer. His Spirit of the Disciplines placed prayer within a comprehensive account of how the spiritual disciplines transform human character by putting us in the presence and under the influence of the Kingdom of God.", quote: "Prayer is not performance — it is conversation. And God's part of the conversation is as important as ours. The person who learns to hear God speak has discovered the secret of prayer.", contribution: "Willard's conversational model of prayer, developed across multiple books, gave Christians a framework that was simultaneously relational (it's dialogue, not monologue), practical (he addressed how to discern God's voice), and theologically grounded (prayer as Kingdom participation). It has been especially influential among younger evangelical readers drawn to the spiritual formation tradition." },
 ];
 
 const PRAYER_SCRIPTURE = [
@@ -388,42 +390,42 @@ const PRAYER_VIDEOS = [
     id: "chan-forgotten-god-1",
     title: "Forgotten God: Why Do I Need the Spirit?",
     preacher: "Francis Chan",
-    videoId: "sWMjg7CxIKk",
+    videoId: "ERR0Zq7TBgU",
     description: "Chan challenges Christians to experience the Holy Spirit's role in genuine prayer",
   },
   {
     id: "chan-forgotten-god-2",
     title: "Forgotten God: Theology of the Holy Spirit",
     preacher: "Francis Chan",
-    videoId: "SCUEicqda1g",
+    videoId: "dy9nwe9zeU8",
     description: "Part 3 of Chan's Forgotten God series exploring how the Spirit prays through us",
   },
   {
     id: "keller-prodigal",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "OqwbFGoRYVo",
     description: "Keller's exposition of Luke 15 showing the Father who runs to meet us — the posture of prayer",
   },
   {
     id: "sproul-holiness-prayer",
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Understanding God's holiness transforms how we approach him in prayer",
   },
   {
     id: "piper-waste-life",
     title: "Don't Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "npEDqbE6faE",
     description: "Piper's vision for a life of radical God-centeredness that includes a life of prayer",
   },
   {
     id: "washer-shocking",
     title: "Shocking Youth Message",
     preacher: "Paul Washer",
-    videoId: "uuabITeO4l8",
+    videoId: "F1Cz95NtJ4c",
     description: "Washer's call to examine the reality of one's prayer life and relationship with Christ",
   },
 ];
@@ -449,7 +451,7 @@ export default function PrayerMethodsPage() {
   const togglePracticed = (id: string) => {
     setPracticed(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_prayer_methods_practiced", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -458,7 +460,7 @@ export default function PrayerMethodsPage() {
   const toggleSaved = (id: string) => {
     setSaved(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_prayer_methods_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -906,14 +908,7 @@ export default function PrayerMethodsPage() {
                     </p>
                   </div>
                   <div style={{ padding: "0 20px 20px" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${video.videoId}`}
-                      title={video.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={video.videoId} title={video.title} />
                   </div>
                 </div>
               ))}

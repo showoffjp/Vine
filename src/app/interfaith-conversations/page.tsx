@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "principles" | "islam" | "judaism" | "other" | "videos";
+type Tab = "principles" | "islam" | "judaism" | "other" | "journal" | "videos";
 
 const principleItems = [
   {
@@ -187,6 +189,20 @@ export default function InterfaithConversationsPage() {
   const [selectedIslamSection, setSelectedIslamSection] = usePersistedState<string>("vine_interfaith-conversations_selected_islam_section", "commonGround");
   const [selectedJudaismSection, setSelectedJudaismSection] = usePersistedState<string>("vine_interfaith-conversations_selected_judaism_section", "commonGround");
 
+  const [ifJEntries, setIfJEntries] = useState<{ id: string; date: string; encounter: string; insight: string; nextStep: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ifc_entries") ?? "[]"); } catch { return []; }
+  });
+  const [ifJForm, setIfJForm] = useState({ encounter: "", insight: "", nextStep: "" });
+  const [ifJSaved, setIfJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ifc_entries", JSON.stringify(ifJEntries)); } catch {} }, [ifJEntries]);
+  const saveIfJEntry = () => {
+    if (!ifJForm.encounter.trim()) return;
+    setIfJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ifJForm }, ...prev]);
+    setIfJForm({ encounter: "", insight: "", nextStep: "" });
+    setIfJSaved(true); setTimeout(() => setIfJSaved(false), 2000);
+  };
+  const deleteIfJEntry = (id: string) => setIfJEntries(prev => prev.filter(e => e.id !== id));
+
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
@@ -292,6 +308,7 @@ export default function InterfaithConversationsPage() {
               { id: "islam", label: "Islam" },
               { id: "judaism", label: "Judaism" },
               { id: "other", label: "Other Religions" },
+              { id: "journal", label: "My Journal" },
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -435,6 +452,42 @@ export default function InterfaithConversationsPage() {
             </div>
           </div>
         )}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Interfaith Conversations Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record conversations you've had, what you learned, and your next step.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={ifJForm.encounter} onChange={e => setIfJForm(f => ({ ...f, encounter: e.target.value }))}
+                  placeholder="Who did you talk with and about what?" aria-label="Encounter"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={ifJForm.insight} onChange={e => setIfJForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What did you learn or observe?" aria-label="Insight"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={ifJForm.nextStep} onChange={e => setIfJForm(f => ({ ...f, nextStep: e.target.value }))}
+                  placeholder="What's your next step with this person? (optional)" aria-label="Next step"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveIfJEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {ifJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {ifJEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first interfaith conversation above.</p>}
+              {ifJEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteIfJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.encounter}</p>
+                  {e.insight && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.insight}</p>}
+                  {e.nextStep && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.nextStep}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -444,19 +497,13 @@ export default function InterfaithConversationsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how Jesus engaged people across cultural divides with genuine love and unflinching honesty — the model for all interfaith witness." },
-                  { videoId: "GKYDGK2XDNw", title: "Missions Week Sermon 1", channel: "Paul Washer / HeartCry Missionary Society", description: "Paul Washer on the urgency and theology of reaching those who have never heard the gospel, including those from other religious traditions." },
-                  { videoId: "0bafE4k4YXU", title: "The Essential Elements of the Great Commission", channel: "Paul Washer", description: "A careful exposition of the Great Commission — the theological foundation for why Christians engage people of other faiths with both respect and conviction." },
-                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul addresses the deepest questions people of other faiths raise about God, freedom, and salvation — with rigorous biblical answers." },
+                  { videoId: "GGCF3OPWN14", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how Jesus engaged people across cultural divides with genuine love and unflinching honesty — the model for all interfaith witness." },
+                  { videoId: "t6L-F2emwUc", title: "Missions Week Sermon 1", channel: "Paul Washer / HeartCry Missionary Society", description: "Paul Washer on the urgency and theology of reaching those who have never heard the gospel, including those from other religious traditions." },
+                  { videoId: "oNpTha80yyE", title: "The Essential Elements of the Great Commission", channel: "Paul Washer", description: "A careful exposition of the Great Commission — the theological foundation for why Christians engage people of other faiths with both respect and conviction." },
+                  { videoId: "4Eg_di-O8nM", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul addresses the deepest questions people of other faiths raise about God, freedom, and salvation — with rigorous biblical answers." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

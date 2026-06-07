@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "vocation" | "marketplace" | "rest" | "videos";
+type Tab = "theology" | "vocation" | "marketplace" | "rest" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -205,11 +207,26 @@ export default function TheologyOfWorkPage() {
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
   }
 
+  type JournalEntry = { id: string; date: string; calling: string; challenge: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_towj_entries") ?? "[]"); } catch { return []; } });
+  const [jCalling, setJCalling] = useState("");
+  const [jChallenge, setJChallenge] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_towj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jCalling.trim() && !jChallenge.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), calling: jCalling, challenge: jChallenge, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJCalling(""); setJChallenge(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Work" },
     { id: "vocation", label: "Vocation & Calling" },
     { id: "marketplace", label: "Faith in the Marketplace" },
     { id: "rest", label: "Work and Rest" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -359,6 +376,45 @@ export default function TheologyOfWorkPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Vocation Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Reflect on your calling, the challenges you face at work, and next steps toward faithful work before God.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Calling</label>
+                  <textarea value={jCalling} onChange={e => setJCalling(e.target.value)} placeholder="How is God calling you in your current work or season?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Challenge</label>
+                  <textarea value={jChallenge} onChange={e => setJChallenge(e.target.value)} placeholder="What challenge or struggle are you bringing to God in your work?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete way to work more faithfully this week" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.calling && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Calling</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.calling}</p></div>}
+                    {entry.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Challenge</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.challenge}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -368,20 +424,14 @@ export default function TheologyOfWorkPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "fGH5bhUwMB4", title: "Redefining Work", channel: "Timothy Keller / The Gospel Coalition", description: "Tim Keller unfolds a comprehensive theology of vocation, showing why all work has dignity before God and how the gospel transforms our relationship to our calling." },
-                  { videoId: "m0YyheSD6gM", title: "Faith and Work", channel: "Timothy Keller", description: "Delivered at Samford University on 'Every Good Endeavor: Connecting Your Work to God's Work' — Keller's most sustained treatment of how faith reshapes work." },
-                  { videoId: "rTVIvdBIuLE", title: "Why Work Matters", channel: "Timothy Keller", description: "Keller argues that all Christians are engaged in God's work — not merely those in full-time ministry — and shows what it means to work 'as unto the Lord.'" },
-                  { videoId: "F-DwK-Rzci0", title: "Our Work and Our Character", channel: "Timothy Keller", description: "A sermon examining the deep connection between the work we do and the character we form — how faithfulness in work shapes the soul." },
-                  { videoId: "P8u8Cxpel94", title: "A Biblical Theology of Work — The Doctrine of Vocation", channel: "Adult Sunday School", description: "A thorough adult Sunday school session on the biblical doctrine of vocation, tracing the theology of work from creation through redemption to new creation." },
+                  { videoId: "G-2e9mMf7E8", title: "Redefining Work", channel: "Timothy Keller / The Gospel Coalition", description: "Tim Keller unfolds a comprehensive theology of vocation, showing why all work has dignity before God and how the gospel transforms our relationship to our calling." },
+                  { videoId: "5nvVVcYD-0w", title: "Faith and Work", channel: "Timothy Keller", description: "Delivered at Samford University on 'Every Good Endeavor: Connecting Your Work to God's Work' — Keller's most sustained treatment of how faith reshapes work." },
+                  { videoId: "f7RJATbobik", title: "Why Work Matters", channel: "Timothy Keller", description: "Keller argues that all Christians are engaged in God's work — not merely those in full-time ministry — and shows what it means to work 'as unto the Lord.'" },
+                  { videoId: "zUKzVFQn4Tc", title: "Our Work and Our Character", channel: "Timothy Keller", description: "A sermon examining the deep connection between the work we do and the character we form — how faithfulness in work shapes the soul." },
+                  { videoId: "OqwbFGoRYVo", title: "A Biblical Theology of Work — The Doctrine of Vocation", channel: "Adult Sunday School", description: "A thorough adult Sunday school session on the biblical doctrine of vocation, tracing the theology of work from creation through redemption to new creation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

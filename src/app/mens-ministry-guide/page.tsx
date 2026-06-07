@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "curriculum" | "resources" | "videos";
+type Tab = "theology" | "practices" | "curriculum" | "resources" | "journal" | "videos";
 
 const theologyPoints = [
   {
@@ -229,11 +231,26 @@ export default function MensMinistryGuidePage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  const [mmgEntries, setMmgEntries] = useState<{ id: string; date: string; challenge: string; practice: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mmg_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mmgForm, setMmgForm] = useState({ challenge: "", practice: "", step: "" });
+  const [mmgSaved, setMmgSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mmg_entries", JSON.stringify(mmgEntries)); } catch {} }, [mmgEntries]);
+  const saveMmgEntry = () => {
+    if (!mmgForm.challenge.trim()) return;
+    setMmgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mmgForm }, ...prev]);
+    setMmgForm({ challenge: "", practice: "", step: "" });
+    setMmgSaved(true); setTimeout(() => setMmgSaved(false), 2000);
+  };
+  const deleteMmgEntry = (id: string) => setMmgEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Brotherhood" },
     { id: "practices", label: "Core Practices" },
     { id: "curriculum", label: "Curriculum Guide" },
     { id: "resources", label: "Resources" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" }
   ];
 
@@ -412,6 +429,42 @@ export default function MensMinistryGuidePage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Men's Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record challenges, practices you're developing, and next steps as a man in community.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mmgForm.challenge} onChange={e => setMmgForm(f => ({ ...f, challenge: e.target.value }))}
+                  placeholder="What challenge or area of growth are you working on?" aria-label="Challenge"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={mmgForm.practice} onChange={e => setMmgForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What practice or discipline are you building?" aria-label="Practice"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mmgForm.step} onChange={e => setMmgForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What's your next concrete step? (optional)" aria-label="Next step"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMmgEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mmgSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mmgEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first men's ministry reflection above.</p>}
+              {mmgEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMmgEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.challenge}</p>
+                  {e.practice && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.practice}</p>}
+                  {e.step && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.step}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -421,19 +474,13 @@ export default function MensMinistryGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "AIKn3DyjOUY", title: "The Strongest Warning I've Ever Given to Men", channel: "Pastor Mark Driscoll", description: "A direct, serious challenge to men about their responsibilities as husbands, fathers, and leaders — what Scripture demands and what is at stake." },
-                  { videoId: "LP4Y26hsrtM", title: "How a Real Man Takes Ground", channel: "Pastor Mark Driscoll", description: "Driscoll on what it means for a man to take spiritual ground in his home, his work, and his community — not through domination but through servant leadership." },
-                  { videoId: "_sSH3ULpA4Y", title: "David Murrow Interviews Mark Driscoll on Men and Church", channel: "David Murrow", description: "A revealing conversation between the author of Why Men Hate Going to Church and the pastor who built one of the most male-attended churches in America." },
-                  { videoId: "g4-Igb1rb1w", title: "Real Men: Vision for Men's Ministry", channel: "Pastor Mark Driscoll", description: "A vision for what genuine men's ministry looks like — not retreats and devotionals but covenant brotherhood, accountability, and mission-driven discipleship." },
+                  { videoId: "gV9JugO_5Mk", title: "The Strongest Warning I've Ever Given to Men", channel: "Pastor Mark Driscoll", description: "A direct, serious challenge to men about their responsibilities as husbands, fathers, and leaders — what Scripture demands and what is at stake." },
+                  { videoId: "ej_6dVdJSIU", title: "How a Real Man Takes Ground", channel: "Pastor Mark Driscoll", description: "Driscoll on what it means for a man to take spiritual ground in his home, his work, and his community — not through domination but through servant leadership." },
+                  { videoId: "GQI72THyO5I", title: "David Murrow Interviews Mark Driscoll on Men and Church", channel: "David Murrow", description: "A revealing conversation between the author of Why Men Hate Going to Church and the pastor who built one of the most male-attended churches in America." },
+                  { videoId: "krxcqH522uo", title: "Real Men: Vision for Men's Ministry", channel: "Pastor Mark Driscoll", description: "A vision for what genuine men's ministry looks like — not retreats and devotionals but covenant brotherhood, accountability, and mission-driven discipleship." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -80,7 +83,7 @@ const PRACTICES = [
   { title: "Invest Before Crisis", desc: "Marriage counseling as a last resort means the problems have had years to calcify. The most effective couples investment is early and regular — a weekend retreat, a few sessions of counseling annually, a marriage enrichment program when things are good. Prevention is cheaper than repair.", icon: "🛡️" },
 ];
 
-type Tab = "theology" | "seasons" | "voices" | "practices" | "videos";
+type Tab = "theology" | "seasons" | "voices" | "practices" | "journal" | "videos";
 
 export default function ChristianMarriagePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-marriage_tab", "theology");
@@ -89,6 +92,20 @@ export default function ChristianMarriagePage() {
 
   const season = SEASONS.find(s => s.season === selected);
   const voice = MARRIAGE_VOICES.find(v => v.id === selectedVoice)!;
+
+  const [cmEntries, setCmEntries] = useState<{ id: string; date: string; season: string; strength: string; practice: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cm_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmForm, setCmForm] = useState({ season: "", strength: "", practice: "" });
+  const [cmSaved, setCmSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cm_entries", JSON.stringify(cmEntries)); }, [cmEntries]);
+  function saveCmEntry() {
+    if (!cmForm.season.trim()) return;
+    setCmEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmForm }, ...prev]);
+    setCmForm({ season: "", strength: "", practice: "" });
+    setCmSaved(true); setTimeout(() => setCmSaved(false), 2000);
+  }
+  function deleteCmEntry(id: string) { setCmEntries(prev => prev.filter(e => e.id !== id)); };
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -109,6 +126,7 @@ export default function ChristianMarriagePage() {
             { id: "seasons" as const, label: "Seasons", icon: "🌱" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -210,6 +228,49 @@ export default function ChristianMarriagePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Marriage Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Reflect on your marriage season, where you are growing, and practices you are cultivating together.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Season or Area of Marriage</label>
+                <input value={cmForm.season} onChange={e => setCmForm(f => ({ ...f, season: e.target.value }))} placeholder="e.g. First year of marriage, navigating conflict, parenting together..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Where Are You Growing?</label>
+                <textarea value={cmForm.strength} onChange={e => setCmForm(f => ({ ...f, strength: e.target.value }))} placeholder="What is God building between you and your spouse right now?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Practice You Are Cultivating</label>
+                <textarea value={cmForm.practice} onChange={e => setCmForm(f => ({ ...f, practice: e.target.value }))} placeholder="What specific habit of love or spiritual discipline are you building in your marriage?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.season}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.strength && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Growing In</div><div style={{ color: TEXT, fontSize: 13 }}>{e.strength}</div></div>}
+                    {e.practice && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Practice</div><div style={{ color: TEXT, fontSize: 13 }}>{e.practice}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -219,19 +280,13 @@ export default function ChristianMarriagePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "xICD5Ycsu04", title: "A Covenant Relationship", channel: "Timothy Keller", description: "Keller explains why the Bible describes marriage as a covenant rather than a contract — and what that distinction means for how we love our spouse." },
-                  { videoId: "JvAbHOfLIyY", title: "Marriage as Commitment and Priority", channel: "Timothy Keller", description: "A sermon on how being filled with the Spirit transforms marriage — and how commitment, not feeling, is the foundation of a lasting union." },
-                  { videoId: "OYrRoafD3OU", title: "Tim Keller and Kathy Keller on The Christian Marriage", channel: "Desiring God / Gospel Coalition", description: "Tim and Kathy Keller discuss what a Christian marriage actually looks like — how the gospel shapes sacrifice, forgiveness, and the daily practice of love." },
-                  { videoId: "XoxYPXqqO34", title: "The Meaning of Marriage Bible Study — Session One", channel: "Timothy and Kathy Keller", description: "Session one of the Kellers' Meaning of Marriage Bible study — exploring what God's word says about the purpose and design of marriage." },
+                  { videoId: "3Dv4-n6OYGI", title: "A Covenant Relationship", channel: "Timothy Keller", description: "Keller explains why the Bible describes marriage as a covenant rather than a contract — and what that distinction means for how we love our spouse." },
+                  { videoId: "5nvVVcYD-0w", title: "Marriage as Commitment and Priority", channel: "Timothy Keller", description: "A sermon on how being filled with the Spirit transforms marriage — and how commitment, not feeling, is the foundation of a lasting union." },
+                  { videoId: "bxzuh5Xx5G4", title: "Tim Keller and Kathy Keller on The Christian Marriage", channel: "Desiring God / Gospel Coalition", description: "Tim and Kathy Keller discuss what a Christian marriage actually looks like — how the gospel shapes sacrifice, forgiveness, and the daily practice of love." },
+                  { videoId: "KwX1f2gYKZ4", title: "The Meaning of Marriage Bible Study — Session One", channel: "Timothy and Kathy Keller", description: "Session one of the Kellers' Meaning of Marriage Bible study — exploring what God's word says about the purpose and design of marriage." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

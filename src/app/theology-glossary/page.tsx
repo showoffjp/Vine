@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
@@ -232,7 +234,7 @@ const VOICES_THEO: TheologicalVoice[] = [
   },
 ];
 
-type Tab = "glossary" | "doctrines" | "history" | "voices" | "videos";
+type Tab = "glossary" | "doctrines" | "history" | "voices" | "journal" | "videos";
 
 export default function TheologyGlossaryPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-glossary_tab", "glossary");
@@ -276,6 +278,20 @@ export default function TheologyGlossaryPage() {
     return true;
   });
 
+  type JournalEntry = { id: string; date: string; term: string; insight: string; applying: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_tglj_entries") ?? "[]"); } catch { return []; } });
+  const [jTerm, setJTerm] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_tglj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jTerm.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), term: jTerm, insight: jInsight, applying: jApplying };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJTerm(""); setJInsight(""); setJApplying("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
@@ -304,10 +320,10 @@ export default function TheologyGlossaryPage() {
       {/* Tab Bar */}
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 24px 0" }}>
         <div style={{ display: "flex", gap: 6, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, width: "fit-content" }}>
-          {(["glossary", "doctrines", "history", "voices", "videos"] as const).map(t => (
+          {(["glossary", "doctrines", "history", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "glossary" ? "Glossary" : t === "doctrines" ? "Core Doctrines" : t === "history" ? "History" : t === "voices" ? "Voices" : "Videos"}
+              {t === "glossary" ? "Glossary" : t === "doctrines" ? "Core Doctrines" : t === "history" ? "History" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -501,6 +517,38 @@ export default function TheologyGlossaryPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 880, margin: "0 auto", padding: "32px 24px" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record theological terms that are shaping your understanding and how they are changing your faith and practice.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jTerm} onChange={e => setJTerm(e.target.value)} placeholder="Theological term or concept" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What insight struck you about this term?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How is this reshaping your worship, prayer, or ethics?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording how theological study is shaping your faith.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.term || "Theology Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.applying && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Applying:</strong> {entry.applying}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -510,20 +558,14 @@ export default function TheologyGlossaryPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "bIRbcmVC1Q0", title: "What Is Theology? — An Overview of Systematic Theology", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul defines theology and explains why every Christian is a theologian — showing how the truths of Scripture relate to each other in perfect harmony." },
-                  { videoId: "tx4qzI7az1U", title: "What's So Important About Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "An explanation of why understanding doctrine matters for knowing God better — and why theological ignorance is never spiritually neutral." },
-                  { videoId: "T5R9JmJTtOM", title: "Introduction: What Is Reformed Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul introduces the major theological traditions and what distinguishes Reformed theology from Liberal, Catholic, Dispensational, and Pentecostal approaches." },
-                  { videoId: "aXcLCPtWu08", title: "R.C. Sproul: Back to Basics", channel: "Ligonier Ministries", description: "A return to the foundational doctrines of the Christian faith — examining the core beliefs that have sustained the church through centuries of controversy and change." },
-                  { videoId: "S93jvC3Xf8A", title: "What Is the Trinity? | Crucial Questions", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul's accessible introduction to the doctrine of the Trinity — one of the most misunderstood and most important doctrines in all of Christian theology." },
+                  { videoId: "GQI72THyO5I", title: "What Is Theology? — An Overview of Systematic Theology", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul defines theology and explains why every Christian is a theologian — showing how the truths of Scripture relate to each other in perfect harmony." },
+                  { videoId: "t6L-F2emwUc", title: "What's So Important About Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "An explanation of why understanding doctrine matters for knowing God better — and why theological ignorance is never spiritually neutral." },
+                  { videoId: "jH_aojNJM3E", title: "Introduction: What Is Reformed Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul introduces the major theological traditions and what distinguishes Reformed theology from Liberal, Catholic, Dispensational, and Pentecostal approaches." },
+                  { videoId: "oNpTha80yyE", title: "R.C. Sproul: Back to Basics", channel: "Ligonier Ministries", description: "A return to the foundational doctrines of the Christian faith — examining the core beliefs that have sustained the church through centuries of controversy and change." },
+                  { videoId: "IJ-FekWUZzE", title: "What Is the Trinity? | Crucial Questions", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul's accessible introduction to the doctrine of the Trinity — one of the most misunderstood and most important doctrines in all of Christian theology." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

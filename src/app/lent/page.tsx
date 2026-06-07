@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -247,19 +249,13 @@ export default function LentPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "RieYtSHfeU8", title: "Rooted in Prayer and Fasting", channel: "Tim Keller", description: "Keller preaches on prayer and fasting as disciplines of surrender — why Jesus assumed his followers would fast, and what fasting accomplishes in the soul." },
-                  { videoId: "iZu5Zx2lTCM", title: "Feasting and Fasting: Spiritual Symmetry", channel: "The Bible Project / Tim Mackie", description: "Tim Mackie explores the biblical rhythm of feasting and fasting — how these two practices together shape a life of dependence on God and anticipation of his kingdom." },
-                  { videoId: "_QwQ-tLnDRU", title: "40 Global Days of Prayer and Fasting: Reaching Your City with the Gospel", channel: "Tim Keller", description: "Keller on the spiritual power of corporate prayer and fasting as the foundation for gospel advance in the city — the connection between seeking God and missional fruitfulness." },
-                  { videoId: "VHy60qCDfRY", title: "Ash Wednesday Homily: Remember, You Are Dust", channel: "Catholic Homily / Matthew 6", description: "An Ash Wednesday homily on Matthew 6:1-6, 16-18 — the summons to secret fasting, prayer, and almsgiving that marks the beginning of Lent's forty-day journey." },
+                  { videoId: "f3VY6pTKm3s", title: "Rooted in Prayer and Fasting", channel: "Tim Keller", description: "Keller preaches on prayer and fasting as disciplines of surrender — why Jesus assumed his followers would fast, and what fasting accomplishes in the soul." },
+                  { videoId: "QS04WbSnxok", title: "Feasting and Fasting: Spiritual Symmetry", channel: "The Bible Project / Tim Mackie", description: "Tim Mackie explores the biblical rhythm of feasting and fasting — how these two practices together shape a life of dependence on God and anticipation of his kingdom." },
+                  { videoId: "8tllFmO5zhs", title: "40 Global Days of Prayer and Fasting: Reaching Your City with the Gospel", channel: "Tim Keller", description: "Keller on the spiritual power of corporate prayer and fasting as the foundation for gospel advance in the city — the connection between seeking God and missional fruitfulness." },
+                  { videoId: "6UortPEFcpU", title: "Ash Wednesday Homily: Remember, You Are Dust", channel: "Catholic Homily / Matthew 6", description: "An Ash Wednesday homily on Matthew 6:1-6, 16-18 — the summons to secret fasting, prayer, and almsgiving that marks the beginning of Lent's forty-day journey." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

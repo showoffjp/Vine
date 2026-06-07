@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "books" | "seasons" | "guides" | "voices" | "videos";
+type Tab = "books" | "seasons" | "guides" | "voices" | "journal" | "videos";
 
 const BFOS_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "How to Read Books as a Christian", channel: "Gospel in Life", description: "Keller on the practice of reading — why Christians should read widely, how to read critically, and how literature shapes the soul." },
-  { videoId: "ACZbpLkY8To", title: "Books That Have Shaped My Ministry", channel: "Ligonier Ministries", description: "R.C. Sproul shares the books that most formed him theologically and personally — and why reading deeply matters." },
-  { videoId: "fJnGJN6laqE", title: "Don't Waste Your Reading", channel: "Desiring God", description: "Piper on reading for transformation, not just information — how to read with prayer, attention, and humble submission." },
-  { videoId: "Z8lkuuhVkOI", title: "The Christian Reading Life", channel: "The Gospel Coalition", description: "How to build a reading life that feeds faith, sharpens thinking, and keeps you growing across every season of life." },
+  { videoId: "rtkS_8VWfB0", title: "How to Read Books as a Christian", channel: "Gospel in Life", description: "Keller on the practice of reading — why Christians should read widely, how to read critically, and how literature shapes the soul." },
+  { videoId: "ej_6dVdJSIU", title: "Books That Have Shaped My Ministry", channel: "Ligonier Ministries", description: "R.C. Sproul shares the books that most formed him theologically and personally — and why reading deeply matters." },
+  { videoId: "4Eg_di-O8nM", title: "Don't Waste Your Reading", channel: "Desiring God", description: "Piper on reading for transformation, not just information — how to read with prayer, attention, and humble submission." },
+  { videoId: "gV9JugO_5Mk", title: "The Christian Reading Life", channel: "The Gospel Coalition", description: "How to build a reading life that feeds faith, sharpens thinking, and keeps you growing across every season of life." },
 ];
 
 const SEASON_FILTERS = ["All", "New Believer", "Deep Grief", "Doubt & Crisis", "Marriage & Family", "Calling & Vocation", "Suffering & Illness", "Spiritual Dryness", "Anger & Forgiveness"];
@@ -362,6 +364,20 @@ export default function BooksForSeasonsPage() {
   const book = BOOKS.find(b => b.title === selected);
   const voice = VOICES_BFOS.find(v => v.id === selectedVoice)!;
 
+  const [bfsEntries, setBfsEntries] = useState<{ id: string; date: string; bookTitle: string; season: string; insight: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bfs_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [bfsForm, setBfsForm] = useState({ bookTitle: "", season: "", insight: "" });
+  const [bfsSaved, setBfsSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bfs_entries", JSON.stringify(bfsEntries)); }, [bfsEntries]);
+  function saveBfsEntry() {
+    if (!bfsForm.bookTitle.trim()) return;
+    setBfsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bfsForm }, ...prev]);
+    setBfsForm({ bookTitle: "", season: "", insight: "" });
+    setBfsSaved(true); setTimeout(() => setBfsSaved(false), 2000);
+  }
+  function deleteBfsEntry(id: string) { setBfsEntries(prev => prev.filter(e => e.id !== id)); }
+
   const SEASON_COLOR: Record<string, string> = {
     "New Believer": GREEN,
     "Deep Grief": "#EF4444",
@@ -389,10 +405,10 @@ export default function BooksForSeasonsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["books", "seasons", "guides", "voices", "videos"] as const).map(t => (
+          {(["books", "seasons", "guides", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "books" ? "Books" : t === "seasons" ? "Life Seasons" : t === "guides" ? "Reading Guides" : t === "voices" ? "Voices" : "Videos"}
+              {t === "books" ? "Books" : t === "seasons" ? "Life Seasons" : t === "guides" ? "Reading Guides" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -541,12 +557,57 @@ export default function BooksForSeasonsPage() {
         )}
 
         {/* Videos Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Reading Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record books you are reading, the season of life you are in, and the insight that is staying with you.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Book I am reading</label>
+                <input value={bfsForm.bookTitle} onChange={e => setBfsForm(f => ({ ...f, bookTitle: e.target.value }))} placeholder="Title and author..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Season of life it fits</label>
+                <input value={bfsForm.season} onChange={e => setBfsForm(f => ({ ...f, season: e.target.value }))} placeholder="Grief, marriage, parenting, singleness, doubt, growth..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Insight that is staying with me</label>
+                <textarea value={bfsForm.insight} onChange={e => setBfsForm(f => ({ ...f, insight: e.target.value }))} rows={3} placeholder="A quote, a chapter, something that changed how you see..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBfsEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {bfsSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {bfsEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bfsEntries.length})</h3>
+                {bfsEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.bookTitle}</span>
+                        {e.season && <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.season}</span>}
+                      </div>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBfsEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.insight && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: GREEN }}>Insight:</strong> {e.insight}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {BFOS_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

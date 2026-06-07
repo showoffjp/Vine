@@ -10,7 +10,6 @@ import {
   MessageSquare,
   Heart,
   MapPin,
-  Star,
   ChevronRight,
   CheckCircle2,
 } from "lucide-react";
@@ -134,6 +133,20 @@ export default function GlobalConnectPage() {
   useEffect(() => {
     try { localStorage.setItem("vine_gc_connected", JSON.stringify([...connectedMembers])); } catch {}
   }, [connectedMembers]);
+
+  const [gcEntries, setGcEntries] = useState<{ id: string; date: string; connection: string; burden: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_gc_entries") ?? "[]"); } catch { return []; }
+  });
+  const [gcForm, setGcForm] = useState({ connection: "", burden: "", step: "" });
+  const [gcSaved, setGcSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_gc_entries", JSON.stringify(gcEntries)); } catch {} }, [gcEntries]);
+  const saveGcEntry = () => {
+    if (!gcForm.connection.trim()) return;
+    setGcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...gcForm }, ...prev]);
+    setGcForm({ connection: "", burden: "", step: "" });
+    setGcSaved(true); setTimeout(() => setGcSaved(false), 2000);
+  };
+  const deleteGcEntry = (id: string) => setGcEntries(prev => prev.filter(e => e.id !== id));
 
   const toggleCircle = (i: number) => {
     setJoinedCircles((prev) => {
@@ -455,6 +468,53 @@ export default function GlobalConnectPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Journal */}
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
+        <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: "#F2F2F8" }}>My Global Connect Journal</h2>
+        <p style={{ color: "#9898B3", fontSize: 15, marginBottom: 24 }}>Record connections you are making, burdens God is giving you, and how you are responding. Saved privately in your browser.</p>
+        <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: "block", color: "#3a7d56", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CONNECTION I AM MAKING *</label>
+            <textarea value={gcForm.connection} onChange={e => setGcForm(f => ({ ...f, connection: e.target.value }))}
+              placeholder="Which prayer circle, community, or believer are you connecting with?" rows={2}
+              style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: "block", color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>BURDEN GOD IS GIVING ME</label>
+            <textarea value={gcForm.burden} onChange={e => setGcForm(f => ({ ...f, burden: e.target.value }))}
+              placeholder="What is weighing on your heart for the global church?" rows={3}
+              style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <div style={{ marginBottom: 18 }}>
+            <label style={{ display: "block", color: "#9898B3", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM RESPONDING</label>
+            <textarea value={gcForm.step} onChange={e => setGcForm(f => ({ ...f, step: e.target.value }))}
+              placeholder="What action or prayer are you committing to?" rows={2}
+              style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <button type="button" onClick={saveGcEntry}
+            style={{ background: gcSaved ? "#3a7d56" : "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+            {gcSaved ? "Saved ✓" : "Save Entry"}
+          </button>
+        </div>
+        {gcEntries.length > 0 && (
+          <div>
+            <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({gcEntries.length})</h3>
+            {gcEntries.map(entry => (
+              <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                  <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                  <button type="button" onClick={() => deleteGcEntry(entry.id)}
+                    style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                </div>
+                {entry.connection && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11 }}>CONNECTION: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.connection}</span></div>}
+                {entry.burden && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 11 }}>BURDEN: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.burden}</span></div>}
+                {entry.step && <div><span style={{ color: "#9898B3", fontWeight: 700, fontSize: 11 }}>RESPONSE: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.step}</span></div>}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       </main>
       <Footer />

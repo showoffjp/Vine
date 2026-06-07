@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { Heart, Plus, X, Flame, Globe, Lock, ChevronDown, Search, Clock, CheckCircle2 } from "lucide-react";
+import { Heart, Plus, X, Flame, Globe, Lock, Search, Clock, CheckCircle2 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface PrayerRequest {

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "catechisms" | "questions" | "history" | "voices" | "videos";
+type Tab = "catechisms" | "questions" | "history" | "voices" | "journal" | "videos";
 
 const CATECHISMS = [
   {
@@ -296,6 +298,20 @@ export default function CatechismGuidePage() {
   const cat = CATECHISMS.find(c => c.name === selected);
   const voice = VOICES_CAT.find(v => v.id === selectedVoice) ?? VOICES_CAT[0];
 
+  const [catEntries, setCatEntries] = useState<{ id: string; date: string; question: string; answer: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cat_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [catForm, setCatForm] = useState({ question: "", answer: "", applying: "" });
+  const [catSaved, setCatSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cat_entries", JSON.stringify(catEntries)); }, [catEntries]);
+  function saveCatEntry() {
+    if (!catForm.question.trim()) return;
+    setCatEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...catForm }, ...prev]);
+    setCatForm({ question: "", answer: "", applying: "" });
+    setCatSaved(true); setTimeout(() => setCatSaved(false), 2000);
+  }
+  function deleteCatEntry(id: string) { setCatEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -312,10 +328,10 @@ export default function CatechismGuidePage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 4, marginBottom: 28, width: "fit-content" }}>
-          {(["catechisms", "questions", "history", "voices", "videos"] as const).map(t => (
+          {(["catechisms", "questions", "history", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "catechisms" ? "Catechisms" : t === "questions" ? "Famous Q&As" : t === "history" ? "History" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "catechisms" ? "Catechisms" : t === "questions" ? "Famous Q&As" : t === "history" ? "History" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -528,6 +544,48 @@ export default function CatechismGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Catechism Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Work through catechism questions — record the question, your answer in your own words, and how you are applying it.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Catechism question</label>
+                <textarea value={catForm.question} onChange={e => setCatForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="e.g. What is the chief end of man? What is God?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Answer in my own words</label>
+                <textarea value={catForm.answer} onChange={e => setCatForm(f => ({ ...f, answer: e.target.value }))} rows={3} placeholder="Don't just copy the official answer — say it in your own words..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How I am applying this truth</label>
+                <textarea value={catForm.applying} onChange={e => setCatForm(f => ({ ...f, applying: e.target.value }))} rows={2} placeholder="What changes when you actually believe this?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCatEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {catSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {catEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({catEntries.length})</h3>
+                {catEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCatEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Q:</strong> {e.question}</p>}
+                    {e.answer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>A:</strong> {e.answer}</p>}
+                    {e.applying && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Applying:</strong> {e.applying}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -537,19 +595,13 @@ export default function CatechismGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "-1g8SUeW6Oo", title: "Introduction to the Westminster Shorter Catechism", channel: "Westminster Shorter Catechism Course", description: "An introduction to the Westminster Shorter Catechism — its history, purpose, and how to use it for personal and family discipleship." },
-                  { videoId: "TQI6LGaBJsc", title: "Westminster Shorter Catechism Q. 1 — Lesson 2", channel: "Westminster Shorter Catechism Course", description: "A careful study of the most famous question in the catechism: 'What is the chief end of man?' — and why the answer still shapes Christian living." },
-                  { videoId: "haJ_3n0upv0", title: "Sunday School Lesson 1: The Westminster Shorter Catechism", channel: "Sunday School Catechism", description: "The first lesson in a Sunday school series teaching the Westminster Shorter Catechism — accessible for all ages and backgrounds." },
-                  { videoId: "IpdSuDt46kU", title: "Three Resources for Families on the Westminster Shorter Catechism", channel: "Ligonier Ministries", description: "Ligonier recommends three key resources for families who want to teach the catechism to their children — practical guidance for household discipleship." },
+                  { videoId: "HGHqu9-DtXk", title: "Introduction to the Westminster Shorter Catechism", channel: "Westminster Shorter Catechism Course", description: "An introduction to the Westminster Shorter Catechism — its history, purpose, and how to use it for personal and family discipleship." },
+                  { videoId: "E65KV3M8RZE", title: "Westminster Shorter Catechism Q. 1 — Lesson 2", channel: "Westminster Shorter Catechism Course", description: "A careful study of the most famous question in the catechism: 'What is the chief end of man?' — and why the answer still shapes Christian living." },
+                  { videoId: "Z-17KxpjL0Q", title: "Sunday School Lesson 1: The Westminster Shorter Catechism", channel: "Sunday School Catechism", description: "The first lesson in a Sunday school series teaching the Westminster Shorter Catechism — accessible for all ages and backgrounds." },
+                  { videoId: "ej_6dVdJSIU", title: "Three Resources for Families on the Westminster Shorter Catechism", channel: "Ligonier Ministries", description: "Ligonier recommends three key resources for families who want to teach the catechism to their children — practical guidance for household discipleship." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

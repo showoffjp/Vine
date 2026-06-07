@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -138,26 +140,26 @@ const VOICES_EXAMEN = [
 ];
 
 export default function DailyExamenPage() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [responses, setResponses] = useState<Record<string, string>>({});
-  const [mood, setMood] = useState<"1" | "2" | "3" | "4" | "5">("3");
+  const todayKey = new Date().toISOString().split("T")[0];
   const [history, setHistory] = useState<ExamenEntry[]>(() => {
     try { const s = localStorage.getItem("vine_examen_history"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
+  const todayEntry = history.find(e => e.date === todayKey);
+  const [activeStep, setActiveStep] = useState(0);
+  const [responses, setResponses] = useState<Record<string, string>>(() => todayEntry?.responses ?? {});
+  const [mood, setMood] = useState<"1" | "2" | "3" | "4" | "5">(() => todayEntry?.mood ?? "3");
   const [activeTab, setActiveTab] = usePersistedState<"practice" | "history" | "about" | "voices" | "videos">("vine_daily-examen_tab", "about");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_daily-examen_voice", "ignatius");
   const voiceItem = VOICES_EXAMEN.find(v => v.id === selectedVoice)!;
   const [saved, setSaved] = useState(false);
 
-  const todayKey = new Date().toISOString().split("T")[0];
-  const todayEntry = history.find(e => e.date === todayKey);
-
-  useEffect(() => {
-    if (todayEntry) {
-      setResponses(todayEntry.responses);
-      setMood(todayEntry.mood);
-    }
-  }, []);
+  const deleteEntry = (date: string) => {
+    setHistory(prev => {
+      const updated = prev.filter(e => e.date !== date);
+      try { localStorage.setItem("vine_examen_history", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+  };
 
   const saveExamen = () => {
     const entry: ExamenEntry = { date: todayKey, responses, mood };
@@ -216,7 +218,7 @@ export default function DailyExamenPage() {
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
-              {EXAMEN_STEPS.map((s, i) => (
+              {EXAMEN_STEPS.map((s) => (
                 <div key={s.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                     <span style={{ fontSize: 20 }}>{s.icon}</span>
@@ -329,7 +331,12 @@ export default function DailyExamenPage() {
                       <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>
                         {new Date(entry.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
                       </span>
-                      <span style={{ fontSize: 22 }}>{["😔","😕","😐","🙂","😊"][parseInt(entry.mood)-1]}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <span style={{ fontSize: 22 }}>{["😔","😕","😐","🙂","😊"][parseInt(entry.mood)-1]}</span>
+                        <button type="button" onClick={() => deleteEntry(entry.date)}
+                          style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}
+                          title="Delete entry">×</button>
+                      </div>
                     </div>
                     {Object.entries(entry.responses).filter(([,v]) => v).map(([stepId, response]) => {
                       const stepMeta = EXAMEN_STEPS.find(s => s.id === stepId);
@@ -383,19 +390,13 @@ export default function DailyExamenPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "kqtFCtGOS-I", title: "Ignatius Loyola's Jesuit Daily Examen", channel: "Ignatian Spirituality", description: "A guided walk-through of the Daily Examen as Ignatius of Loyola taught it — a method of reflective prayer for finding God in the events of each day." },
-                  { videoId: "fkmMs0rW6ok", title: "The Daily Examen — A Guided Journey Through Reflective Prayer", channel: "Ignatian Spirituality", description: "A guided journey through the five steps of the Examen, designed for daily use as a tool for discernment and spiritual growth." },
-                  { videoId: "mVE6UlP8sl0", title: "5-Minute Guided Daily Examen Prayer", channel: "Ignatian Spirituality", description: "A brief, accessible guided practice of the Examen — based on St. Ignatius's Spiritual Exercises and suitable for daily use." },
-                  { videoId: "pDQgjzJINdk", title: "Ignatian Spirituality: The Examen", channel: "Jesuit Institute", description: "An introduction to the Examen from the Jesuit Institute — its history, theological basis, and how to integrate it into daily prayer." },
+                  { videoId: "OU69so6VjHA", title: "Ignatius Loyola's Jesuit Daily Examen", channel: "Ignatian Spirituality", description: "A guided walk-through of the Daily Examen as Ignatius of Loyola taught it — a method of reflective prayer for finding God in the events of each day." },
+                  { videoId: "3DRE5kgbYjU", title: "The Daily Examen — A Guided Journey Through Reflective Prayer", channel: "Ignatian Spirituality", description: "A guided journey through the five steps of the Examen, designed for daily use as a tool for discernment and spiritual growth." },
+                  { videoId: "4Eg_di-O8nM", title: "5-Minute Guided Daily Examen Prayer", channel: "Ignatian Spirituality", description: "A brief, accessible guided practice of the Examen — based on St. Ignatius's Spiritual Exercises and suitable for daily use." },
+                  { videoId: "ccNvwDPguNU", title: "Ignatian Spirituality: The Examen", channel: "Jesuit Institute", description: "An introduction to the Examen from the Jesuit Institute — its history, theological basis, and how to integrate it into daily prayer." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

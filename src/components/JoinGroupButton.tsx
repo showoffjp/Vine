@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 
 interface JoinGroupButtonProps {
-  groupId: string;
+  groupId?: string;
   color?: string;
 }
 
-export default function JoinGroupButton({ groupId, color = "#3a7d56" }: JoinGroupButtonProps) {
+export default function JoinGroupButton({ color = "#3a7d56" }: JoinGroupButtonProps) {
   const [joined, setJoined] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ export default function JoinGroupButton({ groupId, color = "#3a7d56" }: JoinGrou
         border: "1px solid rgba(255,255,255,0.1)",
         color: "#8A8AA8",
       } : {
-        background: "linear-gradient(135deg, #3a7d56, #3a7d56)",
+        background: `linear-gradient(135deg, ${color}, ${color})`,
         color: "#000",
       }}
     >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { MapPin, Users, Calendar, Globe, ArrowRight, Check } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
@@ -88,18 +88,13 @@ const REGISTERED_STORAGE_KEY = "vine:events:registered";
 
 export default function EventsSection() {
   const [activeFilter, setActiveFilter] = usePersistedState<FilterKey>("vine_home_event_filter", "All");
-  const [registered, setRegistered] = useState<Record<number, boolean>>({});
-
-  useEffect(() => {
+  const [registered, setRegistered] = useState<Record<number, boolean>>(() => {
+    if (typeof window === "undefined") return {};
     try {
       const stored = localStorage.getItem(REGISTERED_STORAGE_KEY);
-      if (stored) {
-        setRegistered(Object.fromEntries((JSON.parse(stored) as number[]).map((id) => [id, true])));
-      }
-    } catch {
-      /* ignore malformed storage */
-    }
-  }, []);
+      return stored ? Object.fromEntries((JSON.parse(stored) as number[]).map((id) => [id, true])) : {};
+    } catch { return {}; }
+  });
 
   const toggleRegister = (id: number) => {
     setRegistered((prev) => {
@@ -229,26 +224,28 @@ export default function EventsSection() {
             const isOnline = event.location === "Online";
 
             return (
-              <div
+              <Link
                 key={event.id}
+                href="/events"
                 style={{
+                  display: "flex",
                   background: "#0a1a0e",
                   border: "0.5px solid rgba(201,162,39,0.13)",
                   borderTop: "1.5px solid rgba(201,162,39,0.35)",
                   borderRadius: 3,
                   padding: "1.5rem",
-                  display: "flex",
                   flexDirection: "column",
                   gap: 14,
                   position: "relative",
                   transition: "border-color 0.2s",
                   cursor: "pointer",
+                  textDecoration: "none",
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.3)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.3)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.13)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.13)";
                 }}
               >
                 {/* Date + type */}
@@ -385,7 +382,7 @@ export default function EventsSection() {
                     const isRegistered = registered[event.id];
                     return (
                       <button
-                        onClick={() => toggleRegister(event.id)}
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleRegister(event.id); }}
                         style={{
                           display: "inline-flex",
                           alignItems: "center",
@@ -416,7 +413,7 @@ export default function EventsSection() {
                     );
                   })()}
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

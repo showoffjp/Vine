@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,13 +14,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "tradition" | "finding" | "session" | "videos";
+type Tab = "what" | "tradition" | "finding" | "session" | "notes" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "what", label: "What Is Spiritual Direction?" },
   { id: "tradition", label: "The Tradition" },
   { id: "finding", label: "Finding a Director" },
   { id: "session", label: "What Happens in a Session?" },
+  { id: "notes", label: "Session Notes" },
   { id: "videos", label: "🎬 Videos" },
 ];
 
@@ -173,7 +176,7 @@ const SESSION_ITEMS = [
     body: "The director listens more than they speak. They ask gentle, open questions. They reflect back what they hear. Occasionally they may offer a Scripture passage, an image, or an observation. They pray — silently and often aloud at the close of the session.",
   },
   {
-    id: "discernment",
+    id: "IvSuGyJQ6oM",
     title: "Discernment of Consolation and Desolation",
     body: "Drawing on Ignatian vocabulary: consolation describes interior movements toward God — peace, love, joy, increased faith. Desolation describes movements away — darkness, confusion, restlessness, decreased faith. Learning to read your interior weather, and to respond wisely, is a core skill direction develops.",
   },
@@ -472,6 +475,22 @@ export default function SpiritualDirectionPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-direction_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedDirector, setSelectedDirector] = usePersistedState<string>("vine_spiritual-direction_selected_director", "desert");
+  const [sdNotes, setSdNotes] = useState<{ id: string; date: string; movement: string; theme: string; word: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_sd_notes"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [sdForm, setSdForm] = useState({ movement: "", theme: "", word: "" });
+  const [sdSaved, setSdSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_sd_notes", JSON.stringify(sdNotes)); } catch {} }, [sdNotes]);
+
+  const saveSdNote = () => {
+    setSdNotes(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...sdForm }, ...prev]);
+    setSdForm({ movement: "", theme: "", word: "" });
+    setSdSaved(true);
+    setTimeout(() => setSdSaved(false), 2000);
+  };
+
+  const deleteSdNote = (id: string) => setSdNotes(prev => prev.filter(n => n.id !== id));
 
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -566,6 +585,55 @@ export default function SpiritualDirectionPage() {
         {activeTab === "session" && (
           <TabSession expanded={expanded} toggle={toggle} />
         )}
+        {activeTab === "notes" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                After a spiritual direction session, write down what moved you, what theme surfaced, and any word you received. These notes become a record of God's voice over time.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Session Note</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A movement I noticed (consolation or desolation)</label>
+                <textarea value={sdForm.movement} onChange={e => setSdForm(f => ({ ...f, movement: e.target.value }))} rows={2}
+                  placeholder="Where I felt drawn toward God or pulled away, what brought life, what drained it..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A theme that surfaced</label>
+                <textarea value={sdForm.theme} onChange={e => setSdForm(f => ({ ...f, theme: e.target.value }))} rows={2}
+                  placeholder="A recurring image, question, Scripture, or relational pattern that kept appearing..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A word to carry forward</label>
+                <textarea value={sdForm.word} onChange={e => setSdForm(f => ({ ...f, word: e.target.value }))} rows={2}
+                  placeholder="One thing to pay attention to, pray about, or live into in the coming weeks..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveSdNote}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {sdSaved ? "Saved ✓" : "Save Note"}
+              </button>
+            </div>
+            {sdNotes.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Session History</h3>
+                {sdNotes.map(n => (
+                  <div key={n.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteSdNote(n.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{n.date}</div>
+                    {n.movement && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}><strong style={{ color: PURPLE }}>Movement:</strong> {n.movement}</p>}
+                    {n.theme && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}><strong style={{ color: GREEN }}>Theme:</strong> {n.theme}</p>}
+                    {n.word && <p style={{ color: "#F59E0B", fontSize: 13, fontStyle: "italic", margin: 0 }}>Word: {n.word}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -575,19 +643,13 @@ export default function SpiritualDirectionPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "ZIl-SaUTOis", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "A practical introduction to contemplative prayer for those who want to go deeper in their relationship with God but can't find a formal spiritual director." },
-                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline — on cultivating the interior life and the practice of spiritual direction as an ancient Christian tradition." },
-                  { videoId: "4R87Hl52fgY", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the deep interior life — drawing on the great Christian directors from Ignatius to Teresa of Avila — and what it means to create space for God in the soul." },
-                  { videoId: "FDiH992tO_o", title: "Ignatian Contemplation Prayer — Discernment Series", channel: "Ignatian Spirituality", description: "An introduction to Ignatian contemplative prayer — the method developed by Ignatius of Loyola and used by spiritual directors for 500 years to help believers encounter Christ in Scripture." },
+                  { videoId: "sIaT8Jl2zpI", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "A practical introduction to contemplative prayer for those who want to go deeper in their relationship with God but can't find a formal spiritual director." },
+                  { videoId: "3Dv4-n6OYGI", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline — on cultivating the interior life and the practice of spiritual direction as an ancient Christian tradition." },
+                  { videoId: "5nvVVcYD-0w", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the deep interior life — drawing on the great Christian directors from Ignatius to Teresa of Avila — and what it means to create space for God in the soul." },
+                  { videoId: "bxzuh5Xx5G4", title: "Ignatian Contemplation Prayer — Discernment Series", channel: "Ignatian Spirituality", description: "An introduction to Ignatian contemplative prayer — the method developed by Ignatius of Loyola and used by spiritual directors for 500 years to help believers encounter Christ in Scripture." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

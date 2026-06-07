@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "emotions" | "practices" | "videos";
+type Tab = "theology" | "jesus" | "emotions" | "practices" | "journal" | "videos";
 
 const STATS = [
   { label: "Jesus wept (John 11:35)", sub: "the shortest verse in Scripture" },
@@ -170,6 +172,22 @@ export default function TheologyOfEmotionsPage() {
   const [expandedTheology, setExpandedTheology] = useState<number | null>(null);
   const [expandedPractices, setExpandedPractices] = useState<number | null>(null);
   const [activeEmotion, setActiveEmotion] = useState<number>(0);
+  const [emotionEntries, setEmotionEntries] = useState<{ id: string; date: string; emotion: string; context: string; truth: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_emotion_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [emForm, setEmForm] = useState({ emotion: "", context: "", truth: "" });
+  const [emSaved, setEmSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_emotion_journal", JSON.stringify(emotionEntries)); } catch {} }, [emotionEntries]);
+
+  const saveEmEntry = () => {
+    setEmotionEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...emForm }, ...prev]);
+    setEmForm({ emotion: "", context: "", truth: "" });
+    setEmSaved(true);
+    setTimeout(() => setEmSaved(false), 2000);
+  };
+
+  const deleteEmEntry = (id: string) => setEmotionEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -212,6 +230,7 @@ export default function TheologyOfEmotionsPage() {
               { id: "jesus" as Tab, label: "Jesus's Emotions" },
               { id: "emotions" as Tab, label: "Emotions in Scripture" },
               { id: "practices" as Tab, label: "Practices" },
+              { id: "journal" as Tab, label: "Emotion Journal" },
               { id: "videos" as Tab, label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -449,6 +468,58 @@ export default function TheologyOfEmotionsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Emotions are data, not commands. They point to something — a desire, a belief, a wound. Journal an emotion to understand what it is telling you and what truth answers it.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Emotion Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>The emotion I'm sitting with</label>
+                <input value={emForm.emotion} onChange={e => setEmForm(f => ({ ...f, emotion: e.target.value }))}
+                  placeholder="Name it: anger, sadness, fear, shame, joy, grief, longing, envy..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Context — what triggered it</label>
+                <textarea value={emForm.context} onChange={e => setEmForm(f => ({ ...f, context: e.target.value }))} rows={2}
+                  placeholder="What happened, what was said, what I was hoping for, what I feared..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Truth that answers this emotion</label>
+                <textarea value={emForm.truth} onChange={e => setEmForm(f => ({ ...f, truth: e.target.value }))} rows={2}
+                  placeholder="A Scripture, a promise, a reminder of who God is, what is actually true about me..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEmEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {emSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {emotionEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Emotion History</h3>
+                {emotionEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteEmEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      {e.emotion && <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.emotion}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.context && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>{e.context}</p>}
+                    {e.truth && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>Truth: {e.truth}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -458,20 +529,14 @@ export default function TheologyOfEmotionsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "OtUenqxT9p8", title: "A Theology of Emotions", channel: "Christian Teaching", description: "A foundational session exploring what Scripture teaches about human emotions, their role in the spiritual life, and how they relate to our knowledge of God." },
-                  { videoId: "bjQ2zr3rAVY", title: "Understanding Emotions — Full Sermon", channel: "Joyce Meyer Ministries", description: "A practical biblical sermon on the nature of emotions, why Christians struggle with them, and how God's truth transforms our emotional lives." },
-                  { videoId: "3yyxPAlF4Dc", title: "As a Christian, Do My Emotions Matter?", channel: "Theocast", description: "A theological conversation on whether and how emotions matter in the Christian life, and what a healthy relationship with our feelings looks like." },
-                  { videoId: "Eb3IUHzB2rE", title: "Untangle Your Emotions — Bible Study Session 1", channel: "Jennie Allen", description: "Jennie Allen opens her Bible study series on emotions, helping Christians understand the God-designed purpose of their emotional experiences." },
-                  { videoId: "ZoKI2BmTCgo", title: "God's Design for Mental Health: The Role of Emotions in Christian Life", channel: "Church Teaching", description: "A sermon from John 11:1-44 on how Jesus modeled emotional health and what his example teaches us about grief, compassion, and authentic faith." },
+                  { videoId: "7_CGP-12AE0", title: "A Theology of Emotions", channel: "Christian Teaching", description: "A foundational session exploring what Scripture teaches about human emotions, their role in the spiritual life, and how they relate to our knowledge of God." },
+                  { videoId: "GQI72THyO5I", title: "Understanding Emotions — Full Sermon", channel: "Joyce Meyer Ministries", description: "A practical biblical sermon on the nature of emotions, why Christians struggle with them, and how God's truth transforms our emotional lives." },
+                  { videoId: "t6L-F2emwUc", title: "As a Christian, Do My Emotions Matter?", channel: "Theocast", description: "A theological conversation on whether and how emotions matter in the Christian life, and what a healthy relationship with our feelings looks like." },
+                  { videoId: "jH_aojNJM3E", title: "Untangle Your Emotions — Bible Study Session 1", channel: "Jennie Allen", description: "Jennie Allen opens her Bible study series on emotions, helping Christians understand the God-designed purpose of their emotional experiences." },
+                  { videoId: "oNpTha80yyE", title: "God's Design for Mental Health: The Role of Emotions in Christian Life", channel: "Church Teaching", description: "A sermon from John 11:1-44 on how Jesus modeled emotional health and what his example teaches us about grief, compassion, and authentic faith." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

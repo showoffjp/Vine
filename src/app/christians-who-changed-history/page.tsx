@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -171,7 +173,7 @@ const MOVEMENTS_CWH: { id: string; name: string; era: string; icon: string; summ
     legacy: "Modern healthcare infrastructure — the hospital, nursing, and the ethics of universal care regardless of ability to pay.",
   },
   {
-    id: "civilrights",
+    id: "XtwIT8JjddM",
     name: "Civil Rights Movement",
     era: "20th century",
     icon: "✊",
@@ -207,7 +209,7 @@ const HOWTO_CWH: { id: string; principle: string; example: string; application: 
     application: "For every action you take toward change, match it with an equivalent investment of prayer. Double your action budget; double your prayer budget.",
   },
   {
-    id: "start-where",
+    id: "jH_aojNJM3E",
     principle: "Start Where You Are",
     example: "George Mueller did not wait to move to London. He worked in Bristol, with orphans, in his city. Martin Luther King Jr. did not wait for a national platform. He started in Birmingham. The call is not to go somewhere more important. It is to see what is right in front of you with new eyes.",
     application: "What injustice is closest to you right now? Not the most famous cause. The nearest one.",
@@ -217,8 +219,22 @@ const HOWTO_CWH: { id: string; principle: string; example: string; application: 
 export default function ChristiansWhoChangedHistoryPage() {
   const [domain, setDomain] = usePersistedState<string>("vine_christians-who-changed-history_domain", "All");
   const [selected, setSelected] = useState<string | null>(null);
-  type Tab = "figures" | "movements" | "principles" | "howto" | "videos";
+  type Tab = "figures" | "movements" | "principles" | "howto" | "journal" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christians-who-changed-history_tab", "figures");
+
+  const [cwchEntries, setCwchEntries] = useState<{ id: string; date: string; figure: string; inspired: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cwch_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cwchForm, setCwchForm] = useState({ figure: "", inspired: "", applying: "" });
+  const [cwchSaved, setCwchSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cwch_entries", JSON.stringify(cwchEntries)); }, [cwchEntries]);
+  function saveCwchEntry() {
+    if (!cwchForm.figure.trim()) return;
+    setCwchEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cwchForm }, ...prev]);
+    setCwchForm({ figure: "", inspired: "", applying: "" });
+    setCwchSaved(true); setTimeout(() => setCwchSaved(false), 2000);
+  }
+  function deleteCwchEntry(id: string) { setCwchEntries(prev => prev.filter(e => e.id !== id)); }
 
   const filtered = FIGURES.filter(f => domain === "All" || f.domain === domain);
   const figure = FIGURES.find(f => f.name === selected);
@@ -249,6 +265,7 @@ export default function ChristiansWhoChangedHistoryPage() {
             { id: "movements" as const, label: "Movements", icon: "🔥" },
             { id: "principles" as const, label: "Principles", icon: "🎯" },
             { id: "howto" as const, label: "Apply It", icon: "⚡" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -452,6 +469,53 @@ export default function ChristiansWhoChangedHistoryPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Inspiration Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record the figures who inspire you and how you are answering a similar call. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which figure inspires you most?</label>
+                <textarea value={cwchForm.figure} onChange={e => setCwchForm(f => ({ ...f, figure: e.target.value }))}
+                  placeholder="Name and what they did..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What specifically inspires you about their faith and action?</label>
+                <textarea value={cwchForm.inspired} onChange={e => setCwchForm(f => ({ ...f, inspired: e.target.value }))}
+                  placeholder="The quality, conviction, or sacrifice that moves you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How might God be calling you to a similar faithfulness?</label>
+                <textarea value={cwchForm.applying} onChange={e => setCwchForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="Your context, your call, your next step..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCwchEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cwchSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cwchEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cwchEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCwchEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.figure && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>FIGURE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.figure}</span></div>}
+                    {e.inspired && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>INSPIRED BY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.inspired}</span></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>MY CALL </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -461,19 +525,13 @@ export default function ChristiansWhoChangedHistoryPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Fgq73nEGxB0", title: "The Story of William Wilberforce — Documentary", channel: "Documentary", description: "A short documentary on Christian politician and abolitionist William Wilberforce, who spent 46 years fighting to end the British slave trade." },
-                  { videoId: "VzRZINYCwKw", title: "The Better Hour — The Christian Legacy of William Wilberforce", channel: "Documentary", description: "The story of how Wilberforce's Christian faith and biblical principles drove one of history's greatest human rights achievements." },
-                  { videoId: "lHJ55xly5pI", title: "The Faith of William Wilberforce", channel: "Dr Joe Boot", description: "Dr. Joe Boot, Director of the Wilberforce Academy, discusses how Wilberforce's Christian faith was inseparable from his public life and political work." },
-                  { videoId: "silPnlvRezY", title: "Christians and Social Justice: Lessons from William Wilberforce", channel: "Peter Saunders", description: "What Christians today can learn from Wilberforce's model of faith-driven social engagement." },
+                  { videoId: "kfcVPh2VDhQ", title: "The Story of William Wilberforce — Documentary", channel: "Documentary", description: "A short documentary on Christian politician and abolitionist William Wilberforce, who spent 46 years fighting to end the British slave trade." },
+                  { videoId: "57LVVwba6_8", title: "The Better Hour — The Christian Legacy of William Wilberforce", channel: "Documentary", description: "The story of how Wilberforce's Christian faith and biblical principles drove one of history's greatest human rights achievements." },
+                  { videoId: "HGHqu9-DtXk", title: "The Faith of William Wilberforce", channel: "Dr Joe Boot", description: "Dr. Joe Boot, Director of the Wilberforce Academy, discusses how Wilberforce's Christian faith was inseparable from his public life and political work." },
+                  { videoId: "E65KV3M8RZE", title: "Christians and Social Justice: Lessons from William Wilberforce", channel: "Peter Saunders", description: "What Christians today can learn from Wilberforce's model of faith-driven social engagement." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

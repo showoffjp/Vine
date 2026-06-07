@@ -22,6 +22,26 @@ export default function CreatePostModal({ label = "Create Post", variant = "gold
 
   const handleSubmit = () => {
     if (!title.trim() || !body.trim()) return;
+    const userRaw = (() => { try { return JSON.parse(localStorage.getItem("vine_user") || "{}"); } catch { return {}; } })();
+    const authorName = userRaw.name || "You";
+    const initials = authorName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "ME";
+    const newPost = {
+      id: Date.now(),
+      content: `${title.trim()}\n\n${body.trim()}`,
+      time: "Just now",
+      type: "text",
+      hub: hub || undefined,
+      authorName,
+      authorAvatar: initials,
+      authorColor: "#3a7d56",
+    };
+    try {
+      const existing = JSON.parse(localStorage.getItem("vine_user_posts") || "[]");
+      localStorage.setItem("vine_user_posts", JSON.stringify([newPost, ...existing]));
+      const myPosts = JSON.parse(localStorage.getItem("vine_disc_my_posts") || "[]");
+      myPosts.push(String(newPost.id));
+      localStorage.setItem("vine_disc_my_posts", JSON.stringify(myPosts));
+    } catch {}
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);

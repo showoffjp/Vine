@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -187,7 +189,7 @@ const THEOLOGY_CS: { id: string; title: string; verse: string; body: string }[] 
     body: "Scripture speaks of God granting repentance, not merely demanding it. This is not a technicality. It means that even the sorrow over sin that turns us toward God is itself a work of grace. Repentance is not self-improvement, spiritual effort, or pulling ourselves together. It is a gift given to those who could not manufacture it themselves. This should produce humility in those who have repented and hope in those who are waiting.",
   },
   {
-    id: "newcreation",
+    id: "dy9nwe9zeU8",
     title: "Old Things Have Passed Away",
     verse: "2 Corinthians 5:17",
     body: "Paul does not use the language of renovation or restoration. He uses the language of new creation. The old has gone; the new has come. Conversion implies a radical break with the former self, not a moral upgrade. This is why conversion stories are so dramatic: they are stories of death and life, not gradual self-improvement. Every genuine conversion is a small apocalypse.",
@@ -207,10 +209,24 @@ const THEOLOGY_CS: { id: string; title: string; verse: string; body: string }[] 
 ];
 
 export default function ConversionStoriesPage() {
-  type Tab = "stories" | "patterns" | "theology" | "yourstory" | "videos";
+  type Tab = "stories" | "patterns" | "theology" | "yourstory" | "journal" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_conversion-stories_tab", "stories");
   const [era, setEra] = usePersistedState<string>("vine_conversion-stories_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
+
+  const [cconvEntries, setCconvEntries] = useState<{ id: string; date: string; story: string; pattern: string; testimony: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cconv_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cconvForm, setCconvForm] = useState({ story: "", pattern: "", testimony: "" });
+  const [cconvSaved, setCconvSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cconv_entries", JSON.stringify(cconvEntries)); }, [cconvEntries]);
+  function saveCconvEntry() {
+    if (!cconvForm.story.trim()) return;
+    setCconvEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cconvForm }, ...prev]);
+    setCconvForm({ story: "", pattern: "", testimony: "" });
+    setCconvSaved(true); setTimeout(() => setCconvSaved(false), 2000);
+  }
+  function deleteCconvEntry(id: string) { setCconvEntries(prev => prev.filter(e => e.id !== id)); }
 
   const filtered = STORIES.filter(s => era === "All" || s.era === era);
   const story = STORIES.find(s => s.name === selected);
@@ -242,6 +258,7 @@ export default function ConversionStoriesPage() {
             { id: "patterns" as const, label: "Patterns", icon: "🔍" },
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "yourstory" as const, label: "Your Story", icon: "✍️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -462,6 +479,54 @@ export default function ConversionStoriesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Conversion Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your own story of faith — which conversion story moves you, what pattern you recognize, and your own testimony. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>STORY THAT RESONATES WITH ME *</label>
+                <textarea value={cconvForm.story} onChange={e => setCconvForm(f => ({ ...f, story: e.target.value }))}
+                  placeholder="Which conversion story from this page resonates with you most, and why?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PATTERN I RECOGNIZE IN MY OWN STORY</label>
+                <textarea value={cconvForm.pattern} onChange={e => setCconvForm(f => ({ ...f, pattern: e.target.value }))}
+                  placeholder="Which pattern (intellectual, dramatic moment, suffering, community, surrender) do you see in your own journey?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY TESTIMONY (DRAFT)</label>
+                <textarea value={cconvForm.testimony} onChange={e => setCconvForm(f => ({ ...f, testimony: e.target.value }))}
+                  placeholder="In your own words: where were you, what happened, and what changed? This is the beginning of your testimony." rows={4}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCconvEntry}
+                style={{ background: cconvSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cconvSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cconvEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({cconvEntries.length})</h3>
+                {cconvEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteCconvEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.story && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>STORY: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.story}</span></div>}
+                    {entry.pattern && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>PATTERN: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.pattern}</span></div>}
+                    {entry.testimony && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>TESTIMONY: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.testimony}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -471,19 +536,13 @@ export default function ConversionStoriesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "M5KLV1Mhc9g", title: "An Evening of Eschatology — Piper, Wilson, Storms, Hamilton", channel: "Desiring God", description: "A roundtable discussion featuring John Piper on the themes of God's sovereignty and grace that undergird every conversion story." },
-                  { videoId: "HaEQyNeaFZs", title: "My Journey from Atheism to Christianity", channel: "Francis Collins", description: "Dr. Francis Collins, former director of the NIH, describes his personal journey from atheism to Christian faith — a powerful modern conversion story." },
-                  { videoId: "dih7LHCYw5s", title: "C.S. Lewis: The Story of His Journey to Faith", channel: "YouTube", description: "The remarkable story of C.S. Lewis's reluctant conversion from atheism to Christianity, one of the most influential conversions of the 20th century." },
-                  { videoId: "-cRkUt4glaE", title: "How God Made Me Happy in Him: John Piper's Journey to Joy", channel: "Desiring God", description: "John Piper tells the story of how God connected the dots between glory and joy in his own faith journey and spiritual formation." },
+                  { videoId: "iK0NjiBXKN4", title: "An Evening of Eschatology — Piper, Wilson, Storms, Hamilton", channel: "Desiring God", description: "A roundtable discussion featuring John Piper on the themes of God's sovereignty and grace that undergird every conversion story." },
+                  { videoId: "zMbUXpFiFeo", title: "My Journey from Atheism to Christianity", channel: "Francis Collins", description: "Dr. Francis Collins, former director of the NIH, describes his personal journey from atheism to Christian faith — a powerful modern conversion story." },
+                  { videoId: "52ZXFH1wzc8", title: "C.S. Lewis: The Story of His Journey to Faith", channel: "YouTube", description: "The remarkable story of C.S. Lewis's reluctant conversion from atheism to Christianity, one of the most influential conversions of the 20th century." },
+                  { videoId: "rtkS_8VWfB0", title: "How God Made Me Happy in Him: John Piper's Journey to Joy", channel: "Desiring God", description: "John Piper tells the story of how God connected the dots between glory and joy in his own faith journey and spiritual formation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

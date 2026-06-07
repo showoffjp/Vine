@@ -1,21 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "names" | "praying" | "videos";
+type Tab = "overview" | "names" | "praying" | "journal" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "overview", label: "Overview" },
   { id: "names", label: "The Names" },
   { id: "praying", label: "Praying the Names" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "Videos" },
 ];
 
@@ -304,30 +307,44 @@ export default function NamesOfGodPage() {
 
   const filtered = NAMES.filter((n) => category === "All" || n.category === category);
 
+  const [nogEntries, setNogEntries] = useState<{ id: string; date: string; name: string; meaning: string; prayer: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_nog_entries") ?? "[]"); } catch { return []; }
+  });
+  const [nogForm, setNogForm] = useState({ name: "", meaning: "", prayer: "" });
+  const [nogSaved, setNogSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_nog_entries", JSON.stringify(nogEntries)); } catch {} }, [nogEntries]);
+  const saveNogEntry = () => {
+    if (!nogForm.name.trim()) return;
+    setNogEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...nogForm }, ...prev]);
+    setNogForm({ name: "", meaning: "", prayer: "" });
+    setNogSaved(true); setTimeout(() => setNogSaved(false), 2000);
+  };
+  const deleteNogEntry = (id: string) => setNogEntries(prev => prev.filter(e => e.id !== id));
+
   const videos = [
     {
-      videoId: "ZK3oapeJFII",
+      videoId: "AzmYV8GNAIM",
       title: "The Names of God — Who Is God?",
       channel: "BibleProject",
       description:
         "An overview of how the Bible reveals God's character through his names, exploring the meaning of Yahweh and the divine identity.",
     },
     {
-      videoId: "Qs9M9Z9zKsk",
+      videoId: "Cus-z1hgAXw",
       title: "YHWH / The Name of God",
       channel: "BibleProject",
       description:
         "A study of the Tetragrammaton (YHWH), why it is rendered 'the LORD,' and what it teaches us about God's eternal, covenant character.",
     },
     {
-      videoId: "f5lDFtFA1HI",
+      videoId: "iVwauTiyFjM",
       title: "El Shaddai and the Names of God in Genesis",
       channel: "Bible Study",
       description:
         "An exploration of the names God revealed to the patriarchs — El Shaddai, El Elyon, El Roi — and what they meant for Israel's faith.",
     },
     {
-      videoId: "Tt8Ga-Oz3Ng",
+      videoId: "3Dv4-n6OYGI",
       title: "Yahweh: The Personal Name of God",
       channel: "Theology Explained",
       description:
@@ -623,17 +640,47 @@ export default function NamesOfGodPage() {
         )}
 
         {/* Videos */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Names of God Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record which names of God you're meditating on and how they're shaping your prayer.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={nogForm.name} onChange={e => setNogForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="Which name of God? (e.g. El Shaddai, Yahweh Rapha)" aria-label="Name of God"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={nogForm.meaning} onChange={e => setNogForm(f => ({ ...f, meaning: e.target.value }))}
+                  placeholder="What does this name reveal about God?" aria-label="Meaning"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={nogForm.prayer} onChange={e => setNogForm(f => ({ ...f, prayer: e.target.value }))}
+                  placeholder="How are you praying this name? (optional)" aria-label="Prayer"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveNogEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {nogSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {nogEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first divine name reflection above.</p>}
+              {nogEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteNogEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: GREEN, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.name}</p>
+                  {e.meaning && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.meaning}</p>}
+                  {e.prayer && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>🙏 {e.prayer}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <section style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
             {videos.map((v) => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <iframe
-                  width="100%"
-                  style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`}
-                  title={v.title}
-                  allowFullScreen
-                />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: 20 }}>
                   <h3 style={{ fontFamily: SERIF, fontSize: 20, margin: "0 0 6px" }}>{v.title}</h3>
                   <p style={{ color: GREEN, fontSize: 13, margin: "0 0 10px", fontWeight: 600 }}>{v.channel}</p>

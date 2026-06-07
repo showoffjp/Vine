@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "overview" | "themes" | "covenants" | "reading" | "resources" | "videos";
+type Tab = "overview" | "themes" | "covenants" | "reading" | "resources" | "journal" | "videos";
 
 const BTP_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "What Is Biblical Theology? — An Introduction", channel: "The Gospel Coalition", description: "How biblical theology differs from systematic theology, why it matters, and how it transforms Bible reading." },
-  { videoId: "ACZbpLkY8To", title: "The Story of the Bible — From Eden to New Jerusalem", channel: "Bible Project", description: "The Bible Project's overview of the unified narrative of Scripture — creation, fall, redemption, and new creation." },
-  { videoId: "fJnGJN6laqE", title: "Typology — How the Old Testament Points to Christ", channel: "Desiring God", description: "How to read the Old Testament's types and shadows as patterns fulfilled in Jesus — the key to reading the Bible as one story." },
-  { videoId: "Z8lkuuhVkOI", title: "Covenant Theology Explained", channel: "Ligonier Ministries", description: "An introduction to the covenant framework that unifies the Bible's narrative from Adam to the New Covenant in Christ." },
+  { videoId: "rtkS_8VWfB0", title: "What Is Biblical Theology? — An Introduction", channel: "The Gospel Coalition", description: "How biblical theology differs from systematic theology, why it matters, and how it transforms Bible reading." },
+  { videoId: "ej_6dVdJSIU", title: "The Story of the Bible — From Eden to New Jerusalem", channel: "Bible Project", description: "The Bible Project's overview of the unified narrative of Scripture — creation, fall, redemption, and new creation." },
+  { videoId: "4Eg_di-O8nM", title: "Typology — How the Old Testament Points to Christ", channel: "Desiring God", description: "How to read the Old Testament's types and shadows as patterns fulfilled in Jesus — the key to reading the Bible as one story." },
+  { videoId: "gV9JugO_5Mk", title: "Covenant Theology Explained", channel: "Ligonier Ministries", description: "An introduction to the covenant framework that unifies the Bible's narrative from Adam to the New Covenant in Christ." },
 ];
 
 const STORYLINE = [
@@ -77,6 +79,20 @@ export default function BiblicalTheologyPrimerPage() {
   const [selected, setSelected] = useState(THEMES[0].theme);
   const sel = THEMES.find(t => t.theme === selected) || THEMES[0];
 
+  const [btpEntries, setBtpEntries] = useState<{ id: string; date: string; theme: string; passage: string; insight: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_btp_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [btpForm, setBtpForm] = useState({ theme: "", passage: "", insight: "" });
+  const [btpSaved, setBtpSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_btp_entries", JSON.stringify(btpEntries)); }, [btpEntries]);
+  function saveBtpEntry() {
+    if (!btpForm.theme.trim()) return;
+    setBtpEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...btpForm }, ...prev]);
+    setBtpForm({ theme: "", passage: "", insight: "" });
+    setBtpSaved(true); setTimeout(() => setBtpSaved(false), 2000);
+  }
+  function deleteBtpEntry(id: string) { setBtpEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -97,7 +113,7 @@ export default function BiblicalTheologyPrimerPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["overview", "themes", "covenants", "reading", "resources", "videos"] as Tab[]).map(t => (
+          {(["overview", "themes", "covenants", "reading", "resources", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "overview" ? "The Storyline" : t === "themes" ? "Major Themes" : t === "covenants" ? "The Covenants" : t === "reading" ? "How to Read" : t === "resources" ? "Resources" : "Videos"}
@@ -220,12 +236,57 @@ export default function BiblicalTheologyPrimerPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Biblical Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Track biblical themes as you trace them through Scripture — the passage, and what the larger story illuminates.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Theme I am tracing</label>
+                <input value={btpForm.theme} onChange={e => setBtpForm(f => ({ ...f, theme: e.target.value }))} placeholder="e.g. Kingdom, Temple, Covenant, Image of God, Redemption..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Passage I am reading</label>
+                <input value={btpForm.passage} onChange={e => setBtpForm(f => ({ ...f, passage: e.target.value }))} placeholder="e.g. Genesis 1-2, Exodus 25-40, John 2..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What the larger story illuminates</label>
+                <textarea value={btpForm.insight} onChange={e => setBtpForm(f => ({ ...f, insight: e.target.value }))} rows={3} placeholder="How does the whole-Bible context open up this passage?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBtpEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {btpSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {btpEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({btpEntries.length})</h3>
+                {btpEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.theme}</span>
+                        {e.passage && <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.passage}</span>}
+                      </div>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBtpEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.insight && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: GREEN }}>Insight:</strong> {e.insight}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {BTP_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

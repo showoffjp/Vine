@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "actions" | "voices" | "churches" | "videos";
+type Tab = "theology" | "actions" | "voices" | "churches" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -42,7 +44,7 @@ const THEOLOGY_ITEMS = [
     body: "Psalm 19 opens with one of the most celebrated verses in creation theology: 'The heavens declare the glory of God; the skies proclaim the work of his hands' (v. 1). Creation is not mute matter — it is speech. It testifies. It praises. Psalm 104 is a sustained ecological theology: God waters the mountains, grass grows for the cattle, wine gladdens the human heart, storks nest in fir trees, lions roar for their prey from God. Each creature has a God-assigned place and role in a web of mutual flourishing. Notably, Psalm 104:31 says 'May the LORD rejoice in his works' — creation has independent value as an object of God's delight, apart from human utility. Richard Bauckham argues that Psalms 148 and 150 present all creation as a worshipping community. To damage the community of creation is to silence a choir of praise.",
   },
   {
-    id: "incarnation",
+    id: "ej_6dVdJSIU",
     title: "Jesus and the Material World",
     verse: "John 1:14; John 6:1-14",
     body: "The Incarnation is the most radical affirmation of the material world in human history: 'The Word became flesh and made his dwelling among us' (John 1:14). God did not condescend to matter reluctantly. He entered it, inhabited it, healed it. Jesus touched lepers, healed blind eyes, restored withered hands. The feeding of the five thousand involved real fish and real bread — Jesus multiplied matter rather than transcending it. The resurrection was bodily: Thomas touched the wounds, Jesus ate broiled fish on the shore. These are not accidents of the narrative — they reflect a consistent theology of matter as good, as redeemable, as the arena of God's redemptive action. Gnosticism, which denigrated the physical world as evil, was condemned as heresy precisely because it contradicted the Incarnation. Christian theology is irreducibly material. The earth is not a fallen waiting room; it is the theater of God's love.",
@@ -239,6 +241,20 @@ export default function CreationCareActionPage() {
     ? ACTIONS
     : ACTIONS.filter(a => a.category === activeCategory);
 
+  const [ccaEntries, setCcaEntries] = useState<{ id: string; date: string; action: string; theology: string; commitment: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cca_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ccaForm, setCcaForm] = useState({ action: "", theology: "", commitment: "" });
+  const [ccaSaved, setCcaSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cca_entries", JSON.stringify(ccaEntries)); }, [ccaEntries]);
+  function saveCcaEntry() {
+    if (!ccaForm.action.trim()) return;
+    setCcaEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ccaForm }, ...prev]);
+    setCcaForm({ action: "", theology: "", commitment: "" });
+    setCcaSaved(true); setTimeout(() => setCcaSaved(false), 2000);
+  }
+  function deleteCcaEntry(id: string) { setCcaEntries(prev => prev.filter(e => e.id !== id)); }
+
   const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   const tabs: { id: Tab; label: string }[] = [
@@ -246,6 +262,7 @@ export default function CreationCareActionPage() {
     { id: "actions", label: "30 Action Steps" },
     { id: "voices", label: "Prophetic Voices" },
     { id: "churches", label: "Churches Taking Action" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -536,6 +553,54 @@ export default function CreationCareActionPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Creation Care Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track the actions you are taking, the theology behind them, and the commitments you are making as a faithful steward of God&apos;s creation. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>ACTION I AM TAKING *</label>
+                <textarea value={ccaForm.action} onChange={e => setCcaForm(f => ({ ...f, action: e.target.value }))}
+                  placeholder="Which creation care action are you committing to or have already taken?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>THEOLOGICAL GROUNDING</label>
+                <textarea value={ccaForm.theology} onChange={e => setCcaForm(f => ({ ...f, theology: e.target.value }))}
+                  placeholder="What biblical truth or theology motivates this action for you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>ONGOING COMMITMENT</label>
+                <textarea value={ccaForm.commitment} onChange={e => setCcaForm(f => ({ ...f, commitment: e.target.value }))}
+                  placeholder="What longer-term commitment to creation stewardship are you making?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCcaEntry}
+                style={{ background: ccaSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ccaSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {ccaEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({ccaEntries.length})</h3>
+                {ccaEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteCcaEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.action && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>ACTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.action}</span></div>}
+                    {entry.theology && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>THEOLOGY: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.theology}</span></div>}
+                    {entry.commitment && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>COMMITMENT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.commitment}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -545,19 +610,13 @@ export default function CreationCareActionPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "wvsqrFizQ7k", title: "John Stott London Lecture 2013: Creation Care", channel: "Langham Partnership", description: "A lecture on creation care connected to John Stott's foundational theological work on Christian stewardship of the earth." },
-                  { videoId: "tec5WWgA0mk", title: "Creation Care and Why Environmental Stewardship is a Biblical Principle", channel: "YouTube", description: "Exploring the biblical foundations for why Christians are called to care for creation as faithful stewards of what belongs to God." },
-                  { videoId: "wGthaQWzC0M", title: "What Does the Bible Say About Creation Care?", channel: "YouTube", description: "A recent message examining what Scripture actually teaches about Christian environmental stewardship from Genesis to Revelation." },
-                  { videoId: "vrSzEdLjE_w", title: "Why We Should Care About Stewardship of God's Creation", channel: "YouTube", description: "A theological exploration of why creation care is not a political issue but a matter of faithful obedience to the Creator." },
+                  { videoId: "GQI72THyO5I", title: "John Stott London Lecture 2013: Creation Care", channel: "Langham Partnership", description: "A lecture on creation care connected to John Stott's foundational theological work on Christian stewardship of the earth." },
+                  { videoId: "krxcqH522uo", title: "Creation Care and Why Environmental Stewardship is a Biblical Principle", channel: "YouTube", description: "Exploring the biblical foundations for why Christians are called to care for creation as faithful stewards of what belongs to God." },
+                  { videoId: "nQWFzMvCfLE", title: "What Does the Bible Say About Creation Care?", channel: "YouTube", description: "A recent message examining what Scripture actually teaches about Christian environmental stewardship from Genesis to Revelation." },
+                  { videoId: "ccNvwDPguNU", title: "Why We Should Care About Stewardship of God's Creation", channel: "YouTube", description: "A theological exploration of why creation care is not a political issue but a matter of faithful obedience to the Creator." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

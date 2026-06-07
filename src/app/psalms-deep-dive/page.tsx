@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "types" | "reading" | "psalms" | "pray" | "videos";
+type Tab = "types" | "reading" | "psalms" | "pray" | "journal" | "videos";
 type PsalmType = "All" | "Lament" | "Praise" | "Royal" | "Wisdom" | "Historical" | "Penitential" | "Imprecatory" | "Pilgrimage";
 
 const TYPE_COLORS: Record<string, string> = {
@@ -386,11 +388,27 @@ export default function PsalmsDeepDivePage() {
 
   const activeBook = BOOKS_DATA.find((b) => b.id === selectedBook);
 
+  const [sddJEntries, setSddJEntries] = useState<{ id: string; date: string; psalm: string; type: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_sddj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [sddJForm, setSddJForm] = useState({ psalm: "", type: "", applying: "" });
+  const [sddJSaved, setSddJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_sddj_entries", JSON.stringify(sddJEntries)); } catch {} }, [sddJEntries]);
+  const saveSddJEntry = () => {
+    if (!sddJForm.psalm.trim()) return;
+    setSddJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...sddJForm }, ...prev]);
+    setSddJForm({ psalm: "", type: "", applying: "" });
+    setSddJSaved(true);
+    setTimeout(() => setSddJSaved(false), 2000);
+  };
+  const deleteSddJEntry = (id: string) => setSddJEntries(prev => prev.filter(e => e.id !== id));
+
   const TAB_LABELS: Record<Tab, string> = {
     types: "Types of Psalms",
     reading: "How to Read a Psalm",
     psalms: "Five Books",
     pray: "Praying Through the Psalms",
+    journal: "📓 My Journal",
     videos: "Videos",
   };
 
@@ -483,7 +501,7 @@ export default function PsalmsDeepDivePage() {
             flexWrap: "wrap",
           }}
         >
-          {(["types", "reading", "psalms", "pray", "videos"] as Tab[]).map((t) => (
+          {(["types", "reading", "psalms", "pray", "journal", "videos"] as Tab[]).map((t) => (
             <button type="button"
               key={t}
               onClick={() => setTab(t)}
@@ -984,6 +1002,50 @@ export default function PsalmsDeepDivePage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Psalms Deep Dive Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the Psalm you studied deeply, its type, and how you are applying it to your life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Psalm I studied</label>
+                  <textarea rows={2} value={sddJForm.psalm} onChange={e => setSddJForm(f => ({ ...f, psalm: e.target.value }))} placeholder="e.g. Psalm 22, Psalm 119, Psalm 46" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Its type and what I noticed</label>
+                  <textarea rows={2} value={sddJForm.type} onChange={e => setSddJForm(f => ({ ...f, type: e.target.value }))} placeholder="e.g. Lament — the Psalm ends without resolution, which gave me permission to pray honestly" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am applying it</label>
+                  <textarea rows={2} value={sddJForm.applying} onChange={e => setSddJForm(f => ({ ...f, applying: e.target.value }))} placeholder="How does this Psalm change your prayer, your attitude, or your trust?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveSddJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {sddJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {sddJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {sddJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteSddJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.psalm && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Psalm</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.psalm}</p></div>}
+                    {e.type && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Type & Observation</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.type}</p></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -993,19 +1055,13 @@ export default function PsalmsDeepDivePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper explains the proper approach to reading and praying the Psalms, seeing them as God's own prayer book for his people." },
-                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "A practical guide to using the Psalter as a school of prayer, letting each psalm shape and expand your vocabulary before God." },
-                  { videoId: "tHPRGR3TGUM", title: "Isaiah: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul explores how the prophetic books, like the Psalms, point forward to the Messiah — essential context for reading the Psalter." },
-                  { videoId: "G_A-alJl1ps", title: "The Resurrection (Mark 16:1–13)", channel: "Ligonier Ministries", description: "R.C. Sproul preaches through the climax of the Psalms' Messianic hope — the resurrection that the royal psalms anticipated." },
+                  { videoId: "F1Cz95NtJ4c", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper explains the proper approach to reading and praying the Psalms, seeing them as God's own prayer book for his people." },
+                  { videoId: "W6NjAG4qp4M", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "A practical guide to using the Psalter as a school of prayer, letting each psalm shape and expand your vocabulary before God." },
+                  { videoId: "krxcqH522uo", title: "Isaiah: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul explores how the prophetic books, like the Psalms, point forward to the Messiah — essential context for reading the Psalter." },
+                  { videoId: "KRsuCQe7aVk", title: "The Resurrection (Mark 16:1–13)", channel: "Ligonier Ministries", description: "R.C. Sproul preaches through the climax of the Psalms' Messianic hope — the resurrection that the royal psalms anticipated." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

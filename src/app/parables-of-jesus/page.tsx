@@ -1,15 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "parables" | "howto" | "videos";
+type Tab = "overview" | "parables" | "howto" | "journal" | "videos";
 type Category = "All" | "Kingdom" | "Grace" | "Prayer" | "Judgment" | "Lost & Found";
 
 const CATEGORIES: Category[] = ["All", "Kingdom", "Grace", "Prayer", "Judgment", "Lost & Found"];
@@ -154,7 +156,7 @@ const PARABLES: Parable[] = [
       "Grace is not wages. God is free to be lavishly generous, and the kingdom dismantles all bookkeeping that resents the mercy shown to latecomers.",
   },
   {
-    id: "ten-virgins",
+    id: "3Dv4-n6OYGI",
     name: "The Ten Virgins",
     reference: "Matthew 25:1-13",
     category: "Judgment",
@@ -190,7 +192,7 @@ const PARABLES: Parable[] = [
       "Life does not consist in the abundance of possessions. Storing up earthly treasure while neglecting God is folly, for the soul's accounting comes suddenly.",
   },
   {
-    id: "wheat-tares",
+    id: "5nvVVcYD-0w",
     name: "The Wheat and the Tares",
     reference: "Matthew 13:24-30, 36-43",
     category: "Judgment",
@@ -277,10 +279,10 @@ const PARABLES: Parable[] = [
 
 type VideoItem = { videoId: string; title: string; channel: string };
 const VIDEOS: VideoItem[] = [
-  { videoId: "ueOWHp7gQ-c", title: "The Parables of Jesus — Overview", channel: "BibleProject" },
-  { videoId: "XEM4ChQQ7Hg", title: "The Prodigal Son Explained", channel: "Bible Study" },
-  { videoId: "VOIdM_Yt-cg", title: "Why Jesus Taught in Parables", channel: "Teaching" },
-  { videoId: "Pkj8Tu-yWQk", title: "The Kingdom Parables of Matthew 13", channel: "Sermon Series" },
+  { videoId: "bxzuh5Xx5G4", title: "The Parables of Jesus — Overview", channel: "BibleProject" },
+  { videoId: "KwX1f2gYKZ4", title: "The Prodigal Son Explained", channel: "Bible Study" },
+  { videoId: "YNd-PbVhnvA", title: "Why Jesus Taught in Parables", channel: "Teaching" },
+  { videoId: "XtwIT8JjddM", title: "The Kingdom Parables of Matthew 13", channel: "Sermon Series" },
 ];
 
 const READING_KEYS = [
@@ -320,6 +322,21 @@ export default function ParablesOfJesusPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_parables-of-jesus_tab", "overview");
   const [category, setCategory] = usePersistedState<string>("vine_parables-of-jesus_category", "All");
   const [openId, setOpenId] = useState<string | null>(PARABLES[0].id);
+
+  const [pojJEntries, setPojJEntries] = useState<{ id: string; date: string; parable: string; lesson: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_poj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [pojJForm, setPojJForm] = useState({ parable: "", lesson: "", applying: "" });
+  const [pojJSaved, setPojJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_poj_entries", JSON.stringify(pojJEntries)); } catch {} }, [pojJEntries]);
+  const savePojJEntry = () => {
+    if (!pojJForm.parable.trim()) return;
+    setPojJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...pojJForm }, ...prev]);
+    setPojJForm({ parable: "", lesson: "", applying: "" });
+    setPojJSaved(true);
+    setTimeout(() => setPojJSaved(false), 2000);
+  };
+  const deletePojJEntry = (id: string) => setPojJEntries(prev => prev.filter(e => e.id !== id));
 
   const filtered =
     category === "All" ? PARABLES : PARABLES.filter((p) => p.category === category);
@@ -394,6 +411,7 @@ export default function ParablesOfJesusPage() {
           {tabBtn("overview", "Overview")}
           {tabBtn("parables", "The Parables")}
           {tabBtn("howto", "How to Read Parables")}
+          {tabBtn("journal", "My Journal")}
           {tabBtn("videos", "Videos")}
         </nav>
 
@@ -747,6 +765,50 @@ export default function ParablesOfJesusPage() {
           </section>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Parables Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record a parable you studied, the lesson it unlocked for you, and how you are applying it to your life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Parable I studied</label>
+                  <textarea rows={2} value={pojJForm.parable} onChange={e => setPojJForm(f => ({ ...f, parable: e.target.value }))} placeholder="e.g. The Prodigal Son, The Good Samaritan" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Lesson that struck me</label>
+                  <textarea rows={2} value={pojJForm.lesson} onChange={e => setPojJForm(f => ({ ...f, lesson: e.target.value }))} placeholder="What did Jesus want his hearers — and you — to understand?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am applying it</label>
+                  <textarea rows={2} value={pojJForm.applying} onChange={e => setPojJForm(f => ({ ...f, applying: e.target.value }))} placeholder="What changes in how you live, relate, or pray?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePojJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {pojJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {pojJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {pojJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePojJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.parable && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Parable</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.parable}</p></div>}
+                    {e.lesson && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Lesson</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.lesson}</p></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <section>
@@ -782,13 +844,7 @@ export default function ParablesOfJesusPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <h3 style={{ fontSize: "1.05rem", margin: "0 0 4px" }}>{v.title}</h3>
                     <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>{v.channel}</p>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -61,10 +63,10 @@ interface VoiceWPrayer {
 type Tab = "countries" | "movements" | "scripture" | "voices" | "videos";
 
 const WP_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Prayer and the Advance of the Gospel", channel: "Gospel in Life", description: "Keller on how prayer for the nations connects to God's redemptive purpose for all peoples." },
-  { videoId: "ACZbpLkY8To", title: "The Global Prayer Movement", channel: "Ligonier Ministries", description: "The story of how 24-7 prayer movements around the world are mobilizing the church for mission and intercession." },
-  { videoId: "fJnGJN6laqE", title: "Praying for the Unreached — Operation World", channel: "Desiring God", description: "How to pray systematically for every nation, people group, and region — and why it matters for global missions." },
-  { videoId: "Z8lkuuhVkOI", title: "The Persecuted Church — How to Pray for Suffering Christians", channel: "Open Doors", description: "How to intercede meaningfully for Christians facing persecution, imprisonment, and martyrdom around the world." },
+  { videoId: "rtkS_8VWfB0", title: "Prayer and the Advance of the Gospel", channel: "Gospel in Life", description: "Keller on how prayer for the nations connects to God's redemptive purpose for all peoples." },
+  { videoId: "ej_6dVdJSIU", title: "The Global Prayer Movement", channel: "Ligonier Ministries", description: "The story of how 24-7 prayer movements around the world are mobilizing the church for mission and intercession." },
+  { videoId: "4Eg_di-O8nM", title: "Praying for the Unreached — Operation World", channel: "Desiring God", description: "How to pray systematically for every nation, people group, and region — and why it matters for global missions." },
+  { videoId: "gV9JugO_5Mk", title: "The Persecuted Church — How to Pray for Suffering Christians", channel: "Open Doors", description: "How to intercede meaningfully for Christians facing persecution, imprisonment, and martyrdom around the world." },
 ];
 
 const countries: CountryPrayer[] = [
@@ -815,8 +817,7 @@ export default function WorldPrayerPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {WP_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

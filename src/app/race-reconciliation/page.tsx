@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -81,7 +83,7 @@ const PRACTICES = [
   { title: "Speak in Your Church", desc: "Raise the topic in your church context — in small groups, in conversation with pastors. You don't need to be an expert. You need to be someone who refuses comfortable silence on a matter the Bible addresses directly.", icon: "🎙️" },
 ];
 
-type Tab = "theology" | "barriers" | "voices" | "practices" | "videos";
+type Tab = "theology" | "barriers" | "voices" | "practices" | "journal" | "videos";
 
 export default function RaceReconciliationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_race-reconciliation_tab", "theology");
@@ -89,6 +91,21 @@ export default function RaceReconciliationPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_race-reconciliation_voice", "king");
 
   const voice = VOICES.find(v => v.id === selectedVoice)!;
+
+  const [rrJEntries, setRrJEntries] = useState<{ id: string; date: string; encounter: string; reflection: string; action: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_rrj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [rrJForm, setRrJForm] = useState({ encounter: "", reflection: "", action: "" });
+  const [rrJSaved, setRrJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_rrj_entries", JSON.stringify(rrJEntries)); } catch {} }, [rrJEntries]);
+  const saveRrJEntry = () => {
+    if (!rrJForm.encounter.trim()) return;
+    setRrJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...rrJForm }, ...prev]);
+    setRrJForm({ encounter: "", reflection: "", action: "" });
+    setRrJSaved(true);
+    setTimeout(() => setRrJSaved(false), 2000);
+  };
+  const deleteRrJEntry = (id: string) => setRrJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -109,6 +126,7 @@ export default function RaceReconciliationPage() {
             { id: "barriers" as const, label: "Barriers", icon: "🚧" },
             { id: "voices" as const, label: "Voices", icon: "🎙️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -207,6 +225,50 @@ export default function RaceReconciliationPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Reconciliation Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record an encounter across difference, your honest reflection, and the action you will take toward reconciliation.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Encounter or moment of conviction</label>
+                  <textarea rows={2} value={rrJForm.encounter} onChange={e => setRrJForm(f => ({ ...f, encounter: e.target.value }))} placeholder="What encounter, story, or text brought this issue home for you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>My honest reflection</label>
+                  <textarea rows={2} value={rrJForm.reflection} onChange={e => setRrJForm(f => ({ ...f, reflection: e.target.value }))} placeholder="What is God convicting you of? Where have you been blind or passive?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Action I will take</label>
+                  <textarea rows={2} value={rrJForm.action} onChange={e => setRrJForm(f => ({ ...f, action: e.target.value }))} placeholder="What specific step toward reconciliation will you take this week?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveRrJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {rrJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {rrJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {rrJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteRrJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.encounter && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Encounter</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.encounter}</p></div>}
+                    {e.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.reflection}</p></div>}
+                    {e.action && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Action</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.action}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -216,20 +278,14 @@ export default function RaceReconciliationPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "zohRZjxwsss", title: "Race and the Christian: Q&A with Tim Keller, John Piper & Anthony Bradley", channel: "Redeemer Presbyterian Church", description: "Tim Keller and John Piper discuss what the Bible teaches about race, the church's responsibility, and the path toward genuine reconciliation." },
-                  { videoId: "EhJJcTKTVGo", title: "Racism and Corporate Evil: A White Guy's Perspective", channel: "Timothy Keller", description: "Tim Keller addresses how corporate evil and systemic sin relate to racial injustice, and what the gospel demands of white Christians." },
-                  { videoId: "pYV9FCS34eM", title: "Hope, Race and Power", channel: "Timothy Keller", description: "A sermon exploring how Christian hope shapes our approach to race-related issues and the power dynamics that fuel division." },
-                  { videoId: "E9bF2gjVPu8", title: "Race, Repentance, and Rejoicing: Ethnicity in the Kingdom", channel: "Desiring God / John Piper", description: "John Piper preaches on the biblical vision of ethnic diversity in God's kingdom and what genuine repentance and joy look like across racial lines." },
-                  { videoId: "lcNIyJZ2bbU", title: "Reconciliation", channel: "Timothy Keller", description: "A Keller sermon on reconciliation rooted in Joseph's story — the costly, Spirit-powered work of breaking down walls the gospel has already torn down." },
+                  { videoId: "OU69so6VjHA", title: "Race and the Christian: Q&A with Tim Keller, John Piper & Anthony Bradley", channel: "Redeemer Presbyterian Church", description: "Tim Keller and John Piper discuss what the Bible teaches about race, the church's responsibility, and the path toward genuine reconciliation." },
+                  { videoId: "OqwbFGoRYVo", title: "Racism and Corporate Evil: A White Guy's Perspective", channel: "Timothy Keller", description: "Tim Keller addresses how corporate evil and systemic sin relate to racial injustice, and what the gospel demands of white Christians." },
+                  { videoId: "Ver8qTBTLCQ", title: "Hope, Race and Power", channel: "Timothy Keller", description: "A sermon exploring how Christian hope shapes our approach to race-related issues and the power dynamics that fuel division." },
+                  { videoId: "mC-zw0zCCtg", title: "Race, Repentance, and Rejoicing: Ethnicity in the Kingdom", channel: "Desiring God / John Piper", description: "John Piper preaches on the biblical vision of ethnic diversity in God's kingdom and what genuine repentance and joy look like across racial lines." },
+                  { videoId: "jxaJZ5lBM5U", title: "Reconciliation", channel: "Timothy Keller", description: "A Keller sermon on reconciliation rooted in Joseph's story — the costly, Spirit-powered work of breaking down walls the gospel has already torn down." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

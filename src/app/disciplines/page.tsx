@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { CheckCircle2, ChevronRight, Star, Flame, X } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
@@ -179,7 +181,7 @@ const DISC_THEOLOGY: DiscTheology[] = [
     key_point: "Disciplines don't earn grace — they train us to receive and walk in the grace already given.",
   },
   {
-    id: "jesus-model",
+    id: "mC-zw0zCCtg",
     title: "Jesus as Model",
     icon: "✝️",
     scripture: "Luke 5:16; Mark 1:35",
@@ -187,7 +189,7 @@ const DISC_THEOLOGY: DiscTheology[] = [
     key_point: "Jesus modeled the disciplines not as obligation but as the natural rhythm of a life lived toward the Father.",
   },
   {
-    id: "spirit-role",
+    id: "7_CGP-12AE0",
     title: "The Role of the Spirit",
     icon: "🕊️",
     scripture: "Galatians 5:22-25; Philippians 2:13",
@@ -379,10 +381,10 @@ const VOICES_DISC: Voice[] = [
 ];
 
 const DISC_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "What Are Spiritual Disciplines? — Tim Keller", channel: "Gospel in Life", description: "Keller on the purpose of spiritual disciplines: not to earn merit but to create the conditions in which God works transformation." },
-  { videoId: "ACZbpLkY8To", title: "The Means of Grace — How God Shapes His People", channel: "Ligonier Ministries", description: "A theological account of the spiritual disciplines as means of grace — practices through which the Spirit forms Christlikeness." },
-  { videoId: "fJnGJN6laqE", title: "Dallas Willard and the Spiritual Disciplines", channel: "Desiring God", description: "An introduction to Willard's framework for spiritual formation through disciplined practices — the renovation of the heart." },
-  { videoId: "Z8lkuuhVkOI", title: "Solitude, Silence, and Prayer", channel: "The Gospel Coalition", description: "A practical and theological introduction to the inward disciplines of solitude, silence, and contemplative prayer." },
+  { videoId: "rtkS_8VWfB0", title: "What Are Spiritual Disciplines? — Tim Keller", channel: "Gospel in Life", description: "Keller on the purpose of spiritual disciplines: not to earn merit but to create the conditions in which God works transformation." },
+  { videoId: "ej_6dVdJSIU", title: "The Means of Grace — How God Shapes His People", channel: "Ligonier Ministries", description: "A theological account of the spiritual disciplines as means of grace — practices through which the Spirit forms Christlikeness." },
+  { videoId: "4Eg_di-O8nM", title: "Dallas Willard and the Spiritual Disciplines", channel: "Desiring God", description: "An introduction to Willard's framework for spiritual formation through disciplined practices — the renovation of the heart." },
+  { videoId: "gV9JugO_5Mk", title: "Solitude, Silence, and Prayer", channel: "The Gospel Coalition", description: "A practical and theological introduction to the inward disciplines of solitude, silence, and contemplative prayer." },
 ];
 
 export default function DisciplinesPage() {
@@ -393,11 +395,25 @@ export default function DisciplinesPage() {
     } catch { return {}; }
   });
 
-  const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "practices" | "voices" | "videos">("vine_disciplines_main_tab", "tracker");
+  const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "practices" | "voices" | "journal" | "videos">("vine_disciplines_main_tab", "tracker");
   const [activeCategory, setActiveCategory] = usePersistedState<"all" | "inward" | "outward" | "corporate">("vine_disciplines_active_category", "all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState("");
   const [selectedVoiceId, setSelectedVoiceId] = usePersistedState("vine_disciplines_selected_voice", "kempis");
+
+  const [discpEntries, setDiscpEntries] = useState<{ id: string; date: string; discipline: string; experience: string; intention: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_discp_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [discpForm, setDiscpForm] = useState({ discipline: "", experience: "", intention: "" });
+  const [discpSaved, setDiscpSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_discp_entries", JSON.stringify(discpEntries)); }, [discpEntries]);
+  function saveDiscpEntry() {
+    if (!discpForm.discipline.trim()) return;
+    setDiscpEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...discpForm }, ...prev]);
+    setDiscpForm({ discipline: "", experience: "", intention: "" });
+    setDiscpSaved(true); setTimeout(() => setDiscpSaved(false), 2000);
+  }
+  function deleteDiscpEntry(id: string) { setDiscpEntries(prev => prev.filter(e => e.id !== id)); }
 
   useEffect(() => {
     try { localStorage.setItem("vine_disciplines", JSON.stringify(records)); } catch {}
@@ -486,10 +502,10 @@ export default function DisciplinesPage() {
         {/* Main Tab Bar */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div style={{ borderBottom: `1px solid ${BORDER}`, display: "flex", gap: 0 }}>
-            {(["tracker", "theology", "practices", "voices", "videos"] as const).map(tab => (
+            {(["tracker", "theology", "practices", "voices", "journal", "videos"] as const).map(tab => (
               <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? `2px solid ${GREEN}` : "2px solid transparent", color: mainTab === tab ? TEXT : MUTED, fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
-                {tab === "tracker" ? "Disciplines" : tab === "theology" ? "📖 Theology" : tab === "practices" ? "✨ Practices" : tab === "voices" ? "🎓 Voices" : "▶️ Videos"}
+                {tab === "tracker" ? "Disciplines" : tab === "theology" ? "📖 Theology" : tab === "practices" ? "✨ Practices" : tab === "voices" ? "🎓 Voices" : tab === "journal" ? "📓 Journal" : "▶️ Videos"}
               </button>
             ))}
           </div>
@@ -732,12 +748,59 @@ export default function DisciplinesPage() {
           )}
 
           {/* ── VIDEOS TAB ── */}
+          {mainTab === "journal" && (
+            <div>
+              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Spiritual Disciplines Journal</h2>
+              <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record which discipline you are practicing, what you are experiencing, and your intention going forward. Saved privately in your browser.</p>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>DISCIPLINE I AM PRACTICING *</label>
+                  <textarea value={discpForm.discipline} onChange={e => setDiscpForm(f => ({ ...f, discipline: e.target.value }))}
+                    placeholder="Which spiritual discipline are you focusing on right now?" rows={2}
+                    style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WHAT I AM EXPERIENCING</label>
+                  <textarea value={discpForm.experience} onChange={e => setDiscpForm(f => ({ ...f, experience: e.target.value }))}
+                    placeholder="What is God doing in you through this practice? What are you noticing?" rows={3}
+                    style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY INTENTION GOING FORWARD</label>
+                  <textarea value={discpForm.intention} onChange={e => setDiscpForm(f => ({ ...f, intention: e.target.value }))}
+                    placeholder="What is your commitment or intention regarding this discipline?" rows={2}
+                    style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveDiscpEntry}
+                  style={{ background: discpSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {discpSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {discpEntries.length > 0 && (
+                <div>
+                  <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({discpEntries.length})</h3>
+                  {discpEntries.map(entry => (
+                    <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                        <button type="button" onClick={() => deleteDiscpEntry(entry.id)}
+                          style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                      </div>
+                      {entry.discipline && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>DISCIPLINE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.discipline}</span></div>}
+                      {entry.experience && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>EXPERIENCE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.experience}</span></div>}
+                      {entry.intention && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>INTENTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.intention}</span></div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {mainTab === "videos" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 24, padding: "0 0 40px" }}>
               {DISC_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

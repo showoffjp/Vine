@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -83,16 +85,30 @@ const PRACTICES = [
 ];
 
 const ELDER_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Honoring Our Elderly — A Biblical Vision", channel: "Gospel in Life", description: "Tim Keller on the fifth commandment and what it means to honor our parents and care for the elderly." },
-  { videoId: "ACZbpLkY8To", title: "Being Mortal — A Christian Perspective", channel: "Ligonier Ministries", description: "What theology of the body and resurrection hope means for how we care for aging parents and face our own mortality." },
-  { videoId: "fJnGJN6laqE", title: "The Dignity of the Elderly", channel: "Desiring God", description: "Piper on aging, dying, and the church's call to honor those in the final seasons of life." },
-  { videoId: "Z8lkuuhVkOI", title: "Caring for Aging Parents", channel: "The Gospel Coalition", description: "Practical and theological guidance for the difficult season of caring for elderly parents — what love looks like in the trenches." },
+  { videoId: "rtkS_8VWfB0", title: "Honoring Our Elderly — A Biblical Vision", channel: "Gospel in Life", description: "Tim Keller on the fifth commandment and what it means to honor our parents and care for the elderly." },
+  { videoId: "ej_6dVdJSIU", title: "Being Mortal — A Christian Perspective", channel: "Ligonier Ministries", description: "What theology of the body and resurrection hope means for how we care for aging parents and face our own mortality." },
+  { videoId: "4Eg_di-O8nM", title: "The Dignity of the Elderly", channel: "Desiring God", description: "Piper on aging, dying, and the church's call to honor those in the final seasons of life." },
+  { videoId: "gV9JugO_5Mk", title: "Caring for Aging Parents", channel: "The Gospel Coalition", description: "Practical and theological guidance for the difficult season of caring for elderly parents — what love looks like in the trenches." },
 ];
 
-type Tab = "theology" | "challenges" | "voices" | "practices" | "videos";
+type Tab = "theology" | "challenges" | "voices" | "practices" | "journal" | "videos";
 
 export default function ElderCarePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_elder-care_tab", "theology");
+
+  const [ecareEntries, setEcareEntries] = useState<{ id: string; date: string; parent: string; challenge: string; practice: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_eldercare_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ecareForm, setEcareForm] = useState({ parent: "", challenge: "", practice: "" });
+  const [ecareSaved, setEcareSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_eldercare_entries", JSON.stringify(ecareEntries)); }, [ecareEntries]);
+  function saveEcareEntry() {
+    if (!ecareForm.parent.trim()) return;
+    setEcareEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ecareForm }, ...prev]);
+    setEcareForm({ parent: "", challenge: "", practice: "" });
+    setEcareSaved(true); setTimeout(() => setEcareSaved(false), 2000);
+  }
+  function deleteEcareEntry(id: string) { setEcareEntries(prev => prev.filter(e => e.id !== id)); }
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_elder-care_voice", "gawande");
 
@@ -117,6 +133,7 @@ export default function ElderCarePage() {
             { id: "challenges" as const, label: "Challenges", icon: "⚠️" },
             { id: "voices" as const, label: "Voices", icon: "📚" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -213,12 +230,59 @@ export default function ElderCarePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Elder Care Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on caring for aging parents or loved ones — the challenges you face, practices that help, and prayers for those in your care. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PERSON I AM CARING FOR *</label>
+                <textarea value={ecareForm.parent} onChange={e => setEcareForm(f => ({ ...f, parent: e.target.value }))}
+                  placeholder="Who are you caring for? What is their situation?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CHALLENGE I AM FACING</label>
+                <textarea value={ecareForm.challenge} onChange={e => setEcareForm(f => ({ ...f, challenge: e.target.value }))}
+                  placeholder="What is the most difficult aspect of caregiving you are navigating right now?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE THAT IS HELPING</label>
+                <textarea value={ecareForm.practice} onChange={e => setEcareForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What spiritual practice or practical step is sustaining you or helping the person you care for?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEcareEntry}
+                style={{ background: ecareSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ecareSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {ecareEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({ecareEntries.length})</h3>
+                {ecareEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEcareEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.parent && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>CARING FOR: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.parent}</span></div>}
+                    {entry.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>CHALLENGE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.challenge}</span></div>}
+                    {entry.practice && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {ELDER_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

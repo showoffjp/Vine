@@ -1,12 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "creeds" | "confessions" | "catechisms" | "why" | "videos";
+type Tab = "creeds" | "confessions" | "catechisms" | "why" | "journal" | "videos";
 
 const CREEDS = [
   {
@@ -128,10 +131,10 @@ const CATECHISMS = [
 ];
 
 const CONFESSIONS_VIDEOS = [
-  { videoId: "dXxmSDhvbHY", title: "Why Confessions of Faith Matter", channel: "The Gospel Coalition", description: "The role of historic confessions in anchoring churches to the faith once delivered — why creeds protect and unite the church." },
-  { videoId: "Hr3PkGXYRvI", title: "The Westminster Confession of Faith", channel: "Ligonier Ministries", description: "R.C. Sproul on the Westminster Confession of Faith — its history, content, and continuing value for the church." },
-  { videoId: "ACZbpLkY8To", title: "Reading the Heidelberg Catechism", channel: "Desiring God", description: "The Heidelberg Catechism's first question — 'What is your only comfort?' — and why this 16th-century document still shapes believers today." },
-  { videoId: "KbFKcFxqVlo", title: "The Apostles' Creed: Ancient Faith", channel: "Crossway", description: "The Apostles' Creed as a summary of Christian faith — why the earliest church found it essential and why we still should." },
+  { videoId: "UJlLkZ6tCG0", title: "Why Confessions of Faith Matter", channel: "The Gospel Coalition", description: "The role of historic confessions in anchoring churches to the faith once delivered — why creeds protect and unite the church." },
+  { videoId: "GvrT3dcP-Kc", title: "The Westminster Confession of Faith", channel: "Ligonier Ministries", description: "R.C. Sproul on the Westminster Confession of Faith — its history, content, and continuing value for the church." },
+  { videoId: "ej_6dVdJSIU", title: "Reading the Heidelberg Catechism", channel: "Desiring God", description: "The Heidelberg Catechism's first question — 'What is your only comfort?' — and why this 16th-century document still shapes believers today." },
+  { videoId: "rtkS_8VWfB0", title: "The Apostles' Creed: Ancient Faith", channel: "Crossway", description: "The Apostles' Creed as a summary of Christian faith — why the earliest church found it essential and why we still should." },
 ];
 
 const WHY = [
@@ -147,6 +150,20 @@ export default function ConfessionsPage() {
   const [selectedCreed, setSelectedCreed] = usePersistedState("vine_confessions_selected_creed", "Apostles' Creed");
   const [selectedConf, setSelectedConf] = usePersistedState("vine_confessions_selected_conf", "Westminster Confession");
   const [selectedCat, setSelectedCat] = usePersistedState("vine_confessions_selected_cat", "Westminster Shorter Catechism");
+
+  const [cconfEntries, setCconfEntries] = useState<{ id: string; date: string; creed: string; applying: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cconf_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cconfForm, setCconfForm] = useState({ creed: "", applying: "", question: "" });
+  const [cconfSaved, setCconfSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cconf_entries", JSON.stringify(cconfEntries)); }, [cconfEntries]);
+  function saveCconfEntry() {
+    if (!cconfForm.creed.trim()) return;
+    setCconfEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cconfForm }, ...prev]);
+    setCconfForm({ creed: "", applying: "", question: "" });
+    setCconfSaved(true); setTimeout(() => setCconfSaved(false), 2000);
+  }
+  function deleteCconfEntry(id: string) { setCconfEntries(prev => prev.filter(e => e.id !== id)); }
 
   const creed = CREEDS.find(c => c.name === selectedCreed)!;
   const conf = CONFESSIONS.find(c => c.name === selectedConf)!;
@@ -168,9 +185,10 @@ export default function ConfessionsPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "creeds" as Tab, label: "Ancient Creeds", icon: "🏛️" },
-            { id: "confessions" as Tab, label: "Confessions", icon: "📋" },
+            { id: "nP4tzAxbcy4" as Tab, label: "Confessions", icon: "📋" },
             { id: "catechisms" as Tab, label: "Catechisms", icon: "❓" },
             { id: "why" as Tab, label: "Why It Matters", icon: "💡" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -295,12 +313,59 @@ export default function ConfessionsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Confessions Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record what you are learning from the creeds and confessions, how you are applying them, and questions they raise. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CREED OR CONFESSION I&apos;M STUDYING *</label>
+                <textarea value={cconfForm.creed} onChange={e => setCconfForm(f => ({ ...f, creed: e.target.value }))}
+                  placeholder="Which creed, confession, or catechism are you engaging with?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING IT</label>
+                <textarea value={cconfForm.applying} onChange={e => setCconfForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How does this confession shape what you believe or how you live?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>QUESTION IT RAISES</label>
+                <textarea value={cconfForm.question} onChange={e => setCconfForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="What question does this raise that you want to explore further?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCconfEntry}
+                style={{ background: cconfSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cconfSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cconfEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({cconfEntries.length})</h3>
+                {cconfEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteCconfEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.creed && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>STUDYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.creed}</span></div>}
+                    {entry.applying && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                    {entry.question && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>QUESTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.question}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {CONFESSIONS_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

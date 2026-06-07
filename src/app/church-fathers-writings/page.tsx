@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -271,12 +273,26 @@ const CFW_ERAS = [
   },
 ];
 
-type Tab = "writings" | "themes" | "howto" | "eras" | "videos";
+type Tab = "writings" | "themes" | "howto" | "eras" | "journal" | "videos";
 
 export default function ChurchFathersWritingsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers-writings_tab", "writings");
   const [era, setEra] = usePersistedState<string>("vine_church-fathers-writings_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
+
+  const [cfwEntries, setCfwEntries] = useState<{ id: string; date: string; father: string; writing: string; truth: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfw_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfwForm, setCfwForm] = useState({ father: "", writing: "", truth: "" });
+  const [cfwSaved, setCfwSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfw_entries", JSON.stringify(cfwEntries)); }, [cfwEntries]);
+  function saveCfwEntry() {
+    if (!cfwForm.father.trim()) return;
+    setCfwEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfwForm }, ...prev]);
+    setCfwForm({ father: "", writing: "", truth: "" });
+    setCfwSaved(true); setTimeout(() => setCfwSaved(false), 2000);
+  }
+  function deleteCfwEntry(id: string) { setCfwEntries(prev => prev.filter(e => e.id !== id)); }
 
   const filtered = FATHERS.filter(f => era === "All" || f.era === era);
   const father = FATHERS.find(f => f.name === selected);
@@ -296,10 +312,10 @@ export default function ChurchFathersWritingsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, width: "fit-content" }}>
-          {(["writings", "themes", "howto", "eras", "videos"] as const).map(t => (
+          {(["writings", "themes", "howto", "eras", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "writings" ? "Writings" : t === "themes" ? "Themes" : t === "howto" ? "How To Read" : t === "eras" ? "Eras" : "🎬 Videos"}
+              {t === "writings" ? "Writings" : t === "themes" ? "Themes" : t === "howto" ? "How To Read" : t === "eras" ? "Eras" : t === "journal" ? "📓 Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -452,6 +468,53 @@ export default function ChurchFathersWritingsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Patristics Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your reading in the Church Fathers and the truths you are encountering. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which Father are you reading?</label>
+                <textarea value={cfwForm.father} onChange={e => setCfwForm(f => ({ ...f, father: e.target.value }))}
+                  placeholder="Augustine, Athanasius, Chrysostom, Origen..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which writing or passage?</label>
+                <textarea value={cfwForm.writing} onChange={e => setCfwForm(f => ({ ...f, writing: e.target.value }))}
+                  placeholder="Confessions, On the Incarnation, Homilies..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What truth is alive for you in this text?</label>
+                <textarea value={cfwForm.truth} onChange={e => setCfwForm(f => ({ ...f, truth: e.target.value }))}
+                  placeholder="What jumped off the page and why..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfwEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfwSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cfwEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cfwEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCfwEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.father && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>FATHER </span><span style={{ color: TEXT, fontSize: 14 }}>{e.father}</span></div>}
+                    {e.writing && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>WRITING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.writing}</span></div>}
+                    {e.truth && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>TRUTH </span><span style={{ color: TEXT, fontSize: 14 }}>{e.truth}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -461,19 +524,13 @@ export default function ChurchFathersWritingsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Dp3LnNXACZ8", title: "Life in the Early Church (Acts 2:40–47)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the life of the apostolic church as they participated in doctrine, fellowship, the Lord's Supper, and prayer — connecting to the church fathers." },
-                  { videoId: "-I2VcMxXH0w", title: "Early Church Fathers & R.C. Sproul on the Birth of Jesus", channel: "Ligonier Ministries", description: "Excerpts from early church fathers on Jesus's birth, read alongside commentary from R.C. Sproul on their theological significance." },
-                  { videoId: "-QofkM5vXT8", title: "Apostles and Deacons (Acts 6:1–7)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the early church's structure — the foundation for the ecclesiology developed by Ignatius, Cyprian, and the Fathers." },
-                  { videoId: "AtYCVDlV9kE", title: "Early Church Heresies: Modalistic Monarchianism", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the early heresies that forced the church fathers to articulate the doctrine of the Trinity with precision." },
+                  { videoId: "57LVVwba6_8", title: "Life in the Early Church (Acts 2:40–47)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the life of the apostolic church as they participated in doctrine, fellowship, the Lord's Supper, and prayer — connecting to the church fathers." },
+                  { videoId: "HGHqu9-DtXk", title: "Early Church Fathers & R.C. Sproul on the Birth of Jesus", channel: "Ligonier Ministries", description: "Excerpts from early church fathers on Jesus's birth, read alongside commentary from R.C. Sproul on their theological significance." },
+                  { videoId: "E65KV3M8RZE", title: "Apostles and Deacons (Acts 6:1–7)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the early church's structure — the foundation for the ecclesiology developed by Ignatius, Cyprian, and the Fathers." },
+                  { videoId: "f7RJATbobik", title: "Early Church Heresies: Modalistic Monarchianism", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the early heresies that forced the church fathers to articulate the doctrine of the Trinity with precision." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

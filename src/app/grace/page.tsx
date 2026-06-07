@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "kinds" | "debates" | "response" | "videos";
+type Tab = "theology" | "kinds" | "debates" | "response" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -83,7 +85,7 @@ const KINDS_ITEMS = [
     thinker: "Abraham Kuyper, Dutch Reformed theologian and Prime Minister, made common grace the theological foundation for Christian engagement with every sphere of culture — politics, art, science, commerce.",
   },
   {
-    id: "sanctifying",
+    id: "OqwbFGoRYVo",
     title: "Sanctifying Grace",
     scripture: ["Philippians 2:12-13", "2 Peter 3:18", "1 Thessalonians 5:23-24", "2 Corinthians 3:18"],
     definition: "Sanctifying grace is the ongoing divine work by which God conforms believers to the image of Christ. It is distinct from justifying grace (the declaration of righteousness) — it is the actual transformation of character, affection, and action over time through the Holy Spirit.",
@@ -96,7 +98,7 @@ const KINDS_ITEMS = [
     thinker: "John Owen's The Holy Spirit is the classic treatment — Owen shows how the Spirit applies the work of Christ to believers progressively, making sanctification as grace-dependent as justification.",
   },
   {
-    id: "sacramental",
+    id: "Ver8qTBTLCQ",
     title: "Sacramental Grace",
     scripture: ["Romans 6:3-4", "1 Corinthians 11:26", "John 6:53-56", "Acts 2:38"],
     definition: "In Catholic, Orthodox, and some Lutheran theology, grace is mediated through the sacraments as real channels — not merely symbols of grace but instruments through which grace is genuinely conveyed. Baptism regenerates; the Eucharist nourishes the soul with Christ's body and blood.",
@@ -217,11 +219,26 @@ export default function GracePage() {
 
   const currentKind = KINDS_ITEMS.find(k => k.id === selectedKind)!;
 
+  const [graceEntries, setGraceEntries] = useState<{ id: string; date: string; received: string; given: string; resistance: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_grace_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [graceForm, setGraceForm] = useState({ received: "", given: "", resistance: "" });
+  const [graceSaved, setGraceSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_grace_entries", JSON.stringify(graceEntries)); }, [graceEntries]);
+  function saveGraceEntry() {
+    if (!graceForm.received.trim() && !graceForm.given.trim()) return;
+    setGraceEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...graceForm }, ...prev]);
+    setGraceForm({ received: "", given: "", resistance: "" });
+    setGraceSaved(true); setTimeout(() => setGraceSaved(false), 2000);
+  }
+  function deleteGraceEntry(id: string) { setGraceEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Grace" },
     { id: "kinds", label: "Kinds of Grace" },
     { id: "debates", label: "The Great Debates" },
     { id: "response", label: "Responding to Grace" },
+    { id: "journal", label: "Grace Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -383,6 +400,55 @@ export default function GracePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Grace is received and passed on. A grace journal tracks where you saw God's grace today, where you extended it to others, and where you resisted both.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Grace Journal Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Grace I received today</label>
+                <textarea value={graceForm.received} onChange={e => setGraceForm(f => ({ ...f, received: e.target.value }))} rows={2}
+                  placeholder="Where did God's unmerited favor show up today — in provision, in patience, in forgiveness, in a person's kindness?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Grace I gave to someone else</label>
+                <textarea value={graceForm.given} onChange={e => setGraceForm(f => ({ ...f, given: e.target.value }))} rows={2}
+                  placeholder="Where did you extend unmerited favor — forgiveness, patience, generosity, benefit of the doubt?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I resisted grace (receiving or giving)</label>
+                <textarea value={graceForm.resistance} onChange={e => setGraceForm(f => ({ ...f, resistance: e.target.value }))} rows={2}
+                  placeholder="Where did you withhold grace from someone? Where did you fail to receive God's grace and rely on yourself instead?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGraceEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {graceSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {graceEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Grace Journal ({graceEntries.length})</h3>
+                {graceEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteGraceEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.received && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}><span style={{ fontWeight: 600 }}>Received: </span>{e.received}</p>}
+                    {e.given && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Given: </span>{e.given}</p>}
+                    {e.resistance && <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", margin: 0 }}><span style={{ fontWeight: 600 }}>Resisted: </span>{e.resistance}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -392,19 +458,13 @@ export default function GracePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul explores God's sovereign grace — the foundation for understanding why saving grace works, and why it is entirely God's gift and not a human achievement." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Tim Keller on the radical nature of the Kingdom of God and how grace overturns all human systems of earning and merit — the good news that levels every hierarchy." },
-                  { videoId: "_ChnTOiYXcA", title: "God's Sovereignty: Chosen by God", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul's landmark teaching on election and irresistible grace — one of the most careful and clear expositions of Reformed soteriology available." },
-                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how grace-rooted joy — not duty or fear — is what produces true obedience. Addresses the relationship between grace received and transformed living." },
+                  { videoId: "mC-zw0zCCtg", title: "If God Is Sovereign, How Can Man Be Free?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul explores God's sovereign grace — the foundation for understanding why saving grace works, and why it is entirely God's gift and not a human achievement." },
+                  { videoId: "jxaJZ5lBM5U", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Tim Keller on the radical nature of the Kingdom of God and how grace overturns all human systems of earning and merit — the good news that levels every hierarchy." },
+                  { videoId: "JG_BBH8DVPI", title: "God's Sovereignty: Chosen by God", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul's landmark teaching on election and irresistible grace — one of the most careful and clear expositions of Reformed soteriology available." },
+                  { videoId: "4Eg_di-O8nM", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how grace-rooted joy — not duty or fear — is what produces true obedience. Addresses the relationship between grace received and transformed living." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

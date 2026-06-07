@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -89,7 +91,7 @@ const VOICES_LD = [
 ];
 
 export default function LectioDivinaPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"guide" | "practice" | "voices" | "history" | "videos">("vine_lectio-divina_tab", "guide");
+  const [activeTab, setActiveTab] = usePersistedState<"guide" | "practice" | "voices" | "history" | "journal" | "videos">("vine_lectio-divina_tab", "guide");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_lectio-divina_voice", "guigo-ld");
   const voiceItem = VOICES_LD.find(v => v.id === selectedVoice)!;
   const [selectedPassage, setSelectedPassage] = useState(0);
@@ -101,7 +103,29 @@ export default function LectioDivinaPage() {
   });
   const [saved, setSaved] = useState(false);
 
+  const [ldJEntries, setLdJEntries] = useState<{ id: string; date: string; passage: string; heard: string; response: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ld_journal_entries") ?? "[]"); } catch { return []; }
+  });
+  const [ldJForm, setLdJForm] = useState({ passage: "", heard: "", response: "" });
+  const [ldJSaved, setLdJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ld_journal_entries", JSON.stringify(ldJEntries)); } catch {} }, [ldJEntries]);
+  const saveLdJEntry = () => {
+    if (!ldJForm.passage.trim()) return;
+    setLdJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ldJForm }, ...prev]);
+    setLdJForm({ passage: "", heard: "", response: "" });
+    setLdJSaved(true); setTimeout(() => setLdJSaved(false), 2000);
+  };
+  const deleteLdJEntry = (id: string) => setLdJEntries(prev => prev.filter(e => e.id !== id));
+
   const movement = MOVEMENTS[activeMovement];
+
+  const deleteSession = (index: number) => {
+    setHistory(prev => {
+      const updated = prev.filter((_, i) => i !== index);
+      try { localStorage.setItem("vine_lectio_history", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+  };
 
   const saveSession = () => {
     const session: Session = {
@@ -138,6 +162,7 @@ export default function LectioDivinaPage() {
             { id: "practice" as const, label: "Practice Now", icon: "🙏" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "history" as const, label: "My Sessions", icon: "📅" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -160,7 +185,7 @@ export default function LectioDivinaPage() {
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14, marginBottom: 24 }}>
-              {MOVEMENTS.map((m, i) => (
+              {MOVEMENTS.map((m) => (
                 <div key={m.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                     <span style={{ fontSize: 24 }}>{m.icon}</span>
@@ -316,9 +341,14 @@ export default function LectioDivinaPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {history.map((s, i) => (
                   <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
                       <span style={{ color: GREEN, fontWeight: 700 }}>{new Date(s.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</span>
-                      <span style={{ color: PURPLE, fontSize: 13, fontWeight: 700 }}>{s.passage}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <span style={{ color: PURPLE, fontSize: 13, fontWeight: 700 }}>{s.passage}</span>
+                        <button type="button" onClick={() => deleteSession(i)}
+                          style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}
+                          title="Delete session">×</button>
+                      </div>
                     </div>
                     {s.action && (
                       <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
@@ -341,6 +371,42 @@ export default function LectioDivinaPage() {
             )}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Lectio Divina Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record what you heard from God in Scripture and how you responded.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={ldJForm.passage} onChange={e => setLdJForm(f => ({ ...f, passage: e.target.value }))}
+                  placeholder="Which passage did you read?" aria-label="Passage"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={ldJForm.heard} onChange={e => setLdJForm(f => ({ ...f, heard: e.target.value }))}
+                  placeholder="What did you sense God saying?" aria-label="What you heard"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={ldJForm.response} onChange={e => setLdJForm(f => ({ ...f, response: e.target.value }))}
+                  placeholder="How did you respond or what will you do? (optional)" aria-label="Response"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveLdJEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {ldJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {ldJEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first lectio divina encounter above.</p>}
+              {ldJEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteLdJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.passage}</p>
+                  {e.heard && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.heard}</p>}
+                  {e.response && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.response}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -350,19 +416,13 @@ export default function LectioDivinaPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "VIDRl_M-R_M", title: "Lectio Divina Explained: A Monk's Guide to Hearing God Through Scripture", channel: "Fr. Michael Casey OCSO", description: "A deep exploration of lectio divina by a Cistercian monk — what the four movements mean, how they work together, and why this practice transforms the reader." },
-                  { videoId: "mF2c5ytdwQw", title: "Lectio Divina — The Art of Sacred Reading", channel: "Christian Contemplative Teaching", description: "An introduction to lectio divina as a spiritual art — how to approach Scripture not merely for information but for formation and communion with God." },
-                  { videoId: "Bt5Y7Su-tPg", title: "Introduction to Lectio Divina", channel: "Fr. Jonathan Smith", description: "A clear, accessible introduction to the practice of lectio divina — its history, its four movements, and how to integrate it into daily prayer." },
-                  { videoId: "8eDV-wcKI_Y", title: "Lectio Divina: Praying with Scripture (Mark 4:35-41)", channel: "Scripture and Prayer", description: "A guided demonstration of lectio divina using Mark 4:35-41 — showing how the four movements work with an actual biblical text." },
+                  { videoId: "iK0NjiBXKN4", title: "Lectio Divina Explained: A Monk's Guide to Hearing God Through Scripture", channel: "Fr. Michael Casey OCSO", description: "A deep exploration of lectio divina by a Cistercian monk — what the four movements mean, how they work together, and why this practice transforms the reader." },
+                  { videoId: "j9phNEaPrv8", title: "Lectio Divina — The Art of Sacred Reading", channel: "Christian Contemplative Teaching", description: "An introduction to lectio divina as a spiritual art — how to approach Scripture not merely for information but for formation and communion with God." },
+                  { videoId: "mC-zw0zCCtg", title: "Introduction to Lectio Divina", channel: "Fr. Jonathan Smith", description: "A clear, accessible introduction to the practice of lectio divina — its history, its four movements, and how to integrate it into daily prayer." },
+                  { videoId: "ZOBIPb-6PTc", title: "Lectio Divina: Praying with Scripture (Mark 4:35-41)", channel: "Scripture and Prayer", description: "A guided demonstration of lectio divina using Mark 4:35-41 — showing how the four movements work with an actual biblical text." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

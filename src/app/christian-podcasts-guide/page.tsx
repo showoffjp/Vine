@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "podcasts" | "topics" | "howto" | "videos";
+type Tab = "podcasts" | "topics" | "howto" | "journal" | "videos";
 
 const CATEGORY_FILTERS = ["All", "Theology & Doctrine", "Bible Exposition", "Apologetics", "Culture & Current Events", "Prayer & Devotional", "Missions & Global Church", "Family & Relationships"];
 
@@ -274,12 +276,12 @@ const PODCAST_GUIDE = [
 ];
 
 const PODCAST_VIDEOS = [
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God", preacher: "Tim Keller" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", preacher: "R.C. Sproul" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", preacher: "John Piper" },
-  { id: "yhiHSf_L6_E", title: "Radical — Passion 2011", preacher: "David Platt" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", preacher: "Louie Giglio" },
+  { id: "OqwbFGoRYVo", title: "The Reason for God", preacher: "Tim Keller" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", preacher: "R.C. Sproul" },
+  { id: "gV9JugO_5Mk", title: "Don't Waste Your Life", preacher: "John Piper" },
+  { id: "ej_6dVdJSIU", title: "Radical — Passion 2011", preacher: "David Platt" },
+  { id: "GQI72THyO5I", title: "How Great Is Our God", preacher: "Louie Giglio" },
 ];
 
 export default function ChristianPodcastsGuidePage() {
@@ -289,6 +291,20 @@ export default function ChristianPodcastsGuidePage() {
 
   const filtered = PODCASTS.filter(p => category === "All" || p.category === category);
   const podcast = PODCASTS.find(p => p.name === selected);
+
+  const [cpodEntries, setCpodEntries] = useState<{ id: string; date: string; podcast: string; episode: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cpod_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cpodForm, setCpodForm] = useState({ podcast: "", episode: "", applying: "" });
+  const [cpodSaved, setCpodSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cpod_entries", JSON.stringify(cpodEntries)); }, [cpodEntries]);
+  function saveCpodEntry() {
+    if (!cpodForm.podcast.trim()) return;
+    setCpodEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cpodForm }, ...prev]);
+    setCpodForm({ podcast: "", episode: "", applying: "" });
+    setCpodSaved(true); setTimeout(() => setCpodSaved(false), 2000);
+  }
+  function deleteCpodEntry(id: string) { setCpodEntries(prev => prev.filter(e => e.id !== id)); }
 
   const CAT_COLOR: Record<string, string> = {
     "Theology & Doctrine": GREEN,
@@ -316,9 +332,9 @@ export default function ChristianPodcastsGuidePage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["podcasts", "topics", "howto", "videos"] as const).map(t => (
+          {(["podcasts", "topics", "howto", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "podcasts" ? "Podcasts" : t === "topics" ? "By Topic" : t === "howto" ? "How to Listen" : "Videos"}
+              {t === "podcasts" ? "Podcasts" : t === "topics" ? "By Topic" : t === "howto" ? "How to Listen" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -445,6 +461,49 @@ export default function ChristianPodcastsGuidePage() {
         )}
 
         {/* Videos Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Podcast Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record episodes that shaped your thinking, and how you are applying what you have heard.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Podcast Name</label>
+                <input value={cpodForm.podcast} onChange={e => setCpodForm(f => ({ ...f, podcast: e.target.value }))} placeholder="e.g. Tim Keller Podcast, The Gospel Coalition, Ask Pastor John..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Episode / Topic</label>
+                <textarea value={cpodForm.episode} onChange={e => setCpodForm(f => ({ ...f, episode: e.target.value }))} placeholder="What episode or topic were you listening to?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Are You Applying It?</label>
+                <textarea value={cpodForm.applying} onChange={e => setCpodForm(f => ({ ...f, applying: e.target.value }))} placeholder="What one thing from this episode are you putting into practice?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCpodEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cpodSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cpodEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cpodEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.podcast}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCpodEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.episode && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Episode</div><div style={{ color: TEXT, fontSize: 13 }}>{e.episode}</div></div>}
+                    {e.applying && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Applying</div><div style={{ color: TEXT, fontSize: 13 }}>{e.applying}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
@@ -456,9 +515,7 @@ export default function ChristianPodcastsGuidePage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 20 }}>
               {PODCAST_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ color: GREEN, fontSize: 12, fontWeight: 600 }}>{v.preacher}</div>

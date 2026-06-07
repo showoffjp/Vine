@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "saints" | "martyrs" | "theology" | "commemoration" | "videos";
+type Tab = "saints" | "martyrs" | "theology" | "commemoration" | "journal" | "videos";
 
 const SM_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Cloud of Witnesses — Why the Saints Matter", channel: "Gospel in Life", description: "How the lives of those who died for the faith speak into contemporary Christian discipleship." },
-  { videoId: "ACZbpLkY8To", title: "Martyrdom in Church History", channel: "Ligonier Ministries", description: "A survey of the great martyrs from Stephen to the modern era — what they believed and how they died." },
-  { videoId: "fJnGJN6laqE", title: "Foxe's Book of Martyrs — An Introduction", channel: "Desiring God", description: "The stories behind one of the most influential books in Christian history, and what it means for the persecuted church today." },
-  { videoId: "Z8lkuuhVkOI", title: "The Persecuted Church Today", channel: "Open Doors", description: "A look at where Christians are being martyred and imprisoned today, and how the global church can respond." },
+  { videoId: "rtkS_8VWfB0", title: "The Cloud of Witnesses — Why the Saints Matter", channel: "Gospel in Life", description: "How the lives of those who died for the faith speak into contemporary Christian discipleship." },
+  { videoId: "ej_6dVdJSIU", title: "Martyrdom in Church History", channel: "Ligonier Ministries", description: "A survey of the great martyrs from Stephen to the modern era — what they believed and how they died." },
+  { videoId: "4Eg_di-O8nM", title: "Foxe's Book of Martyrs — An Introduction", channel: "Desiring God", description: "The stories behind one of the most influential books in Christian history, and what it means for the persecuted church today." },
+  { videoId: "gV9JugO_5Mk", title: "The Persecuted Church Today", channel: "Open Doors", description: "A look at where Christians are being martyred and imprisoned today, and how the global church can respond." },
 ];
 
 type Era = "Apostolic" | "Early Church" | "Medieval" | "Reformation" | "Modern" | "Contemporary";
@@ -76,6 +78,20 @@ export default function SaintsMartyrsPage() {
   const selSaint = SAINTS.find(s => s.name === selected) || SAINTS[0];
   const selMartyr = MARTYRS.find(m => m.name === selected) || MARTYRS[0];
 
+  type JournalEntry = { id: string; date: string; saint: string; lesson: string; response: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_smj_entries") ?? "[]"); } catch { return []; } });
+  const [jSaint, setJSaint] = useState("");
+  const [jLesson, setJLesson] = useState("");
+  const [jResponse, setJResponse] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_smj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jSaint.trim() && !jLesson.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), saint: jSaint, lesson: jLesson, response: jResponse };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJSaint(""); setJLesson(""); setJResponse("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -96,10 +112,10 @@ export default function SaintsMartyrsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["saints", "martyrs", "theology", "commemoration", "videos"] as Tab[]).map(t => (
+          {(["saints", "martyrs", "theology", "commemoration", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Sainthood" : t === "commemoration" ? "Calendar" : t === "videos" ? "Videos" : t.charAt(0).toUpperCase() + t.slice(1)}
+              {t === "theology" ? "Theology of Sainthood" : t === "commemoration" ? "Calendar" : t === "journal" ? "📓 My Journal" : t === "videos" ? "Videos" : t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
           ))}
         </div>
@@ -219,12 +235,43 @@ export default function SaintsMartyrsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Saints & Martyrs Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record the saints and martyrs who have inspired your faith and what you are learning from them.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jSaint} onChange={e => setJSaint(e.target.value)} placeholder="Saint or martyr who moved you" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jLesson} onChange={e => setJLesson(e.target.value)} placeholder="What lesson or virtue did you see in their life?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jResponse} onChange={e => setJResponse(e.target.value)} placeholder="How are you responding to this example of faith?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording the saints whose lives have shaped your faith.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.saint || "Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.lesson && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Lesson:</strong> {entry.lesson}</p>}
+                    {entry.response && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Response:</strong> {entry.response}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SM_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -326,12 +328,26 @@ const DEVOTIONAL_AOG: { id: string; title: string; attribute: string; verse: str
 export default function AttributesOfGodPage() {
   const [category, setCategory] = usePersistedState("vine_attributes-of-god_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
-  type Tab = "attributes" | "voices" | "practices" | "devotional" | "videos";
+  type Tab = "attributes" | "voices" | "practices" | "devotional" | "journal" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_attributes-of-god_tab", "attributes");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_attributes-of-god_voice", "tozer-aw");
 
   const filtered = ATTRIBUTES.filter(a => category === "All" || a.category === category);
   const attr = ATTRIBUTES.find(a => a.name === selected);
+
+  const [aogEntries, setAogEntries] = useState<{ id: string; date: string; attribute: string; seen: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_aog_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [aogForm, setAogForm] = useState({ attribute: "Omniscience", seen: "", prayer: "" });
+  const [aogSaved, setAogSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_aog_entries", JSON.stringify(aogEntries)); }, [aogEntries]);
+  function saveAogEntry() {
+    if (!aogForm.seen.trim()) return;
+    setAogEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...aogForm }, ...prev]);
+    setAogForm({ attribute: "Omniscience", seen: "", prayer: "" });
+    setAogSaved(true); setTimeout(() => setAogSaved(false), 2000);
+  }
+  function deleteAogEntry(id: string) { setAogEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -352,6 +368,7 @@ export default function AttributesOfGodPage() {
             { id: "voices" as const, label: "Voices", icon: "🎓" },
             { id: "practices" as const, label: "Practices", icon: "🙏" },
             { id: "devotional" as const, label: "Devotional", icon: "📖" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -514,6 +531,52 @@ export default function AttributesOfGodPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Attributes of God Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on where you have seen God&apos;s attributes at work in your life and respond in prayer.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Attribute I am meditating on</label>
+                <select value={aogForm.attribute} onChange={e => setAogForm(f => ({ ...f, attribute: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {["Omniscience", "Omnipotence", "Omnipresence", "Holiness", "Love", "Justice", "Mercy", "Faithfulness", "Sovereignty", "Immutability", "Goodness", "Grace"].map(a => <option key={a} value={a}>{a}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Where I have seen this attribute recently</label>
+                <textarea value={aogForm.seen} onChange={e => setAogForm(f => ({ ...f, seen: e.target.value }))} rows={3} placeholder="A situation, a scripture, a moment where God's attribute was visible..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My prayer in response</label>
+                <textarea value={aogForm.prayer} onChange={e => setAogForm(f => ({ ...f, prayer: e.target.value }))} rows={2} placeholder="Praise, gratitude, or petition arising from this attribute..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAogEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {aogSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {aogEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({aogEntries.length})</h3>
+                {aogEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.attribute}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteAogEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.seen && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Seen:</strong> {e.seen}</p>}
+                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Prayer:</strong> {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -523,19 +586,13 @@ export default function AttributesOfGodPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "TSDuiULbFf4", title: "Holiness and Justice: The Holiness of God", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines what it means that God is holy — and how his holiness is inseparable from his justice, transforming how we understand both." },
-                  { videoId: "X5x3SPQrDbU", title: "Ministry Reflections with John Piper and R.C. Sproul", channel: "John Piper & R.C. Sproul", description: "Piper and Sproul reflect on what their ministries have taught them about the nature and character of God — two giants of Reformed theology in conversation." },
-                  { videoId: "wGhLw1ULGFk", title: "R.C. Sproul on God's Being and Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explores the philosophical and theological dimensions of God's being — what it means that God is, and how that grounds Christian faith." },
-                  { videoId: "MJks19pBBXI", title: "Introduction to Apologetics: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul introduces the rational basis for belief in a holy, personal God — the starting point for all Christian theology." },
+                  { videoId: "G-2e9mMf7E8", title: "Holiness and Justice: The Holiness of God", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines what it means that God is holy — and how his holiness is inseparable from his justice, transforming how we understand both." },
+                  { videoId: "5nvVVcYD-0w", title: "Ministry Reflections with John Piper and R.C. Sproul", channel: "John Piper & R.C. Sproul", description: "Piper and Sproul reflect on what their ministries have taught them about the nature and character of God — two giants of Reformed theology in conversation." },
+                  { videoId: "f7RJATbobik", title: "R.C. Sproul on God's Being and Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explores the philosophical and theological dimensions of God's being — what it means that God is, and how that grounds Christian faith." },
+                  { videoId: "zUKzVFQn4Tc", title: "Introduction to Apologetics: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul introduces the rational basis for belief in a holy, personal God — the starting point for all Christian theology." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "methods" | "arguments" | "common" | "videos";
+type Tab = "what" | "methods" | "arguments" | "common" | "journal" | "videos";
 
 const WHAT_ITEMS = [
   {
@@ -73,7 +75,7 @@ const METHODS = [
     weakness: "Can appear circular to those outside the tradition. Less immediately useful in casual conversations. Critics argue it makes Christianity unfalsifiable.",
   },
   {
-    id: "reformed-ep",
+    id: "bhfkhq-CM84",
     name: "Reformed Epistemology",
     proponent: "Alvin Plantinga, Nicholas Wolterstorff",
     keyIdea: "Belief in God is 'properly basic' — like belief in other minds or the external world, it does not require argument to be rationally held. Plantinga's 'Warranted Christian Belief' develops this in full.",
@@ -137,7 +139,7 @@ const COMMON_ITEMS = [
     body: "Sigmund Freud argued that God is a projection of the human desire for a father figure — an illusion born of psychological need. This is a genetic fallacy: the origin of a belief tells you nothing about its truth. The same argument works perfectly against atheism: one could argue that atheism is wish fulfillment — the desire to live without moral accountability, to not answer to anyone, to believe death is final and therefore comfortable. Does that make atheism false? Of course not. The question of whether God exists must be decided by examining the evidence, not by speculating about the psychological motivations of believers. Even if Christians believe partly because it is comforting, that is irrelevant to whether it is true. Aspirin relieves headaches whether or not you want it to.",
   },
   {
-    id: "never-heard",
+    id: "6CulBuMCLg0",
     title: '"What about those who never heard?"',
     body: "This is one of the most pastorally sensitive questions in apologetics, and it deserves a careful answer. Romans 1-2 teaches that all people have access to general revelation: the creation itself testifies to God's existence and character, and conscience testifies to moral law. No one is without some knowledge of God. Romans 2:14-16 suggests that Gentiles who have only the law written on their hearts will be judged by that standard. What this means for the unevangelized is a question Christians have debated — the 'wider hope' debate. John 14:6 ('no one comes to the Father except through me') and Matthew 25:31-46 (judgment based on treatment of 'the least of these') create genuine theological tension. Most evangelical theologians hold that salvation is only through Christ, but that God may apply Christ's work to those who respond in faith to the light they have received. This is not universalism — it is acknowledging the limits of what we know about God's dealings with all humanity.",
   },
@@ -154,6 +156,20 @@ export default function Apologetics101Page() {
   const [selectedMethod, setSelectedMethod] = usePersistedState<string>("vine_apologetics-101_selected_method", "classical");
   const [argFilter, setArgFilter] = usePersistedState<string>("vine_apologetics-101_arg_filter", "all");
 
+  const [ap1Entries, setAp1Entries] = useState<{ id: string; date: string; question: string; myAnswer: string; toLearn: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ap1_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ap1Form, setAp1Form] = useState({ question: "", myAnswer: "", toLearn: "" });
+  const [ap1Saved, setAp1Saved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ap1_entries", JSON.stringify(ap1Entries)); }, [ap1Entries]);
+  function saveAp1Entry() {
+    if (!ap1Form.question.trim()) return;
+    setAp1Entries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ap1Form }, ...prev]);
+    setAp1Form({ question: "", myAnswer: "", toLearn: "" });
+    setAp1Saved(true); setTimeout(() => setAp1Saved(false), 2000);
+  }
+  function deleteAp1Entry(id: string) { setAp1Entries(prev => prev.filter(e => e.id !== id)); }
+
   function toggleAccordion(id: string) {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
   }
@@ -163,6 +179,7 @@ export default function Apologetics101Page() {
     { id: "methods", label: "Apologetic Methods" },
     { id: "arguments", label: "Core Arguments for God" },
     { id: "common", label: "Common Objections" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -423,6 +440,48 @@ export default function Apologetics101Page() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Apologetics Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record questions you are working through, your best current answer, and what you want to study next.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Question I am working through</label>
+                <textarea value={ap1Form.question} onChange={e => setAp1Form(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="e.g. Why does God allow suffering? Who made God?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My best answer right now</label>
+                <textarea value={ap1Form.myAnswer} onChange={e => setAp1Form(f => ({ ...f, myAnswer: e.target.value }))} rows={3} placeholder="Even an incomplete answer is worth recording..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I need to learn or explore</label>
+                <textarea value={ap1Form.toLearn} onChange={e => setAp1Form(f => ({ ...f, toLearn: e.target.value }))} rows={2} placeholder="Books, passages, arguments to look into..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAp1Entry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ap1Saved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {ap1Entries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({ap1Entries.length})</h3>
+                {ap1Entries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteAp1Entry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Question:</strong> {e.question}</p>}
+                    {e.myAnswer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>My Answer:</strong> {e.myAnswer}</p>}
+                    {e.toLearn && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>To Learn:</strong> {e.toLearn}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -432,19 +491,13 @@ export default function Apologetics101Page() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "CaDF4FtRoUc", title: "The Task of Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul defines what apologetics is and is not — its proper goal, its limits, and why every Christian should have a basic competency in it." },
-                  { videoId: "4uIvOniW8xA", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller / Talks at Google", description: "Keller addresses a Google audience with characteristic clarity — why belief in God is not irrational, and what makes Christianity uniquely compelling." },
-                  { videoId: "qOE6jJ4EGqg", title: "Questioning Christianity: Faith & Proof", channel: "Timothy Keller", description: "Keller explores how we decide what to believe, how faith and reason relate, and why skeptical questions deserve thoughtful Christian engagement." },
-                  { videoId: "L9jHlrMRJAo", title: "Reason for God: Belief in an Age of Skepticism", channel: "Tim Keller at Columbia University", description: "A Q&A session at Columbia University where Keller engages hard questions about Christianity from a skeptical academic audience." },
+                  { videoId: "lXEHBgAGdZE", title: "The Task of Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul defines what apologetics is and is not — its proper goal, its limits, and why every Christian should have a basic competency in it." },
+                  { videoId: "yIhGt1BQ1pw", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller / Talks at Google", description: "Keller addresses a Google audience with characteristic clarity — why belief in God is not irrational, and what makes Christianity uniquely compelling." },
+                  { videoId: "MrSNOo7EIy0", title: "Questioning Christianity: Faith & Proof", channel: "Timothy Keller", description: "Keller explores how we decide what to believe, how faith and reason relate, and why skeptical questions deserve thoughtful Christian engagement." },
+                  { videoId: "O4GJYRmNnEg", title: "Reason for God: Belief in an Age of Skepticism", channel: "Tim Keller at Columbia University", description: "A Q&A session at Columbia University where Keller engages hard questions about Christianity from a skeptical academic audience." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

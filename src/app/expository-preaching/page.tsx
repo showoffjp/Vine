@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "what" | "process" | "example" | "series" | "preachers" | "videos";
+type Tab = "what" | "process" | "example" | "series" | "preachers" | "journal" | "videos";
 
 const WORKED_EXAMPLE = [
   { label: "The Text", color: GREEN, body: "Mark 4:35-41 — Jesus calms the storm. After a day of teaching, Jesus tells the disciples, 'Let us go across to the other side.' A great windstorm arises and the boat is swamped while Jesus sleeps on a cushion. The terrified disciples wake him: 'Teacher, do you not care that we are perishing?' He rebukes the wind and the sea — 'Peace! Be still!' — and there is a great calm. Then he asks, 'Why are you so afraid? Have you still no faith?' And they are filled with awe: 'Who then is this, that even the wind and the sea obey him?'" },
@@ -73,14 +75,28 @@ const PREACHERS = [
 ];
 
 const PREACHING_VIDEOS = [
-  { videoId: "oymNIetfNAE", title: "What Is Expository Preaching?", channel: "9Marks", description: "Mark Dever explains expository preaching — preaching that exposes the meaning of the text and makes it the point of the sermon." },
-  { videoId: "Hr3PkGXYRvI", title: "Preaching the Word of God", channel: "Ligonier Ministries", description: "R.C. Sproul on the irreplaceable authority and power of Scripture-driven preaching — why the text must govern the sermon." },
-  { videoId: "dXxmSDhvbHY", title: "The Primacy of Preaching", channel: "Desiring God", description: "John Piper on why preaching is central to God's plan for building the church — and what great preaching looks like." },
-  { videoId: "Z8lkuuhVkOI", title: "How to Preach Expositionally", channel: "The Gospel Coalition", description: "Practical guidance on how to prepare and deliver an expository sermon that is faithful to the text and clear to the congregation." },
+  { videoId: "4Eg_di-O8nM", title: "What Is Expository Preaching?", channel: "9Marks", description: "Mark Dever explains expository preaching — preaching that exposes the meaning of the text and makes it the point of the sermon." },
+  { videoId: "gV9JugO_5Mk", title: "Preaching the Word of God", channel: "Ligonier Ministries", description: "R.C. Sproul on the irreplaceable authority and power of Scripture-driven preaching — why the text must govern the sermon." },
+  { videoId: "kfcVPh2VDhQ", title: "The Primacy of Preaching", channel: "Desiring God", description: "John Piper on why preaching is central to God's plan for building the church — and what great preaching looks like." },
+  { videoId: "gV9JugO_5Mk", title: "How to Preach Expositionally", channel: "The Gospel Coalition", description: "Practical guidance on how to prepare and deliver an expository sermon that is faithful to the text and clear to the congregation." },
 ];
 
 export default function ExpositoryPreachingPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_expository-preaching_tab", "what");
+
+  const [expEntries, setExpEntries] = useState<{ id: string; date: string; passage: string; observation: string; application: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_exp_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [expForm, setExpForm] = useState({ passage: "", observation: "", application: "" });
+  const [expSaved, setExpSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_exp_entries", JSON.stringify(expEntries)); }, [expEntries]);
+  function saveExpEntry() {
+    if (!expForm.passage.trim()) return;
+    setExpEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...expForm }, ...prev]);
+    setExpForm({ passage: "", observation: "", application: "" });
+    setExpSaved(true); setTimeout(() => setExpSaved(false), 2000);
+  }
+  function deleteExpEntry(id: string) { setExpEntries(prev => prev.filter(e => e.id !== id)); }
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selected, setSelected] = useState(SERMON_SERIES[0].book);
   const sel = SERMON_SERIES.find(s => s.book === selected) || SERMON_SERIES[0];
@@ -105,10 +121,10 @@ export default function ExpositoryPreachingPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["what", "process", "example", "series", "preachers", "videos"] as Tab[]).map(t => (
+          {(["what", "process", "example", "series", "preachers", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "what" ? "What It Is" : t === "process" ? "The Process" : t === "example" ? "Worked Example" : t === "series" ? "Book Series" : t === "preachers" ? "Model Preachers" : "Videos"}
+              {t === "what" ? "What It Is" : t === "process" ? "The Process" : t === "example" ? "Worked Example" : t === "series" ? "Book Series" : t === "preachers" ? "Model Preachers" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -262,12 +278,59 @@ export default function ExpositoryPreachingPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Preaching Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track passages you are studying, key observations, and how you are applying them in your preaching or personal study. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PASSAGE I AM WORKING ON *</label>
+                <textarea value={expForm.passage} onChange={e => setExpForm(f => ({ ...f, passage: e.target.value }))}
+                  placeholder="Which passage of Scripture are you currently studying or preparing to preach?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>KEY OBSERVATION FROM THE TEXT</label>
+                <textarea value={expForm.observation} onChange={e => setExpForm(f => ({ ...f, observation: e.target.value }))}
+                  placeholder="What is the main point the text is making? What surprised you in your observation?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>APPLICATION FOR YOUR CONGREGATION</label>
+                <textarea value={expForm.application} onChange={e => setExpForm(f => ({ ...f, application: e.target.value }))}
+                  placeholder="How will you apply this text to the specific people who will hear you preach?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveExpEntry}
+                style={{ background: expSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {expSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {expEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({expEntries.length})</h3>
+                {expEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteExpEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.passage && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>PASSAGE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.passage}</span></div>}
+                    {entry.observation && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>OBSERVATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.observation}</span></div>}
+                    {entry.application && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLICATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.application}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {PREACHING_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

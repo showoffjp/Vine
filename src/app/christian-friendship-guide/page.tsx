@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,13 +15,13 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "enemies" | "practices" | "models" | "videos";
+type Tab = "theology" | "enemies" | "practices" | "models" | "journal" | "videos";
 
 const CFG_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Building Deep Friendships — Tim Keller", channel: "Gospel in Life", description: "Keller on the barriers to deep friendship in modern culture and what the gospel makes possible in Christian community." },
-  { videoId: "ACZbpLkY8To", title: "Friendship and the Christian Life", channel: "Ligonier Ministries", description: "A biblical theology of friendship — what makes Christian friendship different and why the church needs it." },
-  { videoId: "fJnGJN6laqE", title: "The Gift of Friendship — Why We Need It", channel: "Desiring God", description: "Piper on friendship as a means of grace, accountability, and joy — and how to cultivate it intentionally." },
-  { videoId: "Z8lkuuhVkOI", title: "Loneliness, Community, and the Gospel", channel: "The Gospel Coalition", description: "Why the epidemic of loneliness cannot be solved by programs — and how the gospel creates the conditions for genuine belonging." },
+  { videoId: "rtkS_8VWfB0", title: "Building Deep Friendships — Tim Keller", channel: "Gospel in Life", description: "Keller on the barriers to deep friendship in modern culture and what the gospel makes possible in Christian community." },
+  { videoId: "ej_6dVdJSIU", title: "Friendship and the Christian Life", channel: "Ligonier Ministries", description: "A biblical theology of friendship — what makes Christian friendship different and why the church needs it." },
+  { videoId: "4Eg_di-O8nM", title: "The Gift of Friendship — Why We Need It", channel: "Desiring God", description: "Piper on friendship as a means of grace, accountability, and joy — and how to cultivate it intentionally." },
+  { videoId: "gV9JugO_5Mk", title: "Loneliness, Community, and the Gospel", channel: "The Gospel Coalition", description: "Why the epidemic of loneliness cannot be solved by programs — and how the gospel creates the conditions for genuine belonging." },
 ];
 
 const STATS = [
@@ -220,11 +222,26 @@ export default function ChristianFriendshipGuidePage() {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const [cfrendEntries, setCfrendEntries] = useState<{ id: string; date: string; friend: string; practicing: string; obstacle: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfrend_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfrendForm, setCfrendForm] = useState({ friend: "", practicing: "", obstacle: "" });
+  const [cfrendSaved, setCfrendSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfrend_entries", JSON.stringify(cfrendEntries)); }, [cfrendEntries]);
+  function saveCfrendEntry() {
+    if (!cfrendForm.friend.trim()) return;
+    setCfrendEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfrendForm }, ...prev]);
+    setCfrendForm({ friend: "", practicing: "", obstacle: "" });
+    setCfrendSaved(true); setTimeout(() => setCfrendSaved(false), 2000);
+  }
+  function deleteCfrendEntry(id: string) { setCfrendEntries(prev => prev.filter(e => e.id !== id)); }
+
   const TAB_LABELS: Record<Tab, string> = {
     theology: "Biblical Theology",
     enemies: "Enemies of Friendship",
     practices: "Practices",
     models: "Historical Models",
+    journal: "📓 My Journal",
     videos: "Videos",
   };
 
@@ -256,7 +273,7 @@ export default function ChristianFriendshipGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "enemies", "practices", "models", "videos"] as Tab[]).map((t) => (
+          {(["theology", "enemies", "practices", "models", "journal", "videos"] as Tab[]).map((t) => (
             <button type="button"
               key={t}
               onClick={() => setTab(t)}
@@ -416,12 +433,54 @@ export default function ChristianFriendshipGuidePage() {
         )}
 
         {/* Tab 5: Videos */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Friendship Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Reflect on your friendships — what you are cultivating, practicing, and where you need growth.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Friend or Relationship</label>
+                <input value={cfrendForm.friend} onChange={e => setCfrendForm(f => ({ ...f, friend: e.target.value }))} placeholder="Name or describe the friendship you are reflecting on..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Practice Are You Cultivating?</label>
+                <textarea value={cfrendForm.practicing} onChange={e => setCfrendForm(f => ({ ...f, practicing: e.target.value }))} placeholder="What specific habit or practice of love are you building with this person?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Obstacle or Enemy to Friendship</label>
+                <textarea value={cfrendForm.obstacle} onChange={e => setCfrendForm(f => ({ ...f, obstacle: e.target.value }))} placeholder="What is working against this friendship right now — busyness, fear, pride, distance?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfrendEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfrendSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cfrendEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cfrendEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.friend}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCfrendEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.practicing && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Practicing</div><div style={{ color: TEXT, fontSize: 13 }}>{e.practicing}</div></div>}
+                    {e.obstacle && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Obstacle</div><div style={{ color: TEXT, fontSize: 13 }}>{e.obstacle}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {CFG_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

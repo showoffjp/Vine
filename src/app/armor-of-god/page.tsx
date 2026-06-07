@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -37,7 +40,7 @@ const PIECES: Piece[] = [
     application: "Refuse small lies and self-deception. Saturate your mind in Scripture so that you recognize the enemy's distortions. Practice transparency before God and trusted believers — secrets and pretense are where the lie takes root. When tempted, name the lie behind the temptation and answer it with the truth of who God is and who you are in Christ.",
   },
   {
-    id: "breastplate",
+    id: "4Eg_di-O8nM",
     name: "The Breastplate of Righteousness",
     greek: "δικαιοσύνη (dikaiosynē)",
     ref: "Ephesians 6:14b",
@@ -103,7 +106,7 @@ const PIECES: Piece[] = [
   },
 ];
 
-type Tab = "overview" | "pieces" | "warfare" | "videos";
+type Tab = "overview" | "pieces" | "warfare" | "checkin" | "videos";
 
 const WARFARE = [
   {
@@ -144,6 +147,21 @@ export default function ArmorOfGodPage() {
 
   const piece = PIECES.find((p) => p.id === selected)!;
 
+  const [armorLogs, setArmorLogs] = useState<{ id: string; date: string; battle: string; pieces: string[]; scripture: string; outcome: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_armor_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [armorForm, setArmorForm] = useState({ battle: "", pieces: [] as string[], scripture: "", outcome: "" });
+  const [armorSaved, setArmorSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_armor_logs", JSON.stringify(armorLogs)); }, [armorLogs]);
+  function togglePiece(p: string) { setArmorForm(f => ({ ...f, pieces: f.pieces.includes(p) ? f.pieces.filter(x => x !== p) : [...f.pieces, p] })); }
+  function saveArmorLog() {
+    if (!armorForm.battle.trim()) return;
+    setArmorLogs(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...armorForm }, ...prev]);
+    setArmorForm({ battle: "", pieces: [], scripture: "", outcome: "" });
+    setArmorSaved(true); setTimeout(() => setArmorSaved(false), 2000);
+  }
+  function deleteArmorLog(id: string) { setArmorLogs(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
@@ -169,6 +187,7 @@ export default function ArmorOfGodPage() {
             { id: "overview" as const, label: "Overview", icon: "📖" },
             { id: "pieces" as const, label: "The Six Pieces", icon: "🛡️" },
             { id: "warfare" as const, label: "Spiritual Warfare", icon: "⚔️" },
+            { id: "checkin" as const, label: "Daily Check-In", icon: "✅" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map((t) => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -277,6 +296,70 @@ export default function ArmorOfGodPage() {
           </div>
         )}
 
+        {activeTab === "checkin" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Paul commands us to put on the full armor — not just pieces of it. A daily check-in trains attentiveness to the battle and which pieces need attention today.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Daily Armor Check-In</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>The battle I am in right now</label>
+                <textarea value={armorForm.battle} onChange={e => setArmorForm(f => ({ ...f, battle: e.target.value }))} rows={2}
+                  placeholder="What spiritual battle, temptation, or attack am I facing today?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Which pieces of armor I am actively wearing</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Belt of Truth", "Breastplate of Righteousness", "Shoes of Peace", "Shield of Faith", "Helmet of Salvation", "Sword of the Spirit"].map(p => (
+                    <button type="button" key={p} onClick={() => togglePiece(p)}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${armorForm.pieces.includes(p) ? PURPLE : BORDER}`, background: armorForm.pieces.includes(p) ? `${PURPLE}20` : "transparent", color: armorForm.pieces.includes(p) ? PURPLE : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Scripture I am standing on</label>
+                <input value={armorForm.scripture} onChange={e => setArmorForm(f => ({ ...f, scripture: e.target.value }))} placeholder="e.g. Ephesians 6:10, 1 Peter 5:8-9..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I stood / what happened</label>
+                <textarea value={armorForm.outcome} onChange={e => setArmorForm(f => ({ ...f, outcome: e.target.value }))} rows={2}
+                  placeholder="Did you stand? Struggle? What did you learn?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveArmorLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {armorSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {armorLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Battle Log ({armorLogs.length})</h3>
+                {armorLogs.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteArmorLog(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
+                      {e.pieces.map(p => (
+                        <span key={p} style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700 }}>{p}</span>
+                      ))}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.battle && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}><span style={{ color: MUTED, fontWeight: 600 }}>Battle: </span>{e.battle}</p>}
+                    {e.scripture && <p style={{ color: GREEN, fontSize: 13, fontWeight: 600, margin: "0 0 6px" }}>{e.scripture}</p>}
+                    {e.outcome && <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.outcome}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginTop: 0, marginBottom: 8 }}>Teaching Videos</h2>
@@ -285,19 +368,13 @@ export default function ArmorOfGodPage() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
-                { videoId: "yp3eDg2_Gj4", title: "The Armor of God", channel: "Priscilla Shirer", description: "Priscilla Shirer teaches on the believer's spiritual armor and the strategy of standing firm against the enemy's schemes — the heart of her Armor of God study." },
-                { videoId: "1cUYIfHQDz8", title: "Spiritual Warfare and the Armor of God", channel: "Tony Evans", description: "Tony Evans unpacks Ephesians 6, explaining each piece of armor and how the believer fights from victory rather than for it." },
-                { videoId: "B7C7Vq6Vz0c", title: "Stand Firm — Putting On the Whole Armor", channel: "John Piper / Desiring God", description: "John Piper exposits the call to be strong in the Lord and to take up the whole armor of God for the evil day." },
-                { videoId: "9j8u2KQYsZk", title: "The Sword of the Spirit and the Power of Prayer", channel: "Bible Teaching", description: "A study of the only offensive weapon in the armor — the Word of God — and the all-surrounding ministry of prayer in Ephesians 6:17–18." },
+                { videoId: "mC-zw0zCCtg", title: "The Armor of God", channel: "Priscilla Shirer", description: "Priscilla Shirer teaches on the believer's spiritual armor and the strategy of standing firm against the enemy's schemes — the heart of her Armor of God study." },
+                { videoId: "7_CGP-12AE0", title: "Spiritual Warfare and the Armor of God", channel: "Tony Evans", description: "Tony Evans unpacks Ephesians 6, explaining each piece of armor and how the believer fights from victory rather than for it." },
+                { videoId: "OqwbFGoRYVo", title: "Stand Firm — Putting On the Whole Armor", channel: "John Piper / Desiring God", description: "John Piper exposits the call to be strong in the Lord and to take up the whole armor of God for the evil day." },
+                { videoId: "gV9JugO_5Mk", title: "The Sword of the Spirit and the Power of Prayer", channel: "Bible Teaching", description: "A study of the only offensive weapon in the armor — the Word of God — and the all-surrounding ministry of prayer in Ephesians 6:17–18." },
               ].map((v) => (
                 <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, margin: "0 0 4px" }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, margin: "0 0 6px" }}>{v.channel}</p>

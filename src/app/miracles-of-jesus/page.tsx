@@ -1,15 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "miracles" | "reveal" | "videos";
+type Tab = "overview" | "miracles" | "reveal" | "journal" | "videos";
 type MType = "All" | "Healing" | "Nature" | "Exorcism" | "Raising the Dead";
 
 const TYPES: MType[] = ["All", "Healing", "Nature", "Exorcism", "Raising the Dead"];
@@ -245,10 +247,10 @@ const MIRACLES: Miracle[] = [
 
 type VideoItem = { videoId: string; title: string; channel: string };
 const VIDEOS: VideoItem[] = [
-  { videoId: "Hz3l_Rnk5wU", title: "The Miracles of Jesus — Overview", channel: "BibleProject" },
-  { videoId: "1y4erVNz9_o", title: "Why Jesus Performed Miracles", channel: "Teaching" },
-  { videoId: "I8aFcSCXJWg", title: "The Signs of John's Gospel", channel: "Bible Study" },
-  { videoId: "VOIdM_Yt-cg", title: "Jesus' Authority Over Nature and Death", channel: "Sermon Series" },
+  { videoId: "t6L-F2emwUc", title: "The Miracles of Jesus — Overview", channel: "BibleProject" },
+  { videoId: "oNpTha80yyE", title: "Why Jesus Performed Miracles", channel: "Teaching" },
+  { videoId: "4Eg_di-O8nM", title: "The Signs of John's Gospel", channel: "Bible Study" },
+  { videoId: "mC-zw0zCCtg", title: "Jesus' Authority Over Nature and Death", channel: "Sermon Series" },
 ];
 
 const REVEAL_POINTS = [
@@ -290,6 +292,20 @@ export default function MiraclesOfJesusPage() {
   const [openId, setOpenId] = useState<string | null>(MIRACLES[0].id);
 
   const filtered = type === "All" ? MIRACLES : MIRACLES.filter((m) => m.type === type);
+
+  const [mojEntries, setMojEntries] = useState<{ id: string; date: string; miracle: string; reveals: string; faith: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_moj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mojForm, setMojForm] = useState({ miracle: "", reveals: "", faith: "" });
+  const [mojSaved, setMojSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_moj_entries", JSON.stringify(mojEntries)); } catch {} }, [mojEntries]);
+  const saveMojEntry = () => {
+    if (!mojForm.miracle.trim()) return;
+    setMojEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mojForm }, ...prev]);
+    setMojForm({ miracle: "", reveals: "", faith: "" });
+    setMojSaved(true); setTimeout(() => setMojSaved(false), 2000);
+  };
+  const deleteMojEntry = (id: string) => setMojEntries(prev => prev.filter(e => e.id !== id));
 
   const tabBtn = (t: Tab, label: string) => (
     <button type="button"
@@ -361,6 +377,7 @@ export default function MiraclesOfJesusPage() {
           {tabBtn("overview", "Overview")}
           {tabBtn("miracles", "The Miracles")}
           {tabBtn("reveal", "What They Reveal")}
+          {tabBtn("journal", "My Journal")}
           {tabBtn("videos", "Videos")}
         </nav>
 
@@ -705,6 +722,42 @@ export default function MiraclesOfJesusPage() {
         )}
 
         {/* VIDEOS */}
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Miracles Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record which miracles you've studied, what they reveal about Jesus, and how they affect your faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mojForm.miracle} onChange={e => setMojForm(f => ({ ...f, miracle: e.target.value }))}
+                  placeholder="Which miracle are you reflecting on?" aria-label="Miracle"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={mojForm.reveals} onChange={e => setMojForm(f => ({ ...f, reveals: e.target.value }))}
+                  placeholder="What does this miracle reveal about Jesus?" aria-label="Reveals"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mojForm.faith} onChange={e => setMojForm(f => ({ ...f, faith: e.target.value }))}
+                  placeholder="How does this miracle affect your faith? (optional)" aria-label="Faith impact"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMojEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mojSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mojEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first miracle reflection above.</p>}
+              {mojEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMojEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.miracle}</p>
+                  {e.reveals && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.reveals}</p>}
+                  {e.faith && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.faith}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <section>
             <div
@@ -739,13 +792,7 @@ export default function MiraclesOfJesusPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <h3 style={{ fontSize: "1.05rem", margin: "0 0 4px" }}>{v.title}</h3>
                     <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>{v.channel}</p>

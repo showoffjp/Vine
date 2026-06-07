@@ -4,8 +4,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
-import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle2 } from "lucide-react";
+import { Globe, Heart, ChevronRight, CheckCircle2 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -330,7 +332,7 @@ const VOICES_MISS = [
   },
 ];
 
-type Tab = "regions" | "theology" | "getting-involved" | "voices" | "videos";
+type Tab = "regions" | "theology" | "getting-involved" | "voices" | "journal" | "videos";
 
 export default function MissionsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_missions_tab", "regions");
@@ -373,6 +375,20 @@ export default function MissionsPage() {
       return next;
     });
   };
+
+  const [missJEntries, setMissJEntries] = useState<{ id: string; date: string; region: string; burden: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_missj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [missJForm, setMissJForm] = useState({ region: "", burden: "", step: "" });
+  const [missJSaved, setMissJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_missj_entries", JSON.stringify(missJEntries)); } catch {} }, [missJEntries]);
+  const saveMissJEntry = () => {
+    if (!missJForm.region.trim()) return;
+    setMissJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...missJForm }, ...prev]);
+    setMissJForm({ region: "", burden: "", step: "" });
+    setMissJSaved(true); setTimeout(() => setMissJSaved(false), 2000);
+  };
+  const deleteMissJEntry = (id: string) => setMissJEntries(prev => prev.filter(e => e.id !== id));
 
   const toggleMissionaryPrayer = (i: number) => {
     setPrayedMissionaries((prev) => {
@@ -419,10 +435,10 @@ export default function MissionsPage() {
         {/* Tab Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="flex gap-2 flex-wrap" style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 6, display: "inline-flex" }}>
-            {(["regions", "theology", "getting-involved", "voices", "videos"] as const).map(t => (
+            {(["regions", "theology", "getting-involved", "voices", "journal", "videos"] as const).map(t => (
               <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "regions" ? "Regions" : t === "theology" ? "Theology" : t === "getting-involved" ? "Getting Involved" : t === "voices" ? "Voices" : "🎬 Videos"}
+                {t === "regions" ? "Regions" : t === "theology" ? "Theology" : t === "getting-involved" ? "Getting Involved" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -668,6 +684,42 @@ export default function MissionsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Missions Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record your mission burden, the region on your heart, and your next step.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={missJForm.region} onChange={e => setMissJForm(f => ({ ...f, region: e.target.value }))}
+                  placeholder="Which region or people group is on your heart?" aria-label="Region"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={missJForm.burden} onChange={e => setMissJForm(f => ({ ...f, burden: e.target.value }))}
+                  placeholder="What burden or prayer are you carrying for this region?" aria-label="Burden"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={missJForm.step} onChange={e => setMissJForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What step can you take toward engagement? (optional)" aria-label="Step"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMissJEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {missJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {missJEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first missions reflection above.</p>}
+              {missJEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMissJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.region}</p>
+                  {e.burden && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.burden}</p>}
+                  {e.step && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.step}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -677,19 +729,13 @@ export default function MissionsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "SeNCNa2NxAo", title: "Let All the Peoples Praise Him", channel: "John Piper / Desiring God", description: "Piper makes the biblical case that God's ultimate passion is his own glory among all nations — and that missions flows from worship, not guilt." },
-                  { videoId: "7vLRAB_t3T8", title: "God's Pursuit of Worshipers from Every Nation", channel: "John Piper / Desiring God", description: "A foundational teaching on the missio Dei — God's mission to gather worshipers from every tribe, tongue, and nation, grounded in Revelation 5 and 7." },
-                  { videoId: "hgKQYak54b4", title: "Make Your Life Count for the Nations", channel: "John Piper / Desiring God", description: "Piper challenges believers to consider how they can invest their lives in the cause of reaching unreached peoples, whether by going, sending, or praying." },
-                  { videoId: "XBdXKAKwb1g", title: "The Invincible Power of Joy for Missions", channel: "John Piper / Desiring God", description: "Joy as the fuel of missions — why sustainable missionary work is rooted not in duty or guilt but in the overflow of delight in God and his purposes." },
+                  { videoId: "52ZXFH1wzc8", title: "Let All the Peoples Praise Him", channel: "John Piper / Desiring God", description: "Piper makes the biblical case that God's ultimate passion is his own glory among all nations — and that missions flows from worship, not guilt." },
+                  { videoId: "OU69so6VjHA", title: "God's Pursuit of Worshipers from Every Nation", channel: "John Piper / Desiring God", description: "A foundational teaching on the missio Dei — God's mission to gather worshipers from every tribe, tongue, and nation, grounded in Revelation 5 and 7." },
+                  { videoId: "OqwbFGoRYVo", title: "Make Your Life Count for the Nations", channel: "John Piper / Desiring God", description: "Piper challenges believers to consider how they can invest their lives in the cause of reaching unreached peoples, whether by going, sending, or praying." },
+                  { videoId: "Ver8qTBTLCQ", title: "The Invincible Power of Joy for Missions", channel: "John Piper / Desiring God", description: "Joy as the fuel of missions — why sustainable missionary work is rooted not in duty or guilt but in the overflow of delight in God and his purposes." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

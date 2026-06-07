@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "howto" | "movements" | "faq" | "videos";
+type Tab = "theology" | "howto" | "movements" | "faq" | "journal" | "videos";
 
 // ─── Theology Data ────────────────────────────────────────────────────────────
 
@@ -449,11 +451,26 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "howto", label: "How to Start a House Church" },
   { id: "movements", label: "Movements Worldwide" },
   { id: "faq", label: "FAQ" },
+  { id: "journal", label: "📓 Journal" },
   { id: "videos", label: "Videos" },
 ];
 
 export default function HouseChurchGuidePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_house-church-guide_tab", "theology");
+
+  const [hcgEntries, setHcgEntries] = useState<{ id: string; date: string; question: string; applying: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_hcg_entries") ?? "[]"); } catch { return []; }
+  });
+  const [hcgForm, setHcgForm] = useState({ question: "", applying: "", step: "" });
+  const [hcgSaved, setHcgSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_hcg_entries", JSON.stringify(hcgEntries)); } catch {} }, [hcgEntries]);
+  const saveHcgEntry = () => {
+    if (!hcgForm.question.trim()) return;
+    setHcgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hcgForm }, ...prev]);
+    setHcgForm({ question: "", applying: "", step: "" });
+    setHcgSaved(true); setTimeout(() => setHcgSaved(false), 2000);
+  };
+  const deleteHcgEntry = (id: string) => setHcgEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div
@@ -646,6 +663,54 @@ export default function HouseChurchGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My House Church Guide Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record questions you are working through, what you are applying, and your next step in planting or growing a house church. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>QUESTION I AM WORKING THROUGH *</label>
+                <textarea value={hcgForm.question} onChange={e => setHcgForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="What is your biggest question about starting or leading a house church?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WHAT I AM APPLYING</label>
+                <textarea value={hcgForm.applying} onChange={e => setHcgForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What principle from this guide are you putting into practice?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+                <textarea value={hcgForm.step} onChange={e => setHcgForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What specific action will you take this week?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHcgEntry}
+                style={{ background: hcgSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {hcgSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hcgEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({hcgEntries.length})</h3>
+                {hcgEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHcgEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.question && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>QUESTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.question}</span></div>}
+                    {entry.applying && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -655,19 +720,13 @@ export default function HouseChurchGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "U16tDdh4IZo", title: "Francis Chan On The House Church Movement", channel: "Francis Chan", description: "Francis Chan shares his heart about the house church movement and why he believes smaller, relational gatherings better reflect the New Testament church." },
-                  { videoId: "2qheANo68eo", title: "We Are Church Documentary", channel: "Francis Chan / We Are Church", description: "An inside look at Francis Chan's house church network — what it looks like to do church in homes, focused on community and discipleship." },
-                  { videoId: "tSrPom_WV3Y", title: "The Leaders of the Church", channel: "Francis Chan", description: "Francis Chan examines what biblical church leadership looks like — servant-hearted elders shepherding small communities rather than institutional hierarchies." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how the kingdom of God operates through smallness, hiddenness, and ordinary community — exactly the ethos of the house church." },
+                  { videoId: "7_CGP-12AE0", title: "Francis Chan On The House Church Movement", channel: "Francis Chan", description: "Francis Chan shares his heart about the house church movement and why he believes smaller, relational gatherings better reflect the New Testament church." },
+                  { videoId: "OqwbFGoRYVo", title: "We Are Church Documentary", channel: "Francis Chan / We Are Church", description: "An inside look at Francis Chan's house church network — what it looks like to do church in homes, focused on community and discipleship." },
+                  { videoId: "gV9JugO_5Mk", title: "The Leaders of the Church", channel: "Francis Chan", description: "Francis Chan examines what biblical church leadership looks like — servant-hearted elders shepherding small communities rather than institutional hierarchies." },
+                  { videoId: "ej_6dVdJSIU", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how the kingdom of God operates through smallness, hiddenness, and ordinary community — exactly the ethos of the house church." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

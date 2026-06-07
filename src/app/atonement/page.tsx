@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -150,7 +152,7 @@ const DOCTRINES = [
 ];
 
 export default function AtonementPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"theories" | "scripture" | "thinkers" | "doctrines" | "videos">("vine_atonement_tab", "theories");
+  const [activeTab, setActiveTab] = usePersistedState<"theories" | "scripture" | "thinkers" | "doctrines" | "journal" | "videos">("vine_atonement_tab", "theories");
   const [selected, setSelected] = usePersistedState("vine_atonement_selected", "Penal Substitution");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_atonement_selected_thinker", "anselm");
   const [selectedScripture, setSelectedScripture] = useState(0);
@@ -158,6 +160,20 @@ export default function AtonementPage() {
   const theory = THEORIES.find(t => t.name === selected)!;
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
   const passage = SCRIPTURE[selectedScripture];
+
+  const [atnEntries, setAtnEntries] = useState<{ id: string; date: string; cross: string; received: string; live: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_atn_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [atnForm, setAtnForm] = useState({ cross: "", received: "", live: "" });
+  const [atnSaved, setAtnSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_atn_entries", JSON.stringify(atnEntries)); }, [atnEntries]);
+  function saveAtnEntry() {
+    if (!atnForm.cross.trim()) return;
+    setAtnEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...atnForm }, ...prev]);
+    setAtnForm({ cross: "", received: "", live: "" });
+    setAtnSaved(true); setTimeout(() => setAtnSaved(false), 2000);
+  }
+  function deleteAtnEntry(id: string) { setAtnEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -178,6 +194,7 @@ export default function AtonementPage() {
             { id: "scripture" as const, label: "Scripture", icon: "📜" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
             { id: "doctrines" as const, label: "Doctrines", icon: "📖" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -294,6 +311,48 @@ export default function AtonementPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Atonement Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on what the cross means to you — what you have received, and how you are living in response.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What the cross means to me today</label>
+                <textarea value={atnForm.cross} onChange={e => setAtnForm(f => ({ ...f, cross: e.target.value }))} rows={3} placeholder="Not theology — your personal response to Christ's sacrifice..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I have received through the atonement</label>
+                <textarea value={atnForm.received} onChange={e => setAtnForm(f => ({ ...f, received: e.target.value }))} rows={2} placeholder="Forgiveness, adoption, peace, reconciliation..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How I am living in light of it</label>
+                <textarea value={atnForm.live} onChange={e => setAtnForm(f => ({ ...f, live: e.target.value }))} rows={2} placeholder="How is the cross changing how you live, relate, and love?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAtnEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {atnSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {atnEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({atnEntries.length})</h3>
+                {atnEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteAtnEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.cross && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Cross:</strong> {e.cross}</p>}
+                    {e.received && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Received:</strong> {e.received}</p>}
+                    {e.live && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Living:</strong> {e.live}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -303,19 +362,13 @@ export default function AtonementPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "YrGYoRdNOes", title: "The Necessity of the Atonement", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explains why atonement is not optional — God's justice, holiness, and righteousness made it necessary that sin be dealt with in the death of Christ." },
-                  { videoId: "qfNSoxQb0is", title: "The Atonement — A Sermon (Mark 15:33–41)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul preaches on the crucifixion account in Mark — the darkness, the cry of dereliction, and what happened on the cross between the Father and the Son." },
-                  { videoId: "0JdwtcFNVU4", title: "What Is the Doctrine of Limited Atonement?", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines one of the most debated atonement doctrines — for whom did Christ die, and what does the Scripture actually teach?" },
-                  { videoId: "tQ3N8YTjEpc", title: "Limited Atonement: What Is Reformed Theology?", channel: "R.C. Sproul / Ligonier Ministries", description: "Part of Sproul's series on Reformed theology, this session grounds the particularity of the atonement in the nature of God's saving purpose." },
+                  { videoId: "oNpTha80yyE", title: "The Necessity of the Atonement", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explains why atonement is not optional — God's justice, holiness, and righteousness made it necessary that sin be dealt with in the death of Christ." },
+                  { videoId: "IJ-FekWUZzE", title: "The Atonement — A Sermon (Mark 15:33–41)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul preaches on the crucifixion account in Mark — the darkness, the cry of dereliction, and what happened on the cross between the Father and the Son." },
+                  { videoId: "tp5MIrMZFqo", title: "What Is the Doctrine of Limited Atonement?", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines one of the most debated atonement doctrines — for whom did Christ die, and what does the Scripture actually teach?" },
+                  { videoId: "q5QEH9bH8AU", title: "Limited Atonement: What Is Reformed Theology?", channel: "R.C. Sproul / Ligonier Ministries", description: "Part of Sproul's series on Reformed theology, this session grounds the particularity of the atonement in the nature of God's saving purpose." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,19 +2,21 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "sermons" | "preachers" | "themes" | "voices" | "videos";
+type Tab = "sermons" | "preachers" | "themes" | "voices" | "journal" | "videos";
 
 const SERMON_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "What Makes a Great Sermon?", channel: "Gospel in Life", description: "Keller on the elements of transformative preaching — the text, the gospel, the application, and the preacher's own soul." },
-  { videoId: "ACZbpLkY8To", title: "The History of Christian Preaching", channel: "Ligonier Ministries", description: "A survey from Chrysostom to Spurgeon to Martyn Lloyd-Jones — how preaching has shaped the church across the centuries." },
-  { videoId: "fJnGJN6laqE", title: "Expository Preaching — Why It Matters", channel: "Desiring God", description: "The case for text-driven preaching: why the church grows when preachers submit to the text rather than using it as a springboard." },
-  { videoId: "Z8lkuuhVkOI", title: "Landmarks in Preaching — Great Sermons That Changed the World", channel: "The Gospel Coalition", description: "From Whitefield's field preaching to MLK's 'I Have a Dream' — sermons that shaped history and why they still matter." },
+  { videoId: "rtkS_8VWfB0", title: "What Makes a Great Sermon?", channel: "Gospel in Life", description: "Keller on the elements of transformative preaching — the text, the gospel, the application, and the preacher's own soul." },
+  { videoId: "ej_6dVdJSIU", title: "The History of Christian Preaching", channel: "Ligonier Ministries", description: "A survey from Chrysostom to Spurgeon to Martyn Lloyd-Jones — how preaching has shaped the church across the centuries." },
+  { videoId: "4Eg_di-O8nM", title: "Expository Preaching — Why It Matters", channel: "Desiring God", description: "The case for text-driven preaching: why the church grows when preachers submit to the text rather than using it as a springboard." },
+  { videoId: "gV9JugO_5Mk", title: "Landmarks in Preaching — Great Sermons That Changed the World", channel: "The Gospel Coalition", description: "From Whitefield's field preaching to MLK's 'I Have a Dream' — sermons that shaped history and why they still matter." },
 ];
 
 const ERAS = ["All", "Historical", "20th Century", "Modern"];
@@ -326,6 +328,20 @@ export default function LandmarkSermonsPage() {
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_SER[0].id);
 
   const filtered = SERMONS.filter(s => era === "All" || s.era === era);
+
+  const [lsEntries, setLsEntries] = useState<{ id: string; date: string; sermon: string; impact: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ls_entries") ?? "[]"); } catch { return []; }
+  });
+  const [lsForm, setLsForm] = useState({ sermon: "", impact: "", applying: "" });
+  const [lsSaved, setLsSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ls_entries", JSON.stringify(lsEntries)); } catch {} }, [lsEntries]);
+  const saveLsEntry = () => {
+    if (!lsForm.sermon.trim()) return;
+    setLsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...lsForm }, ...prev]);
+    setLsForm({ sermon: "", impact: "", applying: "" });
+    setLsSaved(true); setTimeout(() => setLsSaved(false), 2000);
+  };
+  const deleteLsEntry = (id: string) => setLsEntries(prev => prev.filter(e => e.id !== id));
   const sermon = SERMONS.find(s => s.title === selected);
   const voice = VOICES_SER.find(v => v.id === selectedVoice) ?? VOICES_SER[0];
 
@@ -344,10 +360,10 @@ export default function LandmarkSermonsPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 4, marginBottom: 28, width: "fit-content" }}>
-          {(["sermons", "preachers", "themes", "voices", "videos"] as const).map(t => (
+          {(["sermons", "preachers", "themes", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "sermons" ? "Sermons" : t === "preachers" ? "Preachers" : t === "themes" ? "Themes" : t === "voices" ? "Voices" : "Videos"}
+              {t === "sermons" ? "Sermons" : t === "preachers" ? "Preachers" : t === "themes" ? "Themes" : t === "voices" ? "Voices" : t === "journal" ? "My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -490,13 +506,48 @@ export default function LandmarkSermonsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Preaching Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record landmark sermons that have shaped you and what you're taking away.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={lsForm.sermon} onChange={e => setLsForm(f => ({ ...f, sermon: e.target.value }))}
+                  placeholder="Which sermon or preacher?" aria-label="Sermon"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={lsForm.impact} onChange={e => setLsForm(f => ({ ...f, impact: e.target.value }))}
+                  placeholder="What was the impact on you?" aria-label="Impact"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={lsForm.applying} onChange={e => setLsForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How are you applying this? (optional)" aria-label="Applying"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveLsEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {lsSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {lsEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first sermon reflection above.</p>}
+              {lsEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteLsEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.sermon}</p>
+                  {e.impact && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.impact}</p>}
+                  {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.applying}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SERMON_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

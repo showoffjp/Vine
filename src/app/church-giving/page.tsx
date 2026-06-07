@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -82,12 +84,26 @@ const GENEROUS_LIVES = [
   },
 ];
 
-type Tab = "theology" | "questions" | "givers" | "practices" | "videos";
+type Tab = "theology" | "questions" | "givers" | "practices" | "journal" | "videos";
 
 export default function ChurchGivingPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-giving_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedGiver, setSelectedGiver] = usePersistedState("vine_church-giving_selected_giver", "wesley");
+
+  const [cgivEntries, setCgivEntries] = useState<{ id: string; date: string; conviction: string; amount: string; testimony: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cgiv_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cgivForm, setCgivForm] = useState({ conviction: "", amount: "", testimony: "" });
+  const [cgivSaved, setCgivSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cgiv_entries", JSON.stringify(cgivEntries)); }, [cgivEntries]);
+  function saveCgivEntry() {
+    if (!cgivForm.conviction.trim()) return;
+    setCgivEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cgivForm }, ...prev]);
+    setCgivForm({ conviction: "", amount: "", testimony: "" });
+    setCgivSaved(true); setTimeout(() => setCgivSaved(false), 2000);
+  }
+  function deleteCgivEntry(id: string) { setCgivEntries(prev => prev.filter(e => e.id !== id)); }
 
   const giver = GENEROUS_LIVES.find(g => g.id === selectedGiver)!;
 
@@ -110,6 +126,7 @@ export default function ChurchGivingPage() {
             { id: "questions" as const, label: "Questions", icon: "❓" },
             { id: "givers" as const, label: "Generous Lives", icon: "💎" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -202,6 +219,53 @@ export default function ChurchGivingPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Generosity Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your growing convictions and steps in biblical generosity. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What conviction about giving is God forming in you?</label>
+                <textarea value={cgivForm.conviction} onChange={e => setCgivForm(f => ({ ...f, conviction: e.target.value }))}
+                  placeholder="Tithing, first-fruits, sacrificial giving..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What commitment or step are you making?</label>
+                <textarea value={cgivForm.amount} onChange={e => setCgivForm(f => ({ ...f, amount: e.target.value }))}
+                  placeholder="Percentage, cause, specific gift..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What testimony of God's provision have you seen?</label>
+                <textarea value={cgivForm.testimony} onChange={e => setCgivForm(f => ({ ...f, testimony: e.target.value }))}
+                  placeholder="How giving has changed you or those around you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCgivEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cgivSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cgivEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cgivEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCgivEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>CONVICTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.conviction}</span></div>}
+                    {e.amount && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>COMMITMENT </span><span style={{ color: TEXT, fontSize: 14 }}>{e.amount}</span></div>}
+                    {e.testimony && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>TESTIMONY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.testimony}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -211,19 +275,13 @@ export default function ChurchGivingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "oBuDK7bQB-4", title: "What Does the Bible Say About Giving Money?", channel: "Desiring God / John Piper", description: "John Piper walks through key biblical texts on giving and generosity, showing why cheerful giving is rooted in the gospel." },
-                  { videoId: "XfM8l_Gxo-E", title: "The Truth About Tithing", channel: "Voddie Baucham", description: "Voddie Baucham on what the Bible actually teaches about tithing — cutting through common misconceptions with careful exegesis." },
-                  { videoId: "ErE0o6g7Fks", title: "Teaching Children About Tithes and Offerings", channel: "Desiring God", description: "Practical wisdom on how to train children in generosity and the spiritual habit of giving from an early age." },
-                  { videoId: "vT4XMSgD2_w", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "A conversation on how materialism competes with the gospel for the heart — and why generosity is the antidote." },
+                  { videoId: "npEDqbE6faE", title: "What Does the Bible Say About Giving Money?", channel: "Desiring God / John Piper", description: "John Piper walks through key biblical texts on giving and generosity, showing why cheerful giving is rooted in the gospel." },
+                  { videoId: "IvSuGyJQ6oM", title: "The Truth About Tithing", channel: "Voddie Baucham", description: "Voddie Baucham on what the Bible actually teaches about tithing — cutting through common misconceptions with careful exegesis." },
+                  { videoId: "sIaT8Jl2zpI", title: "Teaching Children About Tithes and Offerings", channel: "Desiring God", description: "Practical wisdom on how to train children in generosity and the spiritual habit of giving from an early age." },
+                  { videoId: "3Dv4-n6OYGI", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "A conversation on how materialism competes with the gospel for the heart — and why generosity is the antidote." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

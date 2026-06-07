@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "days" | "theology" | "observance" | "voices" | "videos";
+type Tab = "days" | "theology" | "observance" | "voices" | "journal" | "videos";
 
 const THEOLOGY_BLOCKS = [
   {
@@ -224,6 +227,20 @@ export default function HolyWeekPage() {
 
   const day = DAYS.find(d => d.day === selected)!;
 
+  const [hwEntries, setHwEntries] = useState<{ id: string; date: string; day: string; meditation: string; response: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_hw_entries") ?? "[]"); } catch { return []; }
+  });
+  const [hwForm, setHwForm] = useState({ day: "", meditation: "", response: "" });
+  const [hwSaved, setHwSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_hw_entries", JSON.stringify(hwEntries)); } catch {} }, [hwEntries]);
+  const saveHwEntry = () => {
+    if (!hwForm.day.trim()) return;
+    setHwEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hwForm }, ...prev]);
+    setHwForm({ day: "", meditation: "", response: "" });
+    setHwSaved(true); setTimeout(() => setHwSaved(false), 2000);
+  };
+  const deleteHwEntry = (id: string) => setHwEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -243,6 +260,7 @@ export default function HolyWeekPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "observance" as const, label: "Observance", icon: "🕯️" },
             { id: "voices" as const, label: "Voices", icon: "🎓" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -365,6 +383,53 @@ export default function HolyWeekPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Holy Week Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record your meditations on each day of Holy Week, what God is saying to you, and your response. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>DAY / EVENT I AM MEDITATING ON *</label>
+                <textarea value={hwForm.day} onChange={e => setHwForm(f => ({ ...f, day: e.target.value }))}
+                  placeholder="Palm Sunday, Last Supper, the Cross, the Empty Tomb..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WHAT GOD IS SAYING TO ME</label>
+                <textarea value={hwForm.meditation} onChange={e => setHwForm(f => ({ ...f, meditation: e.target.value }))}
+                  placeholder="What truth or conviction is landing on you through this event?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY RESPONSE</label>
+                <textarea value={hwForm.response} onChange={e => setHwForm(f => ({ ...f, response: e.target.value }))}
+                  placeholder="Worship, repentance, gratitude — how are you responding?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHwEntry}
+                style={{ background: hwSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {hwSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hwEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({hwEntries.length})</h3>
+                {hwEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHwEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.day && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>DAY: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.day}</span></div>}
+                    {entry.meditation && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>MEDITATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.meditation}</span></div>}
+                    {entry.response && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>RESPONSE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.response}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -374,19 +439,13 @@ export default function HolyWeekPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "59L1CkF1y98", title: "The Story of Holy Week — Day by Day", channel: "The Bible Project", description: "An animated walk through each day of Holy Week — Palm Sunday through Easter — showing how the events fulfill the Old Testament and reveal the nature of Jesus's kingdom." },
-                  { videoId: "ofwzpwE9lZQ", title: "Why Did Jesus Have to Die? The Theology of the Cross", channel: "N.T. Wright Online", description: "Wright explains the atonement — what the cross accomplished, how to understand substitution in its Jewish context, and why it remains the center of the Christian gospel." },
-                  { videoId: "zRhQJT9PsMo", title: "Good Friday: The Meaning of the Crucifixion", channel: "Desiring God", description: "A meditation on the cross — the darkness of Good Friday, what was accomplished at Calvary, and why Christians call the worst day in history 'good.'" },
-                  { videoId: "B4vvN5DGe50", title: "He Is Risen: The Historical Evidence for the Resurrection", channel: "Ravi Zacharias International Ministries", description: "Making the case for the bodily resurrection of Jesus — the empty tomb, the appearances, the transformation of the disciples, and why alternative explanations fail." },
+                  { videoId: "2go_dOJVwc4", title: "The Story of Holy Week — Day by Day", channel: "The Bible Project", description: "An animated walk through each day of Holy Week — Palm Sunday through Easter — showing how the events fulfill the Old Testament and reveal the nature of Jesus's kingdom." },
+                  { videoId: "D3yMC_qoAes", title: "Why Did Jesus Have to Die? The Theology of the Cross", channel: "N.T. Wright Online", description: "Wright explains the atonement — what the cross accomplished, how to understand substitution in its Jewish context, and why it remains the center of the Christian gospel." },
+                  { videoId: "dQ1xxoP7NJk", title: "Good Friday: The Meaning of the Crucifixion", channel: "Desiring God", description: "A meditation on the cross — the darkness of Good Friday, what was accomplished at Calvary, and why Christians call the worst day in history 'good.'" },
+                  { videoId: "K3TYG7Q_fj4", title: "He Is Risen: The Historical Evidence for the Resurrection", channel: "Ravi Zacharias International Ministries", description: "Making the case for the bodily resurrection of Jesus — the empty tomb, the appearances, the transformation of the disciples, and why alternative explanations fail." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

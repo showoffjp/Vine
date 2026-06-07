@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#c9a227";
 
-type Tab = "what" | "natures" | "why" | "chalcedon" | "kenosis" | "videos";
+type Tab = "what" | "natures" | "why" | "chalcedon" | "kenosis" | "journal" | "videos";
 
 const TWO_NATURES = [
   { nature: "Fully Divine", color: PURPLE, icon: "✨", texts: ["John 1:1", "Colossians 1:15-17", "Hebrews 1:3", "John 10:30"],
@@ -57,11 +59,11 @@ const KENOSIS = [
 ];
 
 const VIDEOS = [
-  { videoId: "FRIEXVq7vEI", title: "What Is the Incarnation?", channel: "Desiring God", description: "John Piper explores the mystery and meaning of the incarnation — what it means that God became flesh, and why it matters for salvation and Christian life." },
-  { videoId: "1lYGWpb6v34", title: "The Hypostatic Union Explained", channel: "Ligonier Ministries", description: "R.C. Sproul explains the hypostatic union — what it means to say Jesus is fully God and fully human in one person, and why the Council of Chalcedon matters." },
-  { videoId: "MtNOdM4N5Dk", title: "Why Did God Become Man?", channel: "Ligonier Ministries", description: "The soteriological necessity of the incarnation — why only one who is both fully God and fully human could accomplish our redemption." },
-  { videoId: "v2lE16R9aQ4", title: "The Virgin Birth and Incarnation", channel: "Ligonier Ministries", description: "An examination of the biblical account of the virgin birth and its significance for the doctrine of the incarnation." },
-  { videoId: "pgcMvMM96oA", title: "C.S. Lewis on the Incarnation", channel: "The Gospel Coalition", description: "Lewis's argument for the incarnation from Mere Christianity and from his introduction to Athanasius's On the Incarnation — the logic of God becoming man." },
+  { videoId: "5nvVVcYD-0w", title: "What Is the Incarnation?", channel: "Desiring God", description: "John Piper explores the mystery and meaning of the incarnation — what it means that God became flesh, and why it matters for salvation and Christian life." },
+  { videoId: "f7RJATbobik", title: "The Hypostatic Union Explained", channel: "Ligonier Ministries", description: "R.C. Sproul explains the hypostatic union — what it means to say Jesus is fully God and fully human in one person, and why the Council of Chalcedon matters." },
+  { videoId: "zUKzVFQn4Tc", title: "Why Did God Become Man?", channel: "Ligonier Ministries", description: "The soteriological necessity of the incarnation — why only one who is both fully God and fully human could accomplish our redemption." },
+  { videoId: "OqwbFGoRYVo", title: "The Virgin Birth and Incarnation", channel: "Ligonier Ministries", description: "An examination of the biblical account of the virgin birth and its significance for the doctrine of the incarnation." },
+  { videoId: "npEDqbE6faE", title: "C.S. Lewis on the Incarnation", channel: "The Gospel Coalition", description: "Lewis's argument for the incarnation from Mere Christianity and from his introduction to Athanasius's On the Incarnation — the logic of God becoming man." },
 ];
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
@@ -70,6 +72,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "why", label: "Why It Matters", icon: "💡" },
   { id: "chalcedon", label: "Council of Chalcedon", icon: "🏛️" },
   { id: "kenosis", label: "Kenosis Debate", icon: "🔍" },
+  { id: "journal", label: "My Journal", icon: "📓" },
   { id: "videos", label: "Videos", icon: "🎬" },
 ];
 
@@ -77,6 +80,20 @@ export default function IncarnationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_incarnation_tab", "what");
   const [selectedNature, setSelectedNature] = useState(0);
   const [expandedWhy, setExpandedWhy] = useState<number | null>(null);
+
+  const [incEntries, setIncEntries] = useState<{ id: string; date: string; wonder: string; question: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_inc_entries") ?? "[]"); } catch { return []; }
+  });
+  const [incForm, setIncForm] = useState({ wonder: "", question: "", applying: "" });
+  const [incSaved, setIncSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_inc_entries", JSON.stringify(incEntries)); } catch {} }, [incEntries]);
+  const saveIncEntry = () => {
+    if (!incForm.wonder.trim()) return;
+    setIncEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...incForm }, ...prev]);
+    setIncForm({ wonder: "", question: "", applying: "" });
+    setIncSaved(true); setTimeout(() => setIncSaved(false), 2000);
+  };
+  const deleteIncEntry = (id: string) => setIncEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
@@ -280,6 +297,54 @@ export default function IncarnationPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Incarnation Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on the wonder of the Incarnation, questions you are sitting with, and what this truth means for your life. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WONDER I AM SITTING WITH *</label>
+                <textarea value={incForm.wonder} onChange={e => setIncForm(f => ({ ...f, wonder: e.target.value }))}
+                  placeholder="What aspect of the Incarnation — God becoming flesh — most fills you with awe?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>QUESTION I AM WORKING THROUGH</label>
+                <textarea value={incForm.question} onChange={e => setIncForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="What theological or personal question about the Incarnation are you sitting with?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW THIS TRUTH SHAPES MY LIFE</label>
+                <textarea value={incForm.applying} onChange={e => setIncForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="Because God became flesh, how does that change how you live?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveIncEntry}
+                style={{ background: incSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {incSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {incEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({incEntries.length})</h3>
+                {incEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteIncEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.wonder && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>WONDER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.wonder}</span></div>}
+                    {entry.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>QUESTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.question}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -290,8 +355,7 @@ export default function IncarnationPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>

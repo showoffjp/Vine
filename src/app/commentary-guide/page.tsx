@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "commentaries" | "howto" | "traditions" | "voices" | "videos";
+type Tab = "commentaries" | "howto" | "traditions" | "voices" | "journal" | "videos";
 
 const TYPE_FILTERS = ["All", "One-Volume", "Expository", "Word Studies", "Academic", "Devotional"];
 
@@ -304,6 +306,20 @@ export default function CommentaryGuidePage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_COM[0].id);
 
+  const [comgEntries, setComgEntries] = useState<{ id: string; date: string; book: string; commentary: string; insight: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_comg_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [comgForm, setComgForm] = useState({ book: "", commentary: "", insight: "" });
+  const [comgSaved, setComgSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_comg_entries", JSON.stringify(comgEntries)); }, [comgEntries]);
+  function saveComgEntry() {
+    if (!comgForm.book.trim()) return;
+    setComgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...comgForm }, ...prev]);
+    setComgForm({ book: "", commentary: "", insight: "" });
+    setComgSaved(true); setTimeout(() => setComgSaved(false), 2000);
+  }
+  function deleteComgEntry(id: string) { setComgEntries(prev => prev.filter(e => e.id !== id)); }
+
   const filtered = COMMENTARIES.filter(c => type === "All" || c.type === type);
   const commentary = COMMENTARIES.find(c => c.title === selected);
   const voice = VOICES_COM.find(v => v.id === selectedVoice)!;
@@ -331,10 +347,10 @@ export default function CommentaryGuidePage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["commentaries", "howto", "traditions", "voices", "videos"] as const).map(t => (
+          {(["commentaries", "howto", "traditions", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "commentaries" ? "Commentaries" : t === "howto" ? "How to Use" : t === "traditions" ? "Traditions" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "commentaries" ? "Commentaries" : t === "howto" ? "How to Use" : t === "traditions" ? "Traditions" : t === "voices" ? "Voices" : t === "journal" ? "📓 Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -542,6 +558,53 @@ export default function CommentaryGuidePage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Commentary Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your Bible study and the commentaries you are using. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What book of the Bible are you studying?</label>
+                <textarea value={comgForm.book} onChange={e => setComgForm(f => ({ ...f, book: e.target.value }))}
+                  placeholder="Romans, Psalms, John, Genesis..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which commentary are you using?</label>
+                <textarea value={comgForm.commentary} onChange={e => setComgForm(f => ({ ...f, commentary: e.target.value }))}
+                  placeholder="Author, series, level..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What insight has this study opened?</label>
+                <textarea value={comgForm.insight} onChange={e => setComgForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="Something you see in the text now that you didn't before..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveComgEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {comgSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {comgEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {comgEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteComgEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.book && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>BOOK </span><span style={{ color: TEXT, fontSize: 14 }}>{e.book}</span></div>}
+                    {e.commentary && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>COMMENTARY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.commentary}</span></div>}
+                    {e.insight && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>INSIGHT </span><span style={{ color: TEXT, fontSize: 14 }}>{e.insight}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -551,19 +614,13 @@ export default function CommentaryGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "cRmWSB1c6L8", title: "How to Study the Bible", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul gives a masterclass in Bible study method — the tools, disciplines, and habits that make a serious reader of Scripture and a wise user of commentaries." },
-                  { videoId: "N4WkOkKu9nA", title: "Why Study the Bible? (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul makes the case for why every Christian has a responsibility to study Scripture carefully — and why good tools like commentaries are part of that calling." },
-                  { videoId: "NWZHL_MoDvY", title: "Literal Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul on how to interpret Scripture literally — what that actually means, how it differs from wooden literalism, and why commentaries help you read texts in their proper genre." },
-                  { videoId: "QG4fcVyHCxM", title: "The Science of Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul's introduction to hermeneutics — the principles that govern sound interpretation of Scripture and how to use commentaries as tools rather than authorities." },
+                  { videoId: "5nvVVcYD-0w", title: "How to Study the Bible", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul gives a masterclass in Bible study method — the tools, disciplines, and habits that make a serious reader of Scripture and a wise user of commentaries." },
+                  { videoId: "bxzuh5Xx5G4", title: "Why Study the Bible? (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul makes the case for why every Christian has a responsibility to study Scripture carefully — and why good tools like commentaries are part of that calling." },
+                  { videoId: "KwX1f2gYKZ4", title: "Literal Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul on how to interpret Scripture literally — what that actually means, how it differs from wooden literalism, and why commentaries help you read texts in their proper genre." },
+                  { videoId: "YNd-PbVhnvA", title: "The Science of Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul's introduction to hermeneutics — the principles that govern sound interpretation of Scripture and how to use commentaries as tools rather than authorities." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

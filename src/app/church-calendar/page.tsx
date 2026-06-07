@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -178,14 +180,28 @@ const VOICES_CAL = [
   { id: "dawn-m", name: "Marva Dawn", era: "1948-2021", context: "Reaching Out Without Dumbing Down (1995); Keeping the Sabbath Wholly (1989); Lutheran theologian of worship", bio: "Marva Dawn was a Lutheran theologian whose work on worship and the church calendar formed generations of pastors and worship leaders. Against the reduction of worship to entertainment and the year to a sequence of marketing seasons, Dawn argued that the church calendar forms people by immersing them in the fullness of God's story. Her treatment of Sabbath — and its relationship to the liturgical calendar — remained essential reading in worship formation. She battled severe illness for decades while producing some of the most theologically rich writing on Christian worship.", quote: "The Church year is not a ladder to be climbed or a journey to be completed — it is a wheel to be inhabited, year after year, until the patterns sink into the bones of the community.", contribution: "Dawn's work provided the theological foundations for liturgical renewal in Lutheran, Reformed, and evangelical circles. Her books on worship and Sabbath are among the most used in seminary worship courses and remain essential reading for pastors grappling with the theology of time." },
   { id: "de-waal", name: "Esther de Waal", era: "b. 1930", context: "Seeking God: The Way of St. Benedict (1984); Living with Contradiction (1989); Benedictine oblate and retreat leader", bio: "Esther de Waal brought the Benedictine tradition — with its highly structured liturgical day and year — to a wide Protestant and Catholic audience. Her accessible writing on the Rule of St. Benedict showed how the medieval monastic ordering of time around the Divine Office and church calendar offered a counter-cultural alternative to the frenetic pace of modernity. She argued that the hours of prayer and the seasons of the year are not constraints but freedoms — a way of being fully present to time rather than being consumed by it.", quote: "The Benedictine ordering of time is a gift — not a burden. It says: there is time enough. Time for work, time for prayer, time for rest. God inhabits all of it.", contribution: "De Waal's writing made the Benedictine tradition accessible to non-monastics seeking a spirituality of time. Her work has been especially influential among Protestant spiritual directors and retreat leaders who have drawn on the Rule of St. Benedict as a framework for contemporary spiritual formation." },
   { id: "rutledge-f", name: "Fleming Rutledge", era: "b. 1937", context: "Advent: The Once and Future Coming of Jesus Christ (2018); Episcopal priest and preacher", bio: "Fleming Rutledge's Advent: The Once and Future Coming of Jesus Christ is the finest contemporary theological exposition of the Advent season. Rutledge argues that Advent has been sentimentalized into a 'pre-Christmas' season when it should be the church's annual confrontation with apocalyptic darkness and eschatological hope. The Advent themes — judgment, coming king, the darkness of the world awaiting light — are not warm-up acts for Christmas but the church's counter-witness to secular optimism. Her Advent sermons span three decades and constitute the most theologically rich preaching on the season in contemporary Anglican/Episcopal tradition.", quote: "Advent is not a season of pleasant anticipation. It is a season of confronting the darkness — the world's darkness, our own darkness — and waiting in expectation for the light that no darkness can overcome.", contribution: "Rutledge's Advent volume recovered the eschatological and apocalyptic dimensions of the season that had been lost in contemporary church practice. It has become essential reading for preachers and worship leaders preparing Advent, and her influence on Anglican homiletics has been substantial." },
-  { id: "schmemann-a", name: "Alexander Schmemann", era: "1921-1983", context: "For the Life of the World (1963); Introduction to Liturgical Theology (1966); Orthodox theologian", bio: "Alexander Schmemann was an Orthodox theologian whose work on the liturgical year and sacramental theology has had remarkable influence beyond Orthodoxy. His For the Life of the World argued that the church's liturgy — including the liturgical calendar — is not a retreat from the world but the world's true life restored. The Eucharist and the church year are not religious activities within a secular world but the transformation of time itself. Time, Schmemann argued, is not a container for events but a reality redeemed by Christ — and the liturgical year is how the church lives in redeemed time.", quote: "The purpose of the liturgical year is to transform us — to make us different people. It is not a commemoration of events that happened long ago but the perpetual making-present of what Christ has done for us.", contribution: "Schmemann's liturgical theology has had extraordinary cross-denominational influence. His understanding of the Eucharist and the church year as the church's participation in the Kingdom of God has been adopted by Catholic, Anglican, Lutheran, and evangelical liturgical theologians as a framework for understanding the meaning of Christian time." },
+  { id: "mC-zw0zCCtg", name: "Alexander Schmemann", era: "1921-1983", context: "For the Life of the World (1963); Introduction to Liturgical Theology (1966); Orthodox theologian", bio: "Alexander Schmemann was an Orthodox theologian whose work on the liturgical year and sacramental theology has had remarkable influence beyond Orthodoxy. His For the Life of the World argued that the church's liturgy — including the liturgical calendar — is not a retreat from the world but the world's true life restored. The Eucharist and the church year are not religious activities within a secular world but the transformation of time itself. Time, Schmemann argued, is not a container for events but a reality redeemed by Christ — and the liturgical year is how the church lives in redeemed time.", quote: "The purpose of the liturgical year is to transform us — to make us different people. It is not a commemoration of events that happened long ago but the perpetual making-present of what Christ has done for us.", contribution: "Schmemann's liturgical theology has had extraordinary cross-denominational influence. His understanding of the Eucharist and the church year as the church's participation in the Kingdom of God has been adopted by Catholic, Anglican, Lutheran, and evangelical liturgical theologians as a framework for understanding the meaning of Christian time." },
 ];
 
 export default function ChurchCalendarPage() {
   const [selectedSeason, setSelectedSeason] = usePersistedState<string>("vine_church-calendar_selected_season", "advent");
-  const [activeTab, setActiveTab] = usePersistedState<"seasons" | "holidays" | "guide" | "voices" | "videos">("vine_church-calendar_tab", "seasons");
+  const [activeTab, setActiveTab] = usePersistedState<"seasons" | "holidays" | "guide" | "voices" | "journal" | "videos">("vine_church-calendar_tab", "seasons");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_church-calendar_voice", "webber-r");
-  const voiceItem = VOICES_CAL.find(v => v.id === selectedVoice)!;
+  const voiceItem = VOICES_CAL.find(v => v.id === selectedVoice)!
+
+  const [ccalEntries, setCcalEntries] = useState<{ id: string; date: string; season: string; practice: string; intention: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ccal_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ccalForm, setCcalForm] = useState({ season: "", practice: "", intention: "" });
+  const [ccalSaved, setCcalSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ccal_entries", JSON.stringify(ccalEntries)); }, [ccalEntries]);
+  function saveCcalEntry() {
+    if (!ccalForm.season.trim()) return;
+    setCcalEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ccalForm }, ...prev]);
+    setCcalForm({ season: "", practice: "", intention: "" });
+    setCcalSaved(true); setTimeout(() => setCcalSaved(false), 2000);
+  }
+  function deleteCcalEntry(id: string) { setCcalEntries(prev => prev.filter(e => e.id !== id)); };
 
   const season = SEASONS.find(s => s.id === selectedSeason);
 
@@ -204,7 +220,7 @@ export default function ChurchCalendarPage() {
 
   useEffect(() => {
     setSelectedSeason(getCurrentSeason());
-  }, []);
+  }, [setSelectedSeason]);
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -226,6 +242,7 @@ export default function ChurchCalendarPage() {
             { id: "holidays" as const, label: "Special Days", icon: "✨" },
             { id: "guide" as const, label: "Living the Year", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -357,6 +374,53 @@ export default function ChurchCalendarPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Church Year Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on each liturgical season as you move through the year. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which season or holy day are you in or preparing for?</label>
+                <textarea value={ccalForm.season} onChange={e => setCcalForm(f => ({ ...f, season: e.target.value }))}
+                  placeholder="Advent, Lent, Easter, Ordinary Time..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What practice are you adopting this season?</label>
+                <textarea value={ccalForm.practice} onChange={e => setCcalForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="Fasting, reading, prayer, giving, service..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What is your intention for this liturgical season?</label>
+                <textarea value={ccalForm.intention} onChange={e => setCcalForm(f => ({ ...f, intention: e.target.value }))}
+                  placeholder="What you hope God will form in you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCcalEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ccalSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {ccalEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {ccalEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCcalEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.season && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>SEASON </span><span style={{ color: TEXT, fontSize: 14 }}>{e.season}</span></div>}
+                    {e.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>PRACTICE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.practice}</span></div>}
+                    {e.intention && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>INTENTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.intention}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -366,19 +430,13 @@ export default function ChurchCalendarPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "cefE418Z9IY", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller preaches on the theological depth of Advent — waiting for the coming of Christ as a posture of the soul." },
-                  { videoId: "IkzzdfaqJ2k", title: "Advent: The Word", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on John 1 and the meaning of the Word becoming flesh — the theological center of the Advent season." },
-                  { videoId: "3KL_u820fcc", title: "Jesus, Our God — Advent Sermon", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on the divinity of Christ as the cornerstone of Advent worship and anticipation." },
-                  { videoId: "hOwe-54Bigo", title: "Advent: Born Again", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on the new birth and how it connects to the Advent season's themes of darkness, longing, and the arrival of light." },
+                  { videoId: "7_CGP-12AE0", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller preaches on the theological depth of Advent — waiting for the coming of Christ as a posture of the soul." },
+                  { videoId: "OqwbFGoRYVo", title: "Advent: The Word", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on John 1 and the meaning of the Word becoming flesh — the theological center of the Advent season." },
+                  { videoId: "gV9JugO_5Mk", title: "Jesus, Our God — Advent Sermon", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on the divinity of Christ as the cornerstone of Advent worship and anticipation." },
+                  { videoId: "ej_6dVdJSIU", title: "Advent: Born Again", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on the new birth and how it connects to the Advent season's themes of darkness, longing, and the arrival of light." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

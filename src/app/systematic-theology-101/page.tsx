@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -187,7 +189,7 @@ const DEBATES_ST: { id: string; topic: string; question: string; positions: { la
     key_texts: "Thomas Weinandy, Does God Suffer?; Jurgen Moltmann, The Crucified God; Paul Gavrilyuk, The Suffering of the Impassible God",
   },
   {
-    id: "open-theism",
+    id: "3Dv4-n6OYGI",
     topic: "Open Theism vs. Classical Theism",
     question: "Does God know future free choices? Does divine foreknowledge entail divine determinism?",
     positions: [
@@ -279,7 +281,7 @@ const RESOURCES_ST: { id: string; title: string; author: string; level: string; 
     best_for: "Laypeople, undergraduates, and anyone beginning serious theological study",
   },
   {
-    id: "erickson-ct",
+    id: "GGCF3OPWN14",
     title: "Christian Theology",
     author: "Millard Erickson",
     level: "Beginner-Intermediate",
@@ -326,11 +328,25 @@ const RESOURCES_ST: { id: string; title: string; author: string; level: string; 
 ];
 
 export default function SystematicTheology101Page() {
-  type Tab = "loci" | "thinkers" | "debates" | "resources" | "videos";
+  type Tab = "loci" | "thinkers" | "debates" | "resources" | "journal" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_systematic-theology-101_tab", "loci");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_systematic-theology-101_selected_thinker", "calvin-j");
   const locus = LOCI.find(l => l.name === selected);
+
+  type JournalEntry = { id: string; date: string; locus: string; insight: string; applying: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_st101j_entries") ?? "[]"); } catch { return []; } });
+  const [jLocus, setJLocus] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_st101j_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jLocus.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), locus: jLocus, insight: jInsight, applying: jApplying };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJLocus(""); setJInsight(""); setJApplying("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -351,6 +367,7 @@ export default function SystematicTheology101Page() {
             { id: "thinkers" as const, label: "Thinkers", icon: "🎓" },
             { id: "debates" as const, label: "Debates", icon: "⚡" },
             { id: "resources" as const, label: "Resources", icon: "📚" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -516,6 +533,38 @@ export default function SystematicTheology101Page() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Systematic Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record the theological loci you are studying, what you are learning, and how it is shaping your faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jLocus} onChange={e => setJLocus(e.target.value)} placeholder="Locus or doctrine (Christology, Soteriology, Eschatology…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="Key insight or question from your study?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How is this reshaping your worship, prayer, or ethics?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your theological study.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.locus || "Theology Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.applying && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Applying:</strong> {entry.applying}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -525,20 +574,14 @@ export default function SystematicTheology101Page() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "D1J3LNvy5w8", title: "Foundations (1 of 59): What Is Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "The opening lecture in R.C. Sproul's landmark 'Foundations' series — an overview of systematic theology and why every Christian should care about doctrine." },
-                  { videoId: "bIRbcmVC1Q0", title: "What Is Theology? — An Overview of Systematic Theology", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul defines theology and shows how God's revelation fits together coherently, setting the stage for the entire systematic theology curriculum." },
-                  { videoId: "1mP8ZCayUAs", title: "Sanctification — Foundations Overview", channel: "Ligonier Ministries / R.C. Sproul", description: "A focused lecture on the doctrine of sanctification — what it is, how it works, and its relationship to justification and glorification." },
-                  { videoId: "9iqENsZmB9g", title: "Three in Person — The Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul unpacks the doctrine of the Trinity with clarity and depth, addressing why this central doctrine matters for every Christian." },
-                  { videoId: "uuJzRf5_Gww", title: "Perseverance of the Saints — Foundations", channel: "Ligonier Ministries / R.C. Sproul", description: "A theological examination of the perseverance of the saints, its biblical foundations, and its pastoral implications for assurance and faith." },
+                  { videoId: "HGHqu9-DtXk", title: "Foundations (1 of 59): What Is Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "The opening lecture in R.C. Sproul's landmark 'Foundations' series — an overview of systematic theology and why every Christian should care about doctrine." },
+                  { videoId: "E65KV3M8RZE", title: "What Is Theology? — An Overview of Systematic Theology", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul defines theology and shows how God's revelation fits together coherently, setting the stage for the entire systematic theology curriculum." },
+                  { videoId: "Z-17KxpjL0Q", title: "Sanctification — Foundations Overview", channel: "Ligonier Ministries / R.C. Sproul", description: "A focused lecture on the doctrine of sanctification — what it is, how it works, and its relationship to justification and glorification." },
+                  { videoId: "ej_6dVdJSIU", title: "Three in Person — The Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul unpacks the doctrine of the Trinity with clarity and depth, addressing why this central doctrine matters for every Christian." },
+                  { videoId: "G-2e9mMf7E8", title: "Perseverance of the Saints — Foundations", channel: "Ligonier Ministries / R.C. Sproul", description: "A theological examination of the perseverance of the saints, its biblical foundations, and its pastoral implications for assurance and faith." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

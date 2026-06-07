@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -247,7 +249,7 @@ const VOICES_BIBLE: BibleVoice[] = [
   },
 ];
 
-type Tab = "books" | "themes" | "timeline" | "voices" | "videos";
+type Tab = "books" | "themes" | "timeline" | "voices" | "videos" | "journal";
 
 export default function BibleOverviewPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_bible-overview_tab", "books");
@@ -263,10 +265,23 @@ export default function BibleOverviewPage() {
     try { const s = localStorage.getItem("vine_bible_overview_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
 
+  type BibleOJE = { id: string; date: string; book: string; insight: string; applying: string };
+  const [bibleOJournal, setBibleOJournal] = useState<BibleOJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_bibleoj_entries") ?? "[]"); } catch { return []; } });
+  const [jBook, setJBook] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_bibleoj_entries", JSON.stringify(bibleOJournal)); } catch {} }, [bibleOJournal]);
+  function saveBibleOEntry() {
+    if (!jBook.trim() && !jInsight.trim()) return;
+    setBibleOJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), book: jBook, insight: jInsight, applying: jApplying }, ...prev]);
+    setJBook(""); setJInsight(""); setJApplying("");
+  }
+  function deleteBibleOEntry(id: string) { setBibleOJournal(prev => prev.filter(e => e.id !== id)); }
+
   const toggleRead = (name: string) => {
     setReadIds(prev => {
       const next = new Set(prev);
-      next.has(name) ? next.delete(name) : next.add(name);
+      if (next.has(name)) { next.delete(name); } else { next.add(name); }
       try { localStorage.setItem("vine_bible_overview_read", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -275,7 +290,7 @@ export default function BibleOverviewPage() {
   const toggleSave = (name: string) => {
     setSavedIds(prev => {
       const next = new Set(prev);
-      next.has(name) ? next.delete(name) : next.add(name);
+      if (next.has(name)) { next.delete(name); } else { next.add(name); }
       try { localStorage.setItem("vine_bible_overview_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -329,10 +344,10 @@ export default function BibleOverviewPage() {
         {/* Tab Bar */}
         <div style={{ marginBottom: 28 }}>
           <div style={{ display: "flex", gap: 6, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, width: "fit-content" }}>
-            {(["books", "themes", "timeline", "voices", "videos"] as const).map(t => (
+            {(["books", "themes", "timeline", "voices", "videos", "journal"] as const).map(t => (
               <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "books" ? "Books" : t === "themes" ? "Themes" : t === "timeline" ? "Timeline" : t === "voices" ? "Voices" : "🎬 Videos"}
+                {t === "books" ? "Books" : t === "themes" ? "Themes" : t === "timeline" ? "Timeline" : t === "voices" ? "Voices" : t === "videos" ? "🎬 Videos" : "📓 Journal"}
               </button>
             ))}
           </div>
@@ -511,6 +526,33 @@ export default function BibleOverviewPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Bible Overview Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record insights from books you've studied, questions raised, and how Scripture is shaping you.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Book of the Bible</label><textarea value={jBook} onChange={e => setJBook(e.target.value)} placeholder="Which book are you reflecting on?" rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight or Key Theme</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What stood out? What's the central message?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this book's message apply to your life now?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveBibleOEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {bibleOJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {bibleOJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteBibleOEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.book && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Book</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.book}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -520,19 +562,13 @@ export default function BibleOverviewPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "ALsluAKBZ-c", title: "Old Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "BibleProject's acclaimed animated overview of the entire Old Testament — its structure, major themes, and how it all points toward Christ." },
-                  { videoId: "Q0BrP8bqj0c", title: "New Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "A complete animated survey of the New Testament showing how the story begun in the Old Testament reaches its fulfillment in Jesus and the church." },
-                  { videoId: "NR29yHJxnxI", title: "Every Book of the Old Testament Explained", channel: "Bible Study Guide", description: "An ultimate Bible study guide walking through every Old Testament book — its content, purpose, and key theological contributions." },
-                  { videoId: "Ve28leEL2oU", title: "Old Testament Survey Online Course", channel: "John H. Walton & Andrew E. Hill", description: "A scholarly survey of the Old Testament by two leading evangelical professors — engaging the literary, historical, and theological dimensions of each book." },
+                  { videoId: "zDnSbLd9LFg", title: "Old Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "BibleProject's acclaimed animated overview of the entire Old Testament — its structure, major themes, and how it all points toward Christ." },
+                  { videoId: "bQFIuYOg7uo", title: "New Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "A complete animated survey of the New Testament showing how the story begun in the Old Testament reaches its fulfillment in Jesus and the church." },
+                  { videoId: "7_CGP-12AE0", title: "Every Book of the Old Testament Explained", channel: "Bible Study Guide", description: "An ultimate Bible study guide walking through every Old Testament book — its content, purpose, and key theological contributions." },
+                  { videoId: "GQI72THyO5I", title: "Old Testament Survey Online Course", channel: "John H. Walton & Andrew E. Hill", description: "A scholarly survey of the Old Testament by two leading evangelical professors — engaging the literary, historical, and theological dimensions of each book." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

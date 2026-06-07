@@ -68,14 +68,18 @@ export default function GiveButton({
                   <CheckCircle2 size={32} style={{ color: "#3a7d56" }} />
                 </div>
                 <h3 className="text-xl font-black mb-2" style={{ color: "#F2F2F8" }}>
-                  Thank you! 🙌
+                  Thank you for your heart! 🙌
                 </h3>
-                <p className="text-sm mb-1" style={{ color: "#8A8AA8" }}>
-                  Your gift of <strong style={{ color: "#3a7d56" }}>${displayAmount}</strong> to
+                <p className="text-sm mb-3" style={{ color: "#8A8AA8" }}>
+                  Your interest in giving to <strong style={{ color: "#C0C0D8" }}>{cause}</strong> has been noted.
                 </p>
-                <p className="text-sm font-semibold mb-4" style={{ color: "#C0C0D8" }}>{cause}</p>
+                <div className="rounded-xl p-3 mb-3" style={{ background: "rgba(239,200,68,0.08)", border: "1px solid rgba(239,200,68,0.2)" }}>
+                  <p className="text-xs font-semibold" style={{ color: "#ECC94B" }}>
+                    Donation processing coming soon — no charge was made.
+                  </p>
+                </div>
                 <p className="text-xs" style={{ color: "#6A6A88" }}>
-                  You will receive a receipt at your email address. 100% of your designated gift goes directly to the field.
+                  We&apos;re building real payment infrastructure. When live, 100% of designated gifts go directly to the field.
                 </p>
               </div>
             ) : step === "confirm" ? (
@@ -90,12 +94,17 @@ export default function GiveButton({
                   <p className="text-3xl font-black" style={{ color: "#F2F2F8" }}>${displayAmount}</p>
                   <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>One-time gift</p>
                 </div>
+                <div className="rounded-xl p-2 mb-3" style={{ background: "rgba(239,200,68,0.08)", border: "1px solid rgba(239,200,68,0.2)" }}>
+                  <p className="text-[11px] text-center" style={{ color: "#ECC94B" }}>
+                    Payment processing coming soon — no charge will be made
+                  </p>
+                </div>
                 <button
                   onClick={handleConfirm}
                   className="w-full py-3 rounded-xl font-bold text-sm mb-3"
                   style={{ background: `linear-gradient(135deg, ${color}CC, ${color})`, color: "#fff" }}
                 >
-                  Confirm Gift
+                  Express Interest
                 </button>
                 <button onClick={() => setStep("amount")} className="text-sm" style={{ color: "#6A6A88" }}>
                   ← Back

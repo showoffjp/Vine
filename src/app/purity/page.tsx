@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -53,7 +56,7 @@ const VOICES = [
     contribution: "Lewis helped many Christians hold a positive theology of sexuality without capitulating to its disordering. His analysis — that sexual sin is the least bad of sins, though still genuinely sinful — prevented the shame spiral that makes Christians treat sexual failure as uniquely catastrophic. His distinction between eros (romantic love) and agape in The Four Loves helped readers understand what healthy sexual love is meant to point toward: the divine love that is its ultimate source and model.",
   },
   {
-    id: "butterfield",
+    id: "zMbUXpFiFeo",
     name: "Rosaria Butterfield",
     era: "Born 1962",
     context: "Former lesbian academic, Presbyterian pastor's wife, The Secret Thoughts of an Unlikely Convert",
@@ -99,15 +102,56 @@ const PRACTICES = [
   { title: "A Theology of the Body", desc: "Read and internalize a positive theology of sexuality — not rules but a vision of what sex is for and why it is good and bounded. C.S. Lewis, Tim Keller, Christopher West, and Wesley Hill all write helpfully from different traditions.", icon: "📚" },
 ];
 
-type Tab = "theology" | "struggles" | "voices" | "practices" | "videos";
+interface PurityCheckin {
+  id: string;
+  date: string;
+  daysClean: number;
+  fell: boolean;
+  trigger: string;
+  response: string;
+  prayer: string;
+}
+
+type Tab = "theology" | "struggles" | "voices" | "practices" | "checkin" | "journal" | "videos";
 
 export default function PurityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_purity_tab", "theology");
   const [selectedStruggle, setSelectedStruggle] = usePersistedState<string>("vine_purity_selected_struggle", "Pornography");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_purity_voice", "lewis");
+  const [checkins, setCheckins] = useState<PurityCheckin[]>(() => {
+    try { const s = localStorage.getItem("vine_purity_checkins"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ciForm, setCiForm] = useState({ daysClean: 0, fell: false, trigger: "", response: "", prayer: "" });
+  const [ciSaved, setCiSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_purity_checkins", JSON.stringify(checkins)); } catch {} }, [checkins]);
+
+  const saveCheckin = () => {
+    setCheckins(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...ciForm }, ...prev]);
+    setCiForm({ daysClean: ciForm.daysClean, fell: false, trigger: "", response: "", prayer: "" });
+    setCiSaved(true);
+    setTimeout(() => setCiSaved(false), 2000);
+  };
+
+  const deleteCheckin = (id: string) => setCheckins(prev => prev.filter(e => e.id !== id));
 
   const struggle = STRUGGLES.find(s => s.name === selectedStruggle);
   const voice = VOICES.find(v => v.id === selectedVoice)!;
+
+  const [purJEntries, setPurJEntries] = useState<{ id: string; date: string; insight: string; temptation: string; victory: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_purj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [purJForm, setPurJForm] = useState({ insight: "", temptation: "", victory: "" });
+  const [purJSaved, setPurJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_purj_entries", JSON.stringify(purJEntries)); } catch {} }, [purJEntries]);
+  const savePurJEntry = () => {
+    if (!purJForm.insight.trim()) return;
+    setPurJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...purJForm }, ...prev]);
+    setPurJForm({ insight: "", temptation: "", victory: "" });
+    setPurJSaved(true);
+    setTimeout(() => setPurJSaved(false), 2000);
+  };
+  const deletePurJEntry = (id: string) => setPurJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -128,6 +172,8 @@ export default function PurityPage() {
             { id: "struggles" as const, label: "Struggles", icon: "⚔️" },
             { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "checkin" as const, label: "Check-In", icon: "📅" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -226,6 +272,127 @@ export default function PurityPage() {
           </div>
         )}
 
+        {activeTab === "checkin" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Accountability begins with honesty. Log your check-ins to track patterns, celebrate milestones, and bring your struggle into the light.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 20 }}>Today's Check-In</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Days Clean / Streak</label>
+                <input type="number" min={0} value={ciForm.daysClean}
+                  onChange={e => setCiForm(f => ({ ...f, daysClean: parseInt(e.target.value) || 0 }))}
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 15, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Did you fall today?</label>
+                <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+                  {[{ label: "No — standing strong", val: false, color: GREEN }, { label: "Yes — I need grace", val: true, color: "#EF4444" }].map(opt => (
+                    <button type="button" key={String(opt.val)} onClick={() => setCiForm(f => ({ ...f, fell: opt.val }))}
+                      style={{ flex: 1, padding: "10px 12px", borderRadius: 8, border: `1px solid ${ciForm.fell === opt.val ? opt.color : BORDER}`, background: ciForm.fell === opt.val ? `${opt.color}20` : "transparent", color: ciForm.fell === opt.val ? opt.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {ciForm.fell && (
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What was the trigger?</label>
+                  <textarea value={ciForm.trigger} onChange={e => setCiForm(f => ({ ...f, trigger: e.target.value }))} rows={2}
+                    placeholder="Boredom, loneliness, stress, a specific situation..."
+                    style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+              )}
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How did God meet you today?</label>
+                <textarea value={ciForm.response} onChange={e => setCiForm(f => ({ ...f, response: e.target.value }))} rows={3}
+                  placeholder="A verse, a moment, a conviction, a grace..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Prayer for tomorrow</label>
+                <textarea value={ciForm.prayer} onChange={e => setCiForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="What do you need from God going into tomorrow?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCheckin}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {ciSaved ? "Saved ✓" : "Save Check-In"}
+              </button>
+            </div>
+            {checkins.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>History</h3>
+                {checkins.map(c => (
+                  <div key={c.id} style={{ background: CARD, border: `1px solid ${c.fell ? "#EF444430" : `${GREEN}30`}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteCheckin(c.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16, lineHeight: 1 }}>×</button>
+                    <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: c.response || c.prayer ? 12 : 0 }}>
+                      <span style={{ fontSize: 22 }}>{c.fell ? "🙏" : "🏆"}</span>
+                      <div>
+                        <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>
+                          {c.fell ? "Fell — brought to grace" : `Day ${c.daysClean} — standing strong`}
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12 }}>{c.date}</div>
+                      </div>
+                    </div>
+                    {c.trigger && <p style={{ color: "#EF4444", fontSize: 13, margin: "0 0 8px" }}><strong>Trigger:</strong> {c.trigger}</p>}
+                    {c.response && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 8px", lineHeight: 1.6 }}><strong style={{ color: GREEN }}>God met me:</strong> {c.response}</p>}
+                    {c.prayer && <p style={{ color: PURPLE, fontSize: 13, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>🙏 {c.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Purity Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record a theological insight that strengthened you, the temptation pattern you are facing, and a victory you experienced.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Insight that strengthened me</label>
+                  <textarea rows={2} value={purJForm.insight} onChange={e => setPurJForm(f => ({ ...f, insight: e.target.value }))} placeholder="What biblical truth is helping you fight for purity?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Temptation pattern I am noticing</label>
+                  <textarea rows={2} value={purJForm.temptation} onChange={e => setPurJForm(f => ({ ...f, temptation: e.target.value }))} placeholder="What triggers your struggle? What does the pattern look like?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>A victory or moment of grace</label>
+                  <textarea rows={2} value={purJForm.victory} onChange={e => setPurJForm(f => ({ ...f, victory: e.target.value }))} placeholder="When did you turn to God rather than to the temptation?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePurJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {purJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {purJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {purJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePurJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.insight}</p></div>}
+                    {e.temptation && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Temptation Pattern</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.temptation}</p></div>}
+                    {e.victory && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Victory</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.victory}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -235,19 +402,13 @@ export default function PurityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "VCBLVWKviso", title: "Paul Washer on Purity and Sexual Sin", channel: "HeartCry Missionary Society (Paul Washer)", description: "A candid and biblically grounded conversation about sexual sin, purity, and the power of the gospel to break strongholds and produce genuine holiness." },
-                  { videoId: "HDGGeXiU4bo", title: "Fight for Purity — Sermon Jam", channel: "HeartCry Missionary Society (Paul Washer)", description: "Paul Washer calls Christians to fight for holiness with urgency — not from fear but from love, and not by willpower alone but through the Spirit's power." },
-                  { videoId: "vb2VA6SYUMg", title: "Flee from Lust and Sexual Sin!", channel: "HeartCry Missionary Society (Paul Washer)", description: "A powerful sermon jam on the biblical call to flee sexual immorality — not manage it, not moderate it, but flee. Based on 1 Corinthians 6:18." },
-                  { videoId: "LekUgWtWG2c", title: "The Holiness of God", channel: "HeartCry Missionary Society (Paul Washer)", description: "Understanding God's holiness is the foundation for any genuine pursuit of purity. This message reframes purity not as rule-keeping but as delight in a holy God." },
+                  { videoId: "52ZXFH1wzc8", title: "Paul Washer on Purity and Sexual Sin", channel: "HeartCry Missionary Society (Paul Washer)", description: "A candid and biblically grounded conversation about sexual sin, purity, and the power of the gospel to break strongholds and produce genuine holiness." },
+                  { videoId: "rtkS_8VWfB0", title: "Fight for Purity — Sermon Jam", channel: "HeartCry Missionary Society (Paul Washer)", description: "Paul Washer calls Christians to fight for holiness with urgency — not from fear but from love, and not by willpower alone but through the Spirit's power." },
+                  { videoId: "npEDqbE6faE", title: "Flee from Lust and Sexual Sin!", channel: "HeartCry Missionary Society (Paul Washer)", description: "A powerful sermon jam on the biblical call to flee sexual immorality — not manage it, not moderate it, but flee. Based on 1 Corinthians 6:18." },
+                  { videoId: "IvSuGyJQ6oM", title: "The Holiness of God", channel: "HeartCry Missionary Society (Paul Washer)", description: "Understanding God's holiness is the foundation for any genuine pursuit of purity. This message reframes purity not as rule-keeping but as delight in a holy God." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

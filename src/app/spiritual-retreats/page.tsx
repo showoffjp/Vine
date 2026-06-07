@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "centers" | "howto" | "traditions" | "voices" | "videos";
+type Tab = "centers" | "howto" | "traditions" | "voices" | "journal" | "videos";
 
 const SR_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Why Every Christian Needs a Retreat", channel: "Gospel in Life", description: "The biblical case for periodic withdrawal, silence, and extended prayer — and how to make it work in a busy life." },
-  { videoId: "ACZbpLkY8To", title: "The Ignatian Retreat — What It Is and Why It Matters", channel: "Ligonier Ministries", description: "An introduction to the Spiritual Exercises of Ignatius and what Protestant Christians can learn from this tradition." },
-  { videoId: "fJnGJN6laqE", title: "Solitude as Spiritual Warfare — Henri Nouwen", channel: "Desiring God", description: "Nouwen's argument that solitude is not escape but the practice that makes genuine community possible." },
-  { videoId: "Z8lkuuhVkOI", title: "Planning Your Personal Retreat — A Practical Guide", channel: "The Gospel Coalition", description: "Step-by-step guidance for planning a half-day, full-day, or weekend personal spiritual retreat on your own." },
+  { videoId: "rtkS_8VWfB0", title: "Why Every Christian Needs a Retreat", channel: "Gospel in Life", description: "The biblical case for periodic withdrawal, silence, and extended prayer — and how to make it work in a busy life." },
+  { videoId: "ej_6dVdJSIU", title: "The Ignatian Retreat — What It Is and Why It Matters", channel: "Ligonier Ministries", description: "An introduction to the Spiritual Exercises of Ignatius and what Protestant Christians can learn from this tradition." },
+  { videoId: "4Eg_di-O8nM", title: "Solitude as Spiritual Warfare — Henri Nouwen", channel: "Desiring God", description: "Nouwen's argument that solitude is not escape but the practice that makes genuine community possible." },
+  { videoId: "gV9JugO_5Mk", title: "Planning Your Personal Retreat — A Practical Guide", channel: "The Gospel Coalition", description: "Step-by-step guidance for planning a half-day, full-day, or weekend personal spiritual retreat on your own." },
 ];
 
 const VOICES_SR = [
@@ -233,6 +235,20 @@ export default function SpiritualRetreatsPage() {
 
   const center = CENTERS.find(c => c.name === selected);
 
+  type JournalEntry = { id: string; date: string; retreat: string; encounter: string; returning: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_srj_entries") ?? "[]"); } catch { return []; } });
+  const [jRetreat, setJRetreat] = useState("");
+  const [jEncounter, setJEncounter] = useState("");
+  const [jReturning, setJReturning] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_srj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jRetreat.trim() && !jEncounter.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), retreat: jRetreat, encounter: jEncounter, returning: jReturning };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJRetreat(""); setJEncounter(""); setJReturning("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -248,10 +264,10 @@ export default function SpiritualRetreatsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["centers", "howto", "traditions", "voices", "videos"] as Tab[]).map(t => (
+          {(["centers", "howto", "traditions", "voices", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "centers" ? "Retreat Centers" : t === "howto" ? "How to Retreat" : t === "traditions" ? "Traditions" : t === "voices" ? "🎓 Voices" : "Videos"}
+              {t === "centers" ? "Retreat Centers" : t === "howto" ? "How to Retreat" : t === "traditions" ? "Traditions" : t === "voices" ? "🎓 Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -373,12 +389,43 @@ export default function SpiritualRetreatsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Retreat Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record your retreat experiences — where you went, what God spoke, and how you are carrying it home.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jRetreat} onChange={e => setJRetreat(e.target.value)} placeholder="Retreat name or center" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jEncounter} onChange={e => setJEncounter(e.target.value)} placeholder="What did God speak or show you during this retreat?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jReturning} onChange={e => setJReturning(e.target.value)} placeholder="How are you carrying this back into daily life?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your retreat encounters with God.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.retreat || "Retreat Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.encounter && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Encounter:</strong> {entry.encounter}</p>}
+                    {entry.returning && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Returning with:</strong> {entry.returning}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SR_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

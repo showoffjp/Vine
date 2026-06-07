@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "ceremony" | "premarital" | "vows" | "videos";
+type Tab = "theology" | "ceremony" | "premarital" | "vows" | "journal" | "videos";
 
 const theologyPoints = [
   {
@@ -222,6 +224,20 @@ export default function ChristianWeddingGuidePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedElement, setSelectedElement] = useState(ceremonyElements[0]);
 
+  const [cwedEntries, setCwedEntries] = useState<{ id: string; date: string; topic: string; scripture: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cwed_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cwedForm, setCwedForm] = useState({ topic: "", scripture: "", applying: "" });
+  const [cwedSaved, setCwedSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cwed_entries", JSON.stringify(cwedEntries)); }, [cwedEntries]);
+  function saveCwedEntry() {
+    if (!cwedForm.topic.trim()) return;
+    setCwedEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cwedForm }, ...prev]);
+    setCwedForm({ topic: "", scripture: "", applying: "" });
+    setCwedSaved(true); setTimeout(() => setCwedSaved(false), 2000);
+  }
+  function deleteCwedEntry(id: string) { setCwedEntries(prev => prev.filter(e => e.id !== id)); }
+
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
   const tabs: { id: Tab; label: string }[] = [
@@ -229,6 +245,7 @@ export default function ChristianWeddingGuidePage() {
     { id: "ceremony", label: "The Ceremony" },
     { id: "premarital", label: "Premarital Topics" },
     { id: "vows", label: "Traditional Vows" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -425,6 +442,53 @@ export default function ChristianWeddingGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Wedding & Marriage Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on marriage theology and your journey toward the altar. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What topic about marriage or your wedding are you thinking through?</label>
+                <textarea value={cwedForm.topic} onChange={e => setCwedForm(f => ({ ...f, topic: e.target.value }))}
+                  placeholder="Covenant theology, ceremony, vows, roles, premarital..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What Scripture speaks to this?</label>
+                <textarea value={cwedForm.scripture} onChange={e => setCwedForm(f => ({ ...f, scripture: e.target.value }))}
+                  placeholder="Verse or passage guiding you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How are you applying this to your relationship or preparation?</label>
+                <textarea value={cwedForm.applying} onChange={e => setCwedForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="A decision, conversation, or commitment..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCwedEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cwedSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cwedEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cwedEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCwedEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.topic && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>TOPIC </span><span style={{ color: TEXT, fontSize: 14 }}>{e.topic}</span></div>}
+                    {e.scripture && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>SCRIPTURE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.scripture}</span></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>APPLYING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -434,19 +498,13 @@ export default function ChristianWeddingGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "4vAq9sWgZ74", title: "Marriage is About Christ and the Church", channel: "Desiring God / John Piper", description: "John Piper on Ephesians 5 — the theological foundation that makes Christian marriage different from every other understanding of marriage." },
-                  { videoId: "FHy34yGR57k", title: "The Making and Meaning of Marriage", channel: "Voddie Baucham", description: "Voddie Baucham on the biblical definition of marriage as covenant — what it means, why it matters, and how it reflects the gospel." },
-                  { videoId: "ZACkRe_W4Gg", title: "Marriage for the Glory of God", channel: "Paul Washer / John Piper / Voddie Baucham", description: "Three of evangelical Christianity's strongest voices on the foundational biblical concept that marriage belongs to God and exists for his glory." },
-                  { videoId: "MTn2-KEph5o", title: "This Momentary Marriage", channel: "Desiring God / John Piper", description: "John Piper on marriage as a covenant that portrays Christ's love for the church — and why that makes it both glorious and urgent." },
+                  { videoId: "mC-zw0zCCtg", title: "Marriage is About Christ and the Church", channel: "Desiring God / John Piper", description: "John Piper on Ephesians 5 — the theological foundation that makes Christian marriage different from every other understanding of marriage." },
+                  { videoId: "7_CGP-12AE0", title: "The Making and Meaning of Marriage", channel: "Voddie Baucham", description: "Voddie Baucham on the biblical definition of marriage as covenant — what it means, why it matters, and how it reflects the gospel." },
+                  { videoId: "OqwbFGoRYVo", title: "Marriage for the Glory of God", channel: "Paul Washer / John Piper / Voddie Baucham", description: "Three of evangelical Christianity's strongest voices on the foundational biblical concept that marriage belongs to God and exists for his glory." },
+                  { videoId: "gV9JugO_5Mk", title: "This Momentary Marriage", channel: "Desiring God / John Piper", description: "John Piper on marriage as a covenant that portrays Christ's love for the church — and why that makes it both glorious and urgent." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

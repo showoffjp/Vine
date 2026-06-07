@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "howto" | "orgs" | "welcome" | "videos";
+type Tab = "theology" | "howto" | "orgs" | "welcome" | "journal" | "videos";
 
 const STATS = [
   { value: "117 million", label: "forcibly displaced people worldwide (2024)" },
@@ -155,11 +157,26 @@ export default function RefugeeMinistryPage() {
   const toggleTheology = (i: number) => setExpandedTheology(expandedTheology === i ? null : i);
   const toggleWelcome = (i: number) => setExpandedWelcome(expandedWelcome === i ? null : i);
 
+  type JournalEntry = { id: string; date: string; calling: string; action: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_rmj_entries") ?? "[]"); } catch { return []; } });
+  const [jCalling, setJCalling] = useState("");
+  const [jAction, setJAction] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_rmj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jCalling.trim() && !jAction.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), calling: jCalling, action: jAction, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJCalling(""); setJAction(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Biblical Foundation" },
     { id: "howto", label: "How to Get Involved" },
     { id: "orgs", label: "Organizations" },
     { id: "welcome", label: "Welcoming Church" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -384,6 +401,39 @@ export default function RefugeeMinistryPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Refugee Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record how God is calling you to welcome the stranger and what steps you are taking.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jCalling} onChange={e => setJCalling(e.target.value)} placeholder="How is God calling you to welcome the stranger?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jAction} onChange={e => setJAction(e.target.value)} placeholder="What action did you take or witness?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step of obedience" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording how God is moving you toward the stranger.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>Journal Entry</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.calling && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Calling:</strong> {entry.calling}</p>}
+                    {entry.action && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Action:</strong> {entry.action}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -393,19 +443,13 @@ export default function RefugeeMinistryPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "yRa8HTtMT64", title: "A Biblical View of the Refugee Crisis", channel: "David Platt / McLean Bible Church", description: "David Platt preaches from Acts 17 on how the gospel shapes a Christian response to the global refugee crisis — moving beyond politics to the heart of Scripture." },
-                  { videoId: "_cZ7DrHELBU", title: "A Biblical View of the Refugee Crisis", channel: "David Platt (2023)", description: "An updated teaching from David Platt addressing how Christians should think about the complex refugee situation — with pastoral clarity and biblical grounding." },
-                  { videoId: "emQE9dut6uw", title: "A Biblical View of the Refugee Crisis | Acts 17", channel: "David Platt / International Mission Board", description: "Platt connects Paul's sermon at Mars Hill to the church's mandate today — God has determined the times and places for every person, including those displaced by war." },
-                  { videoId: "tXIK1uwibVU", title: "Rebecca's Undercover Ministry Serving North Korean Secret Christians", channel: "Open Doors UK & Ireland", description: "A first-hand account of ministry to the world's most vulnerable believers — Christians who have fled North Korea and are living in hiding, dependent on a network of underground aid workers." },
+                  { videoId: "jxaJZ5lBM5U", title: "A Biblical View of the Refugee Crisis", channel: "David Platt / McLean Bible Church", description: "David Platt preaches from Acts 17 on how the gospel shapes a Christian response to the global refugee crisis — moving beyond politics to the heart of Scripture." },
+                  { videoId: "JG_BBH8DVPI", title: "A Biblical View of the Refugee Crisis", channel: "David Platt (2023)", description: "An updated teaching from David Platt addressing how Christians should think about the complex refugee situation — with pastoral clarity and biblical grounding." },
+                  { videoId: "4Eg_di-O8nM", title: "A Biblical View of the Refugee Crisis | Acts 17", channel: "David Platt / International Mission Board", description: "Platt connects Paul's sermon at Mars Hill to the church's mandate today — God has determined the times and places for every person, including those displaced by war." },
+                  { videoId: "rtkS_8VWfB0", title: "Rebecca's Undercover Ministry Serving North Korean Secret Christians", channel: "Open Doors UK & Ireland", description: "A first-hand account of ministry to the world's most vulnerable believers — Christians who have fled North Korea and are living in hiding, dependent on a network of underground aid workers." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

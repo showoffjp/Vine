@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "tithing" | "prosperity" | "contentment" | "videos";
+type Tab = "theology" | "tithing" | "prosperity" | "contentment" | "journal" | "videos";
 
 const theologyItems = [
   {
@@ -198,6 +200,20 @@ export default function StewardshipTheologyPage() {
     setExpanded((p) => ({ ...p, [id]: !p[id] }));
   }
 
+  type JournalEntry = { id: string; date: string; area: string; conviction: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_stj_entries") ?? "[]"); } catch { return []; } });
+  const [jArea, setJArea] = useState("");
+  const [jConviction, setJConviction] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_stj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jArea.trim() && !jConviction.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), area: jArea, conviction: jConviction, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJArea(""); setJConviction(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -238,7 +254,8 @@ export default function StewardshipTheologyPage() {
               { id: "theology", label: "Biblical Theology" },
               { id: "tithing", label: "The Tithing Debate" },
               { id: "prosperity", label: "Prosperity Gospel" },
-              { id: "contentment", label: "Contentment" },
+              { id: "7_CGP-12AE0", label: "Contentment" },
+              { id: "journal", label: "📓 My Journal" },
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -387,6 +404,38 @@ export default function StewardshipTheologyPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Stewardship Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record convictions God is giving you about money, generosity, and faithful stewardship.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jArea} onChange={e => setJArea(e.target.value)} placeholder="Area (giving, debt, contentment, tithing…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What conviction is God giving you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step of obedience" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your stewardship journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.area || "Stewardship Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.conviction && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Conviction:</strong> {entry.conviction}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -396,19 +445,13 @@ export default function StewardshipTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "iJzcE14Dlf8", title: "The Sovereignty of God", channel: "Desiring God", description: "John Piper grounds Christian stewardship in God's absolute ownership — we are managers, not owners, of everything entrusted to us." },
-                  { videoId: "6YjqkWI-snE", title: "Hoping in the Meticulous Providence of Our Great God", channel: "Desiring God", description: "John Piper shows how God's providence shapes the Christian's relationship to wealth, provision, and trust in financial uncertainty." },
-                  { videoId: "uKNIPNbnHgw", title: "R.C. Sproul: The Covenant", channel: "Ligonier Ministries", description: "R.C. Sproul explains the covenantal framework in which God's demands — including the tithe — are grounded in divine ownership and grace." },
-                  { videoId: "SkV5zp873MU", title: "The Covenant of Redemption: The Promise Keeper", channel: "Ligonier Ministries", description: "R.C. Sproul traces God's faithfulness in providing for his covenant people — the theological anchor for a biblical theology of generosity." },
+                  { videoId: "GQI72THyO5I", title: "The Sovereignty of God", channel: "Desiring God", description: "John Piper grounds Christian stewardship in God's absolute ownership — we are managers, not owners, of everything entrusted to us." },
+                  { videoId: "t6L-F2emwUc", title: "Hoping in the Meticulous Providence of Our Great God", channel: "Desiring God", description: "John Piper shows how God's providence shapes the Christian's relationship to wealth, provision, and trust in financial uncertainty." },
+                  { videoId: "jH_aojNJM3E", title: "R.C. Sproul: The Covenant", channel: "Ligonier Ministries", description: "R.C. Sproul explains the covenantal framework in which God's demands — including the tithe — are grounded in divine ownership and grace." },
+                  { videoId: "oNpTha80yyE", title: "The Covenant of Redemption: The Promise Keeper", channel: "Ligonier Ministries", description: "R.C. Sproul traces God's faithfulness in providing for his covenant people — the theological anchor for a biblical theology of generosity." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

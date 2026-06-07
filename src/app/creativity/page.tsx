@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -42,22 +44,22 @@ interface Project {
 const STATUS_COLORS: Record<string, string> = { "idea": MUTED, "in-progress": "#F59E0B", "complete": GREEN };
 
 const VIDEOS = [
-  { videoId: "ACZbpLkY8To", title: "Made in God's Image: Christian Creativity", channel: "The Gospel Coalition", description: "The Gospel Coalition explores how the imago Dei grounds human creativity, and what it means to make things as image-bearers of the Creator." },
-  { videoId: "Hr3PkGXYRvI", title: "Creativity for the Glory of God", channel: "Desiring God", description: "Desiring God examines how artistic and creative work can be an act of worship — offering our gifts back to the God who gave them." },
-  { videoId: "dXxmSDhvbHY", title: "Art, Beauty, and Christian Calling", channel: "Ligonier Ministries", description: "Ligonier Ministries considers the theology of beauty and art, and why Christians should care deeply about the aesthetic dimension of life." },
-  { videoId: "E9P76VJIcRY", title: "The Creative Christian Life", channel: "Tim Keller", description: "Tim Keller reflects on the relationship between faith, calling, and creativity — and why the gospel liberates Christians to make things boldly." },
+  { videoId: "ej_6dVdJSIU", title: "Made in God's Image: Christian Creativity", channel: "The Gospel Coalition", description: "The Gospel Coalition explores how the imago Dei grounds human creativity, and what it means to make things as image-bearers of the Creator." },
+  { videoId: "YNd-PbVhnvA", title: "Creativity for the Glory of God", channel: "Desiring God", description: "Desiring God examines how artistic and creative work can be an act of worship — offering our gifts back to the God who gave them." },
+  { videoId: "XtwIT8JjddM", title: "Art, Beauty, and Christian Calling", channel: "Ligonier Ministries", description: "Ligonier Ministries considers the theology of beauty and art, and why Christians should care deeply about the aesthetic dimension of life." },
+  { videoId: "jH_aojNJM3E", title: "The Creative Christian Life", channel: "Tim Keller", description: "Tim Keller reflects on the relationship between faith, calling, and creativity — and why the gospel liberates Christians to make things boldly." },
 ];
 
 const VOICES_CREAT = [
   { id: "makoto-f", name: "Makoto Fujimura", era: "b. 1960", context: "Art and Faith (2021); Culture Care (2017); Japanese-American painter and theologian of culture", bio: "Makoto Fujimura is a painter working in the ancient Japanese technique of Nihonga — a process that uses ground minerals and gold to create luminous, layered work. His theological reflection on creativity, rooted in the idea of 'culture care' (caring for culture as a gardener cares for soil), has been enormously influential in the intersection of faith and arts. He argues that the church's call is not to produce 'Christian art' as a subcultural alternative to secular culture but to care for culture itself — nourishing the soil in which beauty, truth, and goodness can grow. His Art and Faith offers a profound meditation on Genesis 1, the tabernacle's beauty, and the artist as image-bearer.", quote: "We are not called to produce Christian art. We are called to be Christian artists — people who bring their whole selves, including their faith, to the act of making.", contribution: "Fujimura's work bridged the gap between the art world and the church, making it possible for serious artists to take their faith into the academy and for serious theologians to take the arts into the church. His 'culture care' framework has influenced how evangelical institutions think about cultural engagement and the arts." },
   { id: "sayers-dl", name: "Dorothy L. Sayers", era: "1893-1957", context: "The Mind of the Maker (1941) — the definitive theological account of human creativity as imaging the Trinity", bio: "Dorothy Sayers was a novelist, playwright, and Christian apologist whose The Mind of the Maker remains the most theologically profound exploration of human creativity in the 20th century. Sayers argued that the structure of human creative activity — Idea, Expression, and Recognition — mirrors the Trinitarian life of God (Father, Word, Spirit). Creation is not merely the making of objects but the participation of image-bearers in the creative life of the Trinity. Sayers drew on her own experience as a novelist to illuminate how the act of creating reveals something true about the nature of God and the nature of persons.", quote: "The characteristic of the Creator... is expressed in the image: the experience of making is the experience of making something outside of oneself which is, in some measure, oneself.", contribution: "The Mind of the Maker gave Christians a theological framework for creativity that went far beyond 'art as evangelism' or 'art as decoration.' Sayers showed that creativity itself is theologically significant — that the act of making reveals something true about the God in whose image the maker was made." },
-  { id: "tolkien-jrr", name: "J.R.R. Tolkien", era: "1892-1973", context: "On Fairy-Stories (1947); inventor of the term 'sub-creation' for human creative work", bio: "J.R.R. Tolkien's essay On Fairy-Stories, delivered as the Andrew Lang Lecture in 1939, introduced the concept of 'sub-creation' — the idea that when humans make stories, worlds, and art, they are exercising the image of God as creators. Tolkien argued that human beings, made in the image of the Creator, are themselves 'sub-creators' participating in the ongoing creative work of God. This was not a marginal theological idea but the center of Tolkien's understanding of why storytelling matters. The essay directly influenced C.S. Lewis's conversion — Lewis, reading it, finally understood how the Christian story could be the 'true myth' that gives meaning to all other myths.", quote: "Fantasy is a natural human activity. It certainly does not destroy or even insult Reason; and it does not either blunt the appetite for, nor obscure the perception of, scientific verity.", contribution: "Tolkien's concept of sub-creation gave Christians a theological vocabulary for understanding the significance of storytelling, world-building, and imaginative literature. It has influenced generations of Christian writers, artists, and thinkers who see their creative work as participation in God's creative life." },
+  { id: "kfcVPh2VDhQ", name: "J.R.R. Tolkien", era: "1892-1973", context: "On Fairy-Stories (1947); inventor of the term 'sub-creation' for human creative work", bio: "J.R.R. Tolkien's essay On Fairy-Stories, delivered as the Andrew Lang Lecture in 1939, introduced the concept of 'sub-creation' — the idea that when humans make stories, worlds, and art, they are exercising the image of God as creators. Tolkien argued that human beings, made in the image of the Creator, are themselves 'sub-creators' participating in the ongoing creative work of God. This was not a marginal theological idea but the center of Tolkien's understanding of why storytelling matters. The essay directly influenced C.S. Lewis's conversion — Lewis, reading it, finally understood how the Christian story could be the 'true myth' that gives meaning to all other myths.", quote: "Fantasy is a natural human activity. It certainly does not destroy or even insult Reason; and it does not either blunt the appetite for, nor obscure the perception of, scientific verity.", contribution: "Tolkien's concept of sub-creation gave Christians a theological vocabulary for understanding the significance of storytelling, world-building, and imaginative literature. It has influenced generations of Christian writers, artists, and thinkers who see their creative work as participation in God's creative life." },
   { id: "baughen-g", name: "Jeremy Begbie", era: "b. 1957", context: "Theology, Music and Time (2000); Resounding Truth (2007); theologian of music", bio: "Jeremy Begbie is a professional musician and theologian who has spent decades exploring the theological significance of music. His Theology, Music and Time argues that music is uniquely positioned to illuminate theological realities — particularly the nature of time, eschatology, and the Trinity. Music, Begbie argues, exists in time in a way that no other art form does, and this makes it peculiarly suited to theological reflection on the nature of God's relationship to creation. His work has shaped how evangelical seminaries teach the theology of arts and worship, and his Resounding Truth remains the standard academic text on theology and music.", quote: "Music takes time seriously in a way that no other art form does — and this makes it uniquely suited to the gospel, which is a story of God entering time to redeem it.", contribution: "Begbie's work established the theology of music as a serious academic discipline and gave musicians and worship leaders a theological framework for understanding what they do. His teaching at Duke, Cambridge, and elsewhere has trained a generation of pastor-musicians who bring theological depth to their work." },
   { id: "turner-s", name: "Steve Turner", era: "b. 1949", context: "Imagine: A Vision for Christians in the Arts (2001); British poet and rock music journalist", bio: "Steve Turner is a British poet and arts journalist who has covered rock music for Rolling Stone, Q, and Time, and whose Imagine: A Vision for Christians in the Arts is the most practically oriented book on Christians in the arts. Turner argues that Christians should be present in mainstream culture not to produce 'Christian products' but to be Christians who make art — bringing their worldview to bear on the full range of human experience. His own career as a poet and journalist, covering figures from Elvis to U2, demonstrated what this looks like in practice. His treatment of the 'sacred/secular' divide — and why Christians should reject it — has been formative for many artists.", quote: "Being a Christian artist is not about making Christian art. It is about being a Christian who makes art — bringing your whole self, including your faith, into the making.", contribution: "Turner's Imagine has introduced more evangelical Christians to the theology of the arts than almost any other book of its kind. Its practical, journalist's approach — grounded in real examples from the history of culture — made it accessible to artists who found more academic treatments too abstract." },
 ];
 
 export default function CreativityPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"theology" | "mediums" | "projects" | "voices" | "videos">("vine_creativity_tab", "theology");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "mediums" | "projects" | "voices" | "videos" | "journal">("vine_creativity_tab", "theology");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_creativity_voice", "makoto-f");
   const voiceItem = VOICES_CREAT.find(v => v.id === selectedVoice)!;
   const [projects, setProjects] = useState<Project[]>(() => {
@@ -98,6 +100,19 @@ export default function CreativityPage() {
 
   const medium = MEDIUMS.find(m => m.id === selectedMedium)!;
 
+  type CreativityJE = { id: string; date: string; reflection: string; medium: string; step: string };
+  const [creativityJournal, setCreativityJournal] = useState<CreativityJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_creativityj_entries") ?? "[]"); } catch { return []; } });
+  const [jReflection, setJReflection] = useState("");
+  const [jMedium, setJMedium] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_creativityj_entries", JSON.stringify(creativityJournal)); } catch {} }, [creativityJournal]);
+  function saveCreativityEntry() {
+    if (!jReflection.trim() && !jMedium.trim()) return;
+    setCreativityJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jReflection, medium: jMedium, step: jStep }, ...prev]);
+    setJReflection(""); setJMedium(""); setJStep("");
+  }
+  function deleteCreativityEntry(id: string) { setCreativityJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -118,6 +133,7 @@ export default function CreativityPage() {
             { id: "projects" as const, label: "My Projects", icon: "📋" },
             { id: "voices" as const, label: "Voices", icon: "🎭" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
+            { id: "journal" as const, label: "📓 Journal", icon: "📓" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -242,12 +258,38 @@ export default function CreativityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Creativity Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record reflections on creativity, creative mediums you&apos;re exploring, and steps toward your next creative work.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Reflection</label><textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What is God stirring in you creatively?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Creative Medium</label><textarea value={jMedium} onChange={e => setJMedium(e.target.value)} placeholder="Which creative medium are you drawn to explore?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label><textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete step toward your creative work this week..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveCreativityEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {creativityJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {creativityJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteCreativityEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.reflection}</p></div>}
+                    {entry.medium && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Medium</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.medium}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

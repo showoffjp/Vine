@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -24,7 +27,7 @@ const PRINCIPLES = [
   { title: "Give Generously, Then Give More", desc: "Many financially wise Christians practice percentage increases: give 10%, then find one year to give 11%, then 12%, working upward as income and debt freedom allow. The goal is generosity that costs something — the widow's offering (Mark 12:41-44) is not commended for its amount but for the proportion. Systematic increases in giving counteract the lifestyle inflation that tends to absorb every income increase." },
 ];
 
-type Tab = "theology" | "thinkers" | "principles" | "resources" | "videos";
+type Tab = "theology" | "thinkers" | "principles" | "resources" | "journal" | "videos";
 
 const THINKERS_FINANCE = [
   {
@@ -88,6 +91,20 @@ export default function ChristianFinancialGuidePage() {
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_christian-financial-guide_selected_thinker", "wesley");
   const thinker = THINKERS_FINANCE.find(t => t.id === selectedThinker)!;
 
+  const [cfgEntries, setCfgEntries] = useState<{ id: string; date: string; principle: string; applying: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfg_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfgForm, setCfgForm] = useState({ principle: "", applying: "", prayer: "" });
+  const [cfgSaved, setCfgSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfg_entries", JSON.stringify(cfgEntries)); }, [cfgEntries]);
+  function saveCfgEntry() {
+    if (!cfgForm.principle.trim()) return;
+    setCfgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfgForm }, ...prev]);
+    setCfgForm({ principle: "", applying: "", prayer: "" });
+    setCfgSaved(true); setTimeout(() => setCfgSaved(false), 2000);
+  }
+  function deleteCfgEntry(id: string) { setCfgEntries(prev => prev.filter(e => e.id !== id)); };
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -107,6 +124,7 @@ export default function ChristianFinancialGuidePage() {
             { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "principles" as const, label: "Principles", icon: "📊" },
             { id: "resources" as const, label: "Resources", icon: "🔗" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -210,6 +228,49 @@ export default function ChristianFinancialGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Stewardship Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Track how you are applying biblical principles of stewardship to your financial life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Principle or Conviction</label>
+                <input value={cfgForm.principle} onChange={e => setCfgForm(f => ({ ...f, principle: e.target.value }))} placeholder="e.g. Giving the first tenth, contentment over accumulation..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Are You Applying This?</label>
+                <textarea value={cfgForm.applying} onChange={e => setCfgForm(f => ({ ...f, applying: e.target.value }))} placeholder="What specific financial decision or habit are you changing?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Prayer for This Area</label>
+                <textarea value={cfgForm.prayer} onChange={e => setCfgForm(f => ({ ...f, prayer: e.target.value }))} placeholder="What are you asking God for regarding money and possessions?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfgEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfgSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cfgEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cfgEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.principle}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCfgEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.applying && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Applying</div><div style={{ color: TEXT, fontSize: 13 }}>{e.applying}</div></div>}
+                    {e.prayer && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Prayer</div><div style={{ color: TEXT, fontSize: 13 }}>{e.prayer}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -219,19 +280,13 @@ export default function ChristianFinancialGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "VbnJtsF4SII", title: "Stewardship 101: Biblical Principles for Money, Giving & Contentment", channel: "Christian Financial Teaching", description: "An overview of the biblical principles for managing money — stewardship, generosity, contentment, and how money shapes our relationship with God." },
-                  { videoId: "GF-405SxcyY", title: "A Biblical Worldview of Tithing and Giving", channel: "Bob & Shawn", description: "An examination of why generosity is central in Scripture — what tithing means, how giving transforms us, and why Jesus talked about money so much." },
-                  { videoId: "xS4zJBXswwc", title: "Is Tithing Only for the Old Testament? The Truth About Biblical Giving", channel: "Biblical Finance", description: "Pastor Josh McPherson examines whether New Testament Christians are bound by the tithe — and what a gospel-driven approach to giving actually looks like." },
-                  { videoId: "Qlllx4IvujI", title: "Am I Generous? Biblical Giving, Tithing, Offerings & God's Heart for Money", channel: "Money Myths Series", description: "A teaching that goes beyond the tithe to explore God's heart for generous giving and how our finances reveal what we actually treasure." },
+                  { videoId: "52ZXFH1wzc8", title: "Stewardship 101: Biblical Principles for Money, Giving & Contentment", channel: "Christian Financial Teaching", description: "An overview of the biblical principles for managing money — stewardship, generosity, contentment, and how money shapes our relationship with God." },
+                  { videoId: "rtkS_8VWfB0", title: "A Biblical Worldview of Tithing and Giving", channel: "Bob & Shawn", description: "An examination of why generosity is central in Scripture — what tithing means, how giving transforms us, and why Jesus talked about money so much." },
+                  { videoId: "npEDqbE6faE", title: "Is Tithing Only for the Old Testament? The Truth About Biblical Giving", channel: "Biblical Finance", description: "Pastor Josh McPherson examines whether New Testament Christians are bound by the tithe — and what a gospel-driven approach to giving actually looks like." },
+                  { videoId: "IvSuGyJQ6oM", title: "Am I Generous? Biblical Giving, Tithing, Offerings & God's Heart for Money", channel: "Money Myths Series", description: "A teaching that goes beyond the tithe to explore God's heart for generous giving and how our finances reveal what we actually treasure." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

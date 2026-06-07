@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -100,7 +103,7 @@ const CHARACTERS = [
 
 const FILTERS = ["All", "OT", "NT", "Patriarch", "Exodus", "Judges", "Divided Kingdom", "New Testament"];
 
-type Tab = "characters" | "women" | "typology" | "study" | "videos";
+type Tab = "characters" | "women" | "typology" | "study" | "journal" | "videos";
 
 const WOMEN_CHARS = [
   {
@@ -186,6 +189,20 @@ export default function BibleCharactersPage() {
   const displayCharacter = filtered.find(c => c.name === selected) ? character : filtered[0];
   const womanItem = WOMEN_CHARS.find(w => w.name === selectedWoman)!;
 
+  const [bcEntries, setBcEntries] = useState<{ id: string; date: string; character: string; lesson: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [bcForm, setBcForm] = useState({ character: "Abraham", lesson: "", applying: "" });
+  const [bcSaved, setBcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bc_entries", JSON.stringify(bcEntries)); }, [bcEntries]);
+  function saveBcEntry() {
+    if (!bcForm.lesson.trim()) return;
+    setBcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bcForm }, ...prev]);
+    setBcForm({ character: "Abraham", lesson: "", applying: "" });
+    setBcSaved(true); setTimeout(() => setBcSaved(false), 2000);
+  }
+  function deleteBcEntry(id: string) { setBcEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -205,6 +222,7 @@ export default function BibleCharactersPage() {
             { id: "women" as const, label: "Women", icon: "👩" },
             { id: "typology" as const, label: "Typology", icon: "✝️" },
             { id: "study" as const, label: "How to Study", icon: "📖" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -342,6 +360,50 @@ export default function BibleCharactersPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Bible Characters Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record what you learn from a Bible character and how you are applying it.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Character I am studying</label>
+                <input value={bcForm.character} onChange={e => setBcForm(f => ({ ...f, character: e.target.value }))} placeholder="e.g. Abraham, David, Ruth, Paul..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Lesson learned from this character</label>
+                <textarea value={bcForm.lesson} onChange={e => setBcForm(f => ({ ...f, lesson: e.target.value }))} rows={3} placeholder="What did God show you through this person's life?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How I am applying it</label>
+                <textarea value={bcForm.applying} onChange={e => setBcForm(f => ({ ...f, applying: e.target.value }))} rows={2} placeholder="A specific step of faith, obedience, or change..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBcEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {bcSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {bcEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bcEntries.length})</h3>
+                {bcEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.character}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBcEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.lesson && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Lesson:</strong> {e.lesson}</p>}
+                    {e.applying && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Applying:</strong> {e.applying}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -351,19 +413,13 @@ export default function BibleCharactersPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Dj16ick5VSA", title: "What Is Typology? How to Use It in Bible Study", channel: "Ligonier Ministries", description: "Sinclair Ferguson explains what biblical typology is and how to use it responsibly — essential for reading Old Testament characters as they point to Christ." },
-                  { videoId: "KH4RaAbqlXw", title: "How David Is a Type of Christ", channel: "Bible Study Channel", description: "An examination of the specific ways King David prefigures Jesus — shepherd, king, sufferer, and conqueror — across the Psalms and the Gospels." },
-                  { videoId: "mDmOI05npxU", title: "Ways That Moses Is a Type of Christ", channel: "Bible Study Channel", description: "Moses as deliverer, lawgiver, mediator, and prophet — each role pointing forward to the greater Moses who fulfills what Moses only foreshadowed." },
-                  { videoId: "Me9BErWlPlU", title: "Biblical Typology: A Deep Bible Study", channel: "Bible Study", description: "A comprehensive guide to reading the Old Testament typologically — understanding how characters, events, and institutions foreshadow Christ." },
+                  { videoId: "oNpTha80yyE", title: "What Is Typology? How to Use It in Bible Study", channel: "Ligonier Ministries", description: "Sinclair Ferguson explains what biblical typology is and how to use it responsibly — essential for reading Old Testament characters as they point to Christ." },
+                  { videoId: "IJ-FekWUZzE", title: "How David Is a Type of Christ", channel: "Bible Study Channel", description: "An examination of the specific ways King David prefigures Jesus — shepherd, king, sufferer, and conqueror — across the Psalms and the Gospels." },
+                  { videoId: "tp5MIrMZFqo", title: "Ways That Moses Is a Type of Christ", channel: "Bible Study Channel", description: "Moses as deliverer, lawgiver, mediator, and prophet — each role pointing forward to the greater Moses who fulfills what Moses only foreshadowed." },
+                  { videoId: "q5QEH9bH8AU", title: "Biblical Typology: A Deep Bible Study", channel: "Bible Study", description: "A comprehensive guide to reading the Old Testament typologically — understanding how characters, events, and institutions foreshadow Christ." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

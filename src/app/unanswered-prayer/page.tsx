@@ -2,18 +2,21 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "reasons" | "voices" | "practices" | "videos";
+type Tab = "theology" | "reasons" | "voices" | "practices" | "prayerlog" | "videos";
 
 const PRAYER_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Why God Doesn't Always Answer Prayer", channel: "Gospel in Life / Tim Keller", description: "Keller addresses the pastoral and theological questions of unanswered prayer with honesty and biblical depth." },
-  { videoId: "ACZbpLkY8To", title: "When God Says No — Understanding Unanswered Prayer", channel: "Ligonier Ministries", description: "R.C. Sproul on the biblical categories for why God sometimes withholds what we ask and what that means for faith." },
-  { videoId: "fJnGJN6laqE", title: "Praying When God Seems Silent", channel: "Desiring God", description: "John Piper on persistence, silence, and what the cross tells us about God's response to prayer." },
-  { videoId: "Z8lkuuhVkOI", title: "Unanswered Prayer — Philip Yancey", channel: "Regent College Audio", description: "Yancey's candid exploration of the mystery of prayer and why the most honest prayers are sometimes the ones that go unanswered." },
+  { videoId: "rtkS_8VWfB0", title: "Why God Doesn't Always Answer Prayer", channel: "Gospel in Life / Tim Keller", description: "Keller addresses the pastoral and theological questions of unanswered prayer with honesty and biblical depth." },
+  { videoId: "ej_6dVdJSIU", title: "When God Says No — Understanding Unanswered Prayer", channel: "Ligonier Ministries", description: "R.C. Sproul on the biblical categories for why God sometimes withholds what we ask and what that means for faith." },
+  { videoId: "4Eg_di-O8nM", title: "Praying When God Seems Silent", channel: "Desiring God", description: "John Piper on persistence, silence, and what the cross tells us about God's response to prayer." },
+  { videoId: "gV9JugO_5Mk", title: "Unanswered Prayer — Philip Yancey", channel: "Regent College Audio", description: "Yancey's candid exploration of the mystery of prayer and why the most honest prayers are sometimes the ones that go unanswered." },
 ];
 
 const THEOLOGY = [
@@ -89,6 +92,27 @@ export default function UnansweredPrayerPage() {
   const [selectedReason, setSelectedReason] = usePersistedState("vine_unanswered-prayer_selected_reason", "Against God's Will");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_unanswered-prayer_voice", "yancey");
 
+  const [prayerItems, setPrayerItems] = useState<{ id: string; date: string; prayer: string; status: "waiting" | "answered" | "released"; answer: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_up_prayers"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [pForm, setPForm] = useState<{ prayer: string; status: "waiting" | "answered" | "released"; answer: string }>({ prayer: "", status: "waiting", answer: "" });
+  const [pSaved, setPSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_up_prayers", JSON.stringify(prayerItems)); } catch {} }, [prayerItems]);
+
+  const savePrayer = () => {
+    setPrayerItems(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...pForm }, ...prev]);
+    setPForm({ prayer: "", status: "waiting", answer: "" });
+    setPSaved(true);
+    setTimeout(() => setPSaved(false), 2000);
+  };
+
+  const updateStatus = (id: string, status: "waiting" | "answered" | "released") => {
+    setPrayerItems(prev => prev.map(p => p.id === id ? { ...p, status } : p));
+  };
+
+  const deletePrayer = (id: string) => setPrayerItems(prev => prev.filter(p => p.id !== id));
+
   const reason = REASONS.find(r => r.reason === selectedReason)!;
   const voice = VOICES.find(v => v.id === selectedVoice)!;
 
@@ -111,6 +135,7 @@ export default function UnansweredPrayerPage() {
             { id: "reasons" as Tab, label: "Why Unanswered", icon: "🔍" },
             { id: "voices" as Tab, label: "Voices", icon: "💬" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "prayerlog" as Tab, label: "Prayer Log", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -197,12 +222,79 @@ export default function UnansweredPrayerPage() {
           </div>
         )}
 
+        {tab === "prayerlog" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Record prayers with dates. Many Christians who feel prayer doesn't work have simply not tracked their prayers over time. Review this log in months and years — and watch God's faithfulness accumulate.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Add a Prayer</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I'm bringing to God</label>
+                <textarea value={pForm.prayer} onChange={e => setPForm(f => ({ ...f, prayer: e.target.value }))} rows={3}
+                  placeholder="Be specific. Name the person, situation, desire, or question you're laying before him."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Status</label>
+                <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                  {[
+                    { val: "waiting" as const, label: "Waiting", color: "#F59E0B" },
+                    { val: "answered" as const, label: "Answered", color: GREEN },
+                    { val: "released" as const, label: "Released to God", color: PURPLE },
+                  ].map(opt => (
+                    <button type="button" key={opt.val} onClick={() => setPForm(f => ({ ...f, status: opt.val }))}
+                      style={{ flex: 1, padding: "9px 8px", borderRadius: 8, border: `1px solid ${pForm.status === opt.val ? opt.color : BORDER}`, background: pForm.status === opt.val ? `${opt.color}20` : "transparent", color: pForm.status === opt.val ? opt.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button type="button" onClick={savePrayer}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {pSaved ? "Saved ✓" : "Add to Log"}
+              </button>
+            </div>
+            {prayerItems.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Prayer Log ({prayerItems.length})</h3>
+                {prayerItems.map(p => {
+                  const statusColor = p.status === "answered" ? GREEN : p.status === "released" ? PURPLE : "#F59E0B";
+                  return (
+                    <div key={p.id} style={{ background: CARD, border: `1px solid ${statusColor}25`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                      <button type="button" onClick={() => deletePrayer(p.id)}
+                        style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10, flexWrap: "wrap" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{p.date}</span>
+                        <div style={{ display: "flex", gap: 6 }}>
+                          {[
+                            { val: "waiting" as const, label: "Waiting", color: "#F59E0B" },
+                            { val: "answered" as const, label: "Answered", color: GREEN },
+                            { val: "released" as const, label: "Released", color: PURPLE },
+                          ].map(opt => (
+                            <button type="button" key={opt.val} onClick={() => updateStatus(p.id, opt.val)}
+                              style={{ padding: "3px 10px", borderRadius: 10, border: `1px solid ${p.status === opt.val ? opt.color : BORDER}`, background: p.status === opt.val ? `${opt.color}20` : "transparent", color: p.status === opt.val ? opt.color : MUTED, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{p.prayer}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {PRAYER_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "teachers" | "resources" | "videos";
+type Tab = "theology" | "practices" | "teachers" | "resources" | "videos" | "journal";
 
 const THEOLOGY_POINTS = [
   {
@@ -205,6 +207,20 @@ export default function WomensMinistryGuidePage() {
 
   const teacher = TEACHERS.find((t) => t.name === selectedTeacher)!;
 
+  type WMGJournalEntry = { id: string; date: string; reflection: string; practice: string; step: string };
+  const [wmgJournal, setWmgJournal] = useState<WMGJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_wmgj_entries") ?? "[]"); } catch { return []; } });
+  const [jReflection, setJReflection] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_wmgj_entries", JSON.stringify(wmgJournal)); } catch {} }, [wmgJournal]);
+  function saveWMGEntry() {
+    if (!jReflection.trim() && !jPractice.trim()) return;
+    const entry: WMGJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jReflection, practice: jPractice, step: jStep };
+    setWmgJournal(prev => [entry, ...prev]);
+    setJReflection(""); setJPractice(""); setJStep("");
+  }
+  function deleteWMGEntry(id: string) { setWmgJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -231,6 +247,7 @@ export default function WomensMinistryGuidePage() {
               { id: "teachers" as Tab, label: "Teachers", icon: "&#128105;&#8205;&#127979;" },
               { id: "resources" as Tab, label: "Resources", icon: "&#128218;" },
               { id: "videos" as Tab, label: "Videos", icon: "&#127909;" },
+              { id: "journal" as Tab, label: "📓 Journal", icon: "📓" },
             ] as { id: Tab; label: string; icon: string }[]
           ).map((t) => (
             <button type="button"
@@ -436,6 +453,45 @@ export default function WomensMinistryGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Women&apos;s Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Capture reflections, practices you want to implement, and your next steps in women&apos;s ministry.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Reflection</label>
+                  <textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What stood out from this material?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Practice to Implement</label>
+                  <textarea value={jPractice} onChange={e => setJPractice(e.target.value)} placeholder="What practice could you bring into your women's ministry?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete thing you'll do this week..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveWMGEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {wmgJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {wmgJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteWMGEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.reflection}</p></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Practice</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.practice}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -445,20 +501,14 @@ export default function WomensMinistryGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "RPHncZhzeJA", title: "You Go Through More Because You're Called to More", channel: "Priscilla Shirer / Women of Faith on TBN", description: "Priscilla Shirer shares how God's faithfulness equips you for what he has called you to do — and why the weight of your calling is matched by the power of his grace." },
-                  { videoId: "WZl_zE6T7VI", title: "Walk in the Power of God in You — Full Sermon", channel: "Priscilla Shirer / Women of Faith on TBN", description: "A full sermon from Priscilla Shirer on your identity in Christ and how you can walk in the supernatural power of the Holy Spirit living within you." },
-                  { videoId: "WXVXbTVE0Ks", title: "Grow Your Faith & Trust in God — Full Sermon", channel: "Lisa Harper / Women of Faith on TBN", description: "Lisa Harper teaches about walking with Jesus through every season of life, sharing what it means to grow your faith and trust in God when circumstances are difficult." },
-                  { videoId: "nuHtKlrrSdk", title: "Women's Ministry in the Local Church", channel: "Susan Hunt", description: "Susan Hunt examines what Scripture says about gender distinctiveness and the areas of service within the local church where women are called to lead and disciple." },
-                  { videoId: "1X_oXpL4mGs", title: "Know Who You Are in Christ", channel: "Lisa Bevere / Women of Faith on TBN", description: "Lisa Bevere offers a message to inspire women to become who God has uniquely made them to be — grounded in their identity in Christ rather than in the world's definitions." },
+                  { videoId: "gV9JugO_5Mk", title: "You Go Through More Because You're Called to More", channel: "Priscilla Shirer / Women of Faith on TBN", description: "Priscilla Shirer shares how God's faithfulness equips you for what he has called you to do — and why the weight of your calling is matched by the power of his grace." },
+                  { videoId: "ej_6dVdJSIU", title: "Walk in the Power of God in You — Full Sermon", channel: "Priscilla Shirer / Women of Faith on TBN", description: "A full sermon from Priscilla Shirer on your identity in Christ and how you can walk in the supernatural power of the Holy Spirit living within you." },
+                  { videoId: "GQI72THyO5I", title: "Grow Your Faith & Trust in God — Full Sermon", channel: "Lisa Harper / Women of Faith on TBN", description: "Lisa Harper teaches about walking with Jesus through every season of life, sharing what it means to grow your faith and trust in God when circumstances are difficult." },
+                  { videoId: "krxcqH522uo", title: "Women's Ministry in the Local Church", channel: "Susan Hunt", description: "Susan Hunt examines what Scripture says about gender distinctiveness and the areas of service within the local church where women are called to lead and disciple." },
+                  { videoId: "nQWFzMvCfLE", title: "Know Who You Are in Christ", channel: "Lisa Bevere / Women of Faith on TBN", description: "Lisa Bevere offers a message to inspire women to become who God has uniquely made them to be — grounded in their identity in Christ rather than in the world's definitions." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

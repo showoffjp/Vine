@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "apps" | "comparison" | "guides" | "videos";
+type Tab = "apps" | "comparison" | "guides" | "journal" | "videos";
 
 const CATEGORIES = ["All", "Bible Reading", "Study Tools", "Devotionals", "Memorization", "Prayer"];
 
@@ -283,12 +285,12 @@ const APP_GUIDES = [
 ];
 
 const VIDEOS = [
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
-  { id: "sWMjg7CxIKk", title: "Forgotten God Part 1", speaker: "Francis Chan" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
+  { id: "tp5MIrMZFqo", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "q5QEH9bH8AU", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "JqOqJlFF_eU", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "kOYy8iCfIJ4", title: "Forgotten God Part 1", speaker: "Francis Chan" },
+  { id: "qjbYnCadoGw", title: "How Great Is Our God", speaker: "Louie Giglio" },
 ];
 
 export default function BibleStudyAppsPage() {
@@ -298,6 +300,20 @@ export default function BibleStudyAppsPage() {
 
   const filtered = APPS.filter(a => category === "All" || a.category === category);
   const app = APPS.find(a => a.name === selected);
+
+  const [bsaEntries, setBsaEntries] = useState<{ id: string; date: string; appName: string; using: string; learned: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bsa_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [bsaForm, setBsaForm] = useState({ appName: "", using: "", learned: "" });
+  const [bsaSaved, setBsaSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bsa_entries", JSON.stringify(bsaEntries)); }, [bsaEntries]);
+  function saveBsaEntry() {
+    if (!bsaForm.appName.trim()) return;
+    setBsaEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bsaForm }, ...prev]);
+    setBsaForm({ appName: "", using: "", learned: "" });
+    setBsaSaved(true); setTimeout(() => setBsaSaved(false), 2000);
+  }
+  function deleteBsaEntry(id: string) { setBsaEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -314,9 +330,9 @@ export default function BibleStudyAppsPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["apps", "comparison", "guides", "videos"] as const).map(t => (
+          {(["apps", "comparison", "guides", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "apps" ? "Apps" : t === "comparison" ? "Comparison" : t === "guides" ? "Guides" : "Videos"}
+              {t === "apps" ? "Apps" : t === "comparison" ? "Comparison" : t === "guides" ? "Guides" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -474,6 +490,50 @@ export default function BibleStudyAppsPage() {
         )}
 
         {/* Videos tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Bible Study Apps Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Track which apps you are using for study, how you use them, and what you are learning.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>App I am using</label>
+                <input value={bsaForm.appName} onChange={e => setBsaForm(f => ({ ...f, appName: e.target.value }))} placeholder="e.g. Logos, Bible Gateway, YouVersion, Blue Letter Bible..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How I am using it</label>
+                <textarea value={bsaForm.using} onChange={e => setBsaForm(f => ({ ...f, using: e.target.value }))} rows={2} placeholder="Daily reading plan, word studies, sermon prep, devotional..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I learned or discovered</label>
+                <textarea value={bsaForm.learned} onChange={e => setBsaForm(f => ({ ...f, learned: e.target.value }))} rows={3} placeholder="A passage, a word, a cross-reference that opened up the text..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBsaEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {bsaSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {bsaEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bsaEntries.length})</h3>
+                {bsaEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.appName}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBsaEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.using && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Using:</strong> {e.using}</p>}
+                    {e.learned && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Learned:</strong> {e.learned}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
@@ -482,9 +542,7 @@ export default function BibleStudyAppsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
               {VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.title}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginTop: 4 }}>{v.speaker}</div>

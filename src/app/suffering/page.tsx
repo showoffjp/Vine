@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "lament" | "voices" | "hope" | "videos";
+type Tab = "theology" | "lament" | "voices" | "hope" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -36,7 +38,7 @@ const THEOLOGY_ITEMS = [
     body: "Not all suffering is equal in its framing, and Christian theology must be careful here. Some suffering, over time, produces recognizable fruit: deeper empathy, sharper character, purified faith, transformation in others who witness it. This is what Paul calls the 'light and momentary troubles' achieving 'an eternal glory that far outweighs them all' (2 Cor 4:17). But other suffering appears simply horrible — the suffering of children, the trauma of the abused, the death of the innocent. Over-spiritualizing others' pain is one of the great pastoral failures of the church. Saying 'God is teaching you something' to a person in acute grief is premature at best and spiritually harmful at worst. Job's friends tried to make his suffering legible through their theological frameworks, and God rebuked them. The pastoral first move is not to assign meaning but to be present — meaning, if it comes, emerges later and usually from the sufferer themselves.",
   },
   {
-    id: "eschatology",
+    id: "bxzuh5Xx5G4",
     title: "Eschatological Hope",
     body: "Revelation 21:4 — 'He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.' The final Christian answer to theodicy is not a philosophical explanation but a resurrection. The trajectory of the biblical story runs through real suffering toward real redemption — not the erasure of history but its transformation. Romans 8:18 sets the eschatological frame: 'I consider that our present sufferings are not worth comparing with the glory that will be revealed in us.' This is not minimization of suffering — Paul wrote it in chains. It is the insistence that suffering is penultimate, not ultimate. The resurrection of Jesus is the down payment: what happened to him will happen to the whole creation. The final answer to theodicy is not an argument. It is Easter morning.",
   },
@@ -172,7 +174,6 @@ const HOPE_ITEMS = [
 ];
 
 function AccordionItem({
-  id,
   title,
   body,
   expanded,
@@ -252,11 +253,29 @@ export default function SufferingPage() {
 
   const currentVoice = VOICES.find(v => v.id === activeVoice) ?? VOICES[0];
 
+  const [sufferingEntries, setSufferingEntries] = useState<{ id: string; date: string; what: string; where: string; holding: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_suffering_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [sufForm, setSufForm] = useState({ what: "", where: "", holding: "" });
+  const [sufSaved, setSufSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_suffering_entries", JSON.stringify(sufferingEntries)); } catch {} }, [sufferingEntries]);
+
+  const saveSufEntry = () => {
+    setSufferingEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...sufForm }, ...prev]);
+    setSufForm({ what: "", where: "", holding: "" });
+    setSufSaved(true);
+    setTimeout(() => setSufSaved(false), 2000);
+  };
+
+  const deleteSufEntry = (id: string) => setSufferingEntries(prev => prev.filter(e => e.id !== id));
+
   const TABS: { id: Tab; label: string }[] = [
     { id: "theology", label: "A Theology of Suffering" },
     { id: "lament", label: "The Practice of Lament" },
     { id: "voices", label: "Voices in the Dark" },
     { id: "hope", label: "Finding Hope" },
+    { id: "journal", label: "✍️ My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -720,6 +739,56 @@ export default function SufferingPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Suffering does not resolve quickly. This journal is a place to name what you're carrying, trace where God is meeting you in it, and record what you are holding onto.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 20 }}>Suffering Journal Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I'm suffering</label>
+                <textarea value={sufForm.what} onChange={e => setSufForm(f => ({ ...f, what: e.target.value }))} rows={3}
+                  placeholder="Name it honestly — loss, illness, pain, broken relationship, unanswered prayer, confusion about God's purposes..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I see God in it (even dimly)</label>
+                <textarea value={sufForm.where} onChange={e => setSufForm(f => ({ ...f, where: e.target.value }))} rows={2}
+                  placeholder="A person who showed up, a word from Scripture, a moment of unexpected peace, a crack of light..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I'm holding onto</label>
+                <textarea value={sufForm.holding} onChange={e => setSufForm(f => ({ ...f, holding: e.target.value }))} rows={2}
+                  placeholder="A promise, a truth, a person, a hope for what comes after..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveSufEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {sufSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {sufferingEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Journal History</h3>
+                {sufferingEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteSufEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{e.date}</div>
+                    {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 8px" }}>{e.what}</p>}
+                    {e.where && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.6, margin: "0 0 8px", fontStyle: "italic" }}>God in it: {e.where}</p>}
+                    {e.holding && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.6, margin: 0 }}>Holding: {e.holding}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -729,19 +798,13 @@ export default function SufferingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "9naBgHYWTXg", title: "Suffering and The Sovereignty of God", channel: "Desiring God (John Piper)", description: "John Piper explores how God's sovereignty intersects with the reality of human suffering — and why this truth is the only solid ground for the suffering believer." },
-                  { videoId: "NCh190ZzuWU", title: "Christianity Is About Suffering, Not Prosperity", channel: "Desiring God (John Piper)", description: "A short but penetrating message that challenges the prosperity gospel and calls Christians to embrace the suffering that is central to following Christ." },
-                  { videoId: "BSAhDUZZToo", title: "How Our Suffering Glorifies the Greatness of God's Grace", channel: "Desiring God (John Piper)", description: "Piper unpacks Romans 8 and 2 Corinthians 12 to show how weakness and suffering become the stage on which God's power is most visibly displayed." },
-                  { videoId: "A84x5t3-210", title: "The Pain of the World and the Purposes of God", channel: "Westside Church", description: "A deep theological exploration of why God permits suffering and what his purposes are in allowing pain — from creation through the cross to the new creation." },
+                  { videoId: "KwX1f2gYKZ4", title: "Suffering and The Sovereignty of God", channel: "Desiring God (John Piper)", description: "John Piper explores how God's sovereignty intersects with the reality of human suffering — and why this truth is the only solid ground for the suffering believer." },
+                  { videoId: "YNd-PbVhnvA", title: "Christianity Is About Suffering, Not Prosperity", channel: "Desiring God (John Piper)", description: "A short but penetrating message that challenges the prosperity gospel and calls Christians to embrace the suffering that is central to following Christ." },
+                  { videoId: "XtwIT8JjddM", title: "How Our Suffering Glorifies the Greatness of God's Grace", channel: "Desiring God (John Piper)", description: "Piper unpacks Romans 8 and 2 Corinthians 12 to show how weakness and suffering become the stage on which God's power is most visibly displayed." },
+                  { videoId: "jH_aojNJM3E", title: "The Pain of the World and the Purposes of God", channel: "Westside Church", description: "A deep theological exploration of why God permits suffering and what his purposes are in allowing pain — from creation through the cross to the new creation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

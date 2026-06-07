@@ -8,13 +8,14 @@ import {
   CheckCircle2,
   Circle,
   Plus,
-  Trash2,
   X,
   Flame,
   Star,
   ChevronRight,
+  Pencil,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
 
 interface Habit {
   id: string;
@@ -117,10 +118,10 @@ const SAMPLE_HABITS: Habit[] = [
 ];
 
 const HABIT_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Theology of Habits — Tim Keller", channel: "Gospel in Life", description: "Keller on how habits shape us spiritually, why formation precedes transformation, and how the gospel reorders our desires." },
-  { videoId: "ACZbpLkY8To", title: "Spiritual Disciplines for the Christian Life", channel: "Ligonier Ministries", description: "How the spiritual disciplines work: not as a means to earn grace, but as a means to grow in it." },
-  { videoId: "fJnGJN6laqE", title: "The Power of Habit — A Christian Perspective", channel: "Desiring God", description: "Piper on how repetitive practices shape our affections, our character, and our capacity for joy in God." },
-  { videoId: "Z8lkuuhVkOI", title: "Building Spiritual Habits That Stick", channel: "The Gospel Coalition", description: "Practical guidance for cultivating habits of prayer, Scripture, and community that sustain rather than burden." },
+  { videoId: "rtkS_8VWfB0", title: "The Theology of Habits — Tim Keller", channel: "Gospel in Life", description: "Keller on how habits shape us spiritually, why formation precedes transformation, and how the gospel reorders our desires." },
+  { videoId: "ej_6dVdJSIU", title: "Spiritual Disciplines for the Christian Life", channel: "Ligonier Ministries", description: "How the spiritual disciplines work: not as a means to earn grace, but as a means to grow in it." },
+  { videoId: "4Eg_di-O8nM", title: "The Power of Habit — A Christian Perspective", channel: "Desiring God", description: "Piper on how repetitive practices shape our affections, our character, and our capacity for joy in God." },
+  { videoId: "gV9JugO_5Mk", title: "Building Spiritual Habits That Stick", channel: "The Gospel Coalition", description: "Practical guidance for cultivating habits of prayer, Scripture, and community that sustain rather than burden." },
 ];
 
 export default function HabitsPage() {
@@ -135,12 +136,14 @@ export default function HabitsPage() {
   const [newName, setNewName] = useState("");
   const [newIcon, setNewIcon] = useState(ICONS[0]);
   const [newColor, setNewColor] = useState(COLORS[0]);
+  const [editingHabitId, setEditingHabitId] = useState<string | null>(null);
+  const [editHabitName, setEditHabitName] = useState("");
   const [view, setView] = usePersistedState<"week" | "month">("vine_habits_view", "week");
   const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "voices" | "methods" | "videos">("vine_habits_main_tab", "tracker");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_habits_voice", "smith-hab");
   const VOICES_HAB = [
     { id: "smith-hab", name: "James K.A. Smith", era: "b. 1970", context: "You Are What You Love (2016) — the liturgical formation of habit and desire", bio: "James K.A. Smith's You Are What You Love is the most theologically sophisticated recent treatment of habit formation in Christian life. Drawn from Augustine's vision of human beings as lovers and from Aristotle's account of virtue as habituated excellence, Smith argues that our habits — more than our beliefs or our decisions — shape what we love and therefore who we are. The 'secular liturgies' of consumer culture (the mall, the smartphone, social media) are forming our habits and desires whether we choose them or not. Christian formation requires intentional counter-practices — daily habits that reorient the heart toward God and neighbor.", quote: "You are what you love. And what you love is not first of all a result of what you believe — it is a result of what you practice. Habit precedes belief; practice shapes the heart.", contribution: "Smith's work gave Christians a theological vocabulary for habit formation that transcended the merely pragmatic. His integration of Augustinian theology with contemporary neuroscience and cultural criticism gave the church a sophisticated account of why habits matter for formation — not as moralistic self-improvement but as the re-orienting of desire toward God." },
-    { id: "willard-hab", name: "Dallas Willard", era: "1935-2013", context: "The Spirit of the Disciplines (1988) — the body's role in spiritual formation", bio: "Dallas Willard's The Spirit of the Disciplines made the most compelling evangelical case that spiritual transformation requires the training of the whole person — including the body — through specific, sustained practices. Willard drew on the long tradition of spiritual disciplines (prayer, fasting, solitude, service, worship) to argue that these are not optional extras for the spiritually ambitious but the normal means by which God reshapes the human character. His central insight: grace is not opposed to effort (discipline) but to earning (trying to deserve God's love). The disciplines are the cooperative means by which human effort meets divine grace.", quote: "If we are not training our bodies, our habits, and our desires in the way of Jesus, we should not be surprised that we are not becoming like Jesus. The spiritual life is not magic — it is disciplined cooperation with grace.", contribution: "The Spirit of the Disciplines gave the evangelical church a biblical and theological framework for the spiritual disciplines that had been preserved mainly in Catholic and Orthodox traditions. Willard's recovery of the disciplines as normal Christian practice — not monastic aberration — has shaped an entire generation of evangelical formation programs." },
+    { id: "jH_aojNJM3E", name: "Dallas Willard", era: "1935-2013", context: "The Spirit of the Disciplines (1988) — the body's role in spiritual formation", bio: "Dallas Willard's The Spirit of the Disciplines made the most compelling evangelical case that spiritual transformation requires the training of the whole person — including the body — through specific, sustained practices. Willard drew on the long tradition of spiritual disciplines (prayer, fasting, solitude, service, worship) to argue that these are not optional extras for the spiritually ambitious but the normal means by which God reshapes the human character. His central insight: grace is not opposed to effort (discipline) but to earning (trying to deserve God's love). The disciplines are the cooperative means by which human effort meets divine grace.", quote: "If we are not training our bodies, our habits, and our desires in the way of Jesus, we should not be surprised that we are not becoming like Jesus. The spiritual life is not magic — it is disciplined cooperation with grace.", contribution: "The Spirit of the Disciplines gave the evangelical church a biblical and theological framework for the spiritual disciplines that had been preserved mainly in Catholic and Orthodox traditions. Willard's recovery of the disciplines as normal Christian practice — not monastic aberration — has shaped an entire generation of evangelical formation programs." },
     { id: "duhigg-c", name: "Charles Duhigg", era: "b. 1974", context: "The Power of Habit (2012) — the neuroscience of habit formation applied to Christian discipleship", bio: "Charles Duhigg's The Power of Habit is not a Christian book, but it has been widely integrated into Christian discussions of spiritual discipline because of its rigorous account of how habits actually work in the brain. Duhigg's core insight — the habit loop of cue, routine, and reward — gives Christians practical tools for understanding why spiritual disciplines are hard to start and hard to stop. Christian readers have found his account of keystone habits (high-leverage habits that trigger cascades of other positive habits) particularly useful for thinking about which spiritual practices to prioritize.", quote: "Habits are not destiny. They can be ignored, changed, or replaced. But understanding how they work gives you the ability to reshape them in ways that transform your life — and that is not merely self-improvement but human dignity in action.", contribution: "Duhigg's habit loop model has been integrated into dozens of Christian discipleship and spiritual formation curricula. By explaining the neuroscience of habit formation, his work has helped Christians understand why willpower alone fails and why building the right cue-routine-reward structures around spiritual practices makes them sustainable." },
     { id: "atomic-c", name: "James Clear", era: "b. 1986", context: "Atomic Habits (2018) — the 1% improvement model and identity-based habits", bio: "James Clear's Atomic Habits is the most widely read recent book on habit formation, and its core insight has significant implications for Christian discipleship: the most powerful habits are built on identity rather than outcome. Clear argues that instead of setting goals ('I want to read the Bible more') you should focus on building identity ('I am someone who reads Scripture daily') — and then let habits flow from that identity. Christian readers have found this framework valuable for thinking about discipleship not as a project to achieve but as an identity to inhabit. Clear's practical tools — habit stacking, environment design, the two-minute rule — have been widely adopted in Christian formation contexts.", quote: "Every action you take is a vote for the type of person you wish to become. No single vote matters much, but the aggregate of all your votes determines the person you are. Small habits are not small things — they are the architecture of character.", contribution: "Atomic Habits gave Christians practical tools for habit formation that complement theological frameworks. Clear's identity-based approach resonates with the Christian understanding of formation as becoming who you already are in Christ, and his environmental and implementation-based strategies have been widely adopted in church small groups and discipleship programs." },
     { id: "comer-jm", name: "John Mark Comer", era: "b. 1980", context: "Practicing the Way (2024); The Ruthless Elimination of Hurry (2019) — habit formation in the way of Jesus", bio: "John Mark Comer is the most widely read contemporary voice on spiritual habits and formation for younger evangelicals. His The Ruthless Elimination of Hurry argued that the pace of modern life is the primary spiritual threat facing contemporary Christians — that busyness and hurry are not merely productivity problems but spiritual diseases that prevent the formation of Christlike character. His follow-up Practicing the Way develops a vision of apprenticeship to Jesus through specific, embodied practices (prayer, Sabbath, simplicity, fasting, solitude) that form the habits of the soul over time. Comer's accessible writing and his experience leading Bridgetown Church have made him the primary voice for spiritual formation for millennials.", quote: "You cannot become like Jesus without doing the things Jesus did. The habits of his life — early morning prayer, Sabbath, fasting, solitude, Scripture — are not optional extras. They are the training regimen of the apprentice.", contribution: "Comer's work on the intersection of pace, hurry, and spiritual formation has given younger evangelicals a framework for understanding why their spiritual lives feel shallow and what to do about it. His accessible, culturally fluent account of ancient spiritual habits has introduced a generation of young Christians to practices that their tradition had largely forgotten." },
@@ -182,6 +185,17 @@ export default function HabitsPage() {
 
   const deleteHabit = (id: string) => {
     setHabits((prev) => prev.filter((h) => h.id !== id));
+  };
+
+  const startRenameHabit = (habit: { id: string; name: string }) => {
+    setEditingHabitId(habit.id);
+    setEditHabitName(habit.name);
+  };
+
+  const saveRenameHabit = () => {
+    if (!editHabitName.trim() || !editingHabitId) return;
+    setHabits((prev) => prev.map((h) => h.id === editingHabitId ? { ...h, name: editHabitName.trim() } : h));
+    setEditingHabitId(null);
   };
 
   const getStreak = (habit: Habit): number => {
@@ -320,12 +334,35 @@ export default function HabitsPage() {
                     {/* Habit name */}
                     <div className="flex items-center gap-2 flex-1 min-w-0 pr-4">
                       <span className="text-base shrink-0">{habit.icon}</span>
-                      <div className="min-w-0">
-                        <p className="text-xs font-semibold truncate" style={{ color: "#C0C0D8" }}>{habit.name}</p>
-                        {streak > 0 && (
-                          <p className="text-[10px] flex items-center gap-0.5" style={{ color: "#F59E0B" }}>
-                            <Flame size={9} /> {streak}d streak
-                          </p>
+                      <div className="min-w-0 flex-1">
+                        {editingHabitId === habit.id ? (
+                          <div className="flex items-center gap-1">
+                            <input
+                              type="text"
+                              aria-label="Habit name"
+                              value={editHabitName}
+                              onChange={(e) => setEditHabitName(e.target.value)}
+                              onKeyDown={(e) => { if (e.key === "Enter") saveRenameHabit(); if (e.key === "Escape") setEditingHabitId(null); }}
+                              autoFocus
+                              className="flex-1 min-w-0 px-2 py-0.5 rounded text-xs outline-none"
+                              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(107,79,187,0.4)", color: "#F2F2F8" }}
+                            />
+                            <button type="button" onClick={saveRenameHabit}
+                              className="text-[10px] px-1.5 py-0.5 rounded font-bold"
+                              style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF" }}>✓</button>
+                            <button type="button" onClick={() => setEditingHabitId(null)}
+                              className="text-[10px] px-1.5 py-0.5 rounded font-bold"
+                              style={{ color: "#6A6A88" }}>✕</button>
+                          </div>
+                        ) : (
+                          <>
+                            <p className="text-xs font-semibold truncate" style={{ color: "#C0C0D8" }}>{habit.name}</p>
+                            {streak > 0 && (
+                              <p className="text-[10px] flex items-center gap-0.5" style={{ color: "#F59E0B" }}>
+                                <Flame size={9} /> {streak}d streak
+                              </p>
+                            )}
+                          </>
                         )}
                       </div>
                     </div>
@@ -375,15 +412,28 @@ export default function HabitsPage() {
                       </div>
                     )}
 
-                    <button type="button"
-                      onClick={() => deleteHabit(habit.id)}
-                      className="w-8 flex items-center justify-center transition-all"
-                      style={{ color: "#3A3A58" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
-                    >
-                      <X size={13} />
-                    </button>
+                    <div className="flex items-center gap-0.5">
+                      <button type="button"
+                        onClick={() => startRenameHabit(habit)}
+                        className="w-7 flex items-center justify-center transition-all"
+                        aria-label="Rename habit"
+                        style={{ color: "#3A3A58" }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#6B4FBB")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
+                      >
+                        <Pencil size={11} />
+                      </button>
+                      <button type="button"
+                        onClick={() => deleteHabit(habit.id)}
+                        className="w-7 flex items-center justify-center transition-all"
+                        aria-label="Delete habit"
+                        style={{ color: "#3A3A58" }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -572,8 +622,7 @@ export default function HabitsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 8 }}>
               {HABIT_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "ot" | "nt" | "today" | "videos";
+type Tab = "foundations" | "ot" | "nt" | "today" | "journal" | "videos";
 
 const FOUNDATIONS = [
   {
@@ -176,6 +178,20 @@ export default function BiblicalJusticeTheologyPage() {
   const toggleExpanded = (key: string) =>
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
 
+  const [bjtEntries, setBjtEntries] = useState<{ id: string; date: string; issue: string; action: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bjt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [bjtForm, setBjtForm] = useState({ issue: "", action: "", prayer: "" });
+  const [bjtSaved, setBjtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bjt_entries", JSON.stringify(bjtEntries)); }, [bjtEntries]);
+  function saveBjtEntry() {
+    if (!bjtForm.issue.trim()) return;
+    setBjtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bjtForm }, ...prev]);
+    setBjtForm({ issue: "", action: "", prayer: "" });
+    setBjtSaved(true); setTimeout(() => setBjtSaved(false), 2000);
+  }
+  function deleteBjtEntry(id: string) { setBjtEntries(prev => prev.filter(e => e.id !== id)); }
+
   const currentOT = OT_THEMES.find(t => t.id === activeOT) ?? OT_THEMES[0];
 
   return (
@@ -200,10 +216,10 @@ export default function BiblicalJusticeTheologyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["foundations", "ot", "nt", "today", "videos"] as Tab[]).map(t => (
+          {(["foundations", "ot", "nt", "today", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.15s" }}>
-              {t === "foundations" ? "Biblical Foundations" : t === "ot" ? "Old Testament" : t === "nt" ? "New Testament" : t === "today" ? "Justice Today" : "🎬 Videos"}
+              {t === "foundations" ? "Biblical Foundations" : t === "ot" ? "Old Testament" : t === "nt" ? "New Testament" : t === "today" ? "Justice Today" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -311,6 +327,48 @@ export default function BiblicalJusticeTheologyPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Justice Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record justice issues on your heart, one action step, and your prayer for God&apos;s shalom to come.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Justice issue on my heart</label>
+                <textarea value={bjtForm.issue} onChange={e => setBjtForm(f => ({ ...f, issue: e.target.value }))} rows={2} placeholder="Poverty, racism, trafficking, care for creation, refugee crisis..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>One action I will take</label>
+                <textarea value={bjtForm.action} onChange={e => setBjtForm(f => ({ ...f, action: e.target.value }))} rows={2} placeholder="Give, serve, advocate, learn, speak, pray..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My prayer for shalom</label>
+                <textarea value={bjtForm.prayer} onChange={e => setBjtForm(f => ({ ...f, prayer: e.target.value }))} rows={2} placeholder="Intercede for those suffering this injustice..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBjtEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {bjtSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {bjtEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bjtEntries.length})</h3>
+                {bjtEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteBjtEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.issue && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Issue:</strong> {e.issue}</p>}
+                    {e.action && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Action:</strong> {e.action}</p>}
+                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Prayer:</strong> {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -320,19 +378,13 @@ export default function BiblicalJusticeTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "73BIN1myTqg", title: "Justice", channel: "Tim Keller / Gospel in Life", description: "Keller preaches on the biblical concept of justice — what mishpat and tzedakah really mean, and why justice for the poor is not optional for Christians." },
-                  { videoId: "u8Fn4vTTXHM", title: "Doing Justice and Mercy", channel: "Tim Keller / Gospel in Life", description: "Keller unpacks Micah 6:8's call to do justice, love hesed, and walk humbly with God — and what this demands of the Christian community in practice." },
-                  { videoId: "dtEDBtC7aRo", title: "A Biblical Critique of Secular Justice and Critical Theory", channel: "Tim Keller", description: "Keller examines secular justice frameworks through a biblical lens, distinguishing what the Bible affirms from what it challenges in contemporary justice discourse." },
-                  { videoId: "Ic2DAoS4tJM", title: "Biblical Foundations for Seeking God's Justice in a Sinful World", channel: "Tim Keller / The Gospel Coalition", description: "Keller and others provide a theological framework for justice work grounded in the whole Bible — not just the prophets but also Paul and the New Testament." },
+                  { videoId: "4Eg_di-O8nM", title: "Justice", channel: "Tim Keller / Gospel in Life", description: "Keller preaches on the biblical concept of justice — what mishpat and tzedakah really mean, and why justice for the poor is not optional for Christians." },
+                  { videoId: "rtkS_8VWfB0", title: "Doing Justice and Mercy", channel: "Tim Keller / Gospel in Life", description: "Keller unpacks Micah 6:8's call to do justice, love hesed, and walk humbly with God — and what this demands of the Christian community in practice." },
+                  { videoId: "GnCscN9LiXM", title: "A Biblical Critique of Secular Justice and Critical Theory", channel: "Tim Keller", description: "Keller examines secular justice frameworks through a biblical lens, distinguishing what the Bible affirms from what it challenges in contemporary justice discourse." },
+                  { videoId: "jdo56fmajx8", title: "Biblical Foundations for Seeking God's Justice in a Sinful World", channel: "Tim Keller / The Gospel Coalition", description: "Keller and others provide a theological framework for justice work grounded in the whole Bible — not just the prophets but also Paul and the New Testament." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

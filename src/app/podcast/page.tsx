@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -12,10 +13,7 @@ import {
   Volume2,
   Search,
   Star,
-  BookOpen,
-  Heart,
   Bookmark,
-  ChevronRight,
   CheckCircle2,
   Clock,
   TrendingUp,
@@ -41,7 +39,7 @@ const shows = [
     latestDuration: "48:10",
   },
   {
-    id: "faith-doubt",
+    id: "npEDqbE6faE",
     name: "Faith & Doubt Out Loud",
     host: "Dr. Rachel Osei",
     episodes: 148,
@@ -223,7 +221,7 @@ export default function PodcastPage() {
   const toggleSubscribe = (id: string) => {
     setSubscribedShows((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       return next;
     });
   };
@@ -231,7 +229,7 @@ export default function PodcastPage() {
   const toggleSave = (i: number) => {
     setSavedEpisodes((prev) => {
       const next = new Set(prev);
-      next.has(i) ? next.delete(i) : next.add(i);
+      if (next.has(i)) { next.delete(i); } else { next.add(i); }
       return next;
     });
   };
@@ -247,6 +245,17 @@ export default function PodcastPage() {
       <Navbar />
       <main id="main-content">
       <div className="page-body pb-32">
+
+        {/* Preview notice */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+          <div className="rounded-xl px-4 py-3 text-center" style={{ background: "rgba(239,200,68,0.08)", border: "1px solid rgba(239,200,68,0.2)" }}>
+            <p className="text-xs font-semibold" style={{ color: "#ECC94B" }}>
+              🎧 In-app audio playback is coming soon. These shows preview Vine&apos;s upcoming podcast network. Find great Christian podcasts now on{" "}
+              <a href="https://podcasts.apple.com/us/genre/podcasts-religion-spirituality-christianity/id1439" target="_blank" rel="noopener noreferrer" style={{ color: "#3a7d56", textDecoration: "underline" }}>Apple Podcasts</a>{" "}or{" "}
+              <a href="https://open.spotify.com/genre/0JQ5DAt0tbjZptfcdMSKl3" target="_blank" rel="noopener noreferrer" style={{ color: "#3a7d56", textDecoration: "underline" }}>Spotify</a>.
+            </p>
+          </div>
+        </div>
 
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
@@ -323,18 +332,22 @@ export default function PodcastPage() {
               {filteredShows.map((show) => {
                 const subscribed = subscribedShows.has(show.id);
                 return (
-                  <div
+                  <Link
                     key={show.id}
+                    href="/podcast"
                     className="rounded-2xl p-5 transition-all cursor-pointer"
                     style={{
+                      display: "flex",
+                      flexDirection: "column",
                       background: subscribed ? `${show.accentColor}08` : "#12121F",
                       border: `1px solid ${subscribed ? show.accentColor + "30" : "#1E1E32"}`,
+                      textDecoration: "none",
                     }}
                     onMouseEnter={(e) => {
-                      if (!subscribed) e.currentTarget.style.borderColor = `${show.accentColor}30`;
+                      if (!subscribed) (e.currentTarget as HTMLAnchorElement).style.borderColor = `${show.accentColor}30`;
                     }}
                     onMouseLeave={(e) => {
-                      if (!subscribed) e.currentTarget.style.borderColor = "#1E1E32";
+                      if (!subscribed) (e.currentTarget as HTMLAnchorElement).style.borderColor = "#1E1E32";
                     }}
                   >
                     {/* Artwork */}
@@ -360,7 +373,7 @@ export default function PodcastPage() {
                     </div>
 
                     <button type="button"
-                      onClick={() => toggleSubscribe(show.id)}
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSubscribe(show.id); }}
                       className="w-full py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                       style={{
                         background: subscribed ? `${show.accentColor}15` : "transparent",
@@ -371,7 +384,7 @@ export default function PodcastPage() {
                       {subscribed ? <CheckCircle2 size={12} /> : <Headphones size={12} />}
                       {subscribed ? "Subscribed!" : "Subscribe"}
                     </button>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

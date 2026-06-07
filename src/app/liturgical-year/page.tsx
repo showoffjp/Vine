@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "seasons" | "theology" | "practices" | "resources" | "videos";
+type Tab = "seasons" | "theology" | "practices" | "resources" | "journal" | "videos";
 
 const seasons = [
   {
@@ -253,11 +255,26 @@ export default function LiturgicalYearPage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  const [lyEntries, setLyEntries] = useState<{ id: string; date: string; season: string; observation: string; practice: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ly_entries") ?? "[]"); } catch { return []; }
+  });
+  const [lyForm, setLyForm] = useState({ season: "", observation: "", practice: "" });
+  const [lySaved, setLySaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ly_entries", JSON.stringify(lyEntries)); } catch {} }, [lyEntries]);
+  const saveLyEntry = () => {
+    if (!lyForm.season.trim()) return;
+    setLyEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...lyForm }, ...prev]);
+    setLyForm({ season: "", observation: "", practice: "" });
+    setLySaved(true); setTimeout(() => setLySaved(false), 2000);
+  };
+  const deleteLyEntry = (id: string) => setLyEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "seasons", label: "The Seasons" },
     { id: "theology", label: "Theology of Time" },
     { id: "practices", label: "Key Practices" },
     { id: "resources", label: "Resources" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" }
   ];
 
@@ -435,6 +452,42 @@ export default function LiturgicalYearPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Liturgical Year Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record how you're marking the seasons of the church calendar.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={lyForm.season} onChange={e => setLyForm(f => ({ ...f, season: e.target.value }))}
+                  placeholder="Which season are you in? (Advent, Lent, Easter...)" aria-label="Season"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={lyForm.observation} onChange={e => setLyForm(f => ({ ...f, observation: e.target.value }))}
+                  placeholder="What are you noticing or learning in this season?" aria-label="Observation"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={lyForm.practice} onChange={e => setLyForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What practice are you embracing this season? (optional)" aria-label="Practice"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveLyEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {lySaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {lyEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first liturgical reflection above.</p>}
+              {lyEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteLyEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: GREEN, fontWeight: 700, fontSize: 13, margin: "0 0 4px" }}>{e.season}</p>
+                  {e.observation && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.observation}</p>}
+                  {e.practice && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.practice}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -444,19 +497,13 @@ export default function LiturgicalYearPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "t2vPuW7xrbM", title: "What Is the Church Calendar?", channel: "Desiring God", description: "An accessible introduction to the liturgical year — what it is, why the church developed it, and how following the Christian calendar can shape the whole of life." },
-                  { videoId: "FFh2vemurik", title: "The Liturgical Year", channel: "Catholic Central", description: "An engaging overview of the seasons of the liturgical year — Advent, Christmas, Lent, Easter, Pentecost, and Ordinary Time — and the theology behind each." },
-                  { videoId: "crjlFjXrE7Y", title: "The Liturgical Year Explained", channel: "Catechism Series", description: "A clear, visual guide to the liturgical calendar for those new to Christian traditions, explaining how the seasons correspond to the life of Christ." },
-                  { videoId: "pb2Op6jmitw", title: "Seasons in the Liturgical Calendar", channel: "Church Calendar Series", description: "A deep dive into how the liturgical seasons form Christian communities over time, shaping what we pray, sing, preach, and celebrate throughout the year." },
+                  { videoId: "OpfuKKH_SCE", title: "What Is the Church Calendar?", channel: "Desiring God", description: "An accessible introduction to the liturgical year — what it is, why the church developed it, and how following the Christian calendar can shape the whole of life." },
+                  { videoId: "ERR0Zq7TBgU", title: "The Liturgical Year", channel: "Catholic Central", description: "An engaging overview of the seasons of the liturgical year — Advent, Christmas, Lent, Easter, Pentecost, and Ordinary Time — and the theology behind each." },
+                  { videoId: "nQWFzMvCfLE", title: "The Liturgical Year Explained", channel: "Catechism Series", description: "A clear, visual guide to the liturgical calendar for those new to Christian traditions, explaining how the seasons correspond to the life of Christ." },
+                  { videoId: "izrk-erhDdk", title: "Seasons in the Liturgical Calendar", channel: "Church Calendar Series", description: "A deep dive into how the liturgical seasons form Christian communities over time, shaping what we pray, sing, preach, and celebrate throughout the year." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

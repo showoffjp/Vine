@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { CheckCircle2, Circle, Users, ArrowRight, BookOpen, Star, Trophy } from "lucide-react";
 
 const MAIN = {
@@ -294,10 +295,12 @@ export default function WeeklyChallenge() {
             {DAYS.map((d) => {
               const complete = d.day <= MAIN.completedDays;
               return (
-                <div
+                <Link
                   key={d.day}
+                  href="/challenges"
                   title={d.desc}
                   style={{
+                    display: "block",
                     background: complete ? "rgba(201,162,39,0.08)" : "rgba(201,162,39,0.02)",
                     border: complete
                       ? "0.5px solid rgba(201,162,39,0.35)"
@@ -307,6 +310,7 @@ export default function WeeklyChallenge() {
                     textAlign: "center",
                     cursor: "pointer",
                     transition: "all 0.2s",
+                    textDecoration: "none",
                   }}
                 >
                   <div style={{ marginBottom: 5 }}>
@@ -340,7 +344,7 @@ export default function WeeklyChallenge() {
                   >
                     {d.task}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </div>

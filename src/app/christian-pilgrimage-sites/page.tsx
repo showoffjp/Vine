@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "sites" | "theology" | "planning" | "videos";
+type Tab = "sites" | "theology" | "planning" | "journal" | "videos";
 
 const REGION_FILTERS = ["All", "Israel", "Europe", "Middle East", "Asia", "Americas"];
 
@@ -285,12 +287,12 @@ const PILGRIMAGE_PLANNING = [
 ];
 
 const VIDEOS = [
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
-  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "f7RJATbobik", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
+  { id: "zUKzVFQn4Tc", title: "How Great Is Our God", speaker: "Louie Giglio" },
+  { id: "GGCF3OPWN14", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "t6L-F2emwUc", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
 ];
 
 export default function ChristianPilgrimageSitesPage() {
@@ -300,6 +302,20 @@ export default function ChristianPilgrimageSitesPage() {
 
   const filtered = SITES.filter(s => region === "All" || s.region === region);
   const site = SITES.find(s => s.name === selected);
+
+  const [cpilgEntries, setCpilgEntries] = useState<{ id: string; date: string; place: string; encountered: string; carried: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cpilg_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cpilgForm, setCpilgForm] = useState({ place: "", encountered: "", carried: "" });
+  const [cpilgSaved, setCpilgSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cpilg_entries", JSON.stringify(cpilgEntries)); }, [cpilgEntries]);
+  function saveCpilgEntry() {
+    if (!cpilgForm.place.trim()) return;
+    setCpilgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cpilgForm }, ...prev]);
+    setCpilgForm({ place: "", encountered: "", carried: "" });
+    setCpilgSaved(true); setTimeout(() => setCpilgSaved(false), 2000);
+  }
+  function deleteCpilgEntry(id: string) { setCpilgEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -316,9 +332,9 @@ export default function ChristianPilgrimageSitesPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["sites", "theology", "planning", "videos"] as const).map(t => (
+          {(["sites", "theology", "planning", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "sites" ? "Sites" : t === "theology" ? "Theology" : t === "planning" ? "Planning" : "Videos"}
+              {t === "sites" ? "Sites" : t === "theology" ? "Theology" : t === "planning" ? "Planning" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -458,6 +474,49 @@ export default function ChristianPilgrimageSitesPage() {
         )}
 
         {/* Videos tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Pilgrimage Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record places you have visited, what God met you there, and what you carried home.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Place of Pilgrimage</label>
+                <input value={cpilgForm.place} onChange={e => setCpilgForm(f => ({ ...f, place: e.target.value }))} placeholder="e.g. Jerusalem, Iona, Canterbury, Rome, a local retreat..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Did You Encounter There?</label>
+                <textarea value={cpilgForm.encountered} onChange={e => setCpilgForm(f => ({ ...f, encountered: e.target.value }))} placeholder="What moment, place, sight, or silence most touched you with God's presence?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Did You Carry Home?</label>
+                <textarea value={cpilgForm.carried} onChange={e => setCpilgForm(f => ({ ...f, carried: e.target.value }))} placeholder="What truth, practice, or vision of God are you still living from?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCpilgEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cpilgSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cpilgEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cpilgEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.place}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCpilgEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.encountered && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Encountered</div><div style={{ color: TEXT, fontSize: 13 }}>{e.encountered}</div></div>}
+                    {e.carried && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Carried Home</div><div style={{ color: TEXT, fontSize: 13 }}>{e.carried}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
@@ -466,9 +525,7 @@ export default function ChristianPilgrimageSitesPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
               {VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.title}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginTop: 4 }}>{v.speaker}</div>

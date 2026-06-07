@@ -161,6 +161,20 @@ export default function GivingPage() {
     try { return localStorage.getItem("vine_giving_confirmed") === "1"; } catch { return false; }
   });
 
+  const [givingEntries, setGivingEntries] = useState<{ id: string; date: string; goal: string; obstacle: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_giving_entries") ?? "[]"); } catch { return []; }
+  });
+  const [givingForm, setGivingForm] = useState({ goal: "", obstacle: "", step: "" });
+  const [givingSaved, setGivingSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_giving_entries", JSON.stringify(givingEntries)); } catch {} }, [givingEntries]);
+  const saveGivingEntry = () => {
+    if (!givingForm.goal.trim()) return;
+    setGivingEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...givingForm }, ...prev]);
+    setGivingForm({ goal: "", obstacle: "", step: "" });
+    setGivingSaved(true); setTimeout(() => setGivingSaved(false), 2000);
+  };
+  const deleteGivingEntry = (id: string) => setGivingEntries(prev => prev.filter(e => e.id !== id));
+
   useEffect(() => {
     try { if (selectedMonthly !== null) localStorage.setItem("vine_giving_monthly", String(selectedMonthly)); } catch {}
   }, [selectedMonthly]);
@@ -340,6 +354,53 @@ export default function GivingPage() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Journal */}
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
+        <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: "#F2F2F8" }}>My Giving Journal</h2>
+        <p style={{ color: "#9898B3", fontSize: 15, marginBottom: 24 }}>Record giving goals, obstacles you are working through, and next steps you are taking. Saved privately in your browser.</p>
+        <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: "block", color: "#3a7d56", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>GIVING GOAL *</label>
+            <textarea value={givingForm.goal} onChange={e => setGivingForm(f => ({ ...f, goal: e.target.value }))}
+              placeholder="What giving goal or area of generosity are you working toward?" rows={2}
+              style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: "block", color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I AM FACING</label>
+            <textarea value={givingForm.obstacle} onChange={e => setGivingForm(f => ({ ...f, obstacle: e.target.value }))}
+              placeholder="What makes this goal difficult to reach right now?" rows={2}
+              style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <div style={{ marginBottom: 18 }}>
+            <label style={{ display: "block", color: "#9898B3", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+            <textarea value={givingForm.step} onChange={e => setGivingForm(f => ({ ...f, step: e.target.value }))}
+              placeholder="What one action will you take this week to grow in generosity?" rows={2}
+              style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <button type="button" onClick={saveGivingEntry}
+            style={{ background: givingSaved ? "#3a7d56" : "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+            {givingSaved ? "Saved ✓" : "Save Entry"}
+          </button>
+        </div>
+        {givingEntries.length > 0 && (
+          <div>
+            <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({givingEntries.length})</h3>
+            {givingEntries.map(entry => (
+              <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                  <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                  <button type="button" onClick={() => deleteGivingEntry(entry.id)}
+                    style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                </div>
+                {entry.goal && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11 }}>GOAL: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.goal}</span></div>}
+                {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.obstacle}</span></div>}
+                {entry.step && <div><span style={{ color: "#9898B3", fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.step}</span></div>}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       </main>
       <Footer />

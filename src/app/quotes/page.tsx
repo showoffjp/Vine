@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 interface Quote {
   id: string;
@@ -99,10 +101,23 @@ export default function QuotesPage() {
   const [filterEra, setFilterEra] = usePersistedState("vine_quotes_filter_era", "All Eras");
   const [sortBy, setSortBy] = usePersistedState("vine_quotes_sort_by", "Most Liked");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "thinkers" | "themes" | "videos">("vine_quotes_tab", "all");
+  const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "thinkers" | "themes" | "videos" | "journal">("vine_quotes_tab", "all");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_quotes_selected_thinker", "lewis-cs");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Journal state
+  type QuoteJE = { id: string; date: string; thinker: string; insight: string; applying: string };
+  const [quotesJournal, setQuotesJournal] = useState<QuoteJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_quotesj_entries") ?? "[]"); } catch { return []; } });
+  const [jqThinker, setJqThinker] = useState("");
+  const [jqInsight, setJqInsight] = useState("");
+  const [jqApplying, setJqApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_quotesj_entries", JSON.stringify(quotesJournal)); } catch {} }, [quotesJournal]);
+  function saveQuoteEntry() {
+    if (!jqThinker.trim() && !jqInsight.trim()) return;
+    setQuotesJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), thinker: jqThinker, insight: jqInsight, applying: jqApplying }, ...prev]);
+    setJqThinker(""); setJqInsight(""); setJqApplying("");
+  }
+  function deleteQuoteEntry(id: string) { setQuotesJournal(prev => prev.filter(e => e.id !== id)); }
 
   const handleSave = (id: string) => {
     setSavedIds((prev) => {
@@ -193,7 +208,7 @@ export default function QuotesPage() {
         {/* Tabs + search */}
         <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
-            {(["all", "saved", "thinkers", "themes", "videos"] as const).map((tab) => (
+            {(["all", "saved", "thinkers", "themes", "videos", "journal"] as const).map((tab) => (
               <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -204,7 +219,7 @@ export default function QuotesPage() {
                   cursor: "pointer", fontWeight: 600, fontSize: 13,
                 }}
               >
-                {tab === "all" ? `All (${allQuotes.length})` : tab === "saved" ? `Saved (${savedIds.size})` : tab === "thinkers" ? "🎓 Thinkers" : tab === "themes" ? "📚 Themes" : "🎬 Videos"}
+                {tab === "all" ? `All (${allQuotes.length})` : tab === "saved" ? `Saved (${savedIds.size})` : tab === "thinkers" ? "🎓 Thinkers" : tab === "themes" ? "📚 Themes" : tab === "videos" ? "🎬 Videos" : "📓 Journal"}
               </button>
             ))}
           </div>
@@ -415,6 +430,64 @@ export default function QuotesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#6B4FBB", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Quote Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Record quotes that speak to you, the thinker behind them, and how you plan to live them out.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input
+                  value={jqThinker}
+                  onChange={e => setJqThinker(e.target.value)}
+                  placeholder="Author / thinker..."
+                  style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }}
+                />
+                <textarea
+                  value={jqInsight}
+                  onChange={e => setJqInsight(e.target.value)}
+                  placeholder="Quote or insight that moved you..."
+                  rows={3}
+                  style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, resize: "vertical", outline: "none" }}
+                />
+                <input
+                  value={jqApplying}
+                  onChange={e => setJqApplying(e.target.value)}
+                  placeholder="How will you apply this today?"
+                  style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={saveQuoteEntry}
+                  style={{ alignSelf: "flex-start", background: "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+                >
+                  Save Entry
+                </button>
+              </div>
+            </div>
+            {quotesJournal.length === 0 ? (
+              <div style={{ textAlign: "center", color: "#9898B3", padding: "40px 0" }}>No entries yet. Save your first quote reflection above.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {quotesJournal.map(e => (
+                  <div key={e.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                      <div>
+                        <span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 15 }}>{e.thinker || "Anonymous"}</span>
+                        <span style={{ color: "#9898B3", fontSize: 12, marginLeft: 10 }}>{e.date}</span>
+                      </div>
+                      <button type="button" onClick={() => deleteQuoteEntry(e.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.insight && <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}>{e.insight}</p>}
+                    {e.applying && <p style={{ color: "#3a7d56", fontSize: 13, fontStyle: "italic" }}>→ {e.applying}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -424,19 +497,13 @@ export default function QuotesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "QecyvLgSuN8", title: "John Piper and Tim Keller Wrestle with Sanctification", channel: "Desiring God / The Gospel Coalition", description: "Two of the most-quoted contemporary Christian thinkers sit down to discuss sanctification, grace, and the ongoing work of transformation in the believer's life." },
-                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks the words of the Lord's Prayer, illuminating why these few verses from Matthew 6 contain the entire theology of prayer." },
-                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline and one of the most quoted writers on spiritual formation — on the inward life and what it means to live before God." },
-                  { videoId: "4R87Hl52fgY", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the interior castle of the soul — drawing on the great Christian mystics and their most enduring sayings about prayer and the inner life." },
+                  { videoId: "bxzuh5Xx5G4", title: "John Piper and Tim Keller Wrestle with Sanctification", channel: "Desiring God / The Gospel Coalition", description: "Two of the most-quoted contemporary Christian thinkers sit down to discuss sanctification, grace, and the ongoing work of transformation in the believer's life." },
+                  { videoId: "KwX1f2gYKZ4", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks the words of the Lord's Prayer, illuminating why these few verses from Matthew 6 contain the entire theology of prayer." },
+                  { videoId: "YNd-PbVhnvA", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline and one of the most quoted writers on spiritual formation — on the inward life and what it means to live before God." },
+                  { videoId: "XtwIT8JjddM", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the interior castle of the soul — drawing on the great Christian mystics and their most enduring sayings about prayer and the inner life." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

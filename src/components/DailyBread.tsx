@@ -319,21 +319,24 @@ export default function DailyBread() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
               {DEVOTIONALS.map((d, i) => (
-                <div
+                <Link
                   key={i}
+                  href="/daily"
                   style={{
+                    display: "block",
                     background: "#0a1a0e",
                     border: "0.5px solid rgba(201,162,39,0.13)",
                     borderRadius: 3,
                     padding: "1.4rem 1.5rem",
                     cursor: "pointer",
                     transition: "border-color 0.2s",
+                    textDecoration: "none",
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.3)";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.3)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.13)";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.13)";
                   }}
                 >
                   <h4
@@ -437,7 +440,7 @@ export default function DailyBread() {
                       </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Sparkles, Heart, Plus, X, Flame, Search, Clock, Share2 } from "lucide-react";
+import { Sparkles, Heart, Plus, X, Flame, Search, Clock, Share2, Trash2 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Testimony {
@@ -227,6 +227,10 @@ export default function TestimonyPage() {
       setTestimonies((prev) => prev.map((t) => t.id === id ? { ...t, likes: t.likes + 1 } : t));
     }
     setLiked(next);
+  };
+
+  const handleDelete = (id: string) => {
+    setTestimonies((prev) => prev.filter((t) => t.id !== id));
   };
 
   const handleShare = (id: string) => {
@@ -526,6 +530,16 @@ export default function TestimonyPage() {
                     >
                       <Share2 size={12} />
                       {shared === t.id ? "Copied!" : "Share"}
+                    </button>
+                    <button type="button"
+                      onClick={() => handleDelete(t.id)}
+                      className="ml-auto p-2 rounded-xl transition-all"
+                      aria-label="Delete testimony"
+                      style={{ color: "#3A3A58", border: "1px solid transparent" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = "#EF4444"; e.currentTarget.style.borderColor = "rgba(239,68,68,0.25)"; e.currentTarget.style.background = "rgba(239,68,68,0.06)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = "#3A3A58"; e.currentTarget.style.borderColor = "transparent"; e.currentTarget.style.background = "transparent"; }}
+                    >
+                      <Trash2 size={13} />
                     </button>
                   </div>
                 </div>

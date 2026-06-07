@@ -2,13 +2,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Music,
   Heart,
   Bookmark,
   Search,
-  CheckCircle2,
   X,
   ChevronLeft,
   ChevronRight,
@@ -19,6 +18,8 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -467,17 +468,17 @@ const GENRES = ["All", "Contemporary Worship", "Gospel", "CCM", "Folk/Acoustic"]
 const MOODS = ["All", "Uplifting", "Reflective", "Celebratory", "Peaceful"];
 
 const MUSIC_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Theology of Worship Music — Tim Keller", channel: "Gospel in Life", description: "Why music is uniquely suited to Christian worship and how we should think about the music we bring before God." },
-  { videoId: "ACZbpLkY8To", title: "Music and the Soul — Why Worship Sounds Like This", channel: "Ligonier Ministries", description: "A theological exploration of why music moves us spiritually and what that means for how we worship." },
-  { videoId: "fJnGJN6laqE", title: "The Psalms as Worship — Singing God's Word", channel: "Desiring God", description: "Piper on recovering the Psalter as the backbone of Christian worship and what we lose when we abandon it." },
-  { videoId: "Z8lkuuhVkOI", title: "Contemporary vs. Traditional Worship — Moving Past the Debate", channel: "The Gospel Coalition", description: "A thoughtful theological framework for thinking about worship music styles beyond the culture war." },
+  { videoId: "rtkS_8VWfB0", title: "The Theology of Worship Music — Tim Keller", channel: "Gospel in Life", description: "Why music is uniquely suited to Christian worship and how we should think about the music we bring before God." },
+  { videoId: "ej_6dVdJSIU", title: "Music and the Soul — Why Worship Sounds Like This", channel: "Ligonier Ministries", description: "A theological exploration of why music moves us spiritually and what that means for how we worship." },
+  { videoId: "4Eg_di-O8nM", title: "The Psalms as Worship — Singing God's Word", channel: "Desiring God", description: "Piper on recovering the Psalter as the backbone of Christian worship and what we lose when we abandon it." },
+  { videoId: "gV9JugO_5Mk", title: "Contemporary vs. Traditional Worship — Moving Past the Debate", channel: "The Gospel Coalition", description: "A thoughtful theological framework for thinking about worship music styles beyond the culture war." },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ChristianMusicPage() {
   // Tab
-  const [activeTab, setActiveTab] = usePersistedState<"featured" | "playlists" | "artists" | "lyrics" | "videos">("vine_christian-music_active_tab", "featured");
+  const [activeTab, setActiveTab] = usePersistedState<"featured" | "playlists" | "artists" | "lyrics" | "videos" | "journal">("vine_christian-music_active_tab", "featured");
 
   // Filters
   const [genreFilter, setGenreFilter] = useState<string>(() => "All");
@@ -527,6 +528,20 @@ export default function ChristianMusicPage() {
   const [selectedLyricId, setSelectedLyricId] = useState<number>(1);
   const [meditateMode, setMeditateMode] = useState(false);
   const [stanzaIndex, setStanzaIndex] = useState(0);
+
+  // Journal state
+  type MusicJE = { id: string; date: string; reflection: string; song: string; step: string };
+  const [musicJournal, setMusicJournal] = useState<MusicJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_musicj_entries") ?? "[]"); } catch { return []; } });
+  const [jmReflection, setJmReflection] = useState("");
+  const [jmSong, setJmSong] = useState("");
+  const [jmStep, setJmStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_musicj_entries", JSON.stringify(musicJournal)); } catch {} }, [musicJournal]);
+  function saveMusicEntry() {
+    if (!jmReflection.trim() && !jmSong.trim()) return;
+    setMusicJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jmReflection, song: jmSong, step: jmStep }, ...prev]);
+    setJmReflection(""); setJmSong(""); setJmStep("");
+  }
+  function deleteMusicEntry(id: string) { setMusicJournal(prev => prev.filter(e => e.id !== id)); }
 
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
@@ -835,13 +850,14 @@ export default function ChristianMusicPage() {
             gap: "0",
           }}
         >
-          {(["featured", "playlists", "artists", "lyrics", "videos"] as const).map((tab) => {
+          {(["featured", "playlists", "artists", "lyrics", "videos", "journal"] as const).map((tab) => {
             const labels: Record<string, string> = {
               featured: "Featured",
               playlists: "Playlists",
               artists: "Artists",
               lyrics: "Lyrics",
               videos: "Videos",
+              journal: "📓 Journal",
             };
             const isActive = activeTab === tab;
             return (
@@ -1525,13 +1541,71 @@ export default function ChristianMusicPage() {
           </div>
         )}
 
+        {/* ══════════════════════ JOURNAL TAB ══════════════════════ */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Music Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Reflect on worship music that touched your heart, what moved you, and how it applies to your walk.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input
+                  value={jmSong}
+                  onChange={e => setJmSong(e.target.value)}
+                  placeholder="Song / artist that spoke to you..."
+                  style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }}
+                />
+                <textarea
+                  value={jmReflection}
+                  onChange={e => setJmReflection(e.target.value)}
+                  placeholder="What did this song stir in you spiritually?"
+                  rows={3}
+                  style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, resize: "vertical", outline: "none" }}
+                />
+                <input
+                  value={jmStep}
+                  onChange={e => setJmStep(e.target.value)}
+                  placeholder="One step of response or application..."
+                  style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={saveMusicEntry}
+                  style={{ alignSelf: "flex-start", background: "#3a7d56", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+                >
+                  Save Entry
+                </button>
+              </div>
+            </div>
+            {musicJournal.length === 0 ? (
+              <div style={{ textAlign: "center", color: "#9898B3", padding: "40px 0" }}>No entries yet. Save your first music reflection above.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {musicJournal.map(e => (
+                  <div key={e.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                      <div>
+                        <span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 15 }}>{e.song || "Untitled"}</span>
+                        <span style={{ color: "#9898B3", fontSize: 12, marginLeft: 10 }}>{e.date}</span>
+                      </div>
+                      <button type="button" onClick={() => deleteMusicEntry(e.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.reflection && <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}>{e.reflection}</p>}
+                    {e.step && <p style={{ color: "#6B4FBB", fontSize: 13, fontStyle: "italic" }}>→ {e.step}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ══════════════════════ VIDEOS TAB ══════════════════════ */}
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {MUSIC_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "journey" | "practices" | "holyweek" | "videos";
+type Tab = "theology" | "journey" | "practices" | "holyweek" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -177,6 +179,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "journey", label: "The Lenten Journey" },
   { id: "practices", label: "Lenten Practices" },
   { id: "holyweek", label: "Holy Week Guide" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "🎬 Videos" },
 ];
 
@@ -184,6 +187,20 @@ export default function LentDevotionalPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_lent-devotional_tab", "theology");
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [selectedDay, setSelectedDay] = useState<number>(0);
+
+  const [ldEntries, setLdEntries] = useState<{ id: string; date: string; fast: string; reflection: string; intention: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_lentd_entries") ?? "[]"); } catch { return []; }
+  });
+  const [ldForm, setLdForm] = useState({ fast: "", reflection: "", intention: "" });
+  const [ldSaved, setLdSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_lentd_entries", JSON.stringify(ldEntries)); } catch {} }, [ldEntries]);
+  const saveLdEntry = () => {
+    if (!ldForm.fast.trim()) return;
+    setLdEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ldForm }, ...prev]);
+    setLdForm({ fast: "", reflection: "", intention: "" });
+    setLdSaved(true); setTimeout(() => setLdSaved(false), 2000);
+  };
+  const deleteLdEntry = (id: string) => setLdEntries(prev => prev.filter(e => e.id !== id));
 
   function toggleAccordion(index: number) {
     setOpenAccordion(openAccordion === index ? null : index);
@@ -652,6 +669,42 @@ export default function LentDevotionalPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Lenten Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record your fast, reflections, and intentions throughout Lent.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={ldForm.fast} onChange={e => setLdForm(f => ({ ...f, fast: e.target.value }))}
+                  placeholder="What are you fasting from or practicing?" aria-label="Fast"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={ldForm.reflection} onChange={e => setLdForm(f => ({ ...f, reflection: e.target.value }))}
+                  placeholder="What is God revealing through this season?" aria-label="Reflection"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={ldForm.intention} onChange={e => setLdForm(f => ({ ...f, intention: e.target.value }))}
+                  placeholder="Your intention for this period (optional)" aria-label="Intention"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveLdEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {ldSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {ldEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first Lenten reflection above.</p>}
+              {ldEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteLdEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.fast}</p>
+                  {e.reflection && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.reflection}</p>}
+                  {e.intention && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.intention}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -661,19 +714,13 @@ export default function LentDevotionalPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "P8rAp7Jc4CQ", title: "What Is Lent? Prayer, Fasting, Almsgiving", channel: "Bishop Robert Barron", description: "Barron explains the three pillars of Lent — prayer, fasting, and almsgiving — and why this ancient season of preparation remains vital for the church today." },
-                  { videoId: "Fi7sknKv1Mw", title: "Lent: A Season of Repentance", channel: "Gospel Coalition", description: "A biblical and pastoral exploration of Lent as a season that invites Christians into the practices of repentance, self-examination, and renewed dependence on grace." },
-                  { videoId: "GAUv_rziMzE", title: "Lent Series: Returning to the Heart of God", channel: "St. Andrew's Church", description: "A series on Lent as a journey of returning — tracing the movements of the prodigal son as a template for the Lenten journey from wandering to homecoming." },
-                  { videoId: "YSqYJBNXzbQ", title: "The Meaning and Purpose of Lent", channel: "Catholic Answers", description: "An accessible overview of the history and spiritual purpose of Lent, including how Protestant and Catholic traditions approach this season of preparation differently." },
+                  { videoId: "mC-zw0zCCtg", title: "What Is Lent? Prayer, Fasting, Almsgiving", channel: "Bishop Robert Barron", description: "Barron explains the three pillars of Lent — prayer, fasting, and almsgiving — and why this ancient season of preparation remains vital for the church today." },
+                  { videoId: "UWTYX17JGnI", title: "Lent: A Season of Repentance", channel: "Gospel Coalition", description: "A biblical and pastoral exploration of Lent as a season that invites Christians into the practices of repentance, self-examination, and renewed dependence on grace." },
+                  { videoId: "f3VY6pTKm3s", title: "Lent Series: Returning to the Heart of God", channel: "St. Andrew's Church", description: "A series on Lent as a journey of returning — tracing the movements of the prodigal son as a template for the Lenten journey from wandering to homecoming." },
+                  { videoId: "QS04WbSnxok", title: "The Meaning and Purpose of Lent", channel: "Catholic Answers", description: "An accessible overview of the history and spiritual purpose of Lent, including how Protestant and Catholic traditions approach this season of preparation differently." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

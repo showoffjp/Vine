@@ -3,8 +3,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Plus, X, Edit2, Trash2, MapPin, Calendar, Heart, BookOpen, Star, Zap, Users, Music, Globe } from "lucide-react";
+import { Sparkles, Plus, X, Edit2, Trash2, MapPin, Calendar, Star } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 interface Milestone {
   id: string;
@@ -163,7 +165,7 @@ const JOURNEY_SCRIPTURE = [
     reflection: "Spiritual formation is not self-improvement — it is beholding. As we contemplate who Jesus is, we are gradually shaped into his likeness. This is why Scripture reading, prayer, and worship are not obligations to fulfill but means of transformation to embrace.",
   },
   {
-    id: "rom-8-28-29",
+    id: "ej_6dVdJSIU",
     ref: "Romans 8:28–29",
     text: "We know that in all things God works for the good of those who love him... to be conformed to the image of his Son.",
     theme: "Conforming to Christ",
@@ -177,7 +179,7 @@ const JOURNEY_SCRIPTURE = [
     reflection: "This beloved psalm covers the full range of the faith journey: green pastures and still waters, but also dark valleys. The promise is not the absence of the valley — it is the presence of the Shepherd. He does not lead us around the dark places; he walks through them with us.",
   },
   {
-    id: "john-15-4-5",
+    id: "GQI72THyO5I",
     ref: "John 15:4–5",
     text: "Remain in me, as I also remain in you. No branch can bear fruit by itself; it must remain in the vine. Apart from me you can do nothing.",
     theme: "Abiding",
@@ -362,9 +364,6 @@ export default function FaithJourneyPage() {
 
   const sorted = [...milestones].sort((a, b) => a.year !== b.year ? a.year - b.year : a.month - b.month);
   const years = [...new Set(sorted.map((m) => m.year))];
-  const totalSignificance = milestones.reduce((s, m) => s + m.significance, 0);
-
-  const significanceLabel = (s: 1 | 2 | 3) => s === 3 ? "Major milestone" : s === 2 ? "Significant moment" : "Notable moment";
   const significanceColor = (s: 1 | 2 | 3) => s === 3 ? "#3a7d56" : s === 2 ? "#6B4FBB" : "#4A4A68";
 
   return (
@@ -683,19 +682,13 @@ export default function FaithJourneyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "poXKoL5y4Lo", title: "What Does It Mean to Follow Jesus?", channel: "The Gospel Coalition", description: "A clear exposition of what Christian discipleship involves — the cost, the call, and the joy of a life spent following Jesus across all its seasons." },
-                  { videoId: "tspDy2KIyeI", title: "Stages of Spiritual Growth", channel: "Dallas Willard Ministries", description: "Willard on the movement from new birth through formation into maturity — how God works through the different seasons of the Christian life to form Christlikeness." },
-                  { videoId: "-cRkUt4glaE", title: "Finding God in the Dark Seasons", channel: "Desiring God", description: "How to navigate the dark nights of the soul — doubt, dryness, and suffering — without abandoning faith. What Scripture promises to those who persist in trust." },
-                  { videoId: "dih7LHCYw5s", title: "A Long Obedience in the Same Direction — Eugene Peterson", channel: "Renovaré", description: "Peterson on discipleship as a lifetime of steady following — not dramatic crisis experiences but the slow, unglamorous work of continuing in the same direction across ordinary days." },
+                  { videoId: "GQI72THyO5I", title: "What Does It Mean to Follow Jesus?", channel: "The Gospel Coalition", description: "A clear exposition of what Christian discipleship involves — the cost, the call, and the joy of a life spent following Jesus across all its seasons." },
+                  { videoId: "j9phNEaPrv8", title: "Stages of Spiritual Growth", channel: "Dallas Willard Ministries", description: "Willard on the movement from new birth through formation into maturity — how God works through the different seasons of the Christian life to form Christlikeness." },
+                  { videoId: "krxcqH522uo", title: "Finding God in the Dark Seasons", channel: "Desiring God", description: "How to navigate the dark nights of the soul — doubt, dryness, and suffering — without abandoning faith. What Scripture promises to those who persist in trust." },
+                  { videoId: "nQWFzMvCfLE", title: "A Long Obedience in the Same Direction — Eugene Peterson", channel: "Renovaré", description: "Peterson on discipleship as a lifetime of steady following — not dramatic crisis experiences but the slow, unglamorous work of continuing in the same direction across ordinary days." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

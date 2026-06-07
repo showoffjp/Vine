@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "conferences" | "speakers" | "howto" | "videos";
+type Tab = "conferences" | "speakers" | "howto" | "journal" | "videos";
 
 const CATEGORIES = ["All", "Theology", "Missions", "Youth", "Women", "Worship", "Expository"];
 
@@ -280,12 +282,12 @@ const CONF_GUIDE = [
 ];
 
 const CONF_VIDEOS = [
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
-  { id: "yhiHSf_L6_E", title: "Radical", speaker: "David Platt", venue: "Passion 2011" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
-  { id: "RE8QkBA0Syg", title: "How Great Is Our God (Universe)", speaker: "Louie Giglio", venue: "Passion" },
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God", speaker: "Tim Keller", venue: "Google Talks" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham", venue: "Conference" },
+  { id: "ccNvwDPguNU", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
+  { id: "j9phNEaPrv8", title: "Radical", speaker: "David Platt", venue: "Passion 2011" },
+  { id: "dy9nwe9zeU8", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "iK0NjiBXKN4", title: "How Great Is Our God (Universe)", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "zMbUXpFiFeo", title: "The Reason for God", speaker: "Tim Keller", venue: "Google Talks" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham", venue: "Conference" },
 ];
 
 export default function ChristianConferencesPage() {
@@ -295,6 +297,20 @@ export default function ChristianConferencesPage() {
   const [selectedSpeaker, setSelectedSpeaker] = useState<string | null>(null);
 
   const filtered = CONFERENCES.filter(c => category === "All" || c.category === category);
+
+  const [ccEntries, setCcEntries] = useState<{ id: string; date: string; conference: string; learned: string; bringing: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ccForm, setCcForm] = useState({ conference: "", learned: "", bringing: "" });
+  const [ccSaved, setCcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cc_entries", JSON.stringify(ccEntries)); }, [ccEntries]);
+  function saveCcEntry() {
+    if (!ccForm.conference.trim()) return;
+    setCcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ccForm }, ...prev]);
+    setCcForm({ conference: "", learned: "", bringing: "" });
+    setCcSaved(true); setTimeout(() => setCcSaved(false), 2000);
+  }
+  function deleteCcEntry(id: string) { setCcEntries(prev => prev.filter(e => e.id !== id)); }
   const conf = CONFERENCES.find(c => c.name === selected);
   const speaker = CONF_SPEAKERS.find(s => s.id === selectedSpeaker);
 
@@ -313,9 +329,9 @@ export default function ChristianConferencesPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["conferences", "speakers", "howto", "videos"] as const).map(t => (
+          {(["conferences", "speakers", "howto", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "conferences" ? "Conferences" : t === "speakers" ? "Speakers" : t === "howto" ? "How To Attend" : "Videos"}
+              {t === "conferences" ? "Conferences" : t === "speakers" ? "Speakers" : t === "howto" ? "How To Attend" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -484,19 +500,56 @@ export default function ChristianConferencesPage() {
           </div>
         )}
 
+        {/* Journal Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Conference Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record what you learned at conferences and how you are bringing it back to your church and community.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Conference or Speaker</label>
+                <input value={ccForm.conference} onChange={e => setCcForm(f => ({ ...f, conference: e.target.value }))} placeholder="e.g. TGC 2025, John Piper at Desiring God..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Did You Learn?</label>
+                <textarea value={ccForm.learned} onChange={e => setCcForm(f => ({ ...f, learned: e.target.value }))} placeholder="What was the most significant truth or insight you received?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Are You Bringing It Back?</label>
+                <textarea value={ccForm.bringing} onChange={e => setCcForm(f => ({ ...f, bringing: e.target.value }))} placeholder="What are you sharing with your church, small group, or family?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCcEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ccSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {ccEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {ccEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.conference}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCcEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.learned && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Learned</div><div style={{ color: TEXT, fontSize: 13 }}>{e.learned}</div></div>}
+                    {e.bringing && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Bringing Back</div><div style={{ color: TEXT, fontSize: 13 }}>{e.bringing}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos Tab */}
         {activeTab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 24 }}>
             {CONF_VIDEOS.map(v => (
               <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <iframe
-                  width="100%"
-                  style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-                  src={`https://www.youtube.com/embed/${v.id}`}
-                  title={v.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <VideoEmbed videoId={v.id} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                   <div style={{ color: MUTED, fontSize: 12 }}>{v.speaker} &middot; {v.venue}</div>

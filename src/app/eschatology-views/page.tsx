@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -67,7 +70,7 @@ const PRACTICES = [
   { title: "Let Hope Shape Present Action", desc: "The coming kingdom is not only a future comfort but a present summons. Because there will be new creation, creation care matters now. Because there will be justice, the pursuit of justice matters now. Eschatology is not escapism but motivation — 'your labor in the Lord is not in vain' (1 Corinthians 15:58).", icon: "🌍" },
 ];
 
-type Tab = "theology" | "thinkers" | "views" | "practices" | "videos";
+type Tab = "theology" | "thinkers" | "views" | "practices" | "journal" | "videos";
 
 const THINKERS = [
   {
@@ -119,6 +122,20 @@ const THINKERS = [
 
 export default function EschatologyViewsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_eschatology-views_tab", "theology");
+
+  const [escvEntries, setEscvEntries] = useState<{ id: string; date: string; view: string; thinker: string; implication: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_escv_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [escvForm, setEscvForm] = useState({ view: "", thinker: "", implication: "" });
+  const [escvSaved, setEscvSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_escv_entries", JSON.stringify(escvEntries)); }, [escvEntries]);
+  function saveEscvEntry() {
+    if (!escvForm.view.trim()) return;
+    setEscvEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...escvForm }, ...prev]);
+    setEscvForm({ view: "", thinker: "", implication: "" });
+    setEscvSaved(true); setTimeout(() => setEscvSaved(false), 2000);
+  }
+  function deleteEscvEntry(id: string) { setEscvEntries(prev => prev.filter(e => e.id !== id)); }
   const [selectedView, setSelectedView] = usePersistedState("vine_eschatology-views_selected_view", "Historic Premillennialism");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_eschatology-views_selected_thinker", "wright");
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
@@ -144,6 +161,7 @@ export default function EschatologyViewsPage() {
             { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "views" as const, label: "The Views", icon: "🗺️" },
             { id: "practices" as const, label: "Implications", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -260,6 +278,54 @@ export default function EschatologyViewsPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Eschatology Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record the eschatological view you hold, the thinker shaping you, and how your view changes your life. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>VIEW I HOLD (OR AM EXPLORING) *</label>
+                <textarea value={escvForm.view} onChange={e => setEscvForm(f => ({ ...f, view: e.target.value }))}
+                  placeholder="Which eschatological view (amillennial, premillennial, postmillennial, historic premil...) are you drawn to?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>THINKER SHAPING MY VIEW</label>
+                <textarea value={escvForm.thinker} onChange={e => setEscvForm(f => ({ ...f, thinker: e.target.value }))}
+                  placeholder="Which theologian or scholar is most influencing your eschatological thinking?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>IMPLICATION FOR HOW I LIVE NOW</label>
+                <textarea value={escvForm.implication} onChange={e => setEscvForm(f => ({ ...f, implication: e.target.value }))}
+                  placeholder="How does your eschatological view change your priorities or daily life?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEscvEntry}
+                style={{ background: escvSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {escvSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {escvEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({escvEntries.length})</h3>
+                {escvEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEscvEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.view && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>VIEW: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.view}</span></div>}
+                    {entry.thinker && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>THINKER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.thinker}</span></div>}
+                    {entry.implication && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>IMPLICATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.implication}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -269,19 +335,13 @@ export default function EschatologyViewsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "4S0TQ2dXnms", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright unpacks the biblical hope — not 'going to heaven' but the resurrection of the body and the renewal of all creation. Essential viewing for anyone rethinking Christian eschatology." },
-                  { videoId: "W75bzrvJtLs", title: "The Millennium: Four Views Explained", channel: "Ligonier Ministries", description: "A clear, fair overview of premillennialism, amillennialism, and postmillennialism — what each view teaches and the key texts each relies on." },
-                  { videoId: "-a-4XwDYTMU", title: "Amillennialism: What It Is and Why It Matters", channel: "Sam Storms", description: "Sam Storms makes the case for amillennialism as the most consistent reading of Revelation 20 in context, addressing common objections from dispensational readers." },
-                  { videoId: "oKid6NYb0oU", title: "Surprised by Hope — A Summary", channel: "The Gospel Coalition", description: "A concise overview of N.T. Wright's landmark book on Christian eschatology, covering why the resurrection and new creation are the proper horizon of Christian hope." },
+                  { videoId: "KRsuCQe7aVk", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright unpacks the biblical hope — not 'going to heaven' but the resurrection of the body and the renewal of all creation. Essential viewing for anyone rethinking Christian eschatology." },
+                  { videoId: "iK0NjiBXKN4", title: "The Millennium: Four Views Explained", channel: "Ligonier Ministries", description: "A clear, fair overview of premillennialism, amillennialism, and postmillennialism — what each view teaches and the key texts each relies on." },
+                  { videoId: "zDnSbLd9LFg", title: "Amillennialism: What It Is and Why It Matters", channel: "Sam Storms", description: "Sam Storms makes the case for amillennialism as the most consistent reading of Revelation 20 in context, addressing common objections from dispensational readers." },
+                  { videoId: "bQFIuYOg7uo", title: "Surprised by Hope — A Summary", channel: "The Gospel Coalition", description: "A concise overview of N.T. Wright's landmark book on Christian eschatology, covering why the resurrection and new creation are the proper horizon of Christian hope." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

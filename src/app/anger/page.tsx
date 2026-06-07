@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -80,12 +82,43 @@ const STORIES = [
   },
 ];
 
-type Tab = "theology" | "types" | "stories" | "practices" | "videos";
+interface AngerEntry {
+  id: string;
+  date: string;
+  trigger: string;
+  type: string;
+  what: string;
+  response: string;
+}
+
+type Tab = "theology" | "types" | "stories" | "practices" | "journal" | "videos";
 
 export default function AngerPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_anger_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedStory, setSelectedStory] = usePersistedState("vine_anger_selected_story", "moses");
+  const [log, setLog] = useState<AngerEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_anger_log"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [logForm, setLogForm] = useState({ trigger: "", type: "Wounded Anger", what: "", response: "" });
+  const [logSaved, setLogSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_anger_log", JSON.stringify(log)); } catch {} }, [log]);
+
+  const saveLog = () => {
+    if (!logForm.trigger.trim()) return;
+    const entry: AngerEntry = {
+      id: Date.now().toString(),
+      date: new Date().toISOString().split("T")[0],
+      ...logForm,
+    };
+    setLog(prev => [entry, ...prev]);
+    setLogForm({ trigger: "", type: "Wounded Anger", what: "", response: "" });
+    setLogSaved(true);
+    setTimeout(() => setLogSaved(false), 2000);
+  };
+
+  const deleteLog = (id: string) => setLog(prev => prev.filter(e => e.id !== id));
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 
@@ -104,10 +137,11 @@ export default function AngerPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "theology" as const, label: "Theology of Anger", icon: "📖" },
-            { id: "types" as const, label: "Types of Anger", icon: "🔍" },
-            { id: "stories" as const, label: "Scripture Stories", icon: "📜" },
+            { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "types" as const, label: "Types", icon: "🔍" },
+            { id: "stories" as const, label: "Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Log", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -215,6 +249,77 @@ export default function AngerPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Anger Log</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>Log anger incidents honestly — not to condemn, but to see patterns and meet God in them.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>WHAT TRIGGERED IT?</label>
+                  <input value={logForm.trigger} onChange={e => setLogForm(f => ({ ...f, trigger: e.target.value }))}
+                    placeholder="Specific situation, person, or event..." aria-label="What triggered the anger"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>TYPE OF ANGER</label>
+                  <select value={logForm.type} onChange={e => setLogForm(f => ({ ...f, type: e.target.value }))}
+                    aria-label="Type of anger"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }}>
+                    {TYPES.map(t => <option key={t.type} value={t.type}>{t.type}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>WHAT DID I DO / SAY?</label>
+                  <textarea value={logForm.what} onChange={e => setLogForm(f => ({ ...f, what: e.target.value }))}
+                    placeholder="Be honest — what actually happened..." aria-label="What did I do or say"
+                    style={{ width: "100%", marginTop: 6, minHeight: 70, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>GOD'S RESPONSE / WHAT I'M LEARNING</label>
+                  <textarea value={logForm.response} onChange={e => setLogForm(f => ({ ...f, response: e.target.value }))}
+                    placeholder="What do I sense God saying? What Scripture speaks to this?" aria-label="God's response or what I'm learning"
+                    style={{ width: "100%", marginTop: 6, minHeight: 70, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <button type="button" onClick={saveLog}
+                  style={{ padding: "11px", background: logSaved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: logSaved ? BG : "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {logSaved ? "✓ Saved" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {log.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {log.map(e => {
+                  const typeData = TYPES.find(t => t.type === e.type);
+                  return (
+                    <div key={e.id} style={{ background: CARD, border: `1px solid ${typeData?.color ?? BORDER}25`, borderRadius: 12, padding: 18 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                        <div>
+                          <span style={{ color: typeData?.color ?? MUTED, fontWeight: 700, fontSize: 13 }}>{e.type}</span>
+                          <span style={{ color: MUTED, fontSize: 12, marginLeft: 10 }}>
+                            {new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
+                        </div>
+                        <button type="button" onClick={() => deleteLog(e.id)}
+                          style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12, flexShrink: 0 }}>×</button>
+                      </div>
+                      <p style={{ color: TEXT, fontSize: 14, fontWeight: 600, marginBottom: 6 }}>{e.trigger}</p>
+                      {e.what && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: e.response ? 6 : 0 }}><strong style={{ color: TEXT }}>What happened: </strong>{e.what}</p>}
+                      {e.response && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.6, margin: 0 }}><strong>Learning: </strong>{e.response}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {log.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>📓</div>
+                <p>No entries yet. Logging honestly is the first step toward change.</p>
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -224,19 +329,13 @@ export default function AngerPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "8x4zogEftfc", title: "The Root of Sinful Anger", channel: "Desiring God", description: "John Piper and David Powlison explore the deep roots of sinful anger in the human heart and how the gospel addresses them at the source." },
-                  { videoId: "Lwypv1EFiRk", title: "How Do I Let Go of Anger over Past Wrongs?", channel: "Desiring God", description: "John Piper answers a listener's question about releasing long-held anger over past wrongs, grounding the answer in the forgiveness of the gospel." },
-                  { videoId: "trPWNIeJL6Y", title: "The Problem of Anger", channel: "Paul David Tripp", description: "Paul Tripp examines how anger reveals what we truly worship and how Christ transforms our hearts to respond with grace rather than wrath." },
-                  { videoId: "dTxs2vw9oKY", title: "Righteous Anger vs. Sinful Anger", channel: "Bible Study", description: "A biblical examination of the difference between righteous anger — anger at injustice and sin — and sinful anger driven by pride and self-interest." },
+                  { videoId: "f7RJATbobik", title: "The Root of Sinful Anger", channel: "Desiring God", description: "John Piper and David Powlison explore the deep roots of sinful anger in the human heart and how the gospel addresses them at the source." },
+                  { videoId: "zUKzVFQn4Tc", title: "How Do I Let Go of Anger over Past Wrongs?", channel: "Desiring God", description: "John Piper answers a listener's question about releasing long-held anger over past wrongs, grounding the answer in the forgiveness of the gospel." },
+                  { videoId: "GGCF3OPWN14", title: "The Problem of Anger", channel: "Paul David Tripp", description: "Paul Tripp examines how anger reveals what we truly worship and how Christ transforms our hearts to respond with grace rather than wrath." },
+                  { videoId: "t6L-F2emwUc", title: "Righteous Anger vs. Sinful Anger", channel: "Bible Study", description: "A biblical examination of the difference between righteous anger — anger at injustice and sin — and sinful anger driven by pride and self-interest." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

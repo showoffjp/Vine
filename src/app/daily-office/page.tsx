@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -75,12 +78,37 @@ const HISTORY = [
   { period: "The Modern Recovery (20th–21st Century)", color: "#3B82F6", desc: "The practice of fixed-hour prayer has seen a remarkable revival among Protestants and evangelicals who were not raised with liturgical tradition. Phyllis Tickle's 'The Divine Hours' (2000-2001) brought the daily office to millions of non-liturgical Christians. The popularity of the Book of Common Prayer, Common Prayer: A Liturgy for Ordinary Radicals, and daily office apps has made this ancient rhythm newly available." },
 ];
 
-type Tab = "offices" | "history" | "howto" | "videos";
+interface OfficeEntry {
+  id: string;
+  date: string;
+  office: string;
+  scripture: string;
+  reflection: string;
+  prayer: string;
+}
+
+type Tab = "offices" | "history" | "howto" | "journal" | "videos";
 type OfficeKey = "morning" | "midday" | "evening" | "compline";
 
 export default function DailyOfficePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_daily-office_tab", "offices");
   const [selectedOffice, setSelectedOffice] = usePersistedState<OfficeKey>("vine_daily-office_selected_office", "morning");
+  const [oEntries, setOEntries] = useState<OfficeEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_office_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [oForm, setOForm] = useState({ office: "morning", scripture: "", reflection: "", prayer: "" });
+  const [oSaved, setOSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_office_entries", JSON.stringify(oEntries)); } catch {} }, [oEntries]);
+
+  const saveOfficeEntry = () => {
+    setOEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...oForm }, ...prev]);
+    setOForm(f => ({ ...f, scripture: "", reflection: "", prayer: "" }));
+    setOSaved(true);
+    setTimeout(() => setOSaved(false), 2000);
+  };
+
+  const deleteOfficeEntry = (id: string) => setOEntries(prev => prev.filter(e => e.id !== id));
 
   const office = OFFICES[selectedOffice];
 
@@ -112,6 +140,7 @@ export default function DailyOfficePage() {
             { id: "offices" as const, label: "The Four Offices", icon: "🕐" },
             { id: "history" as const, label: "History", icon: "📜" },
             { id: "howto" as const, label: "How to Start", icon: "🌱" },
+            { id: "journal" as const, label: "Journal", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -236,19 +265,87 @@ export default function DailyOfficePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>Record what you prayed, what struck you in Scripture, and where God met you. Over time this becomes a record of God's faithfulness woven through ordinary days.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Log a Prayer Office</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Which office did you pray?</label>
+                <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+                  {(Object.keys(OFFICES) as OfficeKey[]).map(key => {
+                    const o = OFFICES[key];
+                    return (
+                      <button type="button" key={key} onClick={() => setOForm(f => ({ ...f, office: key }))}
+                        style={{ padding: "7px 14px", borderRadius: 20, border: `1px solid ${oForm.office === key ? o.color : BORDER}`, background: oForm.office === key ? `${o.color}20` : "transparent", color: oForm.office === key ? o.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                        {o.icon} {o.title}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Scripture that struck me</label>
+                <input value={oForm.scripture} onChange={e => setOForm(f => ({ ...f, scripture: e.target.value }))}
+                  placeholder="e.g. Psalm 5:3, Mark 1:35..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Reflection</label>
+                <textarea value={oForm.reflection} onChange={e => setOForm(f => ({ ...f, reflection: e.target.value }))} rows={3}
+                  placeholder="What God brought to mind, a conviction, a peace, something I'm carrying..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Prayer I offered</label>
+                <textarea value={oForm.prayer} onChange={e => setOForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="Who or what I prayed for..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveOfficeEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {oSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {oEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Prayer History</h3>
+                {oEntries.map(e => {
+                  const officeData = OFFICES[e.office as OfficeKey];
+                  const color = officeData?.color ?? GOLD;
+                  return (
+                    <div key={e.id} style={{ background: CARD, border: `1px solid ${color}25`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                      <button type="button" onClick={() => deleteOfficeEntry(e.id)}
+                        style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
+                        <span style={{ fontSize: 18 }}>{officeData?.icon ?? "🙏"}</span>
+                        <span style={{ color, fontWeight: 700, fontSize: 14 }}>{officeData?.title ?? e.office}</span>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      </div>
+                      {e.scripture && <p style={{ color: MUTED, fontSize: 13, margin: "0 0 6px" }}><strong style={{ color: GOLD }}>Scripture:</strong> {e.scripture}</p>}
+                      {e.reflection && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>{e.reflection}</p>}
+                      {e.prayer && <p style={{ color: PURPLE, fontSize: 13, margin: 0, fontStyle: "italic" }}>🙏 {e.prayer}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
             {[
-              { title: "The Daily Office Explained", id: "cAIJGFp9Myo", desc: "An introduction to fixed-hour prayer" },
-              { title: "Phyllis Tickle on The Divine Hours", id: "3NsHWAKXXXo", desc: "The scholar who recovered the daily office for evangelicals" },
-              { title: "Morning Prayer Service — BCP", id: "HW6fHFgYFuo", desc: "A traditional Morning Prayer service" },
-              { title: "The Daily Office for Modern Christians", id: "V9TmJ2WwEaE", desc: "How to integrate fixed-hour prayer into contemporary life" },
+              { title: "The Daily Office Explained", id: "j9phNEaPrv8", desc: "An introduction to fixed-hour prayer" },
+              { title: "Phyllis Tickle on The Divine Hours", id: "mC-zw0zCCtg", desc: "The scholar who recovered the daily office for evangelicals" },
+              { title: "Morning Prayer Service — BCP", id: "ZOBIPb-6PTc", desc: "A traditional Morning Prayer service" },
+              { title: "The Daily Office for Modern Christians", id: "OpfuKKH_SCE", desc: "How to integrate fixed-hour prayer into contemporary life" },
             ].map((v, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <div style={{ position: "relative", paddingBottom: "56.25%", background: "#000" }}>
-                  <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                 </div>
                 <div style={{ padding: 14 }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: TEXT, marginBottom: 4 }}>{v.title}</div>

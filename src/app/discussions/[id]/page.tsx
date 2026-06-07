@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import ReplyBox from "@/components/ReplyBox";
 import DiscussionActions from "@/components/DiscussionActions";
 import ReplyUpvote from "@/components/ReplyUpvote";
-import { ArrowLeft, MessageSquare, Flag, ChevronRight } from "lucide-react";
+import { ArrowLeft, MessageSquare } from "lucide-react";
 
 const threads: Record<string, {
   title: string; body: string; hub: string; hubColor: string;
@@ -1655,7 +1655,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
           </div>
 
           {/* Reply Box */}
-          <ReplyBox />
+          <ReplyBox discussionId={id} />
         </div>
       </div>
       <Footer />

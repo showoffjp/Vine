@@ -1,12 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F"; const CARD = "#12121F"; const BORDER = "#1E1E32"; const GREEN = "#3a7d56"; const PURPLE = "#6B4FBB"; const TEXT = "#F2F2F8"; const MUTED = "#9898B3";
 
-type Tab = "elders" | "deacons" | "training" | "resources" | "videos";
+type Tab = "elders" | "deacons" | "training" | "resources" | "journal" | "videos";
 
 const ELDERS = [
   {
@@ -144,10 +147,10 @@ const TRAINING_STEPS = [
 ];
 
 const ELDER_VIDEOS = [
-  { videoId: "ACZbpLkY8To", title: "The Role of Elders in the Church", channel: "9Marks", description: "Mark Dever on the biblical qualifications, responsibilities, and spiritual authority of elders in the local church." },
-  { videoId: "KbFKcFxqVlo", title: "Training Church Leaders", channel: "The Gospel Coalition", description: "How to identify, train, and support elders and deacons — investing in leadership for the long-term health of the church." },
-  { videoId: "dXxmSDhvbHY", title: "Servant Leadership in the Church", channel: "Desiring God", description: "John Piper on the character qualifications in 1 Timothy 3 and Titus 1 — what God requires of those who lead his church." },
-  { videoId: "Z8lkuuhVkOI", title: "Deacons and Service Ministry", channel: "Ligonier Ministries", description: "R.C. Sproul on the office and ministry of deacons — how they free elders for prayer and the Word while serving practical needs." },
+  { videoId: "ej_6dVdJSIU", title: "The Role of Elders in the Church", channel: "9Marks", description: "Mark Dever on the biblical qualifications, responsibilities, and spiritual authority of elders in the local church." },
+  { videoId: "rtkS_8VWfB0", title: "Training Church Leaders", channel: "The Gospel Coalition", description: "How to identify, train, and support elders and deacons — investing in leadership for the long-term health of the church." },
+  { videoId: "zUKzVFQn4Tc", title: "Servant Leadership in the Church", channel: "Desiring God", description: "John Piper on the character qualifications in 1 Timothy 3 and Titus 1 — what God requires of those who lead his church." },
+  { videoId: "gV9JugO_5Mk", title: "Deacons and Service Ministry", channel: "Ligonier Ministries", description: "R.C. Sproul on the office and ministry of deacons — how they free elders for prayer and the Word while serving practical needs." },
 ];
 
 const RESOURCES = [
@@ -203,6 +206,20 @@ const RESOURCES = [
 
 export default function ElderDeaconTrainingPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_elder-deacon-training_tab", "elders");
+
+  const [edtEntries, setEdtEntries] = useState<{ id: string; date: string; role: string; applying: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_edt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [edtForm, setEdtForm] = useState({ role: "", applying: "", question: "" });
+  const [edtSaved, setEdtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_edt_entries", JSON.stringify(edtEntries)); }, [edtEntries]);
+  function saveEdtEntry() {
+    if (!edtForm.role.trim()) return;
+    setEdtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...edtForm }, ...prev]);
+    setEdtForm({ role: "", applying: "", question: "" });
+    setEdtSaved(true); setTimeout(() => setEdtSaved(false), 2000);
+  }
+  function deleteEdtEntry(id: string) { setEdtEntries(prev => prev.filter(e => e.id !== id)); }
   const [selectedElder, setSelectedElder] = usePersistedState<string>("vine_elder-deacon-training_selected_elder", "qualifications");
 
   const selElder = ELDERS.find(e => e.id === selectedElder) || ELDERS[0];
@@ -222,7 +239,7 @@ export default function ElderDeaconTrainingPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["elders", "deacons", "training", "resources", "videos"] as Tab[]).map(t => (
+          {(["elders", "deacons", "training", "resources", "journal", "videos"] as Tab[]).map(t => (
             <button type="button"
               key={t}
               onClick={() => setTab(t)}
@@ -237,7 +254,7 @@ export default function ElderDeaconTrainingPage() {
                 cursor: "pointer",
               }}
             >
-              {t === "elders" ? "Elders / Overseers" : t === "deacons" ? "Deacons" : t === "training" ? "Training Pathway" : t === "resources" ? "Resources" : "🎬 Videos"}
+              {t === "elders" ? "Elders / Overseers" : t === "deacons" ? "Deacons" : t === "training" ? "Training Pathway" : t === "resources" ? "Resources" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -382,12 +399,59 @@ export default function ElderDeaconTrainingPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Leadership Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on the role you serve in (or aspire to), how you are applying this training, and questions you are bringing to your formation. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>ROLE I SERVE IN OR ASPIRE TO *</label>
+                <textarea value={edtForm.role} onChange={e => setEdtForm(f => ({ ...f, role: e.target.value }))}
+                  placeholder="Are you an elder, deacon, aspiring to one of these roles, or in another church leadership position?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING THIS TRAINING</label>
+                <textarea value={edtForm.applying} onChange={e => setEdtForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What from this guide are you actively applying in your leadership context?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>QUESTION I AM BRINGING TO MY MENTOR</label>
+                <textarea value={edtForm.question} onChange={e => setEdtForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="What question about elder/deacon ministry do you want to bring to a pastor or mentor?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEdtEntry}
+                style={{ background: edtSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {edtSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {edtEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({edtEntries.length})</h3>
+                {edtEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEdtEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.role && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>ROLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.role}</span></div>}
+                    {entry.applying && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                    {entry.question && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>QUESTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.question}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {ELDER_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

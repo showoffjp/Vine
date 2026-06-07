@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   Mail,
   BookOpen,
   TrendingUp,
-  Heart,
   Star,
   ChevronRight,
   CheckCircle,
@@ -318,17 +318,18 @@ export default function NewsletterPage() {
           </div>
           <div className="space-y-4">
             {pastIssues.map((issue, i) => (
-              <div
+              <Link
                 key={i}
+                href="/newsletter"
                 className="group rounded-xl p-5 cursor-pointer transition-all"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                style={{ display: "block", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(58,125,86,0.15)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.04)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(58,125,86,0.15)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.02)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
                 }}
               >
                 <div className="flex items-start gap-4">
@@ -366,7 +367,7 @@ export default function NewsletterPage() {
                   </div>
                   <ChevronRight size={16} className="shrink-0 mt-1 group-hover:text-[#3a7d56] transition-colors" style={{ color: "#4A4A68" }} />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

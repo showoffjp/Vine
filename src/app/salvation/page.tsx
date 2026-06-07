@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -202,47 +204,47 @@ const SALVATION_VIDEOS = [
     id: "sv1",
     title: "How to Be Born Again",
     preacher: "Billy Graham",
-    videoId: "RUhJVEWBe4g",
+    videoId: "tp5MIrMZFqo",
     description: "Graham's classic evangelistic message on the new birth — what it means, why it is necessary, and how to receive it.",
   },
   {
     id: "sv2",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "q5QEH9bH8AU",
     description: "Keller unpacks Luke 15 to show that both the irreligious younger brother and the self-righteous elder brother are lost — and how Jesus is the true elder brother who rescues both.",
   },
   {
     id: "sv3",
     title: "Shocking Youth Message",
     preacher: "Paul Washer",
-    videoId: "uuabITeO4l8",
+    videoId: "JqOqJlFF_eU",
     description: "A piercing call to genuine conversion — Washer challenges easy-believism and calls young people to examine whether they have truly been born again.",
   },
   {
     id: "sv4",
     title: "The Reason for God (Google Talk)",
     preacher: "Tim Keller",
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "kOYy8iCfIJ4",
     description: "Keller presents the intellectual case for Christianity to a secular audience at Google, addressing objections and laying out the logic of the gospel.",
   },
   {
     id: "sv5",
     title: "Radical — Passion 2011",
     preacher: "David Platt",
-    videoId: "yhiHSf_L6_E",
+    videoId: "qjbYnCadoGw",
     description: "Platt's landmark message challenging American Christians to consider what a fully surrendered response to the gospel actually looks like in practice.",
   },
   {
     id: "sv6",
     title: "Supremacy of Christ and Truth",
     preacher: "Voddie Baucham",
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     description: "Baucham makes the exclusive claim of Christ in a pluralistic age — why Jesus alone is the way, the truth, and the life, and why that is good news.",
   },
 ];
 
-type Tab = "gospel" | "theology" | "voices" | "videos";
+type Tab = "gospel" | "theology" | "voices" | "journal" | "videos";
 
 export default function SalvationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_salvation_tab", "gospel");
@@ -253,6 +255,20 @@ export default function SalvationPage() {
   });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [selectedTestimony, setSelectedTestimony] = useState<typeof TESTIMONIES[0] | null>(null);
+
+  type JournalEntry = { id: string; date: string; reflection: string; question: string; response: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_salvj_entries") ?? "[]"); } catch { return []; } });
+  const [jReflection, setJReflection] = useState("");
+  const [jQuestion, setJQuestion] = useState("");
+  const [jResponse, setJResponse] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_salvj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jReflection.trim() && !jQuestion.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jReflection, question: jQuestion, response: jResponse };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJReflection(""); setJQuestion(""); setJResponse("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_salvation_voice", "luther-s");
 
   const markPrayed = () => {
@@ -277,9 +293,9 @@ export default function SalvationPage() {
 
         {/* Top-level tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
-          {(["gospel", "theology", "voices", "videos"] as const).map(t => (
+          {(["gospel", "theology", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "gospel" ? "The Good News" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : "Videos"}
+              {t === "gospel" ? "The Good News" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -483,6 +499,39 @@ export default function SalvationPage() {
         )}
 
         {/* VIDEOS TAB */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Salvation Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record reflections on the gospel, questions about salvation, and how you are responding in faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What is God showing you about the gospel or your salvation?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jQuestion} onChange={e => setJQuestion(e.target.value)} placeholder="Question you are wrestling with" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jResponse} onChange={e => setJResponse(e.target.value)} placeholder="How are you responding in faith and obedience?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your journey with the gospel.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>Gospel Reflection</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.reflection && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Reflection:</strong> {entry.reflection}</p>}
+                    {entry.question && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Question:</strong> {entry.question}</p>}
+                    {entry.response && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Response:</strong> {entry.response}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
             {SALVATION_VIDEOS.map(v => (
@@ -492,9 +541,7 @@ export default function SalvationPage() {
                 </div>
                 <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8, color: TEXT }}>{v.title}</h3>
                 <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, marginBottom: 14 }}>{v.description}</p>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
               </div>
             ))}
           </div>

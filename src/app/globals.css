@@ -68,12 +68,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(58,125,86,0.25); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(58,125,86,0.45); }
+
+/* ─── SELECTION ─── */
+::selection { background: rgba(58,125,86,0.3); color: #F2F2F8; }
+
 /* ─── FOCUS STYLES ─── */
 :focus-visible {
   outline: 2px solid rgba(58,125,86,0.6);
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ─── IMAGE RENDERING ─── */
+img { display: block; max-width: 100%; }
+img[src*="img.youtube.com"] {
+  background: #12121F;
+  min-height: 60px;
+}
+
+/* ─── LINK RESET ─── */
+a { color: inherit; }
 
 /* ─── TEXT UTILITIES ─── */
 .gold-gradient {
@@ -357,6 +376,15 @@ body {
 @keyframes heroFadeIn {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── PAGE TRANSITION ─── */
+@keyframes vinePageEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.vine-page-enter {
+  animation: vinePageEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes fadeInUp {

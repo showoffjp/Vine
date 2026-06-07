@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -49,10 +52,10 @@ const LIFE_HACKS = [
 const CATEGORIES = ["All", "Bible", "Prayer", "App", "Journaling", "Community", "Habit", "Digital", "Podcast", "Reading"];
 
 const VIDEOS = [
-  { videoId: "dXxmSDhvbHY", title: "Best Christian Podcasts to Listen to", channel: "The Gospel Coalition", description: "A curated guide to the most trustworthy and theologically rich Christian podcasts available today — covering theology, preaching, culture, and the Christian life. A helpful starting point for anyone wanting to redeem their listening time." },
-  { videoId: "sxMhDVkdULw", title: "Christian Media That's Actually Worth Your Time", channel: "Tim Keller", description: "Tim Keller reflects on discernment in media consumption — which Christian content genuinely forms the soul, what to look for in good teaching, and how to evaluate the explosion of digital Christian content with wisdom rather than just familiarity." },
-  { videoId: "ACZbpLkY8To", title: "Using Media for Gospel Impact", channel: "Desiring God", description: "How Christians can leverage digital media — YouTube, podcasting, social platforms — not just to consume but to bear witness. Practical theology for the age of screens, rooted in the conviction that all of life is for God's glory." },
-  { videoId: "E9P76VJIcRY", title: "Christian YouTube Channels Worth Following", channel: "Ligonier Ministries", description: "Ligonier Ministries walks through the YouTube channels most worth subscribing to for theological depth, expository preaching, and faithful Christian engagement with culture — a useful guide for building a spiritually formative media diet." },
+  { videoId: "bxzuh5Xx5G4", title: "Best Christian Podcasts to Listen to", channel: "The Gospel Coalition", description: "A curated guide to the most trustworthy and theologically rich Christian podcasts available today — covering theology, preaching, culture, and the Christian life. A helpful starting point for anyone wanting to redeem their listening time." },
+  { videoId: "KwX1f2gYKZ4", title: "Christian Media That's Actually Worth Your Time", channel: "Tim Keller", description: "Tim Keller reflects on discernment in media consumption — which Christian content genuinely forms the soul, what to look for in good teaching, and how to evaluate the explosion of digital Christian content with wisdom rather than just familiarity." },
+  { videoId: "ej_6dVdJSIU", title: "Using Media for Gospel Impact", channel: "Desiring God", description: "How Christians can leverage digital media — YouTube, podcasting, social platforms — not just to consume but to bear witness. Practical theology for the age of screens, rooted in the conviction that all of life is for God's glory." },
+  { videoId: "YNd-PbVhnvA", title: "Christian YouTube Channels Worth Following", channel: "Ligonier Ministries", description: "Ligonier Ministries walks through the YouTube channels most worth subscribing to for theological depth, expository preaching, and faithful Christian engagement with culture — a useful guide for building a spiritually formative media diet." },
 ];
 
 const PODCASTS = [
@@ -67,10 +70,24 @@ const PODCASTS = [
 ];
 
 export default function ChristianMediaHubPage() {
-  const [activeSection, setActiveSection] = usePersistedState<"channels" | "websites" | "hacks" | "podcasts" | "videos">("vine_christian-media-hub_active_section", "hacks");
+  const [activeSection, setActiveSection] = usePersistedState<"channels" | "websites" | "hacks" | "podcasts" | "journal" | "videos">("vine_christian-media-hub_active_section", "hacks");
   const [hackCat, setHackCat] = usePersistedState<string>("vine_christian-media-hub_hack_cat", "All");
 
   const filteredHacks = hackCat === "All" ? LIFE_HACKS : LIFE_HACKS.filter(h => h.category === hackCat);
+
+  const [cmhEntries, setCmhEntries] = useState<{ id: string; date: string; resource: string; using: string; transformed: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmh_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmhForm, setCmhForm] = useState({ resource: "", using: "", transformed: "" });
+  const [cmhSaved, setCmhSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmh_entries", JSON.stringify(cmhEntries)); }, [cmhEntries]);
+  function saveCmhEntry() {
+    if (!cmhForm.resource.trim()) return;
+    setCmhEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmhForm }, ...prev]);
+    setCmhForm({ resource: "", using: "", transformed: "" });
+    setCmhSaved(true); setTimeout(() => setCmhSaved(false), 2000);
+  }
+  function deleteCmhEntry(id: string) { setCmhEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -91,6 +108,7 @@ export default function ChristianMediaHubPage() {
             { id: "channels" as const, label: "YouTube", icon: "▶️" },
             { id: "websites" as const, label: "Websites", icon: "🌐" },
             { id: "podcasts" as const, label: "Podcasts", icon: "🎙️" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveSection(t.id)}
@@ -224,12 +242,54 @@ export default function ChristianMediaHubPage() {
           </div>
         )}
 
+        {activeSection === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Media Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Track how you are using Christian media resources — what you are consuming, how it is transforming you.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Resource / Channel / Podcast</label>
+                <input value={cmhForm.resource} onChange={e => setCmhForm(f => ({ ...f, resource: e.target.value }))} placeholder="e.g. The Bible Project, Tim Keller Podcast, Christianity Today..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Are You Using It?</label>
+                <textarea value={cmhForm.using} onChange={e => setCmhForm(f => ({ ...f, using: e.target.value }))} placeholder="How has this resource become part of your spiritual rhythm?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Is It Transforming You?</label>
+                <textarea value={cmhForm.transformed} onChange={e => setCmhForm(f => ({ ...f, transformed: e.target.value }))} placeholder="What truth, habit, or perspective has this resource given you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmhEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmhSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmhEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmhEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.resource}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmhEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.using && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>How Using It</div><div style={{ color: TEXT, fontSize: 13 }}>{e.using}</div></div>}
+                    {e.transformed && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Transforming Me</div><div style={{ color: TEXT, fontSize: 13 }}>{e.transformed}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeSection === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

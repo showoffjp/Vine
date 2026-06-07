@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,13 +14,13 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "leading" | "problems" | "resources" | "videos";
+type Tab = "theology" | "leading" | "problems" | "resources" | "journal" | "videos";
 
 const SGL_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "How to Lead a Small Group", channel: "Gospel in Life", description: "Keller's team shares principles for small group leadership drawn from decades of citywide small group ministry." },
-  { videoId: "ACZbpLkY8To", title: "Small Group Bible Study — Leading Well", channel: "Ligonier Ministries", description: "Practical guidance for leading Bible-centered small groups that go deeper than surface sharing." },
-  { videoId: "fJnGJN6laqE", title: "Community That Actually Works", channel: "Desiring God", description: "Why most small groups fail and what it takes to build the kind of community the New Testament describes." },
-  { videoId: "Z8lkuuhVkOI", title: "Facilitating Discussion in Small Groups", channel: "The Gospel Coalition", description: "Proven techniques for asking questions that open up Scripture, draw out quieter members, and keep the group focused." },
+  { videoId: "rtkS_8VWfB0", title: "How to Lead a Small Group", channel: "Gospel in Life", description: "Keller's team shares principles for small group leadership drawn from decades of citywide small group ministry." },
+  { videoId: "ej_6dVdJSIU", title: "Small Group Bible Study — Leading Well", channel: "Ligonier Ministries", description: "Practical guidance for leading Bible-centered small groups that go deeper than surface sharing." },
+  { videoId: "4Eg_di-O8nM", title: "Community That Actually Works", channel: "Desiring God", description: "Why most small groups fail and what it takes to build the kind of community the New Testament describes." },
+  { videoId: "gV9JugO_5Mk", title: "Facilitating Discussion in Small Groups", channel: "The Gospel Coalition", description: "Proven techniques for asking questions that open up Scripture, draw out quieter members, and keep the group focused." },
 ];
 
 const theologyPoints = [
@@ -238,11 +240,26 @@ export default function SmallGroupLeaderPage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  type JournalEntry = { id: string; date: string; session: string; challenge: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_sglj_entries") ?? "[]"); } catch { return []; } });
+  const [jSession, setJSession] = useState("");
+  const [jChallenge, setJChallenge] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_sglj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jSession.trim() && !jChallenge.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), session: jSession, challenge: jChallenge, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJSession(""); setJChallenge(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Community" },
     { id: "leading", label: "Leading Skills" },
     { id: "problems", label: "Common Problems" },
     { id: "resources", label: "Resources" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" }
   ];
 
@@ -415,12 +432,43 @@ export default function SmallGroupLeaderPage() {
         )}
 
         {/* Videos */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Small Group Leader Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record sessions, challenges you are navigating, and steps for growing as a leader.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jSession} onChange={e => setJSession(e.target.value)} placeholder="Session or topic covered" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jChallenge} onChange={e => setJChallenge(e.target.value)} placeholder="Challenge or win from this session?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Growth step for you as a leader" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Start recording your small group leadership journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.session || "Session Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.challenge && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Challenge/Win:</strong> {entry.challenge}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Growth Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SGL_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

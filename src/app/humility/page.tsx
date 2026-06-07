@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "teachers" | "pride" | "practices" | "videos";
+type Tab = "theology" | "teachers" | "pride" | "practices" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -22,7 +24,7 @@ const THEOLOGY_ITEMS = [
     body: "Humility is not low self-esteem or self-deprecation — it is accurate self-knowledge. Paul's definition in Romans 12:3: 'Do not think of yourself more highly than you ought, but rather think of yourself with sober judgment, in accordance with the faith God has distributed to each of you.' The humble person sees themselves clearly: their genuine gifts and their genuine limits, their real strengths and their real dependence. False modesty that refuses to acknowledge gifts God has given is not humility — it is a different form of self-centeredness. True humility frees you to receive praise without becoming inflated by it and to receive criticism without being destroyed by it.",
   },
   {
-    id: "incarnation",
+    id: "E65KV3M8RZE",
     title: "Humility as the Shape of the Incarnation",
     body: "The NT's most profound statement of humility is not a command but a story. Philippians 2:5-8: 'In your relationships with one another, have the same mindset as Christ Jesus: Who, being in very nature God, did not consider equality with God something to be used to his own advantage; rather, he made himself nothing by taking the very nature of a servant, being made in human likeness. And being found in appearance as a man, he humbled himself by becoming obedient to death — even death on a cross!' Humility is not a personality disposition — it is the movement of the eternal Son downward, into flesh, into weakness, into death. The incarnation is the definitive example of what humility looks like when it is full and free.",
   },
@@ -159,6 +161,7 @@ const TABS = [
     { id: "teachers" as Tab, label: "Teachers on Humility", icon: "🎓" },
     { id: "pride" as Tab, label: "Pride's Disguises", icon: "🎭" },
     { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+    { id: "journal" as Tab, label: "My Journal", icon: "📓" },
     { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
@@ -172,6 +175,19 @@ export default function HumilityPage() {
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;
   const teacherItem = TEACHER_ITEMS.find(t => t.id === selectedTeacher)!;
 
+  const [humEntries, setHumEntries] = useState<{ id: string; date: string; pride: string; moment: string; response: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_humility_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [humForm, setHumForm] = useState({ pride: "", moment: "", response: "" });
+  const [humSaved, setHumSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_humility_entries", JSON.stringify(humEntries)); }, [humEntries]);
+  function saveHumEntry() {
+    if (!humForm.moment.trim()) return;
+    setHumEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...humForm }, ...prev]);
+    setHumForm({ pride: "", moment: "", response: "" });
+    setHumSaved(true); setTimeout(() => setHumSaved(false), 2000);
+  }
+  function deleteHumEntry(id: string) { setHumEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -310,6 +326,55 @@ export default function HumilityPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Andrew Murray: "Humility is not thinking less of yourself — it is thinking of yourself less." Track where pride surfaced, where humility appeared, and how you responded.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Humility Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where pride appeared today (name it honestly)</label>
+                <textarea value={humForm.pride} onChange={e => setHumForm(f => ({ ...f, pride: e.target.value }))} rows={2}
+                  placeholder="A resentment, a need for recognition, a comparison, a defensive reaction..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A moment of genuine humility</label>
+                <textarea value={humForm.moment} onChange={e => setHumForm(f => ({ ...f, moment: e.target.value }))} rows={2}
+                  placeholder="Where did you defer, serve, listen, or put another first today?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I want to respond / grow</label>
+                <textarea value={humForm.response} onChange={e => setHumForm(f => ({ ...f, response: e.target.value }))} rows={2}
+                  placeholder="One concrete next step toward greater humility..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHumEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {humSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {humEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Humility Journal ({humEntries.length})</h3>
+                {humEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteHumEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.pride && <p style={{ color: "#EF4444", fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}><span style={{ fontWeight: 600 }}>Pride: </span>{e.pride}</p>}
+                    {e.moment && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Humility: </span>{e.moment}</p>}
+                    {e.response && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.response}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -319,19 +384,13 @@ export default function HumilityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul examines the relationship between divine sovereignty and human freedom — foundational for understanding humility before a sovereign God." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how Jesus's kingdom reverses the world's pride-driven hierarchies, calling his followers to the posture of the humble." },
-                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper shows how genuine humility flows not from self-contempt but from being captured by the greatness and joy of God." },
-                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan strips away religious performance and pride to return to the simple, humble posture the gospel demands." },
+                  { videoId: "f7RJATbobik", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul examines the relationship between divine sovereignty and human freedom — foundational for understanding humility before a sovereign God." },
+                  { videoId: "zUKzVFQn4Tc", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how Jesus's kingdom reverses the world's pride-driven hierarchies, calling his followers to the posture of the humble." },
+                  { videoId: "GGCF3OPWN14", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper shows how genuine humility flows not from self-contempt but from being captured by the greatness and joy of God." },
+                  { videoId: "t6L-F2emwUc", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan strips away religious performance and pride to return to the simple, humble posture the gospel demands." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

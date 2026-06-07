@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { BookOpen, Plus, X, Star, Search, Edit2, Trash2 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
@@ -798,20 +800,14 @@ export default function ReadingListPage() {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
                 {[
-                  { id: "uc9NRtCgNDA", title: "Christian Books and Bible Commentaries", teacher: "Tim Keller" },
-                  { id: "9nY2mCJzBmk", title: "Tim Keller's Recommended Reading", teacher: "Tim Keller" },
-                  { id: "Cct9oRGBK3g", title: "My 7 Most-Recommended Books on Theology", teacher: "Theology Reading" },
-                  { id: "FYBA9M_wWGA", title: "Theology Reading List", teacher: "Christian Education" },
+                  { id: "f7RJATbobik", title: "Christian Books and Bible Commentaries", teacher: "Tim Keller" },
+                  { id: "zUKzVFQn4Tc", title: "Tim Keller's Recommended Reading", teacher: "Tim Keller" },
+                  { id: "GGCF3OPWN14", title: "My 7 Most-Recommended Books on Theology", teacher: "Theology Reading" },
+                  { id: "t6L-F2emwUc", title: "Theology Reading List", teacher: "Christian Education" },
                 ].map(v => (
                   <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                     <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                      <iframe
-                        src={`https://www.youtube.com/embed/${v.id}`}
-                        title={v.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                      />
+                      <VideoEmbed videoId={v.id} title={v.title} />
                     </div>
                     <div style={{ padding: "14px 16px" }}>
                       <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

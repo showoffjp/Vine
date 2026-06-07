@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 interface PrayerEntry {
   id: string;
   date: string;
@@ -122,27 +124,50 @@ export default function PrayerJournalPage() {
   const [verseRef, setVerseRef] = useState("");
   const [tags, setTags] = useState("");
   const [saved, setSaved] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const saveEntries = (list: PrayerEntry[]) => {
     try { localStorage.setItem("vine_prayer_journal_entries", JSON.stringify(list)); } catch {}
     setEntries(list);
   };
 
+  const startEdit = (entry: PrayerEntry) => {
+    setEditingId(entry.id);
+    setTitle(entry.title);
+    setBody(entry.body);
+    setCategory(entry.category);
+    setMood(entry.mood);
+    setVerse(entry.verse || "");
+    setVerseRef(entry.verseRef || "");
+    setTags(entry.tags.join(", "));
+    setSelected(null);
+    setTab("write");
+  };
+
   const addEntry = () => {
     if (!title.trim() || !body.trim()) return;
-    const entry: PrayerEntry = {
-      id: Date.now().toString(),
-      date: new Date().toISOString().split("T")[0],
-      title: title.trim(),
-      body: body.trim(),
-      category,
-      mood,
-      verse: verse.trim() || undefined,
-      verseRef: verseRef.trim() || undefined,
-      answered: false,
-      tags: tags.split(",").map(t => t.trim()).filter(Boolean),
-    };
-    saveEntries([entry, ...entries]);
+    if (editingId) {
+      saveEntries(entries.map(e => e.id === editingId ? {
+        ...e, title: title.trim(), body: body.trim(), category, mood,
+        verse: verse.trim() || undefined, verseRef: verseRef.trim() || undefined,
+        tags: tags.split(",").map(t => t.trim()).filter(Boolean),
+      } : e));
+      setEditingId(null);
+    } else {
+      const entry: PrayerEntry = {
+        id: Date.now().toString(),
+        date: new Date().toISOString().split("T")[0],
+        title: title.trim(),
+        body: body.trim(),
+        category,
+        mood,
+        verse: verse.trim() || undefined,
+        verseRef: verseRef.trim() || undefined,
+        answered: false,
+        tags: tags.split(",").map(t => t.trim()).filter(Boolean),
+      };
+      saveEntries([entry, ...entries]);
+    }
     setTitle(""); setBody(""); setVerse(""); setVerseRef(""); setTags(""); setSaved(true);
     setTimeout(() => { setSaved(false); setTab("journal"); }, 1500);
   };
@@ -206,7 +231,7 @@ export default function PrayerJournalPage() {
         {tab === "write" && (
           <div style={{ maxWidth: 680, margin: "0 auto" }}>
             <div style={{ background: "#12121F", borderRadius: 20, padding: 28, border: "1px solid #1E1E32" }}>
-              <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 20, color: "#3a7d56" }}>Write a Prayer</h2>
+              <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 20, color: "#3a7d56" }}>{editingId ? "Edit Prayer" : "Write a Prayer"}</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Title</label>
@@ -253,7 +278,7 @@ export default function PrayerJournalPage() {
                 </div>
                 <button type="button" onClick={addEntry} disabled={!title.trim() || !body.trim()}
                   style={{ padding: "14px", borderRadius: 12, border: "none", background: title.trim() && body.trim() ? "linear-gradient(135deg, #3a7d56, #00CC6A)" : "#1E1E32", color: title.trim() && body.trim() ? "#07070F" : "#4A4A68", cursor: title.trim() && body.trim() ? "pointer" : "not-allowed", fontWeight: 800, fontSize: 15 }}>
-                  {saved ? "✓ Prayer Saved!" : "Save Prayer"}
+                  {saved ? "✓ Saved!" : editingId ? "Update Prayer" : "Save Prayer"}
                 </button>
               </div>
             </div>
@@ -332,19 +357,13 @@ export default function PrayerJournalPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "pJG8EWLEjQo", title: "Consistent Spiritual Discipline Is Not Legalism", channel: "Desiring God", description: "John Piper explains how disciplined prayer and journaling is an expression of grace-driven desire for God, not legalistic rule-keeping." },
-                  { videoId: "JxX6s9-DzCU", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God", description: "John Piper teaches on prayer as a longing for God, with practical guidance for developing a consistent, journal-anchored prayer life." },
-                  { videoId: "3VxyGP7z2rk", title: "If God is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses one of the most common obstacles to consistent prayer, showing why God's sovereignty is the foundation of prayer, not an obstacle to it." },
-                  { videoId: "WLUWBPY_s9s", title: "What Is the Place of Faith in My Unanswered Prayers?", channel: "Desiring God", description: "A pastoral exploration of how to keep a prayer journal when God seems silent, and how recording prayers reveals God's faithfulness over time." },
+                  { videoId: "OpfuKKH_SCE", title: "Consistent Spiritual Discipline Is Not Legalism", channel: "Desiring God", description: "John Piper explains how disciplined prayer and journaling is an expression of grace-driven desire for God, not legalistic rule-keeping." },
+                  { videoId: "ERR0Zq7TBgU", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God", description: "John Piper teaches on prayer as a longing for God, with practical guidance for developing a consistent, journal-anchored prayer life." },
+                  { videoId: "dy9nwe9zeU8", title: "If God is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses one of the most common obstacles to consistent prayer, showing why God's sovereignty is the foundation of prayer, not an obstacle to it." },
+                  { videoId: "OqwbFGoRYVo", title: "What Is the Place of Faith in My Unanswered Prayers?", channel: "Desiring God", description: "A pastoral exploration of how to keep a prayer journal when God seems silent, and how recording prayers reveals God's faithfulness over time." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
@@ -434,6 +453,10 @@ export default function PrayerJournalPage() {
                   Mark as Answered 🎉
                 </button>
               )}
+              <button type="button" onClick={() => startEdit(selected)}
+                style={{ padding: "12px 16px", borderRadius: 12, border: "1px solid rgba(107,79,187,0.3)", background: "rgba(107,79,187,0.08)", color: "#A080FF", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                ✎ Edit
+              </button>
               <button type="button" onClick={() => deleteEntry(selected.id)}
                 style={{ padding: "12px 16px", borderRadius: 12, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.05)", color: "#EF4444", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 Delete

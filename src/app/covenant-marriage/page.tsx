@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -62,7 +64,7 @@ const PORTRAITS = [
     lesson: "Isaac and Rebekah are a study in a marriage that began beautifully and was damaged by unaddressed division. Their story does not have a simple lesson about communication or conflict resolution — it is a warning about the slow drift that comes when spouses develop separate loyalties and agendas within the same household. The favoritism of each parent divided the children and eventually the family. Marriage requires sustained shared orientation, not just shared address.",
   },
   {
-    id: "mary-joseph",
+    id: "G-2e9mMf7E8",
     name: "Mary & Joseph",
     ref: "Matthew 1:18-25; Luke 1-2",
     color: "#3B82F6",
@@ -81,12 +83,26 @@ const PRACTICES = [
   { title: "Get Counseling Prophylactically", desc: "Counseling is not only for crisis — it is for maintenance and growth. Annual or semi-annual sessions with a skilled marriage counselor can address minor issues before they calcify and keep the marriage growing rather than merely surviving.", icon: "🧭" },
 ];
 
-type Tab = "theology" | "seasons" | "portraits" | "practices" | "videos";
+type Tab = "theology" | "seasons" | "portraits" | "practices" | "journal" | "videos";
 
 export default function CovenantMarriagePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_covenant-marriage_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedPortrait, setSelectedPortrait] = usePersistedState("vine_covenant-marriage_selected_portrait", "priscilla");
+
+  const [cmEntries, setCmEntries] = useState<{ id: string; date: string; season: string; scripture: string; commitment: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmar_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmForm, setCmForm] = useState({ season: "", scripture: "", commitment: "" });
+  const [cmSaved, setCmSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmar_entries", JSON.stringify(cmEntries)); }, [cmEntries]);
+  function saveCmEntry() {
+    if (!cmForm.season.trim()) return;
+    setCmEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmForm }, ...prev]);
+    setCmForm({ season: "", scripture: "", commitment: "" });
+    setCmSaved(true); setTimeout(() => setCmSaved(false), 2000);
+  }
+  function deleteCmEntry(id: string) { setCmEntries(prev => prev.filter(e => e.id !== id)); }
 
   const portrait = PORTRAITS.find(p => p.id === selectedPortrait)!;
 
@@ -109,6 +125,7 @@ export default function CovenantMarriagePage() {
             { id: "seasons" as const, label: "Hard Seasons", icon: "⛈️" },
             { id: "portraits" as const, label: "Scripture Portraits", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -210,6 +227,54 @@ export default function CovenantMarriagePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Marriage Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on the season your marriage is in, scripture that speaks to it, and a commitment you are making. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>SEASON WE ARE IN *</label>
+                <textarea value={cmForm.season} onChange={e => setCmForm(f => ({ ...f, season: e.target.value }))}
+                  placeholder="What season is your marriage in right now? What is it like?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>SCRIPTURE SPEAKING TO US</label>
+                <textarea value={cmForm.scripture} onChange={e => setCmForm(f => ({ ...f, scripture: e.target.value }))}
+                  placeholder="What verse or passage is meaningful to your marriage right now?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>COMMITMENT I AM MAKING</label>
+                <textarea value={cmForm.commitment} onChange={e => setCmForm(f => ({ ...f, commitment: e.target.value }))}
+                  placeholder="What specific commitment are you making to your marriage covenant this week?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmEntry}
+                style={{ background: cmSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cmEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({cmEntries.length})</h3>
+                {cmEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteCmEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.season && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>SEASON: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.season}</span></div>}
+                    {entry.scripture && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>SCRIPTURE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.scripture}</span></div>}
+                    {entry.commitment && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>COMMITMENT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.commitment}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -219,19 +284,13 @@ export default function CovenantMarriagePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "ZACkRe_W4Gg", title: "Marriage for the Glory of God", channel: "Paul Washer, John Piper & Voddie Baucham", description: "Three of the most respected Reformed preachers discuss what Scripture teaches about marriage — that the most foundational thing is that marriage is God's doing, for his glory." },
-                  { videoId: "OBxtkcoubn4", title: "Marriage: God's Showcase of Covenant Keeping Grace", channel: "John Piper / Desiring God", description: "John Piper shows how Christian marriage is designed to display the covenant-keeping grace of God — a living parable of Christ's love for his church." },
-                  { videoId: "MXDxeO8udWk", title: "The Profound Mystery of Marriage", channel: "John Piper / Desiring God", description: "Piper unpacks Ephesians 5 to show that marriage is a profound mystery pointing to Christ and the church — the ultimate purpose behind the institution." },
-                  { videoId: "MTn2-KEph5o", title: "This Momentary Marriage", channel: "John Piper / Desiring God", description: "John Piper presents his book on marriage, reflecting on biblical covenant commitment and how Christian marriage carries eternal significance." },
+                  { videoId: "5nvVVcYD-0w", title: "Marriage for the Glory of God", channel: "Paul Washer, John Piper & Voddie Baucham", description: "Three of the most respected Reformed preachers discuss what Scripture teaches about marriage — that the most foundational thing is that marriage is God's doing, for his glory." },
+                  { videoId: "f7RJATbobik", title: "Marriage: God's Showcase of Covenant Keeping Grace", channel: "John Piper / Desiring God", description: "John Piper shows how Christian marriage is designed to display the covenant-keeping grace of God — a living parable of Christ's love for his church." },
+                  { videoId: "zUKzVFQn4Tc", title: "The Profound Mystery of Marriage", channel: "John Piper / Desiring God", description: "Piper unpacks Ephesians 5 to show that marriage is a profound mystery pointing to Christ and the church — the ultimate purpose behind the institution." },
+                  { videoId: "OqwbFGoRYVo", title: "This Momentary Marriage", channel: "John Piper / Desiring God", description: "John Piper presents his book on marriage, reflecting on biblical covenant commitment and how Christian marriage carries eternal significance." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

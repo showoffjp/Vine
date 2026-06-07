@@ -7,22 +7,22 @@ import Footer from "@/components/Footer";
 import {
   Briefcase,
   Users,
-  Star,
   Target,
   TrendingUp,
   Shield,
   ChevronRight,
   Lightbulb,
-  Award,
   Compass,
   Bookmark,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "principles" | "leaders" | "ethics" | "voices" | "videos";
+type Tab = "principles" | "leaders" | "ethics" | "voices" | "videos" | "journal";
 
 const principles = [
   {
@@ -308,7 +308,20 @@ export default function WorkLeadershipPage() {
   };
 
   const voice = VOICES_WORK.find(v => v.id === selectedVoice)!;
-  const leader = WORK_LEADERS.find(l => l.id === selectedLeader);
+
+  type WLJournalEntry = { id: string; date: string; principle: string; challenge: string; step: string };
+  const [wlJournal, setWlJournal] = useState<WLJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_wlj_entries") ?? "[]"); } catch { return []; } });
+  const [jPrinciple, setJPrinciple] = useState("");
+  const [jChallenge, setJChallenge] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_wlj_entries", JSON.stringify(wlJournal)); } catch {} }, [wlJournal]);
+  function saveWLEntry() {
+    if (!jPrinciple.trim() && !jChallenge.trim()) return;
+    const entry: WLJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), principle: jPrinciple, challenge: jChallenge, step: jStep };
+    setWlJournal(prev => [entry, ...prev]);
+    setJPrinciple(""); setJChallenge(""); setJStep("");
+  }
+  function deleteWLEntry(id: string) { setWlJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -348,10 +361,10 @@ export default function WorkLeadershipPage() {
         {/* Tab Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-            {(["principles", "leaders", "ethics", "voices", "videos"] as const).map(t => (
+            {(["principles", "leaders", "ethics", "voices", "videos", "journal"] as const).map(t => (
               <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "principles" ? "Principles" : t === "leaders" ? "Leaders" : t === "ethics" ? "Ethics" : t === "voices" ? "Voices" : "Videos"}
+                {t === "principles" ? "Principles" : t === "leaders" ? "Leaders" : t === "ethics" ? "Ethics" : t === "voices" ? "Voices" : t === "videos" ? "Videos" : "📓 Journal"}
               </button>
             ))}
           </div>
@@ -408,17 +421,18 @@ export default function WorkLeadershipPage() {
                 {frameworks.map((f) => {
                   const Icon = f.icon;
                   return (
-                    <div
+                    <Link
                       key={f.title}
+                      href="/resources"
                       className="group rounded-xl p-5 cursor-pointer transition-all"
-                      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                      style={{ display: "flex", flexDirection: "column", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = `${f.color}40`;
-                        e.currentTarget.style.background = `${f.color}06`;
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor = `${f.color}40`;
+                        (e.currentTarget as HTMLAnchorElement).style.background = `${f.color}06`;
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                        e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
+                        (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.02)";
                       }}
                     >
                       <div
@@ -437,7 +451,7 @@ export default function WorkLeadershipPage() {
                         {f.title}
                       </h3>
                       <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{f.description}</p>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -658,6 +672,45 @@ export default function WorkLeadershipPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Work & Leadership Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Capture principles you want to carry, leadership challenges you face, and your next steps.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Principle</label>
+                  <textarea value={jPrinciple} onChange={e => setJPrinciple(e.target.value)} placeholder="A leadership or work principle worth remembering..." rows={3} style={{ width: "100%", background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Challenge</label>
+                  <textarea value={jChallenge} onChange={e => setJChallenge(e.target.value)} placeholder="What leadership or work challenge are you navigating?" rows={3} style={{ width: "100%", background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One thing you will do differently this week..." rows={2} style={{ width: "100%", background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveWLEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {wlJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {wlJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteWLEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.principle && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Principle</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.principle}</p></div>}
+                    {entry.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Challenge</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.challenge}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -667,20 +720,14 @@ export default function WorkLeadershipPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "4KjjPr-6Wl4", title: "The Qualities of a Leader", channel: "Billy Graham Evangelistic Association", description: "Billy Graham's classic sermon on the qualities God looks for in a leader — character, humility, integrity, and servant-heartedness rooted in biblical truth." },
-                  { videoId: "tz464hHSCHc", title: "Servant Leadership | Christian Ethics", channel: "The Theology Academy", description: "A theological exploration of servant leadership from a Christian ethics perspective — showing why Jesus's model of leadership is both radical and essential." },
-                  { videoId: "OgjR2N9OQ58", title: "Lessons on Leadership from the Bible | The Heart of a King", channel: "Church Teaching", description: "Character, not accomplishment, is the most important quality of a leader — this sermon unpacks what biblical kingship reveals about godly leadership in any context." },
-                  { videoId: "rAC5ILbsDOc", title: "John C. Maxwell — Leadership Principles from the Bible", channel: "John C. Maxwell", description: "Maxwell draws leadership principles directly from Scripture — showing how biblical wisdom has shaped great leaders across history and cultures." },
-                  { videoId: "R1Z6sxuQqP4", title: "Qualities of a Christian Leader: Lessons from 2 Corinthians 1", channel: "Church Teaching", description: "An insightful sermon on the key characteristics of a Christian leader drawn from Paul's second letter to the Corinthians." },
+                  { videoId: "jH_aojNJM3E", title: "The Qualities of a Leader", channel: "Billy Graham Evangelistic Association", description: "Billy Graham's classic sermon on the qualities God looks for in a leader — character, humility, integrity, and servant-heartedness rooted in biblical truth." },
+                  { videoId: "kfcVPh2VDhQ", title: "Servant Leadership | Christian Ethics", channel: "The Theology Academy", description: "A theological exploration of servant leadership from a Christian ethics perspective — showing why Jesus's model of leadership is both radical and essential." },
+                  { videoId: "57LVVwba6_8", title: "Lessons on Leadership from the Bible | The Heart of a King", channel: "Church Teaching", description: "Character, not accomplishment, is the most important quality of a leader — this sermon unpacks what biblical kingship reveals about godly leadership in any context." },
+                  { videoId: "HGHqu9-DtXk", title: "John C. Maxwell — Leadership Principles from the Bible", channel: "John C. Maxwell", description: "Maxwell draws leadership principles directly from Scripture — showing how biblical wisdom has shaped great leaders across history and cultures." },
+                  { videoId: "E65KV3M8RZE", title: "Qualities of a Christian Leader: Lessons from 2 Corinthians 1", channel: "Church Teaching", description: "An insightful sermon on the key characteristics of a Christian leader drawn from Paul's second letter to the Corinthians." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

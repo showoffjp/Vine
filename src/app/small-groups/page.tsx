@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -210,17 +212,17 @@ const VOICES_SG = [
 ];
 
 const SG_VIDEOS = [
-  { id: "sg-v1", title: "The Supremacy of Christ", preacher: "Voddie Baucham", videoId: "by8ykv7-A3c", description: "Baucham on what Christ-centered community looks like when his supremacy is taken seriously in every aspect of group life." },
-  { id: "sg-v2", title: "Forgotten God: The Holy Spirit", preacher: "Francis Chan", videoId: "sWMjg7CxIKk", description: "Chan challenges small groups to stop doing church without the Holy Spirit — what it looks like when he is actually present and active." },
-  { id: "sg-v3", title: "Holding Fast to the Gospel", preacher: "Matt Chandler", videoId: "QuxmiIFN8yE", description: "What small groups must center on to avoid drifting into merely social gatherings — the gospel as the irreducible center of Christian community." },
-  { id: "sg-v4", title: "The Prodigal God: Elder Brother", preacher: "Tim Keller", videoId: "OasF7lWlX_M", description: "Keller unpacks the self-righteous community member — the most common small group dynamic — and how the gospel addresses it." },
-  { id: "sg-v5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "X1rPalyUshw", description: "Giglio's cosmic vision of God gives small groups a sense of proportion and wonder — the worship foundation that precedes everything else." },
-  { id: "sg-v6", title: "Radical: Passion 2011", preacher: "David Platt", videoId: "yhiHSf_L6_E", description: "Platt challenges small groups to be communities on mission, not communities of comfort — what the Great Commission demands of your group." },
+  { id: "sg-v1", title: "The Supremacy of Christ", preacher: "Voddie Baucham", videoId: "mC-zw0zCCtg", description: "Baucham on what Christ-centered community looks like when his supremacy is taken seriously in every aspect of group life." },
+  { id: "sg-v2", title: "Forgotten God: The Holy Spirit", preacher: "Francis Chan", videoId: "ej_6dVdJSIU", description: "Chan challenges small groups to stop doing church without the Holy Spirit — what it looks like when he is actually present and active." },
+  { id: "sg-v3", title: "Holding Fast to the Gospel", preacher: "Matt Chandler", videoId: "GQI72THyO5I", description: "What small groups must center on to avoid drifting into merely social gatherings — the gospel as the irreducible center of Christian community." },
+  { id: "sg-v4", title: "The Prodigal God: Elder Brother", preacher: "Tim Keller", videoId: "krxcqH522uo", description: "Keller unpacks the self-righteous community member — the most common small group dynamic — and how the gospel addresses it." },
+  { id: "sg-v5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "nQWFzMvCfLE", description: "Giglio's cosmic vision of God gives small groups a sense of proportion and wonder — the worship foundation that precedes everything else." },
+  { id: "sg-v6", title: "Radical: Passion 2011", preacher: "David Platt", videoId: "ccNvwDPguNU", description: "Platt challenges small groups to be communities on mission, not communities of comfort — what the Great Commission demands of your group." },
 ];
 
 const depthColors = { "Light": "#10B981", "Medium": "#F59E0B", "Deep": "#EF4444" };
 
-type SGTab = "guides" | "icebreakers" | "leading" | "voices" | "videos";
+type SGTab = "guides" | "icebreakers" | "leading" | "voices" | "journal" | "videos";
 
 export default function SmallGroupsPage() {
   const [activeTab, setActiveTab] = usePersistedState<SGTab>("vine_small-groups_tab", "guides");
@@ -239,10 +241,24 @@ export default function SmallGroupsPage() {
   useEffect(() => { try { localStorage.setItem("vine_sg_used_icebreakers", JSON.stringify([...usedIceBreakers])); } catch {} }, [usedIceBreakers]);
   useEffect(() => { try { localStorage.setItem("vine_sg_saved_guides", JSON.stringify([...savedGuides])); } catch {} }, [savedGuides]);
 
-  const toggleUsed = (i: number) => setUsedIceBreakers(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
-  const toggleSaved = (id: string) => setSavedGuides(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleUsed = (i: number) => setUsedIceBreakers(prev => { const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; });
+  const toggleSaved = (id: string) => setSavedGuides(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
 
   const filteredBreakers = iceBreakers.filter(q => depthFilter === "All" || q.depth === depthFilter);
+
+  type JournalEntry = { id: string; date: string; group: string; insight: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_sgj_entries") ?? "[]"); } catch { return []; } });
+  const [jGroup, setJGroup] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_sgj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jGroup.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), group: jGroup, insight: jInsight, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJGroup(""); setJInsight(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
   const unusedCount = iceBreakers.filter((_, i) => !usedIceBreakers.has(i)).length;
 
   return (
@@ -286,9 +302,10 @@ export default function SmallGroupsPage() {
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4, flexWrap: "wrap" }}>
           {[
             { id: "guides" as const, label: "Study Guides", icon: "📖" },
-            { id: "icebreakers" as const, label: "Ice Breakers", icon: "🎯" },
+            { id: "j9phNEaPrv8" as const, label: "Ice Breakers", icon: "🎯" },
             { id: "leading" as const, label: "Leading Well", icon: "🎓" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -320,7 +337,7 @@ export default function SmallGroupsPage() {
                         <p style={{ fontSize: 13, color: g.color, fontWeight: 700, margin: "0 0 10px" }}>{g.passage}</p>
                         <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{g.description}</p>
                       </div>
-                      <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                      <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                         <button type="button" onClick={() => toggleSaved(g.id)}
                           style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedGuides.has(g.id) ? PURPLE : BORDER}`, background: savedGuides.has(g.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedGuides.has(g.id) ? PURPLE : MUTED }}>
                           {savedGuides.has(g.id) ? "🔖" : "📌"}
@@ -338,7 +355,7 @@ export default function SmallGroupsPage() {
                       <h4 style={{ fontSize: 13, fontWeight: 800, color: g.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 16 }}>Week-by-Week Outlines</h4>
                       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {g.weekOutlines.map(w => (
-                          <div role="button" tabIndex={0} key={w.week} style={{ borderRadius: 12, border: `1px solid ${expandedWeek === w.week ? g.color + "40" : BORDER}`, overflow: "hidden" }}>
+                          <div key={w.week} style={{ borderRadius: 12, border: `1px solid ${expandedWeek === w.week ? g.color + "40" : BORDER}`, overflow: "hidden" }}>
                             <button type="button" onClick={() => setExpandedWeek(expandedWeek === w.week ? null : w.week)}
                               style={{ width: "100%", textAlign: "left", padding: "14px 18px", background: expandedWeek === w.week ? `${g.color}08` : "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 12 }}>
                               <span style={{ width: 28, height: 28, borderRadius: "50%", background: `${g.color}20`, color: g.color, fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{w.week}</span>
@@ -519,6 +536,38 @@ export default function SmallGroupsPage() {
         )}
 
         {/* VIDEOS */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Small Group Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record what God is doing in your small group community and your next steps.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jGroup} onChange={e => setJGroup(e.target.value)} placeholder="Study topic or group gathering" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What did God speak to you through this community?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step — in community or personal growth" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording what God is doing through your small group.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.group || "Group Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 28 }}>
@@ -530,9 +579,7 @@ export default function SmallGroupsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
               {SG_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
                       <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: PURPLE, border: "1px solid rgba(107,79,187,0.3)" }}>{v.preacher}</span>

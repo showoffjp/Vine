@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "what" | "teachers" | "practices" | "stages" | "videos";
+type Tab = "what" | "teachers" | "practices" | "stages" | "journal" | "videos";
 
 // ─── Tab 1 Data ───────────────────────────────────────────────────────────────
 
@@ -221,11 +223,29 @@ export default function SpiritualFormationPage() {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
   }
 
+  const [sfEntries, setSfEntries] = useState<{ id: string; date: string; practice: string; insight: string; fruit: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_sf_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [sfForm, setSfForm] = useState({ practice: "", insight: "", fruit: "" });
+  const [sfSaved, setSfSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_sf_entries", JSON.stringify(sfEntries)); } catch {} }, [sfEntries]);
+
+  const saveSfEntry = () => {
+    setSfEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...sfForm }, ...prev]);
+    setSfForm({ practice: "", insight: "", fruit: "" });
+    setSfSaved(true);
+    setTimeout(() => setSfSaved(false), 2000);
+  };
+
+  const deleteSfEntry = (id: string) => setSfEntries(prev => prev.filter(e => e.id !== id));
+
   const TABS: { id: Tab; label: string }[] = [
     { id: "what", label: "What Is Spiritual Formation?" },
     { id: "teachers", label: "Great Teachers" },
     { id: "practices", label: "Core Practices" },
     { id: "stages", label: "Stages of Formation" },
+    { id: "journal", label: "My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -553,6 +573,56 @@ export default function SpiritualFormationPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Formation happens in the particular. Record the practices you're working with, the insights they've produced, and the fruit you're noticing in your character.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 20 }}>Formation Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Practice I'm working with this season</label>
+                <input value={sfForm.practice} onChange={e => setSfForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="e.g. solitude, Scripture memorization, fasting, examen, sabbath..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Insight from this practice</label>
+                <textarea value={sfForm.insight} onChange={e => setSfForm(f => ({ ...f, insight: e.target.value }))} rows={3}
+                  placeholder="What God is showing me, a truth I'm seeing more clearly, something I've been confronted with..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Fruit I'm noticing</label>
+                <textarea value={sfForm.fruit} onChange={e => setSfForm(f => ({ ...f, fruit: e.target.value }))} rows={2}
+                  placeholder="A change in how I respond, a desire that's shifted, a relationship that's improving..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveSfEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {sfSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {sfEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Formation Record</h3>
+                {sfEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteSfEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 10 }}>{e.date}</div>
+                    {e.practice && <p style={{ color: PURPLE, fontSize: 13, fontWeight: 700, margin: "0 0 6px" }}>Practice: {e.practice}</p>}
+                    {e.insight && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 8px", lineHeight: 1.6 }}>{e.insight}</p>}
+                    {e.fruit && <p style={{ color: GREEN, fontSize: 13, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>Fruit: {e.fruit}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -562,20 +632,14 @@ export default function SpiritualFormationPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "JEM8S9i3Mbo", title: "Spiritual Formation and Disciplines", channel: "Dallas Willard", description: "Based on an intensive residential course Dallas Willard taught for Fuller Theological Seminary — a comprehensive introduction to spiritual formation and the disciplines." },
-                  { videoId: "vCm4yoKSjCM", title: "What Is Spiritual Formation and How Is It Done?", channel: "Dallas Willard", description: "Dallas Willard provides a thorough overview of spiritual formation: what it is, what it isn't, and the practical path of transformation into Christlikeness." },
-                  { videoId: "Bm-zWCvlgzg", title: "The Theology of Spiritual Formation in Christ", channel: "Dallas Willard", description: "A deep theological grounding of spiritual formation — why formation in Christ is not optional for disciples and how it connects to salvation and sanctification." },
-                  { videoId: "DCJ-qYsRbM0", title: "Spiritual Formation as a Natural Part of Salvation", channel: "Dallas Willard", description: "Willard argues that genuine salvation naturally produces the process of spiritual formation, and shows what this looks like in ordinary Christian life." },
-                  { videoId: "vi-FEzdyiIs", title: "Introducing Spiritual Formation", channel: "Dallas Willard", description: "Based on Willard's landmark book 'Renovation of the Heart' — an accessible introduction to the full-person transformation at the heart of discipleship." },
+                  { videoId: "YNd-PbVhnvA", title: "Spiritual Formation and Disciplines", channel: "Dallas Willard", description: "Based on an intensive residential course Dallas Willard taught for Fuller Theological Seminary — a comprehensive introduction to spiritual formation and the disciplines." },
+                  { videoId: "XtwIT8JjddM", title: "What Is Spiritual Formation and How Is It Done?", channel: "Dallas Willard", description: "Dallas Willard provides a thorough overview of spiritual formation: what it is, what it isn't, and the practical path of transformation into Christlikeness." },
+                  { videoId: "jH_aojNJM3E", title: "The Theology of Spiritual Formation in Christ", channel: "Dallas Willard", description: "A deep theological grounding of spiritual formation — why formation in Christ is not optional for disciples and how it connects to salvation and sanctification." },
+                  { videoId: "kfcVPh2VDhQ", title: "Spiritual Formation as a Natural Part of Salvation", channel: "Dallas Willard", description: "Willard argues that genuine salvation naturally produces the process of spiritual formation, and shows what this looks like in ordinary Christian life." },
+                  { videoId: "57LVVwba6_8", title: "Introducing Spiritual Formation", channel: "Dallas Willard", description: "Based on Willard's landmark book 'Renovation of the Heart' — an accessible introduction to the full-person transformation at the heart of discipleship." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

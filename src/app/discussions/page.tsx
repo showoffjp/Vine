@@ -17,15 +17,11 @@ import {
   Pin,
   Award,
   Users,
-  ChevronRight,
-  Plus,
   BookOpen,
   Heart,
   Baby,
   Briefcase,
   HelpCircle,
-  Headphones,
-  Shield,
   Star,
   AlertCircle,
 } from "lucide-react";
@@ -532,9 +528,9 @@ export default function DiscussionsPage() {
     try { localStorage.setItem("vine_disc_hubs", JSON.stringify([...joinedHubs])); } catch {}
   }, [joinedHubs]);
 
-  const toggleUpvote = (id: number) => setUpvotedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleSave = (id: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleHub = (i: number) => setJoinedHubs(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleUpvote = (id: number) => setUpvotedPosts(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleSave = (id: number) => setSavedPosts(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleHub = (i: number) => setJoinedHubs(prev => { const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; });
 
   const sortedPosts = [...posts].sort((a, b) => {
     if (activeSort === "Hot") return (b.votes + b.comments * 2) - (a.votes + a.comments * 2);
@@ -587,7 +583,7 @@ export default function DiscussionsPage() {
                 Your Hubs
               </h4>
               <div className="space-y-1">
-                {hubs.map((hub, i) => (
+                {hubs.map((hub) => (
                   <a
                     key={hub.name}
                     href={`/groups/${hub.groupId}`}

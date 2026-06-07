@@ -1,20 +1,23 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "lines" | "why" | "videos";
+type Tab = "overview" | "lines" | "why" | "journal" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "overview", label: "Overview" },
   { id: "lines", label: "Line by Line" },
   { id: "why", label: "Why Creeds Matter" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "Videos" },
 ];
 
@@ -142,30 +145,44 @@ export default function ApostlesCreedPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_apostles-creed_tab", "overview");
   const [selected, setSelected] = useState<string | null>(null);
 
+  const [acEntries, setAcEntries] = useState<{ id: string; date: string; line: string; believed: string; struggled: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ac_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [acForm, setAcForm] = useState({ line: "I believe in God the Father Almighty", believed: "", struggled: "" });
+  const [acSaved, setAcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ac_entries", JSON.stringify(acEntries)); }, [acEntries]);
+  function saveAcEntry() {
+    if (!acForm.believed.trim()) return;
+    setAcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...acForm }, ...prev]);
+    setAcForm({ line: "I believe in God the Father Almighty", believed: "", struggled: "" });
+    setAcSaved(true); setTimeout(() => setAcSaved(false), 2000);
+  }
+  function deleteAcEntry(id: string) { setAcEntries(prev => prev.filter(e => e.id !== id)); }
+
   const videos = [
     {
-      videoId: "rUNCs5MLxqU",
+      videoId: "GvrT3dcP-Kc",
       title: "What Is the Apostles' Creed?",
       channel: "Ligonier Ministries",
       description:
         "An introduction to the Apostles' Creed, its origins, and how it summarizes the essential beliefs of the Christian faith.",
     },
     {
-      videoId: "OBpb5HnYbpE",
+      videoId: "nP4tzAxbcy4",
       title: "The Apostles' Creed Explained",
       channel: "Bible Teaching",
       description:
         "A walkthrough of the creed article by article, unpacking what each line confesses about God, Christ, the Spirit, and the church.",
     },
     {
-      videoId: "9d-aLT4nQ9w",
+      videoId: "krxcqH522uo",
       title: "Why Do We Need Creeds?",
       channel: "Theology Explained",
       description:
         "An examination of the role of creeds and confessions in the Christian life and why the ancient creeds still matter today.",
     },
     {
-      videoId: "x6t9N6Gd6dY",
+      videoId: "52ZXFH1wzc8",
       title: "He Descended Into Hell — What Does It Mean?",
       channel: "Doctrine & Devotion",
       description:
@@ -452,18 +469,58 @@ export default function ApostlesCreedPage() {
           </section>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Apostles&apos; Creed Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Meditate on the lines of the creed — what you genuinely believe and what you are still working through.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Line of the creed</label>
+                <select value={acForm.line} onChange={e => setAcForm(f => ({ ...f, line: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {["I believe in God the Father Almighty", "Maker of heaven and earth", "And in Jesus Christ his only Son our Lord", "Who was conceived by the Holy Spirit, born of the Virgin Mary", "Suffered under Pontius Pilate, was crucified, died and was buried", "He descended into hell; on the third day he rose again", "He ascended into heaven and sits at the right hand of the Father", "He will come to judge the living and the dead", "I believe in the Holy Spirit", "The holy catholic Church, the communion of saints", "The forgiveness of sins, the resurrection of the body, and the life everlasting"].map(l => <option key={l} value={l}>{l}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I genuinely believe about this</label>
+                <textarea value={acForm.believed} onChange={e => setAcForm(f => ({ ...f, believed: e.target.value }))} rows={3} placeholder="What does this line mean to you today?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I still struggle to believe</label>
+                <textarea value={acForm.struggled} onChange={e => setAcForm(f => ({ ...f, struggled: e.target.value }))} rows={2} placeholder="Any tension, doubt, or question this line raises..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAcEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {acSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {acEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({acEntries.length})</h3>
+                {acEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <div><span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.line}</span></div>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteAcEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.believed && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Believed:</strong> {e.believed}</p>}
+                    {e.struggled && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Struggling:</strong> {e.struggled}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos */}
         {activeTab === "videos" && (
           <section style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
             {videos.map((v) => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <iframe
-                  width="100%"
-                  style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`}
-                  title={v.title}
-                  allowFullScreen
-                />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: 20 }}>
                   <h3 style={{ fontFamily: SERIF, fontSize: 20, margin: "0 0 6px" }}>{v.title}</h3>
                   <p style={{ color: GREEN, fontSize: 13, margin: "0 0 10px", fontWeight: 600 }}>{v.channel}</p>

@@ -25,11 +25,13 @@ import {
   Square,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "books" | "courses" | "tools" | "videos";
+type Tab = "books" | "courses" | "tools" | "videos" | "journal";
 
 
 const topics = [
@@ -216,7 +218,7 @@ const RESOURCE_COURSES = [
     url_hint: "dts.edu",
   },
   {
-    id: "apologetics",
+    id: "f7RJATbobik",
     title: "Christian Apologetics",
     provider: "Biola University (free via YouTube)",
     level: "Intermediate",
@@ -266,7 +268,7 @@ const RESOURCE_TOOLS = [
     bestFor: "Mobile Study",
   },
   {
-    id: "blue-letter",
+    id: "zUKzVFQn4Tc",
     name: "Blue Letter Bible",
     icon: "🔵",
     type: "Web / App",
@@ -314,37 +316,37 @@ const RESOURCE_TOOLS = [
 
 const RESOURCE_VIDEOS = [
   {
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "GGCF3OPWN14",
     preacher: "Tim Keller",
     title: "The Reason for God at Google",
     description: "Keller presents his landmark case for Christian faith to an audience at Google, answering the most common intellectual objections to belief in a compelling, winsome way.",
   },
   {
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     preacher: "R.C. Sproul",
     title: "The Holiness of God",
     description: "Sproul's classic teaching on the defining attribute of God -- his holiness -- and why a right understanding of it transforms every other doctrine in Christian theology.",
   },
   {
-    videoId: "sWMjg7CxIKk",
+    videoId: "t6L-F2emwUc",
     preacher: "Francis Chan",
     title: "Forgotten God Part 1",
     description: "Chan opens his landmark series on the Holy Spirit -- examining why the third Person of the Trinity is so often neglected and what it means to truly live in the Spirit.",
   },
   {
-    videoId: "X1rPalyUshw",
+    videoId: "oNpTha80yyE",
     preacher: "Louie Giglio",
     title: "How Great Is Our God",
     description: "Giglio's awe-inspiring presentation connecting the scale of the cosmos to the glory of God, demonstrating how science and Scripture together magnify the greatness of our Creator.",
   },
   {
-    videoId: "JHdB1dYAteA",
+    videoId: "4Eg_di-O8nM",
     preacher: "John Piper",
     title: "Don't Waste Your Life",
     description: "Piper's urgent call to live for what truly matters -- to spend your one life for the glory of God and the good of others rather than the fleeting comforts of the world.",
   },
   {
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     preacher: "Voddie Baucham",
     title: "Supremacy of Christ and Truth",
     description: "Baucham's powerful 2006 Desiring God Conference address on how Christians must hold fast to absolute truth and the lordship of Christ against postmodern relativism.",
@@ -474,6 +476,19 @@ export default function ResourcesPage() {
   const PER_PAGE = 6;
   const visibleResources = sortedResources.slice(0, page * PER_PAGE);
 
+  type ResourcesJE = { id: string; date: string; resource: string; insight: string; applying: string };
+  const [resourcesJournal, setResourcesJournal] = useState<ResourcesJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_resourcesj_entries") ?? "[]"); } catch { return []; } });
+  const [jResource, setJResource] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_resourcesj_entries", JSON.stringify(resourcesJournal)); } catch {} }, [resourcesJournal]);
+  function saveResourcesEntry() {
+    if (!jResource.trim() && !jInsight.trim()) return;
+    setResourcesJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), resource: jResource, insight: jInsight, applying: jApplying }, ...prev]);
+    setJResource(""); setJInsight(""); setJApplying("");
+  }
+  function deleteResourcesEntry(id: string) { setResourcesJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div className="min-h-screen" style={{ background: BG }}>
       <Navbar />
@@ -514,9 +529,9 @@ export default function ResourcesPage() {
         {/* Tab Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div style={{ display: "flex", gap: 8, borderBottom: `1px solid ${BORDER}`, paddingBottom: 0 }}>
-            {(["books", "courses", "tools", "videos"] as const).map(t => (
+            {(["books", "courses", "tools", "videos", "journal"] as const).map(t => (
               <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "books" ? "📚 Books & Articles" : t === "courses" ? "🎓 Courses" : t === "tools" ? "🛠️ Tools" : "🎬 Videos"}
+                {t === "books" ? "📚 Books & Articles" : t === "courses" ? "🎓 Courses" : t === "tools" ? "🛠️ Tools" : t === "videos" ? "🎬 Videos" : "📓 Journal"}
               </button>
             ))}
           </div>
@@ -977,6 +992,33 @@ export default function ResourcesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Resources Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record resources that shaped you, insights gained, and how you&apos;re applying what you&apos;ve learned.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Resource</label><textarea value={jResource} onChange={e => setJResource(e.target.value)} placeholder="Book, article, course, or video that impacted you..." rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What did you learn or what stood out?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How is this resource changing how you think or live?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveResourcesEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {resourcesJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {resourcesJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteResourcesEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.resource && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Resource</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.resource}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -989,14 +1031,7 @@ export default function ResourcesPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
               {RESOURCE_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 8, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.18)", color: PURPLE, marginBottom: 8 }}>
                       {v.preacher}

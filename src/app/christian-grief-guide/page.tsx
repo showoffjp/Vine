@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,13 +14,13 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "stages" | "scripture" | "community" | "videos";
+type Tab = "theology" | "stages" | "scripture" | "community" | "journal" | "videos";
 
 // ─── Tab 1: Theology of Grief ─────────────────────────────────────────────────
 
 const THEOLOGY_ITEMS = [
   {
-    id: "god-grieves",
+    id: "ccNvwDPguNU",
     title: "God Grieves",
     verses: "Genesis 6:6 · Jeremiah 8:21 · John 11:35",
     body: `The Bible does not present God as an impassive deity watching human suffering from a distance. "The Lord regretted that he had made human beings on the earth, and his heart was deeply troubled" (Genesis 6:6). Jeremiah relays God's lament: "Since my people are crushed, I am crushed; I mourn, and horror grips me" (Jeremiah 8:21). And then — the shortest verse in Scripture, and one of the most theologically dense: "Jesus wept" (John 11:35). At Lazarus's tomb, the Son of God does not immediately perform the miracle. He first weeps with those who are weeping. He is not merely performing grief for their benefit — he is genuinely moved. The Greek word used (embrimaomai) carries the weight of deep emotional disturbance and anger at death itself. God is not unmoved by loss. Your tears do not surprise him. They participate in his own grief over a broken world. This is the first and most foundational truth for grieving people: you are not grieving alone, and you are not grieving against God's will. You are grieving alongside the God who grieves.`,
@@ -184,7 +186,7 @@ const SCRIPTURE_FILTERS: { id: ScriptureCategory; label: string }[] = [
 
 const COMMUNITY_ITEMS = [
   {
-    id: "what-to-say",
+    id: "j9phNEaPrv8",
     title: "What to Say (and Not Say)",
     body: `The most common pastoral failure in grief support is not silence — it is filling the silence with words that wound. Here is a practical guide. DO NOT SAY: "Everything happens for a reason." (Even if you believe this, the grieving person needs to arrive at that conviction themselves — it cannot be handed to them as a conversation-closer.) "They're in a better place." (May be true, but it changes the subject from the griever's loss to the deceased's gain — and dismisses the grief.) "I know how you feel." (You don't — every grief is specific.) "At least..." (There is no good ending to this sentence in the acute phase of grief.) "God needed another angel." (This is not biblical theology and is often enraging to bereaved parents.) "Be strong." (No. The bereaved person needs permission to be weak.) "Let me know if you need anything." (They won't. Offer something specific.) DO SAY: "I'm so sorry." (Simple, true, and requires nothing from the grieving person.) "Tell me about her." (Open the door to memory, which is one of grief's greatest needs.) "I'm coming over Tuesday to bring dinner — does 6 work?" (Specific, practical, actionable.) "I don't know what to say, but I didn't want to say nothing." (Honesty is almost always the right move.) "I've been thinking about him a lot." (Knowing the person is remembered is profoundly comforting.) Silence with presence is often better than speech. Sit with someone. Don't fix. Don't explain. Just stay.`,
   },
@@ -225,11 +227,26 @@ export default function ChristianGriefGuidePage() {
   const toggle = (key: string) =>
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
 
+  const [cgrEntries, setCgrEntries] = useState<{ id: string; date: string; loss: string; anchor: string; hope: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cgr_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cgrForm, setCgrForm] = useState({ loss: "", anchor: "", hope: "" });
+  const [cgrSaved, setCgrSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cgr_entries", JSON.stringify(cgrEntries)); }, [cgrEntries]);
+  function saveCgrEntry() {
+    if (!cgrForm.loss.trim()) return;
+    setCgrEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cgrForm }, ...prev]);
+    setCgrForm({ loss: "", anchor: "", hope: "" });
+    setCgrSaved(true); setTimeout(() => setCgrSaved(false), 2000);
+  }
+  function deleteCgrEntry(id: string) { setCgrEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "A Theology of Grief" },
     { id: "stages", label: "Stages & Forms" },
     { id: "scripture", label: "Scripture for the Grieving" },
     { id: "community", label: "Grieving in Community" },
+    { id: "journal" as Tab, label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -461,6 +478,49 @@ export default function ChristianGriefGuidePage() {
         )}
 
         {/* ── Tab 5: Videos ── */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Grief Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>A place to name your losses, record what has anchored you, and hold the hope of resurrection.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Loss or Grief</label>
+                <input value={cgrForm.loss} onChange={e => setCgrForm(f => ({ ...f, loss: e.target.value }))} placeholder="Name what you are grieving or walking through..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Has Anchored You?</label>
+                <textarea value={cgrForm.anchor} onChange={e => setCgrForm(f => ({ ...f, anchor: e.target.value }))} placeholder="What Scripture, person, truth, or practice has sustained you in this grief?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>The Hope You Are Holding</label>
+                <textarea value={cgrForm.hope} onChange={e => setCgrForm(f => ({ ...f, hope: e.target.value }))} placeholder="What does God promise about this loss? What resurrection hope are you clinging to?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCgrEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cgrSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cgrEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cgrEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.loss}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCgrEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.anchor && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Anchor</div><div style={{ color: TEXT, fontSize: 13 }}>{e.anchor}</div></div>}
+                    {e.hope && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Hope</div><div style={{ color: TEXT, fontSize: 13 }}>{e.hope}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -470,19 +530,13 @@ export default function ChristianGriefGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "3DoW8ntjSbA", title: "Walking with God through Pain and Suffering", channel: "Timothy Keller", description: "A comprehensive talk on how Christians can walk faithfully with God through seasons of deep pain and loss." },
-                  { videoId: "F_Wkilqwjjo", title: "Two Grieving Sisters Encounter Jesus", channel: "Timothy Keller", description: "Tim Keller preaches on the story of Mary and Martha at the tomb of Lazarus — a profound meditation on grief and resurrection." },
-                  { videoId: "XCzd0qF3Mlg", title: "Questions of Suffering", channel: "Timothy Keller", description: "A sermon addressing the hardest theological questions that arise when we or those we love suffer deeply." },
-                  { videoId: "ulmaUtbayGY", title: "How to Deal with Dark Times", channel: "Timothy Keller", description: "Keller offers pastoral wisdom for navigating spiritual darkness, drawing on Psalm 88 and the tradition of lament." },
+                  { videoId: "dy9nwe9zeU8", title: "Walking with God through Pain and Suffering", channel: "Timothy Keller", description: "A comprehensive talk on how Christians can walk faithfully with God through seasons of deep pain and loss." },
+                  { videoId: "iK0NjiBXKN4", title: "Two Grieving Sisters Encounter Jesus", channel: "Timothy Keller", description: "Tim Keller preaches on the story of Mary and Martha at the tomb of Lazarus — a profound meditation on grief and resurrection." },
+                  { videoId: "zMbUXpFiFeo", title: "Questions of Suffering", channel: "Timothy Keller", description: "A sermon addressing the hardest theological questions that arise when we or those we love suffer deeply." },
+                  { videoId: "52ZXFH1wzc8", title: "How to Deal with Dark Times", channel: "Timothy Keller", description: "Keller offers pastoral wisdom for navigating spiritual darkness, drawing on Psalm 88 and the tradition of lament." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

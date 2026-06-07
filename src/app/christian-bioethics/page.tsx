@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "foundations" | "issues" | "endoflife" | "emerging" | "videos";
+type Tab = "foundations" | "issues" | "endoflife" | "emerging" | "journal" | "videos";
 
 const FOUNDATION_ITEMS = [
   {
@@ -109,7 +111,7 @@ const EMERGING_ITEMS = [
     christian_response: "The imago Dei is not reducible to cognitive capacity — if it were, people with severe cognitive disabilities would have lesser dignity. The soul (Greek: psyche; Hebrew: nephesh) in Scripture is not simply the mind but the whole person in relation to God. An AI system, however sophisticated, is not made in God's image, does not have a body that will be resurrected, and is not in covenantal relationship with God. Christian ethics should resist both the inflation of AI (treating it as having human-like status) and the deflation of humanity (treating humans as merely complex information processors).",
   },
   {
-    id: "enhancement",
+    id: "3Dv4-n6OYGI",
     title: "Human Enhancement Technologies",
     color: PURPLE,
     issue: "Technologies that enhance human capacities beyond natural limits — cognitive enhancers, genetic editing of future children (germline editing), implanted computing interfaces, life-extension interventions — raise questions about the proper limits of human self-modification.",
@@ -132,10 +134,11 @@ const EMERGING_ITEMS = [
 ];
 
 const TABS = [
-    { id: "foundations" as Tab, label: "Theological Foundations", icon: "📖" },
+    { id: "5nvVVcYD-0w" as Tab, label: "Theological Foundations", icon: "📖" },
     { id: "issues" as Tab, label: "Core Issues", icon: "⚖️" },
     { id: "endoflife" as Tab, label: "End of Life", icon: "🕊️" },
     { id: "emerging" as Tab, label: "Emerging Questions", icon: "🔬" },
+    { id: "journal" as Tab, label: "📓 My Journal", icon: "📓" },
     { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
@@ -147,6 +150,20 @@ export default function ChristianBioethicsPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const toggleExpand = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
+
+  const [cbeEntries, setCbeEntries] = useState<{ id: string; date: string; issue: string; scripture: string; position: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cbe_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cbeForm, setCbeForm] = useState({ issue: "", scripture: "", position: "" });
+  const [cbeSaved, setCbeSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cbe_entries", JSON.stringify(cbeEntries)); }, [cbeEntries]);
+  function saveCbeEntry() {
+    if (!cbeForm.issue.trim()) return;
+    setCbeEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cbeForm }, ...prev]);
+    setCbeForm({ issue: "", scripture: "", position: "" });
+    setCbeSaved(true); setTimeout(() => setCbeSaved(false), 2000);
+  }
+  function deleteCbeEntry(id: string) { setCbeEntries(prev => prev.filter(e => e.id !== id)); }
   const foundationItem = FOUNDATION_ITEMS.find(f => f.id === selectedFoundation)!;
   const issueItem = ISSUE_ITEMS.find(i => i.id === selectedIssue)!;
   const endOfLifeItem = ENDOFLIFE_ITEMS.find(e => e.id === selectedEndOfLife)!;
@@ -309,6 +326,49 @@ export default function ChristianBioethicsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Bioethics Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Work through hard bioethical questions in light of Scripture and Christian tradition.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Bioethical Issue or Question</label>
+                <input value={cbeForm.issue} onChange={e => setCbeForm(f => ({ ...f, issue: e.target.value }))} placeholder="e.g. End-of-life care, genetic testing, IVF..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Does Scripture Inform This?</label>
+                <textarea value={cbeForm.scripture} onChange={e => setCbeForm(f => ({ ...f, scripture: e.target.value }))} placeholder="Which biblical principles or passages speak to this question?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>My Current Position or Conviction</label>
+                <textarea value={cbeForm.position} onChange={e => setCbeForm(f => ({ ...f, position: e.target.value }))} placeholder="Where have you landed, and what tensions remain?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCbeEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cbeSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cbeEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cbeEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.issue}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCbeEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.scripture && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Scripture</div><div style={{ color: TEXT, fontSize: 13 }}>{e.scripture}</div></div>}
+                    {e.position && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>My Position</div><div style={{ color: TEXT, fontSize: 13 }}>{e.position}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -318,19 +378,13 @@ export default function ChristianBioethicsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "aliAlmiUyB0", title: "Bioethics: The Christian Response to Euthanasia and Gene Manipulation", channel: "Andy Moore & Calum Miller", description: "A scholarly Christian examination of euthanasia and genetic engineering — exploring the image of God, human dignity, and what faithfulness looks like at medicine's frontiers." },
-                  { videoId: "Fjoj-ydn7hA", title: "A Belief That Prevents Abortion", channel: "Desiring God / John Piper", description: "Piper argues that the single most powerful barrier to abortion is the conviction that every human being — from conception — bears the image of God." },
-                  { videoId: "vMY1sW3Swno", title: "A Biblical Perspective on Abortion and Euthanasia", channel: "Bible Teaching", description: "A careful biblical examination of the sanctity of human life from conception to natural death, applied to the contemporary challenges of abortion and euthanasia." },
-                  { videoId: "MZC9jCqGSS4", title: "Should Christians Support 'Death with Dignity'?", channel: "Biblical Worldview", description: "A biblical response to assisted suicide movements — arguing from the image of God and the sanctity of life that there is no such thing as undignified natural death." },
+                  { videoId: "bxzuh5Xx5G4", title: "Bioethics: The Christian Response to Euthanasia and Gene Manipulation", channel: "Andy Moore & Calum Miller", description: "A scholarly Christian examination of euthanasia and genetic engineering — exploring the image of God, human dignity, and what faithfulness looks like at medicine's frontiers." },
+                  { videoId: "KwX1f2gYKZ4", title: "A Belief That Prevents Abortion", channel: "Desiring God / John Piper", description: "Piper argues that the single most powerful barrier to abortion is the conviction that every human being — from conception — bears the image of God." },
+                  { videoId: "YNd-PbVhnvA", title: "A Biblical Perspective on Abortion and Euthanasia", channel: "Bible Teaching", description: "A careful biblical examination of the sanctity of human life from conception to natural death, applied to the contemporary challenges of abortion and euthanasia." },
+                  { videoId: "XtwIT8JjddM", title: "Should Christians Support 'Death with Dignity'?", channel: "Biblical Worldview", description: "A biblical response to assisted suicide movements — arguing from the image of God and the sanctity of life that there is no such thing as undignified natural death." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

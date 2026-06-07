@@ -81,7 +81,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
       avatar: fName[0].toUpperCase() + lName[0].toUpperCase(),
     };
     localStorage.setItem("vine_user", JSON.stringify(userData));
-    window.location.href = "/feed";
+    window.location.assign("/feed");
   };
 
   const handleSocialAuth = (provider: string) => {
@@ -95,7 +95,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
       avatar: "VB",
     };
     localStorage.setItem("vine_user", JSON.stringify(userData));
-    window.location.href = "/feed";
+    window.location.assign("/feed");
   };
 
   return (

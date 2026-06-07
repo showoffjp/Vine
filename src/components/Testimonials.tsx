@@ -86,10 +86,21 @@ export default function Testimonials() {
               lineHeight: 1.15,
             }}
           >
-            Christians around the world
+            Built for Christians
             <br />
-            <em style={{ fontStyle: "italic", color: "#e8c162" }}>are already home.</em>
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}>around the world.</em>
           </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.78rem",
+              color: "#7a7158",
+              marginTop: "0.9rem",
+              fontStyle: "italic",
+            }}
+          >
+            The voices below illustrate who The Vine is built to serve.
+          </p>
         </div>
 
         {/* Grid */}

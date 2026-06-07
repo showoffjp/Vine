@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -63,7 +65,7 @@ const PATHWAYS = [
     resources: ["Knowing Scripture (R.C. Sproul)", "Mere Christianity (C.S. Lewis)", "The Spirit of the Disciplines (Dallas Willard)"],
   },
   {
-    id: "multiplying",
+    id: "jH_aojNJM3E",
     name: "Multiplying",
     subtitle: "Discipling Others",
     icon: "✨",
@@ -144,15 +146,15 @@ const VOICES_DISC = [
 ];
 
 const DISC_VIDEOS = [
-  { videoId: "7SbckqNUDm0", title: "What Is Discipleship? — Dallas Willard", channel: "Dallas Willard Ministries", description: "Willard's foundational talk on what it means to be a disciple of Jesus — not just a believer who goes to heaven, but an apprentice who learns to live the way Jesus lived." },
-  { videoId: "JEM8S9i3Mbo", title: "Making Disciples: How It Actually Works", channel: "John Mark Comer Teachings", description: "Comer unpacks the apprenticeship model of discipleship — what it looks like to intentionally form others in the way of Jesus through shared life, practice, and accountability." },
-  { videoId: "nqTcWG-hpik", title: "Spiritual Formation: The Inner Life of the Disciple", channel: "Renovaré", description: "Richard Foster on the classical spiritual disciplines as the means by which God forms Christlikeness — not works of merit but training of the soul to respond to grace." },
-  { videoId: "uuabITeO4l8", title: "Shocking Youth Message", channel: "Paul Washer", description: "A piercing call to genuine conversion and costly discipleship — Washer challenges easy-believism and calls people to examine whether they have truly been born again." },
-  { videoId: "yhiHSf_L6_E", title: "Radical — Passion 2011", channel: "David Platt", description: "Platt's landmark message challenging American Christians to consider what a fully surrendered response to the Great Commission actually looks like in practice." },
-  { videoId: "by8ykv7-A3c", title: "The Supremacy of Christ and Truth", channel: "Voddie Baucham", description: "Baucham on the intellectual and moral demands of genuine discipleship — what it means to be shaped by Christ's Lordship over every area of life and thought." },
+  { videoId: "npEDqbE6faE", title: "What Is Discipleship? — Dallas Willard", channel: "Dallas Willard Ministries", description: "Willard's foundational talk on what it means to be a disciple of Jesus — not just a believer who goes to heaven, but an apprentice who learns to live the way Jesus lived." },
+  { videoId: "kfcVPh2VDhQ", title: "Making Disciples: How It Actually Works", channel: "John Mark Comer Teachings", description: "Comer unpacks the apprenticeship model of discipleship — what it looks like to intentionally form others in the way of Jesus through shared life, practice, and accountability." },
+  { videoId: "57LVVwba6_8", title: "Spiritual Formation: The Inner Life of the Disciple", channel: "Renovaré", description: "Richard Foster on the classical spiritual disciplines as the means by which God forms Christlikeness — not works of merit but training of the soul to respond to grace." },
+  { videoId: "HGHqu9-DtXk", title: "Shocking Youth Message", channel: "Paul Washer", description: "A piercing call to genuine conversion and costly discipleship — Washer challenges easy-believism and calls people to examine whether they have truly been born again." },
+  { videoId: "E65KV3M8RZE", title: "Radical — Passion 2011", channel: "David Platt", description: "Platt's landmark message challenging American Christians to consider what a fully surrendered response to the Great Commission actually looks like in practice." },
+  { videoId: "mC-zw0zCCtg", title: "The Supremacy of Christ and Truth", channel: "Voddie Baucham", description: "Baucham on the intellectual and moral demands of genuine discipleship — what it means to be shaped by Christ's Lordship over every area of life and thought." },
 ];
 
-type DTab = "pathways" | "voices" | "questions" | "myplan" | "videos";
+type DTab = "pathways" | "voices" | "questions" | "myplan" | "journal" | "videos";
 
 export default function DiscipleshipPage() {
   const [activeTab, setActiveTab] = usePersistedState<DTab>("vine_discipleship_tab", "pathways");
@@ -172,6 +174,20 @@ export default function DiscipleshipPage() {
   useEffect(() => { try { localStorage.setItem("vine_disc_completed", JSON.stringify([...completedTopics])); } catch {} }, [completedTopics]);
   useEffect(() => { try { localStorage.setItem("vine_disc_plan", planText); } catch {} }, [planText]);
   useEffect(() => { try { localStorage.setItem("vine_disc_path", currentPath); } catch {} }, [currentPath]);
+
+  const [discjEntries, setDiscjEntries] = useState<{ id: string; date: string; challenge: string; voice: string; step: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_discj_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [discjForm, setDiscjForm] = useState({ challenge: "", voice: "", step: "" });
+  const [discjSaved, setDiscjSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_discj_entries", JSON.stringify(discjEntries)); }, [discjEntries]);
+  function saveDiscjEntry() {
+    if (!discjForm.challenge.trim()) return;
+    setDiscjEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...discjForm }, ...prev]);
+    setDiscjForm({ challenge: "", voice: "", step: "" });
+    setDiscjSaved(true); setTimeout(() => setDiscjSaved(false), 2000);
+  }
+  function deleteDiscjEntry(id: string) { setDiscjEntries(prev => prev.filter(e => e.id !== id)); }
 
   const path = PATHWAYS.find(p => p.id === selectedPath)!;
 
@@ -220,6 +236,7 @@ export default function DiscipleshipPage() {
             { id: "voices" as const, label: "Key Voices", icon: "💬" },
             { id: "questions" as const, label: "1-on-1 Questions", icon: "🗣️" },
             { id: "myplan" as const, label: "My Plan", icon: "📝" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -260,7 +277,7 @@ export default function DiscipleshipPage() {
                       const key = `${path.id}-${i}`;
                       const done = completedTopics.has(key);
                       return (
-                        <div role="button" tabIndex={0} key={i} onClick={() => setCompletedTopics(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                        <div role="button" tabIndex={0} key={i} onClick={() => setCompletedTopics(prev => { const n = new Set(prev); if (n.has(key)) { n.delete(key); } else { n.add(key); } return n; })}
                           style={{ background: done ? `${path.color}10` : BG, border: `1px solid ${done ? path.color + "30" : BORDER}`, borderRadius: 10, padding: 14, cursor: "pointer", transition: "all 0.2s" }}>
                           <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                             <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${done ? path.color : BORDER}`, background: done ? path.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
@@ -436,6 +453,54 @@ export default function DiscipleshipPage() {
         )}
 
         {/* VIDEOS */}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Discipleship Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track challenges in your discipleship journey, voices inspiring you, and the next steps you are taking. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CHALLENGE I AM FACING *</label>
+                <textarea value={discjForm.challenge} onChange={e => setDiscjForm(f => ({ ...f, challenge: e.target.value }))}
+                  placeholder="What is the biggest challenge in your discipleship right now?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>VOICE OR TEACHER INSPIRING ME</label>
+                <textarea value={discjForm.voice} onChange={e => setDiscjForm(f => ({ ...f, voice: e.target.value }))}
+                  placeholder="Who is shaping your discipleship right now — a book, teacher, or mentor?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+                <textarea value={discjForm.step} onChange={e => setDiscjForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What is one concrete step forward in your formation this week?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveDiscjEntry}
+                style={{ background: discjSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {discjSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {discjEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({discjEntries.length})</h3>
+                {discjEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteDiscjEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>CHALLENGE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.challenge}</span></div>}
+                    {entry.voice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>VOICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.voice}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 28 }}>
@@ -447,9 +512,7 @@ export default function DiscipleshipPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))", gap: 24 }}>
               {DISC_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 6, color: TEXT }}>{v.title}</h3>
                     <p style={{ fontSize: 12, color: PURPLE, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

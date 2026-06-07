@@ -184,7 +184,12 @@ export default function ReadingPlanPage() {
   });
   const [shared, setShared] = useState(false);
   const [activePlan, setActivePlan] = useState<string>(() => {
-    try { return localStorage.getItem("vine_reading_active_plan") || ""; } catch { return ""; }
+    try {
+      const stored = localStorage.getItem("vine_reading_active_plan");
+      if (stored) return stored;
+      const user = JSON.parse(localStorage.getItem("vine_user") || "{}");
+      return (user.readingPlan as string) || "";
+    } catch { return ""; }
   });
 
   useEffect(() => {
@@ -860,6 +865,7 @@ export default function ReadingPlanPage() {
                 {ALT_PLANS.map((plan) => (
                   <div
                     key={plan.name}
+                    onClick={() => setActivePlan(activePlan === plan.name ? "" : plan.name)}
                     style={{
                       background: "#07070F",
                       border: "1px solid #1E1E32",
@@ -905,7 +911,7 @@ export default function ReadingPlanPage() {
                     </div>
 
                     <button type="button"
-                      onClick={() => setActivePlan(activePlan === plan.name ? "" : plan.name)}
+                      onClick={(e) => { e.stopPropagation(); setActivePlan(activePlan === plan.name ? "" : plan.name); }}
                       style={{
                         background: activePlan === plan.name ? "rgba(58,125,86,0.1)" : "transparent",
                         border: activePlan === plan.name ? "1px solid rgba(58,125,86,0.3)" : "1px solid #1E1E32",

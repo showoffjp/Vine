@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Target, CheckCircle2, Users, Flame, Trophy, Star, Calendar } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 type Tab = "active" | "devotionals" | "scripture" | "videos";
 
@@ -238,42 +240,42 @@ const CHALLENGE_VIDEOS = [
     id: "cv1",
     title: "Don't Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "57LVVwba6_8",
     description: "The ultimate challenge: live your whole life for something worth dying for",
   },
   {
     id: "cv2",
     title: "Shocking Youth Message",
     preacher: "Paul Washer",
-    videoId: "uuabITeO4l8",
+    videoId: "HGHqu9-DtXk",
     description: "Washer's call to examine whether our spiritual disciplines are real or performance",
   },
   {
     id: "cv3",
     title: "Radical: Passion 2011",
     preacher: "David Platt",
-    videoId: "yhiHSf_L6_E",
+    videoId: "E65KV3M8RZE",
     description: "Platt's challenge to Christians to pursue radical discipleship rather than comfortable Christianity",
   },
   {
     id: "cv4",
     title: "Forgotten God Part 1",
     preacher: "Francis Chan",
-    videoId: "sWMjg7CxIKk",
+    videoId: "f7RJATbobik",
     description: "Chan challenges believers to pursue Spirit-powered discipleship, not mere rule-keeping",
   },
   {
     id: "cv5",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "zUKzVFQn4Tc",
     description: "Keller's portrait of the Father who celebrates every return — the motivation behind all spiritual challenges",
   },
   {
     id: "cv6",
     title: "How Great Is Our God",
     preacher: "Louie Giglio",
-    videoId: "X1rPalyUshw",
+    videoId: "GGCF3OPWN14",
     description: "Seeing God's greatness clearly is the single best motivation for sustained spiritual challenge",
   },
 ];
@@ -666,14 +668,7 @@ export default function ChallengesPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 24 }}>
               {CHALLENGE_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: "1px solid #1E1E32" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: 18 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                       <span style={{ background: "rgba(107,79,187,0.2)", color: "#A080FF", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid rgba(107,79,187,0.3)" }}>

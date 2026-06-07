@@ -13,6 +13,8 @@ import {
   ChevronRight,
   Lock,
   Sparkles,
+  Pencil,
+  Save,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
@@ -161,7 +163,7 @@ export default function PrayerListPage() {
     { id: "foster-pl", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992) — the most comprehensive evangelical guide to forms of prayer", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive single-volume guide to Christian prayer for a general audience. Foster surveys 21 different forms of prayer — simple prayer, prayer of examination, intercessory prayer, contemplative prayer, healing prayer, sacramental prayer — and shows how each addresses different needs and dimensions of the human relationship with God. His treatment of petition and intercession is particularly useful for those learning to keep prayer lists: he argues that specific, expectant prayer honors God's personhood and invites genuine encounter rather than religious soliloquy.", quote: "Prayer is the central avenue God uses to transform us. If we are unwilling to change, we will abandon prayer as a noticeable characteristic of our lives. The closer we come to the heartbeat of God, the more we see our need and the more we desire to be conformed to Christ.", contribution: "Foster's Prayer introduced a generation of evangelical Christians to the full range of Christian prayer practice, from the ancient tradition of contemplative prayer to specific intercessory petition. His comprehensive treatment gave Christians a vocabulary for understanding the different dimensions of prayer and a guide for developing a richer prayer life." },
     { id: "murray-pl", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885) — the classic study of Jesus's prayer teaching", bio: "Andrew Murray spent three months bedridden with a throat condition that prevented him from speaking, and used the time to write With Christ in the School of Prayer — a series of meditations on prayer drawn from Jesus's teaching in the Gospels. Murray's central argument is that prayer is not a technique to master but a relationship to inhabit: prayer is 'talking to God as a child talks to a father.' His treatment of specific petition — asking for particular things, with expectant faith — remains one of the clearest evangelical accounts of how prayer list intercession works and why it matters.", quote: "Prayer is not monologue but dialogue; God's voice in response to mine is its most essential part. Listening to God's voice is the secret of the assurance that he will listen to mine.", contribution: "With Christ in the School of Prayer has sold millions of copies and has been a standard text in evangelical prayer formation for over a century. Murray's accessible devotional style, his rootedness in the Gospel accounts of Jesus's teaching on prayer, and his pastoral sensitivity to the difficulties of sustained prayer have made it a perennial resource." },
     { id: "yancey-pl", name: "Philip Yancey", era: "b. 1949", context: "Prayer: Does It Make Any Difference? (2006) — honest engagement with prayer's difficulties", bio: "Philip Yancey's Prayer: Does It Make Any Difference? is the most honest recent evangelical treatment of the difficulties of prayer — why prayers seem to go unanswered, how to pray through doubt, what to do when God seems silent. Yancey's journalistic instinct for honest engagement with hard questions, combined with his wide reading in theology, history, and science, produced a book that gives permission to pray honestly about prayer itself. His treatment of intercession — why we should pray for specific things even though God already knows what we need — is particularly thoughtful.", quote: "Prayer is the act of seeing reality from God's point of view. When I pray for a friend, I am not trying to manipulate God into doing something he didn't want to do. I am trying to see my friend through God's eyes — and that changes both my prayer and my friendship.", contribution: "Prayer: Does It Make Any Difference? gave evangelical readers an honest, intellectually serious treatment of prayer's difficulties that neither minimized the problems nor abandoned the practice. Yancey's honesty about his own struggles with prayer, combined with his intellectual engagement with the theology of prayer, made the book accessible to doubters and seekers who might have found more triumphalist treatments of prayer alienating." },
-    { id: "hallesby-ol", name: "O. Hallesby", era: "1879-1961", context: "Prayer (1931) — the Norwegian classic on helplessness as the key to prayer", bio: "Ole Kristian Hallesby was a Norwegian theologian who spent ten months imprisoned by the Nazis for his leadership of church resistance, and who wrote Prayer before the war in a simple, direct style that has made it a devotional classic across languages and denominations. Hallesby's central insight — that helplessness is the key to prayer — reframes the experience of struggling to pray: the feeling that you have nothing to bring to God, that you are empty, that you cannot even find words, is not a disqualification from prayer but its very foundation. His chapter on maintaining a prayer list as a record of God's faithfulness is particularly practical.", quote: "Helplessness united with faith produces prayer — real prayer, the kind that reaches heaven. Our helplessness is the very thing that opens us to receive the help God is ready and waiting to give.", contribution: "Prayer has been translated into dozens of languages and has shaped prayer life across Catholic, Orthodox, and Protestant communities. Hallesby's reframing of helplessness as the gateway rather than the barrier to prayer has given many struggling pray-ers permission to bring their emptiness to God rather than staying away until they feel 'ready to pray.'" },
+    { id: "rtkS_8VWfB0", name: "O. Hallesby", era: "1879-1961", context: "Prayer (1931) — the Norwegian classic on helplessness as the key to prayer", bio: "Ole Kristian Hallesby was a Norwegian theologian who spent ten months imprisoned by the Nazis for his leadership of church resistance, and who wrote Prayer before the war in a simple, direct style that has made it a devotional classic across languages and denominations. Hallesby's central insight — that helplessness is the key to prayer — reframes the experience of struggling to pray: the feeling that you have nothing to bring to God, that you are empty, that you cannot even find words, is not a disqualification from prayer but its very foundation. His chapter on maintaining a prayer list as a record of God's faithfulness is particularly practical.", quote: "Helplessness united with faith produces prayer — real prayer, the kind that reaches heaven. Our helplessness is the very thing that opens us to receive the help God is ready and waiting to give.", contribution: "Prayer has been translated into dozens of languages and has shaped prayer life across Catholic, Orthodox, and Protestant communities. Hallesby's reframing of helplessness as the gateway rather than the barrier to prayer has given many struggling pray-ers permission to bring their emptiness to God rather than staying away until they feel 'ready to pray.'" },
   ];
   const voiceItem = VOICES_PL.find(v => v.id === selectedVoice)!;
   const [filterCat, setFilterCat] = usePersistedState("vine_prayer-list_filter_cat", "All");
@@ -174,6 +176,13 @@ export default function PrayerListPage() {
   const [newCategory, setNewCategory] = useState<PrayerCategory>("Personal");
   const [newPerson, setNewPerson] = useState("");
   const [newVerse, setNewVerse] = useState("");
+
+  // Edit form
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editRequest, setEditRequest] = useState("");
+  const [editCategory, setEditCategory] = useState<PrayerCategory>("Personal");
+  const [editPerson, setEditPerson] = useState("");
+  const [editVerse, setEditVerse] = useState("");
 
   useEffect(() => {
     try { localStorage.setItem("vine_prayer_list", JSON.stringify(items)); } catch {}
@@ -216,6 +225,24 @@ export default function PrayerListPage() {
 
   const deleteItem = (id: string) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const startEditItem = (item: PrayerItem) => {
+    setEditingId(item.id);
+    setEditRequest(item.request);
+    setEditCategory(item.category);
+    setEditPerson(item.person || "");
+    setEditVerse(item.verse || "");
+  };
+
+  const saveEdit = () => {
+    if (!editRequest.trim() || !editingId) return;
+    setItems((prev) => prev.map((item) =>
+      item.id === editingId
+        ? { ...item, request: editRequest.trim(), category: editCategory, person: editPerson.trim() || undefined, verse: editVerse.trim() || undefined }
+        : item
+    ));
+    setEditingId(null);
   };
 
   const filtered = items.filter((item) => {
@@ -431,8 +458,19 @@ export default function PrayerListPage() {
                             )}
                             {item.answered && <CheckCircle2 size={14} style={{ color: "#10B981" }} />}
                             <button type="button"
+                              onClick={() => startEditItem(item)}
+                              className="p-1 rounded transition-all"
+                              aria-label="Edit request"
+                              style={{ color: "#3A3A58" }}
+                              onMouseEnter={(e) => (e.currentTarget.style.color = "#6B4FBB")}
+                              onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
+                            >
+                              <Pencil size={12} />
+                            </button>
+                            <button type="button"
                               onClick={() => deleteItem(item.id)}
                               className="p-1 rounded transition-all"
+                              aria-label="Delete request"
                               style={{ color: "#3A3A58" }}
                               onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
                               onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
@@ -504,6 +542,69 @@ export default function PrayerListPage() {
                             style={{ background: "rgba(16,185,129,0.12)", color: "#10B981", border: "1px solid rgba(16,185,129,0.3)" }}
                           >
                             <CheckCircle2 size={12} /> Mark Answered
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Edit form */}
+                    {editingId === item.id && (
+                      <div className="mt-4 pt-4 space-y-3" style={{ borderTop: "1px solid #1E1E32" }}>
+                        <p className="text-xs font-bold" style={{ color: "#6B4FBB" }}>Edit Request</p>
+                        <textarea
+                          rows={3}
+                          aria-label="Edit prayer request"
+                          value={editRequest}
+                          onChange={(e) => setEditRequest(e.target.value)}
+                          className="w-full px-3 py-2 rounded-xl text-sm outline-none resize-none"
+                          style={{ background: "#0D0D1A", border: "1px solid rgba(107,79,187,0.3)", color: "#F2F2F8" }}
+                        />
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Category</label>
+                            <select aria-label="Category"
+                              value={editCategory}
+                              onChange={(e) => setEditCategory(e.target.value as PrayerCategory)}
+                              className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+                              style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                            >
+                              {CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_EMOJI[c]} {c}</option>)}
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Person (optional)</label>
+                            <input type="text" aria-label="Who are you praying for?"
+                              value={editPerson}
+                              onChange={(e) => setEditPerson(e.target.value)}
+                              className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+                              style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Scripture (optional)</label>
+                          <input type="text" aria-label="Scripture reference"
+                            value={editVerse}
+                            onChange={(e) => setEditVerse(e.target.value)}
+                            className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+                            style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <button type="button"
+                            onClick={() => setEditingId(null)}
+                            className="flex-1 py-2 rounded-xl text-xs font-semibold"
+                            style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
+                          >
+                            Cancel
+                          </button>
+                          <button type="button"
+                            onClick={saveEdit}
+                            disabled={!editRequest.trim()}
+                            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold"
+                            style={{ background: editRequest.trim() ? "rgba(107,79,187,0.15)" : "#1E1E32", color: editRequest.trim() ? "#A080FF" : "#4A4A68", border: `1px solid ${editRequest.trim() ? "rgba(107,79,187,0.35)" : "transparent"}` }}
+                          >
+                            <Save size={12} /> Save Changes
                           </button>
                         </div>
                       </div>

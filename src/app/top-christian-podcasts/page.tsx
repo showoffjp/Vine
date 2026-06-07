@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "podcasts" | "episodes" | "listening" | "videos";
+type Tab = "podcasts" | "episodes" | "listening" | "videos" | "journal";
 
 const CATEGORIES = ["All", "Daily Devotional", "Theology", "Apologetics", "Leadership", "Women", "Parenting", "Worship", "News & Culture", "Mental Health"];
 
@@ -336,7 +338,7 @@ const PODCAST_VIDEOS = [
     preacher: "Tim Keller",
     podcast: "The Gospel Coalition",
     title: "The Reason for God at Google",
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "E65KV3M8RZE",
     description: "Keller makes the case for Christianity to an audience of Google engineers — winsome, rigorous, and deeply human. The best introduction to his apologetic method.",
   },
   {
@@ -344,7 +346,7 @@ const PODCAST_VIDEOS = [
     preacher: "John Piper",
     podcast: "Desiring God",
     title: "Don't Waste Your Life",
-    videoId: "JHdB1dYAteA",
+    videoId: "f7RJATbobik",
     description: "Piper's urgent call to spend your one life on what matters. The message behind the book and the Radical movement. Confronting, clarifying, and life-changing.",
   },
   {
@@ -352,7 +354,7 @@ const PODCAST_VIDEOS = [
     preacher: "R.C. Sproul",
     podcast: "Ligonier / Truth For Life",
     title: "The Holiness of God",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Sproul's landmark teaching on the most neglected attribute of God. His exposition of Isaiah 6 and the seraphim crying 'Holy, holy, holy' is some of the finest theology on video.",
   },
   {
@@ -360,7 +362,7 @@ const PODCAST_VIDEOS = [
     preacher: "Louie Giglio",
     podcast: "Passion City Church",
     title: "How Great Is Our God",
-    videoId: "X1rPalyUshw",
+    videoId: "zUKzVFQn4Tc",
     description: "Giglio's famous science-and-worship message showing the scale of the universe and the glory of the Creator. One of the most-watched Christian videos of all time.",
   },
   {
@@ -368,7 +370,7 @@ const PODCAST_VIDEOS = [
     preacher: "David Platt",
     podcast: "Radical / McLean Bible",
     title: "Radical (Passion 2011)",
-    videoId: "yhiHSf_L6_E",
+    videoId: "GGCF3OPWN14",
     description: "Platt's Passion 2011 message calling a generation of college students to abandon the American dream and follow Jesus into global mission. Direct, sobering, and urgent.",
   },
   {
@@ -376,7 +378,7 @@ const PODCAST_VIDEOS = [
     preacher: "Paul Washer",
     podcast: "HeartCry Missionary Society",
     title: "Shocking Youth Message",
-    videoId: "uuabITeO4l8",
+    videoId: "t6L-F2emwUc",
     description: "The sermon that shocked a generation of American youth group Christianity. Washer confronts nominal faith and cheap grace with a missionary's urgency. Tens of millions of views.",
   },
 ];
@@ -393,11 +395,25 @@ export default function TopChristianPodcastsPage() {
     return matchCat && matchSearch;
   });
 
+  type PodcastsJE = { id: string; date: string; podcast: string; insight: string; applying: string };
+  const [podcastsJournal, setPodcastsJournal] = useState<PodcastsJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_podcastsj_entries") ?? "[]"); } catch { return []; } });
+  const [jPodcast, setJPodcast] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_podcastsj_entries", JSON.stringify(podcastsJournal)); } catch {} }, [podcastsJournal]);
+  function savePodcastsEntry() {
+    if (!jPodcast.trim() && !jInsight.trim()) return;
+    setPodcastsJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), podcast: jPodcast, insight: jInsight, applying: jApplying }, ...prev]);
+    setJPodcast(""); setJInsight(""); setJApplying("");
+  }
+  function deletePodcastsEntry(id: string) { setPodcastsJournal(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "podcasts", label: "Podcasts" },
     { id: "episodes", label: "Episodes" },
     { id: "listening", label: "Listening Plans" },
     { id: "videos", label: "Videos" },
+    { id: "journal", label: "📓 Journal" },
   ];
 
   return (
@@ -625,6 +641,33 @@ export default function TopChristianPodcastsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Podcasts Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record podcasts that shaped you, insights from episodes, and how you&apos;re applying what you&apos;ve heard.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Podcast / Episode</label><textarea value={jPodcast} onChange={e => setJPodcast(e.target.value)} placeholder="Which podcast or episode are you reflecting on?" rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What stood out or challenged you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How will you apply what you heard?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={savePodcastsEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {podcastsJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {podcastsJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deletePodcastsEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.podcast && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Podcast</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.podcast}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <>
@@ -637,14 +680,7 @@ export default function TopChristianPodcastsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
               {PODCAST_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px 20px" }}>
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
                       <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{v.preacher}</span>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practice" | "curriculum" | "resources" | "videos";
+type Tab = "theology" | "practice" | "curriculum" | "resources" | "videos" | "journal";
 
 const theologyPoints = [
   {
@@ -230,10 +232,10 @@ const resources = [
 ];
 
 const YOUTH_VIDEOS = [
-  { videoId: "5gSRNuBZdGY", title: "Philosophy of Youth Ministry", channel: "The Gospel Coalition", description: "A biblical theology of youth ministry — what we're actually trying to accomplish when we minister to teenagers." },
-  { videoId: "y4p_fQAP21Q", title: "Reaching the Next Generation", channel: "Desiring God", description: "John Piper addresses parents and youth workers on the urgency and methods of passing faith to the next generation." },
-  { videoId: "ACZbpLkY8To", title: "Discipling Teenagers", channel: "Rooted Ministry", description: "Practical guidance for discipling teenagers in the local church — moving beyond programming to genuine relationship." },
-  { videoId: "Z8lkuuhVkOI", title: "Youth Ministry That Lasts", channel: "Fuller Youth Institute", description: "Research-backed insights on what helps young people maintain faith into adulthood — and what doesn't." },
+  { videoId: "52ZXFH1wzc8", title: "Philosophy of Youth Ministry", channel: "The Gospel Coalition", description: "A biblical theology of youth ministry — what we're actually trying to accomplish when we minister to teenagers." },
+  { videoId: "rtkS_8VWfB0", title: "Reaching the Next Generation", channel: "Desiring God", description: "John Piper addresses parents and youth workers on the urgency and methods of passing faith to the next generation." },
+  { videoId: "ej_6dVdJSIU", title: "Discipling Teenagers", channel: "Rooted Ministry", description: "Practical guidance for discipling teenagers in the local church — moving beyond programming to genuine relationship." },
+  { videoId: "gV9JugO_5Mk", title: "Youth Ministry That Lasts", channel: "Fuller Youth Institute", description: "Research-backed insights on what helps young people maintain faith into adulthood — and what doesn't." },
 ];
 
 export default function YouthMinistryGuidePage() {
@@ -243,12 +245,27 @@ export default function YouthMinistryGuidePage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  type YMGJournalEntry = { id: string; date: string; insight: string; practice: string; step: string };
+  const [ymgJournal, setYmgJournal] = useState<YMGJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_ymgj_entries") ?? "[]"); } catch { return []; } });
+  const [jInsight, setJInsight] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_ymgj_entries", JSON.stringify(ymgJournal)); } catch {} }, [ymgJournal]);
+  function saveYMGEntry() {
+    if (!jInsight.trim() && !jPractice.trim()) return;
+    const entry: YMGJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), insight: jInsight, practice: jPractice, step: jStep };
+    setYmgJournal(prev => [entry, ...prev]);
+    setJInsight(""); setJPractice(""); setJStep("");
+  }
+  function deleteYMGEntry(id: string) { setYmgJournal(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Youth Ministry" },
     { id: "practice", label: "Core Practices" },
     { id: "curriculum", label: "Curriculum Guide" },
     { id: "resources", label: "Resources" },
     { id: "videos", label: "Videos" },
+    { id: "journal", label: "📓 My Journal" },
   ];
 
   return (
@@ -436,13 +453,51 @@ export default function YouthMinistryGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Youth Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Capture insights from your study, practices you want to bring into your ministry, and next steps for reaching the next generation.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label>
+                  <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What stood out from your study or teaching?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Practice to Implement</label>
+                  <textarea value={jPractice} onChange={e => setJPractice(e.target.value)} placeholder="What practice could strengthen your youth ministry?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One thing to do for the young people in your care this week..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveYMGEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {ymgJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {ymgJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteYMGEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Practice</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.practice}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos */}
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {YOUTH_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

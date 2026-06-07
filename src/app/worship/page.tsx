@@ -25,8 +25,10 @@ import {
   Volume2,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
 
-type Tab = "songs" | "theology" | "voices" | "videos";
+
+type Tab = "songs" | "theology" | "voices" | "journal" | "videos";
 
 const songs = [
   {
@@ -329,42 +331,42 @@ const WORSHIP_VIDEOS = [
     id: "giglio-laminin",
     title: "How Great Is Our God",
     preacher: "Louie Giglio",
-    videoId: "X1rPalyUshw",
+    videoId: "dQl4izxPeNU",
     description: "The iconic Passion message showing God’s majesty through the science of laminin and the universe",
   },
   {
     id: "giglio-universe",
     title: "How Great Is Our God (Universe)",
     preacher: "Louie Giglio",
-    videoId: "RE8QkBA0Syg",
+    videoId: "dy9nwe9zeU8",
     description: "Extended version featuring the vast expanse of the cosmos and the glory of God",
   },
   {
     id: "sproul-holiness",
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Sproul’s landmark lecture on the holiness that makes worship both terrifying and beautiful",
   },
   {
     id: "sproul-trauma",
     title: "The Trauma of Holiness",
     preacher: "R.C. Sproul",
-    videoId: "7CBgp74UwbU",
+    videoId: "sIaT8Jl2zpI",
     description: "Lecture 2 from The Holiness of God series — why Isaiah’s vision undoes and remakes the worshiper",
   },
   {
-    id: "piper-waste",
+    id: "gYR0xP1j4PY",
     title: "Don’t Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "Wt5X91ciE6Y",
     description: "Passion conference message that became a generation’s call to live for the glory of God",
   },
   {
     id: "evans-kingdom",
     title: "Your Role in Advancing the Kingdom",
     preacher: "Tony Evans",
-    videoId: "fuRn3FRCM-I",
+    videoId: "cL4mTVpP73o",
     description: "Evans shows how every believer has a role in God’s kingdom agenda",
   },
 ];
@@ -380,7 +382,24 @@ export default function WorshipPage() {
   });
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [viewChord, setViewChord] = useState<number | null>(null);
+  const [chordSearch, setChordSearch] = useState("");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_worship_voice", "calvin");
+  const [worshipLogs, setWorshipLogs] = useState<{ id: string; date: string; song: string; moment: string; prayer: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_worship_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [wForm, setWForm] = useState({ song: "", moment: "", prayer: "" });
+  const [wSaved, setWSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_worship_logs", JSON.stringify(worshipLogs)); } catch {} }, [worshipLogs]);
+
+  const saveWorshipLog = () => {
+    setWorshipLogs(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...wForm }, ...prev]);
+    setWForm({ song: "", moment: "", prayer: "" });
+    setWSaved(true);
+    setTimeout(() => setWSaved(false), 2000);
+  };
+
+  const deleteWorshipLog = (id: string) => setWorshipLogs(prev => prev.filter(l => l.id !== id));
 
   useEffect(() => {
     try { localStorage.setItem("vine_worship_circles", JSON.stringify([...joinedCircles])); } catch {}
@@ -419,6 +438,7 @@ export default function WorshipPage() {
               ["songs", "Songs & Music"],
               ["theology", "Theology of Worship"],
               ["voices", "Voices"],
+              ["journal", "Journal"],
               ["videos", "Videos"],
             ] as const).map(([t, label]) => (
               <button type="button"
@@ -724,7 +744,8 @@ export default function WorshipPage() {
                 >
                   <Search size={16} style={{ color: "#6A6A88", flexShrink: 0 }} />
                   <input
-                    readOnly
+                    value={chordSearch}
+                    onChange={(e) => { setChordSearch(e.target.value); setViewChord(null); }}
                     aria-label="Search songs, artists, or keys..." placeholder="Search songs, artists, or keys..."
                     style={{
                       background: "transparent",
@@ -738,7 +759,11 @@ export default function WorshipPage() {
                   />
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "14px" }}>
-                  {chords.map((chord, i) => (
+                  {chords.filter((chord) => {
+                    if (!chordSearch.trim()) return true;
+                    const q = chordSearch.toLowerCase();
+                    return chord.song.toLowerCase().includes(q) || chord.artist.toLowerCase().includes(q) || chord.key.toLowerCase().includes(q);
+                  }).map((chord, i) => (
                     <div key={i}>
                     <div
                       style={{
@@ -1188,6 +1213,57 @@ export default function WorshipPage() {
           </div>
         )}
 
+        {/* ─── JOURNAL TAB ─── */}
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 24px 80px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: "#F2F2F8", fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Worship shapes us. Record the moments when God met you in music, prayer, or Scripture — and watch a history of encounter accumulate.
+              </p>
+            </div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 24, marginBottom: 28 }}>
+              <h3 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 18, marginBottom: 20 }}>Log a Worship Moment</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: "#9898B3", fontSize: 13, fontWeight: 600 }}>Song or hymn</label>
+                <input value={wForm.song} onChange={e => setWForm(f => ({ ...f, song: e.target.value }))}
+                  placeholder="e.g. 'Before the Throne of God Above', 'Be Thou My Vision'..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: "#9898B3", fontSize: 13, fontWeight: 600 }}>Moment that stood out</label>
+                <textarea value={wForm.moment} onChange={e => setWForm(f => ({ ...f, moment: e.target.value }))} rows={3}
+                  placeholder="A lyric that struck you, a sense of God's presence, something you saw clearly during worship..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: "#9898B3", fontSize: 13, fontWeight: 600 }}>Prayer that arose</label>
+                <textarea value={wForm.prayer} onChange={e => setWForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="What you found yourself praying, a desire that surfaced, a surrender you made..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveWorshipLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: "#3a7d56", color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {wSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {worshipLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, textTransform: "uppercase", letterSpacing: 1 }}>Worship History</h3>
+                {worshipLogs.map(log => (
+                  <div key={log.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 18, marginBottom: 14, position: "relative" }}>
+                    <button type="button" onClick={() => deleteWorshipLog(log.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: "#9898B3", fontSize: 12, marginBottom: 8 }}>{log.date}</div>
+                    {log.song && <p style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 14, margin: "0 0 8px" }}>🎵 {log.song}</p>}
+                    {log.moment && <p style={{ color: "#F2F2F8", fontSize: 13, lineHeight: 1.7, margin: "0 0 8px" }}>{log.moment}</p>}
+                    {log.prayer && <p style={{ color: "#3a7d56", fontSize: 13, fontStyle: "italic", margin: 0 }}>🙏 {log.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ─── VIDEOS TAB ─── */}
         {activeTab === "videos" && (
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 24px 80px" }}>
@@ -1234,14 +1310,7 @@ export default function WorshipPage() {
                     </p>
                   </div>
                   <div style={{ padding: "0 20px 20px" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${video.videoId}`}
-                      title={video.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={video.videoId} title={video.title} />
                   </div>
                 </div>
               ))}

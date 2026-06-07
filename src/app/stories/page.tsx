@@ -3,7 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { Heart, Share2, Bookmark, ChevronRight, Star, Flame, Globe } from "lucide-react";
+import { Heart, Bookmark, ChevronRight, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
@@ -240,18 +240,18 @@ export default function StoriesPage() {
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
             {filteredStories.map((story, i) => (
-              <a
+              <Link
                 key={i}
-                href={story.slug ? `/stories/${story.slug}` : undefined}
+                href={story.slug ? `/stories/${story.slug}` : "/stories"}
                 className="group block rounded-2xl p-6 flex flex-col cursor-pointer transition-all"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${story.color}40`;
-                  e.currentTarget.style.background = `${story.color}05`;
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = `${story.color}40`;
+                  (e.currentTarget as HTMLAnchorElement).style.background = `${story.color}05`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.02)";
                 }}
               >
                 <div className="flex items-start justify-between mb-4">
@@ -296,7 +296,7 @@ export default function StoriesPage() {
                     </span>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
 

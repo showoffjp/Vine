@@ -9,7 +9,6 @@ import {
   Shield,
   ChevronRight,
   CheckCircle,
-  Phone,
   MapPin,
 } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -86,6 +85,12 @@ export default function ContactPage() {
 
   const handleSubmit = () => {
     if (form.name && form.email && form.message) {
+      // Capture the submission locally so it isn't lost before a backend exists
+      try {
+        const submissions = JSON.parse(localStorage.getItem("vine_contact_submissions") || "[]");
+        submissions.push({ ...form, submittedAt: new Date().toISOString() });
+        localStorage.setItem("vine_contact_submissions", JSON.stringify(submissions));
+      } catch {}
       setSubmitted(true);
       try { localStorage.removeItem("vine_contact_draft"); } catch {}
     }

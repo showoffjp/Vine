@@ -8,11 +8,9 @@ import {
   TrendingUp,
   Flame,
   MessageSquare,
-  Users,
   Eye,
   ChevronRight,
   Hash,
-  Star,
   Bell,
   BellOff,
 } from "lucide-react";
@@ -265,18 +263,18 @@ export default function TopicsPage() {
                 </div>
                 <div className="space-y-3">
                   {trending.map((topic) => (
-                    <a
+                    <Link
                       key={topic.tag}
                       href={topic.slug ? `/topics/${topic.slug}` : `/discussions?tag=${topic.tag}`}
                       className="group flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all"
                       style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                        e.currentTarget.style.borderColor = "rgba(58,125,86,0.15)";
+                        (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.04)";
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(58,125,86,0.15)";
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                        e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                        (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.02)";
+                        (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.06)";
                       }}
                     >
                       <span className="text-3xl font-black w-8 shrink-0 text-center" style={{ color: "rgba(58,125,86,0.15)" }}>
@@ -330,7 +328,7 @@ export default function TopicsPage() {
                           </span>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -442,7 +440,7 @@ export default function TopicsPage() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {cluster.topics.map((t) => (
-                      <a
+                      <Link
                         key={t}
                         href={topicSlugs[t] ? `/topics/${topicSlugs[t]}` : `/discussions?tag=${t}`}
                         className="text-xs px-2.5 py-1 rounded-full transition-all cursor-pointer"
@@ -450,20 +448,21 @@ export default function TopicsPage() {
                           background: "rgba(255,255,255,0.04)",
                           border: "1px solid rgba(255,255,255,0.08)",
                           color: "#8A8AA8",
+                          textDecoration: "none",
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.background = `${cluster.color}15`;
-                          e.currentTarget.style.borderColor = `${cluster.color}40`;
-                          e.currentTarget.style.color = cluster.color;
+                          (e.currentTarget as HTMLAnchorElement).style.background = `${cluster.color}15`;
+                          (e.currentTarget as HTMLAnchorElement).style.borderColor = `${cluster.color}40`;
+                          (e.currentTarget as HTMLAnchorElement).style.color = cluster.color;
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                          e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                          e.currentTarget.style.color = "#8A8AA8";
+                          (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.04)";
+                          (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.08)";
+                          (e.currentTarget as HTMLAnchorElement).style.color = "#8A8AA8";
                         }}
                       >
                         #{t}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>

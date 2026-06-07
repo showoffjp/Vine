@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "resources" | "theology" | "voices" | "videos";
+type Tab = "resources" | "theology" | "voices" | "journal" | "videos";
 
 const TOPICS = ["All", "Anxiety", "Depression", "Trauma", "Relationships", "Grief", "Identity"];
 
@@ -252,12 +254,12 @@ const VOICES_MH = [
 ];
 
 const MH_VIDEOS = [
-  { id: "sWMjg7CxIKk", title: "Forgotten God Part 1: Why Do I Need the Spirit?", speaker: "Francis Chan" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "j9phNEaPrv8", title: "Forgotten God Part 1: Why Do I Need the Spirit?", speaker: "Francis Chan" },
+  { id: "dy9nwe9zeU8", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "iK0NjiBXKN4", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "zMbUXpFiFeo", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "52ZXFH1wzc8", title: "How Great Is Our God", speaker: "Louie Giglio" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
 ];
 
 export default function ChristianMentalHealthResourcesPage() {
@@ -269,6 +271,20 @@ export default function ChristianMentalHealthResourcesPage() {
   const filtered = RESOURCES.filter(r => topic === "All" || r.topic === topic);
   const resource = RESOURCES.find(r => r.title === selected);
   const voice = VOICES_MH.find(v => v.id === selectedVoice)!;
+
+  const [cmhrEntries, setCmhrEntries] = useState<{ id: string; date: string; struggle: string; truth: string; step: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmhr_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmhrForm, setCmhrForm] = useState({ struggle: "", truth: "", step: "" });
+  const [cmhrSaved, setCmhrSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmhr_entries", JSON.stringify(cmhrEntries)); }, [cmhrEntries]);
+  function saveCmhrEntry() {
+    if (!cmhrForm.struggle.trim()) return;
+    setCmhrEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmhrForm }, ...prev]);
+    setCmhrForm({ struggle: "", truth: "", step: "" });
+    setCmhrSaved(true); setTimeout(() => setCmhrSaved(false), 2000);
+  }
+  function deleteCmhrEntry(id: string) { setCmhrEntries(prev => prev.filter(e => e.id !== id)); };
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -285,9 +301,9 @@ export default function ChristianMentalHealthResourcesPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 36, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["resources", "theology", "voices", "videos"] as const).map(t => (
+          {(["resources", "theology", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : "Videos"}
+              {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -438,6 +454,49 @@ export default function ChristianMentalHealthResourcesPage() {
         )}
 
         {/* Videos tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Mental Health Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record struggles you are working through, truths that sustain you, and steps you are taking toward healing.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Struggle or Area</label>
+                <input value={cmhrForm.struggle} onChange={e => setCmhrForm(f => ({ ...f, struggle: e.target.value }))} placeholder="e.g. Anxiety, depression, trauma, grief, burnout..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Truth That Sustains You</label>
+                <textarea value={cmhrForm.truth} onChange={e => setCmhrForm(f => ({ ...f, truth: e.target.value }))} placeholder="What Scripture, promise, or truth about God are you holding onto?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>One Step Toward Healing</label>
+                <textarea value={cmhrForm.step} onChange={e => setCmhrForm(f => ({ ...f, step: e.target.value }))} placeholder="What one concrete step toward healing are you taking — therapy, community, prayer, rest?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmhrEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmhrSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmhrEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmhrEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.struggle}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmhrEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.truth && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Sustaining Truth</div><div style={{ color: TEXT, fontSize: 13 }}>{e.truth}</div></div>}
+                    {e.step && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Step Toward Healing</div><div style={{ color: TEXT, fontSize: 13 }}>{e.step}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 28 }}>
@@ -448,14 +507,7 @@ export default function ChristianMentalHealthResourcesPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 20 }}>
               {MH_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.id}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ color: MUTED, fontSize: 12 }}>{v.speaker}</div>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -220,21 +222,35 @@ const FATHER_TEXTS = [
 ];
 
 const FATHERS_VIDEOS = [
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
-  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "sIaT8Jl2zpI", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
+  { id: "3Dv4-n6OYGI", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "5nvVVcYD-0w", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "bxzuh5Xx5G4", title: "The Prodigal Sons", speaker: "Tim Keller" },
 ];
 
-type Tab = "guide" | "periods" | "texts" | "videos";
+type Tab = "guide" | "periods" | "texts" | "journal" | "videos";
 
 export default function ChurchFathersGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers-guide_tab", "guide");
   const [era, setEra] = usePersistedState<string>("vine_church-fathers-guide_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedText, setSelectedText] = useState<number | null>(null);
+
+  const [cfgEntries, setCfgEntries] = useState<{ id: string; date: string; father: string; reading: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfg2_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfgForm, setCfgForm] = useState({ father: "", reading: "", applying: "" });
+  const [cfgSaved, setCfgSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfg2_entries", JSON.stringify(cfgEntries)); }, [cfgEntries]);
+  function saveCfgEntry() {
+    if (!cfgForm.father.trim()) return;
+    setCfgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfgForm }, ...prev]);
+    setCfgForm({ father: "", reading: "", applying: "" });
+    setCfgSaved(true); setTimeout(() => setCfgSaved(false), 2000);
+  }
+  function deleteCfgEntry(id: string) { setCfgEntries(prev => prev.filter(e => e.id !== id)); }
 
   const filtered = FATHERS.filter(f => era === "All" || f.era === era);
   const father = FATHERS.find(f => f.name === selected);
@@ -255,9 +271,9 @@ export default function ChurchFathersGuidePage() {
 
         {/* Top Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["guide", "periods", "texts", "videos"] as const).map(t => (
+          {(["guide", "periods", "texts", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "guide" ? "Guide" : t === "periods" ? "Periods" : t === "texts" ? "Texts" : "Videos"}
+              {t === "guide" ? "Guide" : t === "periods" ? "Periods" : t === "texts" ? "Texts" : t === "journal" ? "📓 Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -414,6 +430,53 @@ export default function ChurchFathersGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Church Fathers Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your reading and learning from the Church Fathers. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which Father are you reading or studying?</label>
+                <textarea value={cfgForm.father} onChange={e => setCfgForm(f => ({ ...f, father: e.target.value }))}
+                  placeholder="Augustine, Athanasius, Chrysostom..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What are you reading and what strikes you?</label>
+                <textarea value={cfgForm.reading} onChange={e => setCfgForm(f => ({ ...f, reading: e.target.value }))}
+                  placeholder="Text, passage, or idea that moved you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How are you applying this to your faith today?</label>
+                <textarea value={cfgForm.applying} onChange={e => setCfgForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What changes in how you pray, think, or live..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfgEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfgSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cfgEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cfgEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCfgEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.father && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>FATHER </span><span style={{ color: TEXT, fontSize: 14 }}>{e.father}</span></div>}
+                    {e.reading && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>READING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.reading}</span></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>APPLYING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -423,9 +486,7 @@ export default function ChurchFathersGuidePage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 20 }}>
               {FATHERS_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, borderRadius: 14, overflow: "hidden", border: `1px solid ${BORDER}` }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ fontWeight: 700, fontSize: 14, color: TEXT, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ fontSize: 12, color: MUTED }}>{v.speaker}</div>

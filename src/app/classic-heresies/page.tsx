@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -114,7 +116,7 @@ const HERESIES = [
   },
 ];
 
-type Tab = "heresies" | "defenders" | "councils" | "patterns" | "videos";
+type Tab = "heresies" | "defenders" | "councils" | "patterns" | "journal" | "videos";
 
 const DEFENDERS = [
   { id: "athanasius", name: "Athanasius of Alexandria", era: "c. 296-373", context: "Bishop of Alexandria; 'Athanasius contra mundum'", bio: "Athanasius devoted his entire ministry to defending the full divinity of Christ against Arianism, which had gained imperial favor after Nicaea. He was exiled five times for refusing to compromise — three times by emperors who favored the Arian cause — and returned each time more resolute. His De Incarnatione remains one of the greatest Christological texts ever written. His slogan: 'Whatever is true of the Father is true of the Son, except being the Father.' He died as bishop of Alexandria after a career of unparalleled theological courage.", quote: "The Son of God became man so that we might become God. He was not made man and then became God, but being God he became man to deify us.", contribution: "Held the Trinitarian faith against the full weight of imperial power and theological confusion for decades. Without Athanasius, Arianism might have become the orthodox position of the Western church. He is the paradigm of faithful orthodoxy under pressure." },
@@ -146,6 +148,20 @@ export default function ClassicHeresiesPage() {
   const defender = DEFENDERS.find(d => d.id === selectedDefender)!;
   const [selected, setSelected] = useState<string | null>(null);
 
+  const [cherEntries, setCherEntries] = useState<{ id: string; date: string; heresy: string; error: string; orthodox: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cher_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cherForm, setCherForm] = useState({ heresy: "", error: "", orthodox: "" });
+  const [cherSaved, setCherSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cher_entries", JSON.stringify(cherEntries)); }, [cherEntries]);
+  function saveCherEntry() {
+    if (!cherForm.heresy.trim()) return;
+    setCherEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cherForm }, ...prev]);
+    setCherForm({ heresy: "", error: "", orthodox: "" });
+    setCherSaved(true); setTimeout(() => setCherSaved(false), 2000);
+  }
+  function deleteCherEntry(id: string) { setCherEntries(prev => prev.filter(e => e.id !== id)); }
+
   const heresy = HERESIES.find(h => h.name === selected);
 
   return (
@@ -167,6 +183,7 @@ export default function ClassicHeresiesPage() {
             { id: "defenders" as Tab, label: "Defenders", icon: "🛡️" },
             { id: "councils" as Tab, label: "Councils", icon: "📜" },
             { id: "patterns" as Tab, label: "Patterns", icon: "🔄" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -322,6 +339,53 @@ export default function ClassicHeresiesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Heresy Study Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Study the heresies and sharpen your orthodox understanding. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which heresy are you studying?</label>
+                <textarea value={cherForm.heresy} onChange={e => setCherForm(f => ({ ...f, heresy: e.target.value }))}
+                  placeholder="Arianism, Gnosticism, Pelagianism, Modalism..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What was the central error?</label>
+                <textarea value={cherForm.error} onChange={e => setCherForm(f => ({ ...f, error: e.target.value }))}
+                  placeholder="What was wrong about it — what truth did it deny..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What is the orthodox response?</label>
+                <textarea value={cherForm.orthodox} onChange={e => setCherForm(f => ({ ...f, orthodox: e.target.value }))}
+                  placeholder="The creedal or conciliar answer..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCherEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cherSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cherEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cherEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCherEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.heresy && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>HERESY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.heresy}</span></div>}
+                    {e.error && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>ERROR </span><span style={{ color: TEXT, fontSize: 14 }}>{e.error}</span></div>}
+                    {e.orthodox && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>ORTHODOX </span><span style={{ color: TEXT, fontSize: 14 }}>{e.orthodox}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -331,19 +395,13 @@ export default function ClassicHeresiesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "AtYCVDlV9kE", title: "Heresies of the Early Church", channel: "Ligonier Ministries", description: "R.C. Sproul surveys the major heresies that threatened the early church — Arianism, Gnosticism, Docetism, and more — and explains how the councils responded to preserve orthodox doctrine." },
-                  { videoId: "7-utwkfgyyI", title: "Wolf in Sheep's Clothing", channel: "Ligonier Ministries", description: "R.C. Sproul examines how false teaching infiltrates the church and the theological vigilance required to identify and refute it, drawing on the councils and creeds of the early church." },
-                  { videoId: "T5R9JmJTtOM", title: "Introduction to Reformed Theology", channel: "Ligonier Ministries", description: "R.C. Sproul introduces the theological framework that grew directly from the church's battles against heresy — explaining how orthodox doctrine was hammered out in the crucible of controversy." },
-                  { videoId: "VITwhgPNtPM", title: "Original Sin", channel: "Ligonier Ministries", description: "R.C. Sproul explains the doctrine of original sin — including Augustine's battle against Pelagianism — and why this foundational doctrine is still contested and essential today." },
+                  { videoId: "bxzuh5Xx5G4", title: "Heresies of the Early Church", channel: "Ligonier Ministries", description: "R.C. Sproul surveys the major heresies that threatened the early church — Arianism, Gnosticism, Docetism, and more — and explains how the councils responded to preserve orthodox doctrine." },
+                  { videoId: "5PvcynQD-ag", title: "Wolf in Sheep's Clothing", channel: "Ligonier Ministries", description: "R.C. Sproul examines how false teaching infiltrates the church and the theological vigilance required to identify and refute it, drawing on the councils and creeds of the early church." },
+                  { videoId: "qyFZbAjWWG4", title: "Introduction to Reformed Theology", channel: "Ligonier Ministries", description: "R.C. Sproul introduces the theological framework that grew directly from the church's battles against heresy — explaining how orthodox doctrine was hammered out in the crucible of controversy." },
+                  { videoId: "D3MWVMKKY3A", title: "Original Sin", channel: "Ligonier Ministries", description: "R.C. Sproul explains the doctrine of original sin — including Augustine's battle against Pelagianism — and why this foundational doctrine is still contested and essential today." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

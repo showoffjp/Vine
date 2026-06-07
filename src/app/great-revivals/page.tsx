@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "revivals" | "conditions" | "figures" | "today" | "videos";
+type Tab = "revivals" | "conditions" | "figures" | "today" | "journal" | "videos";
 
 const REVIVALS = [
   {
@@ -154,10 +156,10 @@ const TODAY_DATA = [
 ];
 
 const REVIVAL_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The First Great Awakening", channel: "Ligonier Ministries", description: "R.C. Sproul on Jonathan Edwards and the Great Awakening — what made it genuine, what accompanied it, and what we can learn." },
-  { videoId: "fJnGJN6laqE", title: "What Is Revival?", channel: "The Gospel Coalition", description: "A biblical and historical definition of revival — how the Holy Spirit renews the church and spreads through communities." },
-  { videoId: "ACZbpLkY8To", title: "The Welsh Revival of 1904", channel: "Desiring God", description: "The story of the Welsh Revival under Evan Roberts — one of the most dramatic outpourings of the Spirit in modern history." },
-  { videoId: "Z8lkuuhVkOI", title: "Can We Pray for Revival?", channel: "Crossway", description: "Historical and theological reflections on revival — what it is, how God brings it about, and how prayer relates to awakening." },
+  { videoId: "rtkS_8VWfB0", title: "The First Great Awakening", channel: "Ligonier Ministries", description: "R.C. Sproul on Jonathan Edwards and the Great Awakening — what made it genuine, what accompanied it, and what we can learn." },
+  { videoId: "4Eg_di-O8nM", title: "What Is Revival?", channel: "The Gospel Coalition", description: "A biblical and historical definition of revival — how the Holy Spirit renews the church and spreads through communities." },
+  { videoId: "ej_6dVdJSIU", title: "The Welsh Revival of 1904", channel: "Desiring God", description: "The story of the Welsh Revival under Evan Roberts — one of the most dramatic outpourings of the Spirit in modern history." },
+  { videoId: "gV9JugO_5Mk", title: "Can We Pray for Revival?", channel: "Crossway", description: "Historical and theological reflections on revival — what it is, how God brings it about, and how prayer relates to awakening." },
 ];
 
 export default function GreatRevivalsPage() {
@@ -169,6 +171,20 @@ export default function GreatRevivalsPage() {
   const eras = ["All", "Colonial", "Frontier", "Pre-Civil War", "Twentieth Century", "Pentecostal Origins", "Contemporary"];
   const filtered = eraFilter === "All" ? REVIVALS : REVIVALS.filter(r => r.era === eraFilter);
   const sel = REVIVALS.find(r => r.name === selected) || REVIVALS[0];
+
+  const [revEntries, setRevEntries] = useState<{ id: string; date: string; revival: string; condition: string; prayer: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_rev_entries") ?? "[]"); } catch { return []; }
+  });
+  const [revForm, setRevForm] = useState({ revival: "", condition: "", prayer: "" });
+  const [revSaved, setRevSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_rev_entries", JSON.stringify(revEntries)); } catch {} }, [revEntries]);
+  const saveRevEntry = () => {
+    if (!revForm.revival.trim()) return;
+    setRevEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...revForm }, ...prev]);
+    setRevForm({ revival: "", condition: "", prayer: "" });
+    setRevSaved(true); setTimeout(() => setRevSaved(false), 2000);
+  };
+  const deleteRevEntry = (id: string) => setRevEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -190,10 +206,10 @@ export default function GreatRevivalsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["revivals", "conditions", "figures", "today", "videos"] as Tab[]).map(t => (
+          {(["revivals", "conditions", "figures", "today", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "revivals" ? "Historical Revivals" : t === "conditions" ? "Conditions for Revival" : t === "figures" ? "Key Figures" : t === "today" ? "Seeking Revival Today" : "Videos"}
+              {t === "revivals" ? "Historical Revivals" : t === "conditions" ? "Conditions for Revival" : t === "figures" ? "Key Figures" : t === "today" ? "Seeking Revival Today" : t === "journal" ? "📓 Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -311,12 +327,59 @@ export default function GreatRevivalsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Revival Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record what you are learning from revivals, conditions you sense God calling you to, and your prayers for renewal. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>REVIVAL THAT IS STIRRING ME *</label>
+                <textarea value={revForm.revival} onChange={e => setRevForm(f => ({ ...f, revival: e.target.value }))}
+                  placeholder="Which historical revival or revival account is speaking to you?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CONDITION I SENSE GOD CALLING ME TO</label>
+                <textarea value={revForm.condition} onChange={e => setRevForm(f => ({ ...f, condition: e.target.value }))}
+                  placeholder="Humility, prayer, repentance, unity — what revival condition is God working in you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY PRAYER FOR RENEWAL</label>
+                <textarea value={revForm.prayer} onChange={e => setRevForm(f => ({ ...f, prayer: e.target.value }))}
+                  placeholder="Write your prayer for personal and corporate renewal." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveRevEntry}
+                style={{ background: revSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {revSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {revEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({revEntries.length})</h3>
+                {revEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteRevEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.revival && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>REVIVAL: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.revival}</span></div>}
+                    {entry.condition && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>CONDITION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.condition}</span></div>}
+                    {entry.prayer && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>PRAYER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.prayer}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {REVIVAL_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

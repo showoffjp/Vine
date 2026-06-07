@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "methods" | "sharing" | "videos";
+type Tab = "overview" | "methods" | "sharing" | "journal" | "videos";
 
 interface Method {
   id: string;
@@ -24,7 +26,7 @@ interface Method {
 
 const METHODS: Method[] = [
   {
-    id: "romans-road",
+    id: "f7RJATbobik",
     name: "The Romans Road",
     origin: "A classic sequence of verses from Paul's letter to the Romans",
     color: GREEN,
@@ -174,6 +176,20 @@ export default function GospelPresentationPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_gospel-presentation_tab", "overview");
   const [openMethod, setOpenMethod] = useState<string>(METHODS[0].id);
 
+  const [gpEntries, setGpEntries] = useState<{ id: string; date: string; conversation: string; method: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_gp_entries") ?? "[]"); } catch { return []; }
+  });
+  const [gpForm, setGpForm] = useState({ conversation: "", method: "", step: "" });
+  const [gpSaved, setGpSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_gp_entries", JSON.stringify(gpEntries)); } catch {} }, [gpEntries]);
+  const saveGpEntry = () => {
+    if (!gpForm.conversation.trim()) return;
+    setGpEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...gpForm }, ...prev]);
+    setGpForm({ conversation: "", method: "", step: "" });
+    setGpSaved(true); setTimeout(() => setGpSaved(false), 2000);
+  };
+  const deleteGpEntry = (id: string) => setGpEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
@@ -222,6 +238,7 @@ export default function GospelPresentationPage() {
           <TabButton active={tab === "overview"} label="Overview" onClick={() => setTab("overview")} />
           <TabButton active={tab === "methods"} label="Gospel Methods" onClick={() => setTab("methods")} />
           <TabButton active={tab === "sharing"} label="Sharing Your Faith" onClick={() => setTab("sharing")} />
+          <TabButton active={tab === "journal"} label="📓 Journal" onClick={() => setTab("journal")} />
           <TabButton active={tab === "videos"} label="Videos" onClick={() => setTab("videos")} />
         </div>
 
@@ -638,6 +655,55 @@ export default function GospelPresentationPage() {
           </section>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Gospel Conversations Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record gospel conversations you have had, which method you used, and the next step you are taking. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CONVERSATION I HAD *</label>
+                <textarea value={gpForm.conversation} onChange={e => setGpForm(f => ({ ...f, conversation: e.target.value }))}
+                  placeholder="Who did you share with, and what happened?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>METHOD / APPROACH I USED</label>
+                <textarea value={gpForm.method} onChange={e => setGpForm(f => ({ ...f, method: e.target.value }))}
+                  placeholder="Which gospel presentation or approach did you use (Bridge, Romans Road, Story...)?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP WITH THIS PERSON</label>
+                <textarea value={gpForm.step} onChange={e => setGpForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What is the next step — follow-up, prayer, invite to church?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGpEntry}
+                style={{ background: gpSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {gpSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {gpEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({gpEntries.length})</h3>
+                {gpEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteGpEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.conversation && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>CONVERSATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.conversation}</span></div>}
+                    {entry.method && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>METHOD: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.method}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {tab === "videos" && (
           <section>
@@ -661,10 +727,10 @@ export default function GospelPresentationPage() {
               }}
             >
               {[
-                { title: "The Gospel in 4 Minutes", videoId: "_-EZv8iLkVc" },
-                { title: "The Three Circles Explained", videoId: "9Z6kU3xS0RY" },
-                { title: "What Is the Gospel? (Explained)", videoId: "Anh3sG5lp5w" },
-                { title: "How to Share Your Faith", videoId: "9Z6kU3xS0RY" },
+                { title: "The Gospel in 4 Minutes", videoId: "zUKzVFQn4Tc" },
+                { title: "The Three Circles Explained", videoId: "OqwbFGoRYVo" },
+                { title: "What Is the Gospel? (Explained)", videoId: "npEDqbE6faE" },
+                { title: "How to Share Your Faith", videoId: "krxcqH522uo" },
               ].map((v) => (
                 <div
                   key={v.title}
@@ -675,13 +741,7 @@ export default function GospelPresentationPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ fontFamily: SERIF, fontSize: "1.2rem", margin: 0 }}>{v.title}</h4>
                   </div>

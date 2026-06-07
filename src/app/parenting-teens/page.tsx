@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
@@ -286,7 +288,7 @@ export default function ParentingTeensPage() {
               { id: "theology", label: "Theology & Framework" },
               { id: "stages", label: `${stages.length} Adolescent Stages` },
               { id: "conversations", label: "Hard Conversations" },
-              { id: "leavingwell", label: "Launching Well" },
+              { id: "IvSuGyJQ6oM", label: "Launching Well" },
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -509,19 +511,13 @@ export default function ParentingTeensPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "NfwOd9mbL3U", title: "Become a Little Child", channel: "Tim Keller / Redeemer Presbyterian", description: "Keller on Jesus's radical teaching about children and the Kingdom — a theological foundation for understanding why parenting teenagers toward genuine faith is one of the most important callings." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Tim Keller on how the Kingdom of God overturns worldly values — including what we believe about success, achievement, and what we most want for our teenagers." },
-                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how joy in God — not duty or performance — produces genuine obedience. Speaks to the difference between external compliance and internal transformation in teenagers." },
-                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan on what it looks like for faith to be real and simple — the kind of faith you hope your teenager will own for themselves as they launch into adult life." },
+                  { videoId: "sIaT8Jl2zpI", title: "Become a Little Child", channel: "Tim Keller / Redeemer Presbyterian", description: "Keller on Jesus's radical teaching about children and the Kingdom — a theological foundation for understanding why parenting teenagers toward genuine faith is one of the most important callings." },
+                  { videoId: "3Dv4-n6OYGI", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Tim Keller on how the Kingdom of God overturns worldly values — including what we believe about success, achievement, and what we most want for our teenagers." },
+                  { videoId: "5nvVVcYD-0w", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how joy in God — not duty or performance — produces genuine obedience. Speaks to the difference between external compliance and internal transformation in teenagers." },
+                  { videoId: "bxzuh5Xx5G4", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan on what it looks like for faith to be real and simple — the kind of faith you hope your teenager will own for themselves as they launch into adult life." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

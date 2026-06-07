@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "psalmist" | "pitfalls" | "videos";
+type Tab = "theology" | "practices" | "psalmist" | "pitfalls" | "journal" | "videos";
 
 const theologyPoints = [
   {
@@ -175,11 +177,26 @@ export default function ChristianMeditationPage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  const [cmedEntries, setCmedEntries] = useState<{ id: string; date: string; passage: string; heard: string; response: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmed_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmedForm, setCmedForm] = useState({ passage: "", heard: "", response: "" });
+  const [cmedSaved, setCmedSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmed_entries", JSON.stringify(cmedEntries)); }, [cmedEntries]);
+  function saveCmedEntry() {
+    if (!cmedForm.passage.trim()) return;
+    setCmedEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmedForm }, ...prev]);
+    setCmedForm({ passage: "", heard: "", response: "" });
+    setCmedSaved(true); setTimeout(() => setCmedSaved(false), 2000);
+  }
+  function deleteCmedEntry(id: string) { setCmedEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Biblical Foundation" },
     { id: "practices", label: "Practices" },
     { id: "psalmist", label: "Psalmist's Example" },
     { id: "pitfalls", label: "Pitfalls & Discernment" },
+    { id: "journal" as Tab, label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" }
   ];
 
@@ -386,6 +403,49 @@ export default function ChristianMeditationPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Meditation Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record your Scripture meditation sessions — what you heard, and how you responded to God.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Passage or Word Meditated On</label>
+                <input value={cmedForm.passage} onChange={e => setCmedForm(f => ({ ...f, passage: e.target.value }))} placeholder="e.g. Psalm 23, John 15:5, 'I am the vine'..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Did You Hear From God?</label>
+                <textarea value={cmedForm.heard} onChange={e => setCmedForm(f => ({ ...f, heard: e.target.value }))} placeholder="What truth, image, or word surfaced as you sat with this passage?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Your Response</label>
+                <textarea value={cmedForm.response} onChange={e => setCmedForm(f => ({ ...f, response: e.target.value }))} placeholder="What did you pray, surrender, or commit as a result of this meditation?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmedEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmedSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmedEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmedEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.passage}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmedEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.heard && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>What I Heard</div><div style={{ color: TEXT, fontSize: 13 }}>{e.heard}</div></div>}
+                    {e.response && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>My Response</div><div style={{ color: TEXT, fontSize: 13 }}>{e.response}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -395,19 +455,13 @@ export default function ChristianMeditationPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "oT2dE1cTgCw", title: "How to Meditate on a Verse (Philippians 3:1)", channel: "John Piper / Desiring God", description: "John Piper shows how to slow down and meditate on a single phrase of Scripture — a practical model of biblical meditation distinct from Eastern emptying." },
-                  { videoId: "aaghlXGnN_A", title: "Meditation on God's Word Made Simple", channel: "Christian Teaching", description: "A clear explanation of how biblical meditation differs from Eastern meditation, with practical steps for filling the mind with Scripture." },
-                  { videoId: "Gt7OwHtLVDE", title: "The Missing Link Between Bible and Prayer", channel: "Desiring God", description: "Why Bible meditation is the most important and misunderstood spiritual practice — and how it bridges Scripture reading and prayer in daily life." },
-                  { videoId: "VIDRl_M-R_M", title: "Lectio Divina Explained: A Monk's Guide", channel: "Fr. Michael Casey OCSO", description: "A deep exploration of the ancient practice of sacred reading — the four movements of Lectio Divina as a way of hearing God through Scripture." },
+                  { videoId: "j9phNEaPrv8", title: "How to Meditate on a Verse (Philippians 3:1)", channel: "John Piper / Desiring God", description: "John Piper shows how to slow down and meditate on a single phrase of Scripture — a practical model of biblical meditation distinct from Eastern emptying." },
+                  { videoId: "dy9nwe9zeU8", title: "Meditation on God's Word Made Simple", channel: "Christian Teaching", description: "A clear explanation of how biblical meditation differs from Eastern meditation, with practical steps for filling the mind with Scripture." },
+                  { videoId: "iK0NjiBXKN4", title: "The Missing Link Between Bible and Prayer", channel: "Desiring God", description: "Why Bible meditation is the most important and misunderstood spiritual practice — and how it bridges Scripture reading and prayer in daily life." },
+                  { videoId: "zMbUXpFiFeo", title: "Lectio Divina Explained: A Monk's Guide", channel: "Fr. Michael Casey OCSO", description: "A deep exploration of the ancient practice of sacred reading — the four movements of Lectio Divina as a way of hearing God through Scripture." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

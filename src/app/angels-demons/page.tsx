@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "angels" | "theology" | "warfare" | "practices" | "videos";
+type Tab = "angels" | "theology" | "warfare" | "practices" | "journal" | "videos";
 
 const ANGELS = [
   { name: "Ordinary Angels", color: GREEN, role: "Messengers and servants", desc: "The word 'angel' (Hebrew: malak; Greek: angelos) simply means 'messenger.' Angels are created spiritual beings who serve God and minister to his people. They delivered divine messages (Luke 1:26-38), protected (Psalm 91:11-12), guided (Acts 8:26), and strengthened (Matthew 4:11). Scripture is restrained about their nature — they are neither human nor divine but serve as agents of God's purposes." },
@@ -77,6 +80,20 @@ export default function AngelsDemonsPage() {
   const angel = ANGELS.find(a => a.name === selectedAngel)!;
   const warfare = WARFARE.find(w => w.id === selectedWarfare)!;
 
+  const [adEntries, setAdEntries] = useState<{ id: string; date: string; battle: string; armor: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ad_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [adForm, setAdForm] = useState({ battle: "", armor: "", prayer: "" });
+  const [adSaved, setAdSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ad_entries", JSON.stringify(adEntries)); }, [adEntries]);
+  function saveAdEntry() {
+    if (!adForm.battle.trim()) return;
+    setAdEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...adForm }, ...prev]);
+    setAdForm({ battle: "", armor: "", prayer: "" });
+    setAdSaved(true); setTimeout(() => setAdSaved(false), 2000);
+  }
+  function deleteAdEntry(id: string) { setAdEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -96,6 +113,7 @@ export default function AngelsDemonsPage() {
             { id: "theology" as Tab, label: "Theology", icon: "📖" },
             { id: "warfare" as Tab, label: "Spiritual Warfare", icon: "⚔️" },
             { id: "practices" as Tab, label: "Practices", icon: "🛡️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -191,6 +209,48 @@ export default function AngelsDemonsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Spiritual Warfare Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Track spiritual battles, which armor you are putting on, and your prayers in the fight.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Battle I am facing</label>
+                <textarea value={adForm.battle} onChange={e => setAdForm(f => ({ ...f, battle: e.target.value }))} rows={2} placeholder="What is the enemy attacking — a lie, a temptation, a fear?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Armor I am putting on</label>
+                <textarea value={adForm.armor} onChange={e => setAdForm(f => ({ ...f, armor: e.target.value }))} rows={2} placeholder="Which piece of the armor are you deliberately applying today?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My prayer in this battle</label>
+                <textarea value={adForm.prayer} onChange={e => setAdForm(f => ({ ...f, prayer: e.target.value }))} rows={2} placeholder="Write out a short prayer for this spiritual conflict..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAdEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {adSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {adEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({adEntries.length})</h3>
+                {adEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteAdEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.battle && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Battle:</strong> {e.battle}</p>}
+                    {e.armor && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Armor:</strong> {e.armor}</p>}
+                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Prayer:</strong> {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -200,19 +260,13 @@ export default function AngelsDemonsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "NxTbV_zeIQg", title: "The Angel of 'Light': Angels and Demons", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the biblical teaching on angels and demons, including Satan's nature as a fallen angel who disguises himself as an angel of light." },
-                  { videoId: "804lSn41ohU", title: "Spiritual Warfare According to the Bible: Angels and Demons", channel: "Bible Teaching", description: "A comprehensive biblical overview of what Scripture teaches about the angelic realm, demonic powers, and how Christians engage in spiritual warfare." },
-                  { videoId: "7SCDIZNgpDw", title: "Secret Church 7: Spiritual Warfare", channel: "David Platt / Radical", description: "David Platt's intensive Secret Church session on what the Bible teaches about spiritual warfare, angels, and how believers stand firm against the enemy." },
-                  { videoId: "tsrLyOCBU7Q", title: "How Angels and Demons Fight Out a War in the Heavens", channel: "Derek Prince Ministries", description: "Derek Prince teaches on the unseen spiritual conflict described in Daniel 10, where angelic warfare operates behind earthly events and prayer." },
+                  { videoId: "52ZXFH1wzc8", title: "The Angel of 'Light': Angels and Demons", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the biblical teaching on angels and demons, including Satan's nature as a fallen angel who disguises himself as an angel of light." },
+                  { videoId: "rtkS_8VWfB0", title: "Spiritual Warfare According to the Bible: Angels and Demons", channel: "Bible Teaching", description: "A comprehensive biblical overview of what Scripture teaches about the angelic realm, demonic powers, and how Christians engage in spiritual warfare." },
+                  { videoId: "npEDqbE6faE", title: "Secret Church 7: Spiritual Warfare", channel: "David Platt / Radical", description: "David Platt's intensive Secret Church session on what the Bible teaches about spiritual warfare, angels, and how believers stand firm against the enemy." },
+                  { videoId: "IvSuGyJQ6oM", title: "How Angels and Demons Fight Out a War in the Heavens", channel: "Derek Prince Ministries", description: "Derek Prince teaches on the unseen spiritual conflict described in Daniel 10, where angelic warfare operates behind earthly events and prayer." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

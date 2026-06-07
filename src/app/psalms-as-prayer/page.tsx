@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "guide" | "types" | "psalms" | "howto" | "videos";
+type Tab = "guide" | "types" | "psalms" | "howto" | "journal" | "videos";
 
 const PSALM_TYPES = [
   { type: "Lament (Individual)", color: "#EF4444", count: "~40 Psalms", examples: "3, 4, 5, 6, 7, 13, 22, 31, 38, 42-43, 51, 55, 57, 61, 64, 69, 71, 86, 88, 102, 109, 130, 140, 141, 142, 143", structure: "Address to God → Complaint → Confession of Trust → Petition → Vow of Praise", why_pray: "These psalms give voice to the darkest interior states — abandonment, betrayal, illness, depression, anger at God. They legitimize the full range of human experience before God and provide language for what feels unspeakable.", example_psalm: 88, example_note: "The only Psalm with no resolution or praise — it ends in darkness. Model for those who cannot yet move to hope." },
@@ -46,6 +48,21 @@ export default function PsalmsAsPrayerPage() {
   const psalm = SELECTED_PSALMS.find(p => p.number === parseInt(selected || "0"));
   const psalmType = PSALM_TYPES.find(t => t.type === selected);
 
+  const [sapJEntries, setSapJEntries] = useState<{ id: string; date: string; psalm: string; prayer: string; response: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_sapj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [sapJForm, setSapJForm] = useState({ psalm: "", prayer: "", response: "" });
+  const [sapJSaved, setSapJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_sapj_entries", JSON.stringify(sapJEntries)); } catch {} }, [sapJEntries]);
+  const saveSapJEntry = () => {
+    if (!sapJForm.psalm.trim()) return;
+    setSapJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...sapJForm }, ...prev]);
+    setSapJForm({ psalm: "", prayer: "", response: "" });
+    setSapJSaved(true);
+    setTimeout(() => setSapJSaved(false), 2000);
+  };
+  const deleteSapJEntry = (id: string) => setSapJEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -61,10 +78,10 @@ export default function PsalmsAsPrayerPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["guide", "types", "psalms", "howto", "videos"] as Tab[]).map(t => (
+          {(["guide", "types", "psalms", "howto", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "guide" ? "Why Pray Psalms" : t === "types" ? "Psalm Types" : t === "psalms" ? "Key Psalms" : t === "howto" ? "How to Pray" : "Videos"}
+              {t === "guide" ? "Why Pray Psalms" : t === "types" ? "Psalm Types" : t === "psalms" ? "Key Psalms" : t === "howto" ? "How to Pray" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -179,6 +196,50 @@ export default function PsalmsAsPrayerPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Psalms Prayer Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the Psalm you prayed, the prayer it generated in you, and your heart&apos;s response afterward.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Psalm I prayed</label>
+                  <textarea rows={2} value={sapJForm.psalm} onChange={e => setSapJForm(f => ({ ...f, psalm: e.target.value }))} placeholder="e.g. Psalm 23, Psalm 51, Psalm 139" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>The prayer it generated in me</label>
+                  <textarea rows={2} value={sapJForm.prayer} onChange={e => setSapJForm(f => ({ ...f, prayer: e.target.value }))} placeholder="What did you find yourself saying to God through this Psalm?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>My heart&apos;s response</label>
+                  <textarea rows={2} value={sapJForm.response} onChange={e => setSapJForm(f => ({ ...f, response: e.target.value }))} placeholder="What changed in your interior state after praying this Psalm?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveSapJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {sapJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {sapJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {sapJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteSapJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.psalm && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Psalm</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.psalm}</p></div>}
+                    {e.prayer && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Prayer</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.prayer}</p></div>}
+                    {e.response && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Response</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.response}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -188,19 +249,13 @@ export default function PsalmsAsPrayerPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "A practical guide to using the Psalter as a school of prayer, letting each psalm shape and expand your vocabulary before God." },
-                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper explains how to read the Psalms as prayer — slowly, personally, and with Christ as the primary voice." },
-                  { videoId: "3VxyGP7z2rk", title: "If God Is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul shows why God's sovereignty is the foundation of prayer, not an objection to it — rooted in the theology of the Psalms." },
-                  { videoId: "pJG8EWLEjQo", title: "Consistent Spiritual Discipline Is Not Legalism", channel: "Desiring God", description: "John Piper addresses the concern that structured, psalm-based prayer becomes mechanical, showing how discipline flows from desire." },
+                  { videoId: "iK0NjiBXKN4", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "A practical guide to using the Psalter as a school of prayer, letting each psalm shape and expand your vocabulary before God." },
+                  { videoId: "j9phNEaPrv8", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper explains how to read the Psalms as prayer — slowly, personally, and with Christ as the primary voice." },
+                  { videoId: "mC-zw0zCCtg", title: "If God Is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul shows why God's sovereignty is the foundation of prayer, not an objection to it — rooted in the theology of the Psalms." },
+                  { videoId: "ZOBIPb-6PTc", title: "Consistent Spiritual Discipline Is Not Legalism", channel: "Desiring God", description: "John Piper addresses the concern that structured, psalm-based prayer becomes mechanical, showing how discipline flows from desire." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "organizations" | "fields" | "how" | "videos";
+type Tab = "organizations" | "fields" | "how" | "journal" | "videos";
 
 const TYPE_FILTERS = ["All", "Bible Translation", "Church Planting", "Medical & Relief", "Persecuted Church", "Short-Term Missions", "Unreached Peoples"];
 
@@ -268,12 +270,12 @@ const MISSION_STEPS = [
 ];
 
 const MISSIONS_VIDEOS = [
-  { id: "yhiHSf_L6_E", title: "Radical — Passion 2011", preacher: "David Platt" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", preacher: "John Piper" },
-  { id: "uuabITeO4l8", title: "Shocking Youth Message", preacher: "Paul Washer" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God", preacher: "Tim Keller" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", preacher: "Louie Giglio" },
+  { id: "mC-zw0zCCtg", title: "Radical — Passion 2011", preacher: "David Platt" },
+  { id: "jxaJZ5lBM5U", title: "Don't Waste Your Life", preacher: "John Piper" },
+  { id: "JG_BBH8DVPI", title: "Shocking Youth Message", preacher: "Paul Washer" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
+  { id: "4Eg_di-O8nM", title: "The Reason for God", preacher: "Tim Keller" },
+  { id: "rtkS_8VWfB0", title: "How Great Is Our God", preacher: "Louie Giglio" },
 ];
 
 export default function MissionsOrganizationsPage() {
@@ -283,6 +285,20 @@ export default function MissionsOrganizationsPage() {
 
   const filtered = ORGS.filter(o => type === "All" || o.type === type);
   const org = ORGS.find(o => o.name === selected);
+
+  const [moEntries, setMoEntries] = useState<{ id: string; date: string; org: string; calling: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mo_entries") ?? "[]"); } catch { return []; }
+  });
+  const [moForm, setMoForm] = useState({ org: "", calling: "", step: "" });
+  const [moSaved, setMoSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mo_entries", JSON.stringify(moEntries)); } catch {} }, [moEntries]);
+  const saveMoEntry = () => {
+    if (!moForm.org.trim()) return;
+    setMoEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...moForm }, ...prev]);
+    setMoForm({ org: "", calling: "", step: "" });
+    setMoSaved(true); setTimeout(() => setMoSaved(false), 2000);
+  };
+  const deleteMoEntry = (id: string) => setMoEntries(prev => prev.filter(e => e.id !== id));
 
   const TYPE_COLOR: Record<string, string> = {
     "Bible Translation": GREEN,
@@ -309,9 +325,9 @@ export default function MissionsOrganizationsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["organizations", "fields", "how", "videos"] as const).map(t => (
+          {(["organizations", "fields", "how", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "organizations" ? "Organizations" : t === "fields" ? "Mission Fields" : t === "how" ? "How to Engage" : "Videos"}
+              {t === "organizations" ? "Organizations" : t === "fields" ? "Mission Fields" : t === "how" ? "How to Engage" : t === "journal" ? "My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -466,6 +482,42 @@ export default function MissionsOrganizationsPage() {
         )}
 
         {/* Videos Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Missions Org Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record organizations you're following, your calling, and next steps.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={moForm.org} onChange={e => setMoForm(f => ({ ...f, org: e.target.value }))}
+                  placeholder="Which organization are you exploring?" aria-label="Organization"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={moForm.calling} onChange={e => setMoForm(f => ({ ...f, calling: e.target.value }))}
+                  placeholder="What sense of calling or burden do you have?" aria-label="Calling"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={moForm.step} onChange={e => setMoForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What's your next step with this org? (optional)" aria-label="Next step"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMoEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {moSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {moEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first missions org reflection above.</p>}
+              {moEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMoEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.org}</p>
+                  {e.calling && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.calling}</p>}
+                  {e.step && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.step}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
@@ -477,9 +529,7 @@ export default function MissionsOrganizationsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 20 }}>
               {MISSIONS_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                     <span style={{ background: `${GREEN}15`, color: GREEN, padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{v.preacher}</span>

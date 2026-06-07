@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "approaches" | "pioneers" | "practices" | "videos";
+type Tab = "theology" | "approaches" | "pioneers" | "practices" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "The Missio Dei", verse: "John 20:21", body: "The Latin phrase missio Dei (mission of God) expresses the insight that mission is not primarily a human activity organized by the church but the activity of the triune God in which the church participates. 'As the Father has sent me, I am sending you' (John 20:21). The church does not have a mission — the mission has a church. God was a missionary God before the church existed: sending the Son, sending the Spirit, sending the church into the world he so loves." },
@@ -106,6 +109,20 @@ export default function MissionsTheologyPage() {
   const approach = APPROACHES.find(a => a.name === selectedApproach)!;
   const pioneer = PIONEERS.find(p => p.id === selectedPioneer)!;
 
+  const [mtEntries, setMtEntries] = useState<{ id: string; date: string; calling: string; approach: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mt_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mtForm, setMtForm] = useState({ calling: "", approach: "", step: "" });
+  const [mtSaved, setMtSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mt_entries", JSON.stringify(mtEntries)); } catch {} }, [mtEntries]);
+  const saveMtEntry = () => {
+    if (!mtForm.calling.trim()) return;
+    setMtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mtForm }, ...prev]);
+    setMtForm({ calling: "", approach: "", step: "" });
+    setMtSaved(true); setTimeout(() => setMtSaved(false), 2000);
+  };
+  const deleteMtEntry = (id: string) => setMtEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -125,6 +142,7 @@ export default function MissionsTheologyPage() {
             { id: "approaches" as Tab, label: "Approaches", icon: "🗺️" },
             { id: "pioneers" as Tab, label: "Pioneers", icon: "🌟" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -222,17 +240,52 @@ export default function MissionsTheologyPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Missions Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record your sense of calling, the approach you're considering, and next steps.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <textarea value={mtForm.calling} onChange={e => setMtForm(f => ({ ...f, calling: e.target.value }))}
+                  placeholder="What is your sense of calling to missions?" aria-label="Calling"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mtForm.approach} onChange={e => setMtForm(f => ({ ...f, approach: e.target.value }))}
+                  placeholder="Which missions approach resonates most? (optional)" aria-label="Approach"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <input value={mtForm.step} onChange={e => setMtForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What's your next step? (optional)" aria-label="Next step"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMtEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mtSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mtEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first missions theology reflection above.</p>}
+              {mtEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMtEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.6, margin: "0 0 4px" }}>{e.calling}</p>
+                  {e.approach && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: "0 0 4px" }}>{e.approach}</p>}
+                  {e.step && <p style={{ color: GREEN, fontSize: 13, margin: 0 }}>→ {e.step}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {[
-              { videoId: "Z8lkuuhVkOI", title: "The Biblical Foundation of Missions", channel: "John Piper Desiring God", description: "John Piper traces the biblical foundation of missions from creation through the Great Commission, showing that God's missionary purpose runs through the whole of Scripture." },
-              { videoId: "fJnGJN6laqE", title: "Let the Nations Be Glad", channel: "Desiring God - John Piper", description: "Based on his landmark book, John Piper presents the theological vision of missions — that the goal of missions is the worship of God among all peoples, and that prayer is the primary work." },
-              { videoId: "TuXTFlU-_To", title: "Missions and the Great Commission", channel: "Ligonier Ministries", description: "Ligonier Ministries examines the Great Commission as the church's permanent mandate, exploring what it means to make disciples of all nations in our generation." },
-              { videoId: "sxMhDVkdULw", title: "Why Missions? The Heart of God for the Nations", channel: "Tim Keller", description: "Tim Keller explores why God's heart for the nations is not a peripheral theme but central to the gospel itself, and what that means for the church's calling in the world." },
+              { videoId: "gV9JugO_5Mk", title: "The Biblical Foundation of Missions", channel: "John Piper Desiring God", description: "John Piper traces the biblical foundation of missions from creation through the Great Commission, showing that God's missionary purpose runs through the whole of Scripture." },
+              { videoId: "4Eg_di-O8nM", title: "Let the Nations Be Glad", channel: "Desiring God - John Piper", description: "Based on his landmark book, John Piper presents the theological vision of missions — that the goal of missions is the worship of God among all peoples, and that prayer is the primary work." },
+              { videoId: "OU69so6VjHA", title: "Missions and the Great Commission", channel: "Ligonier Ministries", description: "Ligonier Ministries examines the Great Commission as the church's permanent mandate, exploring what it means to make disciples of all nations in our generation." },
+              { videoId: "OqwbFGoRYVo", title: "Why Missions? The Heart of God for the Nations", channel: "Tim Keller", description: "Tim Keller explores why God's heart for the nations is not a peripheral theme but central to the gospel itself, and what that means for the church's calling in the world." },
             ].map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

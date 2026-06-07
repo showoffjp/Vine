@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond, Jost } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import NavProgress from "@/components/NavProgress";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -113,6 +114,7 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         style={{ background: "#07070F", color: "#F2F2F8" }}
       >
+        <NavProgress />
         {children}
         <Analytics />
         <SpeedInsights />

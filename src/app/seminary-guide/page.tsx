@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "seminaries" | "degrees" | "alternatives" | "discernment" | "videos";
+type Tab = "seminaries" | "degrees" | "alternatives" | "discernment" | "journal" | "videos";
 
 const SEM_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Should You Go to Seminary?", channel: "Gospel in Life", description: "Keller reflects on the value of formal theological education and how to discern whether it's the right path." },
-  { videoId: "ACZbpLkY8To", title: "How to Choose a Seminary", channel: "Ligonier Ministries", description: "What to look for in a seminary: faculty, theological tradition, accreditation, cost, and culture." },
-  { videoId: "fJnGJN6laqE", title: "The Pastor-Scholar — Why Study Theology?", channel: "Desiring God", description: "John Piper makes the case for theological depth in pastoral ministry and how to pursue it." },
-  { videoId: "Z8lkuuhVkOI", title: "Seminary Without Going to Seminary — Self-Directed Theological Education", channel: "The Gospel Coalition", description: "Resources and strategies for those who want seminary-level formation outside of a formal program." },
+  { videoId: "rtkS_8VWfB0", title: "Should You Go to Seminary?", channel: "Gospel in Life", description: "Keller reflects on the value of formal theological education and how to discern whether it's the right path." },
+  { videoId: "ej_6dVdJSIU", title: "How to Choose a Seminary", channel: "Ligonier Ministries", description: "What to look for in a seminary: faculty, theological tradition, accreditation, cost, and culture." },
+  { videoId: "4Eg_di-O8nM", title: "The Pastor-Scholar — Why Study Theology?", channel: "Desiring God", description: "John Piper makes the case for theological depth in pastoral ministry and how to pursue it." },
+  { videoId: "gV9JugO_5Mk", title: "Seminary Without Going to Seminary — Self-Directed Theological Education", channel: "The Gospel Coalition", description: "Resources and strategies for those who want seminary-level formation outside of a formal program." },
 ];
 
 const SEMINARIES = [
@@ -162,6 +164,20 @@ export default function SeminaryGuidePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_seminary-guide_tab", "seminaries");
   const [selected, setSelected] = useState(SEMINARIES[0].name);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  type JournalEntry = { id: string; date: string; calling: string; consideration: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_semj_entries") ?? "[]"); } catch { return []; } });
+  const [jCalling, setJCalling] = useState("");
+  const [jConsideration, setJConsideration] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_semj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jCalling.trim() && !jConsideration.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), calling: jCalling, consideration: jConsideration, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJCalling(""); setJConsideration(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
   const sel = SEMINARIES.find(s => s.name === selected) || SEMINARIES[0];
 
   return (
@@ -179,10 +195,10 @@ export default function SeminaryGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["seminaries", "degrees", "alternatives", "discernment", "videos"] as Tab[]).map(t => (
+          {(["seminaries", "degrees", "alternatives", "discernment", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "seminaries" ? "Top Seminaries" : t === "degrees" ? "Degree Guide" : t === "alternatives" ? "Free Alternatives" : t === "discernment" ? "Discernment" : "Videos"}
+              {t === "seminaries" ? "Top Seminaries" : t === "degrees" ? "Degree Guide" : t === "alternatives" ? "Free Alternatives" : t === "discernment" ? "Discernment" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -298,12 +314,44 @@ export default function SeminaryGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Seminary Discernment Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record how God is calling you, what you are considering, and your next steps toward theological education.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jCalling} onChange={e => setJCalling(e.target.value)} placeholder="How are you sensing God's call to ministry or theological education?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jConsideration} onChange={e => setJConsideration(e.target.value)} placeholder="What seminaries or programs are you considering, and why?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next concrete step" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your discernment toward theological education.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>Discernment Entry</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.calling && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Calling:</strong> {entry.calling}</p>}
+                    {entry.consideration && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Considering:</strong> {entry.consideration}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SEM_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

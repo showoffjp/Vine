@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -27,7 +29,7 @@ type Tab = "howto" | "psalms" | "voices" | "write" | "videos";
 
 const VOICES = [
   {
-    id: "brueggemann",
+    id: "GGCF3OPWN14",
     name: "Walter Brueggemann",
     era: "1933-present",
     context: "OT scholar; Columbia Theological Seminary",
@@ -108,6 +110,10 @@ export default function LamentPage() {
       steps: form.steps,
     };
     setLaments(prev => [entry, ...prev].slice(0, 60));
+  };
+
+  const deleteLament = (id: string) => {
+    setLaments(prev => prev.filter(l => l.id !== id));
     setForm({ subject: "", steps: {} });
     setSaved(true);
     setTimeout(() => { setSaved(false); setActiveTab("psalms"); }, 1500);
@@ -251,9 +257,15 @@ export default function LamentPage() {
                 <h4 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12 }}>Previous Laments ({laments.length})</h4>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {laments.map(l => (
-                    <div key={l.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16 }}>
-                      <div style={{ color: GREEN, fontWeight: 700, marginBottom: 4 }}>{l.subject}</div>
-                      <div style={{ color: MUTED, fontSize: 12 }}>{new Date(l.date + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</div>
+                    <div key={l.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ color: GREEN, fontWeight: 700, marginBottom: 4 }}>{l.subject}</div>
+                        <div style={{ color: MUTED, fontSize: 12 }}>{new Date(l.date + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteLament(l.id)} aria-label="Delete"
+                        style={{ background: "none", border: "none", color: "#3A3A58", cursor: "pointer", fontSize: 16, lineHeight: 1, padding: "0 2px", flexShrink: 0 }}
+                        onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = "#EF4444"}
+                        onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = "#3A3A58"}>×</button>
                     </div>
                   ))}
                 </div>
@@ -270,19 +282,13 @@ export default function LamentPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Iy68YXttAvw", title: "Spiritual Depression in the Psalms", channel: "John Piper", description: "Piper explores Psalm 42 and how the psalmist models honest speech in the direction of God when the soul is cast down — the biblical pattern of lament." },
-                  { videoId: "DNl_OZM59Is", title: "Psalm 13: Lessons in Lament", channel: "Psalms Sermon Series", description: "A verse-by-verse walk through Psalm 13 — the fourfold 'How long, O Lord?' — as a model for praying honestly to God in seasons of delay and suffering." },
-                  { videoId: "ExYcadtFlwk", title: "Into the Psalms with John Piper", channel: "The Worship Initiative", description: "John Piper on how the Psalms teach us to pray with honesty, including the laments that address God directly in the midst of anguish." },
-                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper provides a framework for reading the Psalms — including the laments — as the Spirit-inspired language of honest prayer before God." },
+                  { videoId: "t6L-F2emwUc", title: "Spiritual Depression in the Psalms", channel: "John Piper", description: "Piper explores Psalm 42 and how the psalmist models honest speech in the direction of God when the soul is cast down — the biblical pattern of lament." },
+                  { videoId: "oNpTha80yyE", title: "Psalm 13: Lessons in Lament", channel: "Psalms Sermon Series", description: "A verse-by-verse walk through Psalm 13 — the fourfold 'How long, O Lord?' — as a model for praying honestly to God in seasons of delay and suffering." },
+                  { videoId: "4Eg_di-O8nM", title: "Into the Psalms with John Piper", channel: "The Worship Initiative", description: "John Piper on how the Psalms teach us to pray with honesty, including the laments that address God directly in the midst of anguish." },
+                  { videoId: "mC-zw0zCCtg", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper provides a framework for reading the Psalms — including the laments — as the Spirit-inspired language of honest prayer before God." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

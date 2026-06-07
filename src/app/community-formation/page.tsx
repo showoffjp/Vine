@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -44,7 +46,7 @@ const MODELS = [
     lesson: "The Celtic tradition demonstrates that sustainable community requires structure — a shared rule of life that makes communal rhythms possible across many years. Their integration of contemplation and action, hospitality and mission, has been rediscovered repeatedly by renewal movements. The New Monasticism movement of the 21st century draws heavily from Celtic patterns.",
   },
   {
-    id: "finkenwalde",
+    id: "zUKzVFQn4Tc",
     name: "Bonhoeffer's Finkenwalde",
     era: "1935-1937, Nazi Germany",
     color: "#EF4444",
@@ -81,12 +83,26 @@ const PRACTICES = [
   { title: "Celebrate and Mourn Together", desc: "Community is formed in celebrations and laments as much as in ordinary weeks. Show up when people are married, when children are born, when parents die. The presence at the milestone is what distinguishes community from acquaintance.", icon: "🎉" },
 ];
 
-type Tab = "theology" | "obstacles" | "models" | "practices" | "videos";
+type Tab = "theology" | "obstacles" | "models" | "practices" | "journal" | "videos";
 
 export default function CommunityFormationPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_community-formation_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = usePersistedState("vine_community-formation_selected_model", "acts2");
+
+  const [commfEntries, setCommfEntries] = useState<{ id: string; date: string; obstacle: string; model: string; practice: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_commf_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [commfForm, setCommfForm] = useState({ obstacle: "", model: "", practice: "" });
+  const [commfSaved, setCommfSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_commf_entries", JSON.stringify(commfEntries)); }, [commfEntries]);
+  function saveCommfEntry() {
+    if (!commfForm.obstacle.trim()) return;
+    setCommfEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...commfForm }, ...prev]);
+    setCommfForm({ obstacle: "", model: "", practice: "" });
+    setCommfSaved(true); setTimeout(() => setCommfSaved(false), 2000);
+  }
+  function deleteCommfEntry(id: string) { setCommfEntries(prev => prev.filter(e => e.id !== id)); }
 
   const model = MODELS.find(m => m.id === selectedModel)!;
 
@@ -109,6 +125,7 @@ export default function CommunityFormationPage() {
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
             { id: "models" as const, label: "Historical Models", icon: "🏛️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -215,6 +232,54 @@ export default function CommunityFormationPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Community Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your community life — the obstacles you face, the models that inspire you, and the practices you are pursuing. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I&apos;M FACING *</label>
+                <textarea value={commfForm.obstacle} onChange={e => setCommfForm(f => ({ ...f, obstacle: e.target.value }))}
+                  placeholder="What is making deep community difficult for you right now?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MODEL OR INSPIRATION</label>
+                <textarea value={commfForm.model} onChange={e => setCommfForm(f => ({ ...f, model: e.target.value }))}
+                  placeholder="Which community model or story inspires you? What can you learn from it?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE I&apos;M COMMITTING TO</label>
+                <textarea value={commfForm.practice} onChange={e => setCommfForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What specific community practice will you commit to this week or month?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCommfEntry}
+                style={{ background: commfSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {commfSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {commfEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({commfEntries.length})</h3>
+                {commfEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteCommfEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.obstacle}</span></div>}
+                    {entry.model && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>MODEL: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.model}</span></div>}
+                    {entry.practice && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -224,19 +289,13 @@ export default function CommunityFormationPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "D13B2uGgklA", title: "How to Have Real Community", channel: "Francis Chan", description: "Francis Chan challenges believers to move beyond Sunday attendance into the kind of deep, costly community that mirrors the early church in Acts." },
-                  { videoId: "2qheANo68eo", title: "We Are Church Documentary", channel: "Francis Chan", description: "An exploration of what the church is actually meant to be — a living community, not a religious institution — and what it looks like to recapture that." },
-                  { videoId: "H_H1se2L1vo", title: "A Community of Life", channel: "Matt Chandler / The Village Church", description: "Matt Chandler preaches on how believers are called to be a community that cherishes life together and exists to love God and make disciples." },
-                  { videoId: "Oe_mi-svLQk", title: "God's Design for Church", channel: "Francis Chan", description: "Francis Chan addresses the question of what the church is designed to be and how genuine community is central to that design from the New Testament." },
+                  { videoId: "GGCF3OPWN14", title: "How to Have Real Community", channel: "Francis Chan", description: "Francis Chan challenges believers to move beyond Sunday attendance into the kind of deep, costly community that mirrors the early church in Acts." },
+                  { videoId: "t6L-F2emwUc", title: "We Are Church Documentary", channel: "Francis Chan", description: "An exploration of what the church is actually meant to be — a living community, not a religious institution — and what it looks like to recapture that." },
+                  { videoId: "oNpTha80yyE", title: "A Community of Life", channel: "Matt Chandler / The Village Church", description: "Matt Chandler preaches on how believers are called to be a community that cherishes life together and exists to love God and make disciples." },
+                  { videoId: "4Eg_di-O8nM", title: "God's Design for Church", channel: "Francis Chan", description: "Francis Chan addresses the question of what the church is designed to be and how genuine community is central to that design from the New Testament." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

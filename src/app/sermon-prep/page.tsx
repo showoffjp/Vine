@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -27,7 +29,7 @@ const STEPS = [
   { n: 8, title: "Write, Practice, Revise", color: "#F97316", desc: "Write a full draft even if you won't preach from a manuscript. Writing forces clarity. Then practice aloud — preaching is oral, and what reads well often sounds flat. Notice where you stumble or lose energy. Revise ruthlessly. Cut everything that doesn't serve the central idea. Practice until the structure is internalized, then preach from the text and your people — not from the paper." },
 ];
 
-type Tab = "principles" | "preachers" | "process" | "notes" | "videos";
+type Tab = "principles" | "preachers" | "process" | "notes" | "journal" | "videos";
 
 const PREACHERS = [
   {
@@ -107,6 +109,20 @@ export default function SermonPrepPage() {
     try { localStorage.setItem("vine_sermon_prep_draft", JSON.stringify(form)); } catch {}
   }, [form]);
 
+  type JournalEntry = { id: string; date: string; sermon: string; takeaway: string; applying: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_spj_entries") ?? "[]"); } catch { return []; } });
+  const [jSermon, setJSermon] = useState("");
+  const [jTakeaway, setJTakeaway] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_spj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jSermon.trim() && !jTakeaway.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), sermon: jSermon, takeaway: jTakeaway, applying: jApplying };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJSermon(""); setJTakeaway(""); setJApplying("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const addNote = () => {
     if (!form.passage) return;
     const note: SermonNote = { id: Date.now(), passage: form.passage, bigIdea: form.bigIdea, status: "draft", date: new Date().toISOString().split("T")[0] };
@@ -137,6 +153,7 @@ export default function SermonPrepPage() {
             { id: "preachers" as const, label: "Preachers", icon: "🎙️" },
             { id: "process" as const, label: "The Process", icon: "🔄" },
             { id: "notes" as const, label: "My Sermons", icon: "📝" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -252,6 +269,38 @@ export default function SermonPrepPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Preaching Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record sermons you have heard, what God spoke to you, and how you are applying the Word.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jSermon} onChange={e => setJSermon(e.target.value)} placeholder="Sermon title, passage, or preacher" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jTakeaway} onChange={e => setJTakeaway(e.target.value)} placeholder="Key takeaway — what did God speak to you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How are you applying this to your life or ministry?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Start recording what God is speaking through preaching.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.sermon || "Sermon Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.takeaway && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Takeaway:</strong> {entry.takeaway}</p>}
+                    {entry.applying && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Applying:</strong> {entry.applying}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -261,19 +310,13 @@ export default function SermonPrepPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "SWe1E8AMMr8", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller's workshop from TGC's 2015 National Conference — how to move from head to heart in preaching, and why cognitive content alone never transforms." },
-                  { videoId: "iEwtnsEuLJc", title: "John Piper, Tim Keller, and Richard Coekin on Expositional Preaching", channel: "The Gospel Coalition", description: "Three master preachers discuss what expository preaching is, why it matters, and how they approach the work of preparing and delivering a biblical message." },
-                  { videoId: "ZYmk3DiPJVI", title: "Desiring God Through Fasting and Prayer: Session 1", channel: "Desiring God (John Piper)", description: "Piper on the spiritual disciplines that undergird genuine preaching — how prayer and fasting shape the preacher before they shape the sermon." },
-                  { videoId: "7wVTwlm_bbc", title: "Praying in the Closet and in the Spirit", channel: "Desiring God (John Piper)", description: "How disciplined and spontaneous prayer should flow from confidence that God is on our side — essential teaching for any preacher who wants power beyond technique." },
+                  { videoId: "y4y_B0khuWo", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller's workshop from TGC's 2015 National Conference — how to move from head to heart in preaching, and why cognitive content alone never transforms." },
+                  { videoId: "OqwbFGoRYVo", title: "John Piper, Tim Keller, and Richard Coekin on Expositional Preaching", channel: "The Gospel Coalition", description: "Three master preachers discuss what expository preaching is, why it matters, and how they approach the work of preparing and delivering a biblical message." },
+                  { videoId: "npEDqbE6faE", title: "Desiring God Through Fasting and Prayer: Session 1", channel: "Desiring God (John Piper)", description: "Piper on the spiritual disciplines that undergird genuine preaching — how prayer and fasting shape the preacher before they shape the sermon." },
+                  { videoId: "W6NjAG4qp4M", title: "Praying in the Closet and in the Spirit", channel: "Desiring God (John Piper)", description: "How disciplined and spontaneous prayer should flow from confidence that God is on our side — essential teaching for any preacher who wants power beyond technique." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

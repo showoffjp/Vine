@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -142,7 +145,7 @@ const FRUITS: Fruit[] = [
   },
 ];
 
-type Tab = "overview" | "nine" | "growing" | "videos";
+type Tab = "overview" | "nine" | "growing" | "journal" | "videos";
 
 const GROWING = [
   {
@@ -183,6 +186,20 @@ export default function FruitOfTheSpiritPage() {
 
   const fruit = FRUITS.find((f) => f.id === selected)!;
 
+  const [fotsEntries, setFotsEntries] = useState<{ id: string; date: string; fruitName: string; struggle: string; intention: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_fots_entries") ?? "[]"); } catch { return []; }
+  });
+  const [fotsForm, setFotsForm] = useState({ fruitName: "", struggle: "", intention: "" });
+  const [fotsSaved, setFotsSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_fots_entries", JSON.stringify(fotsEntries)); } catch {} }, [fotsEntries]);
+  const saveFotsEntry = () => {
+    if (!fotsForm.fruitName.trim()) return;
+    setFotsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fotsForm }, ...prev]);
+    setFotsForm({ fruitName: "", struggle: "", intention: "" });
+    setFotsSaved(true); setTimeout(() => setFotsSaved(false), 2000);
+  };
+  const deleteFotsEntry = (id: string) => setFotsEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
@@ -208,6 +225,7 @@ export default function FruitOfTheSpiritPage() {
             { id: "overview" as const, label: "Overview", icon: "📖" },
             { id: "nine" as const, label: "The Nine Fruit", icon: "🍇" },
             { id: "growing" as const, label: "Growing in the Spirit", icon: "🌱" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map((t) => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -307,6 +325,54 @@ export default function FruitOfTheSpiritPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Fruit of the Spirit Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track which fruit you are cultivating, where you struggle, and your intention for growth. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>FRUIT I AM CULTIVATING *</label>
+                <textarea value={fotsForm.fruitName} onChange={e => setFotsForm(f => ({ ...f, fruitName: e.target.value }))}
+                  placeholder="Which fruit of the Spirit are you focusing on (love, joy, peace, patience...)?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WHERE I STRUGGLE WITH THIS</label>
+                <textarea value={fotsForm.struggle} onChange={e => setFotsForm(f => ({ ...f, struggle: e.target.value }))}
+                  placeholder="In what situations or relationships is this fruit most tested?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY INTENTION FOR GROWTH</label>
+                <textarea value={fotsForm.intention} onChange={e => setFotsForm(f => ({ ...f, intention: e.target.value }))}
+                  placeholder="What specific practice will you undertake to cultivate this fruit?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFotsEntry}
+                style={{ background: fotsSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {fotsSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fotsEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fotsEntries.length})</h3>
+                {fotsEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFotsEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.fruitName && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>FRUIT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.fruitName}</span></div>}
+                    {entry.struggle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>STRUGGLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.struggle}</span></div>}
+                    {entry.intention && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>INTENTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.intention}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginTop: 0, marginBottom: 8 }}>Teaching Videos</h2>
@@ -315,19 +381,13 @@ export default function FruitOfTheSpiritPage() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
-                { videoId: "1MIVUMFcVdI", title: "The Fruit of the Spirit", channel: "The Bible Project", description: "An overview tracing how the Spirit produces the character of Christ in the believer, set against the works of the flesh in Galatians 5." },
-                { videoId: "Aa1Fv8mDsmw", title: "Walk by the Spirit — Galatians 5", channel: "John Piper / Desiring God", description: "John Piper expounds the contrast between the flesh and the Spirit and what it means to keep in step with the Spirit." },
-                { videoId: "2gAfHObZ3LQ", title: "Abiding in the Vine — John 15", channel: "Bible Teaching", description: "A study of Jesus' vine-and-branches teaching, the secret of bearing lasting fruit through union with Christ." },
-                { videoId: "T9Mg_zw1pNw", title: "Love, Joy, Peace — Cultivating the Fruit", channel: "Tim Keller Sermons", description: "Tim Keller teaches on how grace produces the fruit of the Spirit from the inside out, transforming character at the root." },
+                { videoId: "HGHqu9-DtXk", title: "The Fruit of the Spirit", channel: "The Bible Project", description: "An overview tracing how the Spirit produces the character of Christ in the believer, set against the works of the flesh in Galatians 5." },
+                { videoId: "E65KV3M8RZE", title: "Walk by the Spirit — Galatians 5", channel: "John Piper / Desiring God", description: "John Piper expounds the contrast between the flesh and the Spirit and what it means to keep in step with the Spirit." },
+                { videoId: "Z-17KxpjL0Q", title: "Abiding in the Vine — John 15", channel: "Bible Teaching", description: "A study of Jesus' vine-and-branches teaching, the secret of bearing lasting fruit through union with Christ." },
+                { videoId: "ej_6dVdJSIU", title: "Love, Joy, Peace — Cultivating the Fruit", channel: "Tim Keller Sermons", description: "Tim Keller teaches on how grace produces the fruit of the Spirit from the inside out, transforming character at the root." },
               ].map((v) => (
                 <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, margin: "0 0 4px" }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, margin: "0 0 6px" }}>{v.channel}</p>

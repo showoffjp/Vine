@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -74,13 +76,39 @@ const THINKERS = [
   },
 ];
 
-type Tab = "theology" | "stages" | "thinkers" | "obstacles" | "videos";
+interface GrowthEntry {
+  id: string;
+  date: string;
+  stage: string;
+  moment: string;
+  struggle: string;
+  commitment: string;
+}
+
+type Tab = "theology" | "stages" | "thinkers" | "obstacles" | "journal" | "videos";
 
 export default function SpiritualGrowthPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-growth_tab", "theology");
   const [selectedStage, setSelectedStage] = usePersistedState("vine_spiritual-growth_selected_stage", "New Believer");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_spiritual-growth_selected_thinker", "willard");
+
+  const [entries, setEntries] = useState<GrowthEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_sg_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [gForm, setGForm] = useState({ stage: "Growing Disciple", moment: "", struggle: "", commitment: "" });
+  const [gSaved, setGSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_sg_entries", JSON.stringify(entries)); } catch {} }, [entries]);
+
+  const saveEntry = () => {
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...gForm }, ...prev]);
+    setGForm(f => ({ ...f, moment: "", struggle: "", commitment: "" }));
+    setGSaved(true);
+    setTimeout(() => setGSaved(false), 2000);
+  };
+
+  const deleteEntry = (id: string) => setEntries(prev => prev.filter(e => e.id !== id));
 
   const stage = STAGES.find(s => s.stage === selectedStage)!;
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
@@ -104,6 +132,7 @@ export default function SpiritualGrowthPage() {
             { id: "stages" as const, label: "Stages", icon: "📈" },
             { id: "thinkers" as const, label: "Key Thinkers", icon: "💡" },
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
+            { id: "journal" as const, label: "Journal", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -212,17 +241,83 @@ export default function SpiritualGrowthPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Measure your growth against yourself — not others. Use this journal to notice where you are, what God is doing, and where you want to go.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 20 }}>New Reflection</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I am right now</label>
+                <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+                  {STAGES.map(s => (
+                    <button type="button" key={s.stage} onClick={() => setGForm(f => ({ ...f, stage: s.stage }))}
+                      style={{ padding: "7px 14px", borderRadius: 20, border: `1px solid ${gForm.stage === s.stage ? s.color : BORDER}`, background: gForm.stage === s.stage ? `${s.color}20` : "transparent", color: gForm.stage === s.stage ? s.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {s.stage}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A recent moment of growth</label>
+                <textarea value={gForm.moment} onChange={e => setGForm(f => ({ ...f, moment: e.target.value }))} rows={3}
+                  placeholder="Something I noticed in myself, a conviction, a change in how I responded..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Current struggle or obstacle</label>
+                <textarea value={gForm.struggle} onChange={e => setGForm(f => ({ ...f, struggle: e.target.value }))} rows={2}
+                  placeholder="What is keeping me from growing right now?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Commitment for this season</label>
+                <textarea value={gForm.commitment} onChange={e => setGForm(f => ({ ...f, commitment: e.target.value }))} rows={2}
+                  placeholder="One practice, one relationship, one change I will pursue..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {gSaved ? "Saved ✓" : "Save Reflection"}
+              </button>
+            </div>
+            {entries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Previous Reflections</h3>
+                {entries.map(e => {
+                  const stageColor = STAGES.find(s => s.stage === e.stage)?.color ?? MUTED;
+                  return (
+                    <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                      <button type="button" onClick={() => deleteEntry(e.id)}
+                        style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
+                        <span style={{ background: `${stageColor}20`, color: stageColor, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.stage}</span>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      </div>
+                      {e.moment && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 8px", lineHeight: 1.6 }}><strong style={{ color: GREEN }}>Growth:</strong> {e.moment}</p>}
+                      {e.struggle && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 8px", lineHeight: 1.6 }}><strong style={{ color: "#F59E0B" }}>Struggle:</strong> {e.struggle}</p>}
+                      {e.commitment && <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}><strong style={{ color: PURPLE }}>Commitment:</strong> {e.commitment}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {[
-              { videoId: "sxMhDVkdULw", title: "The Process of Spiritual Maturity", channel: "Desiring God", description: "John Piper traces the biblical contours of spiritual maturity and the process by which God produces it in his people." },
-              { videoId: "Z8lkuuhVkOI", title: "How Do I Grow As A Christian?", channel: "Timothy Keller Gospel in Life", description: "Timothy Keller answers the fundamental question of Christian growth with pastoral clarity and theological depth." },
-              { videoId: "dXxmSDhvbHY", title: "Means of Grace for Spiritual Growth", channel: "Ligonier Ministries", description: "An examination of the ordinary means God uses — Scripture, prayer, and community — to produce growth in believers." },
-              { videoId: "l0hPqVT9PoQ", title: "Three Stages of Spiritual Growth", channel: "Dallas Willard Institute", description: "Dallas Willard's framework for the stages of spiritual formation and how to understand where you are in the journey." },
+              { videoId: "5nvVVcYD-0w", title: "The Process of Spiritual Maturity", channel: "Desiring God", description: "John Piper traces the biblical contours of spiritual maturity and the process by which God produces it in his people." },
+              { videoId: "gV9JugO_5Mk", title: "How Do I Grow As A Christian?", channel: "Timothy Keller Gospel in Life", description: "Timothy Keller answers the fundamental question of Christian growth with pastoral clarity and theological depth." },
+              { videoId: "bxzuh5Xx5G4", title: "Means of Grace for Spiritual Growth", channel: "Ligonier Ministries", description: "An examination of the ordinary means God uses — Scripture, prayer, and community — to produce growth in believers." },
+              { videoId: "KwX1f2gYKZ4", title: "Three Stages of Spiritual Growth", channel: "Dallas Willard Institute", description: "Dallas Willard's framework for the stages of spiritual formation and how to understand where you are in the journey." },
             ].map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

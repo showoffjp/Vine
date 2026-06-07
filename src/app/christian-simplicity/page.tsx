@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "voices" | "practices" | "obstacles" | "videos";
+type Tab = "theology" | "voices" | "practices" | "obstacles" | "journal" | "videos";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -227,12 +229,27 @@ export default function ChristianSimplicityPage() {
   const [selectedTeacher, setSelectedTeacher] = useState<number>(0);
   const [openObstacle, setOpenObstacle] = useState<number | null>(null);
 
+  const [csimEntries, setCsimEntries] = useState<{ id: string; date: string; possession: string; practice: string; freedom: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_csim_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [csimForm, setCsimForm] = useState({ possession: "", practice: "", freedom: "" });
+  const [csimSaved, setCsimSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_csim_entries", JSON.stringify(csimEntries)); }, [csimEntries]);
+  function saveCsimEntry() {
+    if (!csimForm.possession.trim()) return;
+    setCsimEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...csimForm }, ...prev]);
+    setCsimForm({ possession: "", practice: "", freedom: "" });
+    setCsimSaved(true); setTimeout(() => setCsimSaved(false), 2000);
+  }
+  function deleteCsimEntry(id: string) { setCsimEntries(prev => prev.filter(e => e.id !== id)); }
+
   const totalPractices = PRACTICE_CATEGORIES.reduce((sum, c) => sum + c.practices.length, 0);
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology" },
     { id: "voices", label: "Voices" },
     { id: "practices", label: `${totalPractices} Practices` },
     { id: "obstacles", label: "Obstacles" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -858,6 +875,53 @@ export default function ChristianSimplicityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Simplicity Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on possessions, practices, and the freedom that simplicity offers. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What possession or attachment are you examining?</label>
+                <textarea value={csimForm.possession} onChange={e => setCsimForm(f => ({ ...f, possession: e.target.value }))}
+                  placeholder="Something you cling to or that clutters your life..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What simplicity practice are you trying?</label>
+                <textarea value={csimForm.practice} onChange={e => setCsimForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="Decluttering, fasting, giving, digital simplicity..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What freedom have you experienced or are seeking?</label>
+                <textarea value={csimForm.freedom} onChange={e => setCsimForm(f => ({ ...f, freedom: e.target.value }))}
+                  placeholder="What you hope simplicity will unlock in you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCsimEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {csimSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {csimEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {csimEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCsimEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.possession && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>POSSESSION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.possession}</span></div>}
+                    {e.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>PRACTICE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.practice}</span></div>}
+                    {e.freedom && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>FREEDOM </span><span style={{ color: TEXT, fontSize: 14 }}>{e.freedom}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -867,19 +931,13 @@ export default function ChristianSimplicityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "PqAiVyBwsog", title: "Celebration of Discipline: The Path to Spiritual Growth", channel: "Dr. Richard J. Foster", description: "Richard Foster's foundational teaching on spiritual disciplines including simplicity — the full documentary film." },
-                  { videoId: "D3724f98vkI", title: "Simplicity — Celebration of Discipline Curriculum", channel: "Richard Foster", description: "Richard Foster specifically on the spiritual discipline of simplicity: what it is, why it matters, and how to practice it." },
-                  { videoId: "cYHDDeuqcoU", title: "Spiritual Discipline: Door to Liberation", channel: "Richard Foster", description: "Foster on how spiritual disciplines free us from ingrained habits of sin and possessiveness that keep us from knowing true joy." },
-                  { videoId: "vT4XMSgD2_w", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "David Platt and John Piper on how materialism quietly corrupts the Christian heart — and what simplicity as a spiritual discipline looks like in practice." },
+                  { videoId: "f7RJATbobik", title: "Celebration of Discipline: The Path to Spiritual Growth", channel: "Dr. Richard J. Foster", description: "Richard Foster's foundational teaching on spiritual disciplines including simplicity — the full documentary film." },
+                  { videoId: "zUKzVFQn4Tc", title: "Simplicity — Celebration of Discipline Curriculum", channel: "Richard Foster", description: "Richard Foster specifically on the spiritual discipline of simplicity: what it is, why it matters, and how to practice it." },
+                  { videoId: "GGCF3OPWN14", title: "Spiritual Discipline: Door to Liberation", channel: "Richard Foster", description: "Foster on how spiritual disciplines free us from ingrained habits of sin and possessiveness that keep us from knowing true joy." },
+                  { videoId: "t6L-F2emwUc", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "David Platt and John Piper on how materialism quietly corrupts the Christian heart — and what simplicity as a spiritual discipline looks like in practice." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

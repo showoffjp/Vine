@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -86,7 +88,7 @@ const PRACTICES = [
   { title: "Sit with Luke 14 Regularly", desc: "Return to the counting-the-cost passage (Luke 14:25-33) annually. What was the cost you assessed when you first committed to following Christ? Has that cost remained, grown, or been subtly reduced to something more comfortable? Renewal begins with honest assessment.", icon: "🔄" },
 ];
 
-type Tab = "passages" | "myths" | "lives" | "practices" | "videos";
+type Tab = "passages" | "myths" | "lives" | "practices" | "journal" | "videos";
 
 export default function DiscipleshipCostPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_discipleship-cost_tab", "passages");
@@ -94,6 +96,20 @@ export default function DiscipleshipCostPage() {
   const [selectedLife, setSelectedLife] = usePersistedState("vine_discipleship-cost_selected_life", "bonhoeffer");
 
   const life = LIVES.find(l => l.id === selectedLife)!;
+
+  const [dcEntries, setDcEntries] = useState<{ id: string; date: string; cost: string; gained: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_dc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [dcForm, setDcForm] = useState({ cost: "", gained: "", prayer: "" });
+  const [dcSaved, setDcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_dc_entries", JSON.stringify(dcEntries)); }, [dcEntries]);
+  function saveDcEntry() {
+    if (!dcForm.cost.trim()) return;
+    setDcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...dcForm }, ...prev]);
+    setDcForm({ cost: "", gained: "", prayer: "" });
+    setDcSaved(true); setTimeout(() => setDcSaved(false), 2000);
+  }
+  function deleteDcEntry(id: string) { setDcEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -120,6 +136,7 @@ export default function DiscipleshipCostPage() {
             { id: "myths" as const, label: "Common Myths", icon: "⚠️" },
             { id: "lives" as const, label: "Lives of Cost", icon: "🕊️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -219,6 +236,55 @@ export default function DiscipleshipCostPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Bonhoeffer: "When Christ calls a man, he bids him come and die." What has following Christ cost you? What have you gained through that cost?
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Discipleship Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What following Christ has cost me</label>
+                <textarea value={dcForm.cost} onChange={e => setDcForm(f => ({ ...f, cost: e.target.value }))} rows={3}
+                  placeholder="A relationship, an opportunity, comfort, reputation, money, safety, a future I imagined..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I have gained through the cost</label>
+                <textarea value={dcForm.gained} onChange={e => setDcForm(f => ({ ...f, gained: e.target.value }))} rows={2}
+                  placeholder="Mark 10:29-30: 'No one who has left... will fail to receive a hundred times as much.' What has God given back?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Prayer of surrender</label>
+                <textarea value={dcForm.prayer} onChange={e => setDcForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="What is God calling you to surrender or follow him into right now?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveDcEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {dcSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {dcEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Discipleship Journal ({dcEntries.length})</h3>
+                {dcEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteDcEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.cost && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}><span style={{ color: MUTED, fontWeight: 600 }}>Cost: </span>{e.cost}</p>}
+                    {e.gained && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Gained: </span>{e.gained}</p>}
+                    {e.prayer && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -228,19 +294,13 @@ export default function DiscipleshipCostPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "MJeBE5KQZ2Y", title: "Luke 14:25-33 — Count the Cost", channel: "Gospel Preaching", description: "A sermon on Jesus's call to count the cost of discipleship before following him — the builder, the king, and the disciple who gives up everything." },
-                  { videoId: "Tl6KAgzwmrM", title: "Dietrich Bonhoeffer: The Cost of Discipleship", channel: "Christian Biography", description: "An exploration of Bonhoeffer's famous work and life — the pastor who paid the ultimate cost for his discipleship by being executed by the Nazis in 1945." },
-                  { videoId: "QBO1IuDmmaM", title: "The Cost of Discipleship", channel: "Reformed Teaching", description: "A teaching on what Jesus means when he says those who do not take up their cross cannot be his disciples — real sacrifice for real following." },
-                  { videoId: "79hBaQFnS6Y", title: "The Cost of Discipleship: Doing Righteousness", channel: "Biblical Exposition", description: "An expository look at the demands of Christ upon those who follow him, showing that discipleship is not merely intellectual assent but whole-life surrender." },
+                  { videoId: "dy9nwe9zeU8", title: "Luke 14:25-33 — Count the Cost", channel: "Gospel Preaching", description: "A sermon on Jesus's call to count the cost of discipleship before following him — the builder, the king, and the disciple who gives up everything." },
+                  { videoId: "iK0NjiBXKN4", title: "Dietrich Bonhoeffer: The Cost of Discipleship", channel: "Christian Biography", description: "An exploration of Bonhoeffer's famous work and life — the pastor who paid the ultimate cost for his discipleship by being executed by the Nazis in 1945." },
+                  { videoId: "zMbUXpFiFeo", title: "The Cost of Discipleship", channel: "Reformed Teaching", description: "A teaching on what Jesus means when he says those who do not take up their cross cannot be his disciples — real sacrifice for real following." },
+                  { videoId: "52ZXFH1wzc8", title: "The Cost of Discipleship: Doing Righteousness", channel: "Biblical Exposition", description: "An expository look at the demands of Christ upon those who follow him, showing that discipleship is not merely intellectual assent but whole-life surrender." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

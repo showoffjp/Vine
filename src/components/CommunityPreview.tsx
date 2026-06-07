@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowUp, MessageSquare, Bookmark, Share2, ChevronRight, Users, Check } from "lucide-react";
 
@@ -44,32 +44,33 @@ const DISCUSSIONS = [
 ];
 
 const HUBS = [
-  { name: "Faith & Doubt", members: "42K" },
-  { name: "Daily Devotional", members: "38K" },
-  { name: "Christian Parenting", members: "31K" },
-  { name: "Life & Calling", members: "28K" },
-  { name: "Worship & Music", members: "25K" },
-  { name: "Mental Health", members: "22K" },
+  { name: "Faith & Doubt", members: "Active" },
+  { name: "Daily Devotional", members: "Active" },
+  { name: "Christian Parenting", members: "Active" },
+  { name: "Life & Calling", members: "New" },
+  { name: "Worship & Music", members: "New" },
+  { name: "Mental Health", members: "Active" },
 ];
 
 const VOTED_STORAGE_KEY = "vine:community:voted";
 const SAVED_STORAGE_KEY = "vine:community:saved";
 
 export default function CommunityPreview() {
-  const [voted, setVoted] = useState<Record<number, boolean>>({});
-  const [saved, setSaved] = useState<Record<number, boolean>>({});
-  const [sharedIndex, setSharedIndex] = useState<number | null>(null);
-
-  useEffect(() => {
+  const [voted, setVoted] = useState<Record<number, boolean>>(() => {
+    if (typeof window === "undefined") return {};
     try {
       const v = localStorage.getItem(VOTED_STORAGE_KEY);
+      return v ? Object.fromEntries((JSON.parse(v) as number[]).map((i) => [i, true])) : {};
+    } catch { return {}; }
+  });
+  const [saved, setSaved] = useState<Record<number, boolean>>(() => {
+    if (typeof window === "undefined") return {};
+    try {
       const s = localStorage.getItem(SAVED_STORAGE_KEY);
-      if (v) setVoted(Object.fromEntries((JSON.parse(v) as number[]).map((i) => [i, true])));
-      if (s) setSaved(Object.fromEntries((JSON.parse(s) as number[]).map((i) => [i, true])));
-    } catch {
-      /* ignore malformed storage */
-    }
-  }, []);
+      return s ? Object.fromEntries((JSON.parse(s) as number[]).map((i) => [i, true])) : {};
+    } catch { return {}; }
+  });
+  const [sharedIndex, setSharedIndex] = useState<number | null>(null);
 
   const persist = (key: string, map: Record<number, boolean>) => {
     try {
@@ -411,8 +412,9 @@ export default function CommunityPreview() {
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                 {HUBS.map((hub, i) => (
-                  <div
+                  <Link
                     key={i}
+                    href="/groups"
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -420,6 +422,7 @@ export default function CommunityPreview() {
                       padding: "0.6rem 0",
                       borderBottom: i < HUBS.length - 1 ? "0.5px solid rgba(201,162,39,0.08)" : "none",
                       cursor: "pointer",
+                      textDecoration: "none",
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -452,12 +455,12 @@ export default function CommunityPreview() {
                             color: "#9a8f72",
                           }}
                         >
-                          {hub.members} members
+                          {hub.members} community
                         </p>
                       </div>
                     </div>
                     <ChevronRight size={12} style={{ color: "rgba(201,162,39,0.3)" }} />
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

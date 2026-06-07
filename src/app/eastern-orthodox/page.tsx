@@ -2,14 +2,16 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#C9A227";
 
-type Tab = "overview" | "theology" | "liturgy" | "history" | "dialogue" | "videos";
+type Tab = "overview" | "theology" | "liturgy" | "history" | "dialogue" | "journal" | "videos";
 
 const OVERVIEW_POINTS = [
   {
@@ -174,6 +176,20 @@ export default function EasternOrthodoxPage() {
   const [selectedLiturgy, setSelectedLiturgy] = useState(LITURGY_ELEMENTS[0].name);
   const [selectedHistorian, setSelectedHistorian] = useState(HISTORIANS[0].name);
 
+  const [eoEntries, setEoEntries] = useState<{ id: string; date: string; practice: string; theology: string; insight: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_eo_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [eoForm, setEoForm] = useState({ practice: "", theology: "", insight: "" });
+  const [eoSaved, setEoSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_eo_entries", JSON.stringify(eoEntries)); }, [eoEntries]);
+  function saveEoEntry() {
+    if (!eoForm.practice.trim()) return;
+    setEoEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...eoForm }, ...prev]);
+    setEoForm({ practice: "", theology: "", insight: "" });
+    setEoSaved(true); setTimeout(() => setEoSaved(false), 2000);
+  }
+  function deleteEoEntry(id: string) { setEoEntries(prev => prev.filter(e => e.id !== id)); }
+
   const theologyItem = THEOLOGY_ITEMS.find(t => t.doctrine === selectedTheology)!;
   const liturgyItem = LITURGY_ELEMENTS.find(l => l.name === selectedLiturgy)!;
   const historian = HISTORIANS.find(h => h.name === selectedHistorian)!;
@@ -208,6 +224,7 @@ export default function EasternOrthodoxPage() {
             { id: "liturgy" as Tab, label: "Liturgy & Life", icon: "🕯️" },
             { id: "history" as Tab, label: "Voices", icon: "🎓" },
             { id: "dialogue" as Tab, label: "Common Ground", icon: "🤝" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -357,6 +374,54 @@ export default function EasternOrthodoxPage() {
         )}
 
         {/* Videos Tab */}
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Eastern Orthodox Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on Orthodox practices you are exploring, theological insights, and what you are learning about the Eastern tradition. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE I AM EXPLORING *</label>
+                <textarea value={eoForm.practice} onChange={e => setEoForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="Which Orthodox practice (fasting, the Jesus Prayer, liturgy, icons...) are you exploring?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>THEOLOGY THAT STRIKES ME</label>
+                <textarea value={eoForm.theology} onChange={e => setEoForm(f => ({ ...f, theology: e.target.value }))}
+                  placeholder="Which Orthodox theological concept or emphasis is most compelling to you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT FOR MY OWN FAITH</label>
+                <textarea value={eoForm.insight} onChange={e => setEoForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What are you taking back to your own tradition from this exploration?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEoEntry}
+                style={{ background: eoSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {eoSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {eoEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({eoEntries.length})</h3>
+                {eoEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEoEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                    {entry.theology && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>THEOLOGY: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.theology}</span></div>}
+                    {entry.insight && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.insight}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -367,44 +432,38 @@ export default function EasternOrthodoxPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
                   {
-                    videoId: "RIpMsC5Lv3U",
+                    videoId: "npEDqbE6faE",
                     title: "What Is Eastern Orthodox Christianity?",
                     channel: "Orthodoxy and Heterodoxy",
                     description: "A clear, sympathetic introduction to Eastern Orthodox Christianity for those unfamiliar with the tradition — covering theology, liturgy, history, and distinctive practices."
                   },
                   {
-                    videoId: "Zh9hHJVHVco",
+                    videoId: "IvSuGyJQ6oM",
                     title: "The Orthodox Understanding of Salvation",
                     channel: "Ancient Faith Ministries",
                     description: "Father Andrew Stephen Damick explains how Orthodox Christianity understands salvation, theosis, and the human journey toward God — an accessible introduction to Orthodox soteriology."
                   },
                   {
-                    videoId: "B-OWhGcb61s",
+                    videoId: "sIaT8Jl2zpI",
                     title: "Introduction to Eastern Orthodox Liturgy",
                     channel: "Ancient Faith Ministries",
                     description: "A guided tour through the Divine Liturgy of St. John Chrysostom — understanding what is happening in Orthodox worship and why it has remained largely unchanged for 1,600 years."
                   },
                   {
-                    videoId: "Mf5RTLA_mAA",
+                    videoId: "3Dv4-n6OYGI",
                     title: "The Jesus Prayer — Orthodox Contemplative Practice",
                     channel: "Ancient Faith Radio / Ministries",
                     description: "An introduction to the practice of the Jesus Prayer ('Lord Jesus Christ, Son of God, have mercy on me, a sinner') — the central contemplative practice of Orthodox Christianity."
                   },
                   {
-                    videoId: "zAOzAiLMpwY",
+                    videoId: "5nvVVcYD-0w",
                     title: "Orthodox Christianity and Protestant Christianity — Similarities and Differences",
                     channel: "Unboxing Theology",
                     description: "A respectful, scholarly comparison of Orthodox and Protestant Christian theology — covering salvation, Scripture, tradition, sacraments, and ecclesiology from both perspectives."
                   }
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

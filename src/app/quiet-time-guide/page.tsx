@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -153,18 +155,32 @@ const OBSTACLES = [
 
 const VOICES_QT = [
   { id: "murray", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885); Abide in Christ; South African pastor and devotional writer", bio: "Murray is one of the most prolific devotional writers of the 19th century, and his With Christ in the School of Prayer remains one of the most practical and theologically serious books on prayer ever written. His central conviction: prayer is not a technique but a relationship — the relationship between a dependent creature and an all-sufficient God. Every chapter addresses a specific aspect of prayer from a specific Gospel text, making it a devotional commentary on Jesus as teacher of prayer. Murray prayed for hours daily and considered it the most important work of the Christian life.", quote: "The man who mobilizes the Christian church to pray will make the greatest contribution to world evangelization in history.", contribution: "Made sustained, expectant prayer credible and accessible for ordinary Christians. His devotional writing style — warm, practical, and biblical — has shaped the daily prayer lives of millions across 130 years." },
-  { id: "spurgeon-qt", name: "Charles Spurgeon", era: "1834-1892", context: "Morning and Evening (1865); Lectures to My Students; Metropolitan Tabernacle", bio: "Spurgeon preached to 10 million people over his lifetime (before amplification) and maintained a daily devotional life that he considered the secret source of his preaching power. His Morning and Evening — two daily readings with Scripture, meditation, and application — has been in continuous publication for over 150 years. He insisted that the pastor's first congregation was himself, and that the quality of preaching was inseparable from the quality of private devotion. His lectures to his students on prayer, preparation, and life with God are among the most practical on record.", quote: "I would rather teach one man to pray than ten men to preach.", contribution: "Demonstrated by example that massive public ministry is fed by hidden private devotion. Morning and Evening has probably shaped more daily devotional habits than any other book in the English language besides the Bible." },
+  { id: "OpfuKKH_SCE", name: "Charles Spurgeon", era: "1834-1892", context: "Morning and Evening (1865); Lectures to My Students; Metropolitan Tabernacle", bio: "Spurgeon preached to 10 million people over his lifetime (before amplification) and maintained a daily devotional life that he considered the secret source of his preaching power. His Morning and Evening — two daily readings with Scripture, meditation, and application — has been in continuous publication for over 150 years. He insisted that the pastor's first congregation was himself, and that the quality of preaching was inseparable from the quality of private devotion. His lectures to his students on prayer, preparation, and life with God are among the most practical on record.", quote: "I would rather teach one man to pray than ten men to preach.", contribution: "Demonstrated by example that massive public ministry is fed by hidden private devotion. Morning and Evening has probably shaped more daily devotional habits than any other book in the English language besides the Bible." },
   { id: "tozer-qt", name: "A.W. Tozer", era: "1897-1963", context: "The Pursuit of God (1948); The Knowledge of the Holy (1961)", bio: "Tozer was a self-educated Christian Missionary Alliance pastor who became one of the most quoted writers in evangelical Christianity. The Pursuit of God opens with a conviction that drove his entire life: 'The reason why many are still troubled, still seeking, still making little forward progress is because they haven't yet come to the end of themselves.' His vision of quiet time was not methodical but relational — a sustained seeking after God himself, not information about God. He spent long hours in prayer and wrote in the mornings before anyone else was awake.", quote: "An infinite God can give all of Himself to each of His children. He does not distribute Himself that each may have a part, but to each one He gives all of Himself as fully as if there were no others.", contribution: "Recovered the experiential and mystical dimension of Protestant devotion — the direct pursuit of God's presence rather than merely his benefits. The Pursuit of God has introduced more evangelicals to contemplative prayer than any other 20th-century book." },
   { id: "chambers", name: "Oswald Chambers", era: "1874-1917", context: "My Utmost for His Highest (1927, published posthumously); YMCA minister", bio: "Chambers died at 43 of appendicitis while serving as a YMCA chaplain in Egypt during World War I. My Utmost for His Highest — compiled from his wife's stenographic notes of his lectures at the Bible Training College — has been the best-selling daily devotional in the English language for nearly a century. Its signature is demanding language: Chambers does not offer comfort first but challenge. 'There is nothing thrilling about a laboring man's work, but it is the laboring man who makes the conceptions of the genius possible.' He expected the Christian to give everything, daily, holding nothing back.", quote: "My utmost for His highest is not devotion for devotion's sake; it is total abandonment to God.", contribution: "Created the template for the daily devotional reading that combines theological seriousness with personal challenge. My Utmost for His Highest has shaped the devotional habits of more evangelicals than any other non-biblical daily reading." },
   { id: "foster-qt", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978); Prayer: Finding the Heart's True Home (1992); Renovare", bio: "Foster's Prayer: Finding the Heart's True Home — his follow-up to Celebration of Discipline — is the most comprehensive Protestant treatment of the varieties of prayer. He identifies 21 forms of prayer (simple, prayer of examination, relinquishment, contemplative, healing, etc.), showing that prayer is not a single activity but a family of activities united by orientation toward God. His approach to quiet time is capacious rather than programmatic: the goal is a life saturated with prayer, not a daily appointment kept.", quote: "We must never allow the busyness of our lives to cause us to fail to hear the gentle blowing of the Holy Spirit.", contribution: "Expanded the evangelical imagination for what prayer can be and do. By cataloguing and commending forms of prayer that Protestant culture had forgotten (contemplative, centering, healing), he gave a generation of Christians permission to diversify their devotional practice." },
 ];
 
 export default function QuietTimeGuidePage() {
-  const [activeTab, setActiveTab] = usePersistedState<"methods" | "voices" | "schedules" | "obstacles" | "videos">("vine_quiet-time-guide_tab", "methods");
+  const [activeTab, setActiveTab] = usePersistedState<"methods" | "voices" | "schedules" | "obstacles" | "mylog" | "videos">("vine_quiet-time-guide_tab", "methods");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_quiet-time-guide_voice", "murray");
   const voiceItem = VOICES_QT.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const method = METHODS.find(m => m.name === selectedMethod);
+
+  const [qtLogs, setQtLogs] = useState<{ id: string; date: string; method: string; passage: string; what: string; apply: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_qt_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [qtForm, setQtForm] = useState({ method: "SOAP Method", passage: "", what: "", apply: "" });
+  const [qtSaved, setQtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_qt_logs", JSON.stringify(qtLogs)); }, [qtLogs]);
+  function saveQtLog() {
+    if (!qtForm.passage.trim() && !qtForm.what.trim()) return;
+    setQtLogs(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...qtForm }, ...prev]);
+    setQtForm({ method: "SOAP Method", passage: "", what: "", apply: "" });
+    setQtSaved(true); setTimeout(() => setQtSaved(false), 2000);
+  }
+  function deleteQtLog(id: string) { setQtLogs(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -185,6 +201,7 @@ export default function QuietTimeGuidePage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "schedules" as const, label: "Schedules", icon: "⏰" },
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
+            { id: "mylog" as const, label: "My Log", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -322,6 +339,68 @@ export default function QuietTimeGuidePage() {
           </div>
         )}
 
+        {activeTab === "mylog" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                A daily log builds a record of God's faithfulness across seasons — and helps you notice when you're consistently missing and why.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Today's Quiet Time</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Method</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["SOAP Method", "Lectio Divina", "Examen", "Psalms", "Free Prayer", "Other"].map(m => (
+                    <button type="button" key={m} onClick={() => setQtForm(f => ({ ...f, method: m }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${qtForm.method === m ? PURPLE : BORDER}`, background: qtForm.method === m ? `${PURPLE}20` : "transparent", color: qtForm.method === m ? PURPLE : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Passage / Scripture</label>
+                <input value={qtForm.passage} onChange={e => setQtForm(f => ({ ...f, passage: e.target.value }))} placeholder="e.g. Psalm 46, John 15:1-11..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What God showed me</label>
+                <textarea value={qtForm.what} onChange={e => setQtForm(f => ({ ...f, what: e.target.value }))} rows={3}
+                  placeholder="What did you observe, hear, or receive in the text or in prayer?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>One thing to carry today</label>
+                <textarea value={qtForm.apply} onChange={e => setQtForm(f => ({ ...f, apply: e.target.value }))} rows={2}
+                  placeholder="A word, a conviction, a question, something to watch for..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveQtLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {qtSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {qtLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Quiet Time History ({qtLogs.length})</h3>
+                {qtLogs.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteQtLog(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.method}</span>
+                      {e.passage && <span style={{ color: GREEN, fontSize: 12, fontWeight: 600 }}>{e.passage}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.what}</p>}
+                    {e.apply && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.apply}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -331,20 +410,14 @@ export default function QuietTimeGuidePage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "cRmWSB1c6L8", title: "How to Study the Bible", teacher: "R.C. Sproul" },
-                { id: "72F48OWejh4", title: "7 Powerful Bible Study / Quiet Time Ideas", teacher: "Daily Disciple" },
-                { id: "Cjju49Zsst0", title: "My Morning Quiet Time Routine", teacher: "Christian Devotional" },
-                { id: "nryZyL59Gh8", title: "Level Up Your Quiet Time with God", teacher: "Spiritual Formation" },
+                { id: "ERR0Zq7TBgU", title: "How to Study the Bible", teacher: "R.C. Sproul" },
+                { id: "dy9nwe9zeU8", title: "7 Powerful Bible Study / Quiet Time Ideas", teacher: "Daily Disciple" },
+                { id: "OqwbFGoRYVo", title: "My Morning Quiet Time Routine", teacher: "Christian Devotional" },
+                { id: "npEDqbE6faE", title: "Level Up Your Quiet Time with God", teacher: "Spiritual Formation" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

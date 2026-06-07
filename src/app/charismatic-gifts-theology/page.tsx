@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,13 +14,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "tongues" | "prophecy" | "healing" | "videos";
+type Tab = "theology" | "tongues" | "prophecy" | "healing" | "journal" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "theology", label: "Theology of Charismatic Gifts" },
   { id: "tongues", label: "Tongues" },
   { id: "prophecy", label: "Prophecy" },
   { id: "healing", label: "Healing" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "🎬 Videos" },
 ];
 
@@ -39,7 +42,7 @@ const THEOLOGY_ITEMS = [
     body: `Modern Pentecostalism traces its origin to the Azusa Street Revival (Los Angeles, 1906), where William Seymour led a multiracial community that emphasized tongues as the initial evidence of Spirit baptism. From this movement grew the classical Pentecostal denominations (Assemblies of God, Church of God in Christ). The Charismatic Renewal (1960s) brought Spirit-baptism experience into mainline Protestant and Catholic churches — notably Dennis Bennett's 1960 Episcopal declaration sparked widespread renewal. The Third Wave (1980s) emerged through John Wimber and the Vineyard movement: continuationist in theology but rejecting the initial-evidence doctrine, emphasizing signs and wonders in ordinary church ministry without the subculture of Pentecostalism. Today the Global South hosts the most explosive charismatic growth — Nigeria, Brazil, South Korea, and China — where Pentecostal/charismatic Christianity now encompasses over 600 million people worldwide, making it the fastest-growing expression of Christianity in history.`,
   },
   {
-    id: "discernment",
+    id: "GGCF3OPWN14",
     title: "The Discernment Imperative",
     body: `The NT never assumes that spiritual phenomena are automatically trustworthy. 1 Corinthians 14:29 instructs that when prophets speak, "the others should weigh carefully what is said." 1 Thessalonians 5:19-21 commands: "Do not quench the Spirit. Do not treat prophecies with contempt but test them all; hold on to what is good." 1 John 4:1 is bluntest: "Do not believe every spirit, but test the spirits to see whether they are from God, because many false prophets have gone out into the world." The gift of "distinguishing between spirits" (1 Corinthians 12:10) is itself a charismatic gift, suggesting that the Spirit's work requires Spirit-gifted evaluation. The theological logic: because Satan can counterfeit spiritual experiences (2 Corinthians 11:14), and because human enthusiasm can be mistaken for divine inspiration, rigorous discernment is not a sign of unbelief — it is itself a spiritual act. Charismatic culture that discourages evaluation of claimed gifts is disobedient to Paul.`,
   },
@@ -227,6 +230,20 @@ export default function CharismaticGiftsTheologyPage() {
   function toggleAccordion(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
+
+  const [cgtEntries, setCgtEntries] = useState<{ id: string; date: string; gift: string; experienced: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cgt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cgtForm, setCgtForm] = useState({ gift: "Tongues", experienced: "", question: "" });
+  const [cgtSaved, setCgtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cgt_entries", JSON.stringify(cgtEntries)); }, [cgtEntries]);
+  function saveCgtEntry() {
+    if (!cgtForm.experienced.trim()) return;
+    setCgtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cgtForm }, ...prev]);
+    setCgtForm({ gift: "Tongues", experienced: "", question: "" });
+    setCgtSaved(true); setTimeout(() => setCgtSaved(false), 2000);
+  }
+  function deleteCgtEntry(id: string) { setCgtEntries(prev => prev.filter(e => e.id !== id)); }
 
   const activeTongueTopic = TONGUES_TOPICS.find((t) => t.id === activeTongue);
 
@@ -456,6 +473,52 @@ export default function CharismaticGiftsTheologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Charismatic Gifts Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on your experience with the charismatic gifts — what you have experienced and what you are still working through.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Gift I am reflecting on</label>
+                <select value={cgtForm.gift} onChange={e => setCgtForm(f => ({ ...f, gift: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {["Tongues", "Interpretation of Tongues", "Prophecy", "Healing", "Miracles", "Discernment of Spirits", "Word of Knowledge", "Word of Wisdom", "Faith"].map(g => <option key={g} value={g}>{g}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I have experienced or observed</label>
+                <textarea value={cgtForm.experienced} onChange={e => setCgtForm(f => ({ ...f, experienced: e.target.value }))} rows={3} placeholder="A personal experience, something you witnessed, or how you relate to this gift..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>A question or uncertainty I carry</label>
+                <textarea value={cgtForm.question} onChange={e => setCgtForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="What are you still unsure about regarding this gift?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCgtEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cgtSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cgtEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({cgtEntries.length})</h3>
+                {cgtEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.gift}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteCgtEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.experienced && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Experienced:</strong> {e.experienced}</p>}
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Question:</strong> {e.question}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -465,19 +528,13 @@ export default function CharismaticGiftsTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "hRgaZNBYOjo", title: "The Debate Over Holy Spirit Gifts: Cessationism vs Continuationism", channel: "Theological Debate", description: "A clear presentation of both sides of the debate — do miraculous gifts like tongues and prophecy continue today, or did they cease with the apostles?" },
-                  { videoId: "qy5Tyra2qTM", title: "What Is Cessationism? A Continuationist Perspective", channel: "Sam Storms", description: "Sam Storms, a leading continuationist theologian, explains what cessationism claims and why he believes the biblical case for continuing gifts is stronger." },
-                  { videoId: "P-DMS1hVYRM", title: "Tongues, Healing, Prophecy: For Today?", channel: "Theological Discussion", description: "A balanced examination of what the New Testament actually teaches about tongues, prophecy, and healing — and whether those gifts are available to the church today." },
-                  { videoId: "bI3P0TYp94c", title: "Miraculous Gifts Today — Debating Cessationism vs. Continuationism Pt. 1", channel: "Theology Debate", description: "A formal debate between cessationists and continuationists on whether miraculous gifts have ceased or continue in the contemporary church." },
+                  { videoId: "HGHqu9-DtXk", title: "The Debate Over Holy Spirit Gifts: Cessationism vs Continuationism", channel: "Theological Debate", description: "A clear presentation of both sides of the debate — do miraculous gifts like tongues and prophecy continue today, or did they cease with the apostles?" },
+                  { videoId: "E65KV3M8RZE", title: "What Is Cessationism? A Continuationist Perspective", channel: "Sam Storms", description: "Sam Storms, a leading continuationist theologian, explains what cessationism claims and why he believes the biblical case for continuing gifts is stronger." },
+                  { videoId: "Z-17KxpjL0Q", title: "Tongues, Healing, Prophecy: For Today?", channel: "Theological Discussion", description: "A balanced examination of what the New Testament actually teaches about tongues, prophecy, and healing — and whether those gifts are available to the church today." },
+                  { videoId: "ej_6dVdJSIU", title: "Miraculous Gifts Today — Debating Cessationism vs. Continuationism Pt. 1", channel: "Theology Debate", description: "A formal debate between cessationists and continuationists on whether miraculous gifts have ceased or continue in the contemporary church." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

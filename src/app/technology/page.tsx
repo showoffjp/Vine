@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -55,7 +57,7 @@ const QUESTIONS = [
   { q: "When did I last read a book, sit in silence, or create something without a screen?", cat: "Embodiment" },
 ];
 
-type Tab = "theology" | "thinkers" | "practices" | "audit" | "videos";
+type Tab = "theology" | "thinkers" | "practices" | "audit" | "journal" | "videos";
 
 const THINKERS = [
   {
@@ -126,7 +128,20 @@ export default function TechnologyPage() {
   const toggle = (id: string) => setChecks(prev => prev.map(c => c.id === id ? { ...c, done: !c.done } : c));
   const done = checks.filter(c => c.done).length;
 
-  const CAT_COLORS: Record<string, string> = { "Daily Rhythms": "#3B82F6", "Weekly Rhythms": "#10B981", "Content Choices": PURPLE, "Relationships": "#F59E0B" };
+  type JournalEntry = { id: string; date: string; conviction: string; practice: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_techj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_techj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jConviction.trim() && !jPractice.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, practice: jPractice, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJConviction(""); setJPractice(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -147,6 +162,7 @@ export default function TechnologyPage() {
             { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "audit" as const, label: "Self-Audit", icon: "🔍" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -252,6 +268,39 @@ export default function TechnologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Technology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record convictions about technology and digital life, practices you are forming, and next steps.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What conviction about technology is God forming in you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jPractice} onChange={e => setJPractice(e.target.value)} placeholder="Practice you are adding or removing" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step of digital discipleship" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your digital discipleship journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>Technology Reflection</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.conviction && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Conviction:</strong> {entry.conviction}</p>}
+                    {entry.practice && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Practice:</strong> {entry.practice}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -261,20 +310,14 @@ export default function TechnologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "gmojQk1lgDc", title: "A Theology of Technology | Genesis 4", channel: "Andrew Wilson", description: "Andrew Wilson unpacks what Genesis 4 teaches about the origins of human technology, its possibilities, and its dangers — and how Christians should think Christianly about it." },
-                  { videoId: "Bk_n34xGhBI", title: "A Theology of Technology | Genesis 4:19-22", channel: "Gordon-Conwell Theological Seminary", description: "A seminary lecture examining what the Bible has to say about technology, smartphones, computers, and more, rooted in the earliest chapters of Scripture." },
-                  { videoId: "5YuvgAUj1X0", title: "The Christian Response to AI & Technology", channel: "Church Teaching", description: "A message exploring how AI is reshaping the way people live, work, think, and communicate — and what a faithful Christian response looks like." },
-                  { videoId: "QL1kViROrKM", title: "How Should Christians Engage with Technology?", channel: "Christian Teaching", description: "A thoughtful exploration of Christian engagement with apps, AI, social media, and modern communication — and the discernment required to use them well." },
-                  { videoId: "0kNXJYa3Mqk", title: "A History of Technology and Christianity", channel: "Wes Huff", description: "Wes Huff traces the historical relationship between technology and Christianity, showing how the church has engaged — for better and worse — with technological change across centuries." },
+                  { videoId: "dy9nwe9zeU8", title: "A Theology of Technology | Genesis 4", channel: "Andrew Wilson", description: "Andrew Wilson unpacks what Genesis 4 teaches about the origins of human technology, its possibilities, and its dangers — and how Christians should think Christianly about it." },
+                  { videoId: "iK0NjiBXKN4", title: "A Theology of Technology | Genesis 4:19-22", channel: "Gordon-Conwell Theological Seminary", description: "A seminary lecture examining what the Bible has to say about technology, smartphones, computers, and more, rooted in the earliest chapters of Scripture." },
+                  { videoId: "zMbUXpFiFeo", title: "The Christian Response to AI & Technology", channel: "Church Teaching", description: "A message exploring how AI is reshaping the way people live, work, think, and communicate — and what a faithful Christian response looks like." },
+                  { videoId: "52ZXFH1wzc8", title: "How Should Christians Engage with Technology?", channel: "Christian Teaching", description: "A thoughtful exploration of Christian engagement with apps, AI, social media, and modern communication — and the discernment required to use them well." },
+                  { videoId: "rtkS_8VWfB0", title: "A History of Technology and Christianity", channel: "Wes Huff", description: "Wes Huff traces the historical relationship between technology and Christianity, showing how the church has engaged — for better and worse — with technological change across centuries." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

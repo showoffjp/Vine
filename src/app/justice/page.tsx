@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -129,15 +131,15 @@ const ACTION_STEPS = [
 ];
 
 const JUSTICE_VIDEOS = [
-  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", speaker: "Tim Keller", channel: "Gospel in Life", description: "Keller unpacks how Jesus's kingdom reverses the world's power structures, placing the poor, marginalized, and meek at the center of God's concern — and what this demands of the church." },
-  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", speaker: "John Piper", channel: "Desiring God", description: "Piper connects the joy of the gospel to radical generosity and service — the motivational foundation for sustained justice work rather than performance or guilt." },
-  { videoId: "0bafE4k4YXU", title: "Word and Deed: Inseparable Mission", speaker: "Paul Washer", channel: "HeartCry Missionary Society", description: "Washer explains the inseparable connection between gospel proclamation and genuine compassion — why both word and deed belong together in authentic mission." },
-  { videoId: "GKYDGK2XDNw", title: "The Least of These", speaker: "Paul Washer", channel: "Paul Washer Sermons", description: "A sermon on Matthew 25 — what it means to encounter Jesus in the suffering and marginalized, and what genuine faith looks like in the face of real human need." },
-  { videoId: "by8ykv7-A3c", title: "The Supremacy of Christ and Truth", speaker: "Voddie Baucham", channel: "Voddie Baucham Ministries", description: "Baucham makes the case that only a Christ-centered worldview provides the coherent foundation for genuine justice — why secular justice frameworks ultimately collapse." },
-  { videoId: "yhiHSf_L6_E", title: "Radical: A Call to Costly Mission", speaker: "David Platt", channel: "Radical", description: "Platt's landmark Passion message challenging comfortable Christianity to a costly, world-oriented, justice-shaped life that takes the Great Commission seriously." },
+  { videoId: "jdo56fmajx8", title: "The Upside Down Kingdom", speaker: "Tim Keller", channel: "Gospel in Life", description: "Keller unpacks how Jesus's kingdom reverses the world's power structures, placing the poor, marginalized, and meek at the center of God's concern — and what this demands of the church." },
+  { videoId: "nP4tzAxbcy4", title: "The Joy That Produces Radical Obedience", speaker: "John Piper", channel: "Desiring God", description: "Piper connects the joy of the gospel to radical generosity and service — the motivational foundation for sustained justice work rather than performance or guilt." },
+  { videoId: "Rr3P0ATI0E8", title: "Word and Deed: Inseparable Mission", speaker: "Paul Washer", channel: "HeartCry Missionary Society", description: "Washer explains the inseparable connection between gospel proclamation and genuine compassion — why both word and deed belong together in authentic mission." },
+  { videoId: "UJlLkZ6tCG0", title: "The Least of These", speaker: "Paul Washer", channel: "Paul Washer Sermons", description: "A sermon on Matthew 25 — what it means to encounter Jesus in the suffering and marginalized, and what genuine faith looks like in the face of real human need." },
+  { videoId: "mC-zw0zCCtg", title: "The Supremacy of Christ and Truth", speaker: "Voddie Baucham", channel: "Voddie Baucham Ministries", description: "Baucham makes the case that only a Christ-centered worldview provides the coherent foundation for genuine justice — why secular justice frameworks ultimately collapse." },
+  { videoId: "krxcqH522uo", title: "Radical: A Call to Costly Mission", speaker: "David Platt", channel: "Radical", description: "Platt's landmark Passion message challenging comfortable Christianity to a costly, world-oriented, justice-shaped life that takes the Great Commission seriously." },
 ];
 
-type Tab = "foundations" | "tensions" | "voices" | "action" | "videos";
+type Tab = "foundations" | "tensions" | "voices" | "action" | "journal" | "videos";
 
 export default function JusticePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_justice_tab", "foundations");
@@ -145,6 +147,20 @@ export default function JusticePage() {
   const [expandedFoundation, setExpandedFoundation] = useState<number | null>(null);
 
   const voice = VOICES.find(v => v.id === selectedVoice)!;
+
+  const [justiceEntries, setJusticeEntries] = useState<{ id: string; date: string; issue: string; action: string; reflection: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_justice_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [jForm, setJForm] = useState({ issue: "", action: "", reflection: "" });
+  const [jSaved, setJSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_justice_entries", JSON.stringify(justiceEntries)); }, [justiceEntries]);
+  function saveJEntry() {
+    if (!jForm.issue.trim() && !jForm.action.trim()) return;
+    setJusticeEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...jForm }, ...prev]);
+    setJForm({ issue: "", action: "", reflection: "" });
+    setJSaved(true); setTimeout(() => setJSaved(false), 2000);
+  }
+  function deleteJEntry(id: string) { setJusticeEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
@@ -183,10 +199,11 @@ export default function JusticePage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {[
-            { id: "foundations" as const, label: "Biblical Basis", icon: "📖" },
+            { id: "52ZXFH1wzc8" as const, label: "Biblical Basis", icon: "📖" },
             { id: "tensions" as const, label: "Key Tensions", icon: "⚖️" },
             { id: "voices" as const, label: "Key Voices", icon: "🗣️" },
             { id: "action" as const, label: "How to Engage", icon: "✊" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -387,6 +404,55 @@ export default function JusticePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 20px" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Justice work is sustained by prayer, reflection, and honest reckoning with what God is asking of you. Track the issues that burden you and the actions you take.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Justice Journal Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>The issue that burdens me</label>
+                <textarea value={jForm.issue} onChange={e => setJForm(f => ({ ...f, issue: e.target.value }))} rows={2}
+                  placeholder="What injustice, need, or broken system is weighing on your heart?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I did about it</label>
+                <textarea value={jForm.action} onChange={e => setJForm(f => ({ ...f, action: e.target.value }))} rows={2}
+                  placeholder="Prayed, gave, volunteered, spoke up, researched, showed up..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I am learning</label>
+                <textarea value={jForm.reflection} onChange={e => setJForm(f => ({ ...f, reflection: e.target.value }))} rows={2}
+                  placeholder="About the issue, about yourself, about God's call to justice..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveJEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {jSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {justiceEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Justice Journal ({justiceEntries.length})</h3>
+                {justiceEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteJEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.issue && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}><span style={{ color: MUTED, fontWeight: 600 }}>Issue: </span>{e.issue}</p>}
+                    {e.action && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Action: </span>{e.action}</p>}
+                    {e.reflection && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.reflection}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {/* VIDEOS */}
         {tab === "videos" && (
           <div>
@@ -399,9 +465,7 @@ export default function JusticePage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))", gap: 24 }}>
               {JUSTICE_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 10 }}>
                       <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: PURPLE, border: "1px solid rgba(107,79,187,0.3)" }}>{v.speaker}</span>

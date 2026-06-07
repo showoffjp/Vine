@@ -2,12 +2,23 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "types" | "stories" | "practices" | "videos";
+interface LonelinessEntry {
+  id: string;
+  date: string;
+  feeling: string;
+  context: string;
+  godMet: string;
+}
+
+type Tab = "theology" | "types" | "stories" | "practices" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "God Declares Aloneness Not Good", verse: "Genesis 2:18", body: "'It is not good for the man to be alone' (Genesis 2:18). God said this before sin entered the world. Loneliness is not a character flaw or a spiritual failure — it is the God-given signal that community is missing. The ache of loneliness is a correct diagnosis: you were made for more than this." },
@@ -85,6 +96,23 @@ const PRACTICES = [
 export default function LonelinessPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_loneliness_tab", "theology");
   const [selectedStory, setSelectedStory] = usePersistedState("vine_loneliness_selected_story", "elijah");
+  const [entries, setEntries] = useState<LonelinessEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_loneliness_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [form, setForm] = useState({ feeling: "", context: "", godMet: "" });
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_loneliness_journal", JSON.stringify(entries)); } catch {} }, [entries]);
+
+  const saveEntry = () => {
+    if (!form.feeling.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...form }, ...prev]);
+    setForm({ feeling: "", context: "", godMet: "" });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  const deleteEntry = (id: string) => setEntries(prev => prev.filter(e => e.id !== id));
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 
@@ -92,6 +120,16 @@ export default function LonelinessPage() {
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
       <main id="main-content">
+      {/* Crisis banner */}
+      <div style={{ background: "rgba(239,68,68,0.08)", borderBottom: "1px solid rgba(239,68,68,0.18)", padding: "10px 20px", textAlign: "center" }}>
+        <p style={{ color: "#C0C0D8", fontSize: "13px", margin: 0 }}>
+          <strong style={{ color: "#F2F2F8" }}>If you&apos;re in crisis: </strong>
+          <strong style={{ color: "#3a7d56" }}>call or text 988</strong>
+          <span style={{ color: "#8A8AA8" }}> (Suicide &amp; Crisis Lifeline) · text </span>
+          <strong style={{ color: "#3a7d56" }}>HOME to 741741</strong>
+          <span style={{ color: "#8A8AA8" }}> (Crisis Text Line) — 24/7, free &amp; confidential</span>
+        </p>
+      </div>
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🌑</div>
@@ -105,8 +143,9 @@ export default function LonelinessPage() {
           {[
             { id: "theology" as Tab, label: "Theology", icon: "📖" },
             { id: "types" as Tab, label: "Types", icon: "🔍" },
-            { id: "stories" as Tab, label: "Bible Stories", icon: "📜" },
+            { id: "stories" as Tab, label: "Stories", icon: "📜" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "journal" as Tab, label: "Journal", icon: "✍️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -197,6 +236,66 @@ export default function LonelinessPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Loneliness Journal</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>Write honestly about your loneliness. God meets us when we bring the ache to him, not away from him.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>HOW ARE YOU FEELING?</label>
+                  <input value={form.feeling} onChange={e => setForm(f => ({ ...f, feeling: e.target.value }))}
+                    placeholder="Describe the specific feeling right now..." aria-label="How are you feeling"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>CONTEXT (OPTIONAL)</label>
+                  <textarea value={form.context} onChange={e => setForm(f => ({ ...f, context: e.target.value }))}
+                    placeholder="What situation brought this on? What's happening in your life?" aria-label="Context"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>WHERE GOD MET ME (optional — fill in later)</label>
+                  <textarea value={form.godMet} onChange={e => setForm(f => ({ ...f, godMet: e.target.value }))}
+                    placeholder="What Scripture, person, or prayer brought comfort?" aria-label="Where God met you"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <button type="button" onClick={saveEntry}
+                  style={{ padding: "11px", background: saved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: saved ? BG : "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {saved ? "✓ Saved" : "Record This Moment"}
+                </button>
+              </div>
+            </div>
+            {entries.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>🕯️</div>
+                <p>No journal entries yet. Write your first — Jesus wept. He can hold yours too.</p>
+              </div>
+            )}
+            {entries.map(e => (
+              <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                  <p style={{ color: TEXT, fontSize: 15, fontWeight: 600, margin: 0, flex: 1 }}>{e.feeling}</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, marginLeft: 12 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>
+                      {new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </span>
+                    <button type="button" onClick={() => deleteEntry(e.id)}
+                      style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                  </div>
+                </div>
+                {e.context && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.55, marginBottom: e.godMet ? 6 : 0 }}>{e.context}</p>}
+                {e.godMet && (
+                  <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 10 }}>
+                    <span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>Where God met me: </span>
+                    <span style={{ color: TEXT, fontSize: 13 }}>{e.godMet}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -206,19 +305,13 @@ export default function LonelinessPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Keller explores how the Kingdom of God inverts worldly expectations — including the loneliness of following Jesus and finding true community in unexpected places." },
-                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how joy in God — not isolation or despair — is the foundation for resilience. Speaks to how knowing God personally addresses the deepest loneliness." },
-                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul addresses the sovereignty of God — and what it means to trust a God who sees us even in our most isolated moments." },
-                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan on the radical community of the early church — what genuine belonging looks like and why modern Christianity often fails to provide it." },
+                  { videoId: "GGCF3OPWN14", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Keller explores how the Kingdom of God inverts worldly expectations — including the loneliness of following Jesus and finding true community in unexpected places." },
+                  { videoId: "t6L-F2emwUc", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how joy in God — not isolation or despair — is the foundation for resilience. Speaks to how knowing God personally addresses the deepest loneliness." },
+                  { videoId: "oNpTha80yyE", title: "If God Is Sovereign, How Can Man Be Free?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul addresses the sovereignty of God — and what it means to trust a God who sees us even in our most isolated moments." },
+                  { videoId: "4Eg_di-O8nM", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan on the radical community of the early church — what genuine belonging looks like and why modern Christianity often fails to provide it." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
@@ -230,6 +323,27 @@ export default function LonelinessPage() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Real Connection Resources */}
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
+        <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Find Real Community</h2>
+        <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Loneliness is a health crisis. These resources connect you to real community — in person and online.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+          {[
+            { name: "988 (Crisis Lifeline)", desc: "If loneliness has become a crisis — call or text 988. You don't have to be suicidal. Loneliness and despair are enough.", href: "https://988lifeline.org/", color: "#EF4444" },
+            { name: "Crisis Text Line", desc: "Text HOME to 741741. A real person will respond. You are not a burden.", href: "https://www.crisistextline.org/", color: "#EF4444" },
+            { name: "Find a Church Near You", desc: "Church Finder — locate a local congregation. Real, local community is irreplaceable.", href: "https://www.thegospelcoalition.org/church-directory/", color: GREEN },
+            { name: "AACC Counselor Directory", desc: "If loneliness has become depression, a Christian counselor can help. Free to search.", href: "https://www.aacc.net/resources/find-a-counselor/", color: PURPLE },
+            { name: "Vine Prayer Community", desc: "Post a prayer request on the Vine prayer wall — real people will pray for you.", href: "/prayer", color: "#4FBBAA" },
+          ].map(r => (
+            <a key={r.name} href={r.href} target={r.href.startsWith("http") ? "_blank" : undefined} rel={r.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              style={{ display: "block", background: CARD, border: `1px solid ${r.color}30`, borderLeft: `3px solid ${r.color}`, borderRadius: 12, padding: 16, textDecoration: "none" }}>
+              <p style={{ color: r.color, fontWeight: 700, fontSize: 14, marginBottom: 6 }}>{r.name}{r.href.startsWith("http") ? " ↗" : " →"}</p>
+              <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.5 }}>{r.desc}</p>
+            </a>
+          ))}
+        </div>
       </div>
       </main>
       <Footer />

@@ -8,7 +8,6 @@ import React, { useState, useEffect } from "react";
 import {
   Flame,
   CheckCircle2,
-  Circle,
   Plus,
   ChevronRight,
   BookOpen,
@@ -16,6 +15,8 @@ import {
   Trophy,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 type FastType = "Complete" | "Partial (liquids only)" | "Daniel Fast" | "Media Fast" | "Social Media Fast" | "Custom";
 type FastDuration = "Sunrise to Sunset" | "24 Hours" | "3 Days" | "7 Days" | "21 Days (Daniel)" | "Custom";
@@ -74,10 +75,24 @@ export default function FastingPage() {
   });
   const [showNew, setShowNew] = useState(false);
   const [activeTab, setActiveTab] = usePersistedState<"current" | "history">("vine_fasting_tab", "current");
-  const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "voices" | "scripture" | "videos">("vine_fasting_main_tab", "tracker");
+  const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "voices" | "scripture" | "journal" | "videos">("vine_fasting_main_tab", "tracker");
+
+  const [fastjEntries, setFastjEntries] = useState<{ id: string; date: string; intention: string; experience: string; insight: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fastj_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fastjForm, setFastjForm] = useState({ intention: "", experience: "", insight: "" });
+  const [fastjSaved, setFastjSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fastj_entries", JSON.stringify(fastjEntries)); }, [fastjEntries]);
+  function saveFastjEntry() {
+    if (!fastjForm.intention.trim()) return;
+    setFastjEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fastjForm }, ...prev]);
+    setFastjForm({ intention: "", experience: "", insight: "" });
+    setFastjSaved(true); setTimeout(() => setFastjSaved(false), 2000);
+  }
+  function deleteFastjEntry(id: string) { setFastjEntries(prev => prev.filter(e => e.id !== id)); }
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_fasting_voice", "foster-fast");
   const VOICES_FAST = [
-    { id: "foster-fast", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978) — the chapter on fasting that launched a generation of evangelical practice", bio: "Richard Foster's Celebration of Discipline remains the most widely read modern evangelical guide to the classical spiritual disciplines, and its chapter on fasting is credited with recovering fasting as a mainstream evangelical practice. Before Foster, fasting was largely absent from evangelical spirituality — associated with ascetic traditions many Protestants had rejected. Foster showed that fasting is not about earning God's favor but about loosening the grip of bodily appetite on the soul, creating space for heightened spiritual sensitivity, and expressing the seriousness of one's intercession. His treatment of fasting as a discipline of 'freedom from food's tyranny' rather than physical punishment changed the conversation.", quote: "Fasting reveals the things that control us. This is a wonderful benefit to the person who is fasting: the realization of what is mastering your life. If we are given to food, food will be revealed as controlling us. If we find that we are full of resentment or anger, fasting will surface them. If we discover pride or envy, fasting will expose them.", contribution: "Foster's chapter on fasting in Celebration of Discipline recovered the discipline for evangelicalism. The book's enormous influence — it has sold millions of copies — brought fasting back into mainstream evangelical practice and gave Christians a theological framework for understanding fasting that was neither ascetic self-torture nor mechanistic spiritual technique." },
+    { id: "4Eg_di-O8nM", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978) — the chapter on fasting that launched a generation of evangelical practice", bio: "Richard Foster's Celebration of Discipline remains the most widely read modern evangelical guide to the classical spiritual disciplines, and its chapter on fasting is credited with recovering fasting as a mainstream evangelical practice. Before Foster, fasting was largely absent from evangelical spirituality — associated with ascetic traditions many Protestants had rejected. Foster showed that fasting is not about earning God's favor but about loosening the grip of bodily appetite on the soul, creating space for heightened spiritual sensitivity, and expressing the seriousness of one's intercession. His treatment of fasting as a discipline of 'freedom from food's tyranny' rather than physical punishment changed the conversation.", quote: "Fasting reveals the things that control us. This is a wonderful benefit to the person who is fasting: the realization of what is mastering your life. If we are given to food, food will be revealed as controlling us. If we find that we are full of resentment or anger, fasting will surface them. If we discover pride or envy, fasting will expose them.", contribution: "Foster's chapter on fasting in Celebration of Discipline recovered the discipline for evangelicalism. The book's enormous influence — it has sold millions of copies — brought fasting back into mainstream evangelical practice and gave Christians a theological framework for understanding fasting that was neither ascetic self-torture nor mechanistic spiritual technique." },
     { id: "whitney-fast", name: "Don Whitney", era: "b. 1957", context: "Spiritual Disciplines for the Christian Life (1991) — practical guide to biblical fasting", bio: "Don Whitney's chapter on fasting in Spiritual Disciplines for the Christian Life is the most practically helpful evangelical treatment of the discipline available. Whitney defines biblical fasting carefully: it is always voluntary abstinence from food for spiritual purposes. He addresses the most common practical questions — how long to fast, what to do with the hunger, how to break a fast, what to expect spiritually — with pastoral directness. His insistence that fasting is not about achieving a spiritual high or a prayer technique but about expressing the priorities of the soul has kept his treatment from both triumphalism and legalism.", quote: "Fasting is Christian in its nature — it belongs to the new covenant as naturally as prayer and giving. Jesus said 'when you fast' — not 'if you fast.' The discipline is assumed. The only question is whether we will practice it.", contribution: "Whitney's treatment of fasting in Spiritual Disciplines for the Christian Life is the most used practical guide to the discipline in evangelical churches and seminaries. His clear definition, his biblical grounding, and his practical guidance have given Christians a framework for beginning and sustaining the practice that is both accessible and theologically serious." },
     { id: "piper-fast", name: "John Piper", era: "b. 1946", context: "A Hunger for God (1997) — fasting as a declaration that God is better than food", bio: "John Piper's A Hunger for God is the most theologically distinctive evangelical treatment of fasting. Piper's central argument is counterintuitive: fasting is not primarily about self-denial but about hunger — a hunger for God that is so intense it makes physical food seem unimportant by comparison. The person who never fasts, Piper suggests, is in danger of being satisfied with what the world offers rather than hungry for what God alone can give. His reading of Matthew 9:15 — 'the bridegroom has been taken away; then they will fast' — grounds fasting in eschatological longing: we fast because the wedding feast has not yet come, and we ache for it.", quote: "Christian fasting is a test of whether God or food is the deeper longing of our hearts. Fasting is hunger born of a greater hunger — a hunger that finds the pleasures of this world thin and is longing for the fullness of God.", contribution: "A Hunger for God reframed evangelical fasting from a technique for getting answers from God to an expression of longing for God himself. Piper's eschatological and Christocentric account of fasting — rooted in the absence of the bridegroom — gave Christians a theologically rich motivation for the practice that transcended mere self-discipline or prayer strategy." },
     { id: "towns-e", name: "Elmer Towns", era: "b. 1932", context: "Fasting for Spiritual Breakthrough (1996) — practical typology of biblical fasts", bio: "Elmer Towns's Fasting for Spiritual Breakthrough is the most comprehensive practical treatment of fasting in evangelical literature. Towns identifies nine different biblical fasts — the Disciples' Fast, the Ezra Fast, the Samuel Fast, the Elijah Fast, the Widow's Fast, the Paul Fast, the Daniel Fast, the John the Baptist Fast, and the Esther Fast — each associated with a specific spiritual purpose and each modeled on a specific biblical narrative. This typological approach gives Christians guidance for choosing the kind of fast appropriate to their specific need and situation, making the discipline more accessible and purposeful.", quote: "Fasting without prayer is just a diet. Prayer without fasting is fine — but fasting added to prayer creates an urgency and a seriousness that elevates the intercession. When you fast, you are saying: this matters enough to sacrifice for.", contribution: "Towns's typology of nine biblical fasts has given Christians a practical framework for understanding the diversity of fasting practice in Scripture and for choosing the appropriate fast for specific spiritual needs. His Fasting for Spiritual Breakthrough remains one of the most practically useful guides to fasting available in evangelical literature." },
@@ -171,11 +186,11 @@ export default function FastingPage() {
 
           {/* Main Tab Bar */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["tracker", "theology", "voices", "scripture", "videos"] as const).map((tab) => (
+            {(["tracker", "theology", "voices", "scripture", "journal", "videos"] as const).map((tab) => (
               <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold transition-all"
                 style={{ background: mainTab === tab ? "rgba(58,125,86,0.12)" : "transparent", color: mainTab === tab ? "#3a7d56" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent" }}>
-                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "scripture" ? "📜 Scripture" : "🎬 Videos"}
+                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "scripture" ? "📜 Scripture" : tab === "journal" ? "📓 Journal" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -565,6 +580,54 @@ export default function FastingPage() {
               ))}
             </div>
           )}
+          {mainTab === "journal" && (
+            <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: "#F2F2F8" }}>My Fasting Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, marginBottom: 24 }}>Record the intention behind a fast, what you experienced during it, and the insight God gave. Saved privately in your browser.</p>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: "block", color: "#3a7d56", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INTENTION FOR THIS FAST *</label>
+                  <textarea value={fastjForm.intention} onChange={e => setFastjForm(f => ({ ...f, intention: e.target.value }))}
+                    placeholder="What was the spiritual intention or purpose behind your fast?" rows={3}
+                    style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: "block", color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WHAT I EXPERIENCED</label>
+                  <textarea value={fastjForm.experience} onChange={e => setFastjForm(f => ({ ...f, experience: e.target.value }))}
+                    placeholder="What was the fast like? What temptations, struggles, or graces did you encounter?" rows={3}
+                    style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <label style={{ display: "block", color: "#9898B3", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT OR ANSWER RECEIVED</label>
+                  <textarea value={fastjForm.insight} onChange={e => setFastjForm(f => ({ ...f, insight: e.target.value }))}
+                    placeholder="What did God reveal, clarify, or shift in you during or after the fast?" rows={2}
+                    style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveFastjEntry}
+                  style={{ background: fastjSaved ? "#3a7d56" : "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {fastjSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {fastjEntries.length > 0 && (
+                <div>
+                  <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fastjEntries.length})</h3>
+                  {fastjEntries.map(entry => (
+                    <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                        <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                        <button type="button" onClick={() => deleteFastjEntry(entry.id)}
+                          style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                      </div>
+                      {entry.intention && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11 }}>INTENTION: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.intention}</span></div>}
+                      {entry.experience && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 11 }}>EXPERIENCE: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.experience}</span></div>}
+                      {entry.insight && <div><span style={{ color: "#9898B3", fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.insight}</span></div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {mainTab === "videos" && (
             <div>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -574,19 +637,13 @@ export default function FastingPage() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {[
-                    { videoId: "AJEoDKK55VY", title: "Fasting for Beginners — A Biblical Guide", channel: "Desiring God", description: "John Piper on the biblical theology of fasting: why Jesus assumed his disciples would fast, what fasting accomplishes spiritually, and practical advice for starting a fasting practice." },
-                    { videoId: "ZYmk3DiPJVI", title: "The Daniel Fast: A 21-Day Fast Explained", channel: "Gateway Church", description: "A practical guide to the Daniel Fast — the most popular partial fast among Christians today. What it involves, its biblical basis, and how to use it for spiritual breakthrough." },
-                    { videoId: "_Kq3k1JZjBE", title: "The Spiritual Discipline of Fasting", channel: "Renovaré", description: "Richard Foster on fasting as one of the classical spiritual disciplines — how it trains desire, creates space for God, and what to expect as you begin the practice." },
-                    { videoId: "3kzJRABgLXw", title: "Corporate Fasting: When the Church Fasts Together", channel: "International House of Prayer", description: "Teaching on the biblical and historical practice of corporate fasting — its power, purpose, and how local churches can build fasting into their community rhythm." },
+                    { videoId: "ccNvwDPguNU", title: "Fasting for Beginners — A Biblical Guide", channel: "Desiring God", description: "John Piper on the biblical theology of fasting: why Jesus assumed his disciples would fast, what fasting accomplishes spiritually, and practical advice for starting a fasting practice." },
+                    { videoId: "rtkS_8VWfB0", title: "The Daniel Fast: A 21-Day Fast Explained", channel: "Gateway Church", description: "A practical guide to the Daniel Fast — the most popular partial fast among Christians today. What it involves, its biblical basis, and how to use it for spiritual breakthrough." },
+                    { videoId: "iK0NjiBXKN4", title: "The Spiritual Discipline of Fasting", channel: "Renovaré", description: "Richard Foster on fasting as one of the classical spiritual disciplines — how it trains desire, creates space for God, and what to expect as you begin the practice." },
+                    { videoId: "j9phNEaPrv8", title: "Corporate Fasting: When the Church Fasts Together", channel: "International House of Prayer", description: "Teaching on the biblical and historical practice of corporate fasting — its power, purpose, and how local churches can build fasting into their community rhythm." },
                   ].map(v => (
                     <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                      <iframe
-                        width="100%"
-                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                        src={`https://www.youtube.com/embed/${v.videoId}`}
-                        title={v.title}
-                        allowFullScreen
-                      />
+                      <VideoEmbed videoId={v.videoId} title={v.title} />
                       <div style={{ padding: "14px 16px" }}>
                         <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                         <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

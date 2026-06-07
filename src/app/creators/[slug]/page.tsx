@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CreatorProfileActions, { CreatorFollowSidebar } from "@/components/CreatorProfileActions";
@@ -592,13 +593,13 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
           <p className="mb-8 text-base" style={{ color: "#6A6A88" }}>
             We could not find a creator with that profile URL.
           </p>
-          <a
+          <Link
             href="/creators"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm"
-            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F", textDecoration: "none" }}
           >
             <ArrowLeft size={14} /> Back to Creators
-          </a>
+          </Link>
         </div>
         <Footer />
       </div>
@@ -630,13 +631,13 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
 
           {/* Back link inside banner */}
           <div className="absolute top-5 left-4 sm:left-8">
-            <a
+            <Link
               href="/creators"
               className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm transition-opacity hover:opacity-100 opacity-80"
-              style={{ background: "rgba(7,7,15,0.5)", color: "#F2F2F8", border: "1px solid rgba(255,255,255,0.1)" }}
+              style={{ background: "rgba(7,7,15,0.5)", color: "#F2F2F8", border: "1px solid rgba(255,255,255,0.1)", textDecoration: "none" }}
             >
               <ArrowLeft size={12} /> All Creators
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -735,11 +736,13 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {creator.recentContent.map((item) => {
                     const Icon = contentIcons[item.type];
+                    const contentHref = item.type === "video" ? "/video" : item.type === "article" ? "/blog" : "/daily";
                     return (
-                      <div
+                      <Link
                         key={item.title}
+                        href={contentHref}
                         className="rounded-xl p-4 flex flex-col gap-3 cursor-pointer transition-all hover:bg-white/[0.03]"
-                        style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                        style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                       >
                         <div
                           className="w-10 h-10 rounded-xl flex items-center justify-center"
@@ -761,7 +764,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
                             {item.views} views · {item.time}
                           </p>
                         </div>
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

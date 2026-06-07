@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -43,7 +45,7 @@ const BOOKS = [
   { title: "Spiritual Leadership", author: "J. Oswald Sanders", year: 1967, category: "Leadership", color: GREEN, rating: 5, desc: "The classic text on Christian leadership — what makes a person fit to lead the people of God. Sanders works through biblical, historical, and practical dimensions of spiritual leadership with the directness and wisdom of a man who spent a lifetime in Christian ministry. Particularly strong on the relationship between personal holiness and leadership effectiveness.", buy: "https://www.amazon.com/Spiritual-Leadership-Principles-Excellence-Christian/dp/0802416136", initials: "SL" },
 ];
 
-type Tab = "books" | "readers" | "plans" | "tips" | "videos";
+type Tab = "books" | "readers" | "plans" | "tips" | "journal" | "videos";
 
 const READERS = [
   {
@@ -106,7 +108,7 @@ const READING_PLANS = [
     ],
   },
   {
-    id: "apologetics",
+    id: "oNpTha80yyE",
     name: "Apologetics Track",
     desc: "For Christians who want to think and speak well about their faith with skeptics.",
     books: [
@@ -157,6 +159,20 @@ export default function ChristianBooksGuidePage() {
   const [selectedReader, setSelectedReader] = usePersistedState("vine_christian-books-guide_selected_reader", "edwards");
 
   const reader = READERS.find(r => r.id === selectedReader)!;
+
+  const [cbgEntries, setCbgEntries] = useState<{ id: string; date: string; title: string; insight: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cbg_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cbgForm, setCbgForm] = useState({ title: "", insight: "", applying: "" });
+  const [cbgSaved, setCbgSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cbg_entries", JSON.stringify(cbgEntries)); }, [cbgEntries]);
+  function saveCbgEntry() {
+    if (!cbgForm.title.trim()) return;
+    setCbgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cbgForm }, ...prev]);
+    setCbgForm({ title: "", insight: "", applying: "" });
+    setCbgSaved(true); setTimeout(() => setCbgSaved(false), 2000);
+  }
+  function deleteCbgEntry(id: string) { setCbgEntries(prev => prev.filter(e => e.id !== id)); };
   const filtered = BOOKS.filter(b => {
     const matchCat = activeCategory === "All" || b.category === activeCategory;
     const matchSearch = !search || b.title.toLowerCase().includes(search.toLowerCase()) || b.author.toLowerCase().includes(search.toLowerCase());
@@ -192,6 +208,7 @@ export default function ChristianBooksGuidePage() {
             { id: "readers" as const, label: "Great Readers", icon: "💬" },
             { id: "plans" as const, label: "Reading Plans", icon: "📋" },
             { id: "tips" as const, label: "How to Read", icon: "🧠" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -331,6 +348,49 @@ export default function ChristianBooksGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Reading Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record books that have shaped your faith, insights gained, and how you are applying them.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Book Title</label>
+                <input value={cbgForm.title} onChange={e => setCbgForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. Knowing God, Desiring God, Mere Christianity..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Key Insight</label>
+                <textarea value={cbgForm.insight} onChange={e => setCbgForm(f => ({ ...f, insight: e.target.value }))} placeholder="What idea or truth most struck you from this book?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Are You Applying It?</label>
+                <textarea value={cbgForm.applying} onChange={e => setCbgForm(f => ({ ...f, applying: e.target.value }))} placeholder="What specific change in belief, attitude, or action has this book prompted?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCbgEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cbgSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cbgEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cbgEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.title}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCbgEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.insight && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Key Insight</div><div style={{ color: TEXT, fontSize: 13 }}>{e.insight}</div></div>}
+                    {e.applying && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Applying</div><div style={{ color: TEXT, fontSize: 13 }}>{e.applying}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -340,19 +400,13 @@ export default function ChristianBooksGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "TfdBujxKuqY", title: "The 5 Most Profound C.S. Lewis Books Every Christian Should Read", channel: "Christian Books", description: "A guide to the most formative C.S. Lewis books — from Mere Christianity to The Problem of Pain — and why every Christian should read them." },
-                  { videoId: "Cct9oRGBK3g", title: "My 7 Most-Recommended Books on Theology", channel: "Theology Reading Guide", description: "Seven essential theology books recommended for Christians who want to go deeper — from foundational works to more advanced systematic theology." },
-                  { videoId: "3MniW8a9Elk", title: "These 10 Books Influenced My Theology the Most", channel: "Theological Formation", description: "A pastor and scholar shares the ten books that most shaped his understanding of Scripture, God, and the Christian life — with explanations of why." },
-                  { videoId: "mEpk1U-Uyk4", title: "Best John Piper Books for Beginners", channel: "Ask Pastor John / Desiring God", description: "Piper's own recommendations for where to start reading his work — which books have most shaped the people who read them, and in what order." },
+                  { videoId: "4Eg_di-O8nM", title: "The 5 Most Profound C.S. Lewis Books Every Christian Should Read", channel: "Christian Books", description: "A guide to the most formative C.S. Lewis books — from Mere Christianity to The Problem of Pain — and why every Christian should read them." },
+                  { videoId: "mC-zw0zCCtg", title: "My 7 Most-Recommended Books on Theology", channel: "Theology Reading Guide", description: "Seven essential theology books recommended for Christians who want to go deeper — from foundational works to more advanced systematic theology." },
+                  { videoId: "7_CGP-12AE0", title: "These 10 Books Influenced My Theology the Most", channel: "Theological Formation", description: "A pastor and scholar shares the ten books that most shaped his understanding of Scripture, God, and the Christian life — with explanations of why." },
+                  { videoId: "OqwbFGoRYVo", title: "Best John Piper Books for Beginners", channel: "Ask Pastor John / Desiring God", description: "Piper's own recommendations for where to start reading his work — which books have most shaped the people who read them, and in what order." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

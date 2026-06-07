@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "timeline" | "rapture" | "millennium" | "keys" | "videos";
+type Tab = "timeline" | "rapture" | "millennium" | "keys" | "journal" | "videos";
 
 const TIMELINE_EVENTS = [
   {
@@ -239,11 +241,26 @@ export default function EndTimesGuidePage() {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const [etgEntries, setEtgEntries] = useState<{ id: string; date: string; topic: string; question: string; conviction: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_etg_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [etgForm, setEtgForm] = useState({ topic: "", question: "", conviction: "" });
+  const [etgSaved, setEtgSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_etg_entries", JSON.stringify(etgEntries)); }, [etgEntries]);
+  function saveEtgEntry() {
+    if (!etgForm.topic.trim()) return;
+    setEtgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...etgForm }, ...prev]);
+    setEtgForm({ topic: "", question: "", conviction: "" });
+    setEtgSaved(true); setTimeout(() => setEtgSaved(false), 2000);
+  }
+  function deleteEtgEntry(id: string) { setEtgEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "timeline", label: "Timeline of the End" },
     { id: "rapture", label: "The Rapture Debate" },
     { id: "millennium", label: "Millennium Views" },
     { id: "keys", label: "Keys for Studying Prophecy" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -518,6 +535,54 @@ export default function EndTimesGuidePage() {
             </div>
           </div>
         )}
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Prophecy Study Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record the end-times topic you are studying, questions you have, and the conviction you are arriving at. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>TOPIC I AM STUDYING *</label>
+                <textarea value={etgForm.topic} onChange={e => setEtgForm(f => ({ ...f, topic: e.target.value }))}
+                  placeholder="Which end-times topic (rapture, millennium, tribulation, Israel...) are you currently studying?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>QUESTION I STILL HAVE</label>
+                <textarea value={etgForm.question} onChange={e => setEtgForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="What question about this topic remains unresolved for you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CONVICTION I AM ARRIVING AT</label>
+                <textarea value={etgForm.conviction} onChange={e => setEtgForm(f => ({ ...f, conviction: e.target.value }))}
+                  placeholder="What are you becoming more certain about through your study of prophecy?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEtgEntry}
+                style={{ background: etgSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {etgSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {etgEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({etgEntries.length})</h3>
+                {etgEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEtgEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.topic && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>TOPIC: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.topic}</span></div>}
+                    {entry.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>QUESTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.question}</span></div>}
+                    {entry.conviction && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>CONVICTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.conviction}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -527,19 +592,13 @@ export default function EndTimesGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "W75bzrvJtLs", title: "An Evening of Eschatology", channel: "John Piper, Sam Storms, Doug Wilson & James Hamilton", description: "A landmark roundtable where four respected scholars representing different millennial views discuss end-times theology with charity and rigor." },
-                  { videoId: "dILQHlaqINg", title: "The Rapture: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul examines the rapture debate — what 1 Thessalonians 4 actually teaches and how Christians disagree about the manner and timing of Christ's return." },
-                  { videoId: "Ejd4ZAnXmMM", title: "The Millennium: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul surveys the four main views of the millennium in Revelation 20 — premillennialism, amillennialism, postmillennialism — with their strengths and weaknesses." },
-                  { videoId: "n22MRa0P6_I", title: "Crisis in Eschatology: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines the study of the last days using Jesus's own words in the Olivet Discourse — addressing what Jesus meant and when he expected fulfillment." },
+                  { videoId: "nQWFzMvCfLE", title: "An Evening of Eschatology", channel: "John Piper, Sam Storms, Doug Wilson & James Hamilton", description: "A landmark roundtable where four respected scholars representing different millennial views discuss end-times theology with charity and rigor." },
+                  { videoId: "ccNvwDPguNU", title: "The Rapture: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul examines the rapture debate — what 1 Thessalonians 4 actually teaches and how Christians disagree about the manner and timing of Christ's return." },
+                  { videoId: "j9phNEaPrv8", title: "The Millennium: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul surveys the four main views of the millennium in Revelation 20 — premillennialism, amillennialism, postmillennialism — with their strengths and weaknesses." },
+                  { videoId: "dy9nwe9zeU8", title: "Crisis in Eschatology: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines the study of the last days using Jesus's own words in the Olivet Discourse — addressing what Jesus meant and when he expected fulfillment." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

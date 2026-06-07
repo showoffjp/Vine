@@ -1,21 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "names" | "iam" | "videos";
+type Tab = "overview" | "names" | "iam" | "journal" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "overview", label: "Overview" },
   { id: "names", label: "The Names" },
   { id: "iam", label: "The I AM Statements" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "Videos" },
 ];
 
@@ -346,30 +349,44 @@ export default function NamesOfJesusPage() {
 
   const filtered = NAMES.filter((n) => category === "All" || n.category === category);
 
+  const [nojEntries, setNojEntries] = useState<{ id: string; date: string; name: string; reveals: string; prayer: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_noj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [nojForm, setNojForm] = useState({ name: "", reveals: "", prayer: "" });
+  const [nojSaved, setNojSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_noj_entries", JSON.stringify(nojEntries)); } catch {} }, [nojEntries]);
+  const saveNojEntry = () => {
+    if (!nojForm.name.trim()) return;
+    setNojEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...nojForm }, ...prev]);
+    setNojForm({ name: "", reveals: "", prayer: "" });
+    setNojSaved(true); setTimeout(() => setNojSaved(false), 2000);
+  };
+  const deleteNojEntry = (id: string) => setNojEntries(prev => prev.filter(e => e.id !== id));
+
   const videos = [
     {
-      videoId: "Vb24Lk1Oh5M",
+      videoId: "Cus-z1hgAXw",
       title: "The Gospel of John — Overview",
       channel: "BibleProject",
       description:
         "An overview of John's Gospel, which centers on the identity of Jesus through his signs, titles, and the seven 'I AM' statements.",
     },
     {
-      videoId: "xQwnH8th_fs",
+      videoId: "iVwauTiyFjM",
       title: "Jesus the Messiah — Who Was Jesus?",
       channel: "BibleProject",
       description:
         "Exploring how Jesus fulfills the role of the promised Messiah, the Anointed One who is Prophet, Priest, and King.",
     },
     {
-      videoId: "Of2cZ_3FNDg",
+      videoId: "3Dv4-n6OYGI",
       title: "The Names and Titles of Jesus",
       channel: "Bible Teaching",
       description:
         "A survey of the many names of Jesus — Immanuel, Lamb of God, Son of Man, King of kings — and what each reveals about who he is.",
     },
     {
-      videoId: "Y0eDljSF0gw",
+      videoId: "GGCF3OPWN14",
       title: "The Seven I AM Statements of Jesus",
       channel: "Theology Explained",
       description:
@@ -627,17 +644,47 @@ export default function NamesOfJesusPage() {
         )}
 
         {/* Videos */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Names of Jesus Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record which names of Jesus you're meditating on and how they're shaping your faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={nojForm.name} onChange={e => setNojForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="Which name of Jesus? (e.g. Good Shepherd, Lamb of God)" aria-label="Name of Jesus"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={nojForm.reveals} onChange={e => setNojForm(f => ({ ...f, reveals: e.target.value }))}
+                  placeholder="What does this name reveal about who Jesus is?" aria-label="Reveals"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={nojForm.prayer} onChange={e => setNojForm(f => ({ ...f, prayer: e.target.value }))}
+                  placeholder="How does this name shape your prayer? (optional)" aria-label="Prayer"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveNojEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {nojSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {nojEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first reflection above.</p>}
+              {nojEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteNojEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: GREEN, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.name}</p>
+                  {e.reveals && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.reveals}</p>}
+                  {e.prayer && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>🙏 {e.prayer}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <section style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
             {videos.map((v) => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <iframe
-                  width="100%"
-                  style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`}
-                  title={v.title}
-                  allowFullScreen
-                />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: 20 }}>
                   <h3 style={{ fontFamily: SERIF, fontSize: 20, margin: "0 0 6px" }}>{v.title}</h3>
                   <p style={{ color: GREEN, fontSize: 13, margin: "0 0 10px", fontWeight: 600 }}>{v.channel}</p>

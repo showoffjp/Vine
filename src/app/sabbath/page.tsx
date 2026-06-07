@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227";
 const TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundation" | "history" | "practice" | "benefits" | "objections" | "videos";
+type Tab = "foundation" | "history" | "practice" | "benefits" | "objections" | "log" | "videos";
 
 const BIBLICAL_FOUNDATION = [
   {
@@ -105,17 +107,33 @@ const OBJECTIONS = [
 const MARVA_DAWN = `Marva Dawn's Keeping the Sabbath Wholly (1989) remains the most comprehensive Protestant theology of Sabbath in the modern era. Her four-movement framework — Ceasing, Resting, Embracing, Feasting — corresponds to the four elements of Sabbath practice outlined here. Dawn argues that Sabbath is not primarily about rules but about a total orientation of life: ceasing our work and worry, resting in God's care, embracing the values of the kingdom, and feasting on God's grace. Her book is essential reading for any Christian serious about recovering this neglected discipline.`;
 
 const VIDEOS = [
-  { id: "uJBsBaCFywU", title: "Lord of the Sabbath", teacher: "R.C. Sproul" },
-  { id: "ux0_5zctrsI", title: "Work and Rest", teacher: "Timothy Keller" },
-  { id: "7AXrC2oer_o", title: "The Origin of the Sabbath", teacher: "W. Robert Godfrey" },
-  { id: "pmVRojMUmFw", title: "The Lord's Day as Sabbath", teacher: "W. Robert Godfrey" },
-  { id: "BbZyc9cDVP0", title: "Sabbath: The Practice of Rest", teacher: "Walter Brueggemann" },
-  { id: "fNJgZ31pUvs", title: "Why Christians Should Keep the Sabbath", teacher: "John Piper" },
+  { id: "KwX1f2gYKZ4", title: "Lord of the Sabbath", teacher: "R.C. Sproul" },
+  { id: "YNd-PbVhnvA", title: "Work and Rest", teacher: "Timothy Keller" },
+  { id: "XtwIT8JjddM", title: "The Origin of the Sabbath", teacher: "W. Robert Godfrey" },
+  { id: "jH_aojNJM3E", title: "The Lord's Day as Sabbath", teacher: "W. Robert Godfrey" },
+  { id: "kfcVPh2VDhQ", title: "Sabbath: The Practice of Rest", teacher: "Walter Brueggemann" },
+  { id: "57LVVwba6_8", title: "Why Christians Should Keep the Sabbath", teacher: "John Piper" },
 ];
 
 export default function SabbathPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_sabbath_tab", "foundation");
   const [expandedObj, setExpandedObj] = useState<number | null>(null);
+  const [sabbathLogs, setSabbathLogs] = useState<{ id: string; date: string; ceased: string; rested: string; feasted: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_sabbath_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [sbForm, setSbForm] = useState({ ceased: "", rested: "", feasted: "" });
+  const [sbSaved, setSbSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_sabbath_logs", JSON.stringify(sabbathLogs)); } catch {} }, [sabbathLogs]);
+
+  const saveSbLog = () => {
+    setSabbathLogs(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...sbForm }, ...prev]);
+    setSbForm({ ceased: "", rested: "", feasted: "" });
+    setSbSaved(true);
+    setTimeout(() => setSbSaved(false), 2000);
+  };
+
+  const deleteSbLog = (id: string) => setSabbathLogs(prev => prev.filter(l => l.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: 80 }}>
@@ -145,7 +163,7 @@ export default function SabbathPage() {
       <div style={{ maxWidth: 940, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginTop: 36, marginBottom: 36, background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}` }}>
-          {([ { id: "foundation" as Tab, label: "Biblical Foundation" }, { id: "history" as Tab, label: "History" }, { id: "practice" as Tab, label: "How to Practice" }, { id: "benefits" as Tab, label: "Benefits" }, { id: "objections" as Tab, label: "Objections Answered" }, { id: "videos" as Tab, label: "Videos" } ]).map(t => (
+          {([ { id: "foundation" as Tab, label: "Biblical Foundation" }, { id: "history" as Tab, label: "History" }, { id: "practice" as Tab, label: "How to Practice" }, { id: "benefits" as Tab, label: "Benefits" }, { id: "objections" as Tab, label: "Objections Answered" }, { id: "log" as Tab, label: "My Sabbath Log" }, { id: "videos" as Tab, label: "Videos" } ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? GREEN : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s" }}>
               {t.label}
@@ -312,6 +330,57 @@ export default function SabbathPage() {
           </div>
         )}
 
+        {/* SABBATH LOG */}
+        {activeTab === "log" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Marva Dawn's four movements: Ceasing, Resting, Embracing, Feasting. Log what you actually did on your Sabbath — the practice deepens through reflection.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>This Sabbath</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I ceased (work, worry, productivity)</label>
+                <textarea value={sbForm.ceased} onChange={e => setSbForm(f => ({ ...f, ceased: e.target.value }))} rows={2}
+                  placeholder="Email, tasks, screens, a specific anxiety I chose to put down..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I rested and delighted</label>
+                <textarea value={sbForm.rested} onChange={e => setSbForm(f => ({ ...f, rested: e.target.value }))} rows={2}
+                  placeholder="Sleep, walk, conversation, reading for pleasure, time in creation..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I feasted (worship, Scripture, community, food)</label>
+                <textarea value={sbForm.feasted} onChange={e => setSbForm(f => ({ ...f, feasted: e.target.value }))} rows={2}
+                  placeholder="Church, Scripture passage that struck me, a meal shared, a moment of worship..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveSbLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {sbSaved ? "Saved ✓" : "Log This Sabbath"}
+              </button>
+            </div>
+            {sabbathLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Sabbath History</h3>
+                {sabbathLogs.map(l => (
+                  <div key={l.id} style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteSbLog(l.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{l.date}</div>
+                    {l.ceased && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 6px" }}><strong style={{ color: PURPLE }}>Ceased:</strong> {l.ceased}</p>}
+                    {l.rested && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 6px" }}><strong style={{ color: GREEN }}>Rested:</strong> {l.rested}</p>}
+                    {l.feasted && <p style={{ color: TEXT, fontSize: 13, margin: 0 }}><strong style={{ color: GOLD }}>Feasted:</strong> {l.feasted}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -326,7 +395,7 @@ export default function SabbathPage() {
                   onMouseEnter={e => (e.currentTarget.style.borderColor = `${GREEN}50`)}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = BORDER)}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 5 }}>{v.title}</div>

@@ -1,16 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB";
 const GOLD = "#c9a227";
 const TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "what-is" | "why" | "how" | "stories" | "when-hard" | "videos";
+interface ForgivenessItem {
+  id: string;
+  person: string;
+  offense: string;
+  date: string;
+  progress: "holding" | "working" | "released";
+  note: string;
+}
+
+type Tab = "what-is" | "why" | "how" | "stories" | "when-hard" | "list" | "journal" | "videos";
 
 const WHAT_IS_ITEMS = [
   {
@@ -168,10 +179,10 @@ const WHEN_HARD_ITEMS = [
 ];
 
 const VIDEOS = [
-  { videoId: "PG5_ajXRaXs", title: "Forgiveness: Why It's So Difficult", channel: "Tim Keller", description: "Keller explores the theology and psychology of forgiveness — why it is both commanded and genuinely costly, and what it means to forgive as God has forgiven us." },
-  { videoId: "DH9mGMPBIoM", title: "The Joseph Story: Forgiveness and Providence", channel: "Tim Keller", description: "An exploration of the most sustained biblical narrative of forgiveness — Joseph and his brothers — and what it teaches about God's redemptive purposes in human harm." },
-  { videoId: "rGoZcMWmSmQ", title: "Left to Tell — Immaculée Ilibagiza", channel: "Focus on the Family", description: "Immaculée Ilibagiza tells her story of surviving the Rwandan genocide and the extraordinary forgiveness she chose in the aftermath." },
-  { videoId: "H7q_lezfF-I", title: "What Forgiveness Is Not", channel: "Gospel Coalition", description: "A careful theological treatment of the common misconceptions about forgiveness — what it doesn't require, and what it actually accomplishes." },
+  { videoId: "kfcVPh2VDhQ", title: "Forgiveness: Why It's So Difficult", channel: "Tim Keller", description: "Keller explores the theology and psychology of forgiveness — why it is both commanded and genuinely costly, and what it means to forgive as God has forgiven us." },
+  { videoId: "57LVVwba6_8", title: "The Joseph Story: Forgiveness and Providence", channel: "Tim Keller", description: "An exploration of the most sustained biblical narrative of forgiveness — Joseph and his brothers — and what it teaches about God's redemptive purposes in human harm." },
+  { videoId: "HGHqu9-DtXk", title: "Left to Tell — Immaculée Ilibagiza", channel: "Focus on the Family", description: "Immaculée Ilibagiza tells her story of surviving the Rwandan genocide and the extraordinary forgiveness she chose in the aftermath." },
+  { videoId: "E65KV3M8RZE", title: "What Forgiveness Is Not", channel: "Gospel Coalition", description: "A careful theological treatment of the common misconceptions about forgiveness — what it doesn't require, and what it actually accomplishes." },
 ];
 
 export default function ForgivenessPage() {
@@ -182,12 +193,54 @@ export default function ForgivenessPage() {
   const [activeStory, setActiveStory] = useState(0);
   const [openWhenHard, setOpenWhenHard] = useState<number | null>(null);
 
+  const [fList, setFList] = useState<ForgivenessItem[]>(() => {
+    try { const s = localStorage.getItem("vine_forgiveness_list"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fForm, setFForm] = useState({ person: "", offense: "" });
+  const [fSaved, setFSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_forgiveness_list", JSON.stringify(fList)); } catch {} }, [fList]);
+
+  const addForgivenessItem = () => {
+    if (!fForm.person.trim()) return;
+    setFList(prev => [{ id: Date.now().toString(), ...fForm, date: new Date().toISOString().split("T")[0], progress: "holding", note: "" }, ...prev]);
+    setFForm({ person: "", offense: "" });
+    setFSaved(true);
+    setTimeout(() => setFSaved(false), 2000);
+  };
+
+  const updateProgress = (id: string, progress: ForgivenessItem["progress"]) => {
+    setFList(prev => prev.map(f => f.id === id ? { ...f, progress } : f));
+  };
+
+  const updateNote = (id: string, note: string) => {
+    setFList(prev => prev.map(f => f.id === id ? { ...f, note } : f));
+  };
+
+  const deleteFItem = (id: string) => setFList(prev => prev.filter(f => f.id !== id));
+
+  const [forgJEntries, setForgJEntries] = useState<{ id: string; date: string; person: string; step: string; insight: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_forg_entries") ?? "[]"); } catch { return []; }
+  });
+  const [forgJForm, setForgJForm] = useState({ person: "", step: "", insight: "" });
+  const [forgJSaved, setForgJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_forg_entries", JSON.stringify(forgJEntries)); } catch {} }, [forgJEntries]);
+  const saveForgJEntry = () => {
+    if (!forgJForm.person.trim()) return;
+    setForgJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...forgJForm }, ...prev]);
+    setForgJForm({ person: "", step: "", insight: "" });
+    setForgJSaved(true); setTimeout(() => setForgJSaved(false), 2000);
+  };
+  const deleteForgJEntry = (id: string) => setForgJEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: "what-is", label: "What Is Forgiveness", icon: "❓" },
+    { id: "what-is", label: "What Is It", icon: "❓" },
     { id: "why", label: "Why Forgive", icon: "💡" },
-    { id: "how", label: "How to Forgive", icon: "🛤️" },
+    { id: "how", label: "How To", icon: "🛤️" },
     { id: "stories", label: "Stories", icon: "📜" },
-    { id: "when-hard", label: "When It's Hard", icon: "⚡" },
+    { id: "when-hard", label: "When Hard", icon: "⚡" },
+    { id: "list", label: "My List", icon: "📋" },
+    { id: "journal", label: "My Journal", icon: "📓" },
     { id: "videos", label: "Videos", icon: "🎬" },
   ];
 
@@ -449,6 +502,114 @@ export default function ForgivenessPage() {
           </div>
         )}
 
+        {/* FORGIVENESS LIST TAB */}
+        {activeTab === "list" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
+              <h2 style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", color: GOLD, fontSize: 28, fontWeight: 700, marginBottom: 6 }}>Forgiveness List</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, marginBottom: 18 }}>Name the people and offenses you are carrying. Naming them before God is the first act of forgiveness. Track your progress honestly.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <input value={fForm.person} onChange={e => setFForm(f => ({ ...f, person: e.target.value }))}
+                  placeholder="Person's name or description..." aria-label="Person to forgive"
+                  style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                <textarea value={fForm.offense} onChange={e => setFForm(f => ({ ...f, offense: e.target.value }))}
+                  placeholder="What happened? (optional — writing it helps)" aria-label="What they did"
+                  style={{ width: "100%", minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                <button type="button" onClick={addForgivenessItem}
+                  style={{ padding: "10px", background: fSaved ? GREEN : GOLD, border: "none", borderRadius: 8, color: fSaved ? "#fff" : BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {fSaved ? "✓ Added" : "Add to List"}
+                </button>
+              </div>
+            </div>
+            {fList.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>📋</div>
+                <p>No items yet. Naming what you&apos;re carrying is the first step.</p>
+              </div>
+            )}
+            {fList.map(item => {
+              const progressColors = { holding: "#EF4444", working: "#F59E0B", released: GREEN };
+              const progressLabels = { holding: "Still Holding", working: "Working On It", released: "Released" };
+              return (
+                <div key={item.id} style={{ background: CARD, border: `1px solid ${progressColors[item.progress]}25`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>{item.person}</div>
+                      {item.offense && <p style={{ color: MUTED, fontSize: 13, marginTop: 4, lineHeight: 1.55, margin: 0 }}>{item.offense}</p>}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, marginLeft: 14 }}>
+                      <span style={{ color: MUTED, fontSize: 11 }}>
+                        {new Date(item.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                      <button type="button" onClick={() => deleteFItem(item.id)}
+                        style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
+                    {(["holding", "working", "released"] as const).map(p => (
+                      <button type="button" key={p} onClick={() => updateProgress(item.id, p)}
+                        style={{ flex: 1, padding: "6px 8px", borderRadius: 8, border: `1px solid ${item.progress === p ? progressColors[p] : BORDER}`, background: item.progress === p ? `${progressColors[p]}18` : "transparent", color: item.progress === p ? progressColors[p] : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                        {progressLabels[p]}
+                      </button>
+                    ))}
+                  </div>
+                  <textarea value={item.note} onChange={e => updateNote(item.id, e.target.value)}
+                    placeholder="Notes — how is the process going? What is God showing you?" aria-label="Notes on this forgiveness"
+                    style={{ width: "100%", minHeight: 50, padding: "8px 12px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 13, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Forgiveness Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your forgiveness journey — who you are working to forgive, what step you are taking, and what you are learning. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PERSON I AM WORKING TO FORGIVE *</label>
+                <textarea value={forgJForm.person} onChange={e => setForgJForm(f => ({ ...f, person: e.target.value }))}
+                  placeholder="Who are you choosing to forgive? (You can use initials or a description.)" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>STEP I AM TAKING</label>
+                <textarea value={forgJForm.step} onChange={e => setForgJForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What is one concrete step in the forgiveness process you are taking?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT OR PRAYER</label>
+                <textarea value={forgJForm.insight} onChange={e => setForgJForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What is God showing you through this process?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveForgJEntry}
+                style={{ background: forgJSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {forgJSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {forgJEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({forgJEntries.length})</h3>
+                {forgJEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteForgJEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.person && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>PERSON: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.person}</span></div>}
+                    {entry.step && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                    {entry.insight && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.insight}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -459,13 +620,7 @@ export default function ForgivenessPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 17, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 8 }}>{v.channel}</p>

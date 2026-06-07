@@ -5,11 +5,13 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "methods" | "stories" | "training" | "videos";
+type Tab = "methods" | "stories" | "training" | "journal" | "videos";
 
 type Method = {
   id: string; name: string; icon: string; description: string; color: string;
@@ -45,7 +47,7 @@ const methods: Method[] = [
     example: "Carlos used this with a coworker over lunch. He sketched it on a napkin. By the end, his coworker said, 'I never knew God was the one reaching out to me -- I always thought I had to earn it.'"
   },
   {
-    id: "romans-road",
+    id: "GnCscN9LiXM",
     name: "The Romans Road",
     icon: "🛣️",
     description: "A series of verses in Romans that trace the path from human sinfulness to salvation through Christ.",
@@ -267,7 +269,7 @@ const EVANG_TRAINING: TrainingModule[] = [
     scripture: "Acts 26:2-23 -- Paul's testimony before Agrippa is the model: before/encounter/after, personal and specific.",
   },
   {
-    id: "gospel-five",
+    id: "jdo56fmajx8",
     title: "The Gospel in 5 Minutes",
     icon: "✝️",
     duration: "30 min",
@@ -341,7 +343,7 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
     title: "How to Be Born Again",
     preacher: "Billy Graham",
     description: "The classic Graham crusade message explaining the new birth from John 3 &mdash; the sermon that has been delivered to more people in person than any other in history.",
-    videoId: "RUhJVEWBe4g",
+    videoId: "nP4tzAxbcy4",
     duration: "~30 min",
   },
   {
@@ -349,7 +351,7 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
     title: "Shocking Youth Message",
     preacher: "Paul Washer",
     description: "A confrontational call to examine whether one truly knows Christ &mdash; delivered to 5,000 youth and still one of the most-watched Gospel sermons online.",
-    videoId: "uuabITeO4l8",
+    videoId: "Rr3P0ATI0E8",
     duration: "~55 min",
   },
   {
@@ -357,7 +359,7 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
     title: "Passion 2011: Radical",
     preacher: "David Platt",
     description: "Platt challenges believers to a costly, global, Gospel-centered life &mdash; the sermon that sparked the &ldquo;Radical&rdquo; movement in American evangelicalism.",
-    videoId: "yhiHSf_L6_E",
+    videoId: "UJlLkZ6tCG0",
     duration: "~45 min",
   },
   {
@@ -365,7 +367,7 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
     title: "The Prodigal God: The Younger Brother",
     preacher: "Tim Keller",
     description: "Keller unpacks what the younger son represents and how Jesus redefines what it means to be lost &mdash; and what it means to come home.",
-    videoId: "KEYcvBTKVVM",
+    videoId: "krxcqH522uo",
     duration: "~40 min",
   },
   {
@@ -373,7 +375,7 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
     title: "Don&rsquo;t Waste Your Life",
     preacher: "John Piper",
     description: "The famous Passion message calling a generation to live for eternal things rather than comfort, safety, and accumulation &mdash; one of the defining evangelical sermons of the 2000s.",
-    videoId: "JHdB1dYAteA",
+    videoId: "52ZXFH1wzc8",
     duration: "~50 min",
   },
   {
@@ -381,13 +383,27 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
     title: "The Supremacy of Christ and Truth",
     preacher: "Voddie Baucham",
     description: "Baucham makes the case for Christ in a postmodern world &mdash; arguing that Christianity alone provides the foundation for truth, logic, and human dignity.",
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     duration: "~50 min",
   },
 ];
 
 export default function EvangelismPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_evangelism_tab", "methods");
+
+  const [evangEntries, setEvangEntries] = useState<{ id: string; date: string; conversation: string; obstacle: string; step: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_evang_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [evangForm, setEvangForm] = useState({ conversation: "", obstacle: "", step: "" });
+  const [evangSaved, setEvangSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_evang_entries", JSON.stringify(evangEntries)); }, [evangEntries]);
+  function saveEvangEntry() {
+    if (!evangForm.conversation.trim()) return;
+    setEvangEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...evangForm }, ...prev]);
+    setEvangForm({ conversation: "", obstacle: "", step: "" });
+    setEvangSaved(true); setTimeout(() => setEvangSaved(false), 2000);
+  }
+  function deleteEvangEntry(id: string) { setEvangEntries(prev => prev.filter(e => e.id !== id)); }
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [expandedFear, setExpandedFear] = useState<number | null>(null);
   const [innerMethodTab, setInnerMethodTab] = usePersistedState<"methods" | "conversations" | "fears">("vine_evangelism_inner_method_tab", "methods");
@@ -406,8 +422,8 @@ export default function EvangelismPage() {
     try { localStorage.setItem("vine_evangelism_saved", JSON.stringify([...savedMethods])); } catch {}
   }, [savedMethods]);
 
-  const togglePracticed = (id: string) => setPracticedMethods(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleSaved = (id: string) => setSavedMethods(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const togglePracticed = (id: string) => setPracticedMethods(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleSaved = (id: string) => setSavedMethods(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
@@ -446,9 +462,9 @@ export default function EvangelismPage() {
 
         {/* Main 4-tab navigation */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
-          {(["methods", "stories", "training", "videos"] as const).map(t => (
+          {(["methods", "stories", "training", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
-              {t === "methods" ? "Methods" : t === "stories" ? "Stories" : t === "training" ? "Training" : "Videos"}
+              {t === "methods" ? "Methods" : t === "stories" ? "Stories" : t === "training" ? "Training" : t === "journal" ? "📓 Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -720,6 +736,54 @@ export default function EvangelismPage() {
         )}
 
         {/* VIDEOS TAB */}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Evangelism Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your evangelistic conversations, the obstacles you encounter, and the next steps you are taking. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CONVERSATION I HAD OR AM PRAYING TOWARD *</label>
+                <textarea value={evangForm.conversation} onChange={e => setEvangForm(f => ({ ...f, conversation: e.target.value }))}
+                  placeholder="Describe a recent faith conversation or a person you are praying for and wanting to share with." rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I ENCOUNTERED OR FEAR I HAVE</label>
+                <textarea value={evangForm.obstacle} onChange={e => setEvangForm(f => ({ ...f, obstacle: e.target.value }))}
+                  placeholder="What made the conversation difficult? What fear is making you hesitate?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+                <textarea value={evangForm.step} onChange={e => setEvangForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What is your next concrete step in this relationship or in your evangelistic growth?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEvangEntry}
+                style={{ background: evangSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {evangSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {evangEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({evangEntries.length})</h3>
+                {evangEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEvangEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.conversation && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>CONVERSATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.conversation}</span></div>}
+                    {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.obstacle}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ marginBottom: 28 }}>
@@ -747,14 +811,7 @@ export default function EvangelismPage() {
                       dangerouslySetInnerHTML={{ __html: v.description }} />
                   </div>
                   <div style={{ padding: 16 }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                   </div>
                 </div>
               ))}

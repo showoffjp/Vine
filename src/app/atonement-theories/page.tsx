@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theories" | "images" | "objections" | "devotional" | "videos";
+type Tab = "theories" | "images" | "objections" | "devotional" | "journal" | "videos";
 
 const THEORIES = [
   {
@@ -115,6 +117,20 @@ export default function AtonementTheoriesPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const sel = THEORIES.find(t => t.name === selected) || THEORIES[0];
 
+  const [atEntries, setAtEntries] = useState<{ id: string; date: string; theory: string; resonates: string; tension: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_at_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [atForm, setAtForm] = useState({ theory: "Penal Substitution", resonates: "", tension: "" });
+  const [atSaved, setAtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_at_entries", JSON.stringify(atEntries)); }, [atEntries]);
+  function saveAtEntry() {
+    if (!atForm.resonates.trim()) return;
+    setAtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...atForm }, ...prev]);
+    setAtForm({ theory: "Penal Substitution", resonates: "", tension: "" });
+    setAtSaved(true); setTimeout(() => setAtSaved(false), 2000);
+  }
+  function deleteAtEntry(id: string) { setAtEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -130,10 +146,10 @@ export default function AtonementTheoriesPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theories", "images", "objections", "devotional", "videos"] as Tab[]).map(t => (
+          {(["theories", "images", "objections", "devotional", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "theories" ? "Atonement Theories" : t === "images" ? "Biblical Images" : t === "objections" ? "Objections Answered" : t === "devotional" ? "Devotional Reflections" : "🎬 Videos"}
+              {t === "theories" ? "Atonement Theories" : t === "images" ? "Biblical Images" : t === "objections" ? "Objections Answered" : t === "devotional" ? "Devotional Reflections" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -218,6 +234,52 @@ export default function AtonementTheoriesPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Atonement Reflection Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on which atonement theory resonates most with you and what tension you carry about how God saves.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Theory I am reflecting on</label>
+                <select value={atForm.theory} onChange={e => setAtForm(f => ({ ...f, theory: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {THEORIES.map(t => <option key={t.name} value={t.name}>{t.name}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What resonates — why this view moves me</label>
+                <textarea value={atForm.resonates} onChange={e => setAtForm(f => ({ ...f, resonates: e.target.value }))} rows={3} placeholder="What does this view of the atonement make you feel and believe?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Tension or question it raises</label>
+                <textarea value={atForm.tension} onChange={e => setAtForm(f => ({ ...f, tension: e.target.value }))} rows={2} placeholder="What is hard about this view? What doesn't quite fit?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAtEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {atSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {atEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({atEntries.length})</h3>
+                {atEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.theory}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteAtEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.resonates && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Resonates:</strong> {e.resonates}</p>}
+                    {e.tension && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Tension:</strong> {e.tension}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -227,19 +289,13 @@ export default function AtonementTheoriesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "YrGYoRdNOes", title: "The Necessity of the Atonement", channel: "Ligonier / R.C. Sproul", description: "R.C. Sproul explains why the atonement was necessary — grounded in God's justice and holiness — and what it means that Christ died in our place." },
-                  { videoId: "qfNSoxQb0is", title: "The Atonement (Mark 15:33-41)", channel: "Ligonier / R.C. Sproul", description: "Sproul's exposition of the crucifixion account in Mark, exploring the theological depth of Christ's death as the definitive moment of redemption." },
-                  { videoId: "RaXKCfR6ErU", title: "The Crucifixion", channel: "Tim Keller / Gospel in Life", description: "Tim Keller preaches on the crucifixion, exploring Christ's cry of dereliction and the profound substitutionary logic at the heart of the cross." },
-                  { videoId: "ZZKhMR2gfi0", title: "The Theology of the Cross and Walking with a Limp", channel: "Tim Keller", description: "Keller explores the theology of the cross (theologia crucis) — how God works through weakness and suffering rather than worldly power and glory." },
+                  { videoId: "7_CGP-12AE0", title: "The Necessity of the Atonement", channel: "Ligonier / R.C. Sproul", description: "R.C. Sproul explains why the atonement was necessary — grounded in God's justice and holiness — and what it means that Christ died in our place." },
+                  { videoId: "GQI72THyO5I", title: "The Atonement (Mark 15:33-41)", channel: "Ligonier / R.C. Sproul", description: "Sproul's exposition of the crucifixion account in Mark, exploring the theological depth of Christ's death as the definitive moment of redemption." },
+                  { videoId: "t6L-F2emwUc", title: "The Crucifixion", channel: "Tim Keller / Gospel in Life", description: "Tim Keller preaches on the crucifixion, exploring Christ's cry of dereliction and the profound substitutionary logic at the heart of the cross." },
+                  { videoId: "jH_aojNJM3E", title: "The Theology of the Cross and Walking with a Limp", channel: "Tim Keller", description: "Keller explores the theology of the cross (theologia crucis) — how God works through weakness and suffering rather than worldly power and glory." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

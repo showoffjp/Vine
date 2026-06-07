@@ -4,11 +4,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
 import {
   Target,
   Plus,
   CheckCircle2,
-  Circle,
   Trash2,
   ChevronRight,
   Flame,
@@ -18,6 +18,8 @@ import {
   Users,
   Music,
   X,
+  Pencil,
+  Save,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
@@ -78,7 +80,13 @@ export default function GoalsPage() {
     } catch { return []; }
   });
   const [showAdd, setShowAdd] = useState(false);
-  const [activeTab, setActiveTab] = usePersistedState<"active" | "completed" | "theology" | "voices" | "videos">("vine_goals_tab", "active");
+  const [editingGoalId, setEditingGoalId] = useState<string | null>(null);
+  const [editGoalTitle, setEditGoalTitle] = useState("");
+  const [editGoalTarget, setEditGoalTarget] = useState("");
+  const [editGoalUnit, setEditGoalUnit] = useState("");
+  const [editGoalCategory, setEditGoalCategory] = useState<GoalCategory>("Scripture");
+  const [editGoalDeadline, setEditGoalDeadline] = useState("");
+  const [activeTab, setActiveTab] = usePersistedState<"active" | "completed" | "theology" | "voices" | "journal" | "videos">("vine_goals_tab", "active");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_goals_voice", "smith-jka");
   const voiceItem = VOICES_GOALS.find(v => v.id === selectedVoice)!;
 
@@ -138,6 +146,41 @@ export default function GoalsPage() {
     setGoals((prev) => prev.filter((g) => g.id !== id));
   };
 
+  const startEditGoal = (goal: Goal) => {
+    setEditingGoalId(goal.id);
+    setEditGoalTitle(goal.title);
+    setEditGoalTarget(String(goal.target));
+    setEditGoalUnit(goal.unit);
+    setEditGoalCategory(goal.category);
+    setEditGoalDeadline(goal.deadline || "");
+  };
+
+  const saveGoalEdit = () => {
+    if (!editGoalTitle.trim() || !editingGoalId) return;
+    setGoals((prev) => prev.map((g) => g.id === editingGoalId ? {
+      ...g, title: editGoalTitle.trim(),
+      target: Math.max(1, Number(editGoalTarget) || g.target),
+      unit: editGoalUnit.trim() || g.unit,
+      category: editGoalCategory,
+      deadline: editGoalDeadline || undefined,
+    } : g));
+    setEditingGoalId(null);
+  };
+
+  const [goalsJEntries, setGoalsJEntries] = useState<{ id: string; date: string; goal: string; obstacle: string; insight: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_goalsj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [goalsJForm, setGoalsJForm] = useState({ goal: "", obstacle: "", insight: "" });
+  const [goalsJSaved, setGoalsJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_goalsj_entries", JSON.stringify(goalsJEntries)); } catch {} }, [goalsJEntries]);
+  const saveGoalsJEntry = () => {
+    if (!goalsJForm.goal.trim()) return;
+    setGoalsJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...goalsJForm }, ...prev]);
+    setGoalsJForm({ goal: "", obstacle: "", insight: "" });
+    setGoalsJSaved(true); setTimeout(() => setGoalsJSaved(false), 2000);
+  };
+  const deleteGoalsJEntry = (id: string) => setGoalsJEntries(prev => prev.filter(e => e.id !== id));
+
   const active = goals.filter((g) => !g.completedAt || g.current < g.target);
   const completed = goals.filter((g) => g.completedAt && g.current >= g.target);
   const displayed = activeTab === "active" ? active : completed;
@@ -194,7 +237,7 @@ export default function GoalsPage() {
 
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["active", "completed", "theology", "voices", "videos"] as const).map((tab) => (
+            {(["active", "completed", "theology", "voices", "journal", "videos"] as const).map((tab) => (
               <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -205,7 +248,7 @@ export default function GoalsPage() {
                   border: activeTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent",
                 }}
               >
-                {tab === "active" ? `Active (${active.length})` : tab === "completed" ? `Done (${completed.length})` : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
+                {tab === "active" ? `Active (${active.length})` : tab === "completed" ? `Done (${completed.length})` : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "journal" ? "📓 Journal" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -264,15 +307,28 @@ export default function GoalsPage() {
                               )}
                             </div>
                           </div>
-                          <button type="button"
-                            onClick={() => deleteGoal(goal.id)}
-                            className="p-1 rounded transition-colors shrink-0"
-                            style={{ color: "#3A3A58" }}
-                            onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
-                            onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
-                          >
-                            <Trash2 size={14} />
-                          </button>
+                          <div className="flex items-center gap-1">
+                            <button type="button"
+                              onClick={() => startEditGoal(goal)}
+                              className="p-1 rounded transition-colors shrink-0"
+                              aria-label="Edit goal"
+                              style={{ color: "#3A3A58" }}
+                              onMouseEnter={(e) => (e.currentTarget.style.color = "#6B4FBB")}
+                              onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
+                            >
+                              <Pencil size={13} />
+                            </button>
+                            <button type="button"
+                              onClick={() => deleteGoal(goal.id)}
+                              className="p-1 rounded transition-colors shrink-0"
+                              aria-label="Delete goal"
+                              style={{ color: "#3A3A58" }}
+                              onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
+                              onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
                         </div>
 
                         {/* Progress */}
@@ -335,6 +391,51 @@ export default function GoalsPage() {
                         )}
                       </div>
                     </div>
+
+                    {/* Inline edit form */}
+                    {editingGoalId === goal.id && (
+                      <div className="mt-4 pt-4 space-y-3" style={{ borderTop: "1px solid #1E1E32" }}>
+                        <p className="text-xs font-bold" style={{ color: "#6B4FBB" }}>Edit Goal</p>
+                        <input type="text" aria-label="Goal title"
+                          value={editGoalTitle} onChange={(e) => setEditGoalTitle(e.target.value)}
+                          className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+                          style={{ background: "#0D0D1A", border: "1px solid rgba(107,79,187,0.3)", color: "#F2F2F8" }} />
+                        <div className="grid grid-cols-3 gap-3">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Category</label>
+                            <select aria-label="Category" value={editGoalCategory} onChange={(e) => setEditGoalCategory(e.target.value as GoalCategory)}
+                              className="w-full px-2 py-1.5 rounded-xl text-xs outline-none"
+                              style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}>
+                              {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Target</label>
+                            <input type="number" min="1" aria-label="Target"
+                              value={editGoalTarget} onChange={(e) => setEditGoalTarget(e.target.value)}
+                              className="w-full px-2 py-1.5 rounded-xl text-xs outline-none"
+                              style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }} />
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Unit</label>
+                            <input type="text" aria-label="Unit"
+                              value={editGoalUnit} onChange={(e) => setEditGoalUnit(e.target.value)}
+                              className="w-full px-2 py-1.5 rounded-xl text-xs outline-none"
+                              style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }} />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 pt-1">
+                          <button type="button" onClick={() => setEditingGoalId(null)}
+                            className="flex-1 py-2 rounded-xl text-xs font-semibold"
+                            style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}>Cancel</button>
+                          <button type="button" onClick={saveGoalEdit}
+                            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold"
+                            style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.35)" }}>
+                            <Save size={12} /> Save
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -552,6 +653,54 @@ export default function GoalsPage() {
             </div>
           )}
 
+          {activeTab === "journal" && (
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: "#F2F2F8" }}>My Goals Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, marginBottom: 24 }}>Reflect on goals you are pursuing, obstacles in your path, and insights God is giving you. Saved privately in your browser.</p>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: "block", color: "#3a7d56", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>GOAL I AM PURSUING *</label>
+                  <textarea value={goalsJForm.goal} onChange={e => setGoalsJForm(f => ({ ...f, goal: e.target.value }))}
+                    placeholder="What faith goal or spiritual discipline are you working toward?" rows={2}
+                    style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: "block", color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I AM FACING</label>
+                  <textarea value={goalsJForm.obstacle} onChange={e => setGoalsJForm(f => ({ ...f, obstacle: e.target.value }))}
+                    placeholder="What is making this goal difficult right now?" rows={2}
+                    style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <label style={{ display: "block", color: "#9898B3", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT GOD IS GIVING ME</label>
+                  <textarea value={goalsJForm.insight} onChange={e => setGoalsJForm(f => ({ ...f, insight: e.target.value }))}
+                    placeholder="What is God teaching you through this pursuit?" rows={2}
+                    style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveGoalsJEntry}
+                  style={{ background: goalsJSaved ? "#3a7d56" : "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {goalsJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {goalsJEntries.length > 0 && (
+                <div>
+                  <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({goalsJEntries.length})</h3>
+                  {goalsJEntries.map(entry => (
+                    <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                        <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                        <button type="button" onClick={() => deleteGoalsJEntry(entry.id)}
+                          style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                      </div>
+                      {entry.goal && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11 }}>GOAL: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.goal}</span></div>}
+                      {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.obstacle}</span></div>}
+                      {entry.insight && <div><span style={{ color: "#9898B3", fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.insight}</span></div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {activeTab === "videos" && (
             <div>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -561,19 +710,13 @@ export default function GoalsPage() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {[
-                    { videoId: "G4-WT4NvC14", title: "How to Set Spiritual Goals That Actually Stick", channel: "The Gospel Coalition", description: "Practical wisdom for setting goals that are grounded in the gospel — not performance-driven, but grace-fueled. How to pursue growth without turning it into works-righteousness." },
-                    { videoId: "7SbckqNUDm0", title: "The Discipleship Life: Intentional Formation", channel: "Dallas Willard Ministries", description: "Willard on why intentionality matters in the Christian life — how deliberate training in godliness differs from mere willpower, and what it means to arrange your life for spiritual growth." },
-                    { videoId: "poXKoL5y4Lo", title: "Living with Purpose: The Called Life", channel: "The Gospel Coalition", description: "What it means to live in response to God's calling — how your specific gifts, circumstances, and opportunities fit into a life of intentional discipleship and mission." },
-                    { videoId: "tspDy2KIyeI", title: "Seasons of Spiritual Growth", channel: "Renovaré", description: "Understanding the different seasons of spiritual growth — how God works differently in different stages of the journey, and how to cooperate with what he is doing in each season." },
+                    { videoId: "f7RJATbobik", title: "How to Set Spiritual Goals That Actually Stick", channel: "The Gospel Coalition", description: "Practical wisdom for setting goals that are grounded in the gospel — not performance-driven, but grace-fueled. How to pursue growth without turning it into works-righteousness." },
+                    { videoId: "npEDqbE6faE", title: "The Discipleship Life: Intentional Formation", channel: "Dallas Willard Ministries", description: "Willard on why intentionality matters in the Christian life — how deliberate training in godliness differs from mere willpower, and what it means to arrange your life for spiritual growth." },
+                    { videoId: "GQI72THyO5I", title: "Living with Purpose: The Called Life", channel: "The Gospel Coalition", description: "What it means to live in response to God's calling — how your specific gifts, circumstances, and opportunities fit into a life of intentional discipleship and mission." },
+                    { videoId: "j9phNEaPrv8", title: "Seasons of Spiritual Growth", channel: "Renovaré", description: "Understanding the different seasons of spiritual growth — how God works differently in different stages of the journey, and how to cooperate with what he is doing in each season." },
                   ].map(v => (
                     <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                      <iframe
-                        width="100%"
-                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                        src={`https://www.youtube.com/embed/${v.videoId}`}
-                        title={v.title}
-                        allowFullScreen
-                      />
+                      <VideoEmbed videoId={v.videoId} title={v.title} />
                       <div style={{ padding: "14px 16px" }}>
                         <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                         <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

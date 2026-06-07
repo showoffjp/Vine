@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "hymns" | "theology" | "history" | "voices" | "videos";
+type Tab = "hymns" | "theology" | "history" | "voices" | "journal" | "videos";
 
 const ERA_FILTERS = ["All", "17th Century", "18th Century", "19th Century", "20th Century"];
 
@@ -170,7 +172,7 @@ const HYMNS = [
 
 const HYMN_THEOLOGY = [
   {
-    id: "sovereignty",
+    id: "0fudMFN9M8s",
     doctrine: "Sovereignty of God",
     icon: "👑",
     description: "The doctrine that God governs all of creation, history, and salvation according to his own perfect will. Hymns that explore this doctrine do not minimize human suffering or agency but locate both within a larger providential order that is good and trustworthy.",
@@ -216,7 +218,7 @@ const HYMN_HISTORY = [
     key_figures: ["Ambrose of Milan", "Clement of Alexandria", "Prudentius", "Ephrem the Syrian"],
   },
   {
-    id: "reformation",
+    id: "HQp8pgS_jsA",
     era: "Reformation",
     period: "16th Century",
     description: "Martin Luther's conviction that ordinary people should understand and participate in worship drove him to compose vernacular German hymns. His 'Ein feste Burg' (1529) became the battle hymn of the Reformation. Calvin preferred strict Psalm-singing; the Genevan Psalter (1562) set all 150 Psalms to meter. Lutheran hymnody flourished in composers like Paul Gerhardt (1607–1676).",
@@ -315,6 +317,20 @@ export default function GreatHymnsExplainedPage() {
   const hymn = HYMNS.find(h => h.title === selected);
   const activeVoice = VOICES_HYM.find(v => v.id === selectedVoice)!;
 
+  const [hymnEntries, setHymnEntries] = useState<{ id: string; date: string; hymn: string; meaning: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_hymn_entries") ?? "[]"); } catch { return []; }
+  });
+  const [hymnForm, setHymnForm] = useState({ hymn: "", meaning: "", applying: "" });
+  const [hymnSaved, setHymnSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_hymn_entries", JSON.stringify(hymnEntries)); } catch {} }, [hymnEntries]);
+  const saveHymnEntry = () => {
+    if (!hymnForm.hymn.trim()) return;
+    setHymnEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hymnForm }, ...prev]);
+    setHymnForm({ hymn: "", meaning: "", applying: "" });
+    setHymnSaved(true); setTimeout(() => setHymnSaved(false), 2000);
+  };
+  const deleteHymnEntry = (id: string) => setHymnEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -337,10 +353,10 @@ export default function GreatHymnsExplainedPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 6, flexWrap: "wrap" }}>
-          {(["hymns", "theology", "history", "voices", "videos"] as const).map(t => (
+          {(["hymns", "theology", "history", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "hymns" ? "Hymns" : t === "theology" ? "Theology" : t === "history" ? "History" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "hymns" ? "Hymns" : t === "theology" ? "Theology" : t === "history" ? "History" : t === "voices" ? "Voices" : t === "journal" ? "📓 Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -443,7 +459,7 @@ export default function GreatHymnsExplainedPage() {
           <div style={{ position: "relative", paddingLeft: 32 }}>
             <div style={{ position: "absolute", left: 10, top: 0, bottom: 0, width: 2, background: BORDER }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {HYMN_HISTORY.map((entry, i) => (
+              {HYMN_HISTORY.map((entry) => (
                 <div key={entry.id} style={{ position: "relative", paddingBottom: 32 }}>
                   <div style={{ position: "absolute", left: -27, top: 20, width: 14, height: 14, borderRadius: "50%", background: PURPLE, border: `2px solid ${BG}` }} />
                   <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
@@ -510,6 +526,54 @@ export default function GreatHymnsExplainedPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Hymns Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record hymns that are speaking to you, what they mean to you, and how you are applying their truth. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HYMN THAT IS SPEAKING TO ME *</label>
+                <textarea value={hymnForm.hymn} onChange={e => setHymnForm(f => ({ ...f, hymn: e.target.value }))}
+                  placeholder="Which hymn is resonating with you right now?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WHAT IT MEANS TO ME</label>
+                <textarea value={hymnForm.meaning} onChange={e => setHymnForm(f => ({ ...f, meaning: e.target.value }))}
+                  placeholder="What truth or experience does this hymn capture for you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING ITS TRUTH</label>
+                <textarea value={hymnForm.applying} onChange={e => setHymnForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How is this hymn shaping your prayer, worship, or daily life?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHymnEntry}
+                style={{ background: hymnSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {hymnSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hymnEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({hymnEntries.length})</h3>
+                {hymnEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHymnEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.hymn && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>HYMN: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.hymn}</span></div>}
+                    {entry.meaning && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>MEANING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.meaning}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -519,20 +583,14 @@ export default function GreatHymnsExplainedPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "uohh6i_tQII", title: "Amazing Grace: The Story Behind the 250-Year-Old Hymn", teacher: "Hymn History" },
-                { id: "qX9M1fDzmDA", title: "The Story Behind the Song: Amazing Grace", teacher: "John Newton's Journey" },
-                { id: "xz6jfUQGwZI", title: "Amazing Grace: The Life of Minister John Newton", teacher: "Church History" },
-                { id: "8m8AHHduTM0", title: "Amazing Grace: The Story Behind the Song", teacher: "Christian Music History" },
+                { id: "XEr5Wn7LHvw", title: "Amazing Grace: The Story Behind the 250-Year-Old Hymn", teacher: "Hymn History" },
+                { id: "EisnaNdlYCs", title: "The Story Behind the Song: Amazing Grace", teacher: "John Newton's Journey" },
+                { id: "mC-zw0zCCtg", title: "Amazing Grace: The Life of Minister John Newton", teacher: "Church History" },
+                { id: "UWTYX17JGnI", title: "Amazing Grace: The Story Behind the Song", teacher: "Christian Music History" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

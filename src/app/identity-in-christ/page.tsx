@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -26,13 +28,13 @@ const IDENTITY_STATEMENTS = [
   { ref: "Romans 8:38-39", statement: "Nothing can separate me from God's love.", category: "Security", verse: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord." },
 ];
 
-type Tab = "who" | "voices" | "false" | "meditate" | "videos";
+type Tab = "who" | "voices" | "false" | "meditate" | "journal" | "videos";
 
 const VIDEOS = [
-  { videoId: "fJnGJN6laqE", title: "Who Am I? Understanding Your Identity in Christ", channel: "Desiring God", description: "A biblical exploration of who you are in Christ — not based on performance, achievement, or the opinions of others, but on what God says about you." },
-  { videoId: "Z8lkuuhVkOI", title: "Identity: The Gospel's Answer to Who You Are", channel: "Tim Keller Gospel in Life", description: "Tim Keller examines how the gospel reshapes our deepest sense of identity, freeing us from the twin tyrannies of pride and shame." },
-  { videoId: "TuXTFlU-_To", title: "Knowing Who You Are in Christ", channel: "Ligonier Ministries", description: "Ligonier Ministries unpacks the doctrinal foundations of Christian identity — what it means to be justified, adopted, and united with Christ." },
-  { videoId: "sxMhDVkdULw", title: "Your Identity Before God", channel: "The Gospel Coalition", description: "The Gospel Coalition explores how our standing before God in Christ defines us more fundamentally than any other category — family, culture, or achievement." },
+  { videoId: "4Eg_di-O8nM", title: "Who Am I? Understanding Your Identity in Christ", channel: "Desiring God", description: "A biblical exploration of who you are in Christ — not based on performance, achievement, or the opinions of others, but on what God says about you." },
+  { videoId: "gV9JugO_5Mk", title: "Identity: The Gospel's Answer to Who You Are", channel: "Tim Keller Gospel in Life", description: "Tim Keller examines how the gospel reshapes our deepest sense of identity, freeing us from the twin tyrannies of pride and shame." },
+  { videoId: "5nvVVcYD-0w", title: "Knowing Who You Are in Christ", channel: "Ligonier Ministries", description: "Ligonier Ministries unpacks the doctrinal foundations of Christian identity — what it means to be justified, adopted, and united with Christ." },
+  { videoId: "bxzuh5Xx5G4", title: "Your Identity Before God", channel: "The Gospel Coalition", description: "The Gospel Coalition explores how our standing before God in Christ defines us more fundamentally than any other category — family, culture, or achievement." },
 ];
 
 const VOICES_IDENTITY = [
@@ -112,9 +114,23 @@ export default function IdentityInChristPage() {
 
   useEffect(() => { try { localStorage.setItem("vine_identity_mem", JSON.stringify([...memorized])); } catch {} }, [memorized]);
 
+  const [idEntries, setIdEntries] = useState<{ id: string; date: string; falseId: string; truth: string; practice: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_id_entries") ?? "[]"); } catch { return []; }
+  });
+  const [idForm, setIdForm] = useState({ falseId: "", truth: "", practice: "" });
+  const [idSaved, setIdSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_id_entries", JSON.stringify(idEntries)); } catch {} }, [idEntries]);
+  const saveIdEntry = () => {
+    if (!idForm.falseId.trim()) return;
+    setIdEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...idForm }, ...prev]);
+    setIdForm({ falseId: "", truth: "", practice: "" });
+    setIdSaved(true); setTimeout(() => setIdSaved(false), 2000);
+  };
+  const deleteIdEntry = (id: string) => setIdEntries(prev => prev.filter(e => e.id !== id));
+
   const toggleMem = (ref: string) => setMemorized(prev => {
     const next = new Set(prev);
-    next.has(ref) ? next.delete(ref) : next.add(ref);
+    if (next.has(ref)) { next.delete(ref); } else { next.add(ref); }
     return next;
   });
 
@@ -140,6 +156,7 @@ export default function IdentityInChristPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "false" as const, label: "False Identities", icon: "🚫" },
             { id: "meditate" as const, label: "Meditate", icon: "🙏" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -244,12 +261,59 @@ export default function IdentityInChristPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Identity Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record false identities you are renouncing, truths from Christ you are receiving, and practices for grounding yourself. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>FALSE IDENTITY I AM RENOUNCING *</label>
+                <textarea value={idForm.falseId} onChange={e => setIdForm(f => ({ ...f, falseId: e.target.value }))}
+                  placeholder="Which false identity (performance, appearance, past...) are you working to release?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>TRUTH FROM CHRIST I AM RECEIVING</label>
+                <textarea value={idForm.truth} onChange={e => setIdForm(f => ({ ...f, truth: e.target.value }))}
+                  placeholder="What does God say about who you are in Christ?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE FOR GROUNDING MYSELF</label>
+                <textarea value={idForm.practice} onChange={e => setIdForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What spiritual practice helps you remember who you truly are?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveIdEntry}
+                style={{ background: idSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {idSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {idEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({idEntries.length})</h3>
+                {idEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteIdEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.falseId && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>FALSE ID: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.falseId}</span></div>}
+                    {entry.truth && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>TRUTH: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.truth}</span></div>}
+                    {entry.practice && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

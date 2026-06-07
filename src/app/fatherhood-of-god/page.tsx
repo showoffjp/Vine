@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "adoption" | "fatherwound" | "practices" | "videos";
+type Tab = "theology" | "adoption" | "fatherwound" | "practices" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -174,8 +176,9 @@ const PRACTICE_ITEMS = [
 const TABS = [
     { id: "theology" as Tab, label: "Who God Is as Father", icon: "☁️" },
     { id: "adoption" as Tab, label: "Adoption & Sonship", icon: "🏠" },
-    { id: "fatherwound" as Tab, label: "Healing Father Wounds", icon: "💚" },
+    { id: "dy9nwe9zeU8" as Tab, label: "Healing Father Wounds", icon: "💚" },
     { id: "practices" as Tab, label: "Living as Beloved", icon: "✨" },
+    { id: "journal" as Tab, label: "My Journal", icon: "📓" },
     { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
@@ -183,6 +186,20 @@ export default function FatherhoodOfGodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_fatherhood-of-god_tab", "theology");
   const [selectedTheology, setSelectedTheology] = usePersistedState("vine_fatherhood-of-god_selected_theology", "ot");
   const [selectedAdoption, setSelectedAdoption] = usePersistedState("vine_fatherhood-of-god_selected_adoption", "rom8");
+  const [fogEntries, setFogEntries] = useState<{ id: string; date: string; wound: string; truth: string; practice: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fog_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fogForm, setFogForm] = useState({ wound: "", truth: "", practice: "" });
+  const [fogSaved, setFogSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fog_entries", JSON.stringify(fogEntries)); }, [fogEntries]);
+  function saveFogEntry() {
+    if (!fogForm.wound.trim()) return;
+    setFogEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fogForm }, ...prev]);
+    setFogForm({ wound: "", truth: "", practice: "" });
+    setFogSaved(true); setTimeout(() => setFogSaved(false), 2000);
+  }
+  function deleteFogEntry(id: string) { setFogEntries(prev => prev.filter(e => e.id !== id)); }
+
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const toggleExpand = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
@@ -334,6 +351,54 @@ export default function FatherhoodOfGodPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Father Wound & Healing Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect honestly on wounds from your earthly father, the truths about God as Father that are healing them, and practices you are taking. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WOUND OR DISTORTION I AM CARRYING *</label>
+                <textarea value={fogForm.wound} onChange={e => setFogForm(f => ({ ...f, wound: e.target.value }))}
+                  placeholder="What wound or distorted view of fatherhood (from your earthly father or experience) are you working through?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>TRUTH ABOUT GOD AS FATHER THAT IS HEALING IT</label>
+                <textarea value={fogForm.truth} onChange={e => setFogForm(f => ({ ...f, truth: e.target.value }))}
+                  placeholder="What truth about the fatherhood of God is beginning to heal or correct the wound?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE I AM TAKING</label>
+                <textarea value={fogForm.practice} onChange={e => setFogForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What spiritual practice or step are you taking to receive and live in God's fatherhood?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFogEntry}
+                style={{ background: fogSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {fogSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fogEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fogEntries.length})</h3>
+                {fogEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFogEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.wound && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>WOUND: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.wound}</span></div>}
+                    {entry.truth && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>TRUTH: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.truth}</span></div>}
+                    {entry.practice && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -343,19 +408,13 @@ export default function FatherhoodOfGodPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "E5yoWkvp-k0", title: "God Our Father", channel: "Timothy Keller", description: "Tim Keller teaches that the biblical God is a father and a friend and a lover and a king — exploring what it means to know God as your personal Father." },
-                  { videoId: "qcpkVgGYJ8A", title: "John Piper on Fatherhood", channel: "John Piper / Desiring God", description: "John Piper reflects on fatherhood — both God's fatherhood and human fatherhood — and what it means to live as children of the heavenly Father." },
-                  { videoId: "OasF7lWlX_M", title: "The Prodigal God: The Elder Brother", channel: "Timothy Keller", description: "Tim Keller unpacks the parable of the prodigal son to show both sons' misunderstanding of the Father — and the radical grace the running Father displays." },
-                  { videoId: "t0lo8AP7imU", title: "Fathers, Bring Them Up in the Discipline and Instruction of the Lord", channel: "Biblical Preaching", description: "A sermon on Ephesians 6:4 — the call to fathers to raise children in the nurture of the Lord, reflecting the Father-heart of God in the home." },
+                  { videoId: "iK0NjiBXKN4", title: "God Our Father", channel: "Timothy Keller", description: "Tim Keller teaches that the biblical God is a father and a friend and a lover and a king — exploring what it means to know God as your personal Father." },
+                  { videoId: "zMbUXpFiFeo", title: "John Piper on Fatherhood", channel: "John Piper / Desiring God", description: "John Piper reflects on fatherhood — both God's fatherhood and human fatherhood — and what it means to live as children of the heavenly Father." },
+                  { videoId: "52ZXFH1wzc8", title: "The Prodigal God: The Elder Brother", channel: "Timothy Keller", description: "Tim Keller unpacks the parable of the prodigal son to show both sons' misunderstanding of the Father — and the radical grace the running Father displays." },
+                  { videoId: "rtkS_8VWfB0", title: "Fathers, Bring Them Up in the Discipline and Instruction of the Lord", channel: "Biblical Preaching", description: "A sermon on Ephesians 6:4 — the call to fathers to raise children in the nurture of the Lord, reflecting the Father-heart of God in the home." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

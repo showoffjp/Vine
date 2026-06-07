@@ -1,16 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB";
 const GOLD = "#c9a227";
 const TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundation" | "covenant" | "communication" | "seasons" | "challenges" | "videos";
+type Tab = "foundation" | "covenant" | "communication" | "seasons" | "challenges" | "journal" | "videos";
 
 const FOUNDATION_ITEMS = [
   {
@@ -251,10 +253,10 @@ const CHALLENGES_ITEMS = [
 ];
 
 const VIDEOS = [
-  { videoId: "Mi-wj8Jey9M", title: "Why Marriage Is a Sacred Covenant", channel: "Tim Keller", description: "Keller explains why marriage is a covenant and not merely a contract, and what it means to make and keep vows before God — even when it is costly." },
-  { videoId: "XoxYPXqqO34", title: "The Meaning of Marriage", channel: "Tim & Kathy Keller", description: "Tim and Kathy Keller lead through the core ideas in their book — how the gospel reshapes everything we thought we knew about love and commitment." },
-  { videoId: "OYrRoafD3OU", title: "Tim and Kathy Keller on Christian Marriage", channel: "Gospel Coalition", description: "Tim and Kathy Keller in conversation about the realities of long Christian marriage — sanctification, conflict, intimacy, and the grace that sustains a covenant across decades." },
-  { videoId: "H-mTqMOFLWI", title: "Sacred Marriage — Gary Thomas", channel: "Saddleback Church", description: "Gary Thomas teaches on his central insight: what if God designed marriage to make us holy more than to make us happy? A paradigm-shifting framework." },
+  { videoId: "jH_aojNJM3E", title: "Why Marriage Is a Sacred Covenant", channel: "Tim Keller", description: "Keller explains why marriage is a covenant and not merely a contract, and what it means to make and keep vows before God — even when it is costly." },
+  { videoId: "kfcVPh2VDhQ", title: "The Meaning of Marriage", channel: "Tim & Kathy Keller", description: "Tim and Kathy Keller lead through the core ideas in their book — how the gospel reshapes everything we thought we knew about love and commitment." },
+  { videoId: "57LVVwba6_8", title: "Tim and Kathy Keller on Christian Marriage", channel: "Gospel Coalition", description: "Tim and Kathy Keller in conversation about the realities of long Christian marriage — sanctification, conflict, intimacy, and the grace that sustains a covenant across decades." },
+  { videoId: "HGHqu9-DtXk", title: "Sacred Marriage — Gary Thomas", channel: "Saddleback Church", description: "Gary Thomas teaches on his central insight: what if God designed marriage to make us holy more than to make us happy? A paradigm-shifting framework." },
 ];
 
 export default function MarriagePage() {
@@ -265,12 +267,30 @@ export default function MarriagePage() {
   const [openChalItem, setOpenChalItem] = useState<number | null>(null);
   const [activeSeason, setActiveSeason] = useState(0);
 
+  const [marriageEntries, setMarriageEntries] = useState<{ id: string; date: string; gratitude: string; tension: string; prayer: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_marriage_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [mForm, setMForm] = useState({ gratitude: "", tension: "", prayer: "" });
+  const [mSaved, setMSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_marriage_journal", JSON.stringify(marriageEntries)); } catch {} }, [marriageEntries]);
+
+  const saveMEntry = () => {
+    setMarriageEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...mForm }, ...prev]);
+    setMForm({ gratitude: "", tension: "", prayer: "" });
+    setMSaved(true);
+    setTimeout(() => setMSaved(false), 2000);
+  };
+
+  const deleteMEntry = (id: string) => setMarriageEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: "foundation", label: "Foundation", icon: "📖" },
     { id: "covenant", label: "Covenant", icon: "💍" },
     { id: "communication", label: "Communication", icon: "💬" },
     { id: "seasons", label: "Seasons", icon: "🌿" },
     { id: "challenges", label: "Challenges", icon: "⚡" },
+    { id: "journal", label: "Journal", icon: "✍️" },
     { id: "videos", label: "Videos", icon: "🎬" },
   ];
 
@@ -599,6 +619,56 @@ export default function MarriagePage() {
         )}
 
         {/* VIDEOS TAB */}
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 0 40px" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Marriage is not sustained by grand gestures but by sustained attention. This journal is a place to notice, be grateful, address tension, and pray — consistently, over years.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Marriage Reflection</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I'm grateful for in my spouse this season</label>
+                <textarea value={mForm.gratitude} onChange={e => setMForm(f => ({ ...f, gratitude: e.target.value }))} rows={2}
+                  placeholder="A specific quality, action, moment, or characteristic I want to name and hold..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Unaddressed tension or friction</label>
+                <textarea value={mForm.tension} onChange={e => setMForm(f => ({ ...f, tension: e.target.value }))} rows={2}
+                  placeholder="What is going unsaid, what needs to be repaired or communicated, what I've been avoiding..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>My prayer for our marriage</label>
+                <textarea value={mForm.prayer} onChange={e => setMForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="What I'm asking God for in this relationship, this season, for my spouse..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveMEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {mSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {marriageEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Journal History</h3>
+                {marriageEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteMEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{e.date}</div>
+                    {e.gratitude && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>Grateful: {e.gratitude}</p>}
+                    {e.tension && <p style={{ color: "#F59E0B", fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>Tension: {e.tension}</p>}
+                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0 }}>🙏 {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 24 }}>
@@ -608,13 +678,7 @@ export default function MarriagePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 17, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 8 }}>{v.channel}</p>

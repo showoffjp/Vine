@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "types" | "practice" | "history" | "videos";
+type Tab = "theology" | "types" | "practice" | "history" | "fastlog" | "videos";
 
 const theologyPoints = [
   {
@@ -176,11 +178,26 @@ export default function FastingGuidePage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  const [fastLogs, setFastLogs] = useState<{ id: string; date: string; type: string; duration: string; intention: string; fruit: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fast_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [flForm, setFlForm] = useState({ type: "Normal Fast", duration: "", intention: "", fruit: "" });
+  const [flSaved, setFlSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fast_logs", JSON.stringify(fastLogs)); }, [fastLogs]);
+  function saveFastLog() {
+    if (!flForm.duration.trim() && !flForm.intention.trim()) return;
+    setFastLogs(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...flForm }, ...prev]);
+    setFlForm({ type: "Normal Fast", duration: "", intention: "", fruit: "" });
+    setFlSaved(true); setTimeout(() => setFlSaved(false), 2000);
+  }
+  function deleteFastLog(id: string) { setFastLogs(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Biblical Theology" },
     { id: "types", label: "Types of Fasting" },
     { id: "practice", label: "How to Fast" },
     { id: "history", label: "Church History" },
+    { id: "fastlog", label: "My Fasting Log" },
     { id: "videos", label: "Videos" }
   ];
 
@@ -349,6 +366,68 @@ export default function FastingGuidePage() {
             ))}
           </div>
         )}
+        {activeTab === "fastlog" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                A fasting log helps you track not just what you fasted, but why — and what God did. Reviewing past fasts reveals patterns of grace you would otherwise miss.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Record a Fast</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Type of fast</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Normal Fast", "Partial Fast", "Daniel Fast", "Absolute Fast", "Media Fast"].map(t => (
+                    <button type="button" key={t} onClick={() => setFlForm(f => ({ ...f, type: t }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${flForm.type === t ? GREEN : BORDER}`, background: flForm.type === t ? `${GREEN}20` : "transparent", color: flForm.type === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Duration / period</label>
+                <input value={flForm.duration} onChange={e => setFlForm(f => ({ ...f, duration: e.target.value }))} placeholder="e.g. 24 hours, sunup to sundown, 3 days..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Intention / purpose</label>
+                <textarea value={flForm.intention} onChange={e => setFlForm(f => ({ ...f, intention: e.target.value }))} rows={3}
+                  placeholder="Why are you fasting? What are you bringing before God?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What God did (fruit)</label>
+                <textarea value={flForm.fruit} onChange={e => setFlForm(f => ({ ...f, fruit: e.target.value }))} rows={2}
+                  placeholder="What happened during or after? A sense of clarity, a answered prayer, a shift in desire..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFastLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {flSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fastLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Fasting History ({fastLogs.length})</h3>
+                {fastLogs.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteFastLog(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.type}</span>
+                      {e.duration && <span style={{ color: MUTED, fontSize: 12 }}>{e.duration}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.intention && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}><span style={{ color: MUTED, fontWeight: 600 }}>Intention: </span>{e.intention}</p>}
+                    {e.fruit && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.fruit}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {/* Videos */}
         {activeTab === "videos" && (
           <div style={{ maxWidth: 720 }}>
@@ -357,19 +436,13 @@ export default function FastingGuidePage() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
-                { videoId: "AJEoDKK55VY", title: "Fasting for Beginners — A Biblical Guide", channel: "Desiring God", description: "John Piper on the biblical theology of fasting: why Jesus assumed his disciples would fast, what fasting accomplishes spiritually, and practical advice for starting." },
-                { videoId: "_Kq3k1JZjBE", title: "The Spiritual Discipline of Fasting", channel: "Renovaré", description: "Richard Foster on fasting as one of the classical spiritual disciplines — how it trains desire, creates space for God, and what to expect in the practice." },
-                { videoId: "tXOPtQqQiRs", title: "How to Fast: Practical Steps for Every Believer", channel: "Gateway Church", description: "Practical teaching on how to fast — preparing your body, what to do during the fast, how to break it, and how to make fasting a regular rhythm of life." },
-                { videoId: "3kzJRABgLXw", title: "Corporate Fasting: When the Church Fasts Together", channel: "International House of Prayer", description: "Teaching on the biblical and historical practice of corporate fasting — its power, purpose, and how local churches can build fasting into their community life." },
+                { videoId: "3DRE5kgbYjU", title: "Fasting for Beginners — A Biblical Guide", channel: "Desiring God", description: "John Piper on the biblical theology of fasting: why Jesus assumed his disciples would fast, what fasting accomplishes spiritually, and practical advice for starting." },
+                { videoId: "4Eg_di-O8nM", title: "The Spiritual Discipline of Fasting", channel: "Renovaré", description: "Richard Foster on fasting as one of the classical spiritual disciplines — how it trains desire, creates space for God, and what to expect in the practice." },
+                { videoId: "ccNvwDPguNU", title: "How to Fast: Practical Steps for Every Believer", channel: "Gateway Church", description: "Practical teaching on how to fast — preparing your body, what to do during the fast, how to break it, and how to make fasting a regular rhythm of life." },
+                { videoId: "rtkS_8VWfB0", title: "Corporate Fasting: When the Church Fasts Together", channel: "International House of Prayer", description: "Teaching on the biblical and historical practice of corporate fasting — its power, purpose, and how local churches can build fasting into their community life." },
               ].map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

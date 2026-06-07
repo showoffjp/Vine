@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -76,7 +78,7 @@ const SEED_NEIGHBORS: NeighborEntry[] = [
 ];
 
 export default function NeighborPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"theology" | "practices" | "neighbors" | "voices" | "videos">("vine_neighbor_tab", "theology");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "practices" | "neighbors" | "voices" | "journal" | "videos">("vine_neighbor_tab", "theology");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_neighbor_voice", "pohl-c");
   const voiceItem = VOICES_NEIGH.find(v => v.id === selectedVoice)!;
   const [neighbors, setNeighbors] = useState<NeighborEntry[]>(() => {
@@ -105,6 +107,20 @@ export default function NeighborPage() {
 
   const connected = neighbors.filter(n => n.connected).length;
 
+  const [neighJEntries, setNeighJEntries] = useState<{ id: string; date: string; neighbor: string; action: string; reflection: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_neighj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [neighJForm, setNeighJForm] = useState({ neighbor: "", action: "", reflection: "" });
+  const [neighJSaved, setNeighJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_neighj_entries", JSON.stringify(neighJEntries)); } catch {} }, [neighJEntries]);
+  const saveNeighJEntry = () => {
+    if (!neighJForm.neighbor.trim()) return;
+    setNeighJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...neighJForm }, ...prev]);
+    setNeighJForm({ neighbor: "", action: "", reflection: "" });
+    setNeighJSaved(true); setTimeout(() => setNeighJSaved(false), 2000);
+  };
+  const deleteNeighJEntry = (id: string) => setNeighJEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -124,6 +140,7 @@ export default function NeighborPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "neighbors" as const, label: "My Neighbors", icon: "🏠" },
             { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -252,6 +269,42 @@ export default function NeighborPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Neighbor Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record acts of love toward neighbors and what you're learning.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={neighJForm.neighbor} onChange={e => setNeighJForm(f => ({ ...f, neighbor: e.target.value }))}
+                  placeholder="Who is your neighbor?" aria-label="Neighbor"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={neighJForm.action} onChange={e => setNeighJForm(f => ({ ...f, action: e.target.value }))}
+                  placeholder="What did you do or plan to do for them?" aria-label="Action"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={neighJForm.reflection} onChange={e => setNeighJForm(f => ({ ...f, reflection: e.target.value }))}
+                  placeholder="What did you observe or learn? (optional)" aria-label="Reflection"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveNeighJEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {neighJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {neighJEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first neighbor act above.</p>}
+              {neighJEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteNeighJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.neighbor}</p>
+                  {e.action && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.action}</p>}
+                  {e.reflection && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.reflection}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -261,19 +314,13 @@ export default function NeighborPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "AWPYQcTTcKQ", title: "The Good Samaritan: On Love of Neighbor", channel: "Tim Keller", description: "Keller unpacks the parable of the Good Samaritan and what it means to love your neighbor — even when your neighbor is someone you would rather avoid." },
-                  { videoId: "UM-6IUUO6Qw", title: "Blueprint for Revival: Social Concern", channel: "Tim Keller", description: "Keller argues that genuine Christian revival always produces social concern — that love of God and love of neighbor cannot be separated in the life of the church." },
-                  { videoId: "DGw_BouGdq4", title: "Good Samaritan: Go and Do Likewise", channel: "Gospel Coalition", description: "A teaching on the mandate of Luke 10:37 — 'go and do likewise' — and what it looks like to embody the neighbor-love Jesus commends in today's world." },
-                  { videoId: "U2djv2fBzYE", title: "Love in the Neighborhood", channel: "Tim Keller", description: "Practical and theological reflection on what it means to intentionally love the specific neighbors God has placed around you — people, not concepts." },
+                  { videoId: "JG_BBH8DVPI", title: "The Good Samaritan: On Love of Neighbor", channel: "Tim Keller", description: "Keller unpacks the parable of the Good Samaritan and what it means to love your neighbor — even when your neighbor is someone you would rather avoid." },
+                  { videoId: "4Eg_di-O8nM", title: "Blueprint for Revival: Social Concern", channel: "Tim Keller", description: "Keller argues that genuine Christian revival always produces social concern — that love of God and love of neighbor cannot be separated in the life of the church." },
+                  { videoId: "rtkS_8VWfB0", title: "Good Samaritan: Go and Do Likewise", channel: "Gospel Coalition", description: "A teaching on the mandate of Luke 10:37 — 'go and do likewise' — and what it looks like to embody the neighbor-love Jesus commends in today's world." },
+                  { videoId: "GnCscN9LiXM", title: "Love in the Neighborhood", channel: "Tim Keller", description: "Practical and theological reflection on what it means to intentionally love the specific neighbors God has placed around you — people, not concepts." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -81,7 +83,7 @@ const PRACTICES = [
   { title: "Release with Prayer and Hope", desc: "The work of parenting is ultimately the work of releasing — progressively giving more freedom, trusting the formation that has happened, and committing your child to God's care. The anxiety of release is real; so is the promise: the God who called you to faithfulness is also the God who pursues your child with a love greater than yours.", icon: "🕊️" },
 ];
 
-type Tab = "theology" | "challenges" | "voices" | "practices" | "videos";
+type Tab = "theology" | "challenges" | "voices" | "practices" | "journal" | "videos";
 
 export default function ChristianParentingTheologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-parenting-theology_tab", "theology");
@@ -89,6 +91,20 @@ export default function ChristianParentingTheologyPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-parenting-theology_voice", "tripp_tedd");
 
   const voice = PARENTING_VOICES.find(v => v.id === selectedVoice)!;
+
+  const [cptEntries, setCptEntries] = useState<{ id: string; date: string; challenge: string; scripture: string; practice: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cpt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cptForm, setCptForm] = useState({ challenge: "", scripture: "", practice: "" });
+  const [cptSaved, setCptSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cpt_entries", JSON.stringify(cptEntries)); }, [cptEntries]);
+  function saveCptEntry() {
+    if (!cptForm.challenge.trim()) return;
+    setCptEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cptForm }, ...prev]);
+    setCptForm({ challenge: "", scripture: "", practice: "" });
+    setCptSaved(true); setTimeout(() => setCptSaved(false), 2000);
+  }
+  function deleteCptEntry(id: string) { setCptEntries(prev => prev.filter(e => e.id !== id)); };
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -109,6 +125,7 @@ export default function ChristianParentingTheologyPage() {
             { id: "challenges" as const, label: "Challenges", icon: "⚠️" },
             { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -209,6 +226,49 @@ export default function ChristianParentingTheologyPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Parenting Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record parenting challenges, Scripture that guides you, and practices you are building into your home.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Challenge or Season</label>
+                <input value={cptForm.challenge} onChange={e => setCptForm(f => ({ ...f, challenge: e.target.value }))} placeholder="e.g. Toddler tantrums, teenager rebellion, teaching the gospel..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Scripture or Principle That Guides</label>
+                <textarea value={cptForm.scripture} onChange={e => setCptForm(f => ({ ...f, scripture: e.target.value }))} placeholder="What biblical truth or promise is your anchor in this parenting challenge?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Practice You Are Building</label>
+                <textarea value={cptForm.practice} onChange={e => setCptForm(f => ({ ...f, practice: e.target.value }))} placeholder="What specific habit or practice are you building into your home right now?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCptEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cptSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cptEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cptEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.challenge}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCptEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.scripture && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Scripture / Principle</div><div style={{ color: TEXT, fontSize: 13 }}>{e.scripture}</div></div>}
+                    {e.practice && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Practice</div><div style={{ color: TEXT, fontSize: 13 }}>{e.practice}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -218,19 +278,13 @@ export default function ChristianParentingTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "3FwbLGjCelM", title: "Parenting Is Gospel Ministry", channel: "Paul David Tripp", description: "Tripp makes the case that biblical parenting is not about behavior management but heart transformation — it is gospel ministry in the home." },
-                  { videoId: "CXDyYvfAoOw", title: "This Is What Parenting Is", channel: "Paul David Tripp", description: "Tripp strips parenting down to its biblical essence: the call to shepherd your child's heart with the same grace God extends to you." },
-                  { videoId: "MDlMI7B4a2A", title: "Parenting: 14 Gospel Principles — Session 1", channel: "Paul David Tripp", description: "The first session of Tripp's landmark parenting course, grounding the entire project in God's calling, the parent's identity, and the gospel's centrality." },
-                  { videoId: "y9tux8kuQ7U", title: "Paul Tripp on Gospel-Shaped Parenthood", channel: "The Gospel Coalition", description: "An accessible TGC conversation with Paul Tripp on what it looks like to raise children under the cross rather than under pressure." },
+                  { videoId: "KRsuCQe7aVk", title: "Parenting Is Gospel Ministry", channel: "Paul David Tripp", description: "Tripp makes the case that biblical parenting is not about behavior management but heart transformation — it is gospel ministry in the home." },
+                  { videoId: "iK0NjiBXKN4", title: "This Is What Parenting Is", channel: "Paul David Tripp", description: "Tripp strips parenting down to its biblical essence: the call to shepherd your child's heart with the same grace God extends to you." },
+                  { videoId: "zDnSbLd9LFg", title: "Parenting: 14 Gospel Principles — Session 1", channel: "Paul David Tripp", description: "The first session of Tripp's landmark parenting course, grounding the entire project in God's calling, the parent's identity, and the gospel's centrality." },
+                  { videoId: "bQFIuYOg7uo", title: "Paul Tripp on Gospel-Shaped Parenthood", channel: "The Gospel Coalition", description: "An accessible TGC conversation with Paul Tripp on what it looks like to raise children under the cross rather than under pressure." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

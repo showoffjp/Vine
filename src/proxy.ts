@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Routes that require authentication (future — currently pass-through)
-const PROTECTED_ROUTES = ["/settings", "/profile", "/notifications"];
-
-// Routes that should redirect logged-in users away (future)
-const AUTH_ROUTES = ["/onboarding"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

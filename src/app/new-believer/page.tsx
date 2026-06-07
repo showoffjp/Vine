@@ -4,6 +4,8 @@ import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -133,15 +135,15 @@ const MENTORS_NB = [
 ];
 
 const NB_VIDEOS = [
-  { videoId: "DEy5rrMVW6g", title: "What Is a Christian?", speaker: "Francis Chan", description: "Chan answers the foundational question for new believers — what it actually means to be a Christian, and what that changes about how you live from this day forward." },
-  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", speaker: "Francis Chan", description: "Chan distills the gospel to its essentials — what God has done in Christ, what it requires of us, and why it is the most important news in the world." },
-  { videoId: "RUhJVEWBe4g", title: "How to Be Born Again", speaker: "Billy Graham", description: "Graham's classic evangelistic message on the new birth — what it means, why it is necessary, and what it looks like in a real life. Ideal for those who just trusted Christ." },
-  { videoId: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller", description: "Keller unpacks Luke 15 to show what it means to come home to the Father — and why the welcome God gives is far more than any of us expect or feel we deserve." },
-  { videoId: "21yE6AT8tCw", title: "Faith Over Fear", speaker: "Francis Chan", description: "A challenge for new believers navigating the difference between cultural Christianity and genuine discipleship — and what it means to trust God with everything." },
-  { videoId: "whuEOv18Ulw", title: "Stop Debating, Start Obeying", speaker: "Francis Chan", description: "A challenge for new and established believers alike — Jesus calls us not merely to understand the faith but to obey it and walk in the Spirit's power day by day." },
+  { videoId: "GQI72THyO5I", title: "What Is a Christian?", speaker: "Francis Chan", description: "Chan answers the foundational question for new believers — what it actually means to be a Christian, and what that changes about how you live from this day forward." },
+  { videoId: "krxcqH522uo", title: "The Simple Gospel", speaker: "Francis Chan", description: "Chan distills the gospel to its essentials — what God has done in Christ, what it requires of us, and why it is the most important news in the world." },
+  { videoId: "nQWFzMvCfLE", title: "How to Be Born Again", speaker: "Billy Graham", description: "Graham's classic evangelistic message on the new birth — what it means, why it is necessary, and what it looks like in a real life. Ideal for those who just trusted Christ." },
+  { videoId: "ccNvwDPguNU", title: "The Prodigal Sons", speaker: "Tim Keller", description: "Keller unpacks Luke 15 to show what it means to come home to the Father — and why the welcome God gives is far more than any of us expect or feel we deserve." },
+  { videoId: "j9phNEaPrv8", title: "Faith Over Fear", speaker: "Francis Chan", description: "A challenge for new believers navigating the difference between cultural Christianity and genuine discipleship — and what it means to trust God with everything." },
+  { videoId: "dy9nwe9zeU8", title: "Stop Debating, Start Obeying", speaker: "Francis Chan", description: "A challenge for new and established believers alike — Jesus calls us not merely to understand the faith but to obey it and walk in the Spirit's power day by day." },
 ];
 
-type NTab = "steps" | "assurance" | "questions" | "reading" | "mentors" | "videos";
+type NTab = "steps" | "assurance" | "questions" | "reading" | "mentors" | "journal" | "videos";
 
 export default function NewBelieverPage() {
   const [activeTab, setActiveTab] = usePersistedState<NTab>("vine_new-believer_tab", "steps");
@@ -156,9 +158,24 @@ export default function NewBelieverPage() {
 
   const toggleStep = (n: number) => setCompleted(prev => {
     const next = new Set(prev);
-    next.has(n) ? next.delete(n) : next.add(n);
+    if (next.has(n)) { next.delete(n); } else { next.add(n); }
     return next;
   });
+
+  const [nbJEntries, setNbJEntries] = useState<{ id: string; date: string; question: string; discovery: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_nbj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [nbJForm, setNbJForm] = useState({ question: "", discovery: "", step: "" });
+  const [nbJSaved, setNbJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_nbj_entries", JSON.stringify(nbJEntries)); } catch {} }, [nbJEntries]);
+  const saveNbJEntry = () => {
+    if (!nbJForm.question.trim()) return;
+    setNbJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...nbJForm }, ...prev]);
+    setNbJForm({ question: "", discovery: "", step: "" });
+    setNbJSaved(true);
+    setTimeout(() => setNbJSaved(false), 2000);
+  };
+  const deleteNbJEntry = (id: string) => setNbJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
@@ -198,6 +215,7 @@ export default function NewBelieverPage() {
             { id: "questions" as const, label: "Questions", icon: "❓" },
             { id: "reading" as const, label: "Reading Plan", icon: "📖" },
             { id: "mentors" as const, label: "Mentors", icon: "💬" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -419,6 +437,50 @@ export default function NewBelieverPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My New Believer Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the questions you are wrestling with, the discoveries God is showing you, and the concrete next step you will take.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Question I am wrestling with</label>
+                  <textarea rows={2} value={nbJForm.question} onChange={e => setNbJForm(f => ({ ...f, question: e.target.value }))} placeholder="What question is on your heart right now?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Discovery from Scripture or prayer</label>
+                  <textarea rows={2} value={nbJForm.discovery} onChange={e => setNbJForm(f => ({ ...f, discovery: e.target.value }))} placeholder="What is God showing you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>One step I will take</label>
+                  <textarea rows={2} value={nbJForm.step} onChange={e => setNbJForm(f => ({ ...f, step: e.target.value }))} placeholder="What will you do in response?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveNbJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {nbJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {nbJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {nbJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteNbJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.question && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Question</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.question}</p></div>}
+                    {e.discovery && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Discovery</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.discovery}</p></div>}
+                    {e.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -431,9 +493,7 @@ export default function NewBelieverPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))", gap: 24 }}>
               {NB_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <div style={{ marginBottom: 8 }}>
                       <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: PURPLE, border: "1px solid rgba(107,79,187,0.3)" }}>{v.speaker}</span>

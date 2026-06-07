@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { MapPin, Search, Star, Heart, ExternalLink, Users, Clock, ChevronRight, Globe } from "lucide-react";
+import { MapPin, Search, Star, Heart, Globe } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Church {
@@ -297,7 +297,7 @@ export default function ChurchFinderPage() {
   const [filterStyle, setFilterStyle] = usePersistedState("vine_church-finder_filter_style", "All");
   const [filterOnline, setFilterOnline] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+
 
   useEffect(() => {
     try { localStorage.setItem("vine_church_saved", JSON.stringify([...saved])); } catch {}
@@ -321,7 +321,6 @@ export default function ChurchFinderPage() {
     return searchMatch && denomMatch && countryMatch && sizeMatch && styleMatch && onlineMatch;
   });
 
-  const selected = seedChurches.find((c) => c.id === selectedId);
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -345,7 +344,7 @@ export default function ChurchFinderPage() {
             Discover and save churches worldwide — from historic cathedrals to house churches, in 184 countries.
           </p>
           <div className="flex flex-wrap gap-3 text-sm" style={{ color: "#8A8AA8" }}>
-            {[{ v: "15,000+", label: "Churches listed" }, { v: "184", label: "Countries" }, { v: "40+", label: "Denominations" }].map((s) => (
+            {[{ v: "Curated", label: "Church profiles" }, { v: "Global", label: "Coverage" }, { v: "40+", label: "Denominations" }].map((s) => (
               <div key={s.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
                 <span className="font-black" style={{ color: "#3a7d56" }}>{s.v}</span> {s.label}
               </div>
@@ -528,15 +527,26 @@ export default function ChurchFinderPage() {
               </div>
 
               <div className="rounded-2xl p-5" style={{ background: "rgba(107,79,187,0.08)", border: "1px solid rgba(107,79,187,0.15)" }}>
-                <p className="font-black text-sm mb-2" style={{ color: "#F2F2F8" }}>Can&apos;t find your church?</p>
-                <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>{submitted ? "Thanks! Your church has been submitted for review." : "Submit your church to be listed in the Vine directory."}</p>
-                <button type="button"
-                  onClick={() => { setSubmitted(true); setTimeout(() => setSubmitted(false), 3000); }}
-                  className="w-full py-2 rounded-xl text-xs font-black"
-                  style={{ background: "rgba(107,79,187,0.2)", color: "#9B8FEB", border: "1px solid rgba(107,79,187,0.3)" }}
+                <p className="font-black text-sm mb-2" style={{ color: "#F2F2F8" }}>Find more churches</p>
+                <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>Use these trusted directories to search for a local congregation near you.</p>
+                <a
+                  href="https://www.thegospelcoalition.org/church-directory/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2 rounded-xl text-xs font-black flex items-center justify-center mb-2"
+                  style={{ background: "rgba(107,79,187,0.2)", color: "#9B8FEB", border: "1px solid rgba(107,79,187,0.3)", textDecoration: "none" }}
                 >
-                  {submitted ? "✓ Submitted!" : "Submit a Church"}
-                </button>
+                  TGC Church Directory ↗
+                </a>
+                <a
+                  href="https://www.christianitytoday.com/ct/churches/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2 rounded-xl text-xs font-black flex items-center justify-center"
+                  style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", textDecoration: "none" }}
+                >
+                  Christianity Today Directory ↗
+                </a>
               </div>
             </div>
           </div>

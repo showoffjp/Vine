@@ -1,11 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+
+type Tab = "documentaries" | "journal";
 
 const GENRE_FILTERS = ["All", "Missions & Revival", "Theology", "History & Biography", "Church Life", "Culture & Apologetics"];
 
@@ -182,8 +186,23 @@ export default function ChristianDocumentariesPage() {
   const [genre, setGenre] = usePersistedState<string>("vine_christian-documentaries_genre", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-documentaries_tab", "documentaries");
   const filtered = DOCS.filter(d => genre === "All" || d.genre === genre);
   const doc = DOCS.find(d => d.title === selected);
+
+  const [cdocEntries, setCdocEntries] = useState<{ id: string; date: string; title: string; struck: string; changed: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cdoc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cdocForm, setCdocForm] = useState({ title: "", struck: "", changed: "" });
+  const [cdocSaved, setCdocSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cdoc_entries", JSON.stringify(cdocEntries)); }, [cdocEntries]);
+  function saveCdocEntry() {
+    if (!cdocForm.title.trim()) return;
+    setCdocEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cdocForm }, ...prev]);
+    setCdocForm({ title: "", struck: "", changed: "" });
+    setCdocSaved(true); setTimeout(() => setCdocSaved(false), 2000);
+  }
+  function deleteCdocEntry(id: string) { setCdocEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -198,6 +217,15 @@ export default function ChristianDocumentariesPage() {
           </p>
         </div>
 
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {(["documentaries", "journal"] as const).map(t => (
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "documentaries" ? "Documentaries" : "📓 My Journal"}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "documentaries" && (<>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {GENRE_FILTERS.map(g => (
             <button type="button" key={g} onClick={() => setGenre(g)}
@@ -251,13 +279,7 @@ export default function ChristianDocumentariesPage() {
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ color: MUTED, fontWeight: 700, fontSize: 10, marginBottom: 6, letterSpacing: "0.05em" }}>WATCH TRAILER</div>
                   <div style={{ borderRadius: 8, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${doc.trailerVideoId}`}
-                      title={doc.trailerTitle}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={doc.trailerVideoId} title={doc.trailerTitle} />
                   </div>
                 </div>
               )}
@@ -274,6 +296,51 @@ export default function ChristianDocumentariesPage() {
             </div>
           )}
         </div>
+        </>)}
+
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Documentary Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record documentaries that have strengthened your faith and shifted your perspective.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Documentary Title</label>
+                <input value={cdocForm.title} onChange={e => setCdocForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. Finger of God, The Case for Christ..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Most Struck You?</label>
+                <textarea value={cdocForm.struck} onChange={e => setCdocForm(f => ({ ...f, struck: e.target.value }))} placeholder="What moment, story, or truth hit you hardest?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Did It Change Your Perspective?</label>
+                <textarea value={cdocForm.changed} onChange={e => setCdocForm(f => ({ ...f, changed: e.target.value }))} placeholder="How has watching this changed how you see God, mission, or the world?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCdocEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cdocSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cdocEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cdocEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.title}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCdocEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.struck && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>What Struck Me</div><div style={{ color: TEXT, fontSize: 13 }}>{e.struck}</div></div>}
+                    {e.changed && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Changed My Perspective</div><div style={{ color: TEXT, fontSize: 13 }}>{e.changed}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
       </div>
       </main>
       <Footer />

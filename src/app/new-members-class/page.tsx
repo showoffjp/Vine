@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "why" | "sessions" | "covenant" | "resources" | "videos";
+type Tab = "why" | "sessions" | "covenant" | "resources" | "journal" | "videos";
 
 const whyPoints = [
   {
@@ -205,11 +207,27 @@ export default function NewMembersClassPage() {
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
+  const [nmcJEntries, setNmcJEntries] = useState<{ id: string; date: string; commitment: string; question: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_nmc_entries") ?? "[]"); } catch { return []; }
+  });
+  const [nmcJForm, setNmcJForm] = useState({ commitment: "", question: "", step: "" });
+  const [nmcJSaved, setNmcJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_nmc_entries", JSON.stringify(nmcJEntries)); } catch {} }, [nmcJEntries]);
+  const saveNmcJEntry = () => {
+    if (!nmcJForm.commitment.trim()) return;
+    setNmcJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...nmcJForm }, ...prev]);
+    setNmcJForm({ commitment: "", question: "", step: "" });
+    setNmcJSaved(true);
+    setTimeout(() => setNmcJSaved(false), 2000);
+  };
+  const deleteNmcJEntry = (id: string) => setNmcJEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "why", label: "Why Membership?" },
     { id: "sessions", label: "5-Session Outline" },
     { id: "covenant", label: "The Covenant" },
     { id: "resources", label: "Resources" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" }
   ];
 
@@ -360,6 +378,50 @@ export default function NewMembersClassPage() {
             ))}
           </div>
         )}
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Membership Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the commitments you are making, questions you still have, and your next concrete step toward covenant membership.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Commitment I am making</label>
+                  <textarea rows={2} value={nmcJForm.commitment} onChange={e => setNmcJForm(f => ({ ...f, commitment: e.target.value }))} placeholder="What covenant element is most meaningful to you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Question I still have</label>
+                  <textarea rows={2} value={nmcJForm.question} onChange={e => setNmcJForm(f => ({ ...f, question: e.target.value }))} placeholder="What are you still uncertain about?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Next step toward membership</label>
+                  <textarea rows={2} value={nmcJForm.step} onChange={e => setNmcJForm(f => ({ ...f, step: e.target.value }))} placeholder="What will you do this week?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveNmcJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {nmcJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {nmcJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {nmcJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteNmcJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.commitment && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Commitment</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.commitment}</p></div>}
+                    {e.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Question</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.question}</p></div>}
+                    {e.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -369,19 +431,13 @@ export default function NewMembersClassPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "0nFBwqzrAaw", title: "Church Membership", channel: "Mark Dever / Faithful Conference 2022", description: "Dever makes the biblical and practical case for meaningful church membership — why it matters, what it commits you to, and what the church commits to you." },
-                  { videoId: "PBARrC7Z1Tw", title: "What Is Church Membership? (Part 4)", channel: "Mark Dever / 9Marks", description: "Dever explains what meaningful membership looks like in practice — attendance, giving, prayer, service — and why a covenantal view of membership transforms church culture." },
-                  { videoId: "EjjHixkUv4M", title: "9Marks at Southeastern 2014: Regaining Meaningful Church Membership", channel: "Mark Dever / 9Marks", description: "Dever on how evangelical churches lost the meaning of membership and how to recover it — with practical guidance for pastors leading a new members class." },
-                  { videoId: "aA5J6epd7D4", title: "9 Marks of a Healthy Church", channel: "Mark Dever", description: "Dever's landmark teaching on what distinguishes a healthy church — the nine marks that any prospective new member should look for before joining." },
+                  { videoId: "IvSuGyJQ6oM", title: "Church Membership", channel: "Mark Dever / Faithful Conference 2022", description: "Dever makes the biblical and practical case for meaningful church membership — why it matters, what it commits you to, and what the church commits to you." },
+                  { videoId: "sIaT8Jl2zpI", title: "What Is Church Membership? (Part 4)", channel: "Mark Dever / 9Marks", description: "Dever explains what meaningful membership looks like in practice — attendance, giving, prayer, service — and why a covenantal view of membership transforms church culture." },
+                  { videoId: "3Dv4-n6OYGI", title: "9Marks at Southeastern 2014: Regaining Meaningful Church Membership", channel: "Mark Dever / 9Marks", description: "Dever on how evangelical churches lost the meaning of membership and how to recover it — with practical guidance for pastors leading a new members class." },
+                  { videoId: "5nvVVcYD-0w", title: "9 Marks of a Healthy Church", channel: "Mark Dever", description: "Dever's landmark teaching on what distinguishes a healthy church — the nine marks that any prospective new member should look for before joining." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

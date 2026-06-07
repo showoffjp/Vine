@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -81,12 +84,39 @@ const VOICES = [
   },
 ];
 
-type Tab = "theology" | "types" | "voices" | "steps" | "videos";
+interface CheckIn {
+  id: string;
+  date: string;
+  sobrietyDays: number;
+  mood: string;
+  struggle: string;
+  victory: string;
+  prayer: string;
+}
+
+type Tab = "theology" | "types" | "voices" | "steps" | "tracker" | "videos";
 
 export default function AddictionRecoveryPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_addiction-recovery_tab", "theology");
   const [selected, setSelected] = usePersistedState<string>("vine_addiction-recovery_selected", "Alcohol");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_addiction-recovery_voice", "manning");
+  const [checkins, setCheckins] = useState<CheckIn[]>(() => {
+    try { const s = localStorage.getItem("vine_recovery_checkins"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ciForm, setCiForm] = useState({ sobrietyDays: 0, mood: "okay", struggle: "", victory: "", prayer: "" });
+  const [ciSaved, setCiSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_recovery_checkins", JSON.stringify(checkins)); } catch {} }, [checkins]);
+
+  const saveCheckin = () => {
+    const entry: CheckIn = { id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...ciForm };
+    setCheckins(prev => [entry, ...prev]);
+    setCiForm({ sobrietyDays: ciForm.sobrietyDays, mood: "okay", struggle: "", victory: "", prayer: "" });
+    setCiSaved(true);
+    setTimeout(() => setCiSaved(false), 2000);
+  };
+
+  const deleteCheckin = (id: string) => setCheckins(prev => prev.filter(e => e.id !== id));
 
   const type = TYPES.find(t => t.type === selected);
   const voice = VOICES.find(v => v.id === selectedVoice)!;
@@ -95,6 +125,16 @@ export default function AddictionRecoveryPage() {
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
       <main id="main-content">
+      {/* Crisis banner */}
+      <div style={{ background: "rgba(239,68,68,0.08)", borderBottom: "1px solid rgba(239,68,68,0.18)", padding: "10px 20px", textAlign: "center" }}>
+        <p style={{ color: "#C0C0D8", fontSize: "13px", margin: 0 }}>
+          <strong style={{ color: "#F2F2F8" }}>Need immediate help? </strong>
+          <strong style={{ color: "#3a7d56" }}>call or text 988</strong>
+          <span style={{ color: "#8A8AA8" }}> (Crisis Lifeline) · </span>
+          <strong style={{ color: "#3a7d56" }}>SAMHSA: 1-800-662-4357</strong>
+          <span style={{ color: "#8A8AA8" }}> (substance use helpline, free &amp; confidential, 24/7)</span>
+        </p>
+      </div>
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🔓</div>
@@ -109,7 +149,8 @@ export default function AddictionRecoveryPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "types" as const, label: "Types", icon: "🔍" },
             { id: "voices" as const, label: "Voices", icon: "🗣️" },
-            { id: "steps" as const, label: "Recovery Steps", icon: "🪜" },
+            { id: "steps" as const, label: "Steps", icon: "🪜" },
+            { id: "tracker" as const, label: "My Recovery", icon: "📅" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -209,6 +250,83 @@ export default function AddictionRecoveryPage() {
           </div>
         )}
 
+        {tab === "tracker" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Recovery Check-In</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>Daily accountability and reflection. Recovery happens one day at a time, in community with God.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>SOBRIETY / RECOVERY DAYS</label>
+                  <input type="number" min={0} value={ciForm.sobrietyDays}
+                    onChange={e => setCiForm(f => ({ ...f, sobrietyDays: parseInt(e.target.value) || 0 }))}
+                    aria-label="Sobriety days"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>TODAY&apos;S MOOD</label>
+                  <select value={ciForm.mood} onChange={e => setCiForm(f => ({ ...f, mood: e.target.value }))}
+                    aria-label="Today's mood"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }}>
+                    {["strong", "okay", "struggling", "crisis"].map(m => <option key={m} value={m}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>STRUGGLE TODAY</label>
+                  <textarea value={ciForm.struggle} onChange={e => setCiForm(f => ({ ...f, struggle: e.target.value }))}
+                    placeholder="What was hard today? Be honest." aria-label="Struggle today"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>VICTORY TODAY</label>
+                  <textarea value={ciForm.victory} onChange={e => setCiForm(f => ({ ...f, victory: e.target.value }))}
+                    placeholder="What did you do right? Even small wins count." aria-label="Victory today"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>PRAYER REQUEST</label>
+                  <textarea value={ciForm.prayer} onChange={e => setCiForm(f => ({ ...f, prayer: e.target.value }))}
+                    placeholder="What do you need from God right now?" aria-label="Prayer request"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <button type="button" onClick={saveCheckin}
+                  style={{ padding: "11px", background: ciSaved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: ciSaved ? BG : "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {ciSaved ? "✓ Saved" : "Save Today's Check-In"}
+                </button>
+              </div>
+            </div>
+            {checkins.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>🔓</div>
+                <p>No check-ins yet. Recovery is one day at a time. Today is the day.</p>
+              </div>
+            )}
+            {checkins.map(e => {
+              const moodColors: Record<string, string> = { strong: GREEN, okay: "#3B82F6", struggling: "#F59E0B", crisis: "#EF4444" };
+              return (
+                <div key={e.id} style={{ background: CARD, border: `1px solid ${moodColors[e.mood] ?? BORDER}25`, borderRadius: 12, padding: 18, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                    <div>
+                      <span style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginRight: 8 }}>Day {e.sobrietyDays}</span>
+                      <span style={{ color: moodColors[e.mood], fontSize: 13, fontWeight: 700 }}>{e.mood.charAt(0).toUpperCase() + e.mood.slice(1)}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>
+                        {new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                      <button type="button" onClick={() => deleteCheckin(e.id)}
+                        style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                    </div>
+                  </div>
+                  {e.struggle && <p style={{ color: MUTED, fontSize: 13, marginBottom: 4 }}><strong style={{ color: "#F59E0B" }}>Struggle: </strong>{e.struggle}</p>}
+                  {e.victory && <p style={{ color: MUTED, fontSize: 13, marginBottom: 4 }}><strong style={{ color: GREEN }}>Victory: </strong>{e.victory}</p>}
+                  {e.prayer && <p style={{ color: MUTED, fontSize: 13, margin: 0 }}><strong style={{ color: PURPLE }}>Prayer: </strong>{e.prayer}</p>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -218,19 +336,13 @@ export default function AddictionRecoveryPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "H93FRozCMpk", title: "Is Addiction a Sign That Someone Is Not a Christian?", channel: "Ligonier Ministries", description: "Burk Parsons addresses whether ongoing addiction disqualifies someone from faith, and what steps toward repentance and freedom look like in Christ." },
-                  { videoId: "x7wB9Azs-hk", title: "How to Overcome Your Addictions", channel: "Tony Evans", description: "Dr. Tony Evans preaches on overcoming addiction through the power of the Holy Spirit, grounding recovery in the truth that Christ sets captives free." },
-                  { videoId: "lDF2t5D7Cmg", title: "How Do I Get Free from Addiction for Good?", channel: "Bible Teaching", description: "A biblical teaching on breaking the cycle of addiction, addressing the spiritual roots of bondage and the path to lasting freedom in Christ." },
-                  { videoId: "YIUN-ZR5xzM", title: "Stand for Life: Francis Chan and John Piper", channel: "Desiring God", description: "Francis Chan and John Piper at a 2014 event on living faithfully, including a discussion of gospel freedom from the compulsions that enslave." },
+                  { videoId: "j9phNEaPrv8", title: "Is Addiction a Sign That Someone Is Not a Christian?", channel: "Ligonier Ministries", description: "Burk Parsons addresses whether ongoing addiction disqualifies someone from faith, and what steps toward repentance and freedom look like in Christ." },
+                  { videoId: "dy9nwe9zeU8", title: "How to Overcome Your Addictions", channel: "Tony Evans", description: "Dr. Tony Evans preaches on overcoming addiction through the power of the Holy Spirit, grounding recovery in the truth that Christ sets captives free." },
+                  { videoId: "iK0NjiBXKN4", title: "How Do I Get Free from Addiction for Good?", channel: "Bible Teaching", description: "A biblical teaching on breaking the cycle of addiction, addressing the spiritual roots of bondage and the path to lasting freedom in Christ." },
+                  { videoId: "zMbUXpFiFeo", title: "Stand for Life: Francis Chan and John Piper", channel: "Desiring God", description: "Francis Chan and John Piper at a 2014 event on living faithfully, including a discussion of gospel freedom from the compulsions that enslave." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
@@ -242,6 +354,28 @@ export default function AddictionRecoveryPage() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Real Recovery Resources */}
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
+        <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Find Real Help</h2>
+        <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>These organizations provide proven, real-world support for addiction recovery.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+          {[
+            { name: "Celebrate Recovery", desc: "Christ-centered 12-step program at thousands of churches nationwide. Find a local meeting.", href: "https://www.celebraterecovery.com/cr-locator", color: GREEN },
+            { name: "SAMHSA National Helpline", desc: "1-800-662-4357 — Free, confidential, 24/7 treatment referral and information service.", href: "https://www.samhsa.gov/find-help/national-helpline", color: "#EF4444" },
+            { name: "Alcoholics Anonymous", desc: "AA meeting finder — thousands of meetings, many faith-compatible. Spiritual framework welcome.", href: "https://www.aa.org/find-aa", color: "#3B82F6" },
+            { name: "Narcotics Anonymous", desc: "NA meeting locator — 70,000+ weekly meetings worldwide. Find one near you.", href: "https://www.na.org/meetingsearch/", color: PURPLE },
+            { name: "Focus on the Family", desc: "Free 1-hour consultation with a licensed Christian counselor. Addiction resources included.", href: "https://www.focusonthefamily.com/get-help/speak-with-a-counselor/", color: "#F59E0B" },
+            { name: "Covenant Eyes", desc: "Accountability software for pornography/screen addiction. Used by millions of Christians.", href: "https://www.covenanteyes.com/", color: "#4FBBAA" },
+          ].map(r => (
+            <a key={r.name} href={r.href} target="_blank" rel="noopener noreferrer"
+              style={{ display: "block", background: CARD, border: `1px solid ${r.color}30`, borderLeft: `3px solid ${r.color}`, borderRadius: 12, padding: 16, textDecoration: "none" }}>
+              <p style={{ color: r.color, fontWeight: 700, fontSize: 14, marginBottom: 6 }}>{r.name} ↗</p>
+              <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.5 }}>{r.desc}</p>
+            </a>
+          ))}
+        </div>
       </div>
       </main>
       <Footer />

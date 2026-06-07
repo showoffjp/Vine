@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -132,13 +135,27 @@ const VOICES_BC = [
 ];
 
 export default function BiblicalCounselingPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"overview" | "topics" | "voices" | "schools" | "videos">("vine_biblical-counseling_tab", "overview");
+  const [activeTab, setActiveTab] = usePersistedState<"overview" | "topics" | "voices" | "schools" | "journal" | "videos">("vine_biblical-counseling_tab", "overview");
   const [selectedTopic, setSelectedTopic] = usePersistedState("vine_biblical-counseling_selected_topic", "anxiety");
   const [openSection, setOpenSection] = usePersistedState<string>("vine_biblical-counseling_open_section", "approach");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-counseling_voice", "adams-j");
   const voiceItem = VOICES_BC.find(v => v.id === selectedVoice)!;
 
   const topic = TOPICS.find(t => t.id === selectedTopic)!;
+
+  const [bcounEntries, setBcounEntries] = useState<{ id: string; date: string; struggle: string; scripture: string; step: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bcoun_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [bcounForm, setBcounForm] = useState({ struggle: "", scripture: "", step: "" });
+  const [bcounSaved, setBcounSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bcoun_entries", JSON.stringify(bcounEntries)); }, [bcounEntries]);
+  function saveBcounEntry() {
+    if (!bcounForm.struggle.trim()) return;
+    setBcounEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bcounForm }, ...prev]);
+    setBcounForm({ struggle: "", scripture: "", step: "" });
+    setBcounSaved(true); setTimeout(() => setBcounSaved(false), 2000);
+  }
+  function deleteBcounEntry(id: string) { setBcounEntries(prev => prev.filter(e => e.id !== id)); };
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -162,6 +179,7 @@ export default function BiblicalCounselingPage() {
             { id: "topics" as const, label: "Specific Topics", icon: "🔍" },
             { id: "schools" as const, label: "Approaches", icon: "🏛️" },
             { id: "voices" as const, label: "Key Voices", icon: "🎓" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -314,6 +332,48 @@ export default function BiblicalCounselingPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Biblical Counseling Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Bring your struggles to Scripture — what you are working through, a verse that speaks, and one step toward change.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Struggle I am bringing to the Word</label>
+                <textarea value={bcounForm.struggle} onChange={e => setBcounForm(f => ({ ...f, struggle: e.target.value }))} rows={2} placeholder="Anxiety, anger, grief, relational conflict, addiction..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Scripture that speaks to it</label>
+                <textarea value={bcounForm.scripture} onChange={e => setBcounForm(f => ({ ...f, scripture: e.target.value }))} rows={2} placeholder="What verse or passage addresses the heart of this struggle?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>One step of obedience or change</label>
+                <textarea value={bcounForm.step} onChange={e => setBcounForm(f => ({ ...f, step: e.target.value }))} rows={2} placeholder="What is one concrete step the gospel calls you to take?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBcounEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {bcounSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {bcounEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bcounEntries.length})</h3>
+                {bcounEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteBcounEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.struggle && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Struggle:</strong> {e.struggle}</p>}
+                    {e.scripture && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Scripture:</strong> {e.scripture}</p>}
+                    {e.step && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Step:</strong> {e.step}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -323,19 +383,13 @@ export default function BiblicalCounselingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "LA7GitzS-bY", title: "What Is Biblical Counseling?", channel: "Edward T. Welch / CCEF", description: "Ed Welch explains what biblical counseling is, how Scripture speaks into real human struggles, and how the gospel provides resources that secular counseling lacks." },
-                  { videoId: "DUVKRVJYzYc", title: "Helping Relationships: Course Lecture", channel: "Ed Welch / CCEF School of Biblical Counseling", description: "A sample lecture from CCEF's foundational course on helping relationships — how to come alongside people in their suffering with both truth and love." },
-                  { videoId: "XWc6ckAzIwg", title: "Biblical Counseling Perspective — Keynote", channel: "Ed Welch, Ph.D.", description: "Welch presents his framework for biblical counseling, addressing the relationship between the soul, the body, and God's word in the process of change." },
-                  { videoId: "81djQfx6jhM", title: "CCEF's Tim Lane on How People Change", channel: "CCEF", description: "Tim Lane explains the 'How People Change' curriculum — Paul Tripp and Tim Lane's framework showing how Christ's life, death, and resurrection bring lasting transformation." },
+                  { videoId: "GGCF3OPWN14", title: "What Is Biblical Counseling?", channel: "Edward T. Welch / CCEF", description: "Ed Welch explains what biblical counseling is, how Scripture speaks into real human struggles, and how the gospel provides resources that secular counseling lacks." },
+                  { videoId: "t6L-F2emwUc", title: "Helping Relationships: Course Lecture", channel: "Ed Welch / CCEF School of Biblical Counseling", description: "A sample lecture from CCEF's foundational course on helping relationships — how to come alongside people in their suffering with both truth and love." },
+                  { videoId: "oNpTha80yyE", title: "Biblical Counseling Perspective — Keynote", channel: "Ed Welch, Ph.D.", description: "Welch presents his framework for biblical counseling, addressing the relationship between the soul, the body, and God's word in the process of change." },
+                  { videoId: "4Eg_di-O8nM", title: "CCEF's Tim Lane on How People Change", channel: "CCEF", description: "Tim Lane explains the 'How People Change' curriculum — Paul Tripp and Tim Lane's framework showing how Christ's life, death, and resurrection bring lasting transformation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

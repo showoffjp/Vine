@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "phases" | "models" | "networks" | "videos";
+type Tab = "theology" | "phases" | "models" | "networks" | "journal" | "videos";
 
 const theologyPoints = [
   {
@@ -256,6 +258,20 @@ export default function ChurchPlantingGuidePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedModel, setSelectedModel] = useState(models[0]);
 
+  const [cpltEntries, setCpltEntries] = useState<{ id: string; date: string; calling: string; phase: string; need: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cplt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cpltForm, setCpltForm] = useState({ calling: "", phase: "", need: "" });
+  const [cpltSaved, setCpltSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cplt_entries", JSON.stringify(cpltEntries)); }, [cpltEntries]);
+  function saveCpltEntry() {
+    if (!cpltForm.calling.trim()) return;
+    setCpltEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cpltForm }, ...prev]);
+    setCpltForm({ calling: "", phase: "", need: "" });
+    setCpltSaved(true); setTimeout(() => setCpltSaved(false), 2000);
+  }
+  function deleteCpltEntry(id: string) { setCpltEntries(prev => prev.filter(e => e.id !== id)); }
+
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
   const tabs: { id: Tab; label: string }[] = [
@@ -263,6 +279,7 @@ export default function ChurchPlantingGuidePage() {
     { id: "phases", label: "The Six Phases" },
     { id: "models", label: "Planting Models" },
     { id: "networks", label: "Networks & Support" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" }
   ];
 
@@ -465,6 +482,53 @@ export default function ChurchPlantingGuidePage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Church Planting Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your calling, current phase, and pressing needs. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What is your sense of calling to plant?</label>
+                <textarea value={cpltForm.calling} onChange={e => setCpltForm(f => ({ ...f, calling: e.target.value }))}
+                  placeholder="Where, who, and why you feel called..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What phase are you currently in?</label>
+                <textarea value={cpltForm.phase} onChange={e => setCpltForm(f => ({ ...f, phase: e.target.value }))}
+                  placeholder="Discernment, preparation, launch, growth..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What is your most pressing need right now?</label>
+                <textarea value={cpltForm.need} onChange={e => setCpltForm(f => ({ ...f, need: e.target.value }))}
+                  placeholder="Team, funding, training, location, prayer..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCpltEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cpltSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cpltEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cpltEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCpltEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.calling && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>CALLING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.calling}</span></div>}
+                    {e.phase && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>PHASE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.phase}</span></div>}
+                    {e.need && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>NEED </span><span style={{ color: TEXT, fontSize: 14 }}>{e.need}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -474,19 +538,13 @@ export default function ChurchPlantingGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "fY4Yt8gRz3A", title: "Church Planting: Networks, Denominations, and Broader Ministry", channel: "Tim Keller", description: "Keller on the strategic and theological dimensions of church planting — how networks, denominations, and sending structures shape the health and reach of new churches." },
-                  { videoId: "FoDYwlqSCXY", title: "Why Is Church Planting So Important in Cities?", channel: "Tim Keller", description: "Keller makes the case for urban church planting — why cities are strategic, why new churches reach new people more effectively, and what the gospel demands of the church." },
-                  { videoId: "hKzoG1dgpAM", title: "The Benefits of Church Planting Networks", channel: "Tim Keller", description: "Keller explains the practical and theological benefits of planting within a network — accountability, training, funding, and the power of shared mission." },
-                  { videoId: "7Foqi7GiwJ0", title: "A New Community", channel: "Timothy Keller", description: "Keller preaches on what a new gospel community looks like — the distinctive marks of a church plant that is genuinely different from the surrounding culture." },
+                  { videoId: "bxzuh5Xx5G4", title: "Church Planting: Networks, Denominations, and Broader Ministry", channel: "Tim Keller", description: "Keller on the strategic and theological dimensions of church planting — how networks, denominations, and sending structures shape the health and reach of new churches." },
+                  { videoId: "KwX1f2gYKZ4", title: "Why Is Church Planting So Important in Cities?", channel: "Tim Keller", description: "Keller makes the case for urban church planting — why cities are strategic, why new churches reach new people more effectively, and what the gospel demands of the church." },
+                  { videoId: "YNd-PbVhnvA", title: "The Benefits of Church Planting Networks", channel: "Tim Keller", description: "Keller explains the practical and theological benefits of planting within a network — accountability, training, funding, and the power of shared mission." },
+                  { videoId: "XtwIT8JjddM", title: "A New Community", channel: "Timothy Keller", description: "Keller preaches on what a new gospel community looks like — the distinctive marks of a church plant that is genuinely different from the surrounding culture." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

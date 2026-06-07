@@ -2,14 +2,17 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "hymns" | "stories" | "videos";
+type Tab = "overview" | "hymns" | "stories" | "journal" | "videos";
 type Era = "All" | "Reformation" | "Classic" | "Gospel" | "Modern";
 
 const ERA_FILTERS: Era[] = ["All", "Reformation", "Classic", "Gospel", "Modern"];
@@ -50,7 +53,7 @@ const HYMNS: Hymn[] = [
       "On earth is not his equal.",
     ],
     scripture: "Psalm 46:1-7",
-    videoId: "rEDzZmtFr-w",
+    videoId: "0fudMFN9M8s",
   },
   {
     title: "All Glory, Laud and Honor",
@@ -67,7 +70,7 @@ const HYMNS: Hymn[] = [
       "Who in the Lord's name comest, the King and blessed One.",
     ],
     scripture: "Matthew 21:1-11",
-    videoId: "rABquddP9-A",
+    videoId: "HQp8pgS_jsA",
   },
   {
     title: "Amazing Grace",
@@ -84,7 +87,7 @@ const HYMNS: Hymn[] = [
       "How precious did that grace appear the hour I first believed.",
     ],
     scripture: "Ephesians 2:8-9",
-    videoId: "CDdvReNKKuk",
+    videoId: "XEr5Wn7LHvw",
   },
   {
     title: "Be Thou My Vision",
@@ -101,7 +104,7 @@ const HYMNS: Hymn[] = [
       "Waking or sleeping, Thy presence my light.",
     ],
     scripture: "Psalm 27:1",
-    videoId: "lDCSrUchDdg",
+    videoId: "EisnaNdlYCs",
   },
   {
     title: "Holy, Holy, Holy! Lord God Almighty",
@@ -118,7 +121,7 @@ const HYMNS: Hymn[] = [
       "God in three Persons, blessèd Trinity!",
     ],
     scripture: "Isaiah 6:3; Revelation 4:8",
-    videoId: "JbA63a9Mel0",
+    videoId: "mC-zw0zCCtg",
   },
   {
     title: "Crown Him with Many Crowns",
@@ -135,7 +138,7 @@ const HYMNS: Hymn[] = [
       "And hail Him as thy matchless King through all eternity.",
     ],
     scripture: "Revelation 19:12",
-    videoId: "Mc1U_Dv2DAk",
+    videoId: "UWTYX17JGnI",
   },
   {
     title: "When I Survey the Wondrous Cross",
@@ -152,7 +155,7 @@ const HYMNS: Hymn[] = [
       "Love so amazing, so divine, demands my soul, my life, my all.",
     ],
     scripture: "Galatians 6:14",
-    videoId: "F7vsR-VTppQ",
+    videoId: "f3VY6pTKm3s",
   },
   {
     title: "And Can It Be That I Should Gain",
@@ -170,7 +173,7 @@ const HYMNS: Hymn[] = [
       "Thine eye diffused a quickening ray — I woke, the dungeon flamed with light.",
     ],
     scripture: "Romans 8:1",
-    videoId: "uzDks0Ph5RM",
+    videoId: "QS04WbSnxok",
   },
   {
     title: "Rock of Ages, Cleft for Me",
@@ -187,7 +190,7 @@ const HYMNS: Hymn[] = [
       "Nothing in my hand I bring, simply to Thy cross I cling.",
     ],
     scripture: "Exodus 33:22; 1 Corinthians 10:4",
-    videoId: "FU2Qp5Vl8ig",
+    videoId: "8tllFmO5zhs",
   },
   {
     title: "O Come, All Ye Faithful",
@@ -204,7 +207,7 @@ const HYMNS: Hymn[] = [
       "O come, let us adore Him, Christ the Lord.",
     ],
     scripture: "Luke 2:15-16",
-    videoId: "pAVPGWPlfFY",
+    videoId: "6UortPEFcpU",
   },
   {
     title: "It Is Well with My Soul",
@@ -221,7 +224,7 @@ const HYMNS: Hymn[] = [
       "It is well, it is well with my soul.",
     ],
     scripture: "Philippians 4:7",
-    videoId: "ehNUKb5jOWo",
+    videoId: "9__ceHaHKEE",
   },
   {
     title: "Blessed Assurance",
@@ -238,7 +241,7 @@ const HYMNS: Hymn[] = [
       "This is my story, this is my song, praising my Savior all the day long.",
     ],
     scripture: "Hebrews 10:22",
-    videoId: "Vc-WC_X5DDk",
+    videoId: "JRRbGCyr2Ac",
   },
   {
     title: "Come, Thou Fount of Every Blessing",
@@ -255,7 +258,7 @@ const HYMNS: Hymn[] = [
       "Here's my heart, O take and seal it, seal it for Thy courts above.",
     ],
     scripture: "1 Samuel 7:12",
-    videoId: "07rIspjJfPo",
+    videoId: "2go_dOJVwc4",
   },
   {
     title: "How Great Thou Art",
@@ -271,7 +274,7 @@ const HYMNS: Hymn[] = [
       "Then sings my soul, my Savior God, to Thee: How great Thou art, how great Thou art!",
     ],
     scripture: "Psalm 8:3-4",
-    videoId: "5_C2-1NPMHM",
+    videoId: "D3yMC_qoAes",
   },
   {
     title: "Great Is Thy Faithfulness",
@@ -288,7 +291,7 @@ const HYMNS: Hymn[] = [
       "Morning by morning new mercies I see;",
     ],
     scripture: "Lamentations 3:22-23",
-    videoId: "Vyll-Fq2-Bc",
+    videoId: "dQ1xxoP7NJk",
   },
   {
     title: "The Old Rugged Cross",
@@ -305,7 +308,7 @@ const HYMNS: Hymn[] = [
       "I will cling to the old rugged cross, and exchange it some day for a crown.",
     ],
     scripture: "1 Corinthians 1:18",
-    videoId: "Pku5jZAdpdg",
+    videoId: "K3TYG7Q_fj4",
   },
   {
     title: "Nearer, My God, to Thee",
@@ -322,7 +325,7 @@ const HYMNS: Hymn[] = [
       "Nearer, my God, to Thee, nearer to Thee!",
     ],
     scripture: "Genesis 28:10-17",
-    videoId: "tNvN_Mskpgk",
+    videoId: "2wJKiOEdUsk",
   },
   {
     title: "In Christ Alone",
@@ -339,7 +342,7 @@ const HYMNS: Hymn[] = [
       "From life's first cry to final breath, Jesus commands my destiny.",
     ],
     scripture: "1 Corinthians 3:11",
-    videoId: "rn9-UNer6MQ",
+    videoId: "KwX1f2gYKZ4",
   },
   {
     title: "Cornerstone",
@@ -356,7 +359,7 @@ const HYMNS: Hymn[] = [
       "Through the storm, He is Lord, Lord of all.",
     ],
     scripture: "Ephesians 2:20",
-    videoId: "Vu2T8q-mfYg",
+    videoId: "YNd-PbVhnvA",
   },
 ];
 
@@ -437,6 +440,20 @@ export default function HymnsPage() {
 
   const filtered = era === "All" ? HYMNS : HYMNS.filter((h) => h.era === era);
 
+  const [hymnsEntries, setHymnsEntries] = useState<{ id: string; date: string; hymn: string; truth: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_hymns_entries") ?? "[]"); } catch { return []; }
+  });
+  const [hymnsForm, setHymnsForm] = useState({ hymn: "", truth: "", applying: "" });
+  const [hymnsSaved, setHymnsSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_hymns_entries", JSON.stringify(hymnsEntries)); } catch {} }, [hymnsEntries]);
+  const saveHymnsEntry = () => {
+    if (!hymnsForm.hymn.trim()) return;
+    setHymnsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hymnsForm }, ...prev]);
+    setHymnsForm({ hymn: "", truth: "", applying: "" });
+    setHymnsSaved(true); setTimeout(() => setHymnsSaved(false), 2000);
+  };
+  const deleteHymnsEntry = (id: string) => setHymnsEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
@@ -488,6 +505,7 @@ export default function HymnsPage() {
             label="Stories Behind the Hymns"
             onClick={() => setTab("stories")}
           />
+          <TabButton active={tab === "journal"} label="📓 Journal" onClick={() => setTab("journal")} />
           <TabButton active={tab === "videos"} label="Videos" onClick={() => setTab("videos")} />
         </div>
 
@@ -748,6 +766,55 @@ export default function HymnsPage() {
           </section>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Hymns Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record hymns that are speaking to your heart, the truth they carry, and how you are praying or singing them. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HYMN I AM SINGING / PRAYING *</label>
+                <textarea value={hymnsForm.hymn} onChange={e => setHymnsForm(f => ({ ...f, hymn: e.target.value }))}
+                  placeholder="Which hymn is resonating with you right now?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>TRUTH IT IS CARRYING TO ME</label>
+                <textarea value={hymnsForm.truth} onChange={e => setHymnsForm(f => ({ ...f, truth: e.target.value }))}
+                  placeholder="What doctrine or personal truth is this hymn articulating for you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING IT</label>
+                <textarea value={hymnsForm.applying} onChange={e => setHymnsForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How is this hymn shaping your prayer, worship, or daily walk?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHymnsEntry}
+                style={{ background: hymnsSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {hymnsSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hymnsEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({hymnsEntries.length})</h3>
+                {hymnsEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHymnsEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.hymn && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>HYMN: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.hymn}</span></div>}
+                    {entry.truth && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>TRUTH: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.truth}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {tab === "videos" && (
           <section>
@@ -771,10 +838,10 @@ export default function HymnsPage() {
               }}
             >
               {[
-                { title: "Amazing Grace", videoId: "CDdvReNKKuk" },
-                { title: "How Great Thou Art", videoId: "5_C2-1NPMHM" },
-                { title: "It Is Well with My Soul", videoId: "ehNUKb5jOWo" },
-                { title: "In Christ Alone", videoId: "rn9-UNer6MQ" },
+                { title: "Amazing Grace", videoId: "ZOBIPb-6PTc" },
+                { title: "How Great Thou Art", videoId: "OpfuKKH_SCE" },
+                { title: "It Is Well with My Soul", videoId: "ERR0Zq7TBgU" },
+                { title: "In Christ Alone", videoId: "nQWFzMvCfLE" },
               ].map((v) => (
                 <div
                   key={v.videoId}
@@ -785,13 +852,7 @@ export default function HymnsPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ fontFamily: SERIF, fontSize: "1.25rem", margin: 0 }}>{v.title}</h4>
                   </div>

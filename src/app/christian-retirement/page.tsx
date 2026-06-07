@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "seasons" | "calling" | "legacy" | "videos";
+type Tab = "theology" | "seasons" | "calling" | "legacy" | "journal" | "videos";
 
 const STATS = [
   { label: "Average American retires at 64" },
@@ -162,6 +164,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "seasons", label: "Seasons" },
   { id: "calling", label: "Calling" },
   { id: "legacy", label: "Legacy" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "🎬 Videos" },
 ];
 
@@ -171,6 +174,20 @@ export default function ChristianRetirementPage() {
   const [expandedCalling, setExpandedCalling] = useState<string | null>(null);
   const [expandedLegacy, setExpandedLegacy] = useState<string | null>(null);
   const [activeSeason, setActiveSeason] = usePersistedState<string>("vine_christian-retirement_active_season", "active");
+
+  const [cretEntries, setCretEntries] = useState<{ id: string; date: string; season: string; calling: string; legacy: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cret_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cretForm, setCretForm] = useState({ season: "", calling: "", legacy: "" });
+  const [cretSaved, setCretSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cret_entries", JSON.stringify(cretEntries)); }, [cretEntries]);
+  function saveCretEntry() {
+    if (!cretForm.season.trim()) return;
+    setCretEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cretForm }, ...prev]);
+    setCretForm({ season: "", calling: "", legacy: "" });
+    setCretSaved(true); setTimeout(() => setCretSaved(false), 2000);
+  }
+  function deleteCretEntry(id: string) { setCretEntries(prev => prev.filter(e => e.id !== id)); }
 
   const currentSeason = SEASONS.find((s) => s.id === activeSeason) ?? SEASONS[0];
 
@@ -674,6 +691,53 @@ export default function ChristianRetirementPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Retirement Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on this season, your calling, and the legacy you are building. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What season of life are you currently in?</label>
+                <textarea value={cretForm.season} onChange={e => setCretForm(f => ({ ...f, season: e.target.value }))}
+                  placeholder="Active, transitioning, frail, caregiving..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What calling or purpose is God giving you in this chapter?</label>
+                <textarea value={cretForm.calling} onChange={e => setCretForm(f => ({ ...f, calling: e.target.value }))}
+                  placeholder="Mentoring, grandparenting, serving, praying..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What legacy are you intentionally passing on?</label>
+                <textarea value={cretForm.legacy} onChange={e => setCretForm(f => ({ ...f, legacy: e.target.value }))}
+                  placeholder="Faith, wisdom, family story, Kingdom investment..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCretEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cretSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cretEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cretEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCretEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.season && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>SEASON </span><span style={{ color: TEXT, fontSize: 14 }}>{e.season}</span></div>}
+                    {e.calling && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>CALLING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.calling}</span></div>}
+                    {e.legacy && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>LEGACY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.legacy}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -683,19 +747,13 @@ export default function ChristianRetirementPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "71DvW_rU3ec", title: "Don't Waste Your Retirement — Part 1", channel: "Desiring God / John Piper", description: "John Piper challenges Christians to think biblically about retirement — not as cessation of meaningful work, but as a new chapter of Kingdom investment." },
-                  { videoId: "aBq5HvbrSrU", title: "Seven Resolutions for Aging and Dying Well", channel: "Desiring God / John Piper", description: "John Piper offers seven specific commitments for how to age and die in a way that honors God and blesses others." },
-                  { videoId: "9yNK2Xf43mk", title: "John Piper at 80: Personal Reflections on Life and Ministry", channel: "Desiring God", description: "John Piper at 80 years old reflects on what he has learned about God, ministry, suffering, and the Christian life." },
-                  { videoId: "JHdB1dYAteA", title: "Don't Waste Your Life", channel: "Desiring God / John Piper", description: "John Piper's foundational challenge to live a life that counts for eternity — relevant at every stage, especially in the final decades." },
+                  { videoId: "mC-zw0zCCtg", title: "Don't Waste Your Retirement — Part 1", channel: "Desiring God / John Piper", description: "John Piper challenges Christians to think biblically about retirement — not as cessation of meaningful work, but as a new chapter of Kingdom investment." },
+                  { videoId: "7_CGP-12AE0", title: "Seven Resolutions for Aging and Dying Well", channel: "Desiring God / John Piper", description: "John Piper offers seven specific commitments for how to age and die in a way that honors God and blesses others." },
+                  { videoId: "OqwbFGoRYVo", title: "John Piper at 80: Personal Reflections on Life and Ministry", channel: "Desiring God", description: "John Piper at 80 years old reflects on what he has learned about God, ministry, suffering, and the Christian life." },
+                  { videoId: "gV9JugO_5Mk", title: "Don't Waste Your Life", channel: "Desiring God / John Piper", description: "John Piper's foundational challenge to live a life that counts for eternity — relevant at every stage, especially in the final decades." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

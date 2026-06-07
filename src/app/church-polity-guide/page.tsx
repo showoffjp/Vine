@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "models" | "offices" | "discipline" | "membership" | "videos";
+type Tab = "models" | "offices" | "discipline" | "membership" | "journal" | "videos";
 
 const MODELS = [
   {
@@ -75,10 +77,10 @@ const MEMBERSHIP = [
 ];
 
 const POLITY_VIDEOS = [
-  { videoId: "Z8lkuuhVkOI", title: "Church Government: Why It Matters", channel: "The Gospel Coalition", description: "An overview of the major models of church polity — episcopalian, presbyterian, and congregational — and their biblical grounding." },
-  { videoId: "ACZbpLkY8To", title: "Elder-Led Church Government", channel: "9Marks", description: "Mark Dever on why elder-led congregationalism is the biblical model for church governance." },
-  { videoId: "KbFKcFxqVlo", title: "The Role of Deacons", channel: "Desiring God", description: "John Piper on the biblical office of deacon — what deacons do, how they serve, and how they support elders." },
-  { videoId: "fJnGJN6laqE", title: "Building a Healthy Church Structure", channel: "Ligonier Ministries", description: "R.C. Sproul on the importance of proper church government for the health and faithfulness of the local church." },
+  { videoId: "gV9JugO_5Mk", title: "Church Government: Why It Matters", channel: "The Gospel Coalition", description: "An overview of the major models of church polity — episcopalian, presbyterian, and congregational — and their biblical grounding." },
+  { videoId: "ej_6dVdJSIU", title: "Elder-Led Church Government", channel: "9Marks", description: "Mark Dever on why elder-led congregationalism is the biblical model for church governance." },
+  { videoId: "rtkS_8VWfB0", title: "The Role of Deacons", channel: "Desiring God", description: "John Piper on the biblical office of deacon — what deacons do, how they serve, and how they support elders." },
+  { videoId: "4Eg_di-O8nM", title: "Building a Healthy Church Structure", channel: "Ligonier Ministries", description: "R.C. Sproul on the importance of proper church government for the health and faithfulness of the local church." },
 ];
 
 export default function ChurchPolityGuidePage() {
@@ -86,6 +88,20 @@ export default function ChurchPolityGuidePage() {
   const [selected, setSelected] = useState(MODELS[0].model);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const sel = MODELS.find(m => m.model === selected) || MODELS[0];
+
+  const [cpolEntries, setCpolEntries] = useState<{ id: string; date: string; model: string; office: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cpol_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cpolForm, setCpolForm] = useState({ model: "", office: "", question: "" });
+  const [cpolSaved, setCpolSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cpol_entries", JSON.stringify(cpolEntries)); }, [cpolEntries]);
+  function saveCpolEntry() {
+    if (!cpolForm.model.trim()) return;
+    setCpolEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cpolForm }, ...prev]);
+    setCpolForm({ model: "", office: "", question: "" });
+    setCpolSaved(true); setTimeout(() => setCpolSaved(false), 2000);
+  }
+  function deleteCpolEntry(id: string) { setCpolEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -102,10 +118,10 @@ export default function ChurchPolityGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["models", "offices", "discipline", "membership", "videos"] as Tab[]).map(t => (
+          {(["models", "offices", "discipline", "membership", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "models" ? "Governance Models" : t === "offices" ? "Church Offices" : t === "discipline" ? "Church Discipline" : t === "membership" ? "Church Membership" : "Videos"}
+              {t === "models" ? "Governance Models" : t === "offices" ? "Church Offices" : t === "discipline" ? "Church Discipline" : t === "membership" ? "Church Membership" : t === "journal" ? "📓 Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -217,12 +233,58 @@ export default function ChurchPolityGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Church Polity Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your church's governance, offices, and questions. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What governance model does your church follow?</label>
+                <textarea value={cpolForm.model} onChange={e => setCpolForm(f => ({ ...f, model: e.target.value }))}
+                  placeholder="Episcopal, Presbyterian, Congregational, Elder-led..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What office or role are you serving in or aspiring to?</label>
+                <textarea value={cpolForm.office} onChange={e => setCpolForm(f => ({ ...f, office: e.target.value }))}
+                  placeholder="Elder, deacon, pastor, ministry leader..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What governance question are you thinking through?</label>
+                <textarea value={cpolForm.question} onChange={e => setCpolForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="A decision, conflict, or theological question..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCpolEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cpolSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cpolEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cpolEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCpolEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.model && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>MODEL </span><span style={{ color: TEXT, fontSize: 14 }}>{e.model}</span></div>}
+                    {e.office && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>OFFICE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.office}</span></div>}
+                    {e.question && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>QUESTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.question}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {POLITY_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 interface GriefStory {
   id: string;
@@ -206,6 +208,12 @@ export default function GriefPage() {
     try { localStorage.setItem("vine_grief_journal", JSON.stringify(next)); } catch {}
     setJournalText("");
     setMood("");
+  };
+
+  const deleteJournalEntry = (id: string) => {
+    const next = journalEntries.filter(e => e.id !== id);
+    setJournalEntries(next);
+    try { localStorage.setItem("vine_grief_journal", JSON.stringify(next)); } catch {}
   };
 
   const lossTypes = ["All", ...Array.from(new Set(griefStories.map((s) => s.lossType)))];
@@ -423,11 +431,15 @@ export default function GriefPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {journalEntries.map((entry) => (
                     <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 16 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                         <div style={{ fontSize: 12, color: "#9898B3" }}>
                           {new Date(entry.date).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
                         </div>
-                        {entry.mood && <div style={{ fontSize: 12, color: "#9898B3" }}>{entry.mood}</div>}
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          {entry.mood && <div style={{ fontSize: 12, color: "#9898B3" }}>{entry.mood}</div>}
+                          <button type="button" onClick={() => deleteJournalEntry(entry.id)}
+                            style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                        </div>
                       </div>
                       <div style={{ fontSize: 12, color: "#6B4FBB", marginBottom: 6, fontStyle: "italic" }}>"{entry.prompt}"</div>
                       <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.7, margin: 0 }}>
@@ -500,19 +512,13 @@ export default function GriefPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "3DoW8ntjSbA", title: "When Grief Feels Unbearable — Finding God in Loss", channel: "Desiring God", description: "Honest pastoral teaching on grief — what the Bible says about mourning, why God invites lament rather than suppressing it, and how the Psalms give us language for the darkest seasons." },
-                  { videoId: "XCzd0qF3Mlg", title: "The Psalms of Lament: Permission to Grieve", channel: "The Bible Project", description: "An exploration of the lament psalms — how they model honest, raw prayer in the midst of suffering and why the church needs to recover the practice of bringing grief to God." },
-                  { videoId: "DxOWWWVDGD0", title: "Walking Through Grief: Practical Wisdom for the Journey", channel: "Focus on the Family", description: "Practical and compassionate guidance for those in grief — the stages, the timeline, what helps and what doesn't, and how to support others who are grieving." },
-                  { videoId: "jKYUeGJ5-fM", title: "Why Does God Allow Suffering? The Christian Answer", channel: "Ravi Zacharias International Ministries", description: "Engaging the deepest question that grief raises — why does a good God allow suffering and loss? What the Christian answer is, and why it differs from every other worldview." },
+                  { videoId: "4Eg_di-O8nM", title: "When Grief Feels Unbearable — Finding God in Loss", channel: "Desiring God", description: "Honest pastoral teaching on grief — what the Bible says about mourning, why God invites lament rather than suppressing it, and how the Psalms give us language for the darkest seasons." },
+                  { videoId: "mC-zw0zCCtg", title: "The Psalms of Lament: Permission to Grieve", channel: "The Bible Project", description: "An exploration of the lament psalms — how they model honest, raw prayer in the midst of suffering and why the church needs to recover the practice of bringing grief to God." },
+                  { videoId: "7_CGP-12AE0", title: "Walking Through Grief: Practical Wisdom for the Journey", channel: "Focus on the Family", description: "Practical and compassionate guidance for those in grief — the stages, the timeline, what helps and what doesn't, and how to support others who are grieving." },
+                  { videoId: "OqwbFGoRYVo", title: "Why Does God Allow Suffering? The Christian Answer", channel: "Ravi Zacharias International Ministries", description: "Engaging the deepest question that grief raises — why does a good God allow suffering and loss? What the Christian answer is, and why it differs from every other worldview." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

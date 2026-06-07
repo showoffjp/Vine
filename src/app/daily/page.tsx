@@ -69,8 +69,7 @@ export default function DailyPage() {
 
   // Derive the current plan day from a stored start date (set on first visit),
   // so progress advances over real time instead of showing a frozen number.
-  const [planDay, setPlanDay] = useState(1);
-  useEffect(() => {
+  const [planDay] = useState(() => {
     try {
       let start = localStorage.getItem("vine_daily_plan_start");
       if (!start) {
@@ -79,9 +78,9 @@ export default function DailyPage() {
       }
       const msPerDay = 1000 * 60 * 60 * 24;
       const elapsed = Math.floor((Date.now() - new Date(start).getTime()) / msPerDay);
-      setPlanDay(Math.min(Math.max(elapsed + 1, 1), PLAN_TOTAL_DAYS));
-    } catch {}
-  }, []);
+      return Math.min(Math.max(elapsed + 1, 1), PLAN_TOTAL_DAYS);
+    } catch { return 1; }
+  });
 
   const progressPct = Math.round((planDay / PLAN_TOTAL_DAYS) * 1000) / 10;
   const streakCount = (() => {
@@ -103,16 +102,15 @@ export default function DailyPage() {
     } catch {}
   }, [completedDays]);
 
-  const [monthStats, setMonthStats] = useState({ chaptersRead: 0, notesWritten: 0, versesSaved: 0 });
-  useEffect(() => {
+  const [monthStats] = useState(() => {
     try {
       const plans: Array<{ completedChapters: number[] }> = JSON.parse(localStorage.getItem("vine_bible_study_plans") ?? "[]");
       const chaptersRead = plans.reduce((sum, p) => sum + (p.completedChapters?.length ?? 0), 0);
       const notes: unknown[] = JSON.parse(localStorage.getItem("vine_bible_study_notes") ?? "[]");
       const verses: unknown[] = JSON.parse(localStorage.getItem("vine_verse_memory") ?? "[]");
-      setMonthStats({ chaptersRead, notesWritten: notes.length, versesSaved: verses.length });
-    } catch {}
-  }, []);
+      return { chaptersRead, notesWritten: notes.length, versesSaved: verses.length };
+    } catch { return { chaptersRead: 0, notesWritten: 0, versesSaved: 0 }; }
+  });
 
   const toggleDay = (idx: number) => {
     setCompletedDays((prev) => {

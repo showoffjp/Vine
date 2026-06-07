@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -78,13 +81,30 @@ const PRACTICES = [
   { title: "Trust the Long Arc", desc: "No spiritual season lasts forever. The Psalms that begin in darkness do not (usually) end there. Trust the testimony of Christians across two thousand years who have described dryness, endured it faithfully, and found themselves in a different place. The ending of dryness is often quiet — not dramatic restoration but a gradual return of warmth.", icon: "🌅" },
 ];
 
-type Tab = "causes" | "saints" | "psalms" | "practices" | "videos";
+type Tab = "causes" | "saints" | "psalms" | "practices" | "journal" | "videos";
 
 export default function SpiritualDrynessPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_spiritual-dryness_tab", "causes");
   const [selectedCause, setSelectedCause] = usePersistedState("vine_spiritual-dryness_selected_cause", "Sin Blocking the Way");
   const [selectedSaint, setSelectedSaint] = usePersistedState("vine_spiritual-dryness_selected_saint", "Mother Teresa");
   const [selectedPsalm, setSelectedPsalm] = usePersistedState("vine_spiritual-dryness_selected_psalm", "psalm22");
+
+  const [dryEntries, setDryEntries] = useState<{ id: string; date: string; cause: string; honest: string; holding: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_dry_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [dyForm, setDyForm] = useState({ cause: "", honest: "", holding: "" });
+  const [dySaved, setDySaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_dry_journal", JSON.stringify(dryEntries)); } catch {} }, [dryEntries]);
+
+  const saveDyEntry = () => {
+    setDryEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...dyForm }, ...prev]);
+    setDyForm({ cause: "", honest: "", holding: "" });
+    setDySaved(true);
+    setTimeout(() => setDySaved(false), 2000);
+  };
+
+  const deleteDyEntry = (id: string) => setDryEntries(prev => prev.filter(e => e.id !== id));
 
   const cause = CAUSES.find(c => c.cause === selectedCause)!;
   const saint = SAINTS.find(s => s.name === selectedSaint)!;
@@ -109,6 +129,7 @@ export default function SpiritualDrynessPage() {
             { id: "saints" as const, label: "You Are Not Alone", icon: "👁️" },
             { id: "psalms" as const, label: "Lament Psalms", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "Journal", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -219,6 +240,56 @@ export default function SpiritualDrynessPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                In dryness, writing is often more faithful than praying. Name the season honestly. Over time, looking back at these entries may reveal that God was present where you felt his absence.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Dryness Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I think might be causing this dryness</label>
+                <textarea value={dyForm.cause} onChange={e => setDyForm(f => ({ ...f, cause: e.target.value }))} rows={2}
+                  placeholder="Busyness, grief, sin, disappointment with God, season of life, theological question..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What this feels like honestly</label>
+                <textarea value={dyForm.honest} onChange={e => setDyForm(f => ({ ...f, honest: e.target.value }))} rows={3}
+                  placeholder="Don't perform here. 'I feel nothing.' 'God feels distant.' 'I don't want to pray.' All of this is allowable."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What (if anything) I'm holding onto</label>
+                <textarea value={dyForm.holding} onChange={e => setDyForm(f => ({ ...f, holding: e.target.value }))} rows={2}
+                  placeholder="A promise, a memory of God's presence, a person, or simply the decision to stay..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveDyEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {dySaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {dryEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Journal History</h3>
+                {dryEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteDyEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{e.date}</div>
+                    {e.cause && <p style={{ color: "#F59E0B", fontSize: 13, margin: "0 0 6px" }}>Possible cause: {e.cause}</p>}
+                    {e.honest && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.honest}</p>}
+                    {e.holding && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>Holding onto: {e.holding}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -228,19 +299,13 @@ export default function SpiritualDrynessPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "3lMlHSu0_zA", title: "Overcoming Spiritual Dryness", channel: "Desiring God", description: "John Piper's series on how to fight for joy when God feels distant — practical and theologically grounded guidance for dry seasons." },
-                  { videoId: "g6UgMDx9rJY", title: "If God Is Good, Why Do I Suffer?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the hard question of why God permits suffering and spiritual desolation, with pastoral wisdom for those in the valley." },
-                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "How the lament psalms give language for spiritual dryness and model bringing our darkest experiences honestly before God." },
-                  { videoId: "Txtb3VNjsuU", title: "What We Need to Know About Evil", channel: "Desiring God", description: "John Piper helps Christians understand suffering and spiritual darkness within God's sovereign purposes — essential for seasons of dryness." },
+                  { videoId: "npEDqbE6faE", title: "Overcoming Spiritual Dryness", channel: "Desiring God", description: "John Piper's series on how to fight for joy when God feels distant — practical and theologically grounded guidance for dry seasons." },
+                  { videoId: "IvSuGyJQ6oM", title: "If God Is Good, Why Do I Suffer?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the hard question of why God permits suffering and spiritual desolation, with pastoral wisdom for those in the valley." },
+                  { videoId: "sIaT8Jl2zpI", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "How the lament psalms give language for spiritual dryness and model bringing our darkest experiences honestly before God." },
+                  { videoId: "3Dv4-n6OYGI", title: "What We Need to Know About Evil", channel: "Desiring God", description: "John Piper helps Christians understand suffering and spiritual darkness within God's sovereign purposes — essential for seasons of dryness." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

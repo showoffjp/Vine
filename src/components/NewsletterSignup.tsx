@@ -44,6 +44,15 @@ export default function NewsletterSignup() {
     e.preventDefault();
     if (!email.trim()) return;
     setLoading(true);
+    // Capture the email locally so it isn't lost before a real backend exists
+    try {
+      const existing = JSON.parse(localStorage.getItem("vine_newsletter_signups") || "[]");
+      if (!existing.includes(email.trim())) {
+        existing.push(email.trim());
+        localStorage.setItem("vine_newsletter_signups", JSON.stringify(existing));
+      }
+      localStorage.setItem("vine_newsletter_subscribed", "1");
+    } catch {}
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
@@ -360,7 +369,7 @@ export default function NewsletterSignup() {
               color: "#9a8f72",
             }}
           >
-            <strong style={{ color: "#f2e6c8" }}>Join 18,000+</strong> Christians already subscribed
+            <strong style={{ color: "#f2e6c8" }}>Be among the first</strong> to join The Vine Weekly
           </p>
         </div>
 

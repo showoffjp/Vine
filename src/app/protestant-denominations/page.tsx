@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "denominations" | "history" | "comparison" | "voices" | "videos";
+type Tab = "denominations" | "history" | "comparison" | "voices" | "journal" | "videos";
 
 const FAMILIES = ["All", "Reformed", "Baptist", "Lutheran", "Wesleyan", "Anglican", "Pentecostal", "Nondenominational"];
 
@@ -292,6 +294,21 @@ export default function ProtestantDenominationsPage() {
   const denom = DENOMS.find(d => d.name === selected);
   const voice = VOICES_DENOM.find(v => v.id === selectedVoice)!;
 
+  const [denJEntries, setDenJEntries] = useState<{ id: string; date: string; tradition: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_denj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [denJForm, setDenJForm] = useState({ tradition: "", insight: "", applying: "" });
+  const [denJSaved, setDenJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_denj_entries", JSON.stringify(denJEntries)); } catch {} }, [denJEntries]);
+  const saveDenJEntry = () => {
+    if (!denJForm.tradition.trim()) return;
+    setDenJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...denJForm }, ...prev]);
+    setDenJForm({ tradition: "", insight: "", applying: "" });
+    setDenJSaved(true);
+    setTimeout(() => setDenJSaved(false), 2000);
+  };
+  const deleteDenJEntry = (id: string) => setDenJEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -307,10 +324,10 @@ export default function ProtestantDenominationsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["denominations", "history", "comparison", "voices", "videos"] as const).map(t => (
+          {(["denominations", "history", "comparison", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "denominations" ? "Denominations" : t === "history" ? "History" : t === "comparison" ? "Comparison" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "denominations" ? "Denominations" : t === "history" ? "History" : t === "comparison" ? "Comparison" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -503,6 +520,50 @@ export default function ProtestantDenominationsPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Denominational Journey Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the tradition you come from or are exploring, the insight that most helped you understand it, and how you are applying what you learned.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Tradition I am exploring or from</label>
+                  <textarea rows={2} value={denJForm.tradition} onChange={e => setDenJForm(f => ({ ...f, tradition: e.target.value }))} placeholder="e.g. Baptist, Reformed, Lutheran, Anglican" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Insight that helped me understand</label>
+                  <textarea rows={2} value={denJForm.insight} onChange={e => setDenJForm(f => ({ ...f, insight: e.target.value }))} placeholder="What did you learn about this tradition's theology, history, or worship?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am applying what I learned</label>
+                  <textarea rows={2} value={denJForm.applying} onChange={e => setDenJForm(f => ({ ...f, applying: e.target.value }))} placeholder="How does this change how you worship, serve, or belong?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveDenJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {denJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {denJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {denJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteDenJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.tradition && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Tradition</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.tradition}</p></div>}
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.insight}</p></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -512,19 +573,13 @@ export default function ProtestantDenominationsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "jzg-QN3mtx4", title: "Lutheran, Reformed, Methodist & Baptist: What's the Difference?", channel: "Gospel Simplicity", description: "A clear comparison of four major Protestant families — their theological commitments, historical origins, and what makes each distinctive." },
-                  { videoId: "OLy6LNzrbKg", title: "Pentecostals, Baptists, Presbyterians, and Methodists: The Differences", channel: "Gospel Simplicity", description: "An accessible introduction to four major Protestant traditions, covering their theology of salvation, worship, sacraments, and church governance." },
-                  { videoId: "tzLS4O7YaUg", title: "All Christian Denominations Explained in 12 Minutes", channel: "Christianity Facts", description: "A rapid overview of the entire Christian denominational landscape — from Roman Catholic to Eastern Orthodox to the full range of Protestant traditions." },
-                  { videoId: "8B8jTX4ayHQ", title: "10 Denominations Explained — Which Ones Still Follow the Bible?", channel: "Redeemed Zoomer", description: "A biblically grounded analysis of ten major Christian denominations, examining their doctrinal commitments, strengths, and weaknesses." },
+                  { videoId: "kfcVPh2VDhQ", title: "Lutheran, Reformed, Methodist & Baptist: What's the Difference?", channel: "Gospel Simplicity", description: "A clear comparison of four major Protestant families — their theological commitments, historical origins, and what makes each distinctive." },
+                  { videoId: "57LVVwba6_8", title: "Pentecostals, Baptists, Presbyterians, and Methodists: The Differences", channel: "Gospel Simplicity", description: "An accessible introduction to four major Protestant traditions, covering their theology of salvation, worship, sacraments, and church governance." },
+                  { videoId: "HGHqu9-DtXk", title: "All Christian Denominations Explained in 12 Minutes", channel: "Christianity Facts", description: "A rapid overview of the entire Christian denominational landscape — from Roman Catholic to Eastern Orthodox to the full range of Protestant traditions." },
+                  { videoId: "E65KV3M8RZE", title: "10 Denominations Explained — Which Ones Still Follow the Bible?", channel: "Redeemed Zoomer", description: "A biblically grounded analysis of ten major Christian denominations, examining their doctrinal commitments, strengths, and weaknesses." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

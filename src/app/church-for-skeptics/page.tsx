@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "wounds" | "process" | "finding" | "voices" | "videos";
+type Tab = "wounds" | "process" | "finding" | "voices" | "journal" | "videos";
 
 // ─── Tab 1: Wounds ───────────────────────────────────────────────────────────
 
@@ -37,7 +39,7 @@ const WOUNDS = [
     body: `The church promises belonging — a family, a body, a community woven together by shared faith. When that community betrays you, the wound is uniquely devastating because it reaches the very thing you went looking for.\n\nChurch splits fragment friendships and force impossible choices. Long-term friends disappear to the other side of a theological or leadership dispute, and the relational collateral damage can last decades. Often the split itself is never honestly explained — members are given a sanitized version while the real conflict festers.\n\nGossip cloaked in prayer requests is nearly universal. "I just want to ask you to pray for Sarah — she's been really struggling with her marriage..." strips away dignity while performing concern. The information spreads. The relationship is damaged. No accountability follows.\n\nShunning — formal or informal — is among the most psychologically devastating church experiences. Being cut off from community as a consequence of leaving, questioning, or raising concerns attacks your identity at the level of belonging. Research on shunning survivors finds rates of depression and PTSD comparable to other relational trauma.\n\nIf your community disappeared when you needed them most, or when you simply stopped performing: that is a failure of the church, not evidence of your unworthiness.`,
   },
   {
-    id: "racial-harm",
+    id: "f7RJATbobik",
     title: "Racial and Cultural Harm",
     summary: "White evangelical erasure and cultural imperialism in the name of God",
     body: `For Christians of color, and particularly Black and Indigenous believers in predominantly white churches and denominations, the wounds run through history and into the present. White American evangelicalism has often functioned as a cultural system as much as a theological one — requiring assimilation into white worship styles, white theological concerns, and white political assumptions as the unmarked default of "Christian."\n\nThe wounds include: being told your cultural expressions of worship are "less reverent"; having your theological tradition dismissed as secondary to white evangelical scholarship; watching church leadership remain uniformly white while diverse attenders fill the pews; being expected to be patient when racial harm is raised and gracious when it is minimized; and navigating the exhausting labor of translating your experience for people unwilling to do the same in return.\n\nIn missions history, the church has carried the gospel alongside colonial structures that stripped Indigenous peoples of language, culture, and dignity. The line between evangelism and cultural imperialism was rarely drawn, and many Indigenous Christians today navigate a faith that arrived attached to the destruction of their people.\n\nThese are not incidental failures of the church. They are structural. Healing from them requires acknowledgment — not just generically, but specifically — and communities willing to do the slow work of genuine accountability.`,
@@ -227,11 +229,26 @@ export default function ChurchForSkepticsPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedPanel, setSelectedPanel] = usePersistedState<string>("vine_church-for-skeptics_selected_panel", "health-signs");
 
+  const [cfsEntries, setCfsEntries] = useState<{ id: string; date: string; wound: string; healing: string; hope: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfs_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfsForm, setCfsForm] = useState({ wound: "", healing: "", hope: "" });
+  const [cfsSaved, setCfsSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfs_entries", JSON.stringify(cfsEntries)); }, [cfsEntries]);
+  function saveCfsEntry() {
+    if (!cfsForm.wound.trim()) return;
+    setCfsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfsForm }, ...prev]);
+    setCfsForm({ wound: "", healing: "", hope: "" });
+    setCfsSaved(true); setTimeout(() => setCfsSaved(false), 2000);
+  }
+  function deleteCfsEntry(id: string) { setCfsEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "wounds", label: "Understanding the Wounds" },
     { id: "process", label: "The Healing Process" },
     { id: "finding", label: "Finding a Healthy Church" },
     { id: "voices", label: "Voices That Help" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -445,6 +462,53 @@ export default function ChurchForSkepticsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Church Re-entry Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Process your wounds and steps toward church community. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What wound or hurt are you processing?</label>
+                <textarea value={cfsForm.wound} onChange={e => setCfsForm(f => ({ ...f, wound: e.target.value }))}
+                  placeholder="Church hurt, disappointment, betrayal, disillusionment..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What healing steps are you taking?</label>
+                <textarea value={cfsForm.healing} onChange={e => setCfsForm(f => ({ ...f, healing: e.target.value }))}
+                  placeholder="Counseling, honest conversation, prayer, small steps..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What hope draws you back toward the church?</label>
+                <textarea value={cfsForm.hope} onChange={e => setCfsForm(f => ({ ...f, hope: e.target.value }))}
+                  placeholder="What you believe the church could be, or where you see it..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfsEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfsSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cfsEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cfsEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCfsEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.wound && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>WOUND </span><span style={{ color: TEXT, fontSize: 14 }}>{e.wound}</span></div>}
+                    {e.healing && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>HEALING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.healing}</span></div>}
+                    {e.hope && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>HOPE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.hope}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -454,19 +518,13 @@ export default function ChurchForSkepticsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "qOE6jJ4EGqg", title: "Questioning Christianity: Faith and Proof", channel: "Timothy Keller", description: "The first episode of Keller's seven-part series for skeptics — addressing how faith and reason relate and why doubting is not incompatible with genuine Christianity." },
-                  { videoId: "4uIvOniW8xA", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller / Talks at Google", description: "Keller's talk at Google headquarters on why Christianity makes more sense of the human experience than secular alternatives, given before a largely skeptical audience." },
-                  { videoId: "AYLEymhsEHg", title: "Pastor to Skeptics: Becoming a Christian and Dealing with Doubt", channel: "Tim Keller / Unbelievable?", description: "Keller reflects on his urban ministry to doubters and skeptics — what draws people toward faith, how to hold questions honestly, and what genuine conversion looks like." },
-                  { videoId: "QXZ2qN1XBPQ", title: "Questioning Christianity: Meaning", channel: "Timothy Keller", description: "Keller explores how Christianity offers a richer account of meaning and purpose than secular alternatives — and why the skeptic's own longings point toward the gospel." },
+                  { videoId: "zUKzVFQn4Tc", title: "Questioning Christianity: Faith and Proof", channel: "Timothy Keller", description: "The first episode of Keller's seven-part series for skeptics — addressing how faith and reason relate and why doubting is not incompatible with genuine Christianity." },
+                  { videoId: "GGCF3OPWN14", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller / Talks at Google", description: "Keller's talk at Google headquarters on why Christianity makes more sense of the human experience than secular alternatives, given before a largely skeptical audience." },
+                  { videoId: "t6L-F2emwUc", title: "Pastor to Skeptics: Becoming a Christian and Dealing with Doubt", channel: "Tim Keller / Unbelievable?", description: "Keller reflects on his urban ministry to doubters and skeptics — what draws people toward faith, how to hold questions honestly, and what genuine conversion looks like." },
+                  { videoId: "oNpTha80yyE", title: "Questioning Christianity: Meaning", channel: "Timothy Keller", description: "Keller explores how Christianity offers a richer account of meaning and purpose than secular alternatives — and why the skeptic's own longings point toward the gospel." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -144,6 +146,20 @@ export default function FeaturedPreachersPage() {
   const [tradition, setTradition] = usePersistedState<string>("vine_featured-preachers_tradition", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
+  const [fpEntries, setFpEntries] = useState<{ id: string; date: string; preacher: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_fp_entries") ?? "[]"); } catch { return []; }
+  });
+  const [fpForm, setFpForm] = useState({ preacher: "", insight: "", applying: "" });
+  const [fpSaved, setFpSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_fp_entries", JSON.stringify(fpEntries)); } catch {} }, [fpEntries]);
+  const saveFpEntry = () => {
+    if (!fpForm.preacher.trim()) return;
+    setFpEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fpForm }, ...prev]);
+    setFpForm({ preacher: "", insight: "", applying: "" });
+    setFpSaved(true); setTimeout(() => setFpSaved(false), 2000);
+  };
+  const deleteFpEntry = (id: string) => setFpEntries(prev => prev.filter(e => e.id !== id));
+
   const filtered = PREACHERS.filter(p => tradition === "All" || p.tradition === tradition);
   const preacher = PREACHERS.find(p => p.name === selected);
 
@@ -221,13 +237,7 @@ export default function FeaturedPreachersPage() {
               <div style={{ marginBottom: 16 }}>
                 <div style={{ color: preacher.color, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>FEATURED SERMON</div>
                 <div style={{ borderRadius: 8, overflow: "hidden", marginBottom: 8 }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${preacher.featuredVideoId}`}
-                    title={preacher.featuredVideoTitle}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={preacher.featuredVideoId} title={preacher.featuredVideoTitle} />
                 </div>
                 <p style={{ color: MUTED, fontSize: 12, margin: 0 }}>{preacher.featuredVideoTitle}</p>
               </div>
@@ -244,6 +254,53 @@ export default function FeaturedPreachersPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Journal Section */}
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
+        <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Preachers Journal</h2>
+        <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record preachers you are learning from, insights that are shaping you, and how you are applying their teaching. Saved privately in your browser.</p>
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PREACHER I AM LEARNING FROM *</label>
+            <textarea value={fpForm.preacher} onChange={e => setFpForm(f => ({ ...f, preacher: e.target.value }))}
+              placeholder="Which preacher or theologian are you currently studying?" rows={2}
+              style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT THAT IS SHAPING ME</label>
+            <textarea value={fpForm.insight} onChange={e => setFpForm(f => ({ ...f, insight: e.target.value }))}
+              placeholder="What idea or truth from their teaching is most impacting you?" rows={3}
+              style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <div style={{ marginBottom: 18 }}>
+            <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING IT</label>
+            <textarea value={fpForm.applying} onChange={e => setFpForm(f => ({ ...f, applying: e.target.value }))}
+              placeholder="What are you doing differently because of this teaching?" rows={2}
+              style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+          </div>
+          <button type="button" onClick={saveFpEntry}
+            style={{ background: fpSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+            {fpSaved ? "Saved ✓" : "Save Entry"}
+          </button>
+        </div>
+        {fpEntries.length > 0 && (
+          <div>
+            <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fpEntries.length})</h3>
+            {fpEntries.map(entry => (
+              <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                  <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                  <button type="button" onClick={() => deleteFpEntry(entry.id)}
+                    style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                </div>
+                {entry.preacher && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>PREACHER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.preacher}</span></div>}
+                {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.insight}</span></div>}
+                {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       </main>
       <Footer />

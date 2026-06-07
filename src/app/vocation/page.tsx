@@ -4,6 +4,9 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+import { Trash2 } from "lucide-react";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -54,6 +57,10 @@ export default function VocationPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => { try { localStorage.setItem("vine_vocation_journal", JSON.stringify(journal)); } catch {} }, [journal]);
+
+  const deleteEntry = (id: string) => {
+    setJournal(prev => prev.filter(e => e.id !== id));
+  };
 
   const saveAnswers = () => {
     const filled = Object.entries(answers).filter(([, v]) => v.trim());
@@ -193,9 +200,16 @@ export default function VocationPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {journal.map(e => (
                   <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                      <div style={{ color: GREEN, fontWeight: 700 }}>{e.q}</div>
-                      <div style={{ color: MUTED, fontSize: 12 }}>{new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                      <div style={{ color: GREEN, fontWeight: 700, flex: 1 }}>{e.q}</div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, marginLeft: 12 }}>
+                        <div style={{ color: MUTED, fontSize: 12 }}>{new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+                        <button type="button" onClick={() => deleteEntry(e.id)}
+                          style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer" }}
+                          title="Delete entry">
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </div>
                     <pre style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0, whiteSpace: "pre-wrap", fontFamily: "inherit" }}>{e.a}</pre>
                   </div>
@@ -214,20 +228,14 @@ export default function VocationPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "fGH5bhUwMB4", title: "Redefining Work", channel: "Timothy Keller / The Gospel Coalition", description: "Tim Keller unfolds a theology of vocation at The Gospel Coalition's Faith at Work conference — showing how all work participates in God's redemptive purposes." },
-                  { videoId: "rTVIvdBIuLE", title: "Why Work Matters", channel: "Timothy Keller", description: "Keller argues that all Christians are engaged in God's work, not merely those in full-time ministry — and shows what faithful vocation looks like in every sphere of life." },
-                  { videoId: "cFBt5LKClsk", title: "How Can We Discern Our Own Vocation or Calling in Life?", channel: "Christian Teaching", description: "A practical discussion of vocation discernment — how to understand what God is calling you to and how to test that sense of calling against Scripture and community." },
-                  { videoId: "UvSBbOnIeTE", title: "The Theology of Work: What the Bible Says About Vocation", channel: "Christian Teaching", description: "A biblical theology of vocation tracing God's design for work from creation through fall to redemption — and what each stage means for how Christians work today." },
-                  { videoId: "eBLa0s8Nr8o", title: "What Is the Practice of Vocation?", channel: "Christian Teaching", description: "A practical exploration of how to live out your calling day by day — integrating faith, work, and the specific gifts and opportunities God has given you." },
+                  { videoId: "GQI72THyO5I", title: "Redefining Work", channel: "Timothy Keller / The Gospel Coalition", description: "Tim Keller unfolds a theology of vocation at The Gospel Coalition's Faith at Work conference — showing how all work participates in God's redemptive purposes." },
+                  { videoId: "krxcqH522uo", title: "Why Work Matters", channel: "Timothy Keller", description: "Keller argues that all Christians are engaged in God's work, not merely those in full-time ministry — and shows what faithful vocation looks like in every sphere of life." },
+                  { videoId: "nQWFzMvCfLE", title: "How Can We Discern Our Own Vocation or Calling in Life?", channel: "Christian Teaching", description: "A practical discussion of vocation discernment — how to understand what God is calling you to and how to test that sense of calling against Scripture and community." },
+                  { videoId: "ccNvwDPguNU", title: "The Theology of Work: What the Bible Says About Vocation", channel: "Christian Teaching", description: "A biblical theology of vocation tracing God's design for work from creation through fall to redemption — and what each stage means for how Christians work today." },
+                  { videoId: "j9phNEaPrv8", title: "What Is the Practice of Vocation?", channel: "Christian Teaching", description: "A practical exploration of how to live out your calling day by day — integrating faith, work, and the specific gifts and opportunities God has given you." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

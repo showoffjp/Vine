@@ -722,7 +722,6 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const relatedTopicNames = topic.relatedTopics.map((s) => topicSlugs[s]).filter(Boolean);
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>

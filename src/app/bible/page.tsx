@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -650,7 +651,7 @@ const INLINE_CHAPTERS: Record<string, { num: number; text: string }[]> = {
   ],
 };
 
-type MainTab = "read" | "search" | "compare" | "study" | "plans";
+type MainTab = "read" | "search" | "compare" | "study" | "plans" | "videos" | "journal";
 
 type ChapterData = { num: number; text: string }[];
 
@@ -664,7 +665,7 @@ export default function BiblePage() {
   const [selectedVersion, setSelectedVersion] = useState<Version>(
     FALLBACK_VERSIONS.find(v => v.code === "KJV") ?? FALLBACK_VERSIONS[0]
   );
-  const [showBookList, setShowBookList] = useState(false);
+  const [, setShowBookList] = useState(false);
   const [showChapterList, setShowChapterList] = useState(false);
   const [showVersionList, setShowVersionList] = useState(false);
   const versionDropdownRef = useRef<HTMLDivElement>(null);
@@ -694,6 +695,20 @@ export default function BiblePage() {
   const [ntFilter, setNtFilter] = useState(true);
   const [fontSize, setFontSize] = useState(17);
   const [showStudyNotes, setShowStudyNotes] = useState(true);
+
+  // Journal state
+  type BibleJE = { id: string; date: string; passage: string; insight: string; applying: string };
+  const [bibleJournal, setBibleJournal] = useState<BibleJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_biblej_entries") ?? "[]"); } catch { return []; } });
+  const [jbPassage, setJbPassage] = useState("");
+  const [jbInsight, setJbInsight] = useState("");
+  const [jbApplying, setJbApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_biblej_entries", JSON.stringify(bibleJournal)); } catch {} }, [bibleJournal]);
+  function saveBibleEntry() {
+    if (!jbPassage.trim() && !jbInsight.trim()) return;
+    setBibleJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), passage: jbPassage, insight: jbInsight, applying: jbApplying }, ...prev]);
+    setJbPassage(""); setJbInsight(""); setJbApplying("");
+  }
+  function deleteBibleEntry(id: string) { setBibleJournal(prev => prev.filter(e => e.id !== id)); }
 
   // Chapter fetched from the API (for non-inline chapters).
   const [fetchedVerses, setFetchedVerses] = useState<ChapterData | null>(null);
@@ -766,6 +781,7 @@ export default function BiblePage() {
   useEffect(() => {
     if (mainTab !== "read") return;
     if (useInline) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFetchedVerses(null);
       setChapterError(null);
       setChapterLoading(false);
@@ -803,7 +819,7 @@ export default function BiblePage() {
     })();
 
     return () => { cancelled = true; controller.abort(); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [selectedBook.id, selectedChapter, selectedVersion.id, useInline, mainTab]);
 
   // ── Scroll to top on chapter change (unless a deep link wants a verse) ──────
@@ -848,6 +864,7 @@ export default function BiblePage() {
         deepLinked = true;
         const ch = chapterParam >= 1 && chapterParam <= book.chapters ? chapterParam : 1;
         setMainTab("read");
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedBook(book);
         setSelectedChapter(ch);
         if (verseParam >= 1) {
@@ -870,7 +887,7 @@ export default function BiblePage() {
         }
       }
     } catch { /* ignore */ }
-  }, []);
+  }, [setMainTab]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1002,7 +1019,7 @@ export default function BiblePage() {
     setSelectedChapter(Math.min(Math.max(1, chapter), book.chapters));
     setHighlightedVerse(verse ?? null);
     setMainTab("read");
-  }, []);
+  }, [setMainTab]);
 
   // Parse a human reference like "1 Corinthians 13:4" or "Psalm 23" into a
   // book + chapter (+ optional verse) so cross-reference chips are clickable.
@@ -1018,11 +1035,6 @@ export default function BiblePage() {
     if (!book) return;
     goToReference(book.id, Number(m[2]), m[3] ? Number(m[3]) : undefined);
   }, [goToReference]);
-
-  const filteredBooks = ALL_BOOKS.filter(b => {
-    const isOT = OT_BOOKS.some(ob => ob.id === b.id);
-    return isOT ? otFilter : ntFilter;
-  });
 
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh", fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
@@ -1071,6 +1083,8 @@ export default function BiblePage() {
             { id: "compare", label: "⚖️ Compare", desc: "Side-by-side versions" },
             { id: "study", label: "📚 Study", desc: "Themes & devotions" },
             { id: "plans", label: "📅 Reading Plans", desc: "Structured plans" },
+            { id: "videos", label: "▶ Videos", desc: "Bible teachings" },
+            { id: "journal", label: "📓 Journal", desc: "My reflections" },
           ] as const).map(tab => (
             <button type="button"
               key={tab.id}
@@ -1746,6 +1760,96 @@ export default function BiblePage() {
             </div>
           </div>
         )}
+        {/* ===================== VIDEOS TAB ===================== */}
+        {mainTab === "videos" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 0" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Bible Teachings</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7 }}>
+                Deep Bible teaching from trusted scholars and preachers — overviews, exposition, and study series.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {[
+                { videoId: "7RoqnGcEjcs", title: "The Bible Project — Overview: Genesis", channel: "BibleProject", description: "The BibleProject's visual overview of Genesis — tracing the themes of blessing, covenant, and the origins of God's redemptive plan through the first book of the Bible." },
+                { videoId: "H-viL7yKOgA", title: "How to Read the Bible (Overview)", channel: "BibleProject", description: "An orientation to the whole Bible — what kind of book it is, how its parts fit together, and how to read it as a unified story pointing to Jesus." },
+                { videoId: "ALsluAKBZ-c", title: "The Old Testament in 8 Minutes", channel: "BibleProject", description: "A rapid, visually rich summary of the entire Old Testament — its major storylines, covenants, characters, and themes leading to the New Testament." },
+                { videoId: "Q0BrP8bqj4s", title: "New Testament Overview", channel: "BibleProject", description: "A visual walk through the New Testament — from the four Gospels through Acts, the Letters, and Revelation — showing how the whole thing hangs together." },
+                { videoId: "XqIIVQBzHkA", title: "How to Study the Bible — Inductive Method", channel: "Precept Ministries", description: "Kay Arthur teaches the three-step inductive Bible study method: Observation, Interpretation, and Application — how to let the text speak for itself." },
+                { videoId: "HGHqu9-DtXk", title: "Why Trust the Bible? (Full Documentary)", channel: "WheatonCollege / Greg Gilbert", description: "A documentary-style treatment of the reliability of the New Testament documents — manuscript evidence, authorship, transmission, and why confidence in the Bible is intellectually defensible." },
+              ].map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <div style={{ padding: "14px 16px" }}>
+                    <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ===================== JOURNAL TAB ===================== */}
+        {mainTab === "journal" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 0" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Bible Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Record passages that speak to you, your insights, and how you plan to apply them.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input
+                  value={jbPassage}
+                  onChange={e => setJbPassage(e.target.value)}
+                  placeholder="Passage (e.g. Romans 8:28, John 1:1-14)..."
+                  style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }}
+                />
+                <textarea
+                  value={jbInsight}
+                  onChange={e => setJbInsight(e.target.value)}
+                  placeholder="What did this passage say to you today?"
+                  rows={3}
+                  style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }}
+                />
+                <input
+                  value={jbApplying}
+                  onChange={e => setJbApplying(e.target.value)}
+                  placeholder="How will you apply this today?"
+                  style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={saveBibleEntry}
+                  style={{ alignSelf: "flex-start", background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+                >
+                  Save Entry
+                </button>
+              </div>
+            </div>
+            {bibleJournal.length === 0 ? (
+              <div style={{ textAlign: "center", color: MUTED, padding: "40px 0" }}>No entries yet. Save your first Bible reflection above.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {bibleJournal.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                      <div>
+                        <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{e.passage || "Untitled"}</span>
+                        <span style={{ color: MUTED, fontSize: 12, marginLeft: 10 }}>{e.date}</span>
+                      </div>
+                      <button type="button" onClick={() => deleteBibleEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.insight && <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}>{e.insight}</p>}
+                    {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic" }}>→ {e.applying}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
       </main>
       <Footer />
     </div>

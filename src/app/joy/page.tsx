@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -80,13 +83,13 @@ const PRACTICES = [
   { title: "Work with Delight", desc: "Colossians 3:23 transforms work into worship. When you do your work as for the Lord rather than for approval, it is accompanied by the joy of serving the right audience.", verse: "Colossians 3:23" },
 ];
 
-type Tab = "theology" | "thieves" | "stories" | "practices" | "videos";
+type Tab = "theology" | "thieves" | "stories" | "practices" | "journal" | "videos";
 
 const JOY_VIDEOS = [
-  { videoId: "dXxmSDhvbHY", title: "Desiring God: The Pursuit of Joy", channel: "Desiring God", description: "John Piper on Christian Hedonism — why pursuing your joy in God is not selfishness but the highest form of worship." },
-  { videoId: "Hr3PkGXYRvI", title: "The Joy of the Lord Is Your Strength", channel: "Ligonier Ministries", description: "R.C. Sproul preaches on Nehemiah 8:10 and what it means to have the joy of the Lord as your source of strength." },
-  { videoId: "KbFKcFxqVlo", title: "Joy in the Midst of Suffering", channel: "The Gospel Coalition", description: "How Philippians 4:4 — 'Rejoice in the Lord always' — was written from prison, and what that means for joy in hard circumstances." },
-  { videoId: "fJnGJN6laqE", title: "The Happiness of God and Christian Joy", channel: "Crossway", description: "A theological exploration of how God's own joy grounds our joy — and why Christians have better reason to be joyful than anyone." },
+  { videoId: "mC-zw0zCCtg", title: "Desiring God: The Pursuit of Joy", channel: "Desiring God", description: "John Piper on Christian Hedonism — why pursuing your joy in God is not selfishness but the highest form of worship." },
+  { videoId: "7_CGP-12AE0", title: "The Joy of the Lord Is Your Strength", channel: "Ligonier Ministries", description: "R.C. Sproul preaches on Nehemiah 8:10 and what it means to have the joy of the Lord as your source of strength." },
+  { videoId: "rtkS_8VWfB0", title: "Joy in the Midst of Suffering", channel: "The Gospel Coalition", description: "How Philippians 4:4 — 'Rejoice in the Lord always' — was written from prison, and what that means for joy in hard circumstances." },
+  { videoId: "4Eg_di-O8nM", title: "The Happiness of God and Christian Joy", channel: "Crossway", description: "A theological exploration of how God's own joy grounds our joy — and why Christians have better reason to be joyful than anyone." },
 ];
 
 export default function JoyPage() {
@@ -94,6 +97,20 @@ export default function JoyPage() {
   const [selectedStory, setSelectedStory] = usePersistedState("vine_joy_selected_story", "prodigal");
 
   const story = STORIES.find(s => s.id === selectedStory)!;
+
+  const [joyEntries, setJoyEntries] = useState<{ id: string; date: string; source: string; thief: string; chosen: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_joy_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [joyForm, setJoyForm] = useState({ source: "", thief: "", chosen: "" });
+  const [joySaved, setJoySaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_joy_entries", JSON.stringify(joyEntries)); }, [joyEntries]);
+  function saveJoyEntry() {
+    if (!joyForm.source.trim() && !joyForm.chosen.trim()) return;
+    setJoyEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...joyForm }, ...prev]);
+    setJoyForm({ source: "", thief: "", chosen: "" });
+    setJoySaved(true); setTimeout(() => setJoySaved(false), 2000);
+  }
+  function deleteJoyEntry(id: string) { setJoyEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -114,6 +131,7 @@ export default function JoyPage() {
             { id: "thieves" as const, label: "Joy Thieves", icon: "🚨" },
             { id: "stories" as const, label: "Bible Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "Joy Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -207,12 +225,60 @@ export default function JoyPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Joy is both given and cultivated. Track what God-given joy you noticed today, what threatened it, and where you actively chose to rejoice anyway.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Joy Journal Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A source of joy I noticed today</label>
+                <textarea value={joyForm.source} onChange={e => setJoyForm(f => ({ ...f, source: e.target.value }))} rows={2}
+                  placeholder="Something specific — not 'God is good' in general but a particular moment, person, or gift that produced genuine joy..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What tried to steal it</label>
+                <textarea value={joyForm.thief} onChange={e => setJoyForm(f => ({ ...f, thief: e.target.value }))} rows={2}
+                  placeholder="Anxiety, comparison, disappointment, grief, boredom, distraction..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I chose to rejoice anyway</label>
+                <textarea value={joyForm.chosen} onChange={e => setJoyForm(f => ({ ...f, chosen: e.target.value }))} rows={2}
+                  placeholder="Phil. 4:4: 'Rejoice in the Lord always.' Where did you choose joy today?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveJoyEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {joySaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {joyEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Joy Journal ({joyEntries.length})</h3>
+                {joyEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteJoyEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.source && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}>{e.source}</p>}
+                    {e.thief && <p style={{ color: "#EF4444", fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Thief: </span>{e.thief}</p>}
+                    {e.chosen && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: 0 }}>Chosen: {e.chosen}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {JOY_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

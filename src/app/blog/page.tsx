@@ -9,13 +9,10 @@ import {
   Clock,
   Eye,
   MessageSquare,
-  Heart,
   ChevronRight,
   Bookmark,
-  Share2,
   Flame,
   Star,
-  Filter,
   Rss,
 } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
@@ -387,8 +384,8 @@ export default function BlogPage() {
     try { localStorage.setItem("vine_blog_editors", JSON.stringify([...followedEditors])); } catch {}
   }, [followedEditors]);
 
-  const toggleSave = (i: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
-  const toggleFollow = (name: string) => setFollowedEditors(prev => { const n = new Set(prev); n.has(name) ? n.delete(name) : n.add(name); return n; });
+  const toggleSave = (i: number) => setSavedPosts(prev => { const n = new Set(prev); if (n.has(i)) { n.delete(i); } else { n.add(i); } return n; });
+  const toggleFollow = (name: string) => setFollowedEditors(prev => { const n = new Set(prev); if (n.has(name)) { n.delete(name); } else { n.add(name); } return n; });
   const handleSubscribe = () => {
     if (!newsletterEmail.trim()) return;
     setNewsletterDone(true);
@@ -535,7 +532,7 @@ export default function BlogPage() {
                 {visiblePosts.map((post, i) => (
                   <Link
                     key={i}
-                    href={post.slug ? `/blog/${post.slug}` : "#"}
+                    href={post.slug ? `/blog/${post.slug}` : "/blog"}
                     className="group block rounded-xl p-5 flex gap-5 cursor-pointer transition-all"
                     style={{
                       background: "rgba(255,255,255,0.02)",
@@ -643,7 +640,7 @@ export default function BlogPage() {
                 </div>
                 <div className="space-y-4">
                   {trending.map((item) => (
-                    <div key={item.rank} className="flex gap-3 group cursor-pointer">
+                    <Link key={item.rank} href="/blog" className="flex gap-3 group cursor-pointer" style={{ textDecoration: "none" }}>
                       <span className="text-2xl font-black w-6 shrink-0" style={{ color: "rgba(58,125,86,0.2)" }}>
                         {item.rank}
                       </span>
@@ -659,7 +656,7 @@ export default function BlogPage() {
                           <span className="text-xs" style={{ color: "#4A4A68" }}>{item.views} views</span>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -677,7 +674,7 @@ export default function BlogPage() {
                 </div>
                 <div className="space-y-3">
                   {editors.map((ed) => (
-                    <div key={ed.name} className="flex items-center gap-3 cursor-pointer group">
+                    <Link key={ed.name} href="/creators" className="flex items-center gap-3 cursor-pointer group" style={{ textDecoration: "none" }}>
                       <div
                         className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
                         style={{ background: `${ed.color}30`, color: ed.color, border: `1px solid ${ed.color}40` }}
@@ -691,7 +688,7 @@ export default function BlogPage() {
                         <p className="text-xs" style={{ color: "#6A6A88" }}>{ed.role}</p>
                       </div>
                       <button type="button"
-                        onClick={() => toggleFollow(ed.name)}
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFollow(ed.name); }}
                         className="ml-auto text-xs px-3 py-1 rounded-full font-semibold transition-all"
                         style={{
                           background: followedEditors.has(ed.name) ? "#3a7d56" : "rgba(58,125,86,0.1)",
@@ -701,7 +698,7 @@ export default function BlogPage() {
                       >
                         {followedEditors.has(ed.name) ? "✓ Following" : "Follow"}
                       </button>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -146,7 +148,7 @@ const VOICES_BAP = [
     contribution: "Provided the definitive even-handed overview of the baptism debate for evangelical audiences, modelling the charity and precision that the subject demands.",
   },
   {
-    id: "schreiner-b",
+    id: "5nvVVcYD-0w",
     name: "Tom Schreiner",
     era: "b. 1954",
     context: "Believer's Baptism: Sign of the New Covenant in Christ (2006, co-edited with Shawn Wright); Professor of NT at Southern Seminary",
@@ -170,47 +172,47 @@ const BAPTISM_VIDEOS = [
     id: "bv1",
     title: "The Reason for God",
     preacher: "Tim Keller",
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "f7RJATbobik",
     description: "Keller presents the intellectual and spiritual case for Christian faith to a secular audience at Google — grounding baptism and the sacraments in a robust theology of grace.",
   },
   {
     id: "bv2",
     title: "How to Be Born Again",
     preacher: "Billy Graham",
-    videoId: "RUhJVEWBe4g",
+    videoId: "zUKzVFQn4Tc",
     description: "Graham's classic message on the new birth — the spiritual reality that baptism publicly declares and celebrates.",
   },
   {
     id: "bv3",
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Sproul on the holiness that makes baptism necessary — why an encounter with the holy God always produces radical response.",
   },
   {
     id: "bv4",
     title: "Forgotten God: Theology of Holy Spirit",
     preacher: "Francis Chan",
-    videoId: "SCUEicqda1g",
+    videoId: "OqwbFGoRYVo",
     description: "Chan explores the Person of the Holy Spirit — whose work in regeneration baptism proclaims to the watching world.",
   },
   {
     id: "bv5",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "npEDqbE6faE",
     description: "Keller unpacks the parable that captures what baptism declares: a son who was dead has come home, has been clothed, and is welcomed to the table.",
   },
   {
     id: "bv6",
     title: "Supremacy of Christ and Truth",
     preacher: "Voddie Baucham",
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     description: "Baucham on why baptism in the name of Jesus is not one option among many but the only name under heaven given by which we must be saved.",
   },
 ];
 
-type Tab = "meaning" | "views" | "voices" | "videos";
+type Tab = "meaning" | "views" | "voices" | "videos" | "journal";
 
 export default function BaptismPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_baptism_tab", "meaning");
@@ -229,6 +231,19 @@ export default function BaptismPage() {
 
   const voiceItem = VOICES_BAP.find(v => v.id === selectedVoice)!;
 
+  type BaptismJE = { id: string; date: string; conviction: string; question: string; step: string };
+  const [baptismJournal, setBaptismJournal] = useState<BaptismJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_baptj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jQuestion, setJQuestion] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_baptj_entries", JSON.stringify(baptismJournal)); } catch {} }, [baptismJournal]);
+  function saveBaptismEntry() {
+    if (!jConviction.trim() && !jQuestion.trim()) return;
+    setBaptismJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, question: jQuestion, step: jStep }, ...prev]);
+    setJConviction(""); setJQuestion(""); setJStep("");
+  }
+  function deleteBaptismEntry(id: string) { setBaptismJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
@@ -244,9 +259,9 @@ export default function BaptismPage() {
 
         {/* Top-level tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
-          {(["meaning", "views", "voices", "videos"] as const).map(t => (
+          {(["meaning", "views", "voices", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "meaning" ? "Meaning" : t === "views" ? "Views" : t === "voices" ? "Voices" : "Videos"}
+              {t === "meaning" ? "Meaning" : t === "views" ? "Views" : t === "voices" ? "Voices" : t === "videos" ? "Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -461,6 +476,33 @@ export default function BaptismPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Baptism Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your convictions about baptism, questions you&apos;re wrestling with, and steps you&apos;re considering.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Conviction</label><textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What do you believe about baptism, and why?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Question</label><textarea value={jQuestion} onChange={e => setJQuestion(e.target.value)} placeholder="What are you still working through?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label><textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="What will you do with what you&apos;ve learned?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveBaptismEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {baptismJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {baptismJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteBaptismEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.conviction}</p></div>}
+                    {entry.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Question</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.question}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
@@ -471,9 +513,7 @@ export default function BaptismPage() {
                 </div>
                 <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8, color: TEXT }}>{v.title}</h3>
                 <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, marginBottom: 14 }}>{v.description}</p>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
               </div>
             ))}
           </div>

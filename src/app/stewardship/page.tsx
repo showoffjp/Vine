@@ -1,17 +1,12 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
 
-interface BudgetCategory {
-  name: string;
-  recommended: number;
-  actual: number;
-  color: string;
-}
 
-type Tab = "principles" | "giving" | "voices" | "videos";
+type Tab = "principles" | "giving" | "voices" | "journal" | "videos";
 
 const PRINCIPLES = [
   {
@@ -55,7 +50,7 @@ const PRINCIPLES = [
     content: `Saving is not hoarding—it is wisdom. Proverbs celebrates the ant who stores food in summer (Proverbs 6:6–8). Joseph stores grain during seven years of plenty to sustain Egypt through seven years of famine (Genesis 41). Planning for the future is not faithlessness; it is stewardship.\n\nPractical savings priorities: (1) Emergency fund: 3–6 months of expenses. This is not savings—it's insurance against debt. (2) Retirement: start early, compound interest is remarkable. (3) Goal savings: house down payment, education, major purchases without debt. Saving is freedom; it gives you options to say yes to God's invitations.`,
   },
   {
-    id: "contentment",
+    id: "OqwbFGoRYVo",
     title: "The Secret of Contentment",
     icon: "✨",
     verse: "I have learned, in whatever situation I am, to be content. I know how to be brought low, and I know how to abound.",
@@ -228,57 +223,44 @@ const STEWARD_VIDEOS = [
     id: "sv1",
     title: "Free from Money, Rich Toward God",
     preacher: "John Piper",
-    videoId: "k-3UC4ZAgxI",
+    videoId: "gV9JugO_5Mk",
     description: "Piper on Matthew 6:19-21: why treasures on earth are a threat to the soul",
   },
   {
     id: "sv2",
     title: "Wealth Is Almost Always a Curse",
     preacher: "John Piper",
-    videoId: "5gc3s6TCSVw",
+    videoId: "ej_6dVdJSIU",
     description: "Piper’s radical challenge to American prosperity assumptions",
   },
   {
     id: "sv3",
     title: "The Pervasive Problem of Loving Money",
     preacher: "John Piper",
-    videoId: "evQRQnBPgi8",
+    videoId: "GQI72THyO5I",
     description: "Diagnosing the love of money in the Christian life",
   },
   {
     id: "sv4",
     title: "You Can’t Serve God and Money",
     preacher: "John Piper",
-    videoId: "0qS_aQi6Tuk",
+    videoId: "krxcqH522uo",
     description: "The impossibility of dual loyalty — Matthew 6:24 explained",
   },
   {
     id: "sv5",
     title: "Don’t Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "nQWFzMvCfLE",
     description: "What does it mean to waste your financial life? Piper answers with the Passion generation",
   },
   {
     id: "sv6",
     title: "Radical: Passion 2011",
     preacher: "David Platt",
-    videoId: "yhiHSf_L6_E",
+    videoId: "ccNvwDPguNU",
     description: "Platt challenges the comfortable Christianity that hoards instead of gives",
   },
-];
-
-const DEFAULT_BUDGET: BudgetCategory[] = [
-  { name: "Giving / Tithe", recommended: 10, actual: 7, color: "#3a7d56" },
-  { name: "Housing", recommended: 25, actual: 30, color: "#4FC3F7" },
-  { name: "Food", recommended: 12, actual: 15, color: "#FF8C42" },
-  { name: "Transportation", recommended: 10, actual: 12, color: "#FFB347" },
-  { name: "Insurance", recommended: 5, actual: 5, color: "#9898B3" },
-  { name: "Savings / Emergency", recommended: 10, actual: 6, color: "#6B4FBB" },
-  { name: "Personal", recommended: 5, actual: 8, color: "#FF6B9D" },
-  { name: "Entertainment", recommended: 5, actual: 7, color: "#E57373" },
-  { name: "Retirement", recommended: 10, actual: 5, color: "#A080FF" },
-  { name: "Other", recommended: 8, actual: 5, color: "#78909C" },
 ];
 
 export default function StewardshipPage() {
@@ -289,21 +271,38 @@ export default function StewardshipPage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_stewardship_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [budget] = useState<BudgetCategory[]>(DEFAULT_BUDGET);
 
   const toggleSave = (id: string) => {
     setSavedIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_stewardship_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
   };
 
+  const [stewardEntries, setStewardEntries] = useState<{ id: string; date: string; area: string; action: string; reflection: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_steward_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [stForm, setStForm] = useState({ area: "giving", action: "", reflection: "" });
+  const [stSaved, setStSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_steward_journal", JSON.stringify(stewardEntries)); } catch {} }, [stewardEntries]);
+
+  const saveStEntry = () => {
+    setStewardEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...stForm }, ...prev]);
+    setStForm(f => ({ ...f, action: "", reflection: "" }));
+    setStSaved(true);
+    setTimeout(() => setStSaved(false), 2000);
+  };
+
+  const deleteStEntry = (id: string) => setStewardEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { key: Tab; label: string }[] = [
     { key: "principles", label: "Principles" },
     { key: "giving", label: "Giving Ladder" },
     { key: "voices", label: "Voices" },
+    { key: "journal", label: "My Journal" },
     { key: "videos", label: "Videos" },
   ];
 
@@ -474,6 +473,64 @@ export default function StewardshipPage() {
           </div>
         )}
 
+        {/* Journal Tab */}
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: "#F2F2F8", fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Stewardship is practiced, not just known. Log the steps you are taking in money, time, and talents — and notice how God meets you as you give.
+              </p>
+            </div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Stewardship Log</h3>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: "#9898B3", fontSize: 13, fontWeight: 600 }}>Area of stewardship</label>
+                <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+                  {["giving", "time", "talents", "debt/margin", "generosity"].map(area => (
+                    <button type="button" key={area} onClick={() => setStForm(f => ({ ...f, area }))}
+                      style={{ padding: "7px 14px", borderRadius: 20, border: `1px solid ${stForm.area === area ? "#3a7d56" : "#1E1E32"}`, background: stForm.area === area ? "#3a7d5620" : "transparent", color: stForm.area === area ? "#3a7d56" : "#9898B3", fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {area}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: "#9898B3", fontSize: 13, fontWeight: 600 }}>Action or step I took / am taking</label>
+                <textarea value={stForm.action} onChange={e => setStForm(f => ({ ...f, action: e.target.value }))} rows={2}
+                  placeholder="Increased giving percentage, created a budget, gave something away, volunteered time..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: "#9898B3", fontSize: 13, fontWeight: 600 }}>Reflection</label>
+                <textarea value={stForm.reflection} onChange={e => setStForm(f => ({ ...f, reflection: e.target.value }))} rows={2}
+                  placeholder="What I noticed, what was hard, where I sensed God in it..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveStEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: "#3a7d56", color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {stSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {stewardEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Stewardship History</h3>
+                {stewardEntries.map(e => (
+                  <div key={e.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteStEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: "#3a7d5620", color: "#3a7d56", padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.area}</span>
+                      <span style={{ color: "#9898B3", fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.action && <p style={{ color: "#F2F2F8", fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>{e.action}</p>}
+                    {e.reflection && <p style={{ color: "#9898B3", fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.reflection}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos Tab */}
         {activeTab === "videos" && (
           <div style={{ maxWidth: 980, margin: "0 auto" }}>
@@ -486,14 +543,7 @@ export default function StewardshipPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 24 }}>
               {STEWARD_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: "1px solid #1E1E32" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: 18 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                       <span style={{ background: "rgba(107,79,187,0.2)", color: "#A080FF", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid rgba(107,79,187,0.3)" }}>

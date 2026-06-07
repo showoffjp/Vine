@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -17,10 +19,10 @@ const VOICES_GROWTH = [
 ];
 
 const SGS_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Stages of Spiritual Growth — Tim Keller", channel: "Gospel in Life", description: "Keller maps the journey from spiritual infancy through maturity, drawing on classic and Reformed frameworks." },
-  { videoId: "ACZbpLkY8To", title: "The Dark Night of the Soul — What It Is and How to Navigate It", channel: "Ligonier Ministries", description: "An introduction to the contemplative tradition of spiritual dryness and what it means for ordinary Christians." },
-  { videoId: "fJnGJN6laqE", title: "Spiritual Formation — What It Is and Why It Matters", channel: "Desiring God", description: "Piper on the difference between behavior modification and genuine transformation by the Spirit." },
-  { videoId: "Z8lkuuhVkOI", title: "Growing in Christlikeness — Dallas Willard's Vision", channel: "The Gospel Coalition", description: "An overview of Willard's model of spiritual formation — how we arrange our life to be shaped by God." },
+  { videoId: "rtkS_8VWfB0", title: "Stages of Spiritual Growth — Tim Keller", channel: "Gospel in Life", description: "Keller maps the journey from spiritual infancy through maturity, drawing on classic and Reformed frameworks." },
+  { videoId: "ej_6dVdJSIU", title: "The Dark Night of the Soul — What It Is and How to Navigate It", channel: "Ligonier Ministries", description: "An introduction to the contemplative tradition of spiritual dryness and what it means for ordinary Christians." },
+  { videoId: "4Eg_di-O8nM", title: "Spiritual Formation — What It Is and Why It Matters", channel: "Desiring God", description: "Piper on the difference between behavior modification and genuine transformation by the Spirit." },
+  { videoId: "gV9JugO_5Mk", title: "Growing in Christlikeness — Dallas Willard's Vision", channel: "The Gospel Coalition", description: "An overview of Willard's model of spiritual formation — how we arrange our life to be shaped by God." },
 ];
 
 const FRAMEWORK_TABS = [
@@ -28,6 +30,7 @@ const FRAMEWORK_TABS = [
   { id: "classic" as const, label: "Classic Frameworks", icon: "📜" },
   { id: "voices" as const, label: "Voices", icon: "💬" },
   { id: "obstacles" as const, label: "Growth Obstacles", icon: "⚠️" },
+  { id: "journal" as const, label: "My Journal", icon: "📓" },
   { id: "videos" as const, label: "Videos", icon: "▶️" },
 ];
 
@@ -180,12 +183,26 @@ const GROWTH_OBSTACLES = [
 ];
 
 export default function SpiritualGrowthStagesPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"biblical" | "classic" | "voices" | "obstacles" | "videos">("vine_spiritual-growth-stages_tab", "biblical");
+  const [activeTab, setActiveTab] = usePersistedState<"biblical" | "classic" | "voices" | "obstacles" | "journal" | "videos">("vine_spiritual-growth-stages_tab", "biblical");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_spiritual-growth-stages_voice", "teresa");
   const voiceItem = VOICES_GROWTH.find(v => v.id === selectedVoice)!;
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
   const [selectedFramework, setSelectedFramework] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
+
+  type JournalEntry = { id: string; date: string; stage: string; insight: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_sgsj_entries") ?? "[]"); } catch { return []; } });
+  const [jStage, setJStage] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_sgsj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jStage.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), stage: jStage, insight: jInsight, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJStage(""); setJInsight(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -363,12 +380,43 @@ export default function SpiritualGrowthStagesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Spiritual Growth Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record where you sense you are in your growth journey, what God is showing you, and your next step.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jStage} onChange={e => setJStage(e.target.value)} placeholder="Stage or season (child, young adult, parent/elder…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What is God showing you about your growth or obstacles?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step toward growth" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Start recording your spiritual growth journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.stage || "Growth Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SGS_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

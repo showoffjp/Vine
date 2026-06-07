@@ -3,7 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   MapPin,
   Calendar,
@@ -18,7 +18,6 @@ import {
   Flame,
   Shield,
   Award,
-  Zap,
   TrendingUp,
   CheckCircle,
   FileText,
@@ -155,12 +154,49 @@ interface VineUser {
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = usePersistedState<string>("vine_profile_active_tab", "Activity");
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
-  const [user, setUser] = useState<VineUser | null>(() => {
+  const [user] = useState<VineUser | null>(() => {
     try { const raw = localStorage.getItem("vine_user"); return raw ? JSON.parse(raw) : null; } catch { return null; }
   });
   const [shared, setShared] = useState(false);
-  const [postsCount, setPostsCount] = useState(() => {
+  const [postsCount] = useState(() => {
     try { const p = localStorage.getItem("vine_disc_my_posts"); return p ? (JSON.parse(p) as string[]).length : 0; } catch { return 0; }
+  });
+  const [prayerStreak] = useState(() => {
+    try {
+      const habits = JSON.parse(localStorage.getItem("vine_habits") || "[]");
+      if (!habits.length) return 0;
+      const today = new Date();
+      let streak = 0;
+      for (let i = 0; i < 365; i++) {
+        const d = new Date(today); d.setDate(today.getDate() - i);
+        const key = d.toISOString().split("T")[0];
+        const anyDone = habits.some((h: { completions: string[] }) => h.completions?.includes(key));
+        if (anyDone) streak++;
+        else if (i > 0) break;
+      }
+      return streak;
+    } catch { return 0; }
+  });
+  const [chaptersRead] = useState(() => {
+    try {
+      const chapters = JSON.parse(localStorage.getItem("vine_reading_plan") || "[]");
+      return Array.isArray(chapters) ? chapters.length : 0;
+    } catch { return 0; }
+  });
+  const [devotionalsCompleted] = useState(() => {
+    try {
+      const completed = JSON.parse(localStorage.getItem("vine_daily_completed") || "[]");
+      return Array.isArray(completed) ? completed.length : 0;
+    } catch { return 0; }
+  });
+  const [savedCount] = useState(() => {
+    try {
+      const feedSaves = JSON.parse(localStorage.getItem("vine_feed_saves") || "{}");
+      const sermonSaves = JSON.parse(localStorage.getItem("vine_sermons_saved") || "[]");
+      const feedCount = typeof feedSaves === "object" ? Object.keys(feedSaves).length : 0;
+      const sermonCount = Array.isArray(sermonSaves) ? sermonSaves.length : 0;
+      return feedCount + sermonCount;
+    } catch { return 0; }
   });
   const defaultBio =
     "Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their faith.";
@@ -267,7 +303,7 @@ export default function ProfilePage() {
                   { label: "Posts", value: String(postsCount) },
                   { label: "Followers", value: "—" },
                   { label: "Following", value: "—" },
-                  { label: "Saved", value: String(savedItems.length) },
+                  { label: "Saved", value: savedCount > 0 ? String(savedCount) : String(savedItems.length) },
                 ].map((stat) => (
                   <div key={stat.label} className="flex flex-col items-center">
                     <span className="text-base font-black" style={{ color: "#F2F2F8" }}>
@@ -324,7 +360,7 @@ export default function ProfilePage() {
                     onMouseLeave={() => setHoveredBadge(null)}
                   >
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer transition-transform hover:scale-110"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform hover:scale-110"
                       style={{ background: `${badge.color}20`, border: `1px solid ${badge.color}40` }}
                     >
                       <badge.icon size={18} style={{ color: badge.color }} />
@@ -416,10 +452,10 @@ export default function ProfilePage() {
               </h4>
               <div className="space-y-3">
                 {[
-                  { icon: "🔥", label: "Prayer streak", value: "30 days" },
-                  { icon: "📖", label: "Bible reading", value: "45 chapters this month" },
-                  { icon: "✅", label: "Devotionals", value: "28 completed this month" },
-                  { icon: "⭐", label: "Community Karma", value: "4,821" },
+                  { icon: "🔥", label: "Prayer streak", value: prayerStreak > 0 ? `${prayerStreak} day${prayerStreak !== 1 ? "s" : ""}` : "Start today" },
+                  { icon: "📖", label: "Bible reading", value: chaptersRead > 0 ? `${chaptersRead} chapter${chaptersRead !== 1 ? "s" : ""} read` : "Start reading" },
+                  { icon: "✅", label: "Devotionals", value: devotionalsCompleted > 0 ? `${devotionalsCompleted} completed` : "Start daily" },
+                  { icon: "⭐", label: "Community Karma", value: postsCount > 0 ? String(postsCount * 12) : "Join discussions" },
                 ].map((stat) => (
                   <div key={stat.label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">

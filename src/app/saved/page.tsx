@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,14 +9,12 @@ import {
   BookOpen,
   MessageSquare,
   Heart,
-  Headphones,
   PlayCircle,
   Brain,
   Zap,
   Users,
   Music,
   ChevronRight,
-  Calendar,
 } from "lucide-react";
 
 interface SavedItem {
@@ -326,30 +324,10 @@ const colorToIcon: Record<string, typeof BookOpen> = {};
 void colorToIcon;
 
 export default function SavedPage() {
-  const [items, setItems] = useState<SavedItem[]>([]);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setItems(loadSavedItems());
-    setLoaded(true);
-  }, []);
-
-  const iconMap: Record<string, React.ReactNode> = {
-    "Feed Posts": <MessageSquare size={20} />,
-    "Discussions": <MessageSquare size={20} />,
-    "Articles": <BookOpen size={20} />,
-    "Stories": <Heart size={20} />,
-    "Podcasts": <Headphones size={20} />,
-    "Videos": <PlayCircle size={20} />,
-    "Verse Memory": <Brain size={20} />,
-    "Life Hacks": <Zap size={20} />,
-    "Journal": <BookOpen size={20} />,
-    "Apologetics": <BookOpen size={20} />,
-    "Events": <Calendar size={20} />,
-    "Bible Bookmarks": <Bookmark size={20} />,
-    "Bible Notes": <BookOpen size={20} />,
-    "Reading Plan": <BookOpen size={20} />,
-  };
+  const [items] = useState<SavedItem[]>(() => {
+    try { return loadSavedItems(); } catch { return []; }
+  });
+  const loaded = true;
 
   const quickLinks = [
     { label: "Journal", href: "/journal", icon: BookOpen, color: "#EC4899" },

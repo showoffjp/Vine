@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "questions" | "redflags" | "practices" | "videos";
+type Tab = "theology" | "questions" | "redflags" | "practices" | "reflect" | "videos";
 
 const THEOLOGY = [
   { title: "The Purpose of Dating", verse: "Proverbs 18:22", body: "Christian dating exists to evaluate suitability for marriage — not as an end in itself. The question dating asks is: is this the person I should covenant with for life? This clarifies everything: how long you date, how physically intimate you become, what conversations you have, and when you end a relationship. If the answer becomes clearly no, the relationship has served its purpose and should end." },
@@ -90,6 +92,22 @@ const PRACTICES = [
 export default function ChristianDatingPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-dating_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [dateEntries, setDateEntries] = useState<{ id: string; date: string; person: string; observation: string; prayer: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_dating_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [dForm, setDForm] = useState({ person: "", observation: "", prayer: "" });
+  const [dSaved, setDSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_dating_entries", JSON.stringify(dateEntries)); } catch {} }, [dateEntries]);
+
+  const saveDEntry = () => {
+    setDateEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...dForm }, ...prev]);
+    setDForm(f => ({ ...f, observation: "", prayer: "" }));
+    setDSaved(true);
+    setTimeout(() => setDSaved(false), 2000);
+  };
+
+  const deleteDEntry = (id: string) => setDateEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -110,6 +128,7 @@ export default function ChristianDatingPage() {
             { id: "questions" as Tab, label: "Questions", icon: "❓" },
             { id: "redflags" as Tab, label: "Red Flags", icon: "🚩" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "reflect" as Tab, label: "Reflection", icon: "✍️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -211,6 +230,58 @@ export default function ChristianDatingPage() {
           </div>
         )}
 
+        {tab === "reflect" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Dating well requires reflection, not just feeling. Use this journal to observe what you're noticing, pray through what you're discerning, and track God's guidance over time.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Relationship Reflection</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Person (first name or initials)</label>
+                <input value={dForm.person} onChange={e => setDForm(f => ({ ...f, person: e.target.value }))}
+                  placeholder="Who this reflection is about"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I'm observing</label>
+                <textarea value={dForm.observation} onChange={e => setDForm(f => ({ ...f, observation: e.target.value }))} rows={3}
+                  placeholder="Character I'm seeing, green flags or red flags, how they treat others, what brings them alive..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>My prayer for this relationship</label>
+                <textarea value={dForm.prayer} onChange={e => setDForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="Clarity, protection, direction, surrender of my own desires..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveDEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {dSaved ? "Saved ✓" : "Save Reflection"}
+              </button>
+            </div>
+            {dateEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Reflection History</h3>
+                {dateEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteDEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      {e.person && <span style={{ color: PURPLE, fontWeight: 700, fontSize: 14 }}>{e.person}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.observation && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 8px" }}>{e.observation}</p>}
+                    {e.prayer && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>🙏 {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -220,19 +291,13 @@ export default function ChristianDatingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "IYFGIz8v4bM", title: "Marriage in Light of Eternity", channel: "Francis Chan / Navigators", description: "Francis Chan speaks on how a proper eternal perspective shapes how Christians should approach dating and marriage — not as ends in themselves but as covenant pointing to Christ." },
-                  { videoId: "yhykiuTPlfA", title: "Marriage: The Picture of Christ and His Church", channel: "Francis Chan", description: "Chan preaches on Ephesians 5 and why Christian marriage is designed to display the gospel — the husband's sacrificial love and the wife's trusting response." },
-                  { videoId: "4vAq9sWgZ74", title: "Marriage Is About Christ and the Church", channel: "Desiring God / John Piper", description: "John Piper explains why Christian marriage exists primarily to display Christ's covenant love for the church — and how this shapes who and how we marry." },
-                  { videoId: "_OC8M_bgV-M", title: "Dating vs Courtship: What's God's Way?", channel: "Christian Relationship Talk", description: "A biblical examination of the principles that should guide Christian dating — purposefulness, purity, community accountability, and covenant orientation." },
+                  { videoId: "iK0NjiBXKN4", title: "Marriage in Light of Eternity", channel: "Francis Chan / Navigators", description: "Francis Chan speaks on how a proper eternal perspective shapes how Christians should approach dating and marriage — not as ends in themselves but as covenant pointing to Christ." },
+                  { videoId: "zMbUXpFiFeo", title: "Marriage: The Picture of Christ and His Church", channel: "Francis Chan", description: "Chan preaches on Ephesians 5 and why Christian marriage is designed to display the gospel — the husband's sacrificial love and the wife's trusting response." },
+                  { videoId: "52ZXFH1wzc8", title: "Marriage Is About Christ and the Church", channel: "Desiring God / John Piper", description: "John Piper explains why Christian marriage exists primarily to display Christ's covenant love for the church — and how this shapes who and how we marry." },
+                  { videoId: "rtkS_8VWfB0", title: "Dating vs Courtship: What's God's Way?", channel: "Christian Relationship Talk", description: "A biblical examination of the principles that should guide Christian dating — purposefulness, purity, community accountability, and covenant orientation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

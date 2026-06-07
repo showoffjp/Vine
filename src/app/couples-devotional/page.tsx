@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 interface CouplesDevotional {
   id: string;
   day: number;
@@ -283,10 +285,10 @@ const PRACTICES_CD: { id: string; title: string; icon: string; frequency: string
 ];
 
 const COUPLE_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Meaning of Marriage — Tim Keller", channel: "Gospel in Life", description: "Keller's foundational talk on how the gospel reshapes everything we think about marriage, love, and commitment." },
-  { videoId: "ACZbpLkY8To", title: "Marriage as a Mirror of the Gospel", channel: "Ligonier Ministries", description: "How Ephesians 5 teaches that Christian marriage is a living proclamation of Christ's love for the church." },
-  { videoId: "fJnGJN6laqE", title: "Devotional Life as a Couple", channel: "Desiring God", description: "Piper on praying together, reading Scripture together, and building a devotional life that sustains and deepens marriage." },
-  { videoId: "Z8lkuuhVkOI", title: "The Hard Work of Marriage — Gospel-Centered Conflict Resolution", channel: "The Gospel Coalition", description: "How the gospel transforms the way couples handle conflict, forgiveness, and the ordinary friction of shared life." },
+  { videoId: "rtkS_8VWfB0", title: "The Meaning of Marriage — Tim Keller", channel: "Gospel in Life", description: "Keller's foundational talk on how the gospel reshapes everything we think about marriage, love, and commitment." },
+  { videoId: "ej_6dVdJSIU", title: "Marriage as a Mirror of the Gospel", channel: "Ligonier Ministries", description: "How Ephesians 5 teaches that Christian marriage is a living proclamation of Christ's love for the church." },
+  { videoId: "4Eg_di-O8nM", title: "Devotional Life as a Couple", channel: "Desiring God", description: "Piper on praying together, reading Scripture together, and building a devotional life that sustains and deepens marriage." },
+  { videoId: "gV9JugO_5Mk", title: "The Hard Work of Marriage — Gospel-Centered Conflict Resolution", channel: "The Gospel Coalition", description: "How the gospel transforms the way couples handle conflict, forgiveness, and the ordinary friction of shared life." },
 ];
 
 const SCRIPTURE_CD: { id: string; ref: string; text: string; theme: string; reflection: string }[] = [
@@ -298,21 +300,21 @@ const SCRIPTURE_CD: { id: string; ref: string; text: string; theme: string; refl
     reflection: "The leaving, cleaving, and weaving of Genesis 2:24 establishes marriage as a covenant act — not a contract of convenience but a permanent bond that reorders loyalties and identities. The word 'hold fast' in Hebrew carries the image of clinging, of determined attachment. Marriage asks both partners to choose each other above every other human relationship, again and again.",
   },
   {
-    id: "eph-5-25-33",
+    id: "OqwbFGoRYVo",
     ref: "Ephesians 5:25-33",
     text: "Husbands, love your wives, as Christ loved the church and gave himself up for her... This mystery is profound, and I am saying that it refers to Christ and the church.",
     theme: "Sacrificial Love",
     reflection: "Paul's vision of marriage in Ephesians 5 is not a hierarchy of power but a theology of sacrifice. The husband is called to love with the same costly, self-emptying love that took Christ to the cross. When this passage is read primarily as a call to male authority rather than male sacrifice, the weight of its demand is lost. The mystery Paul points to is breathtaking: Christian marriage is a visible sign of the gospel.",
   },
   {
-    id: "1cor-13-4-7",
+    id: "npEDqbE6faE",
     ref: "1 Corinthians 13:4-7",
     text: "Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful; it does not rejoice at wrongdoing, but rejoices with the truth. Love bears all things, believes all things, hopes all things, endures all things.",
     theme: "Love's Nature",
     reflection: "Every phrase of 1 Corinthians 13 is a mirror held up to the face of a marriage. Patient, kind, not irritable, not resentful — these are not aspirational emotions but active choices made in the daily friction of life together. Paul's love is not a feeling that comes and goes; it is a direction of the will. Read this passage slowly and let each phrase become a question: Is this what our love looks like?",
   },
   {
-    id: "col-3-18-19",
+    id: "F1Cz95NtJ4c",
     ref: "Colossians 3:18-19",
     text: "Wives, submit to your husbands, as is fitting in the Lord. Husbands, love your wives, and do not be harsh with them.",
     theme: "Mutual Submission",
@@ -326,7 +328,7 @@ const SCRIPTURE_CD: { id: string; ref: string; text: string; theme: string; refl
     reflection: "The Proverbs 31 woman is not a performance standard but a poem of praise — written by a mother to her son about what to look for, and by extension a portrait of character worth cultivating. The word translated 'excellent' is the Hebrew chayil, meaning strength, valor, and capability. The passage begins not with her productivity but with the trust her husband places in her. Trust is the foundation.",
   },
   {
-    id: "eccl-4-9-12",
+    id: "W6NjAG4qp4M",
     ref: "Ecclesiastes 4:9-12",
     text: "Two are better than one, because they have a good reward for their toil. For if they fall, one will lift up his fellow. But woe to him who is alone when he falls and has not another to lift him up... And though a man might prevail against one who is alone, two will withstand him — a threefold cord is not quickly broken.",
     theme: "Partnership",
@@ -342,10 +344,24 @@ export default function CouplesDevotionalPage() {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [activeSection, setActiveSection] = usePersistedState<"husband" | "wife" | "together">("vine_couples-devotional_active_section", "together");
-  const [mainTab, setMainTab] = usePersistedState<"devotionals" | "voices" | "practices" | "scripture" | "videos">("vine_couples-devotional_main_tab", "devotionals");
+  const [mainTab, setMainTab] = usePersistedState<"devotionals" | "voices" | "practices" | "scripture" | "videos" | "journal">("vine_couples-devotional_main_tab", "devotionals");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_couples-devotional_voice", "keller-t");
   const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;
 
+
+  // Journal state
+  type CouplesJE = { id: string; date: string; reflection: string; practice: string; step: string };
+  const [couplesJournal, setCouplesJournal] = useState<CouplesJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_couplesj_entries") ?? "[]"); } catch { return []; } });
+  const [jcReflection, setJcReflection] = useState("");
+  const [jcPractice, setJcPractice] = useState("");
+  const [jcStep, setJcStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_couplesj_entries", JSON.stringify(couplesJournal)); } catch {} }, [couplesJournal]);
+  function saveCouplesEntry() {
+    if (!jcReflection.trim() && !jcPractice.trim()) return;
+    setCouplesJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jcReflection, practice: jcPractice, step: jcStep }, ...prev]);
+    setJcReflection(""); setJcPractice(""); setJcStep("");
+  }
+  function deleteCouplesEntry(id: string) { setCouplesJournal(prev => prev.filter(e => e.id !== id)); }
 
   const saveProgress = (p: Progress) => {
     try { localStorage.setItem("vine_couples_devotional", JSON.stringify(p)); } catch {}
@@ -425,7 +441,7 @@ export default function CouplesDevotionalPage() {
       {/* Main tab bar */}
       <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", gap: 2 }}>
-          {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"], ["videos", "▶ Videos"]] as const).map(([key, label]) => (
+          {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"], ["videos", "▶ Videos"], ["journal", "📓 Journal"]] as const).map(([key, label]) => (
             <button type="button" key={key} onClick={() => setMainTab(key)}
               style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
               {label}
@@ -709,12 +725,67 @@ export default function CouplesDevotionalPage() {
         </div>
       )}
 
+      {mainTab === "journal" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+          <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+            <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 Our Devotional Journal</h2>
+            <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+              Record reflections from your devotionals, spiritual practices you want to cultivate, and next steps as a couple.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <textarea
+                value={jcReflection}
+                onChange={e => setJcReflection(e.target.value)}
+                placeholder="What did God speak to you both through today's devotional?"
+                rows={3}
+                style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, resize: "vertical", outline: "none" }}
+              />
+              <input
+                value={jcPractice}
+                onChange={e => setJcPractice(e.target.value)}
+                placeholder="A practice or habit you want to build together..."
+                style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }}
+              />
+              <input
+                value={jcStep}
+                onChange={e => setJcStep(e.target.value)}
+                placeholder="One next step for your relationship..."
+                style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }}
+              />
+              <button
+                type="button"
+                onClick={saveCouplesEntry}
+                style={{ alignSelf: "flex-start", background: "#3a7d56", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+              >
+                Save Entry
+              </button>
+            </div>
+          </div>
+          {couplesJournal.length === 0 ? (
+            <div style={{ textAlign: "center", color: "#9898B3", padding: "40px 0" }}>No entries yet. Save your first couples reflection above.</div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {couplesJournal.map(e => (
+                <div key={e.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                    <span style={{ color: "#9898B3", fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteCouplesEntry(e.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18 }}>×</button>
+                  </div>
+                  {e.reflection && <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}>{e.reflection}</p>}
+                  {e.practice && <p style={{ color: "#3a7d56", fontSize: 13, marginBottom: 4 }}>🌱 {e.practice}</p>}
+                  {e.step && <p style={{ color: "#6B4FBB", fontSize: 13, fontStyle: "italic" }}>→ {e.step}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {mainTab === "videos" && (
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px", display: "flex", flexDirection: "column", gap: 24 }}>
           {COUPLE_VIDEOS.map(v => (
             <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-              <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+              <VideoEmbed videoId={v.videoId} title={v.title} />
               <div style={{ padding: "14px 16px" }}>
                 <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                 <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

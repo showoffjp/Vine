@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Heart,
   Bookmark,
@@ -262,6 +262,28 @@ export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex
   const [shared, setShared] = useState(false);
   const [completed, setCompleted] = useState(false);
 
+  // Sync liked/saved from localStorage whenever the displayed day changes
+  useEffect(() => {
+    try {
+      const likes = JSON.parse(localStorage.getItem("vine_devotional_likes") || "[]");
+      const saves = JSON.parse(localStorage.getItem("vine_devotional_saves") || "[]");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLiked(Array.isArray(likes) && likes.includes(dayIndex));
+      setSaved(Array.isArray(saves) && saves.includes(dayIndex));
+    } catch {}
+  }, [dayIndex]);
+
+  const persistToggle = (key: string, idx: number, on: boolean) => {
+    try {
+      const arr: number[] = JSON.parse(localStorage.getItem(key) || "[]");
+      const next = on ? [...new Set([...arr, idx])] : arr.filter((x) => x !== idx);
+      localStorage.setItem(key, JSON.stringify(next));
+    } catch {}
+  };
+
+  const toggleLike = () => { setLiked((v) => { const nv = !v; persistToggle("vine_devotional_likes", dayIndex, nv); return nv; }); };
+  const toggleSave = () => { setSaved((v) => { const nv = !v; persistToggle("vine_devotional_saves", dayIndex, nv); return nv; }); };
+
   const d = devotionals[dayIndex];
 
   const handleShare = () => {
@@ -284,7 +306,7 @@ export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex
       <div className="flex items-center justify-between mb-5 rounded-2xl p-3"
         style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
         <button
-          onClick={() => { setDayIndex(i => Math.max(0, i - 1)); setLiked(false); setSaved(false); setCompleted(false); }}
+          onClick={() => { setDayIndex(i => Math.max(0, i - 1)); setCompleted(false); }}
           disabled={dayIndex === 0}
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all btn-outline-gold"
           style={{ opacity: dayIndex === 0 ? 0.35 : 1, cursor: dayIndex === 0 ? "not-allowed" : "pointer" }}
@@ -298,7 +320,7 @@ export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex
           <p className="text-xs" style={{ color: "#6A6A88" }}>{d.dayName}</p>
         </div>
         <button
-          onClick={() => { setDayIndex(i => Math.min(devotionals.length - 1, i + 1)); setLiked(false); setSaved(false); setCompleted(false); }}
+          onClick={() => { setDayIndex(i => Math.min(devotionals.length - 1, i + 1)); setCompleted(false); }}
           disabled={dayIndex === devotionals.length - 1}
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all btn-gold"
           style={{ opacity: dayIndex === devotionals.length - 1 ? 0.35 : 1, cursor: dayIndex === devotionals.length - 1 ? "not-allowed" : "pointer" }}
@@ -370,7 +392,7 @@ export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex
         <div className="mt-6 pt-5 space-y-4" style={{ borderTop: "1px solid #1E1E32" }}>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setLiked(v => !v)}
+              onClick={toggleLike}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
               style={{ color: liked ? "#EC4899" : "#8A8AA8", background: liked ? "rgba(236,72,153,0.08)" : "transparent" }}
             >
@@ -378,7 +400,7 @@ export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex
               {liked ? "Loved" : "Love"}
             </button>
             <button
-              onClick={() => setSaved(v => !v)}
+              onClick={toggleSave}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
               style={{ color: saved ? "#3a7d56" : "#8A8AA8", background: saved ? "rgba(58,125,86,0.08)" : "transparent" }}
             >

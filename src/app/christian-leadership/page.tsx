@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -88,7 +90,7 @@ const PRACTICES = [
   { title: "Read Widely and Across Traditions", desc: "Christian leaders who read only within their own tradition produce a narrow, in-bred leadership culture. Read theology, history, psychology, business, and biography. The breadth of your reading shapes the depth of your leadership.", icon: "📚" },
 ];
 
-type Tab = "theology" | "traps" | "voices" | "practices" | "videos";
+type Tab = "theology" | "traps" | "voices" | "practices" | "journal" | "videos";
 
 export default function ChristianLeadershipPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-leadership_tab", "theology");
@@ -96,6 +98,20 @@ export default function ChristianLeadershipPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-leadership_voice", "nouwen");
 
   const voice = VOICES.find(v => v.id === selectedVoice)!;
+
+  const [cldEntries, setCldEntries] = useState<{ id: string; date: string; area: string; strength: string; trap: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cld_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cldForm, setCldForm] = useState({ area: "", strength: "", trap: "" });
+  const [cldSaved, setCldSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cld_entries", JSON.stringify(cldEntries)); }, [cldEntries]);
+  function saveCldEntry() {
+    if (!cldForm.area.trim()) return;
+    setCldEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cldForm }, ...prev]);
+    setCldForm({ area: "", strength: "", trap: "" });
+    setCldSaved(true); setTimeout(() => setCldSaved(false), 2000);
+  }
+  function deleteCldEntry(id: string) { setCldEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -116,6 +132,7 @@ export default function ChristianLeadershipPage() {
             { id: "traps" as const, label: "Traps", icon: "⚠️" },
             { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -226,6 +243,49 @@ export default function ChristianLeadershipPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Leadership Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Reflect on where you lead, how you are growing, and what traps you are guarding against.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Area of Leadership</label>
+                <input value={cldForm.area} onChange={e => setCldForm(f => ({ ...f, area: e.target.value }))} placeholder="e.g. My small group, my team at work, my family..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Where Are You Growing?</label>
+                <textarea value={cldForm.strength} onChange={e => setCldForm(f => ({ ...f, strength: e.target.value }))} placeholder="What servant leadership quality is God developing in you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Trap You Are Guarding Against</label>
+                <textarea value={cldForm.trap} onChange={e => setCldForm(f => ({ ...f, trap: e.target.value }))} placeholder="Pride, control, people-pleasing, drivenness — what temptation is most present?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCldEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cldSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cldEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cldEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.area}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCldEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.strength && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Growing In</div><div style={{ color: TEXT, fontSize: 13 }}>{e.strength}</div></div>}
+                    {e.trap && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Guarding Against</div><div style={{ color: TEXT, fontSize: 13 }}>{e.trap}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -235,19 +295,13 @@ export default function ChristianLeadershipPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "_YwUS5BnS7U", title: "Advice for Leaders", channel: "Francis Chan", description: "Francis Chan offers direct, gospel-centered counsel for Christian leaders on humility, sacrifice, and serving others." },
-                  { videoId: "1R4wP4xIydU", title: "Thrones & Thorns — Week 1", channel: "Matt Chandler / The Village Church", description: "Matt Chandler examines how Jesus leveraged all power, privilege, and position for the good of humanity — the ultimate model of servant leadership." },
-                  { videoId: "X_r8IMU647g", title: "The Depth of the Gospel", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on how a deep understanding of the gospel shapes every aspect of Christian character and leadership." },
-                  { videoId: "aNacfyFwlH0", title: "Biblical Christian Worldview", channel: "John MacArthur / Francis Chan / Matt Chandler", description: "John MacArthur, Francis Chan, and Matt Chandler discuss what it means to lead with a truly biblical worldview." },
+                  { videoId: "GGCF3OPWN14", title: "Advice for Leaders", channel: "Francis Chan", description: "Francis Chan offers direct, gospel-centered counsel for Christian leaders on humility, sacrifice, and serving others." },
+                  { videoId: "t6L-F2emwUc", title: "Thrones & Thorns — Week 1", channel: "Matt Chandler / The Village Church", description: "Matt Chandler examines how Jesus leveraged all power, privilege, and position for the good of humanity — the ultimate model of servant leadership." },
+                  { videoId: "oNpTha80yyE", title: "The Depth of the Gospel", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on how a deep understanding of the gospel shapes every aspect of Christian character and leadership." },
+                  { videoId: "4Eg_di-O8nM", title: "Biblical Christian Worldview", channel: "John MacArthur / Francis Chan / Matt Chandler", description: "John MacArthur, Francis Chan, and Matt Chandler discuss what it means to lead with a truly biblical worldview." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

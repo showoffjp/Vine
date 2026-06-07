@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "parables" | "themes" | "study" | "videos";
+type Tab = "parables" | "themes" | "study" | "videos" | "journal";
 
 interface Parable {
   id: string;
@@ -155,7 +157,7 @@ const PARABLES: Parable[] = [
     ],
   },
   {
-    id: "ten-virgins",
+    id: "jH_aojNJM3E",
     title: "The Ten Virgins",
     reference: "Matthew 25:1-13",
     kingdom: true,
@@ -211,7 +213,7 @@ const PARABLE_METHODS = [
 const VOICES_PARAB = [
   { id: "jeremias-j", name: "Joachim Jeremias", era: "1900-1979", context: "The Parables of Jesus (1947) -- the landmark historical-critical study of the parables", bio: "Joachim Jeremias's The Parables of Jesus is the most influential academic treatment of the parables in the 20th century. Jeremias argued that the key to understanding the parables is recovering their Sitz im Leben (situation in life) -- the original historical context in which Jesus told them. He contended that the church had domesticated the parables, softening their eschatological urgency into moral lessons. In their original context, the parables were crisis announcements: the Kingdom of God has arrived, and it demands an immediate, total response. Jeremias's historical rigor and his reconstruction of the parables' original contexts reshaped how subsequent scholars approached the entire corpus.", quote: "The parables are not moral illustrations. They are proclamations of crisis -- announcing that the Kingdom of God has arrived and that everything depends on how you respond to it now.", contribution: "The Parables of Jesus set the agenda for parable scholarship for the second half of the 20th century. Its historical method, its attention to Aramaic background, and its eschatological reading gave subsequent scholars both a model and a point of departure. Even those who have modified Jeremias's conclusions work in the framework he established." },
   { id: "bailey-k", name: "Kenneth Bailey", era: "1930-2016", context: "Poet and Peasant (1976); The Cross and the Prodigal (1973) -- Middle Eastern cultural context for the parables", bio: "Kenneth Bailey spent forty years living in the Middle East and teaching New Testament in Beirut, Jerusalem, and Egypt. His contribution to parable interpretation was unique: he brought deep knowledge of Middle Eastern village culture -- drawn from decades of conversations with Lebanese, Egyptian, and Palestinian Christians -- to bear on the details of Jesus's parables. His reading of the Prodigal Son, for instance, shows that a son asking his father for his inheritance was, in Middle Eastern culture, equivalent to wishing his father dead -- making the father's response of running to embrace the returning son even more shocking. His cultural insights opened dimensions of the parables that historical-critical methods had missed.", quote: "The parables of Jesus must be read in the cultural world in which they were told. Every village custom, every social expectation, every breach of honor that Jesus describes had meaning for his original audience that we can only recover through deep cultural familiarity.", contribution: "Bailey's work gave preachers and scholars access to the specific cultural dynamics of Jesus's world that make the parables' reversals and shocks intelligible. His reading of the Prodigal Son, the Good Samaritan, and the Lost Sheep through Middle Eastern eyes has been adopted by preachers worldwide and has permanently changed how these parables are taught and preached." },
-  { id: "snodgrass-k", name: "Klyne Snodgrass", era: "b. 1941", context: "Stories with Intent (2008) -- the most comprehensive modern scholarly commentary on all the parables", bio: "Klyne Snodgrass's Stories with Intent: A Comprehensive Guide to the Parables of Jesus is the most thorough single-volume treatment of all the parables available to English readers. Snodgrass argues against the reduction of each parable to a single point (Julicher) and against pure allegory, seeking instead to understand the full range of intentions and meanings that Jesus encoded in each narrative. His treatment of each parable includes textual history, interpretive traditions, structural analysis, and theological application. Stories with Intent has become the standard reference for preachers, teachers, and scholars who want a comprehensive account of what the parables mean and how they have been interpreted.", quote: "Parables are stories with intent. Understanding that intent -- historical, theological, and ethical -- requires attending to every detail: who the characters are, what they do, and what the story reverses or confirms in its hearers' expectations.", contribution: "Stories with Intent is the most used scholarly reference for parable study in contemporary evangelical seminaries and biblical studies programs. Its comprehensive treatment of interpretive history, its balanced methodology, and its theological depth have made it the go-to resource for anyone engaged in serious parable study." },
+  { id: "kfcVPh2VDhQ", name: "Klyne Snodgrass", era: "b. 1941", context: "Stories with Intent (2008) -- the most comprehensive modern scholarly commentary on all the parables", bio: "Klyne Snodgrass's Stories with Intent: A Comprehensive Guide to the Parables of Jesus is the most thorough single-volume treatment of all the parables available to English readers. Snodgrass argues against the reduction of each parable to a single point (Julicher) and against pure allegory, seeking instead to understand the full range of intentions and meanings that Jesus encoded in each narrative. His treatment of each parable includes textual history, interpretive traditions, structural analysis, and theological application. Stories with Intent has become the standard reference for preachers, teachers, and scholars who want a comprehensive account of what the parables mean and how they have been interpreted.", quote: "Parables are stories with intent. Understanding that intent -- historical, theological, and ethical -- requires attending to every detail: who the characters are, what they do, and what the story reverses or confirms in its hearers' expectations.", contribution: "Stories with Intent is the most used scholarly reference for parable study in contemporary evangelical seminaries and biblical studies programs. Its comprehensive treatment of interpretive history, its balanced methodology, and its theological depth have made it the go-to resource for anyone engaged in serious parable study." },
   { id: "wright-parab", name: "N.T. Wright", era: "b. 1948", context: "Jesus and the Victory of God (1996) -- parables as enacted Kingdom proclamation", bio: "N.T. Wright's treatment of the parables in Jesus and the Victory of God (part of his Christian Origins series) reads them as the central vehicle through which Jesus was announcing the coming of the Kingdom -- not as moral illustrations or hidden codes but as direct proclamations of what God was doing in Jesus's ministry. Wright reads parables like the Prodigal Son and the Wicked Tenants as retelling Israel's story in a new key: Jesus is claiming that Israel's exile is ending, that the return from exile is happening through his ministry, and that the response to him determines who is in and who is out of the renewed people of God. This reading gives the parables their full historical and theological weight.", quote: "The parables of Jesus are not timeless moral truths dressed in peasant clothes. They are Israel's story told to its crisis point -- announcing that the God of Israel is at last acting to rescue his people, and that the rescue looks like this.", contribution: "Wright's reading of the parables through the lens of Jewish exile and return has been enormously influential in parable scholarship and preaching. His insistence on reading the parables in their full historical context -- as proclamations about what God is doing in Jesus -- has corrected both the moralistic reduction and the purely existentialist readings that had dominated 20th-century scholarship." },
   { id: "young-b", name: "Brad Young", era: "b. 1950", context: "The Parables: Jewish Tradition and Christian Interpretation (1998) -- rabbinic background to Jesus's parables", bio: "Brad Young has specialized in the Jewish background of Jesus's teaching, particularly the parables. His work draws on rabbinic parable literature (mashal) to show that Jesus was working within a well-established Jewish narrative tradition -- not inventing a new literary form but using the parable genre as his rabbinic contemporaries used it. By reading the Gospel parables alongside rabbinic parallels, Young illuminates how Jesus was both using the genre and radically reinterpreting it. His work demonstrates that the most distinctive features of Jesus's parables -- the unexpected reversals, the inclusion of social outcasts, the identification of God with unlikely characters -- were deliberately counter-cultural within the parable tradition itself.", quote: "Jesus was a Jewish teacher who used the parable as every great Jewish teacher used it -- but what he did with it was different in every parable. He turned the genre inside out to announce something unprecedented.", contribution: "Young's work on the Jewish background of the parables has given preachers and scholars access to the rabbinic literary context that makes the distinctiveness of Jesus's parables visible. By showing what Jesus shared with his contemporaries and where he departed from them, Young illuminates the radicality of Jesus's Kingdom proclamation in its own terms." },
 ];
@@ -243,7 +245,7 @@ const PARABLE_THEMES: ParableTheme[] = [
     keyTruth: "Forgiveness flows from the Father's character, not from the sinner's merit. To refuse to forgive others is to misunderstand what you have received.",
   },
   {
-    id: "stewardship",
+    id: "57LVVwba6_8",
     theme: "Stewardship",
     icon: "\u{1F4B0}",
     description: "Parables about the responsible use of gifts, resources, and opportunities entrusted to us by God.",
@@ -366,7 +368,7 @@ const PARABLE_VIDEOS: ParableVideo[] = [
     title: "The Prodigal God: The Elder Brother",
     preacher: "Tim Keller",
     description: "Keller unpacks how the elder brother&rsquo;s moralism is a second form of lostness, equally needing grace &mdash; perhaps more dangerous because it is harder to see.",
-    videoId: "OasF7lWlX_M",
+    videoId: "HGHqu9-DtXk",
     duration: "~40 min",
   },
   {
@@ -374,7 +376,7 @@ const PARABLE_VIDEOS: ParableVideo[] = [
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
     description: "A complete exposition of Luke 15 showing how Jesus redefines God, sin, and salvation through this parable &mdash; the most complete sermon on the Prodigal Son available.",
-    videoId: "lsTzXI7cJGA",
+    videoId: "E65KV3M8RZE",
     duration: "~45 min",
   },
   {
@@ -382,7 +384,7 @@ const PARABLE_VIDEOS: ParableVideo[] = [
     title: "The Supremacy of Christ and Truth",
     preacher: "Voddie Baucham",
     description: "Baucham makes the case for Christ as the only sufficient foundation for truth, knowledge, and ethics &mdash; essential context for understanding what the parables demand of us.",
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     duration: "~50 min",
   },
   {
@@ -390,7 +392,7 @@ const PARABLE_VIDEOS: ParableVideo[] = [
     title: "The Depth of the Gospel",
     preacher: "Matt Chandler",
     description: "Chandler drives to the heart of the Gospel message that undergirds every parable of grace &mdash; that God&rsquo;s love is not based on performance or merit.",
-    videoId: "X_r8IMU647g",
+    videoId: "f7RJATbobik",
     duration: "~45 min",
   },
   {
@@ -398,7 +400,7 @@ const PARABLE_VIDEOS: ParableVideo[] = [
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
     description: "Sproul&rsquo;s landmark teaching on divine holiness &mdash; the theological backdrop that makes every parable about grace and mercy intelligible and stunning.",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     duration: "~55 min",
   },
   {
@@ -406,7 +408,7 @@ const PARABLE_VIDEOS: ParableVideo[] = [
     title: "How Great Is Our God",
     preacher: "Louie Giglio",
     description: "A sweeping vision of God&rsquo;s greatness from Passion &mdash; the kind of God who speaks in parables, who runs to meet returning sons, who seeks lost sheep.",
-    videoId: "X1rPalyUshw",
+    videoId: "zUKzVFQn4Tc",
     duration: "~50 min",
   },
 ];
@@ -431,7 +433,7 @@ export default function ParablesPage() {
   const toggleSave = (id: string) => {
     setSavedIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_parables_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -440,7 +442,7 @@ export default function ParablesPage() {
   const toggleStudied = (id: string) => {
     setStudiedIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_parables_studied", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -453,6 +455,19 @@ export default function ParablesPage() {
     if (search && !p.title.toLowerCase().includes(search.toLowerCase()) && !p.theme.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
+
+  type ParablesJE = { id: string; date: string; parable: string; insight: string; applying: string };
+  const [parablesJournal, setParablesJournal] = useState<ParablesJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_parablesj_entries") ?? "[]"); } catch { return []; } });
+  const [jParable, setJParable] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_parablesj_entries", JSON.stringify(parablesJournal)); } catch {} }, [parablesJournal]);
+  function saveParablesEntry() {
+    if (!jParable.trim() && !jInsight.trim()) return;
+    setParablesJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), parable: jParable, insight: jInsight, applying: jApplying }, ...prev]);
+    setJParable(""); setJInsight(""); setJApplying("");
+  }
+  function deleteParablesEntry(id: string) { setParablesJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
@@ -479,9 +494,9 @@ export default function ParablesPage() {
 
         {/* Main 4-tab navigation */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
-          {(["parables", "themes", "study", "videos"] as const).map(t => (
+          {(["parables", "themes", "study", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
-              {t === "parables" ? "Parables" : t === "themes" ? "Themes" : t === "study" ? "Study Methods" : "Videos"}
+              {t === "parables" ? "Parables" : t === "themes" ? "Themes" : t === "study" ? "Study Methods" : t === "videos" ? "Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -709,6 +724,33 @@ export default function ParablesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Parables Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record insights from Jesus&apos; parables, questions they surface, and how they call you to live differently.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Parable</label><textarea value={jParable} onChange={e => setJParable(e.target.value)} placeholder="Which parable are you reflecting on?" rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What did this parable open up for you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this parable call you to live or think differently?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveParablesEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {parablesJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {parablesJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteParablesEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.parable && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Parable</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.parable}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -736,14 +778,7 @@ export default function ParablesPage() {
                       dangerouslySetInnerHTML={{ __html: v.description }} />
                   </div>
                   <div style={{ padding: 16 }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                   </div>
                 </div>
               ))}

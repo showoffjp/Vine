@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "implications" | "distortion" | "videos";
+type Tab = "theology" | "views" | "implications" | "distortion" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -49,7 +51,7 @@ const THEOLOGY_ITEMS = [
 
 const VIEWS = [
   {
-    id: "substantive",
+    id: "JqOqJlFF_eU",
     label: "Substantive View",
     keyClaim: "The image consists of something in humans — a quality, capacity, or attribute that resembles God. Most commonly: reason, moral conscience, spiritual awareness, language, or the capacity for self-transcendence.",
     proponents: "Augustine, Thomas Aquinas, much of the medieval tradition, and many Protestant scholastics.",
@@ -226,11 +228,26 @@ export default function ImageOfGodPage() {
 
   const currentView = VIEWS.find((v) => v.id === selectedView) ?? VIEWS[0];
 
+  const [iogEntries, setIogEntries] = useState<{ id: string; date: string; truth: string; distortion: string; implication: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_iog_entries") ?? "[]"); } catch { return []; }
+  });
+  const [iogForm, setIogForm] = useState({ truth: "", distortion: "", implication: "" });
+  const [iogSaved, setIogSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_iog_entries", JSON.stringify(iogEntries)); } catch {} }, [iogEntries]);
+  const saveIogEntry = () => {
+    if (!iogForm.truth.trim()) return;
+    setIogEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...iogForm }, ...prev]);
+    setIogForm({ truth: "", distortion: "", implication: "" });
+    setIogSaved(true); setTimeout(() => setIogSaved(false), 2000);
+  };
+  const deleteIogEntry = (id: string) => setIogEntries(prev => prev.filter(e => e.id !== id));
+
   const TABS: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of the Imago Dei" },
     { id: "views", label: "Three Views on the Imago" },
     { id: "implications", label: "Implications" },
     { id: "distortion", label: "Distortions of the Image" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -564,6 +581,53 @@ export default function ImageOfGodPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Imago Dei Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on what it means to be made in God&apos;s image, distortions you are renouncing, and implications for how you live. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>TRUTH ABOUT THE IMAGO DEI *</label>
+                <textarea value={iogForm.truth} onChange={e => setIogForm(f => ({ ...f, truth: e.target.value }))}
+                  placeholder="What specific truth about being made in God&apos;s image is most significant to you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>DISTORTION I AM RENOUNCING</label>
+                <textarea value={iogForm.distortion} onChange={e => setIogForm(f => ({ ...f, distortion: e.target.value }))}
+                  placeholder="What false view of yourself or others are you working to reject?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>IMPLICATION FOR HOW I LIVE</label>
+                <textarea value={iogForm.implication} onChange={e => setIogForm(f => ({ ...f, implication: e.target.value }))}
+                  placeholder="How should the imago Dei shape how you treat yourself and others?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveIogEntry}
+                style={{ background: iogSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {iogSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {iogEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({iogEntries.length})</h3>
+                {iogEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteIogEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.truth && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>TRUTH: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.truth}</span></div>}
+                    {entry.distortion && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>DISTORTION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.distortion}</span></div>}
+                    {entry.implication && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>IMPLICATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.implication}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -573,19 +637,13 @@ export default function ImageOfGodPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "CN96ct3vDGU", title: "Created in God's Image", channel: "John Piper / Desiring God", description: "Piper unpacks Genesis 1:26-28 — what it means that every human being is made in the image of God, and why this is the foundation of human dignity." },
-                  { videoId: "XO_grEhvezw", title: "Imago Dei", channel: "Matt Chandler", description: "Chandler preaches on Genesis 1:24-31 — the theological significance of humanity as image-bearers of God and the implications for how we see every person." },
-                  { videoId: "mhA4LsexMrQ", title: "Imago Dei: Made in the Image of God", channel: "Christian Teaching", description: "A clear theological presentation of the doctrine of the imago Dei — its biblical foundation, its historical interpretation, and its contemporary application." },
-                  { videoId: "4XwRaIuxJ_U", title: "Image of God and Christian Political Engagement", channel: "Faith & Flourishing Sermon Series", description: "How the imago Dei reshapes Christian engagement with politics and public life — seeing every person as image-bearer regardless of their view or status." },
+                  { videoId: "kOYy8iCfIJ4", title: "Created in God's Image", channel: "John Piper / Desiring God", description: "Piper unpacks Genesis 1:26-28 — what it means that every human being is made in the image of God, and why this is the foundation of human dignity." },
+                  { videoId: "qjbYnCadoGw", title: "Imago Dei", channel: "Matt Chandler", description: "Chandler preaches on Genesis 1:24-31 — the theological significance of humanity as image-bearers of God and the implications for how we see every person." },
+                  { videoId: "j9phNEaPrv8", title: "Imago Dei: Made in the Image of God", channel: "Christian Teaching", description: "A clear theological presentation of the doctrine of the imago Dei — its biblical foundation, its historical interpretation, and its contemporary application." },
+                  { videoId: "AzmYV8GNAIM", title: "Image of God and Christian Political Engagement", channel: "Faith & Flourishing Sermon Series", description: "How the imago Dei reshapes Christian engagement with politics and public life — seeing every person as image-bearer regardless of their view or status." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

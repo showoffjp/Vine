@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -53,10 +56,24 @@ const PRACTICAL_TOOLS = [
   { tool: "A Rule of Life for Work", color: "#8B5CF6", desc: "Write down a few non-negotiable commitments that govern how you work: an hour you will not work past, a Sabbath you will keep, a line you will not cross ethically, a way you will treat those with less power. Deciding in advance, in calm, protects you from compromising in the heat of pressure." },
 ];
 
-type Tab = "theology" | "hard-cases" | "voices" | "tools" | "videos";
+type Tab = "theology" | "hard-cases" | "voices" | "tools" | "journal" | "videos";
 
 export default function FaithInMarketplacePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_faith-in-marketplace_tab", "theology");
+
+  const [fimEntries, setFimEntries] = useState<{ id: string; date: string; situation: string; principle: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fim_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fimForm, setFimForm] = useState({ situation: "", principle: "", applying: "" });
+  const [fimSaved, setFimSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fim_entries", JSON.stringify(fimEntries)); }, [fimEntries]);
+  function saveFimEntry() {
+    if (!fimForm.situation.trim()) return;
+    setFimEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fimForm }, ...prev]);
+    setFimForm({ situation: "", principle: "", applying: "" });
+    setFimSaved(true); setTimeout(() => setFimSaved(false), 2000);
+  }
+  function deleteFimEntry(id: string) { setFimEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
@@ -81,6 +98,7 @@ export default function FaithInMarketplacePage() {
             { id: "hard-cases" as const, label: "Hard Cases", icon: "⚖️" },
             { id: "voices" as const, label: "Key Voices", icon: "🗣️" },
             { id: "tools" as const, label: "Practical Tools", icon: "🔧" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -155,6 +173,54 @@ export default function FaithInMarketplacePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Faith in the Marketplace Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on how your faith is shaping your work — the situations you face, the principles guiding you, and how you are applying your theology Monday through Friday. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>SITUATION I AM NAVIGATING AT WORK *</label>
+                <textarea value={fimForm.situation} onChange={e => setFimForm(f => ({ ...f, situation: e.target.value }))}
+                  placeholder="What specific situation at work (ethical, relational, vocational) are you navigating?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>BIBLICAL PRINCIPLE GUIDING ME</label>
+                <textarea value={fimForm.principle} onChange={e => setFimForm(f => ({ ...f, principle: e.target.value }))}
+                  placeholder="What theology of work, calling, or Scripture is guiding your response?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING IT</label>
+                <textarea value={fimForm.applying} onChange={e => setFimForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What concrete step are you taking to live your faith in this situation?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFimEntry}
+                style={{ background: fimSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {fimSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fimEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fimEntries.length})</h3>
+                {fimEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFimEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.situation && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>SITUATION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.situation}</span></div>}
+                    {entry.principle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>PRINCIPLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.principle}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
@@ -162,16 +228,14 @@ export default function FaithInMarketplacePage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
               {[
-                { title: "Tim Keller — Every Good Endeavor", id: "OEHQ3jH5YZA", desc: "Keller on the theology of work and cultural renewal" },
-                { title: "Os Guinness — The Call to Faithfulness", id: "BjGHhzZGWHE", desc: "Guinness on vocation, identity, and life calling" },
-                { title: "Dorothy Sayers on Work & Vocation", id: "w1qSfkiRuQk", desc: "Why excellence in work is a Christian calling" },
-                { title: "Faith & Work in the Real World", id: "ZtmD-fEEH-0", desc: "Business leaders on faith, ethics, and mission" },
+                { title: "Tim Keller — Every Good Endeavor", id: "bxzuh5Xx5G4", desc: "Keller on the theology of work and cultural renewal" },
+                { title: "Os Guinness — The Call to Faithfulness", id: "KwX1f2gYKZ4", desc: "Guinness on vocation, identity, and life calling" },
+                { title: "Dorothy Sayers on Work & Vocation", id: "YNd-PbVhnvA", desc: "Why excellence in work is a Christian calling" },
+                { title: "Faith & Work in the Real World", id: "XtwIT8JjddM", desc: "Business leaders on faith, ethics, and mission" },
               ].map((v, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", background: "#000" }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: 14 }}>
                     <div style={{ fontWeight: 700, fontSize: 14, color: TEXT, marginBottom: 4 }}>{v.title}</div>

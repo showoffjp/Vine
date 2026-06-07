@@ -503,8 +503,19 @@ export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signup");
   const [bannerVisible, setBannerVisible] = useState(true);
-  const [user, setUser] = useState<VineUser | null>(null);
-  const [hasUnread, setHasUnread] = useState(true);
+  const [user, setUser] = useState<VineUser | null>(() => {
+    if (typeof window === "undefined") return null;
+    const stored = localStorage.getItem("vine_user");
+    if (!stored) return null;
+    try { return JSON.parse(stored); } catch { return null; }
+  });
+  const [hasUnread, setHasUnread] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    try {
+      const readSet: number[] = JSON.parse(localStorage.getItem("vine_notif_read") || "[]");
+      return readSet.length < 20;
+    } catch { return true; }
+  });
   const [allRead, setAllRead] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -523,18 +534,6 @@ export default function Navbar() {
 
   useEffect(() => {
     return () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
-  }, []);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("vine_user");
-    if (stored) {
-      try { setUser(JSON.parse(stored)); } catch { /* ignore */ }
-    }
-    try {
-      const readSet: number[] = JSON.parse(localStorage.getItem("vine_notif_read") || "[]");
-      const totalNotifs = 20;
-      setHasUnread(readSet.length < totalNotifs);
-    } catch { setHasUnread(true); }
   }, []);
 
   const handleSignOut = () => {
@@ -762,23 +761,23 @@ export default function Navbar() {
                                 {section.title}
                               </div>
                               {section.items.map((item) => (
-                                <a
+                                <Link
                                   key={item.label}
                                   href={item.href}
                                   aria-current={pathname === item.href ? "page" : undefined}
                                   className="flex items-center px-4 py-1.5 text-sm transition-colors"
-                                  style={{ color: pathname === item.href ? "#3a7d56" : "#8A8AA8" }}
+                                  style={{ color: pathname === item.href ? "#3a7d56" : "#8A8AA8", textDecoration: "none" }}
                                   onMouseEnter={(e) => {
-                                    e.currentTarget.style.color = "#F2F2F8";
-                                    e.currentTarget.style.background = "rgba(58,125,86,0.06)";
+                                    (e.currentTarget as HTMLAnchorElement).style.color = "#F2F2F8";
+                                    (e.currentTarget as HTMLAnchorElement).style.background = "rgba(58,125,86,0.06)";
                                   }}
                                   onMouseLeave={(e) => {
-                                    e.currentTarget.style.color = pathname === item.href ? "#3a7d56" : "#8A8AA8";
-                                    e.currentTarget.style.background = "transparent";
+                                    (e.currentTarget as HTMLAnchorElement).style.color = pathname === item.href ? "#3a7d56" : "#8A8AA8";
+                                    (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
                                   }}
                                 >
                                   {item.label}
-                                </a>
+                                </Link>
                               ))}
                             </div>
                           ))}
@@ -803,22 +802,22 @@ export default function Navbar() {
                               {section.title}
                             </div>
                             {section.items.map((item) => (
-                              <a
+                              <Link
                                 key={item.label}
                                 href={item.href}
                                 className="flex items-center px-4 py-2 text-sm transition-colors"
-                                style={{ color: "#8A8AA8" }}
+                                style={{ color: "#8A8AA8", textDecoration: "none" }}
                                 onMouseEnter={(e) => {
-                                  e.currentTarget.style.color = "#F2F2F8";
-                                  e.currentTarget.style.background = "rgba(58,125,86,0.06)";
+                                  (e.currentTarget as HTMLAnchorElement).style.color = "#F2F2F8";
+                                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(58,125,86,0.06)";
                                 }}
                                 onMouseLeave={(e) => {
-                                  e.currentTarget.style.color = "#8A8AA8";
-                                  e.currentTarget.style.background = "transparent";
+                                  (e.currentTarget as HTMLAnchorElement).style.color = "#8A8AA8";
+                                  (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
                                 }}
                               >
                                 {item.label}
-                              </a>
+                              </Link>
                             ))}
                           </div>
                         ))
@@ -891,10 +890,11 @@ export default function Navbar() {
                     ].map((raw, i) => {
                       const n = { ...raw, unread: raw.unread && !allRead };
                       return (
-                      <div
+                      <Link
                         key={i}
+                        href="/notifications"
                         className="flex items-start gap-3 px-4 py-3 cursor-pointer"
-                        style={{ background: n.unread ? "rgba(58,125,86,0.03)" : "transparent" }}
+                        style={{ background: n.unread ? "rgba(58,125,86,0.03)" : "transparent", textDecoration: "none" }}
                         onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
                         onMouseLeave={(e) => (e.currentTarget.style.background = n.unread ? "rgba(58,125,86,0.03)" : "transparent")}
                       >
@@ -904,7 +904,7 @@ export default function Navbar() {
                           <p className="text-xs mt-0.5" style={{ color: "#4A4A68" }}>{n.time}</p>
                         </div>
                         {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#3a7d56" }} />}
-                      </div>
+                      </Link>
                       );
                     })}
                     <div className="px-4 py-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
@@ -1025,16 +1025,16 @@ export default function Navbar() {
                             {section.title}
                           </div>
                           {section.items.map((item) => (
-                            <a
+                            <Link
                               key={item.label}
                               href={item.href}
                               aria-current={pathname === item.href ? "page" : undefined}
                               className="block px-2 py-1.5 text-sm rounded"
-                              style={{ color: pathname === item.href ? "#3a7d56" : "#6A6A88" }}
+                              style={{ color: pathname === item.href ? "#3a7d56" : "#6A6A88", textDecoration: "none" }}
                               onClick={() => setMobileOpen(false)}
                             >
                               {item.label}
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       ))}

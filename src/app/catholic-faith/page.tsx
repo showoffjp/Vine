@@ -2,7 +2,10 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,10 +16,24 @@ const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 const GOLD = "#C9A227";
 
-type Tab = "overview" | "theology" | "tradition" | "saints" | "dialogue" | "videos";
+type Tab = "overview" | "theology" | "tradition" | "saints" | "dialogue" | "journal" | "videos";
 
 export default function CatholicFaithPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_catholic-faith_tab", "overview");
+
+  const [cfEntries, setCfEntries] = useState<{ id: string; date: string; topic: string; agree: string; differ: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cf_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfForm, setCfForm] = useState({ topic: "", agree: "", differ: "" });
+  const [cfSaved, setCfSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cf_entries", JSON.stringify(cfEntries)); }, [cfEntries]);
+  function saveCfEntry() {
+    if (!cfForm.topic.trim()) return;
+    setCfEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfForm }, ...prev]);
+    setCfForm({ topic: "", agree: "", differ: "" });
+    setCfSaved(true); setTimeout(() => setCfSaved(false), 2000);
+  }
+  function deleteCfEntry(id: string) { setCfEntries(prev => prev.filter(e => e.id !== id)); }
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: "overview", label: "Overview", icon: "✝️" },
@@ -24,6 +41,7 @@ export default function CatholicFaithPage() {
     { id: "tradition", label: "Tradition", icon: "🏛️" },
     { id: "saints", label: "Saints", icon: "⭐" },
     { id: "dialogue", label: "Ecumenism", icon: "🤝" },
+    { id: "journal", label: "My Journal", icon: "📓" },
     { id: "videos", label: "Videos", icon: "🎬" },
   ];
 
@@ -364,6 +382,50 @@ export default function CatholicFaithPage() {
         )}
 
         {/* VIDEOS */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Catholic Faith Reflection Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on Catholic theology — what you appreciate, where you differ, and what questions you are carrying.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Topic I am reflecting on</label>
+                <input value={cfForm.topic} onChange={e => setCfForm(f => ({ ...f, topic: e.target.value }))} placeholder="e.g. Mary, purgatory, saints, tradition, sacraments..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I appreciate or agree with</label>
+                <textarea value={cfForm.agree} onChange={e => setCfForm(f => ({ ...f, agree: e.target.value }))} rows={3} placeholder="Where does the Catholic tradition enrich your faith?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Where I differ or have questions</label>
+                <textarea value={cfForm.differ} onChange={e => setCfForm(f => ({ ...f, differ: e.target.value }))} rows={2} placeholder="Points of genuine disagreement or open questions..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cfEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({cfEntries.length})</h3>
+                {cfEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${GOLD}20`, color: GOLD, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.topic}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteCfEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.agree && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Appreciate:</strong> {e.agree}</p>}
+                    {e.differ && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Differ:</strong> {e.differ}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -373,20 +435,14 @@ export default function CatholicFaithPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "HV3M0SQEZFE", title: "Why Be Catholic? — Bishop Robert Barron", channel: "Word on Fire", description: "Bishop Barron makes the compelling intellectual and spiritual case for Catholicism — beautiful, true, and good." },
-                  { videoId: "jNpJDFd0-sw", title: "The Real Presence of Christ in the Eucharist", channel: "Bishop Barron", description: "A profound explanation of the Catholic doctrine of transubstantiation and why Christ meant what He said in John 6." },
-                  { videoId: "O7b2F6e6_EU", title: "Proof of Heaven: The Catholic Near-Death Experience", channel: "Catholic Answers", description: "Fr. Spitzer on consciousness, quantum physics, and the evidence for God's existence from modern science." },
-                  { videoId: "1M0PFbDSy0s", title: "The Truth About Purgatory", channel: "Catholic Answers Live", description: "Jimmy Akin answers the most common Protestant objections to the doctrine of purgatory from Scripture and history." },
-                  { videoId: "v8IfZjN4kTU", title: "Mary: Do Catholics Worship Her?", channel: "Word on Fire", description: "Bishop Barron explains the distinction between latria (worship, for God alone) and dulia/hyperdulia (veneration, for saints and Mary)." },
+                  { videoId: "iK0NjiBXKN4", title: "Why Be Catholic? — Bishop Robert Barron", channel: "Word on Fire", description: "Bishop Barron makes the compelling intellectual and spiritual case for Catholicism — beautiful, true, and good." },
+                  { videoId: "zMbUXpFiFeo", title: "The Real Presence of Christ in the Eucharist", channel: "Bishop Barron", description: "A profound explanation of the Catholic doctrine of transubstantiation and why Christ meant what He said in John 6." },
+                  { videoId: "52ZXFH1wzc8", title: "Proof of Heaven: The Catholic Near-Death Experience", channel: "Catholic Answers", description: "Fr. Spitzer on consciousness, quantum physics, and the evidence for God's existence from modern science." },
+                  { videoId: "rtkS_8VWfB0", title: "The Truth About Purgatory", channel: "Catholic Answers Live", description: "Jimmy Akin answers the most common Protestant objections to the doctrine of purgatory from Scripture and history." },
+                  { videoId: "npEDqbE6faE", title: "Mary: Do Catholics Worship Her?", channel: "Word on Fire", description: "Bishop Barron explains the distinction between latria (worship, for God alone) and dulia/hyperdulia (veneration, for saints and Mary)." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: GOLD, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

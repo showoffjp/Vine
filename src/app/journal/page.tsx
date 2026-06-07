@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { BookOpen, Plus, Search, Tag, Calendar, ChevronRight, X, Save, Sparkles } from "lucide-react";
+import { BookOpen, Plus, Search, Tag, Calendar, ChevronRight, X, Save, Sparkles, Pencil, Trash2 } from "lucide-react";
 
 interface JournalEntry {
   id: number;
@@ -121,8 +121,8 @@ export default function JournalPage() {
     tags: [] as string[],
     mood: "",
   });
-  const [tagInput, setTagInput] = useState("");
   const [saved, setSaved] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const filteredEntries = entries.filter((e) => {
     const matchSearch = !search || e.title.toLowerCase().includes(search.toLowerCase()) || e.body.toLowerCase().includes(search.toLowerCase()) || e.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
@@ -151,7 +151,6 @@ export default function JournalPage() {
     if (tag && !newEntry.tags.includes(tag)) {
       setNewEntry((prev) => ({ ...prev, tags: [...prev.tags, tag] }));
     }
-    setTagInput("");
   };
 
   const removeTag = (tag: string) => {
@@ -164,20 +163,42 @@ export default function JournalPage() {
     } catch {}
   }, [entries]);
 
+  const cancelCompose = () => {
+    setComposing(false);
+    setEditingId(null);
+    setNewEntry({ title: "", body: "", verse: "", verseRef: "", tags: [], mood: "" });
+  };
+
+  const startEdit = (entry: JournalEntry) => {
+    setEditingId(entry.id);
+    setNewEntry({ title: entry.title, body: entry.body, verse: entry.verse, verseRef: entry.verseRef, tags: [...entry.tags], mood: entry.mood });
+    setSelectedEntry(null);
+    setComposing(true);
+  };
+
+  const deleteEntry = (id: number) => {
+    setEntries((prev) => prev.filter((e) => e.id !== id));
+    setSelectedEntry(null);
+  };
+
   const handleSave = () => {
     if (!newEntry.title.trim() || !newEntry.body.trim()) return;
-    const entry: JournalEntry = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
-      title: newEntry.title,
-      body: newEntry.body,
-      verse: newEntry.verse,
-      verseRef: newEntry.verseRef,
-      tags: newEntry.tags,
-      mood: newEntry.mood || "Reflective",
-    };
-    setEntries((prev) => [entry, ...prev]);
+    if (editingId !== null) {
+      setEntries((prev) => prev.map((e) => e.id === editingId ? {
+        ...e, title: newEntry.title, body: newEntry.body, verse: newEntry.verse,
+        verseRef: newEntry.verseRef, tags: newEntry.tags, mood: newEntry.mood || e.mood,
+      } : e));
+    } else {
+      const entry: JournalEntry = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+        title: newEntry.title, body: newEntry.body, verse: newEntry.verse,
+        verseRef: newEntry.verseRef, tags: newEntry.tags, mood: newEntry.mood || "Reflective",
+      };
+      setEntries((prev) => [entry, ...prev]);
+    }
     setNewEntry({ title: "", body: "", verse: "", verseRef: "", tags: [], mood: "" });
+    setEditingId(null);
     setSaved(true);
     setTimeout(() => { setSaved(false); setComposing(false); }, 1500);
   };
@@ -199,7 +220,7 @@ export default function JournalPage() {
               <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>{entries.length} entries · Private to you</p>
             </div>
             <button type="button"
-              onClick={() => { setComposing(true); setSelectedEntry(null); }}
+              onClick={() => { setEditingId(null); setNewEntry({ title: "", body: "", verse: "", verseRef: "", tags: [], mood: "" }); setSelectedEntry(null); setComposing(true); }}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
             >
@@ -264,8 +285,8 @@ export default function JournalPage() {
               {composing && (
                 <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-black text-base" style={{ color: "#F2F2F8" }}>New Entry</h2>
-                    <button type="button" onClick={() => setComposing(false)} style={{ color: "#4A4A68" }}>
+                    <h2 className="font-black text-base" style={{ color: "#F2F2F8" }}>{editingId ? "Edit Entry" : "New Entry"}</h2>
+                    <button type="button" onClick={cancelCompose} style={{ color: "#4A4A68" }}>
                       <X size={16} />
                     </button>
                   </div>
@@ -341,7 +362,7 @@ export default function JournalPage() {
 
                   <div className="flex gap-3 justify-end">
                     <button type="button"
-                      onClick={() => setComposing(false)}
+                      onClick={cancelCompose}
                       className="px-4 py-2 rounded-xl text-xs font-semibold"
                       style={{ color: "#6A6A88" }}
                     >
@@ -376,9 +397,21 @@ export default function JournalPage() {
                       </div>
                       <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>{selectedEntry.title}</h2>
                     </div>
-                    <button type="button" onClick={() => setSelectedEntry(null)} style={{ color: "#4A4A68" }}>
-                      <X size={16} />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button type="button" onClick={() => startEdit(selectedEntry)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold"
+                        style={{ background: "rgba(107,79,187,0.1)", color: "#6B4FBB", border: "1px solid rgba(107,79,187,0.25)" }}>
+                        <Pencil size={11} /> Edit
+                      </button>
+                      <button type="button" onClick={() => deleteEntry(selectedEntry.id)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold"
+                        style={{ background: "rgba(239,68,68,0.08)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }}>
+                        <Trash2 size={11} /> Delete
+                      </button>
+                      <button type="button" onClick={() => setSelectedEntry(null)} style={{ color: "#4A4A68" }}>
+                        <X size={16} />
+                      </button>
+                    </div>
                   </div>
                   <p className="text-sm leading-relaxed mb-5 whitespace-pre-line" style={{ color: "#C0C0D8", lineHeight: "1.85" }}>
                     {selectedEntry.body}
@@ -431,7 +464,17 @@ export default function JournalPage() {
                             {entry.body.split("\n")[0]}
                           </p>
                         </div>
-                        <ChevronRight size={16} className="ml-3 mt-1 shrink-0" style={{ color: "#4A4A68" }} />
+                        <div className="flex items-center gap-1 ml-3 mt-0.5 shrink-0">
+                        <button type="button" onClick={(ev) => { ev.stopPropagation(); deleteEntry(entry.id); }}
+                          className="p-1 rounded transition-all"
+                          style={{ color: "#3A3A58" }}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = "#3A3A58")}
+                          aria-label="Delete entry">
+                          <Trash2 size={12} />
+                        </button>
+                        <ChevronRight size={16} style={{ color: "#4A4A68" }} />
+                      </div>
                       </div>
                       {entry.verseRef && (
                         <div className="flex items-center gap-1.5 mt-3 text-xs" style={{ color: "#4A4A68" }}>

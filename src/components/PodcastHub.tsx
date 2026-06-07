@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Play, Pause, SkipForward, SkipBack, Volume2, ArrowRight, Headphones } from "lucide-react";
 
 const PODCASTS = [
@@ -134,7 +135,7 @@ export default function PodcastHub() {
               <em style={{ fontStyle: "italic", color: "#e8c162" }}> Audio.</em>
             </h2>
           </div>
-          <a
+          <Link
             href="/top-christian-podcasts"
             style={{
               display: "flex",
@@ -150,7 +151,7 @@ export default function PodcastHub() {
             }}
           >
             All Podcasts <ArrowRight size={14} />
-          </a>
+          </Link>
         </div>
 
         {/* Podcast grid */}
@@ -165,6 +166,7 @@ export default function PodcastHub() {
           {PODCASTS.map((pod) => (
             <div
               key={pod.name}
+              onClick={() => playPodcast(pod)}
               style={{
                 background: "#0a1a0e",
                 border: "0.5px solid rgba(201,162,39,0.13)",
@@ -247,7 +249,7 @@ export default function PodcastHub() {
                   Latest: {pod.latest}
                 </p>
                 <button
-                  onClick={() => playPodcast(pod)}
+                  onClick={(e) => { e.stopPropagation(); playPodcast(pod); }}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",

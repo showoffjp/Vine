@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -46,7 +49,7 @@ const HEALTH_MARKS = [
 
 const TRADITIONS = [
   {
-    id: "earlychurch",
+    id: "mC-zw0zCCtg",
     name: "Early Church Covenants",
     era: "1st-3rd centuries",
     color: GREEN,
@@ -92,11 +95,25 @@ const TRADITIONS = [
   },
 ];
 
-type Tab = "why" | "objections" | "traditions" | "how" | "videos";
+type Tab = "why" | "objections" | "traditions" | "how" | "journal" | "videos";
 
 export default function ChurchMembershipPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_church-membership_tab", "why");
   const [selectedTradition, setSelectedTradition] = usePersistedState("vine_church-membership_selected_tradition", "earlychurch");
+
+  const [cmemEntries, setCmemEntries] = useState<{ id: string; date: string; church: string; objection: string; step: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmem_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmemForm, setCmemForm] = useState({ church: "", objection: "", step: "" });
+  const [cmemSaved, setCmemSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmem_entries", JSON.stringify(cmemEntries)); }, [cmemEntries]);
+  function saveCmemEntry() {
+    if (!cmemForm.church.trim()) return;
+    setCmemEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmemForm }, ...prev]);
+    setCmemForm({ church: "", objection: "", step: "" });
+    setCmemSaved(true); setTimeout(() => setCmemSaved(false), 2000);
+  }
+  function deleteCmemEntry(id: string) { setCmemEntries(prev => prev.filter(e => e.id !== id)); }
 
   const trad = TRADITIONS.find(t => t.id === selectedTradition)!;
 
@@ -119,6 +136,7 @@ export default function ChurchMembershipPage() {
             { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "traditions" as const, label: "Traditions", icon: "🏛️" },
             { id: "how" as const, label: "How to Join", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -212,6 +230,53 @@ export default function ChurchMembershipPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Membership Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your journey toward or within church membership. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What church are you part of or considering?</label>
+                <textarea value={cmemForm.church} onChange={e => setCmemForm(f => ({ ...f, church: e.target.value }))}
+                  placeholder="Church name, tradition, what draws you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What objection or hesitation are you wrestling with?</label>
+                <textarea value={cmemForm.objection} onChange={e => setCmemForm(f => ({ ...f, objection: e.target.value }))}
+                  placeholder="Fear of commitment, past hurt, theological questions..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What next step are you taking?</label>
+                <textarea value={cmemForm.step} onChange={e => setCmemForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="Visiting, meeting with a pastor, joining a small group..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmemEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmemSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cmemEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cmemEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCmemEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.church && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>CHURCH </span><span style={{ color: TEXT, fontSize: 14 }}>{e.church}</span></div>}
+                    {e.objection && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>OBJECTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.objection}</span></div>}
+                    {e.step && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>NEXT STEP </span><span style={{ color: TEXT, fontSize: 14 }}>{e.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -221,19 +286,13 @@ export default function ChurchMembershipPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "KJURQdESrYg", title: "Why Church Membership Matters", channel: "Voddie Baucham", description: "Voddie Baucham makes the biblical case for why church membership is not optional for the Christian — it is the visible expression of the covenant community." },
-                  { videoId: "z-N2NdONTnU", title: "What Is Church Membership? (Interview)", channel: "9Marks / Mark Dever", description: "Mark Dever explains what church membership is, why it matters, and how a commitment to a local body shapes the whole Christian life." },
-                  { videoId: "tiXxuFjFP2w", title: "Regenerate Church Membership", channel: "Voddie Baucham / The Sword and Trowel", description: "A discussion on the biblical doctrine of regenerate church membership — the conviction that church rolls should reflect genuinely converted believers." },
-                  { videoId: "z-ctgTawSDE", title: "What Is Church Membership? (Part 2)", channel: "9Marks / Mark Dever", description: "Continuing the conversation on what it means to be meaningfully committed to a local church, with practical implications for how we structure membership." },
+                  { videoId: "7_CGP-12AE0", title: "Why Church Membership Matters", channel: "Voddie Baucham", description: "Voddie Baucham makes the biblical case for why church membership is not optional for the Christian — it is the visible expression of the covenant community." },
+                  { videoId: "OqwbFGoRYVo", title: "What Is Church Membership? (Interview)", channel: "9Marks / Mark Dever", description: "Mark Dever explains what church membership is, why it matters, and how a commitment to a local body shapes the whole Christian life." },
+                  { videoId: "gV9JugO_5Mk", title: "Regenerate Church Membership", channel: "Voddie Baucham / The Sword and Trowel", description: "A discussion on the biblical doctrine of regenerate church membership — the conviction that church rolls should reflect genuinely converted believers." },
+                  { videoId: "ej_6dVdJSIU", title: "What Is Church Membership? (Part 2)", channel: "9Marks / Mark Dever", description: "Continuing the conversation on what it means to be meaningfully committed to a local church, with practical implications for how we structure membership." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

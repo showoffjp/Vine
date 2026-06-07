@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "joni" | "practical" | "resources" | "videos";
+type Tab = "theology" | "joni" | "practical" | "resources" | "journal" | "videos";
 
 type AccordionItem = {
   title: string;
@@ -170,6 +172,20 @@ const resourceColors = [GREEN, PURPLE, "#3B82F6", "#F59E0B", "#10B981", "#EC4899
 
 export default function DisabilityMinistryPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_disability-ministry_tab", "theology");
+  const [dmEntries, setDmEntries] = useState<{ id: string; date: string; barrier: string; practice: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_dm_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [dmForm, setDmForm] = useState({ barrier: "", practice: "", prayer: "" });
+  const [dmSaved, setDmSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_dm_entries", JSON.stringify(dmEntries)); }, [dmEntries]);
+  function saveDmEntry() {
+    if (!dmForm.barrier.trim()) return;
+    setDmEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...dmForm }, ...prev]);
+    setDmForm({ barrier: "", practice: "", prayer: "" });
+    setDmSaved(true); setTimeout(() => setDmSaved(false), 2000);
+  }
+  function deleteDmEntry(id: string) { setDmEntries(prev => prev.filter(e => e.id !== id)); }
+
   const [openTheology, setOpenTheology] = useState<number | null>(null);
   const [openPractical, setOpenPractical] = useState<number | null>(null);
   const [selectedJoni, setSelectedJoni] = usePersistedState<string>("vine_disability-ministry_selected_joni", "story");
@@ -181,6 +197,7 @@ export default function DisabilityMinistryPage() {
     { id: "joni", label: "Joni Eareckson Tada" },
     { id: "practical", label: "Practical Guide" },
     { id: "resources", label: "Resources" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -505,6 +522,54 @@ export default function DisabilityMinistryPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Disability Ministry Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on barriers in your church, practices you are implementing, and prayers for people with disabilities in your community. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>BARRIER I AM ADDRESSING *</label>
+                <textarea value={dmForm.barrier} onChange={e => setDmForm(f => ({ ...f, barrier: e.target.value }))}
+                  placeholder="What barrier to inclusion (physical, relational, cultural) are you working to address?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE I AM IMPLEMENTING</label>
+                <textarea value={dmForm.practice} onChange={e => setDmForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What specific inclusive practice are you putting in place in your church or community?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRAYER FOR SOMEONE WITH A DISABILITY</label>
+                <textarea value={dmForm.prayer} onChange={e => setDmForm(f => ({ ...f, prayer: e.target.value }))}
+                  placeholder="Who are you praying for? What is your prayer for them and for your community?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveDmEntry}
+                style={{ background: dmSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {dmSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {dmEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({dmEntries.length})</h3>
+                {dmEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteDmEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.barrier && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>BARRIER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.barrier}</span></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                    {entry.prayer && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>PRAYER: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.prayer}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -514,19 +579,13 @@ export default function DisabilityMinistryPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "bUVv8YVE5Rk", title: "Disability Ministry: Life and Lessons Learned", channel: "Joni Eareckson Tada", description: "Joni Eareckson Tada gives her vision for disability ministry and shares life lessons learned through decades of living with quadriplegia and ministering to people with disabilities." },
-                  { videoId: "lw5dA-K97qc", title: "Why You Should Start a Disability Ministry", channel: "Joni Eareckson Tada / Joni and Friends", description: "Joni Eareckson Tada makes the compelling biblical and practical case for why every local church should have an intentional disability ministry." },
-                  { videoId: "6paYQ8Gdd28", title: "The Indispensable Church", channel: "Joni Eareckson Tada", description: "Joni encourages believers toward a deeper trust in the church as the community where people with disabilities belong and are truly needed." },
-                  { videoId: "zgvxOeoTrm4", title: "Beyond Suffering: A Christian View on Disability Ministry", channel: "Joni and Friends", description: "An introduction to the curriculum for studying disability ministry from a biblical perspective — suffering, the body of Christ, and the call to welcome all people." },
+                  { videoId: "ej_6dVdJSIU", title: "Disability Ministry: Life and Lessons Learned", channel: "Joni Eareckson Tada", description: "Joni Eareckson Tada gives her vision for disability ministry and shares life lessons learned through decades of living with quadriplegia and ministering to people with disabilities." },
+                  { videoId: "GQI72THyO5I", title: "Why You Should Start a Disability Ministry", channel: "Joni Eareckson Tada / Joni and Friends", description: "Joni Eareckson Tada makes the compelling biblical and practical case for why every local church should have an intentional disability ministry." },
+                  { videoId: "krxcqH522uo", title: "The Indispensable Church", channel: "Joni Eareckson Tada", description: "Joni encourages believers toward a deeper trust in the church as the community where people with disabilities belong and are truly needed." },
+                  { videoId: "nQWFzMvCfLE", title: "Beyond Suffering: A Christian View on Disability Ministry", channel: "Joni and Friends", description: "An introduction to the curriculum for studying disability ministry from a biblical perspective — suffering, the body of Christ, and the call to welcome all people." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

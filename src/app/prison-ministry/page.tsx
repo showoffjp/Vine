@@ -1,8 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "howto" | "orgs" | "reentry" | "videos";
+type Tab = "theology" | "howto" | "orgs" | "reentry" | "journal" | "videos";
 
 const STATS = [
   { value: "2.3 million", label: "incarcerated in the U.S." },
@@ -144,10 +146,10 @@ const REENTRY_ITEMS = [
 ];
 
 const PRISON_VIDEOS = [
-  { videoId: "Hr3PkGXYRvI", title: "Prison Ministry: Called to Visit", channel: "The Gospel Coalition", description: "Matthew 25:36 — 'I was in prison and you came to visit me.' A biblical call to prison ministry and what faithful presence looks like." },
-  { videoId: "ACZbpLkY8To", title: "Chuck Colson and Prison Fellowship", channel: "Prison Fellowship", description: "The founding vision of Prison Fellowship — how Chuck Colson's conversion transformed his life and led to a global prison ministry movement." },
-  { videoId: "KbFKcFxqVlo", title: "The Gospel Behind Bars", channel: "Desiring God", description: "Stories of transformation from prison ministry — how the gospel reaches the incarcerated and produces radical life change." },
-  { videoId: "Z8lkuuhVkOI", title: "Restorative Justice and the Church", channel: "Ligonier Ministries", description: "How the biblical vision of justice — restoration, not just punishment — shapes Christian approaches to criminal justice and prison ministry." },
+  { videoId: "jdo56fmajx8", title: "Prison Ministry: Called to Visit", channel: "The Gospel Coalition", description: "Matthew 25:36 — 'I was in prison and you came to visit me.' A biblical call to prison ministry and what faithful presence looks like." },
+  { videoId: "ej_6dVdJSIU", title: "Chuck Colson and Prison Fellowship", channel: "Prison Fellowship", description: "The founding vision of Prison Fellowship — how Chuck Colson's conversion transformed his life and led to a global prison ministry movement." },
+  { videoId: "rtkS_8VWfB0", title: "The Gospel Behind Bars", channel: "Desiring God", description: "Stories of transformation from prison ministry — how the gospel reaches the incarcerated and produces radical life change." },
+  { videoId: "gV9JugO_5Mk", title: "Restorative Justice and the Church", channel: "Ligonier Ministries", description: "How the biblical vision of justice — restoration, not just punishment — shapes Christian approaches to criminal justice and prison ministry." },
 ];
 
 export default function PrisonMinistryPage() {
@@ -155,11 +157,27 @@ export default function PrisonMinistryPage() {
   const [expandedTheology, setExpandedTheology] = useState<number | null>(null);
   const [expandedReentry, setExpandedReentry] = useState<number | null>(null);
 
+  const [pmJEntries, setPmJEntries] = useState<{ id: string; date: string; calling: string; action: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_pmj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [pmJForm, setPmJForm] = useState({ calling: "", action: "", step: "" });
+  const [pmJSaved, setPmJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_pmj_entries", JSON.stringify(pmJEntries)); } catch {} }, [pmJEntries]);
+  const savePmJEntry = () => {
+    if (!pmJForm.calling.trim()) return;
+    setPmJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...pmJForm }, ...prev]);
+    setPmJForm({ calling: "", action: "", step: "" });
+    setPmJSaved(true);
+    setTimeout(() => setPmJSaved(false), 2000);
+  };
+  const deletePmJEntry = (id: string) => setPmJEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology" },
     { id: "howto", label: "How to Get Involved" },
     { id: "orgs", label: "Organizations" },
     { id: "reentry", label: "Reentry" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -593,13 +611,56 @@ export default function PrisonMinistryPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Prison Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record your sense of calling, the action you took or witnessed, and the next step you will take.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>My calling or burden</label>
+                  <textarea rows={2} value={pmJForm.calling} onChange={e => setPmJForm(f => ({ ...f, calling: e.target.value }))} placeholder="What draws you to this ministry? Who are you called to serve?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Action taken or observed</label>
+                  <textarea rows={2} value={pmJForm.action} onChange={e => setPmJForm(f => ({ ...f, action: e.target.value }))} placeholder="What have you done or seen God do in this area?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Next step I will take</label>
+                  <textarea rows={2} value={pmJForm.step} onChange={e => setPmJForm(f => ({ ...f, step: e.target.value }))} placeholder="What concrete action will you take this week?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePmJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {pmJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {pmJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {pmJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePmJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.calling && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Calling</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.calling}</p></div>}
+                    {e.action && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Action</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.action}</p></div>}
+                    {e.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Tab 5 — Videos */}
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {PRISON_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

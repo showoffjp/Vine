@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -112,7 +115,7 @@ const PHRASES: Phrase[] = [
   },
 ];
 
-type Tab = "overview" | "phrase" | "howto" | "videos";
+type Tab = "overview" | "phrase" | "howto" | "journal" | "videos";
 
 const HOWTO = [
   {
@@ -153,6 +156,20 @@ export default function LordsPrayerPage() {
 
   const phrase = PHRASES.find((p) => p.id === selected)!;
 
+  const [lpEntries, setLpEntries] = useState<{ id: string; date: string; phrase: string; received: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_lp_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [lpForm, setLpForm] = useState({ phrase: "Our Father", received: "", prayer: "" });
+  const [lpSaved, setLpSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_lp_entries", JSON.stringify(lpEntries)); }, [lpEntries]);
+  function saveLpEntry() {
+    if (!lpForm.received.trim() && !lpForm.prayer.trim()) return;
+    setLpEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...lpForm }, ...prev]);
+    setLpForm({ phrase: "Our Father", received: "", prayer: "" });
+    setLpSaved(true); setTimeout(() => setLpSaved(false), 2000);
+  }
+  function deleteLpEntry(id: string) { setLpEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
@@ -178,6 +195,7 @@ export default function LordsPrayerPage() {
             { id: "overview" as const, label: "Overview", icon: "📖" },
             { id: "phrase" as const, label: "Phrase by Phrase", icon: "🔍" },
             { id: "howto" as const, label: "How to Pray It", icon: "🙏" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map((t) => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -271,6 +289,62 @@ export default function LordsPrayerPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Praying the Lord's Prayer slowly — phrase by phrase — is one of the oldest methods of Christian prayer. Record what each phrase opens up for you.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Lord's Prayer Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Phrase I am dwelling on</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Our Father", "Hallowed be your name", "Your kingdom come", "Daily bread", "Forgive our debts", "Deliver us from evil"].map(p => (
+                    <button type="button" key={p} onClick={() => setLpForm(f => ({ ...f, phrase: p }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${lpForm.phrase === p ? PURPLE : BORDER}`, background: lpForm.phrase === p ? `${PURPLE}20` : "transparent", color: lpForm.phrase === p ? PURPLE : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What it opened up today</label>
+                <textarea value={lpForm.received} onChange={e => setLpForm(f => ({ ...f, received: e.target.value }))} rows={3}
+                  placeholder="What did you notice, receive, or confess as you sat with this phrase?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>My prayer from it</label>
+                <textarea value={lpForm.prayer} onChange={e => setLpForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="Let the phrase become your prayer..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveLpEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {lpSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {lpEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Prayer Journal ({lpEntries.length})</h3>
+                {lpEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteLpEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.phrase}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.received && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.received}</p>}
+                    {e.prayer && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginTop: 0, marginBottom: 8 }}>Teaching Videos</h2>
@@ -279,19 +353,13 @@ export default function LordsPrayerPage() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
-                { videoId: "1y4xtUhxv5w", title: "The Lord's Prayer Explained", channel: "The Bible Project", description: "An overview of the Lord's Prayer in its Sermon on the Mount context, walking through its structure and meaning." },
-                { videoId: "Lq2cN9Bm0kE", title: "Teach Us to Pray — Matthew 6", channel: "John Piper / Desiring God", description: "John Piper expounds the model prayer Jesus gave, petition by petition, as a pattern for God-glorifying prayer." },
-                { videoId: "9pZjF4xX0nY", title: "How to Pray the Lord's Prayer", channel: "Tim Keller Sermons", description: "Tim Keller teaches on using the Lord's Prayer as a framework for daily prayer and heart examination." },
-                { videoId: "ZQy0p3p6Z3M", title: "The Lord's Prayer and the Church Fathers", channel: "Bible Teaching", description: "A study drawing on Tertullian, Cyprian, Augustine, and Chrysostom to unfold the depth of each petition." },
+                { videoId: "krxcqH522uo", title: "The Lord's Prayer Explained", channel: "The Bible Project", description: "An overview of the Lord's Prayer in its Sermon on the Mount context, walking through its structure and meaning." },
+                { videoId: "KRsuCQe7aVk", title: "Teach Us to Pray — Matthew 6", channel: "John Piper / Desiring God", description: "John Piper expounds the model prayer Jesus gave, petition by petition, as a pattern for God-glorifying prayer." },
+                { videoId: "52ZXFH1wzc8", title: "How to Pray the Lord's Prayer", channel: "Tim Keller Sermons", description: "Tim Keller teaches on using the Lord's Prayer as a framework for daily prayer and heart examination." },
+                { videoId: "5vp9hV8bOjk", title: "The Lord's Prayer and the Church Fathers", channel: "Bible Teaching", description: "A study drawing on Tertullian, Cyprian, Augustine, and Chrysostom to unfold the depth of each petition." },
               ].map((v) => (
                 <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, margin: "0 0 4px" }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, margin: "0 0 6px" }}>{v.channel}</p>

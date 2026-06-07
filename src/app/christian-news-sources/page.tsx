@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "sources" | "discernment" | "global" | "videos";
+type Tab = "sources" | "discernment" | "global" | "journal" | "videos";
 
 const CATEGORY_FILTERS = ["All", "News", "Theology & Commentary", "Academic", "Culture", "International", "Magazines"];
 
@@ -291,12 +293,12 @@ const GLOBAL_SOURCES = [
 ];
 
 const NEWS_VIDEOS = [
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God", preacher: "Tim Keller" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", preacher: "R.C. Sproul" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", preacher: "John Piper" },
-  { id: "yhiHSf_L6_E", title: "Radical — Passion 2011", preacher: "David Platt" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", preacher: "Louie Giglio" },
+  { id: "ej_6dVdJSIU", title: "The Reason for God", preacher: "Tim Keller" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", preacher: "R.C. Sproul" },
+  { id: "GQI72THyO5I", title: "Don't Waste Your Life", preacher: "John Piper" },
+  { id: "krxcqH522uo", title: "Radical — Passion 2011", preacher: "David Platt" },
+  { id: "nQWFzMvCfLE", title: "How Great Is Our God", preacher: "Louie Giglio" },
 ];
 
 export default function ChristianNewsSourcesPage() {
@@ -306,6 +308,20 @@ export default function ChristianNewsSourcesPage() {
 
   const filtered = SOURCES.filter(s => category === "All" || s.category === category);
   const source = SOURCES.find(s => s.name === selected);
+
+  const [cnsEntries, setCnsEntries] = useState<{ id: string; date: string; story: string; discernment: string; response: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cns_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cnsForm, setCnsForm] = useState({ story: "", discernment: "", response: "" });
+  const [cnsSaved, setCnsSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cns_entries", JSON.stringify(cnsEntries)); }, [cnsEntries]);
+  function saveCnsEntry() {
+    if (!cnsForm.story.trim()) return;
+    setCnsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cnsForm }, ...prev]);
+    setCnsForm({ story: "", discernment: "", response: "" });
+    setCnsSaved(true); setTimeout(() => setCnsSaved(false), 2000);
+  }
+  function deleteCnsEntry(id: string) { setCnsEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -322,9 +338,9 @@ export default function ChristianNewsSourcesPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["sources", "discernment", "global", "videos"] as const).map(t => (
+          {(["sources", "discernment", "global", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "sources" ? "Sources" : t === "discernment" ? "Discernment" : t === "global" ? "Global" : "Videos"}
+              {t === "sources" ? "Sources" : t === "discernment" ? "Discernment" : t === "global" ? "Global" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -472,6 +488,49 @@ export default function ChristianNewsSourcesPage() {
         )}
 
         {/* Videos Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My News Discernment Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Apply biblical discernment to current events — record what you are seeing, how you are thinking, and how you are responding.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Story or Issue</label>
+                <input value={cnsForm.story} onChange={e => setCnsForm(f => ({ ...f, story: e.target.value }))} placeholder="What news story or cultural issue are you processing?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Your Discernment</label>
+                <textarea value={cnsForm.discernment} onChange={e => setCnsForm(f => ({ ...f, discernment: e.target.value }))} placeholder="What biblical framework or principle helps you understand this story rightly?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Faithful Response</label>
+                <textarea value={cnsForm.response} onChange={e => setCnsForm(f => ({ ...f, response: e.target.value }))} placeholder="How is God calling you to pray, act, or engage with this issue?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCnsEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cnsSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cnsEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cnsEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.story}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCnsEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.discernment && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Discernment</div><div style={{ color: TEXT, fontSize: 13 }}>{e.discernment}</div></div>}
+                    {e.response && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Faithful Response</div><div style={{ color: TEXT, fontSize: 13 }}>{e.response}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
@@ -483,9 +542,7 @@ export default function ChristianNewsSourcesPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 20 }}>
               {NEWS_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ color: GREEN, fontSize: 12, fontWeight: 600 }}>{v.preacher}</div>

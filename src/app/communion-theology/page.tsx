@@ -2,10 +2,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
-type Tab = "theology" | "views" | "practice" | "history" | "videos";
+import VideoEmbed from "@/components/VideoEmbed";
+
+type Tab = "theology" | "views" | "practice" | "history" | "journal" | "videos";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -17,13 +19,13 @@ const MUTED = "#9898B3";
 
 const theologyItems = [
   {
-    id: "institution",
+    id: "npEDqbE6faE",
     title: "The Night of Institution",
     content:
       'Four Gospel accounts bear witness to the same sacred night: Matthew 26:26-28, Mark 14:22-24, Luke 22:19-20, and Paul\'s received tradition in 1 Corinthians 11:23-26. Each preserves distinct emphases — Matthew includes "for the forgiveness of sins," Luke\'s account carries the explicit command "do this in remembrance of me," and Paul frames it within the context of the Lord\'s Supper as proclamation. The fourfold witness establishes that the command to remember was not incidental but central: Jesus himself instituted the meal as an ongoing covenant practice for his people.',
   },
   {
-    id: "eucharistia",
+    id: "krxcqH522uo",
     title: "The Eucharist as Eucharistia",
     content:
       'The word "Eucharist" derives from the Greek eucharistia, meaning thanksgiving. At the heart of Luke 22:19, Jesus says "this is my body given FOR YOU" — a startling particularity. The meal is the church\'s great act of thanksgiving: not offering something to God to earn favor, but receiving what has already been given. The offertory moment in liturgical tradition reflects this: the bread and wine are brought forward as an act of grateful acknowledgment that all things come from God and are returned to him. The Eucharist is not primarily what we do for God, but what we receive from him with gratitude.',
@@ -95,7 +97,7 @@ const viewsList = [
       "The distinction between spiritual and bodily presence can be difficult to articulate; sometimes collapses toward memorialism in practice even when not in theology.",
   },
   {
-    id: "memorialism",
+    id: "52ZXFH1wzc8",
     label: "Memorialism",
     subtitle: "Zwinglian / Baptist",
     claim:
@@ -117,7 +119,7 @@ const practiceItems = [
       "The early church broke bread daily (Acts 2:46) and gathered on the first day of the week for the breaking of bread (Acts 20:7). Calvin argued strongly for weekly Communion in Geneva but was overruled by the city council, who instituted quarterly practice — an accident of Reformation politics that became normative for much of Protestantism. Monthly Communion became standard in many Baptist and evangelical churches. Arguments for weekly practice: it was universal in the early church; the sermon and the table together form the full word of God proclaimed and enacted. Arguments for less frequent practice: familiarity breeds contempt; preparation and solemnity require spacing. The pastoral question is not how often we must commune, but how often we dare deprive our congregations of the feast.",
   },
   {
-    id: "open-closed",
+    id: "KRsuCQe7aVk",
     title: "Open vs. Closed Table",
     content:
       'Who may receive? This question cuts to the heart of ecclesiology. A closed table restricts Communion to members of a specific congregation or denomination. A close(d) table (common Baptist usage) restricts it to baptized believers. An open table welcomes all who confess faith in Christ. The practice of "fencing the table" — explicitly warning unworthy recipients before serving — derives from 1 Corinthians 11:27-29 and was standard in Reformed and Puritan practice. Paedo-communion (children of believing parents receiving the elements) is practiced in some Reformed traditions, arguing from the Passover\'s inclusion of children and covenant theology. The tension is between hospitality (the gospel is for all) and integrity (the meal signifies covenant membership).',
@@ -141,7 +143,7 @@ const practiceItems = [
       "Where and how the meal is celebrated communicates theology. A table in the midst of the congregation suggests the communal meal Jesus hosted; an altar rail at a distance from the people suggests sacrifice offered to God. Standing to receive (common in the early church and many Reformed traditions) emphasizes resurrection and eschatological feast; kneeling (common in Anglican and Catholic traditions) emphasizes adoration and unworthiness. Intinction — dipping the bread into the cup — combines the elements into a single act; separate elements preserve the double sign of body and blood. The physical arrangement of space is not theologically neutral: it is a visual sermon about what the meal means.",
   },
   {
-    id: "examination",
+    id: "iK0NjiBXKN4",
     title: "Preparation and Self-Examination",
     content:
       'Paul commands in 1 Corinthians 11:28: "Let a person examine himself, then, and so eat of the bread and drink of the cup." This has sometimes been interpreted as a barrier: "I am not worthy, therefore I should not come." But this misreads the text. Self-examination is preparation for coming, not grounds for abstaining. The invitation to examine oneself is followed immediately by the command to eat and drink. The classical practice of the Examen before Communion — developed in Ignatian and Puritan devotion alike — involves honest reflection on sin, renewed gratitude for grace, and intentional turning toward the table. The goal is not perfect purity but prepared receptivity. The words of institution already announce that this body is "given for you" — the unworthy are precisely those for whom it was given.',
@@ -315,6 +317,20 @@ export default function CommunionTheologyPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeView, setActiveView] = usePersistedState<string>("vine_communion-theology_active_view", "transubstantiation");
 
+  const [ctcomEntries, setCtcomEntries] = useState<{ id: string; date: string; practice: string; understanding: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ctcom_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ctcomForm, setCtcomForm] = useState({ practice: "", understanding: "", question: "" });
+  const [ctcomSaved, setCtcomSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ctcom_entries", JSON.stringify(ctcomEntries)); }, [ctcomEntries]);
+  function saveCtcomEntry() {
+    if (!ctcomForm.practice.trim()) return;
+    setCtcomEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ctcomForm }, ...prev]);
+    setCtcomForm({ practice: "", understanding: "", question: "" });
+    setCtcomSaved(true); setTimeout(() => setCtcomSaved(false), 2000);
+  }
+  function deleteCtcomEntry(id: string) { setCtcomEntries(prev => prev.filter(e => e.id !== id)); }
+
   function toggleAccordion(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
@@ -326,6 +342,7 @@ export default function CommunionTheologyPage() {
     { id: "views", label: "Views on the Lord's Supper" },
     { id: "practice", label: "Practice" },
     { id: "history", label: "History" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -694,6 +711,53 @@ export default function CommunionTheologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Communion Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on the Lord's Supper and your growing understanding. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How does your church practice Communion?</label>
+                <textarea value={ctcomForm.practice} onChange={e => setCtcomForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="Frequency, elements, who presides, your tradition..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What is your growing understanding of the Lord's Supper?</label>
+                <textarea value={ctcomForm.understanding} onChange={e => setCtcomForm(f => ({ ...f, understanding: e.target.value }))}
+                  placeholder="Memorial, presence, covenant renewal..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What question about Communion are you still working through?</label>
+                <textarea value={ctcomForm.question} onChange={e => setCtcomForm(f => ({ ...f, question: e.target.value }))}
+                  placeholder="Frequency, fencing the table, children's communion..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCtcomEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ctcomSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {ctcomEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {ctcomEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCtcomEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.practice && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>PRACTICE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.practice}</span></div>}
+                    {e.understanding && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>UNDERSTANDING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.understanding}</span></div>}
+                    {e.question && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>QUESTION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.question}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -703,19 +767,13 @@ export default function CommunionTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "2eORFeyfYt8", title: "The Lord's Supper (Luke 22:1–7)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines Jesus's institution of the Lord's Supper and what it means that he said 'This is the new covenant in my blood.'" },
-                  { videoId: "JhqB-WibRM8", title: "The Last Supper (Mark 14:10–26)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the significance and meaning of the Last Supper — the night Jesus instituted the meal that would define Christian worship." },
-                  { videoId: "fth_FkAk968", title: "The Institution of the Lord's Supper: Kingdom Feast", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on how the Lord's Supper is a kingdom feast — a foretaste of the wedding supper of the Lamb." },
-                  { videoId: "5uOY0luQsao", title: "Is Christ Present in the Lord's Supper?", channel: "Ligonier Ministries", description: "A careful examination of the different views on Christ's presence in the Eucharist — Real Presence, spiritual presence, and memorial — and what Scripture teaches." },
+                  { videoId: "zDnSbLd9LFg", title: "The Lord's Supper (Luke 22:1–7)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines Jesus's institution of the Lord's Supper and what it means that he said 'This is the new covenant in my blood.'" },
+                  { videoId: "bQFIuYOg7uo", title: "The Last Supper (Mark 14:10–26)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the significance and meaning of the Last Supper — the night Jesus instituted the meal that would define Christian worship." },
+                  { videoId: "7_CGP-12AE0", title: "The Institution of the Lord's Supper: Kingdom Feast", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on how the Lord's Supper is a kingdom feast — a foretaste of the wedding supper of the Lamb." },
+                  { videoId: "GQI72THyO5I", title: "Is Christ Present in the Lord's Supper?", channel: "Ligonier Ministries", description: "A careful examination of the different views on Christ's presence in the Eucharist — Real Presence, spiritual presence, and memorial — and what Scripture teaches." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

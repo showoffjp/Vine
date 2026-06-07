@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { bibleHref } from "@/lib/bibleRef";
 
 const VERSES = [
@@ -250,7 +251,7 @@ export default function VerseBanner() {
             transition: "opacity 0.38s ease 0.08s",
           }}
         >
-          <a
+          <Link
             href={verse.href}
             style={{
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
@@ -274,7 +275,7 @@ export default function VerseBanner() {
             }}
           >
             Read {verse.book} &rarr;
-          </a>
+          </Link>
         </div>
 
         {/* Controls */}

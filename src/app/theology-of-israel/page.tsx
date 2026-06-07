@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "overview" | "positions" | "romans" | "today" | "videos";
+type Tab = "overview" | "positions" | "romans" | "today" | "journal" | "videos";
 
 const OVERVIEW = [
   { title: "Election — Israel as God's chosen people", color: GREEN, ref: "Deuteronomy 7:6-9; Romans 9:4-5; Genesis 12:1-3", content: "The election of Israel is one of the most theologically demanding facts in the Bible. God did not choose Israel because of their size (they were 'the fewest of all peoples' — Deut 7:7), their righteousness (Deuteronomy 9 repeatedly denies this), or their culture. He chose them because of his love and his faithfulness to his oath to their fathers. This is the paradigm of grace: election is based entirely on God's free choice, not on human merit. Paul will use Israel's election as the foundation of his argument that God's election of Gentiles through Christ is not a contradiction of his faithfulness but its extension." },
@@ -71,10 +73,10 @@ const ROMANS_PASSAGES = [
 ];
 
 const ISRAEL_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Israel and the Church — What's the Relationship?", channel: "Gospel in Life / Tim Keller", description: "Keller addresses the covenant-theological relationship between Israel, the church, and the promises of God." },
-  { videoId: "ACZbpLkY8To", title: "The Theology of Israel in the New Testament", channel: "Ligonier Ministries", description: "How Paul's argument in Romans 9–11 reshapes our understanding of God's covenant with Israel." },
-  { videoId: "fJnGJN6laqE", title: "Has God Rejected His People? — Romans 11 Explained", channel: "Desiring God", description: "John Piper works through Romans 11 verse by verse, showing why Paul's answer is an emphatic 'no' — and what that means." },
-  { videoId: "Z8lkuuhVkOI", title: "Israel, the Church, and the Olive Tree", channel: "Bible Project", description: "A visual exploration of Paul's olive tree metaphor in Romans 11 and what it reveals about continuity between Israel and the church." },
+  { videoId: "rtkS_8VWfB0", title: "Israel and the Church — What's the Relationship?", channel: "Gospel in Life / Tim Keller", description: "Keller addresses the covenant-theological relationship between Israel, the church, and the promises of God." },
+  { videoId: "ej_6dVdJSIU", title: "The Theology of Israel in the New Testament", channel: "Ligonier Ministries", description: "How Paul's argument in Romans 9–11 reshapes our understanding of God's covenant with Israel." },
+  { videoId: "4Eg_di-O8nM", title: "Has God Rejected His People? — Romans 11 Explained", channel: "Desiring God", description: "John Piper works through Romans 11 verse by verse, showing why Paul's answer is an emphatic 'no' — and what that means." },
+  { videoId: "gV9JugO_5Mk", title: "Israel, the Church, and the Olive Tree", channel: "Bible Project", description: "A visual exploration of Paul's olive tree metaphor in Romans 11 and what it reveals about continuity between Israel and the church." },
 ];
 
 const TODAY_DATA = [
@@ -90,6 +92,20 @@ export default function TheologyOfIsraelPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selected, setSelected] = useState(ROMANS_PASSAGES[0].passage);
   const sel = ROMANS_PASSAGES.find(p => p.passage === selected) || ROMANS_PASSAGES[0];
+
+  type JournalEntry = { id: string; date: string; passage: string; insight: string; prayer: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_toij_entries") ?? "[]"); } catch { return []; } });
+  const [jPassage, setJPassage] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jPrayer, setJPrayer] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_toij_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jPassage.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), passage: jPassage, insight: jInsight, prayer: jPrayer };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJPassage(""); setJInsight(""); setJPrayer("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -111,10 +127,10 @@ export default function TheologyOfIsraelPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["overview", "positions", "romans", "today", "videos"] as Tab[]).map(t => (
+          {(["overview", "positions", "romans", "today", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "overview" ? "Biblical Overview" : t === "positions" ? "5 Positions" : t === "romans" ? "Romans 9-11 Guide" : t === "today" ? "Jewish Evangelism" : "Videos"}
+              {t === "overview" ? "Biblical Overview" : t === "positions" ? "5 Positions" : t === "romans" ? "Romans 9-11 Guide" : t === "today" ? "Jewish Evangelism" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -182,12 +198,43 @@ export default function TheologyOfIsraelPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Theology of Israel Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record passages from Romans 9-11 and beyond, your insights about Israel's place in God's plan, and how you are praying.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jPassage} onChange={e => setJPassage(e.target.value)} placeholder="Passage (e.g. Romans 11:29, Zechariah 12)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What is God showing you about Israel in His plan?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jPrayer} onChange={e => setJPrayer(e.target.value)} placeholder="How are you praying for Israel and Jewish people?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your study of God's purposes for Israel.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.passage || "Israel Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.prayer && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Prayer:</strong> {entry.prayer}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {ISRAEL_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

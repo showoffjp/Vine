@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { Users, ChevronRight, Search, Lock, Globe, Flame, Star, Plus } from "lucide-react";
+import { Users, Search, Lock, Globe, Flame, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
@@ -281,7 +281,7 @@ export default function GroupsPage() {
                 <h3 className="font-black text-sm mb-4" style={{ color: "#F2F2F8" }}>My Groups</h3>
                 <div className="space-y-3">
                   {myGroups.map((g) => (
-                    <div key={g.name} className="flex items-center gap-3 cursor-pointer">
+                    <Link key={g.name} href="/groups" className="flex items-center gap-3 cursor-pointer" style={{ textDecoration: "none" }}>
                       <span className="text-xl">{g.emoji}</span>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-semibold truncate" style={{ color: "#C0C0D8" }}>{g.name}</p>
@@ -291,7 +291,7 @@ export default function GroupsPage() {
                           {g.unread}
                         </span>
                       )}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

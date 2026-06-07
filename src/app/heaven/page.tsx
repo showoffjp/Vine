@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "misunderstandings" | "voices" | "living" | "videos";
+type Tab = "theology" | "misunderstandings" | "voices" | "living" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -173,6 +176,7 @@ const TABS = [
     { id: "misunderstandings" as Tab, label: "Correcting Myths", icon: "⚖️" },
     { id: "voices" as Tab, label: "Great Christian Voices", icon: "🎓" },
     { id: "living" as Tab, label: "Living with Eternal Hope", icon: "✨" },
+    { id: "journal" as Tab, label: "My Journal", icon: "📓" },
     { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
@@ -183,6 +187,20 @@ export default function HeavenPage() {
 
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;
   const voiceItem = VOICE_ITEMS.find(v => v.id === selectedVoice)!;
+
+  const [heavenEntries, setHeavenEntries] = useState<{ id: string; date: string; hope: string; misunderstanding: string; living: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_heaven_entries") ?? "[]"); } catch { return []; }
+  });
+  const [heavenForm, setHeavenForm] = useState({ hope: "", misunderstanding: "", living: "" });
+  const [heavenSaved, setHeavenSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_heaven_entries", JSON.stringify(heavenEntries)); } catch {} }, [heavenEntries]);
+  const saveHeavenEntry = () => {
+    if (!heavenForm.hope.trim()) return;
+    setHeavenEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...heavenForm }, ...prev]);
+    setHeavenForm({ hope: "", misunderstanding: "", living: "" });
+    setHeavenSaved(true); setTimeout(() => setHeavenSaved(false), 2000);
+  };
+  const deleteHeavenEntry = (id: string) => setHeavenEntries(prev => prev.filter(e => e.id !== id));
 
 
   return (
@@ -325,6 +343,54 @@ export default function HeavenPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Heaven Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on the hope of heaven, misunderstandings you are working through, and how eternal hope is shaping your life today. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOPE THAT IS SUSTAINING ME *</label>
+                <textarea value={heavenForm.hope} onChange={e => setHeavenForm(f => ({ ...f, hope: e.target.value }))}
+                  placeholder="What specific aspect of eternal hope is most encouraging to you right now?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MISUNDERSTANDING I AM WORKING THROUGH</label>
+                <textarea value={heavenForm.misunderstanding} onChange={e => setHeavenForm(f => ({ ...f, misunderstanding: e.target.value }))}
+                  placeholder="What false view of heaven are you leaving behind?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW ETERNAL HOPE IS SHAPING MY LIFE</label>
+                <textarea value={heavenForm.living} onChange={e => setHeavenForm(f => ({ ...f, living: e.target.value }))}
+                  placeholder="What is different about how you live because of eternal hope?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHeavenEntry}
+                style={{ background: heavenSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {heavenSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {heavenEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({heavenEntries.length})</h3>
+                {heavenEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHeavenEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.hope && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>HOPE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.hope}</span></div>}
+                    {entry.misunderstanding && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>WORKING THROUGH: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.misunderstanding}</span></div>}
+                    {entry.living && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>LIVING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.living}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -334,19 +400,13 @@ export default function HeavenPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "in9PgXqYbeA", title: "The Hope of Heaven", channel: "John Piper, Scott Swain & Randy Alcorn", description: "A Gospel Coalition conversation on the Christian hope of heaven — the resurrection body, the new earth, and what it means to be with Christ forever." },
-                  { videoId: "EkGNQKICp-I", title: "Blessed Hope: Resurrection and Eternal Life", channel: "John Piper / Desiring God", description: "John Piper preaches on the resurrection as the anchor of Christian hope — not escape from the body but bodily resurrection into a renewed creation." },
-                  { videoId: "fTyW7Vit_9M", title: "Heaven", channel: "Randy Alcorn", description: "Randy Alcorn teaches on what Scripture actually says about heaven — correcting popular myths and showing the physical, relational, joyful reality of the new creation." },
-                  { videoId: "XdhlYZLqom8", title: "How Heaven Energizes the Unwasted Life", channel: "Randy Alcorn / Desiring God", description: "Randy Alcorn shows how the genuine hope of heaven motivates faithful, fruitful living now — the future pulls us forward into present obedience and love." },
+                  { videoId: "bxzuh5Xx5G4", title: "The Hope of Heaven", channel: "John Piper, Scott Swain & Randy Alcorn", description: "A Gospel Coalition conversation on the Christian hope of heaven — the resurrection body, the new earth, and what it means to be with Christ forever." },
+                  { videoId: "KwX1f2gYKZ4", title: "Blessed Hope: Resurrection and Eternal Life", channel: "John Piper / Desiring God", description: "John Piper preaches on the resurrection as the anchor of Christian hope — not escape from the body but bodily resurrection into a renewed creation." },
+                  { videoId: "YNd-PbVhnvA", title: "Heaven", channel: "Randy Alcorn", description: "Randy Alcorn teaches on what Scripture actually says about heaven — correcting popular myths and showing the physical, relational, joyful reality of the new creation." },
+                  { videoId: "XtwIT8JjddM", title: "How Heaven Energizes the Unwasted Life", channel: "Randy Alcorn / Desiring God", description: "Randy Alcorn shows how the genuine hope of heaven motivates faithful, fruitful living now — the future pulls us forward into present obedience and love." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

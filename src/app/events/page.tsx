@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EventRegisterButton from "@/components/EventRegisterButton";
@@ -277,8 +278,8 @@ export default function EventsPage() {
     try { localStorage.setItem("vine_events_saved", JSON.stringify([...savedEvents])); } catch {}
   }, [savedEvents]);
 
-  const toggleGoing = (id: string) => setGoingEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleSaved = (id: string) => setSavedEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleGoing = (id: string) => setGoingEvents(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleSaved = (id: string) => setSavedEvents(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
 
   const filtered = events.filter((e) => {
     const matchType = activeType === "All" || e.type === activeType;
@@ -523,13 +524,13 @@ export default function EventsPage() {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <a
+                  <Link
                     href={`/events/${featuredEvent.id}`}
                     className="px-7 py-3 rounded-xl text-sm font-black inline-block"
                     style={{ background: "linear-gradient(135deg, #3a7d56 0%, #52a876 100%)", color: "#07070F", textDecoration: "none" }}
                   >
                     Register Free
-                  </a>
+                  </Link>
                   <span className="text-sm" style={{ color: "#6A6A88" }}>
                     By{" "}
                     <span style={{ color: "#8A8AA8" }}>{featuredEvent.organizer}</span>

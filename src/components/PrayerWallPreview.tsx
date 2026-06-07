@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import { Heart, Send, Clock, Users, ChevronRight, Check } from "lucide-react";
 
 const PRAYERS = [
@@ -67,29 +68,28 @@ const TAG_COLORS: Record<string, string> = {
 const PRAYED_STORAGE_KEY = "vine:prayer-wall:prayed";
 
 export default function PrayerWallPreview() {
-  const [prayed, setPrayed] = useState<Record<number, boolean>>({});
-  const [counts, setCounts] = useState<Record<number, number>>(
-    Object.fromEntries(PRAYERS.map((p) => [p.id, p.prayCount]))
-  );
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
+  const [prayed, setPrayed] = useState<Record<number, boolean>>(() => {
+    if (typeof window === "undefined") return {};
     try {
       const stored = localStorage.getItem(PRAYED_STORAGE_KEY);
-      if (!stored) return;
+      if (!stored) return {};
       const ids: number[] = JSON.parse(stored);
-      setPrayed(Object.fromEntries(ids.map((id) => [id, true])));
-      setCounts((c) => {
-        const next = { ...c };
-        ids.forEach((id) => {
-          if (next[id] != null) next[id] += 1;
-        });
-        return next;
-      });
-    } catch {
-      /* ignore malformed storage */
-    }
-  }, []);
+      return Object.fromEntries(ids.map((id) => [id, true]));
+    } catch { return {}; }
+  });
+  const [counts, setCounts] = useState<Record<number, number>>(() => {
+    const base = Object.fromEntries(PRAYERS.map((p) => [p.id, p.prayCount]));
+    if (typeof window === "undefined") return base;
+    try {
+      const stored = localStorage.getItem(PRAYED_STORAGE_KEY);
+      if (!stored) return base;
+      const ids: number[] = JSON.parse(stored);
+      const next = { ...base };
+      ids.forEach((id) => { if (next[id] != null) next[id] += 1; });
+      return next;
+    } catch { return base; }
+  });
+  const [submitted, setSubmitted] = useState(false);
 
   const handlePray = (id: number) => {
     setPrayed((prev) => {
@@ -400,7 +400,7 @@ export default function PrayerWallPreview() {
             {submitted ? <Check size={14} /> : <Send size={14} />}
             {submitted ? "Request Received" : "Submit Prayer Request"}
           </button>
-          <a
+          <Link
             href="/prayer-wall"
             style={{
               display: "inline-flex",
@@ -422,7 +422,7 @@ export default function PrayerWallPreview() {
             onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.25)"; }}
           >
             View All Prayers <ChevronRight size={14} />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

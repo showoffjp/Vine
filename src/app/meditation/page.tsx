@@ -4,6 +4,8 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -26,7 +28,7 @@ const TECHNIQUES = [
   { id: "lectio", name: "Lectio Divina", icon: "📖", steps: ["Read the passage slowly, twice. Let a word or phrase stand out.", "Reflect: sit with that word or phrase. Repeat it gently. What is God saying?", "Respond: pray naturally from what arose. Converse with God.", "Rest: sit in silence. No agenda. Let God speak."], duration: "15-20 min" },
   { id: "verse", name: "Verse Chewing", icon: "🔄", steps: ["Select a single verse. Read it word by word.", "Emphasize a different word each time: 'GOD so loved...' 'God SO loved...' 'God so LOVED...'", "Ask: What does this word reveal about God, about me, about the situation?", "Pray the verse back to God as a personal declaration."], duration: "5-10 min" },
   { id: "breathe", name: "Breathing Meditation", icon: "🌬️", steps: ["Choose a short phrase from Scripture (e.g., 'You are with me').", "Breathe in slowly on the first half: 'You are...'", "Breathe out on the second half: '...with me.'", "Repeat for 5-10 minutes. Let the truth settle into your body."], duration: "5-10 min" },
-  { id: "imagination", name: "Gospel Imagination", icon: "🎨", steps: ["Select a Gospel narrative (e.g., the calming of the storm, the feeding of 5,000).", "Place yourself in the scene. What do you see, hear, smell? Who are you in the story?", "Watch Jesus. What does he do? What does he say to you?", "Write or pray what arose. What did this reveal about Christ? About yourself?"], duration: "15-20 min" },
+  { id: "gV9JugO_5Mk", name: "Gospel Imagination", icon: "🎨", steps: ["Select a Gospel narrative (e.g., the calming of the storm, the feeding of 5,000).", "Place yourself in the scene. What do you see, hear, smell? Who are you in the story?", "Watch Jesus. What does he do? What does he say to you?", "Write or pray what arose. What did this reveal about Christ? About yourself?"], duration: "15-20 min" },
   { id: "psalm", name: "Psalm Praying", icon: "🎵", steps: ["Choose a psalm (Ps 23, 27, 46, 91, 139 are great starting points).", "Read it once for comprehension.", "Read it again, slowly — pause at each image. Let it evoke feeling.", "Pray the psalm back to God in your own words, as your prayer."], duration: "10-15 min" },
 ];
 
@@ -112,7 +114,7 @@ const VOICES_MED = [
     contribution: "Recovered the contemplative tradition for 20th-century evangelical Protestantism, diagnosing the shallowness of a church that had substituted noise and activity for genuine encounter with God. The Pursuit of God remains the most-read evangelical text on the meditative life.",
   },
   {
-    id: "willard-med",
+    id: "ej_6dVdJSIU",
     name: "Dallas Willard",
     era: "1935-2013",
     context: "The Spirit of the Disciplines (1988); Renovation of the Heart (2002); Professor of Philosophy, USC",
@@ -136,47 +138,47 @@ const MEDITATION_VIDEOS = [
     id: "mv1",
     title: "Forgotten God Part 1",
     preacher: "Francis Chan",
-    videoId: "sWMjg7CxIKk",
+    videoId: "GQI72THyO5I",
     description: "Chan's opening session on the neglected Person of the Holy Spirit — the very one who empowers and guides Christian meditation and contemplation.",
   },
   {
     id: "mv2",
     title: "How Great Is Our God",
     preacher: "Louie Giglio",
-    videoId: "X1rPalyUshw",
+    videoId: "krxcqH522uo",
     description: "Giglio's iconic message on the scale of the universe and the greatness of God — the vision that makes meditation on God's character a lifelong journey, never exhausted.",
   },
   {
     id: "mv3",
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Sproul's landmark message on the holiness of God — the attribute that, once truly glimpsed, reshapes every other meditation on God's character.",
   },
   {
     id: "mv4",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "nQWFzMvCfLE",
     description: "Keller's masterful exposition of Luke 15 — a parable that rewards sustained, meditative reading because its depths cannot be exhausted in a single encounter.",
   },
   {
     id: "mv5",
     title: "Don't Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "ccNvwDPguNU",
     description: "Piper's call to a life consumed by the glory of God — the theology of Christian hedonism that undergirds the practice of meditating on God's beauty and greatness.",
   },
   {
     id: "mv6",
     title: "Forgotten God Part 3",
     preacher: "Francis Chan",
-    videoId: "SCUEicqda1g",
+    videoId: "j9phNEaPrv8",
     description: "Chan's third session exploring what a Spirit-filled, Spirit-attentive life looks like in practice — directly relevant to the practice of listening meditation and contemplative prayer.",
   },
 ];
 
-type Tab = "practice" | "scripture" | "voices" | "videos";
+type Tab = "practice" | "scripture" | "voices" | "journal" | "videos";
 
 function TimerDisplay({ seconds }: { seconds: number }) {
   const m = Math.floor(seconds / 60).toString().padStart(2, "0");
@@ -206,6 +208,7 @@ export default function MeditationPage() {
 
   useEffect(() => {
     if (!timerActive) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (timeLeft <= 0) { setTimerActive(false); setTimerDone(true); return; }
     const t = setTimeout(() => setTimeLeft(t => t - 1), 1000);
     return () => clearTimeout(t);
@@ -233,13 +236,27 @@ export default function MeditationPage() {
   const toggleSave = (id: string) => {
     setSavedPassages(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_meditation_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
   };
 
   const progress = timerDone ? 100 : 100 - (timeLeft / (selectedPassage.duration * 60)) * 100;
+
+  const [medJEntries, setMedJEntries] = useState<{ id: string; date: string; passage: string; insight: string; response: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_medj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [medJForm, setMedJForm] = useState({ passage: "", insight: "", response: "" });
+  const [medJSaved, setMedJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_medj_entries", JSON.stringify(medJEntries)); } catch {} }, [medJEntries]);
+  const saveMedJEntry = () => {
+    if (!medJForm.passage.trim()) return;
+    setMedJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...medJForm }, ...prev]);
+    setMedJForm({ passage: "", insight: "", response: "" });
+    setMedJSaved(true); setTimeout(() => setMedJSaved(false), 2000);
+  };
+  const deleteMedJEntry = (id: string) => setMedJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
@@ -261,9 +278,9 @@ export default function MeditationPage() {
 
         {/* Top-level tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
-          {(["practice", "scripture", "voices", "videos"] as const).map(t => (
+          {(["practice", "scripture", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "practice" ? "Practice" : t === "scripture" ? "Scripture" : t === "voices" ? "Voices" : "Videos"}
+              {t === "practice" ? "Practice" : t === "scripture" ? "Scripture" : t === "voices" ? "Voices" : t === "journal" ? "My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -469,6 +486,42 @@ export default function MeditationPage() {
         )}
 
         {/* VIDEOS TAB */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Meditation Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record passages you've meditated on and what God revealed.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={medJForm.passage} onChange={e => setMedJForm(f => ({ ...f, passage: e.target.value }))}
+                  placeholder="Which passage did you meditate on?" aria-label="Passage"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={medJForm.insight} onChange={e => setMedJForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What insight or word stood out?" aria-label="Insight"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={medJForm.response} onChange={e => setMedJForm(f => ({ ...f, response: e.target.value }))}
+                  placeholder="How did you respond to God? (optional)" aria-label="Response"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMedJEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {medJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {medJEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first meditation reflection above.</p>}
+              {medJEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMedJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.passage}</p>
+                  {e.insight && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.insight}</p>}
+                  {e.response && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.response}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
             {MEDITATION_VIDEOS.map(v => (
@@ -478,9 +531,7 @@ export default function MeditationPage() {
                 </div>
                 <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8, color: TEXT }}>{v.title}</h3>
                 <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, marginBottom: 14 }}>{v.description}</p>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
               </div>
             ))}
           </div>

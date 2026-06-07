@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -114,7 +116,7 @@ const CHALLENGES_DATA = [
     scripture: "The law of the Lord is perfect, refreshing the soul. — Psalm 19:7",
   },
   {
-    id: "materialism",
+    id: "4Eg_di-O8nM",
     icon: "⚛️",
     challenge: "Scientific Materialism",
     claim: "Only physical reality exists. Consciousness, meaning, love, and moral value are ultimately reducible to physical processes. There is no God, soul, or transcendent dimension of reality.",
@@ -147,12 +149,26 @@ const CHALLENGES_DATA = [
   },
 ];
 
-type Tab = "narrative" | "applications" | "thinkers" | "challenges" | "videos";
+type Tab = "narrative" | "applications" | "thinkers" | "challenges" | "journal" | "videos";
 
 export default function ChristianWorldviewPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-worldview_tab", "narrative");
   const [selectedAct, setSelectedAct] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_christian-worldview_selected_thinker", "kuyper");
+
+  const [cwvEntries, setCwvEntries] = useState<{ id: string; date: string; domain: string; applying: string; challenge: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cwv_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cwvForm, setCwvForm] = useState({ domain: "", applying: "", challenge: "" });
+  const [cwvSaved, setCwvSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cwv_entries", JSON.stringify(cwvEntries)); }, [cwvEntries]);
+  function saveCwvEntry() {
+    if (!cwvForm.domain.trim()) return;
+    setCwvEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cwvForm }, ...prev]);
+    setCwvForm({ domain: "", applying: "", challenge: "" });
+    setCwvSaved(true); setTimeout(() => setCwvSaved(false), 2000);
+  }
+  function deleteCwvEntry(id: string) { setCwvEntries(prev => prev.filter(e => e.id !== id)); }
 
   const act = NARRATIVE.find(n => n.act === selectedAct);
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
@@ -176,6 +192,7 @@ export default function ChristianWorldviewPage() {
             { id: "applications" as const, label: "Applications", icon: "🌍" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
             { id: "challenges" as const, label: "Challenges", icon: "⚔️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -302,6 +319,53 @@ export default function ChristianWorldviewPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Worldview Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Apply the Christian worldview to a specific domain of your life. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What domain of life are you thinking through?</label>
+                <textarea value={cwvForm.domain} onChange={e => setCwvForm(f => ({ ...f, domain: e.target.value }))}
+                  placeholder="Work, education, politics, art, science, family..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How does the Christian worldview apply here?</label>
+                <textarea value={cwvForm.applying} onChange={e => setCwvForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="Creation, Fall, Redemption, New Creation lens..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What challenge or competing worldview are you navigating?</label>
+                <textarea value={cwvForm.challenge} onChange={e => setCwvForm(f => ({ ...f, challenge: e.target.value }))}
+                  placeholder="The secular narrative or objection you encounter..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCwvEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cwvSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cwvEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cwvEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCwvEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.domain && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>DOMAIN </span><span style={{ color: TEXT, fontSize: 14 }}>{e.domain}</span></div>}
+                    {e.applying && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>APPLYING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                    {e.challenge && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>CHALLENGE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.challenge}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -311,19 +375,13 @@ export default function ChristianWorldviewPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "qKnaqb0reDE", title: "Why Creation, Fall, and Redemption Are Essential to the Christian Worldview", channel: "Christian Worldview Teaching", description: "An accessible explanation of why the four-act story — creation, fall, redemption, new creation — is the framework for understanding everything the Christian believes." },
-                  { videoId: "OvoYMvJDXg0", title: "The Big Story", channel: "Christian Teaching", description: "The Christian metanarrative presented as a whole — how creation, fall, redemption, and restoration form a coherent account of reality that no other worldview matches." },
-                  { videoId: "ClRGMCnimgo", title: "The Song of Creation", channel: "Timothy Keller", description: "Keller preaches on Genesis and the goodness of creation — why the material world matters, and what it means that God called it very good." },
-                  { videoId: "Hkepw1xh3KQ", title: "What Is a Christian Worldview?", channel: "TRUELIFE / Bruce Ashford", description: "Dr. Bruce Ashford walks through creation, fall, and redemption as the lens through which Christians understand science, culture, politics, and suffering." },
+                  { videoId: "mC-zw0zCCtg", title: "Why Creation, Fall, and Redemption Are Essential to the Christian Worldview", channel: "Christian Worldview Teaching", description: "An accessible explanation of why the four-act story — creation, fall, redemption, new creation — is the framework for understanding everything the Christian believes." },
+                  { videoId: "7_CGP-12AE0", title: "The Big Story", channel: "Christian Teaching", description: "The Christian metanarrative presented as a whole — how creation, fall, redemption, and restoration form a coherent account of reality that no other worldview matches." },
+                  { videoId: "OqwbFGoRYVo", title: "The Song of Creation", channel: "Timothy Keller", description: "Keller preaches on Genesis and the goodness of creation — why the material world matters, and what it means that God called it very good." },
+                  { videoId: "gV9JugO_5Mk", title: "What Is a Christian Worldview?", channel: "TRUELIFE / Bruce Ashford", description: "Dr. Bruce Ashford walks through creation, fall, and redemption as the lens through which Christians understand science, culture, politics, and suffering." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

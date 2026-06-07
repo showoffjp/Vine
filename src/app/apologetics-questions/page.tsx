@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "questions" | "methods" | "thinkers" | "resources" | "videos";
+type Tab = "questions" | "methods" | "thinkers" | "resources" | "journal" | "videos";
 
 const TOPIC_FILTERS = ["All", "Existence of God", "Problem of Evil", "Jesus & Resurrection", "Bible", "Science & Faith", "Morality", "Other Religions"];
 
@@ -343,6 +345,20 @@ export default function ApologeticsQuestionsPage() {
 
   const filtered = QUESTIONS.filter(q => topic === "All" || q.topic === topic);
 
+  const [aqEntries, setAqEntries] = useState<{ id: string; date: string; question: string; answer: string; source: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_aq_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [aqForm, setAqForm] = useState({ question: "", answer: "", source: "" });
+  const [aqSaved, setAqSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_aq_entries", JSON.stringify(aqEntries)); }, [aqEntries]);
+  function saveAqEntry() {
+    if (!aqForm.question.trim()) return;
+    setAqEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...aqForm }, ...prev]);
+    setAqForm({ question: "", answer: "", source: "" });
+    setAqSaved(true); setTimeout(() => setAqSaved(false), 2000);
+  }
+  function deleteAqEntry(id: string) { setAqEntries(prev => prev.filter(e => e.id !== id)); }
+
   const levelColor = (level: string) => level === "Beginner" ? GREEN : level === "Advanced" ? "#EF4444" : PURPLE;
   const typeColor = (type: string) => type === "book" ? "#F59E0B" : type === "podcast" ? "#3B82F6" : type === "website" ? "#10B981" : "#EC4899";
 
@@ -361,10 +377,10 @@ export default function ApologeticsQuestionsPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
-          {(["questions", "methods", "thinkers", "resources", "videos"] as const).map(t => (
+          {(["questions", "methods", "thinkers", "resources", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "questions" ? "Questions" : t === "methods" ? "Methods" : t === "thinkers" ? "Thinkers" : t === "resources" ? "Resources" : "🎬 Videos"}
+              {t === "questions" ? "Questions" : t === "methods" ? "Methods" : t === "thinkers" ? "Thinkers" : t === "resources" ? "Resources" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -564,6 +580,48 @@ export default function ApologeticsQuestionsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Tough Questions Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Track the hard questions you encounter — your working answers and the sources helping you.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>The question</label>
+                <textarea value={aqForm.question} onChange={e => setAqForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="What question are you wrestling with or was asked of you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My working answer</label>
+                <textarea value={aqForm.answer} onChange={e => setAqForm(f => ({ ...f, answer: e.target.value }))} rows={3} placeholder="What is your best answer right now?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Helpful sources / next steps</label>
+                <textarea value={aqForm.source} onChange={e => setAqForm(f => ({ ...f, source: e.target.value }))} rows={2} placeholder="Books, articles, apologists who address this..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAqEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {aqSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {aqEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({aqEntries.length})</h3>
+                {aqEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteAqEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Question:</strong> {e.question}</p>}
+                    {e.answer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Answer:</strong> {e.answer}</p>}
+                    {e.source && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Sources:</strong> {e.source}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -573,19 +631,13 @@ export default function ApologeticsQuestionsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "REFLtsGRTho", title: "John Lennox Answers Questions on God, Science and Faith", channel: "John Lennox / Premier Unbelievable", description: "A live Q&A where Professor John Lennox takes hard questions about God, science, miracles, and the evidence for Christianity." },
-                  { videoId: "1C_nQHQ1epc", title: "John Lennox Explains Suffering and It Will Blow Your Mind", channel: "John Lennox", description: "Lennox addresses the problem of evil and suffering — perhaps the single most common objection to Christian faith — with philosophical rigor and pastoral warmth." },
-                  { videoId: "NpJm-qX3rW0", title: "God, Science & the Big Questions: Responding to the New Atheism", channel: "Leading Christian Thinkers", description: "A panel of Christian scholars — including John Lennox — respond to the arguments of the New Atheism with careful, reasoned replies." },
-                  { videoId: "g5r4l55MUe0", title: "Why Science Buries Atheism, Not God", channel: "Professor John Lennox", description: "Lennox argues that modern science, far from undermining faith, actually points strongly toward the existence of a Creator and Designer." },
+                  { videoId: "eIGAjoqBhhU", title: "John Lennox Answers Questions on God, Science and Faith", channel: "John Lennox / Premier Unbelievable", description: "A live Q&A where Professor John Lennox takes hard questions about God, science, miracles, and the evidence for Christianity." },
+                  { videoId: "zDnSbLd9LFg", title: "John Lennox Explains Suffering and It Will Blow Your Mind", channel: "John Lennox", description: "Lennox addresses the problem of evil and suffering — perhaps the single most common objection to Christian faith — with philosophical rigor and pastoral warmth." },
+                  { videoId: "GnCscN9LiXM", title: "God, Science & the Big Questions: Responding to the New Atheism", channel: "Leading Christian Thinkers", description: "A panel of Christian scholars — including John Lennox — respond to the arguments of the New Atheism with careful, reasoned replies." },
+                  { videoId: "UJlLkZ6tCG0", title: "Why Science Buries Atheism, Not God", channel: "Professor John Lennox", description: "Lennox argues that modern science, far from undermining faith, actually points strongly toward the existence of a Creator and Designer." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

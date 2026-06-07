@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "disciplines" | "rhythms" | "resources" | "voices" | "videos";
+type Tab = "disciplines" | "rhythms" | "resources" | "voices" | "journal" | "videos";
 
 const SDG_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Spiritual Disciplines — Dallas Willard and Tim Keller", channel: "Gospel in Life", description: "How Willard's framework for spiritual formation through disciplined practices shaped a generation of Christian leaders." },
-  { videoId: "ACZbpLkY8To", title: "Spiritual Disciplines for Ordinary Christians", channel: "Ligonier Ministries", description: "A practical introduction to the inward, outward, and corporate disciplines — what they are and how to begin." },
-  { videoId: "fJnGJN6laqE", title: "Bible Reading, Prayer, and the Means of Grace", channel: "Desiring God", description: "Piper on the foundation disciplines: why daily Scripture and prayer are non-negotiable for growth in godliness." },
-  { videoId: "Z8lkuuhVkOI", title: "Silence and Solitude — The Hardest Disciplines", channel: "The Gospel Coalition", description: "Why silence and solitude are the most neglected and most needed spiritual disciplines in the modern world." },
+  { videoId: "rtkS_8VWfB0", title: "The Spiritual Disciplines — Dallas Willard and Tim Keller", channel: "Gospel in Life", description: "How Willard's framework for spiritual formation through disciplined practices shaped a generation of Christian leaders." },
+  { videoId: "ej_6dVdJSIU", title: "Spiritual Disciplines for Ordinary Christians", channel: "Ligonier Ministries", description: "A practical introduction to the inward, outward, and corporate disciplines — what they are and how to begin." },
+  { videoId: "4Eg_di-O8nM", title: "Bible Reading, Prayer, and the Means of Grace", channel: "Desiring God", description: "Piper on the foundation disciplines: why daily Scripture and prayer are non-negotiable for growth in godliness." },
+  { videoId: "gV9JugO_5Mk", title: "Silence and Solitude — The Hardest Disciplines", channel: "The Gospel Coalition", description: "Why silence and solitude are the most neglected and most needed spiritual disciplines in the modern world." },
 ];
 
 const DISCIPLINES = [
@@ -250,6 +252,20 @@ export default function SpiritualDisciplinesGuidePage() {
 
   const discipline = DISCIPLINES.find(d => d.name === selected);
 
+  type JournalEntry = { id: string; date: string; discipline: string; experience: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_sdgj_entries") ?? "[]"); } catch { return []; } });
+  const [jDiscipline, setJDiscipline] = useState("");
+  const [jExperience, setJExperience] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_sdgj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jDiscipline.trim() && !jExperience.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), discipline: jDiscipline, experience: jExperience, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJDiscipline(""); setJExperience(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -265,10 +281,10 @@ export default function SpiritualDisciplinesGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["disciplines", "rhythms", "resources", "voices", "videos"] as Tab[]).map(t => (
+          {(["disciplines", "rhythms", "resources", "voices", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : t === "voices" ? "Voices" : "Videos"}
+              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -386,12 +402,43 @@ export default function SpiritualDisciplinesGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Spiritual Disciplines Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record which disciplines you are practicing, your experience, and the next step in your rhythm.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jDiscipline} onChange={e => setJDiscipline(e.target.value)} placeholder="Discipline (prayer, fasting, solitude, sabbath…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jExperience} onChange={e => setJExperience(e.target.value)} placeholder="What did you experience in this discipline?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step — adding or deepening a practice" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your spiritual disciplines journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.discipline || "Discipline Journal"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.experience && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Experience:</strong> {entry.experience}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SDG_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

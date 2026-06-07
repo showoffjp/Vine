@@ -5,12 +5,14 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const AREAS = [
   {
-    id: "possessions",
+    id: "npEDqbE6faE",
     name: "Possessions",
     icon: "📦",
     color: "#F59E0B",
@@ -131,7 +133,7 @@ const DETOX_DAYS = [
 ];
 
 export default function SimplicityPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"why" | "voices" | "areas" | "detox" | "videos">("vine_simplicity_tab", "why");
+  const [activeTab, setActiveTab] = usePersistedState<"why" | "voices" | "areas" | "detox" | "journal" | "videos">("vine_simplicity_tab", "why");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_simplicity_voice", "francis");
   const voiceItem = VOICES_SIMP.find(v => v.id === selectedVoice)!;
   const [selectedArea, setSelectedArea] = usePersistedState("vine_simplicity_selected_area", "possessions");
@@ -146,6 +148,20 @@ export default function SimplicityPage() {
   useEffect(() => { try { localStorage.setItem("vine_simplicity_detox", detoxText); } catch {} }, [detoxText]);
 
   const area = AREAS.find(a => a.id === selectedArea)!;
+
+  type JournalEntry = { id: string; date: string; area: string; clutter: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_simpj_entries") ?? "[]"); } catch { return []; } });
+  const [jArea, setJArea] = useState("");
+  const [jClutter, setJClutter] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_simpj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jArea.trim() && !jClutter.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), area: jArea, clutter: jClutter, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJArea(""); setJClutter(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -166,6 +182,7 @@ export default function SimplicityPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "areas" as const, label: "Life Areas", icon: "🎯" },
             { id: "detox" as const, label: "30-Day Detox", icon: "🗓️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -255,7 +272,7 @@ export default function SimplicityPage() {
                     const key = `${area.id}-${i}`;
                     const checked = checkedPractices.has(key);
                     return (
-                      <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                      <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); if (n.has(key)) { n.delete(key); } else { n.add(key); } return n; })}
                         style={{ background: checked ? `${area.color}10` : BG, border: `1px solid ${checked ? area.color + "30" : BORDER}`, borderRadius: 10, padding: 14, cursor: "pointer" }}>
                         <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                           <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${checked ? area.color : BORDER}`, background: checked ? area.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
@@ -287,7 +304,7 @@ export default function SimplicityPage() {
                   const key = `detox-${i}`;
                   const checked = checkedPractices.has(key);
                   return (
-                    <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                    <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); if (n.has(key)) { n.delete(key); } else { n.add(key); } return n; })}
                       style={{ background: checked ? `${GREEN}10` : CARD, border: `1px solid ${checked ? GREEN + "40" : BORDER}`, borderRadius: 8, padding: 12, cursor: "pointer" }}>
                       <div style={{ display: "flex", gap: 8 }}>
                         <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${checked ? GREEN : BORDER}`, background: checked ? GREEN : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
@@ -324,6 +341,38 @@ export default function SimplicityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Simplicity Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record areas of clutter God is calling you to release and the steps you are taking toward freedom.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jArea} onChange={e => setJArea(e.target.value)} placeholder="Area of life (possessions, digital, time, food…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jClutter} onChange={e => setJClutter(e.target.value)} placeholder="What clutter or distraction is God showing you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Step toward simplicity" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your journey toward holy simplicity.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.area || "Simplicity Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.clutter && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Clutter/Distraction:</strong> {entry.clutter}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -333,19 +382,13 @@ export default function SimplicityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "HeMJorECvMM", title: "Simplicity — Celebration of Discipline Video Curriculum", channel: "Richard Foster", description: "Richard Foster — author of Celebration of Discipline, the definitive modern guide to simplicity — teaches on the spiritual discipline of simplicity from his landmark book." },
-                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Foster on the interior dimension of simplicity — how outward simplicity flows from inward freedom from the need to possess, impress, and accumulate." },
-                  { videoId: "owXD1g0w1_0", title: "Worthy of a Changed Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan challenges Christians to consider whether their life choices — including consumption and lifestyle — reflect genuine transformation or cultural Christianity." },
-                  { videoId: "HOzIKZs0ymE", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "A call to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over the noise and accumulation of consumer culture." },
+                  { videoId: "IvSuGyJQ6oM", title: "Simplicity — Celebration of Discipline Video Curriculum", channel: "Richard Foster", description: "Richard Foster — author of Celebration of Discipline, the definitive modern guide to simplicity — teaches on the spiritual discipline of simplicity from his landmark book." },
+                  { videoId: "sIaT8Jl2zpI", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Foster on the interior dimension of simplicity — how outward simplicity flows from inward freedom from the need to possess, impress, and accumulate." },
+                  { videoId: "3Dv4-n6OYGI", title: "Worthy of a Changed Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan challenges Christians to consider whether their life choices — including consumption and lifestyle — reflect genuine transformation or cultural Christianity." },
+                  { videoId: "5nvVVcYD-0w", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "A call to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over the noise and accumulation of consumer culture." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

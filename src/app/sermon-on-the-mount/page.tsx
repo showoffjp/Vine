@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -91,7 +94,7 @@ const INTERPRETATIONS = [
 const SCHOLARS_SOTM = [
   { id: "stott-jrw", name: "John R.W. Stott", era: "1921-2011", context: "The Message of the Sermon on the Mount (1978) — the defining evangelical exposition", bio: "John Stott's The Message of the Sermon on the Mount remains the most widely read evangelical commentary on the Sermon — precise, pastoral, and theologically grounded. Stott argued that the Sermon describes the character of subjects of the kingdom of God: not a program for earning salvation but a portrait of those who have received it. He wrote against both antinomian dismissals of the Sermon's demands and perfectionist over-readings. His treatment of the Beatitudes as a description of kingdom character (rather than entry requirements) has become the standard evangelical framework.", quote: "The Beatitudes describe the ideal citizen of the kingdom of God. They portray what every Christian is and should be, not what only some Christians are.", contribution: "The Message of the Sermon on the Mount set the terms for evangelical interpretation for two generations. Its structure — carefully exegetical, contextually sensitive, and directly applicational — influenced how evangelical preachers worldwide approach Matthew 5-7." },
   { id: "willard-dc", name: "Dallas Willard", era: "1935-2013", context: "The Divine Conspiracy (1998) — reframes the Sermon as a description of kingdom life available now", bio: "Dallas Willard's The Divine Conspiracy is the most important late-20th-century treatment of the Sermon on the Mount in evangelical circles. Willard argued that the Sermon has been domesticated — either dismissed as unreachable idealism or reduced to interior attitudes without behavioral consequence. His central claim: Jesus is offering an actual description of what human life looks like when the 'Kingdom of the Heavens' has truly taken hold of a person. The Beatitudes are not commands to achieve but declarations about those who belong to the kingdom. The antitheses are not harder laws but descriptions of life lived from the inside out.", quote: "The Sermon on the Mount is not a list of requirements for the righteous life but a description of what the righteous life actually looks like when God has moved into a person's life.", contribution: "The Divine Conspiracy catalyzed the spiritual formation movement within evangelicalism. Willard's reading gave the Sermon back to ordinary Christians as a practical guide to kingdom living — not a moral ceiling to despair under but a picture of transformation available through discipleship." },
-  { id: "lloyd-jones", name: "D. Martyn Lloyd-Jones", era: "1899-1981", context: "Studies in the Sermon on the Mount (1959-60) — 2-volume Reformed exposition from Westminster Chapel sermons", bio: "Lloyd-Jones preached through the Sermon on the Mount over two years at Westminster Chapel, London. The resulting two volumes are among the most thorough Reformed expositions of Matthew 5-7 ever produced. Against Luther's 'impossible ideal' reading, Lloyd-Jones argued that the Sermon is addressed to Christians and describes genuine Christian character — made possible not by human effort but by the regenerating work of the Holy Spirit. His treatment of the Beatitudes is especially celebrated: eight marks of the Christian who has truly seen himself and his need before God.", quote: "The Sermon on the Mount is addressed to Christians. It is not primarily an appeal to the unconverted. It is describing what every Christian is and is meant to be.", contribution: "Studies in the Sermon on the Mount remains the standard Reformed pastoral commentary on the text. Its influence on British and American Reformed preaching was enormous, establishing the reading that the Sermon describes actual attainable Christian character under the Spirit." },
+  { id: "rtkS_8VWfB0", name: "D. Martyn Lloyd-Jones", era: "1899-1981", context: "Studies in the Sermon on the Mount (1959-60) — 2-volume Reformed exposition from Westminster Chapel sermons", bio: "Lloyd-Jones preached through the Sermon on the Mount over two years at Westminster Chapel, London. The resulting two volumes are among the most thorough Reformed expositions of Matthew 5-7 ever produced. Against Luther's 'impossible ideal' reading, Lloyd-Jones argued that the Sermon is addressed to Christians and describes genuine Christian character — made possible not by human effort but by the regenerating work of the Holy Spirit. His treatment of the Beatitudes is especially celebrated: eight marks of the Christian who has truly seen himself and his need before God.", quote: "The Sermon on the Mount is addressed to Christians. It is not primarily an appeal to the unconverted. It is describing what every Christian is and is meant to be.", contribution: "Studies in the Sermon on the Mount remains the standard Reformed pastoral commentary on the text. Its influence on British and American Reformed preaching was enormous, establishing the reading that the Sermon describes actual attainable Christian character under the Spirit." },
   { id: "wright-nt", name: "N.T. Wright", era: "b. 1948", context: "Matthew for Everyone (2002); After You Believe (2010) — virtue ethics reading of the Sermon", bio: "N.T. Wright approaches the Sermon through the lens of virtue ethics and the Kingdom of God. In After You Believe, Wright argues that the Beatitudes describe the habits and character of those who are being fitted for eventual resurrection life — not arbitrary moral demands but the shape of genuine human flourishing. His reading emphasizes the eschatological context: these are not just descriptions of present Christian life but the formation of the character required for the coming kingdom. Wright also stresses the deeply Jewish roots of the Sermon, seeing Jesus as renewing Israel's vocation for the sake of the whole world.", quote: "The Beatitudes describe people who are going to inherit the earth; that is, they describe the character of those who are being shaped for eventual resurrection life and new creation.", contribution: "Wright's reading gave the Sermon an eschatological and virtue-ethical dimension that earlier evangelical readings often missed. His emphasis on the Sermon as character formation rather than law-code has significantly influenced younger evangelical scholars and preachers." },
   { id: "augustine-sm", name: "Augustine of Hippo", era: "354-430", context: "De Sermone Domini in Monte (c. 394) — the earliest systematic Christian commentary on the Sermon", bio: "Augustine's On the Lord's Sermon on the Mount (c. 394) is the earliest comprehensive Christian commentary on Matthew 5-7, written when he was a newly ordained priest. Augustine read the Sermon Christologically — the Beatitudes correspond to the seven gifts of the Holy Spirit in Isaiah 11, and each stage of the Sermon deepens the soul's movement toward God. He was especially influential on the church's interpretation of 'Blessed are the pure in heart, for they will see God' — connecting the Sermon's ethics to the beatific vision, the soul's ultimate end. His reading dominated Western interpretation for over a millennium.", quote: "The whole pattern of Christian life is presented in this Sermon. It is the perfect standard of the Christian life, compared to which nothing more perfect can be found.", contribution: "Augustine's commentary established the interpretive framework for the Sermon in Western Christianity for a thousand years. His connection of the eight Beatitudes to the seven gifts of the Spirit, and his reading of the Sermon as a path toward the beatific vision, shaped Catholic moral theology and influenced Protestant readings even after the Reformation." },
 ];
@@ -106,12 +109,26 @@ const PRACTICES = [
 ];
 
 export default function SermonOnTheMountPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"sections" | "interpretations" | "practices" | "scholars" | "videos">("vine_sermon-on-the-mount_tab", "sections");
+  const [activeTab, setActiveTab] = usePersistedState<"sections" | "interpretations" | "practices" | "scholars" | "journal" | "videos">("vine_sermon-on-the-mount_tab", "sections");
   const [selectedScholar, setSelectedScholar] = usePersistedState("vine_sermon-on-the-mount_selected_scholar", "stott-jrw");
   const scholarItem = SCHOLARS_SOTM.find(s => s.id === selectedScholar)!;
   const [selectedSection, setSelectedSection] = usePersistedState("vine_sermon-on-the-mount_selected_section", "The Beatitudes");
 
   const section = SECTIONS.find(s => s.title === selectedSection)!;
+
+  type JournalEntry = { id: string; date: string; passage: string; insight: string; living: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_sotmj_entries") ?? "[]"); } catch { return []; } });
+  const [jPassage, setJPassage] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jLiving, setJLiving] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_sotmj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jPassage.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), passage: jPassage, insight: jInsight, living: jLiving };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJPassage(""); setJInsight(""); setJLiving("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -132,6 +149,7 @@ export default function SermonOnTheMountPage() {
             { id: "interpretations" as const, label: "Interpretations", icon: "🔍" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "scholars" as const, label: "Scholars", icon: "🎓" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -238,6 +256,38 @@ export default function SermonOnTheMountPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Sermon on the Mount Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record passages from the Sermon that are shaping you and how you are living them out.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jPassage} onChange={e => setJPassage(e.target.value)} placeholder="Passage (e.g. Matthew 5:3, 6:33)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What is Jesus teaching you here?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jLiving} onChange={e => setJLiving(e.target.value)} placeholder="How are you living this out this week?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording how the Sermon on the Mount is shaping your life.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.passage || "Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.living && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Living it:</strong> {entry.living}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -247,20 +297,14 @@ export default function SermonOnTheMountPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "1OkWF6UU8lU", title: "The Inside Out Kingdom", channel: "Timothy Keller", description: "Tim Keller opens his Sermon on the Mount series, examining how Jesus contrasts two groups who appear the same on the outside but have radically different motivations." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller", description: "Keller unpacks how Jesus introduces a revolutionary kingdom in the Sermon on the Mount — one that subverts every human expectation of power and greatness." },
-                  { videoId: "--mRYu2B4jU", title: "Authentic Christianity", channel: "Timothy Keller", description: "The concluding sermon in Keller's Sermon on the Mount series, drawing together the radical demands of Jesus and the grace that makes obedience possible." },
-                  { videoId: "ho1VMQ_Ac-U", title: "The Sermon on the Mount: True Happiness (Matt. 5:1-12)", channel: "Gospel Teaching", description: "A verse-by-verse exposition of the Beatitudes — the counter-intuitive blessings of the kingdom that redefine what it means to flourish." },
-                  { videoId: "TQRH8o6MCts", title: "Blessed Are the Meek", channel: "Desiring God / John Piper", description: "John Piper's classic exposition of the third Beatitude, exploring what meekness means in the kingdom of God and why it inherits the earth." },
+                  { videoId: "ccNvwDPguNU", title: "The Inside Out Kingdom", channel: "Timothy Keller", description: "Tim Keller opens his Sermon on the Mount series, examining how Jesus contrasts two groups who appear the same on the outside but have radically different motivations." },
+                  { videoId: "57LVVwba6_8", title: "The Upside Down Kingdom", channel: "Timothy Keller", description: "Keller unpacks how Jesus introduces a revolutionary kingdom in the Sermon on the Mount — one that subverts every human expectation of power and greatness." },
+                  { videoId: "r1WNYT9Rxs4", title: "Authentic Christianity", channel: "Timothy Keller", description: "The concluding sermon in Keller's Sermon on the Mount series, drawing together the radical demands of Jesus and the grace that makes obedience possible." },
+                  { videoId: "Bp2MzyoHa7k", title: "The Sermon on the Mount: True Happiness (Matt. 5:1-12)", channel: "Gospel Teaching", description: "A verse-by-verse exposition of the Beatitudes — the counter-intuitive blessings of the kingdom that redefine what it means to flourish." },
+                  { videoId: "QDZr4P9VbV4", title: "Blessed Are the Meek", channel: "Desiring God / John Piper", description: "John Piper's classic exposition of the third Beatitude, exploring what meekness means in the kingdom of God and why it inherits the earth." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

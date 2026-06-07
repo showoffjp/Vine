@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -144,13 +146,26 @@ const MAJOR_OBJECTIONS = [
 ];
 
 export default function ApologeticsArgumentsPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"arguments" | "apologists" | "practices" | "objections" | "videos">("vine_apologetics-arguments_tab", "arguments");
+  const [activeTab, setActiveTab] = usePersistedState<"arguments" | "apologists" | "practices" | "objections" | "journal" | "videos">("vine_apologetics-arguments_tab", "arguments");
   const [selectedArg, setSelectedArg] = usePersistedState("vine_apologetics-arguments_selected_arg", "Cosmological");
   const [expandedObj, setExpandedObj] = useState<string | null>(null);
   const [selectedApologist, setSelectedApologist] = usePersistedState("vine_apologetics-arguments_selected_apologist", "lewis");
   const apologist = APOLOGISTS.find(a => a.id === selectedApologist)!;
-
   const arg = ARGUMENTS.find(a => a.name === selectedArg)!;
+
+  const [aaEntries, setAaEntries] = useState<{ id: string; date: string; argument: string; used: string; response: string; learned: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_aa_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [aaForm, setAaForm] = useState({ argument: "Cosmological", used: "", response: "", learned: "" });
+  const [aaSaved, setAaSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_aa_entries", JSON.stringify(aaEntries)); }, [aaEntries]);
+  function saveAaEntry() {
+    if (!aaForm.used.trim()) return;
+    setAaEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...aaForm }, ...prev]);
+    setAaForm({ argument: "Cosmological", used: "", response: "", learned: "" });
+    setAaSaved(true); setTimeout(() => setAaSaved(false), 2000);
+  }
+  function deleteAaEntry(id: string) { setAaEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -171,6 +186,7 @@ export default function ApologeticsArgumentsPage() {
             { id: "apologists" as const, label: "Apologists", icon: "🏛️" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "practices" as const, label: "Using Them", icon: "🗣️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -302,6 +318,57 @@ export default function ApologeticsArgumentsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Arguments Practice Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record conversations where you used an argument — what you said, the response you received, and what you learned.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Argument used</label>
+                <select value={aaForm.argument} onChange={e => setAaForm(f => ({ ...f, argument: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {["Cosmological", "Teleological", "Moral", "Ontological", "Consciousness", "Resurrection"].map(a => <option key={a} value={a}>{a}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How I used it / context</label>
+                <textarea value={aaForm.used} onChange={e => setAaForm(f => ({ ...f, used: e.target.value }))} rows={2} placeholder="What conversation or situation? What did you say?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Response received</label>
+                <textarea value={aaForm.response} onChange={e => setAaForm(f => ({ ...f, response: e.target.value }))} rows={2} placeholder="How did the person respond?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What I learned</label>
+                <textarea value={aaForm.learned} onChange={e => setAaForm(f => ({ ...f, learned: e.target.value }))} rows={2} placeholder="What would you do differently? What worked well?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAaEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {aaSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {aaEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({aaEntries.length})</h3>
+                {aaEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.argument}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteAaEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.used && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Used:</strong> {e.used}</p>}
+                    {e.response && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Response:</strong> {e.response}</p>}
+                    {e.learned && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Learned:</strong> {e.learned}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -311,19 +378,13 @@ export default function ApologeticsArgumentsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "gO1MOpiF0-g", title: "The Law of Causality and the Cosmological Argument", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines the causal principle and how the Kalam Cosmological Argument makes a compelling rational case for a First Cause." },
-                  { videoId: "vO2jIT26X8c", title: "The Case for God: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul presents multiple lines of evidence for God's existence and shows why theism is intellectually defensible against skeptical objections." },
-                  { videoId: "khpEek6bvcY", title: "Natural Theology Developed: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "A deeper dive into natural theology — what can be known about God through reason and creation, and how to use that in apologetics." },
-                  { videoId: "TamlDfiJqD0", title: "If God Is Good, Why Is There Evil and Suffering?", channel: "John Lennox & Neil deGrasse Tyson", description: "Professor John Lennox engages one of the most common objections to God's existence — the problem of evil — in a live dialogue." },
+                  { videoId: "iK0NjiBXKN4", title: "The Law of Causality and the Cosmological Argument", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines the causal principle and how the Kalam Cosmological Argument makes a compelling rational case for a First Cause." },
+                  { videoId: "eIGAjoqBhhU", title: "The Case for God: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul presents multiple lines of evidence for God's existence and shows why theism is intellectually defensible against skeptical objections." },
+                  { videoId: "zDnSbLd9LFg", title: "Natural Theology Developed: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "A deeper dive into natural theology — what can be known about God through reason and creation, and how to use that in apologetics." },
+                  { videoId: "GnCscN9LiXM", title: "If God Is Good, Why Is There Evil and Suffering?", channel: "John Lennox & Neil deGrasse Tyson", description: "Professor John Lennox engages one of the most common objections to God's existence — the problem of evil — in a live dialogue." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

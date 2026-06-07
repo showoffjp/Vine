@@ -211,7 +211,7 @@ export default function AppDownload() {
                   color: "#f2e6c8",
                 }}
               >
-                4.9
+                  Early Access
               </span>
               <span
                 style={{
@@ -220,7 +220,7 @@ export default function AppDownload() {
                   color: "#9a8f72",
                 }}
               >
-                · 12,000+ reviews
+                · Mobile app coming soon
               </span>
             </div>
           </div>
@@ -306,7 +306,7 @@ export default function AppDownload() {
                   color: "#c9a227",
                 }}
               >
-                50K+ downloads
+                Launching Soon
               </span>
             </div>
           </div>

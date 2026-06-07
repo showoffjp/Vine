@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -147,7 +149,7 @@ const COMMENTATORS = [
   },
 ];
 
-type Tab = "beatitudes" | "background" | "commentators" | "formation" | "videos";
+type Tab = "beatitudes" | "background" | "commentators" | "formation" | "journal" | "videos";
 
 export default function BeatitudesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_beatitudes_tab", "beatitudes");
@@ -156,6 +158,20 @@ export default function BeatitudesPage() {
 
   const beat = BEATITUDES.find(b => b.n === selected)!;
   const commentator = COMMENTATORS.find(c => c.id === selectedCommentator)!;
+
+  const [beEntries, setBeEntries] = useState<{ id: string; date: string; beatitude: string; living: string; lacking: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_be_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [beForm, setBeForm] = useState({ beatitude: "Blessed are the poor in spirit", living: "", lacking: "" }); // matches first BEATITUDES[0].blessing
+  const [beSaved, setBeSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_be_entries", JSON.stringify(beEntries)); }, [beEntries]);
+  function saveBeEntry() {
+    if (!beForm.living.trim()) return;
+    setBeEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...beForm }, ...prev]);
+    setBeForm({ beatitude: "Blessed are the poor in spirit", living: "", lacking: "" });
+    setBeSaved(true); setTimeout(() => setBeSaved(false), 2000);
+  }
+  function deleteBeEntry(id: string) { setBeEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -176,6 +192,7 @@ export default function BeatitudesPage() {
             { id: "background" as const, label: "Background", icon: "📜" },
             { id: "commentators" as const, label: "Commentators", icon: "🧠" },
             { id: "formation" as const, label: "Formation", icon: "🌱" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -293,6 +310,52 @@ export default function BeatitudesPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Beatitudes Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on the beatitudes as a mirror — where you are living them and where you are still growing.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Beatitude I am reflecting on</label>
+                <select value={beForm.beatitude} onChange={e => setBeForm(f => ({ ...f, beatitude: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {BEATITUDES.map(b => <option key={b.n} value={b.blessing}>{b.blessing}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How I am living this beatitude</label>
+                <textarea value={beForm.living} onChange={e => setBeForm(f => ({ ...f, living: e.target.value }))} rows={3} placeholder="Where is this beatitude real in your life right now?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Where I still lack this quality</label>
+                <textarea value={beForm.lacking} onChange={e => setBeForm(f => ({ ...f, lacking: e.target.value }))} rows={2} placeholder="Be honest — where is this still undeveloped in you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBeEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {beSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {beEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({beEntries.length})</h3>
+                {beEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.beatitude}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBeEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.living && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Living:</strong> {e.living}</p>}
+                    {e.lacking && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Lacking:</strong> {e.lacking}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -302,19 +365,13 @@ export default function BeatitudesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "FTZ3GfL9yQM", title: "The Beatitudes — An Introduction", channel: "The Bible Project", description: "An animated overview of the Beatitudes in the context of the Sermon on the Mount, tracing their connection to the Old Testament and their radical reversal of the world's values." },
-                  { videoId: "1OkWF6UU8lU", title: "Blessed Are the Poor in Spirit — Dallas Willard", channel: "Dallas Willard Ministries", description: "Willard's reading of the first beatitude as an announcement of availability — the kingdom is for the spiritually bankrupt, not the spiritually accomplished." },
-                  { videoId: "GRmMccP1A9M", title: "The Sermon on the Mount — Bonhoeffer's Interpretation", channel: "Theology Explained", description: "Exploring Bonhoeffer's radical reading of the Beatitudes from The Cost of Discipleship — not ideals but descriptions of those who have literally left everything to follow Jesus." },
-                  { videoId: "poV1w0ZZIWw", title: "Living the Beatitudes Today", channel: "N.T. Wright Online", description: "Wright situates the Beatitudes in their first-century Jewish apocalyptic context, showing how they announce the in-breaking of God's kingdom and what that means for Christian formation today." },
+                  { videoId: "krxcqH522uo", title: "The Beatitudes — An Introduction", channel: "The Bible Project", description: "An animated overview of the Beatitudes in the context of the Sermon on the Mount, tracing their connection to the Old Testament and their radical reversal of the world's values." },
+                  { videoId: "nQWFzMvCfLE", title: "Blessed Are the Poor in Spirit — Dallas Willard", channel: "Dallas Willard Ministries", description: "Willard's reading of the first beatitude as an announcement of availability — the kingdom is for the spiritually bankrupt, not the spiritually accomplished." },
+                  { videoId: "ccNvwDPguNU", title: "The Sermon on the Mount — Bonhoeffer's Interpretation", channel: "Theology Explained", description: "Exploring Bonhoeffer's radical reading of the Beatitudes from The Cost of Discipleship — not ideals but descriptions of those who have literally left everything to follow Jesus." },
+                  { videoId: "j9phNEaPrv8", title: "Living the Beatitudes Today", channel: "N.T. Wright Online", description: "Wright situates the Beatitudes in their first-century Jewish apocalyptic context, showing how they announce the in-breaking of God's kingdom and what that means for Christian formation today." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

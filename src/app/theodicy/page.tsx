@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -79,13 +82,13 @@ const PRACTICES = [
   { title: "Build Theology Before Crisis", desc: "Theodicy questions hit hardest in the middle of suffering — when cognitive processing is compromised by grief and pain. Build your theology of suffering before you need it: study the cross, memorize the lament psalms, read stories of those who suffered well. Preparation is not morbidity; it is wisdom.", icon: "🏗️" },
 ];
 
-type Tab = "theology" | "responses" | "witnesses" | "practices" | "videos";
+type Tab = "theology" | "responses" | "witnesses" | "practices" | "journal" | "videos";
 
 const VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Why Does God Allow Suffering? — Tim Keller", channel: "Gospel in Life", description: "Keller's definitive lecture on the problem of evil — engaging Dostoevsky, Plantinga, and the cross as God's answer." },
-  { videoId: "fJnGJN6laqE", title: "The Problem of Evil — John Piper", channel: "Desiring God", description: "Piper engages theodicy with pastoral and theological depth, refusing easy answers while holding to God's sovereignty." },
-  { videoId: "ACZbpLkY8To", title: "Suffering and the Sovereignty of God", channel: "Ligonier Ministries", description: "R.C. Sproul walks through the classic theodicy positions and how Scripture speaks to each." },
-  { videoId: "Z8lkuuhVkOI", title: "How C.S. Lewis Responded to Evil and Suffering", channel: "CS Lewis Institute", description: "An exploration of Lewis's two works on suffering — the philosophical 'Problem of Pain' and the visceral 'A Grief Observed' — and what he learned between them." },
+  { videoId: "rtkS_8VWfB0", title: "Why Does God Allow Suffering? — Tim Keller", channel: "Gospel in Life", description: "Keller's definitive lecture on the problem of evil — engaging Dostoevsky, Plantinga, and the cross as God's answer." },
+  { videoId: "4Eg_di-O8nM", title: "The Problem of Evil — John Piper", channel: "Desiring God", description: "Piper engages theodicy with pastoral and theological depth, refusing easy answers while holding to God's sovereignty." },
+  { videoId: "ej_6dVdJSIU", title: "Suffering and the Sovereignty of God", channel: "Ligonier Ministries", description: "R.C. Sproul walks through the classic theodicy positions and how Scripture speaks to each." },
+  { videoId: "gV9JugO_5Mk", title: "How C.S. Lewis Responded to Evil and Suffering", channel: "CS Lewis Institute", description: "An exploration of Lewis's two works on suffering — the philosophical 'Problem of Pain' and the visceral 'A Grief Observed' — and what he learned between them." },
 ];
 
 export default function TheodPage() {
@@ -95,6 +98,20 @@ export default function TheodPage() {
 
   const resp = RESPONSES.find(r => r.response === selectedResponse)!;
   const witness = WITNESSES.find(w => w.id === selectedWitness)!;
+
+  type JournalEntry = { id: string; date: string; struggle: string; response: string; anchoring: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_theoj_entries") ?? "[]"); } catch { return []; } });
+  const [jStruggle, setJStruggle] = useState("");
+  const [jResponse, setJResponse] = useState("");
+  const [jAnchoring, setJAnchoring] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_theoj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jStruggle.trim() && !jResponse.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), struggle: jStruggle, response: jResponse, anchoring: jAnchoring };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJStruggle(""); setJResponse(""); setJAnchoring("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -115,6 +132,7 @@ export default function TheodPage() {
             { id: "responses" as const, label: "Responses", icon: "⚖️" },
             { id: "witnesses" as const, label: "Witnesses", icon: "👤" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -197,12 +215,44 @@ export default function TheodPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Theodicy Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record the struggles and questions you are bringing to God, responses that have helped, and what is anchoring your faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jStruggle} onChange={e => setJStruggle(e.target.value)} placeholder="The struggle or 'why' question you are carrying" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jResponse} onChange={e => setJResponse(e.target.value)} placeholder="What response or truth has helped you?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jAnchoring} onChange={e => setJAnchoring(e.target.value)} placeholder="What is anchoring your faith in this season?" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin bringing your hardest questions to God on paper.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>Theodicy Reflection</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.struggle && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>The Struggle:</strong> {entry.struggle}</p>}
+                    {entry.response && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>What Helped:</strong> {entry.response}</p>}
+                    {entry.anchoring && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Anchoring:</strong> {entry.anchoring}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 interface Challenge {
   id: string;
   title: string;
@@ -375,7 +377,7 @@ export default function YouthPage() {
   });
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
-  const [activeTab, setActiveTab] = usePersistedState<"challenges" | "resources" | "discuss" | "voices" | "videos">("vine_youth_tab", "challenges");
+  const [activeTab, setActiveTab] = usePersistedState<"challenges" | "resources" | "discuss" | "voices" | "videos" | "journal">("vine_youth_tab", "challenges");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_youth_voice", "smith-jk");
   const voiceItem = VOICES_YOUTH.find(v => v.id === selectedVoice)!;
   const [selectedCategory, setSelectedCategory] = usePersistedState("vine_youth_selected_category", "All");
@@ -415,6 +417,20 @@ export default function YouthPage() {
   const filteredChallenges = challenges.filter(
     (c) => selectedCategory === "All" || c.category === selectedCategory
   );
+
+  type YouthJournalEntry = { id: string; date: string; conviction: string; challenge: string; step: string };
+  const [youthJournal, setYouthJournal] = useState<YouthJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_youthj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jChallenge, setJChallenge] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_youthj_entries", JSON.stringify(youthJournal)); } catch {} }, [youthJournal]);
+  function saveYouthEntry() {
+    if (!jConviction.trim() && !jChallenge.trim()) return;
+    const entry: YouthJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, challenge: jChallenge, step: jStep };
+    setYouthJournal(prev => [entry, ...prev]);
+    setJConviction(""); setJChallenge(""); setJStep("");
+  }
+  function deleteYouthEntry(id: string) { setYouthJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
@@ -473,7 +489,7 @@ export default function YouthPage() {
             border: "1px solid #1E1E32",
           }}
         >
-          {(["challenges", "resources", "discuss", "voices", "videos"] as const).map((tab) => (
+          {(["challenges", "resources", "discuss", "voices", "videos", "journal"] as const).map((tab) => (
             <button type="button"
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -490,7 +506,7 @@ export default function YouthPage() {
                 color: activeTab === tab ? "#fff" : "#9898B3",
               }}
             >
-              {tab === "challenges" ? "🔥 Challenges" : tab === "resources" ? "📚 Resources" : tab === "discuss" ? "💬 Discuss" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
+              {tab === "challenges" ? "🔥 Challenges" : tab === "resources" ? "📚 Resources" : tab === "discuss" ? "💬 Discuss" : tab === "voices" ? "🎓 Voices" : tab === "videos" ? "🎬 Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -915,6 +931,45 @@ export default function YouthPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 20px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Youth Ministry Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record convictions, challenges you face in youth ministry, and your next steps for the next generation.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: "#9898B3", fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Conviction</label>
+                  <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What do you believe about young people and ministry?" rows={3} style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: "#9898B3", fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Challenge</label>
+                  <textarea value={jChallenge} onChange={e => setJChallenge(e.target.value)} placeholder="What challenge are you navigating in youth ministry right now?" rows={3} style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: "#9898B3", fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete thing you'll do for the young people in your care..." rows={2} style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveYouthEntry} style={{ background: "#3a7d56", color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {youthJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {youthJournal.map(entry => (
+                  <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteYouthEntry(entry.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Conviction</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.conviction}</p></div>}
+                    {entry.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Challenge</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.challenge}</p></div>}
+                    {entry.step && <div><span style={{ color: "#9898B3", fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -924,19 +979,13 @@ export default function YouthPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "7a8i3EAWwxY", title: "The Centrality of the Home in Discipling the Next Generation", channel: "Voddie Baucham Ministries", description: "Voddie Baucham's foundational sermon on why the home — not the youth group — is the primary context for evangelism and discipleship of the next generation." },
-                  { videoId: "ZddfeDuOLrU", title: "Voddie Baucham on Youth Ministry", channel: "Voddie Baucham Ministries", description: "A comprehensive and direct assessment of modern youth ministry — its history, its structural problems, and what a biblically grounded alternative looks like." },
-                  { videoId: "1kYD52tVPrY", title: "Raising the Next Generation in Turbulent Times", channel: "Voddie Baucham Ministries", description: "Practical and theological guidance for parents and church leaders navigating the cultural pressures facing the next generation of Christian young people." },
-                  { videoId: "0H3w6mB1y4o", title: "Can Youth Ministry Be Fixed?", channel: "Voddie Baucham Ministries", description: "A direct examination of whether conventional youth ministry can be reformed — and what a church that genuinely forms young disciples looks like." },
+                  { videoId: "HGHqu9-DtXk", title: "The Centrality of the Home in Discipling the Next Generation", channel: "Voddie Baucham Ministries", description: "Voddie Baucham's foundational sermon on why the home — not the youth group — is the primary context for evangelism and discipleship of the next generation." },
+                  { videoId: "E65KV3M8RZE", title: "Voddie Baucham on Youth Ministry", channel: "Voddie Baucham Ministries", description: "A comprehensive and direct assessment of modern youth ministry — its history, its structural problems, and what a biblically grounded alternative looks like." },
+                  { videoId: "f7RJATbobik", title: "Raising the Next Generation in Turbulent Times", channel: "Voddie Baucham Ministries", description: "Practical and theological guidance for parents and church leaders navigating the cultural pressures facing the next generation of Christian young people." },
+                  { videoId: "zUKzVFQn4Tc", title: "Can Youth Ministry Be Fixed?", channel: "Voddie Baucham Ministries", description: "A direct examination of whether conventional youth ministry can be reformed — and what a church that genuinely forms young disciples looks like." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

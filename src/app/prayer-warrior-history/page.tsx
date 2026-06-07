@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -134,7 +136,7 @@ const PRINCIPLES_PWH: { id: string; principle: string; icon: string; warrior: st
     practice: "Write one specific, concrete prayer request each morning. Date it. Leave space to record when and how God answers.",
   },
   {
-    id: "persevering",
+    id: "ERR0Zq7TBgU",
     principle: "Persevering Prayer",
     icon: "🔥",
     warrior: "George Müller",
@@ -158,7 +160,7 @@ const PRINCIPLES_PWH: { id: string; principle: string; icon: string; warrior: st
     practice: "Find one person to commit to praying with weekly. Fix a time. Start with 20 minutes. Pray out loud together for specific people and situations.",
   },
   {
-    id: "sacrificial",
+    id: "dy9nwe9zeU8",
     principle: "Sacrificial Prayer",
     icon: "⚔️",
     warrior: "Rees Howells",
@@ -256,11 +258,24 @@ const HABITS_PWH = [
 export default function PrayerWarriorHistoryPage() {
   const [era, setEra] = usePersistedState<string>("vine_prayer-warrior-history_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
-  type Tab = "warriors" | "principles" | "scripture" | "practices" | "videos";
+  type Tab = "warriors" | "principles" | "scripture" | "practices" | "videos" | "journal";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-warrior-history_tab", "warriors");
 
   const filtered = WARRIORS.filter(w => era === "All" || w.era === era);
   const warrior = WARRIORS.find(w => w.name === selected);
+
+  type PWHJournalEntry = { id: string; date: string; warrior: string; principle: string; applying: string };
+  const [pwhJournal, setPwhJournal] = useState<PWHJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_pwhj_entries") ?? "[]"); } catch { return []; } });
+  const [jWarrior, setJWarrior] = useState("");
+  const [jPrinciple, setJPrinciple] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_pwhj_entries", JSON.stringify(pwhJournal)); } catch {} }, [pwhJournal]);
+  function savePWHEntry() {
+    if (!jWarrior.trim() && !jPrinciple.trim()) return;
+    setPwhJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), warrior: jWarrior, principle: jPrinciple, applying: jApplying }, ...prev]);
+    setJWarrior(""); setJPrinciple(""); setJApplying("");
+  }
+  function deletePWHEntry(id: string) { setPwhJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -282,6 +297,7 @@ export default function PrayerWarriorHistoryPage() {
             { id: "scripture" as const, label: "Scripture", icon: "📖" },
             { id: "practices" as const, label: "Practices", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
+            { id: "journal" as const, label: "Journal", icon: "📓" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -433,6 +449,33 @@ export default function PrayerWarriorHistoryPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Prayer Warriors Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record what you&apos;re learning from history&apos;s prayer warriors, principles to carry, and how you&apos;re applying them to your own prayer life.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Warrior</label><textarea value={jWarrior} onChange={e => setJWarrior(e.target.value)} placeholder="Who are you learning from?" rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Principle</label><textarea value={jPrinciple} onChange={e => setJPrinciple(e.target.value)} placeholder="What principle from their prayer life struck you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How will you carry this into your own prayer life?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={savePWHEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {pwhJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {pwhJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deletePWHEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.warrior && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Warrior</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.warrior}</p></div>}
+                    {entry.principle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Principle</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.principle}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -442,20 +485,14 @@ export default function PrayerWarriorHistoryPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "LnaxpQa1Xyk", title: "Prayer Causes Things to Happen", teacher: "John Piper" },
-                { id: "_Kq3k1JZjBE", title: "Prayer, Fasting and the Course of History", teacher: "John Piper" },
-                { id: "hcZgXh-u7i8", title: "How To Be an Intercessory Prayer Warrior", teacher: "Prayer Ministry" },
-                { id: "yZkFk3zb8mE", title: "Two Types of Effective Prayer", teacher: "Paul Washer" },
+                { id: "OqwbFGoRYVo", title: "Prayer Causes Things to Happen", teacher: "John Piper" },
+                { id: "npEDqbE6faE", title: "Prayer, Fasting and the Course of History", teacher: "John Piper" },
+                { id: "F1Cz95NtJ4c", title: "How To Be an Intercessory Prayer Warrior", teacher: "Prayer Ministry" },
+                { id: "W6NjAG4qp4M", title: "Two Types of Effective Prayer", teacher: "Paul Washer" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

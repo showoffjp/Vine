@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "issues" | "contemporary" | "methods" | "videos";
+type Tab = "foundations" | "issues" | "contemporary" | "methods" | "journal" | "videos";
 
 const FOUNDATIONS = [
   { title: "Ethics Grounded in Character", verse: "Matthew 5:3-10", body: "The Sermon on the Mount does not begin with 'do not do' but with 'blessed are' — a description of character, not a list of rules. Jesus is not primarily a moral legislator; he is a character transformer. Christian ethics begins with the question 'what kind of person should I be?' rather than 'what should I do?' Rules can be followed without character; character produces the right action even when no rule covers the situation." },
@@ -118,6 +121,20 @@ export default function ChristianEthicsPage() {
   const issue = ISSUES.find(i => i.issue === selectedIssue)!;
   const contemporary = CONTEMPORARY.find(c => c.id === selectedContemporary)!;
 
+  const [ceEntries, setCeEntries] = useState<{ id: string; date: string; question: string; principle: string; action: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ce_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ceForm, setCeForm] = useState({ question: "", principle: "", action: "" });
+  const [ceSaved, setCeSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ce_entries", JSON.stringify(ceEntries)); }, [ceEntries]);
+  function saveCeEntry() {
+    if (!ceForm.question.trim()) return;
+    setCeEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ceForm }, ...prev]);
+    setCeForm({ question: "", principle: "", action: "" });
+    setCeSaved(true); setTimeout(() => setCeSaved(false), 2000);
+  }
+  function deleteCeEntry(id: string) { setCeEntries(prev => prev.filter(e => e.id !== id)); };
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -133,11 +150,12 @@ export default function ChristianEthicsPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "foundations" as Tab, label: "Foundations", icon: "🏛️" },
+            { id: "zUKzVFQn4Tc" as Tab, label: "Foundations", icon: "🏛️" },
             { id: "issues" as Tab, label: "Classic Issues", icon: "⚖️" },
             { id: "contemporary" as Tab, label: "Today's Hard Issues", icon: "🌐" },
             { id: "methods" as Tab, label: "Methods", icon: "🔬" },
-            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
+            { id: "journal" as Tab, label: "📓 My Journal", icon: "📓" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -241,6 +259,49 @@ export default function ChristianEthicsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Ethics Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Work through ethical questions in light of Scripture and Christian moral tradition.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Ethical Question or Situation</label>
+                <input value={ceForm.question} onChange={e => setCeForm(f => ({ ...f, question: e.target.value }))} placeholder="e.g. How should I respond to a dishonest coworker?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Biblical Principle That Speaks to This</label>
+                <textarea value={ceForm.principle} onChange={e => setCeForm(f => ({ ...f, principle: e.target.value }))} placeholder="What Scripture, command, or virtue applies here?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>One Action of Faithfulness</label>
+                <textarea value={ceForm.action} onChange={e => setCeForm(f => ({ ...f, action: e.target.value }))} placeholder="What specific step of obedience or faithfulness does this call you to?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCeEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ceSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {ceEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {ceEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.question}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCeEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.principle && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Biblical Principle</div><div style={{ color: TEXT, fontSize: 13 }}>{e.principle}</div></div>}
+                    {e.action && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Action of Faithfulness</div><div style={{ color: TEXT, fontSize: 13 }}>{e.action}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -250,19 +311,13 @@ export default function ChristianEthicsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "b43cgj26wS8", title: "Questioning Christianity: Morality", channel: "Tim Keller", description: "Keller explores the foundations of Christian morality — why objective moral values exist, how they are grounded in God, and what this means for ethical decision-making." },
-                  { videoId: "8i9McgNOUnA", title: "Ethics and the Good Life", channel: "Tim Keller at Columbia University", description: "Keller and philosopher Philip Kitcher debate the foundations of ethics and the good life at the Veritas Forum — a rigorous engagement with secular moral philosophy." },
-                  { videoId: "jMLp2mYN_D8", title: "Postmodernism and Christian Truth", channel: "Tim Keller at Desiring God", description: "Keller addresses postmodern challenges to Christian ethics and truth claims, arguing that Christianity provides the only coherent ground for moral reality." },
-                  { videoId: "4uIvOniW8xA", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller at Google", description: "Keller presents a comprehensive case for why Christian ethical and metaphysical claims make more sense of human experience than secular alternatives." },
+                  { videoId: "GGCF3OPWN14", title: "Questioning Christianity: Morality", channel: "Tim Keller", description: "Keller explores the foundations of Christian morality — why objective moral values exist, how they are grounded in God, and what this means for ethical decision-making." },
+                  { videoId: "t6L-F2emwUc", title: "Ethics and the Good Life", channel: "Tim Keller at Columbia University", description: "Keller and philosopher Philip Kitcher debate the foundations of ethics and the good life at the Veritas Forum — a rigorous engagement with secular moral philosophy." },
+                  { videoId: "oNpTha80yyE", title: "Postmodernism and Christian Truth", channel: "Tim Keller at Desiring God", description: "Keller addresses postmodern challenges to Christian ethics and truth claims, arguing that Christianity provides the only coherent ground for moral reality." },
+                  { videoId: "4Eg_di-O8nM", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller at Google", description: "Keller presents a comprehensive case for why Christian ethical and metaphysical claims make more sense of human experience than secular alternatives." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

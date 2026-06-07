@@ -3,10 +3,12 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
-type Tab = "theology" | "gifts" | "discover" | "cessation" | "videos";
+import VideoEmbed from "@/components/VideoEmbed";
+
+type Tab = "theology" | "gifts" | "discover" | "cessation" | "mygifts" | "videos";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -566,11 +568,29 @@ function DiscoverTab() {
 export default function SpiritualGiftsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-gifts_tab", "theology");
 
+  const [giftNotes, setGiftNotes] = useState<{ id: string; date: string; gift: string; how: string; affirmation: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_gifts_notes"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [gForm, setGForm] = useState({ gift: "", how: "", affirmation: "" });
+  const [gSaved, setGSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_gifts_notes", JSON.stringify(giftNotes)); } catch {} }, [giftNotes]);
+
+  const saveGiftNote = () => {
+    setGiftNotes(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...gForm }, ...prev]);
+    setGForm(f => ({ ...f, how: "", affirmation: "" }));
+    setGSaved(true);
+    setTimeout(() => setGSaved(false), 2000);
+  };
+
+  const deleteGiftNote = (id: string) => setGiftNotes(prev => prev.filter(n => n.id !== id));
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Gifts" },
     { id: "gifts", label: "The Gifts" },
     { id: "discover", label: "Discovering Your Gifts" },
     { id: "cessation", label: "The Cessationism Debate" },
+    { id: "mygifts", label: "My Gifts" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -707,6 +727,58 @@ export default function SpiritualGiftsPage() {
           </div>
         )}
 
+        {activeTab === "mygifts" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Spiritual gifts are discovered in use — they are confirmed over time by fruit, affirmation from others, and the clarity that comes from actually serving. Record what you're discovering here.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Gift Discovery Log</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Gift I'm exploring or have noticed</label>
+                <input value={gForm.gift} onChange={e => setGForm(f => ({ ...f, gift: e.target.value }))}
+                  placeholder="e.g. teaching, mercy, encouragement, giving, leadership..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I've been using it</label>
+                <textarea value={gForm.how} onChange={e => setGForm(f => ({ ...f, how: e.target.value }))} rows={2}
+                  placeholder="Where I've served, what happened, what felt natural, what produced fruit..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Affirmation I've received from others</label>
+                <textarea value={gForm.affirmation} onChange={e => setGForm(f => ({ ...f, affirmation: e.target.value }))} rows={2}
+                  placeholder="What others have said, noticed, encouraged, or specifically affirmed..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGiftNote}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {gSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {giftNotes.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Gift Discovery Record</h3>
+                {giftNotes.map(n => (
+                  <div key={n.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteGiftNote(n.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
+                      {n.gift && <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{n.gift}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{n.date}</span>
+                    </div>
+                    {n.how && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>{n.how}</p>}
+                    {n.affirmation && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>Affirmed: {n.affirmation}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -716,19 +788,13 @@ export default function SpiritualGiftsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "u-cBlGvk0pQ", title: "Have the Spiritual Gifts Ceased? — John Piper vs. John MacArthur", channel: "Comparison / Debate", description: "A presentation of the continuation vs. cessation debate featuring arguments from both John Piper (continuationist) and John MacArthur (cessationist) — the two most prominent evangelical voices on opposite sides." },
-                  { videoId: "T3026rUjisI", title: "John MacArthur Explains Continuationist vs. Cessationist", channel: "Grace to You (John MacArthur)", description: "MacArthur directly explains the theological positions — what cessationism teaches, why he holds it, and his critique of continuationist practice in contemporary charismatic movements." },
-                  { videoId: "hRgaZNBYOjo", title: "The Debate Over Holy Spirit Gifts: Cessationism vs. Continuationism", channel: "Theological Comparison", description: "A balanced exploration of how the debate over spiritual gifts shapes how believers experience faith today — covering the key biblical texts on both sides." },
-                  { videoId: "OnJAqxnLv8M", title: "The Debate on Spiritual Gifts: John MacArthur vs. Dr. Michael Brown", channel: "Debate Series", description: "A direct debate between the two most prominent evangelical figures on opposite sides of the gifts debate — cessationist John MacArthur and continuationist Michael Brown." },
+                  { videoId: "zMbUXpFiFeo", title: "Have the Spiritual Gifts Ceased? — John Piper vs. John MacArthur", channel: "Comparison / Debate", description: "A presentation of the continuation vs. cessation debate featuring arguments from both John Piper (continuationist) and John MacArthur (cessationist) — the two most prominent evangelical voices on opposite sides." },
+                  { videoId: "52ZXFH1wzc8", title: "John MacArthur Explains Continuationist vs. Cessationist", channel: "Grace to You (John MacArthur)", description: "MacArthur directly explains the theological positions — what cessationism teaches, why he holds it, and his critique of continuationist practice in contemporary charismatic movements." },
+                  { videoId: "rtkS_8VWfB0", title: "The Debate Over Holy Spirit Gifts: Cessationism vs. Continuationism", channel: "Theological Comparison", description: "A balanced exploration of how the debate over spiritual gifts shapes how believers experience faith today — covering the key biblical texts on both sides." },
+                  { videoId: "npEDqbE6faE", title: "The Debate on Spiritual Gifts: John MacArthur vs. Dr. Michael Brown", channel: "Debate Series", description: "A direct debate between the two most prominent evangelical figures on opposite sides of the gifts debate — cessationist John MacArthur and continuationist Michael Brown." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

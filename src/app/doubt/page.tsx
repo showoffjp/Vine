@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -73,13 +76,21 @@ const PRACTICES_FOR_DOUBT = [
 ];
 
 const DOUBT_VIDEOS = [
-  { videoId: "TuXTFlU-_To", title: "Honest Doubts: Keller on Faith and Doubt", channel: "Tim Keller Gospel in Life" },
-  { videoId: "Hr3PkGXYRvI", title: "When Faith Feels Weak", channel: "Desiring God — John Piper" },
-  { videoId: "dXxmSDhvbHY", title: "Wrestling with Doubt", channel: "Ligonier Ministries" },
-  { videoId: "E9P76VJIcRY", title: "Can I Doubt and Still Believe?", channel: "Tim Keller" },
+  { videoId: "yIhGt1BQ1pw", title: "Honest Doubts: Keller on Faith and Doubt", channel: "Tim Keller Gospel in Life" },
+  { videoId: "MrSNOo7EIy0", title: "When Faith Feels Weak", channel: "Desiring God — John Piper" },
+  { videoId: "O4GJYRmNnEg", title: "Wrestling with Doubt", channel: "Ligonier Ministries" },
+  { videoId: "bxzuh5Xx5G4", title: "Can I Doubt and Still Believe?", channel: "Tim Keller" },
 ];
 
-type Tab = "types" | "voices" | "scripture" | "practices" | "videos";
+interface DoubtEntry {
+  id: string;
+  date: string;
+  question: string;
+  context: string;
+  whereGodMet: string;
+}
+
+type Tab = "types" | "voices" | "scripture" | "practices" | "journal" | "videos";
 
 const VOICES = [
   {
@@ -134,6 +145,23 @@ export default function DoubtPage() {
   const [selectedType, setSelectedType] = usePersistedState("vine_doubt_selected_type", "intellectual");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_doubt_voice", "lewis");
   const voiceItem = VOICES.find(v => v.id === selectedVoice)!;
+  const [doubts, setDoubts] = useState<DoubtEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_doubt_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [form, setForm] = useState({ question: "", context: "", whereGodMet: "" });
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_doubt_journal", JSON.stringify(doubts)); } catch {} }, [doubts]);
+
+  const saveDoubt = () => {
+    if (!form.question.trim()) return;
+    setDoubts(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...form }, ...prev]);
+    setForm({ question: "", context: "", whereGodMet: "" });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  const deleteDoubt = (id: string) => setDoubts(prev => prev.filter(e => e.id !== id));
 
   const doubt = DOUBT_TYPES.find(d => d.id === selectedType)!;
 
@@ -152,10 +180,11 @@ export default function DoubtPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "types" as const, label: "Types of Doubt", icon: "🔍" },
+            { id: "types" as const, label: "Types", icon: "🔍" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
-            { id: "scripture" as const, label: "In Scripture", icon: "📜" },
+            { id: "scripture" as const, label: "Scripture", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Questions", icon: "❓" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -272,6 +301,66 @@ export default function DoubtPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Questions Journal</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>Write down your honest questions. Naming doubt takes away its power. God meets honest seekers.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>THE QUESTION</label>
+                  <input value={form.question} onChange={e => setForm(f => ({ ...f, question: e.target.value }))}
+                    placeholder="Write the actual question you're afraid to ask..." aria-label="The question you're wrestling with"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>CONTEXT (OPTIONAL)</label>
+                  <textarea value={form.context} onChange={e => setForm(f => ({ ...f, context: e.target.value }))}
+                    placeholder="What brought this question up? What happened?" aria-label="Context for the question"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>WHERE GOD MET ME (OPTIONAL — fill in later)</label>
+                  <textarea value={form.whereGodMet} onChange={e => setForm(f => ({ ...f, whereGodMet: e.target.value }))}
+                    placeholder="What Scripture, person, or experience brought light to this doubt?" aria-label="Where God met me in this doubt"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <button type="button" onClick={saveDoubt}
+                  style={{ padding: "11px", background: saved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: saved ? BG : "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {saved ? "✓ Saved" : "Record This Question"}
+                </button>
+              </div>
+            </div>
+            {doubts.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>❓</div>
+                <p>No questions recorded yet. Write them down — God is not afraid of your questions.</p>
+              </div>
+            )}
+            {doubts.map(e => (
+              <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                  <p style={{ color: TEXT, fontSize: 15, fontWeight: 700, margin: 0, flex: 1 }}>{e.question}</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, marginLeft: 12 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>
+                      {new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </span>
+                    <button type="button" onClick={() => deleteDoubt(e.id)}
+                      style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                  </div>
+                </div>
+                {e.context && <p style={{ color: MUTED, fontSize: 13, marginBottom: 6, lineHeight: 1.55 }}>{e.context}</p>}
+                {e.whereGodMet && (
+                  <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 10 }}>
+                    <span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>Where God met me: </span>
+                    <span style={{ color: TEXT, fontSize: 13 }}>{e.whereGodMet}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -282,8 +371,7 @@ export default function DoubtPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 16 }}>
               {DOUBT_VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ color: MUTED, fontSize: 12 }}>{v.channel}</div>

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "discoveries" | "sites" | "significance" | "voices" | "videos";
+type Tab = "discoveries" | "sites" | "significance" | "voices" | "journal" | "videos";
 
 const ERA_FILTERS = ["All", "Patriarchal Era", "Exodus & Conquest", "Kingdom Period", "Exile & Return", "New Testament Era"];
 
@@ -329,6 +331,20 @@ export default function BiblicalArchaeologyPage() {
 
   const filtered = DISCOVERIES.filter(d => era === "All" || d.era === era);
   const discovery = DISCOVERIES.find(d => d.title === selected);
+
+  const [baEntries, setBaEntries] = useState<{ id: string; date: string; discovery: string; faith: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ba_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [baForm, setBaForm] = useState({ discovery: "", faith: "", question: "" });
+  const [baSaved, setBaSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ba_entries", JSON.stringify(baEntries)); }, [baEntries]);
+  function saveBaEntry() {
+    if (!baForm.discovery.trim()) return;
+    setBaEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...baForm }, ...prev]);
+    setBaForm({ discovery: "", faith: "", question: "" });
+    setBaSaved(true); setTimeout(() => setBaSaved(false), 2000);
+  }
+  function deleteBaEntry(id: string) { setBaEntries(prev => prev.filter(e => e.id !== id)); }
   const activeVoice = VOICES_ARCH.find(v => v.id === selectedVoice)!;
 
   return (
@@ -354,10 +370,10 @@ export default function BiblicalArchaeologyPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 6, flexWrap: "wrap" }}>
-          {(["discoveries", "sites", "significance", "voices", "videos"] as const).map(t => (
+          {(["discoveries", "sites", "significance", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "discoveries" ? "Discoveries" : t === "sites" ? "Sites" : t === "significance" ? "Significance" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "discoveries" ? "Discoveries" : t === "sites" ? "Sites" : t === "significance" ? "Significance" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -517,6 +533,50 @@ export default function BiblicalArchaeologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Archaeology Faith Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record archaeological discoveries that have strengthened your faith, and questions they raise.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Discovery I am reflecting on</label>
+                <input value={baForm.discovery} onChange={e => setBaForm(f => ({ ...f, discovery: e.target.value }))} placeholder="e.g. Dead Sea Scrolls, Tel Dan Inscription, Pool of Siloam..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>How it strengthens my faith</label>
+                <textarea value={baForm.faith} onChange={e => setBaForm(f => ({ ...f, faith: e.target.value }))} rows={3} placeholder="What does this discovery confirm or illuminate in Scripture?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>A question it raises</label>
+                <textarea value={baForm.question} onChange={e => setBaForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="What are you still uncertain about or want to explore?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBaEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {baSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {baEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({baEntries.length})</h3>
+                {baEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.discovery}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBaEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.faith && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Faith:</strong> {e.faith}</p>}
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Question:</strong> {e.question}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -526,19 +586,13 @@ export default function BiblicalArchaeologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "QvpyPpIcxNg", title: "Archeological Evidence of Ancient Israel", channel: "Professor Joel Kramer / Expedition Bible", description: "Biblical archaeologist Joel Kramer examines evidence from key sites in Israel that confirm the historical background of the Scriptures." },
-                  { videoId: "Y94ewzTKEKw", title: "Archaeological Discovery Forcing Skeptics to Rethink King David", channel: "Archaeology Documentary", description: "Recent excavations in central Israel have uncovered evidence that is reshaping scholarly understanding of David's kingdom and the United Monarchy." },
-                  { videoId: "OY0gEwhsF-c", title: "Stunning Archaeological Evidence That Proves the Bible", channel: "Biblical Archaeology Documentary", description: "A lecture exploring 10th-century finds from the City of David and what they mean for the historicity of the biblical narrative." },
-                  { videoId: "idIRQNoW1uQ", title: "Is There Evidence for the Bible? Archaeology of Ancient Israel", channel: "Archaeology & Faith", description: "A scholarly examination of what archaeology can and cannot confirm about the biblical text — honest, informative, and faith-affirming." },
+                  { videoId: "oNpTha80yyE", title: "Archeological Evidence of Ancient Israel", channel: "Professor Joel Kramer / Expedition Bible", description: "Biblical archaeologist Joel Kramer examines evidence from key sites in Israel that confirm the historical background of the Scriptures." },
+                  { videoId: "4Eg_di-O8nM", title: "Archaeological Discovery Forcing Skeptics to Rethink King David", channel: "Archaeology Documentary", description: "Recent excavations in central Israel have uncovered evidence that is reshaping scholarly understanding of David's kingdom and the United Monarchy." },
+                  { videoId: "mC-zw0zCCtg", title: "Stunning Archaeological Evidence That Proves the Bible", channel: "Biblical Archaeology Documentary", description: "A lecture exploring 10th-century finds from the City of David and what they mean for the historicity of the biblical narrative." },
+                  { videoId: "7_CGP-12AE0", title: "Is There Evidence for the Bible? Archaeology of Ancient Israel", channel: "Archaeology & Faith", description: "A scholarly examination of what archaeology can and cannot confirm about the biblical text — honest, informative, and faith-affirming." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

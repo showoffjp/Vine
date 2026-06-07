@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -241,7 +243,7 @@ export default function SinglesPage() {
               {PRACTICES.map((p, i) => {
                 const checked = checkedPractices.has(String(i));
                 return (
-                  <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(String(i)) ? n.delete(String(i)) : n.add(String(i)); return n; })}
+                  <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); if (n.has(String(i))) { n.delete(String(i)); } else { n.add(String(i)); } return n; })}
                     style={{ background: CARD, border: `1px solid ${checked ? GREEN + "40" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                     <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                       <div style={{ width: 22, height: 22, borderRadius: 4, border: `2px solid ${checked ? GREEN : BORDER}`, background: checked ? GREEN : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
@@ -280,19 +282,13 @@ export default function SinglesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "9a-t2eIP-po", title: "The Gift of Singleness — 1 Corinthians 7:32–35", channel: "Our Daily Bread", description: "A rich devotional teaching on 1 Corinthians 7 — Paul's extraordinary vision of singleness as a gift that enables undivided devotion to the Lord." },
-                  { videoId: "70ydFy-FJr0", title: "Singleness and the Gospel: 1 Corinthians 7", channel: "Gospel-Centered Teaching", description: "How Christ transforms the meaning of singleness — moving from cultural stigma to a distinct calling that reflects the coming kingdom where marriage is no more." },
-                  { videoId: "NWa7HgimjXI", title: "1 Corinthians 7:25–40 | Singleness and the Believer", channel: "Expository Bible Teaching", description: "An expository walk through Paul's teaching on singleness and celibacy in 1 Corinthians 7 — what Paul actually says, and what it demands of the church today." },
-                  { videoId: "HOzIKZs0ymE", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan's challenge to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over platform and recognition." },
+                  { videoId: "KwX1f2gYKZ4", title: "The Gift of Singleness — 1 Corinthians 7:32–35", channel: "Our Daily Bread", description: "A rich devotional teaching on 1 Corinthians 7 — Paul's extraordinary vision of singleness as a gift that enables undivided devotion to the Lord." },
+                  { videoId: "YNd-PbVhnvA", title: "Singleness and the Gospel: 1 Corinthians 7", channel: "Gospel-Centered Teaching", description: "How Christ transforms the meaning of singleness — moving from cultural stigma to a distinct calling that reflects the coming kingdom where marriage is no more." },
+                  { videoId: "XtwIT8JjddM", title: "1 Corinthians 7:25–40 | Singleness and the Believer", channel: "Expository Bible Teaching", description: "An expository walk through Paul's teaching on singleness and celibacy in 1 Corinthians 7 — what Paul actually says, and what it demands of the church today." },
+                  { videoId: "jH_aojNJM3E", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan's challenge to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over platform and recognition." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

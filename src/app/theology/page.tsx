@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -17,7 +19,7 @@ type Doctrine = {
 type Council = { id: string; name: string; year: string; location: string; issue: string; decision: string; creed: string; significance: string; };
 type Creed = { id: string; name: string; year: string; origin: string; fullText: string; keyLine: string; explanation: string; };
 type TheoVideo = { id: string; preacher: string; title: string; description: string; videoId: string; };
-type Tab = "doctrines" | "councils" | "creeds" | "videos";
+type Tab = "doctrines" | "councils" | "creeds" | "videos" | "journal";
 
 const doctrines: Doctrine[] = [
   {
@@ -117,7 +119,7 @@ const doctrines: Doctrine[] = [
     thinkers: ["B.B. Warfield", "N.T. Wright", "Kevin Vanhoozer", "Scot McKnight", "Karl Barth"],
   },
   {
-    id: "eschatology",
+    id: "oNpTha80yyE",
     name: "Eschatology (End Times)",
     category: "Future",
     emoji: "🌅",
@@ -267,7 +269,7 @@ const THEO_CREEDS: Creed[] = [
     explanation: "The Athanasian Creed is the most theologically precise of the three historic creeds. Its distinctive contribution is its relentless parallelism: it works through each person of the Trinity in turn, carefully asserting what is common to all three (one divine nature) and what is distinct to each (the Father is unbegotten; the Son is eternally begotten; the Spirit eternally proceeds). Its opening and closing warnings about salvation have made it controversial, but its Trinitarian formulations are considered among the most precise ever produced."
   },
   {
-    id: "westminster",
+    id: "IJ-FekWUZzE",
     name: "Westminster Confession of Faith, Chapter 1",
     year: "1646",
     origin: "Produced by the Westminster Assembly (1643-1649), a gathering of English and Scottish theologians. Chapter 1 addresses the doctrine of Scripture — the foundational question of Reformed theology.",
@@ -283,42 +285,42 @@ const THEOLOGY_VIDEOS: TheoVideo[] = [
     preacher: "Tim Keller",
     title: "The Reason for God",
     description: "Keller makes the intellectual case for Christian theism before a Google audience, covering doubt, evil, and justice with characteristic clarity and cultural engagement.",
-    videoId: "Kxup3OS5ZhQ"
+    videoId: "tp5MIrMZFqo"
   },
   {
     id: "sproul-holiness",
     preacher: "R.C. Sproul",
     title: "The Holiness of God",
     description: "Sproul's landmark lecture on the attribute that distinguishes God from everything else — the foundation of all Christian theology and the lost note of modern Christianity.",
-    videoId: "v6xk8e7gdMA"
+    videoId: "3Dv4-n6OYGI"
   },
   {
     id: "sproul-trauma",
     preacher: "R.C. Sproul",
     title: "The Trauma of Holiness",
     description: "Lecture 2 from Sproul's series — why encountering the holy God undoes and remakes the human person. The pattern of Isaiah 6 as the shape of all genuine conversion.",
-    videoId: "7CBgp74UwbU"
+    videoId: "q5QEH9bH8AU"
   },
   {
     id: "baucham-supremacy",
     preacher: "Voddie Baucham",
     title: "The Supremacy of Christ and Truth",
     description: "A rigorous theological defense of Christ's exclusive supremacy delivered at the 2006 Desiring God Conference — addressing pluralism, postmodernism, and the claims of the gospel.",
-    videoId: "by8ykv7-A3c"
+    videoId: "mC-zw0zCCtg"
   },
   {
-    id: "chan-spirit",
+    id: "JqOqJlFF_eU",
     preacher: "Francis Chan",
     title: "Forgotten God: Theology of the Holy Spirit",
     description: "Chan's accessible teaching on the person and work of the Holy Spirit in the Christian life — the most neglected person of the Trinity in contemporary evangelical churches.",
-    videoId: "SCUEicqda1g"
+    videoId: "kOYy8iCfIJ4"
   },
   {
-    id: "piper-waste",
+    id: "qjbYnCadoGw",
     preacher: "John Piper",
     title: "Don't Waste Your Life",
     description: "Piper roots radical living in deep theology: because God is God and human life is brief, there is a purpose that demands all of us — and anything less is a wasted life.",
-    videoId: "JHdB1dYAteA"
+    videoId: "j9phNEaPrv8"
   }
 ];
 
@@ -351,8 +353,8 @@ export default function TheologyPage() {
     try { localStorage.setItem("vine_theology_saved", JSON.stringify([...savedDocs])); } catch {}
   }, [savedDocs]);
 
-  const toggleStudied = (id: string) => setStudiedDocs(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleSaved = (id: string) => setSavedDocs(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleStudied = (id: string) => setStudiedDocs(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleSaved = (id: string) => setSavedDocs(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
 
   const filtered = doctrines.filter(d =>
     (catFilter === "All" || d.category === catFilter) &&
@@ -360,6 +362,19 @@ export default function TheologyPage() {
   );
 
   const activeCreed = THEO_CREEDS.find(c => c.id === selectedCreed)!;
+
+  type TheologyJE = { id: string; date: string; doctrine: string; insight: string; applying: string };
+  const [theologyJournal, setTheologyJournal] = useState<TheologyJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_theologyj_entries") ?? "[]"); } catch { return []; } });
+  const [jDoctrine, setJDoctrine] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_theologyj_entries", JSON.stringify(theologyJournal)); } catch {} }, [theologyJournal]);
+  function saveTheologyEntry() {
+    if (!jDoctrine.trim() && !jInsight.trim()) return;
+    setTheologyJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), doctrine: jDoctrine, insight: jInsight, applying: jApplying }, ...prev]);
+    setJDoctrine(""); setJInsight(""); setJApplying("");
+  }
+  function deleteTheologyEntry(id: string) { setTheologyJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
@@ -398,9 +413,9 @@ export default function TheologyPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, padding: "6px", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, flexWrap: "wrap" }}>
-          {(["doctrines", "councils", "creeds", "videos"] as const).map(t => (
+          {(["doctrines", "councils", "creeds", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "doctrines" ? "Doctrines" : t === "councils" ? "Historic Councils" : t === "creeds" ? "Creeds & Confessions" : "Watch & Learn"}
+              {t === "doctrines" ? "Doctrines" : t === "councils" ? "Historic Councils" : t === "creeds" ? "Creeds & Confessions" : t === "videos" ? "Watch & Learn" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -610,6 +625,33 @@ export default function TheologyPage() {
         )}
 
         {/* VIDEOS TAB */}
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record doctrines you&apos;re studying, insights gained, and how systematic theology is changing how you think and live.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Doctrine</label><textarea value={jDoctrine} onChange={e => setJDoctrine(e.target.value)} placeholder="Which doctrine or theological topic are you studying?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What struck you, surprised you, or deepened your understanding?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this doctrine change how you pray, worship, or live?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveTheologyEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {theologyJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {theologyJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteTheologyEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.doctrine && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Doctrine</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.doctrine}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
@@ -626,14 +668,7 @@ export default function TheologyPage() {
                     <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{v.description}</p>
                   </div>
                   <div style={{ padding: "0 20px 20px" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                   </div>
                 </div>
               ))}

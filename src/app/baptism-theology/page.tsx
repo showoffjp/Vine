@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "practice" | "history" | "videos";
+type Tab = "theology" | "views" | "practice" | "history" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -261,11 +263,26 @@ export default function BaptismTheologyPage() {
 
   const currentView = VIEWS.find((v) => v.id === selectedView);
 
+  const [btEntries, setBtEntries] = useState<{ id: string; date: string; view: string; meaningful: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [btForm, setBtForm] = useState({ view: "Believer's Baptism (Baptist)", meaningful: "", question: "" });
+  const [btSaved, setBtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bt_entries", JSON.stringify(btEntries)); }, [btEntries]);
+  function saveBtEntry() {
+    if (!btForm.meaningful.trim()) return;
+    setBtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...btForm }, ...prev]);
+    setBtForm({ view: "Believer's Baptism (Baptist)", meaningful: "", question: "" });
+    setBtSaved(true); setTimeout(() => setBtSaved(false), 2000);
+  }
+  function deleteBtEntry(id: string) { setBtEntries(prev => prev.filter(e => e.id !== id)); }
+
   const TABS: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Baptism" },
     { id: "views", label: "Views on Baptism" },
     { id: "practice", label: "Practice" },
     { id: "history", label: "History of Baptism" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -693,6 +710,52 @@ export default function BaptismTheologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Baptism Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on your baptism or your baptism theology — what it means and what it has meant in your life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My baptism view</label>
+                <select value={btForm.view} onChange={e => setBtForm(f => ({ ...f, view: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {["Believer's Baptism (Baptist)", "Baptismal Regeneration (Catholic/Lutheran)", "Covenant Infant Baptism (Presbyterian)", "Covenantal Seal (Reformed)", "Ordinance Only (Memorialist)", "Still Working It Out"].map(v => <option key={v} value={v}>{v}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What baptism means to me personally</label>
+                <textarea value={btForm.meaningful} onChange={e => setBtForm(f => ({ ...f, meaningful: e.target.value }))} rows={3} placeholder="Your baptism story or what the theology means for your life..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>A question I still have</label>
+                <textarea value={btForm.question} onChange={e => setBtForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="What about baptism are you still working through?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBtEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {btSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {btEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({btEntries.length})</h3>
+                {btEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.view}</span>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteBtEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.meaningful && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Meaning:</strong> {e.meaningful}</p>}
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Question:</strong> {e.question}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -702,19 +765,13 @@ export default function BaptismTheologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "gLRX1WP2wg4", title: "Baptism Debate: A Paedobaptist Position with R.C. Sproul", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul presents the historic Reformed case for infant baptism — the covenant continuity argument — in a formal theological debate." },
-                  { videoId: "0JdwtcFNVU4", title: "What Is the Doctrine of Baptism? — Reformed Theology", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explains what baptism signifies within a Reformed sacramental framework, connecting it to circumcision and the covenant of grace." },
-                  { videoId: "ALsluAKBZ-c", title: "Old Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "Understanding the Old Testament covenant structure is essential for the baptism debate — BibleProject provides the clearest visual overview available." },
-                  { videoId: "Q0BrP8bqj0c", title: "New Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "The New Testament's development of the covenant and its signs — including baptism — explained through BibleProject's acclaimed animated overview." },
+                  { videoId: "OqwbFGoRYVo", title: "Baptism Debate: A Paedobaptist Position with R.C. Sproul", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul presents the historic Reformed case for infant baptism — the covenant continuity argument — in a formal theological debate." },
+                  { videoId: "npEDqbE6faE", title: "What Is the Doctrine of Baptism? — Reformed Theology", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explains what baptism signifies within a Reformed sacramental framework, connecting it to circumcision and the covenant of grace." },
+                  { videoId: "krxcqH522uo", title: "Old Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "Understanding the Old Testament covenant structure is essential for the baptism debate — BibleProject provides the clearest visual overview available." },
+                  { videoId: "52ZXFH1wzc8", title: "New Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "The New Testament's development of the covenant and its signs — including baptism — explained through BibleProject's acclaimed animated overview." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

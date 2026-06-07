@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -12,7 +14,7 @@ type Stage = { age: string; label: string; emoji: string; color: string; verse: 
 type Rhythm = { id: string; name: string; icon: string; frequency: string; description: string; howTo: string[]; verse: string; verseRef: string; };
 type Voice = { id: string; name: string; era: string; context: string; bio: string; quote: string; contribution: string; };
 type Video = { id: string; preacher: string; title: string; description: string; videoId: string; };
-type Tab = "stages" | "rhythms" | "voices" | "videos";
+type Tab = "stages" | "rhythms" | "voices" | "journal" | "videos";
 
 const stages: Stage[] = [
   {
@@ -259,42 +261,42 @@ const PARENTING_VIDEOS: Video[] = [
     preacher: "Voddie Baucham",
     title: "Family Driven Faith",
     description: "Baucham makes the case that parents, not youth groups, are God’s primary vehicle for raising children in faith — a direct, exegetically grounded call for parents to reclaim the home as the primary seminary.",
-    videoId: "k764Pe2P61U"
+    videoId: "GQI72THyO5I"
   },
   {
     id: "purpose-parent",
     preacher: "Voddie Baucham",
     title: "The Purpose of Parenting",
     description: "What is the actual goal of Christian parenting? Baucham answers from Scripture with characteristic clarity — the goal is not happy children but children who know and love God.",
-    videoId: "WUE-J-br7P0"
+    videoId: "krxcqH522uo"
   },
   {
     id: "prodigal",
     preacher: "Tim Keller",
     title: "The Prodigal Sons",
     description: "Keller’s exposition of Luke 15 offers the deepest picture of what a father’s love looks like — the model for all parents. This sermon has shaped how a generation understands unconditional love.",
-    videoId: "lsTzXI7cJGA"
+    videoId: "nQWFzMvCfLE"
   },
   {
     id: "dont-waste",
     preacher: "John Piper",
     title: "Don’t Waste Your Life",
     description: "Piper’s call helps parents understand what they’re raising their children toward — a life that counts for eternity, not a life of safety and comfort that amounts to nothing.",
-    videoId: "JHdB1dYAteA"
+    videoId: "ccNvwDPguNU"
   },
   {
     id: "shocking-youth",
     preacher: "Paul Washer",
     title: "Shocking Youth Message",
     description: "Washer’s confronting message about what true faith looks like in the next generation — a necessary corrective to shallow, cultural Christianity that leaves young people with no real root.",
-    videoId: "uuabITeO4l8"
+    videoId: "j9phNEaPrv8"
   },
   {
     id: "radical-platt",
     preacher: "David Platt",
     title: "Radical: Passion 2011",
     description: "Platt challenges parents: are you raising children for comfort and safety, or for costly discipleship? A message that reorients what we are actually aiming at when we raise children.",
-    videoId: "yhiHSf_L6_E"
+    videoId: "dy9nwe9zeU8"
   }
 ];
 
@@ -311,9 +313,24 @@ export default function ParentingPage() {
     try { localStorage.setItem("vine_parenting_rhythms", JSON.stringify([...savedRhythms])); } catch {}
   }, [savedRhythms]);
 
-  const toggleRhythm = (id: string) => setSavedRhythms(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleRhythm = (id: string) => setSavedRhythms(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
 
   const activeVoice = VOICES_PAR.find(v => v.id === selectedVoice)!;
+
+  const [parJEntries, setParJEntries] = useState<{ id: string; date: string; stage: string; challenge: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_parj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [parJForm, setParJForm] = useState({ stage: "", challenge: "", step: "" });
+  const [parJSaved, setParJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_parj_entries", JSON.stringify(parJEntries)); } catch {} }, [parJEntries]);
+  const saveParJEntry = () => {
+    if (!parJForm.stage.trim()) return;
+    setParJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...parJForm }, ...prev]);
+    setParJForm({ stage: "", challenge: "", step: "" });
+    setParJSaved(true);
+    setTimeout(() => setParJSaved(false), 2000);
+  };
+  const deleteParJEntry = (id: string) => setParJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
@@ -346,9 +363,9 @@ export default function ParentingPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, padding: "6px", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, flexWrap: "wrap" }}>
-          {(["stages", "rhythms", "voices", "videos"] as const).map(t => (
+          {(["stages", "rhythms", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "stages" ? "By Age & Stage" : t === "rhythms" ? "Family Rhythms" : t === "voices" ? "Voices & Authors" : "Watch & Learn"}
+              {t === "stages" ? "By Age & Stage" : t === "rhythms" ? "Family Rhythms" : t === "voices" ? "Voices & Authors" : t === "journal" ? "📓 My Journal" : "Watch & Learn"}
             </button>
           ))}
         </div>
@@ -534,6 +551,50 @@ export default function ParentingPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Parenting Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the stage your child is in, the challenge you are facing, and the next faithful step you will take.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Child&apos;s stage or age</label>
+                  <textarea rows={2} value={parJForm.stage} onChange={e => setParJForm(f => ({ ...f, stage: e.target.value }))} placeholder="e.g. toddler (2), middle school (11), launching (18)" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Challenge I am facing</label>
+                  <textarea rows={2} value={parJForm.challenge} onChange={e => setParJForm(f => ({ ...f, challenge: e.target.value }))} placeholder="What parenting situation is weighing on you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Next faithful step</label>
+                  <textarea rows={2} value={parJForm.step} onChange={e => setParJForm(f => ({ ...f, step: e.target.value }))} placeholder="What will you do or say differently this week?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveParJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {parJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {parJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {parJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteParJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.stage && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Stage</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.stage}</p></div>}
+                    {e.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Challenge</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.challenge}</p></div>}
+                    {e.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -551,14 +612,7 @@ export default function ParentingPage() {
                     <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{v.description}</p>
                   </div>
                   <div style={{ padding: "0 20px 20px" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                   </div>
                 </div>
               ))}

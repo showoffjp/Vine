@@ -338,18 +338,58 @@ function filterMatches(n: Notification, filter: string, readSet: Set<number>): b
   return true;
 }
 
+// Build real notifications from the user's own activity in localStorage
+function buildActivityNotifs(): { group: string; items: Notification[] } | null {
+  if (typeof window === "undefined") return null;
+  const get = (k: string, d: string) => { try { return localStorage.getItem(k) || d; } catch { return d; } };
+  const parseArr = (k: string) => { try { const v = JSON.parse(get(k, "[]")); return Array.isArray(v) ? v.length : 0; } catch { return 0; } };
+  const parseSetSize = (k: string) => { try { const v = JSON.parse(get(k, "[]")); return Array.isArray(v) ? v.length : 0; } catch { return 0; } };
+
+  const items: Notification[] = [];
+  let id = 90000;
+
+  const journalCount = parseArr("vine_journal_entries");
+  if (journalCount > 0) items.push({ id: id++, emoji: "📓", emojiBg: "#6B4FBB", text: `You've written ${journalCount} journal ${journalCount === 1 ? "entry" : "entries"}. Keep pressing into God's presence.`, time: "Your activity", read: false, category: "milestone", action: "Open Journal", href: "/journal" });
+
+  const userPosts = parseArr("vine_user_posts");
+  if (userPosts > 0) items.push({ id: id++, emoji: "✍️", emojiBg: "#3a7d56", text: `You've shared ${userPosts} ${userPosts === 1 ? "post" : "posts"} with the community.`, time: "Your activity", read: false, category: "milestone", action: "View Feed", href: "/feed" });
+
+  const prayedFor = parseSetSize("vine_prayer_wall_prayed");
+  if (prayedFor > 0) items.push({ id: id++, emoji: "🙏", emojiBg: "#4CAF82", text: `You've prayed for ${prayedFor} ${prayedFor === 1 ? "person" : "people"} on the prayer wall. Galatians 6:2 in action.`, time: "Your activity", read: false, category: "prayer", action: "Prayer Wall", href: "/prayer-wall" });
+
+  const daily = parseSetSize("vine_daily_completed");
+  if (daily > 0) items.push({ id: id++, emoji: "✅", emojiBg: "#3A7BD5", text: `You've completed ${daily} daily ${daily === 1 ? "devotional" : "devotionals"}. Faithfulness compounds.`, time: "Your activity", read: false, category: "devotional", action: "Today's Devotional", href: "/daily" });
+
+  const chapters = parseSetSize("vine_reading_plan");
+  if (chapters > 0) items.push({ id: id++, emoji: "📖", emojiBg: "#E8A030", text: `You've read ${chapters} ${chapters === 1 ? "chapter" : "chapters"} in your reading plan.`, time: "Your activity", read: false, category: "milestone", action: "Reading Plan", href: "/reading-plan" });
+
+  const verses = parseArr("vine_verse_memory");
+  if (verses > 0) items.push({ id: id++, emoji: "🧠", emojiBg: "#BB4F7A", text: `You're memorizing ${verses} ${verses === 1 ? "verse" : "verses"}. Psalm 119:11 — hiding His Word in your heart.`, time: "Your activity", read: false, category: "milestone", action: "Verse Memory", href: "/verse-memory" });
+
+  if (items.length === 0) return null;
+  return { group: "Your Activity", items };
+}
+
 export default function NotificationsPage() {
   const [activeFilter, setActiveFilter] = usePersistedState<string>("vine_notifications_active_filter", "All");
   const [showOlder, setShowOlder] = useState(false);
   const [readSet, setReadSet] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_notif_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
+  const [activityNotifs, setActivityNotifs] = useState<{ group: string; items: Notification[] } | null>(null);
+
+  useEffect(() => {
+    // Read user activity from localStorage after hydration (avoids SSR mismatch)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActivityNotifs(buildActivityNotifs());
+  }, []);
 
   useEffect(() => {
     try { localStorage.setItem("vine_notif_read", JSON.stringify([...readSet])); } catch {}
   }, [readSet]);
 
-  const displayedNotifs = showOlder ? [...allNotifs, ...olderNotifs] : allNotifs;
+  const baseNotifs = showOlder ? [...allNotifs, ...olderNotifs] : allNotifs;
+  const displayedNotifs = activityNotifs ? [activityNotifs, ...baseNotifs] : baseNotifs;
 
   const markRead = (id: number) => {
     setReadSet((prev) => new Set([...prev, id]));

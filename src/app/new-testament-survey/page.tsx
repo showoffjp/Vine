@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -119,7 +122,7 @@ const READING_GUIDE = [
   { section: "Revelation Last — And Slowly", icon: "🌅", desc: "Read Revelation after you know the OT prophets (Ezekiel, Daniel, Zechariah) and after you understand the historical context (Roman imperial persecution of Christians, ~95 AD). Come to it expecting vision and symbol, not literal prediction. The central question is: who is sovereign — Caesar or the Lamb? The answer is already decided; the book invites you to live from that certainty." },
 ];
 
-type Tab = "sections" | "themes" | "scholars" | "reading" | "videos";
+type Tab = "sections" | "themes" | "scholars" | "reading" | "journal" | "videos";
 
 export default function NewTestamentSurveyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_new-testament-survey_tab", "sections");
@@ -128,6 +131,21 @@ export default function NewTestamentSurveyPage() {
 
   const section = SECTIONS.find(s => s.name === selected)!;
   const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
+
+  const [ntsJEntries, setNtsJEntries] = useState<{ id: string; date: string; passage: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_nts_entries") ?? "[]"); } catch { return []; }
+  });
+  const [ntsJForm, setNtsJForm] = useState({ passage: "", insight: "", applying: "" });
+  const [ntsJSaved, setNtsJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_nts_entries", JSON.stringify(ntsJEntries)); } catch {} }, [ntsJEntries]);
+  const saveNtsJEntry = () => {
+    if (!ntsJForm.passage.trim()) return;
+    setNtsJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ntsJForm }, ...prev]);
+    setNtsJForm({ passage: "", insight: "", applying: "" });
+    setNtsJSaved(true);
+    setTimeout(() => setNtsJSaved(false), 2000);
+  };
+  const deleteNtsJEntry = (id: string) => setNtsJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -148,6 +166,7 @@ export default function NewTestamentSurveyPage() {
             { id: "themes" as const, label: "Themes", icon: "🧵" },
             { id: "scholars" as const, label: "Scholars", icon: "🧠" },
             { id: "reading" as const, label: "Reading Guide", icon: "🗺️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -259,6 +278,50 @@ export default function NewTestamentSurveyPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My NT Survey Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record passages you are studying, the key insight God gave you, and how you are applying it to your life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Passage or book I am studying</label>
+                  <textarea rows={2} value={ntsJForm.passage} onChange={e => setNtsJForm(f => ({ ...f, passage: e.target.value }))} placeholder="e.g. Romans 8, the Gospel of John" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Key insight</label>
+                  <textarea rows={2} value={ntsJForm.insight} onChange={e => setNtsJForm(f => ({ ...f, insight: e.target.value }))} placeholder="What did you learn or understand more clearly?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am applying it</label>
+                  <textarea rows={2} value={ntsJForm.applying} onChange={e => setNtsJForm(f => ({ ...f, applying: e.target.value }))} placeholder="What changes in how you think, pray, or act?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveNtsJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {ntsJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {ntsJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {ntsJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteNtsJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.passage && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Passage</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.passage}</p></div>}
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.insight}</p></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -268,20 +331,14 @@ export default function NewTestamentSurveyPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "cRmWSB1c6L8", title: "How to Study the Bible", teacher: "R.C. Sproul" },
-                { id: "Io4iprqK5y0", title: "New Testament Survey — Introduction", teacher: "Academic Lecture" },
-                { id: "N4WkOkKu9nA", title: "Why Study the Bible?", teacher: "R.C. Sproul" },
-                { id: "xXMO6DV8F_s", title: "New Testament Survey — Overview", teacher: "Lakeside Institute of Theology" },
+                { id: "t6L-F2emwUc", title: "How to Study the Bible", teacher: "R.C. Sproul" },
+                { id: "jH_aojNJM3E", title: "New Testament Survey — Introduction", teacher: "Academic Lecture" },
+                { id: "oNpTha80yyE", title: "Why Study the Bible?", teacher: "R.C. Sproul" },
+                { id: "IJ-FekWUZzE", title: "New Testament Survey — Overview", teacher: "Lakeside Institute of Theology" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

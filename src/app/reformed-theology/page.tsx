@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -95,9 +97,23 @@ const REFORMED_RESOURCES = [
 ];
 
 export default function ReformedTheologyPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"tulip" | "confessions" | "figures" | "resources" | "videos">("vine_reformed-theology_tab", "tulip");
+  const [activeTab, setActiveTab] = usePersistedState<"tulip" | "confessions" | "figures" | "resources" | "journal" | "videos">("vine_reformed-theology_tab", "tulip");
   const [selectedTulip, setSelectedTulip] = useState<string | null>(null);
   const tulip = TULIP.find(t => t.letter === selectedTulip);
+
+  type JournalEntry = { id: string; date: string; doctrine: string; insight: string; applying: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_rtj_entries") ?? "[]"); } catch { return []; } });
+  const [jDoctrine, setJDoctrine] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_rtj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jDoctrine.trim() && !jInsight.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), doctrine: jDoctrine, insight: jInsight, applying: jApplying };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJDoctrine(""); setJInsight(""); setJApplying("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -115,9 +131,10 @@ export default function ReformedTheologyPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "tulip" as const, label: "TULIP", icon: "🌷" },
-            { id: "confessions" as const, label: "Confessions", icon: "📜" },
+            { id: "OqwbFGoRYVo" as const, label: "Confessions", icon: "📜" },
             { id: "figures" as const, label: "Key Figures", icon: "👤" },
             { id: "resources" as const, label: "Resources", icon: "📚" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -249,6 +266,38 @@ export default function ReformedTheologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Reformed Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record what you are learning about Reformed doctrine and how it is shaping your faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jDoctrine} onChange={e => setJDoctrine(e.target.value)} placeholder="Doctrine or point (e.g. Total Depravity, Election)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What did you learn or wrestle with?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this shape your worship, prayer, or service?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your journey through Reformed theology.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.doctrine || "Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.insight && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Insight:</strong> {entry.insight}</p>}
+                    {entry.applying && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Applying:</strong> {entry.applying}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -258,20 +307,14 @@ export default function ReformedTheologyPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "qT8gts0FkPI", title: "What Is Reformed Theology?", teacher: "R.C. Sproul" },
-                { id: "RvUpyxnqAow", title: "Total Depravity — Reformed Theology", teacher: "R.C. Sproul" },
-                { id: "tQ3N8YTjEpc", title: "Limited Atonement — Reformed Theology", teacher: "R.C. Sproul" },
-                { id: "loXh8PqrR3Y", title: "Irresistible Grace — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "npEDqbE6faE", title: "What Is Reformed Theology?", teacher: "R.C. Sproul" },
+                { id: "krxcqH522uo", title: "Total Depravity — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "52ZXFH1wzc8", title: "Limited Atonement — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "KRsuCQe7aVk", title: "Irresistible Grace — Reformed Theology", teacher: "R.C. Sproul" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

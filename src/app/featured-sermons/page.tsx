@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "sermons" | "categories" | "how-to-listen" | "voices" | "videos";
+type Tab = "sermons" | "categories" | "how-to-listen" | "voices" | "journal" | "videos";
 
 const FS_FEAT_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "The Best Sermon You've Never Heard — Tim Keller", channel: "Gospel in Life", description: "Keller's most acclaimed and recommended talks — a curated introduction to one of the 20th century's most significant preachers." },
-  { videoId: "ACZbpLkY8To", title: "Martyn Lloyd-Jones — The Doctor Preaches", channel: "Ligonier Ministries", description: "A selection of Lloyd-Jones's most powerful sermons and why he is still considered the greatest preacher of the 20th century." },
-  { videoId: "fJnGJN6laqE", title: "Expository Preaching at Its Best — Examples", channel: "Desiring God", description: "What makes a great expository sermon? John Piper demonstrates and explains with examples from Scripture." },
-  { videoId: "Z8lkuuhVkOI", title: "The Sermon and the Cross — Great Preaching on the Atonement", channel: "The Gospel Coalition", description: "A collection of landmark gospel sermons on the cross — what preaching sounds like when Christ and him crucified is truly the center." },
+  { videoId: "rtkS_8VWfB0", title: "The Best Sermon You've Never Heard — Tim Keller", channel: "Gospel in Life", description: "Keller's most acclaimed and recommended talks — a curated introduction to one of the 20th century's most significant preachers." },
+  { videoId: "ej_6dVdJSIU", title: "Martyn Lloyd-Jones — The Doctor Preaches", channel: "Ligonier Ministries", description: "A selection of Lloyd-Jones's most powerful sermons and why he is still considered the greatest preacher of the 20th century." },
+  { videoId: "4Eg_di-O8nM", title: "Expository Preaching at Its Best — Examples", channel: "Desiring God", description: "What makes a great expository sermon? John Piper demonstrates and explains with examples from Scripture." },
+  { videoId: "gV9JugO_5Mk", title: "The Sermon and the Cross — Great Preaching on the Atonement", channel: "The Gospel Coalition", description: "A collection of landmark gospel sermons on the cross — what preaching sounds like when Christ and him crucified is truly the center." },
 ];
 
 const ERA_FILTERS = ["All", "Puritan & Colonial", "19th Century", "20th Century", "Contemporary"];
@@ -333,6 +335,20 @@ export default function FeaturedSermonsPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
 
+  const [fserEntries, setFserEntries] = useState<{ id: string; date: string; sermon: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_fser_entries") ?? "[]"); } catch { return []; }
+  });
+  const [fserForm, setFserForm] = useState({ sermon: "", insight: "", applying: "" });
+  const [fserSaved, setFserSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_fser_entries", JSON.stringify(fserEntries)); } catch {} }, [fserEntries]);
+  const saveFserEntry = () => {
+    if (!fserForm.sermon.trim()) return;
+    setFserEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fserForm }, ...prev]);
+    setFserForm({ sermon: "", insight: "", applying: "" });
+    setFserSaved(true); setTimeout(() => setFserSaved(false), 2000);
+  };
+  const deleteFserEntry = (id: string) => setFserEntries(prev => prev.filter(e => e.id !== id));
+
   const filtered = SERMONS.filter(s => era === "All" || s.era === era);
   const sermon = SERMONS.find(s => s.title === selected);
   const voice = VOICES_FSER.find(v => v.id === selectedVoice);
@@ -353,10 +369,10 @@ export default function FeaturedSermonsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, flexWrap: "wrap" }}>
-          {(["sermons", "categories", "how-to-listen", "voices", "videos"] as const).map(t => (
+          {(["sermons", "categories", "how-to-listen", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "sermons" ? "Sermons" : t === "categories" ? "Categories" : t === "how-to-listen" ? "How to Listen" : t === "voices" ? "Voices" : "Videos"}
+              {t === "sermons" ? "Sermons" : t === "categories" ? "Categories" : t === "how-to-listen" ? "How to Listen" : t === "voices" ? "Voices" : t === "journal" ? "📓 Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -475,12 +491,59 @@ export default function FeaturedSermonsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Sermon Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record sermons that moved you, insights that landed, and how you are applying them. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>SERMON / PREACHER *</label>
+                <textarea value={fserForm.sermon} onChange={e => setFserForm(f => ({ ...f, sermon: e.target.value }))}
+                  placeholder="Which sermon or preacher is speaking to you right now?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT THAT LANDED</label>
+                <textarea value={fserForm.insight} onChange={e => setFserForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What truth or challenge hit you hardest?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING IT</label>
+                <textarea value={fserForm.applying} onChange={e => setFserForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What concrete step are you taking in response?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFserEntry}
+                style={{ background: fserSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {fserSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fserEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fserEntries.length})</h3>
+                {fserEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFserEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.sermon && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>SERMON: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.sermon}</span></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.insight}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {FS_FEAT_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

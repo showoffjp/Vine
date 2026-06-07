@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 interface Mentor {
   id: string;
   name: string;
@@ -228,10 +230,10 @@ const VOICES_MENT = [
 ];
 
 const MENTORSHIP_VIDEOS = [
-  { videoId: "fJnGJN6laqE", title: "The Art of Mentoring", channel: "The Gospel Coalition", description: "What biblical mentorship looks like — how Paul's relationship with Timothy models intentional, life-on-life discipleship." },
-  { videoId: "Hr3PkGXYRvI", title: "Discipleship That Transforms", channel: "Desiring God", description: "John Piper on what it means to walk alongside someone in the long, slow work of spiritual formation and gospel growth." },
-  { videoId: "ACZbpLkY8To", title: "Finding and Being a Mentor", channel: "Crossway", description: "Practical wisdom on how to find a mentor, how to be a mentor, and what a fruitful discipleship relationship looks like in practice." },
-  { videoId: "Z8lkuuhVkOI", title: "Women Discipling Women", channel: "Ligonier Ministries", description: "Titus 2 in practice — older women teaching younger women, and how this pattern strengthens the whole church." },
+  { videoId: "4Eg_di-O8nM", title: "The Art of Mentoring", channel: "The Gospel Coalition", description: "What biblical mentorship looks like — how Paul's relationship with Timothy models intentional, life-on-life discipleship." },
+  { videoId: "oNpTha80yyE", title: "Discipleship That Transforms", channel: "Desiring God", description: "John Piper on what it means to walk alongside someone in the long, slow work of spiritual formation and gospel growth." },
+  { videoId: "ej_6dVdJSIU", title: "Finding and Being a Mentor", channel: "Crossway", description: "Practical wisdom on how to find a mentor, how to be a mentor, and what a fruitful discipleship relationship looks like in practice." },
+  { videoId: "gV9JugO_5Mk", title: "Women Discipling Women", channel: "Ligonier Ministries", description: "Titus 2 in practice — older women teaching younger women, and how this pattern strengthens the whole church." },
 ];
 
 export default function MentorshipPage() {
@@ -245,7 +247,7 @@ export default function MentorshipPage() {
   const [requestModal, setRequestModal] = useState<Mentor | null>(null);
   const [filterExpertise, setFilterExpertise] = usePersistedState("vine_mentorship_filter_expertise", "All");
   const [filterAvailability, setFilterAvailability] = usePersistedState("vine_mentorship_filter_availability", "All");
-  const [activeTab, setActiveTab] = usePersistedState<"browse" | "my-mentors" | "voices" | "guide" | "videos">("vine_mentorship_tab", "browse");
+  const [activeTab, setActiveTab] = usePersistedState<"browse" | "my-mentors" | "voices" | "guide" | "journal" | "videos">("vine_mentorship_tab", "browse");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_mentorship_voice", "stanley-p");
   const voiceItem = VOICES_MENT.find(v => v.id === selectedVoice)!;
 
@@ -255,6 +257,20 @@ export default function MentorshipPage() {
   useEffect(() => {
     try { localStorage.setItem("vine_mentorship_form_draft", JSON.stringify(form)); } catch {}
   }, [form]);
+
+  const [mentJEntries, setMentJEntries] = useState<{ id: string; date: string; mentor: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ment_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mentJForm, setMentJForm] = useState({ mentor: "", insight: "", applying: "" });
+  const [mentJSaved, setMentJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ment_entries", JSON.stringify(mentJEntries)); } catch {} }, [mentJEntries]);
+  const saveMentJEntry = () => {
+    if (!mentJForm.mentor.trim()) return;
+    setMentJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mentJForm }, ...prev]);
+    setMentJForm({ mentor: "", insight: "", applying: "" });
+    setMentJSaved(true); setTimeout(() => setMentJSaved(false), 2000);
+  };
+  const deleteMentJEntry = (id: string) => setMentJEntries(prev => prev.filter(e => e.id !== id));
 
   const handleSave = (id: string) => {
     setSavedMentors((prev) => {
@@ -291,7 +307,7 @@ export default function MentorshipPage() {
     return expMatch && avMatch;
   });
 
-  const myMentors = mentors.filter((m) => requests.some((r) => r.mentorId === m.id));
+  // myMentors removed - unused
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
@@ -329,7 +345,7 @@ export default function MentorshipPage() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 28, background: "#12121F", padding: 6, borderRadius: 12, border: "1px solid #1E1E32" }}>
-          {(["browse", "my-mentors", "guide", "voices", "videos"] as const).map((tab) => (
+          {(["browse", "my-mentors", "guide", "voices", "journal", "videos"] as const).map((tab) => (
             <button type="button"
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -345,7 +361,7 @@ export default function MentorshipPage() {
                 color: activeTab === tab ? "#fff" : "#9898B3",
               }}
             >
-              {tab === "browse" ? "Find a Mentor" : tab === "my-mentors" ? `My Requests${requests.length ? ` (${requests.length})` : ""}` : tab === "guide" ? "📖 Guide" : tab === "videos" ? "🎬 Videos" : "🎓 Voices"}
+              {tab === "browse" ? "Find a Mentor" : tab === "my-mentors" ? `My Requests${requests.length ? ` (${requests.length})` : ""}` : tab === "guide" ? "📖 Guide" : tab === "voices" ? "🎓 Voices" : tab === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -693,12 +709,47 @@ export default function MentorshipPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Mentorship Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20 }}>Record conversations with mentors and what you're carrying forward.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mentJForm.mentor} onChange={e => setMentJForm(f => ({ ...f, mentor: e.target.value }))}
+                  placeholder="Who is your mentor or model?" aria-label="Mentor"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14 }} />
+                <textarea value={mentJForm.insight} onChange={e => setMentJForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What insight or challenge did you receive?" aria-label="Insight"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mentJForm.applying} onChange={e => setMentJForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How are you applying this? (optional)" aria-label="Applying"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #1E1E32", background: "#07070F", color: "#F2F2F8", fontSize: 14 }} />
+                <button type="button" onClick={saveMentJEntry}
+                  style={{ padding: "10px 20px", background: "#6B4FBB", border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mentJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mentJEntries.length === 0 && <p style={{ color: "#9898B3", fontSize: 14 }}>No entries yet. Record your first mentorship reflection above.</p>}
+              {mentJEntries.map(e => (
+                <div key={e.id} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: "#9898B3", fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMentJEntry(e.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.mentor}</p>
+                  {e.insight && <p style={{ color: "#F2F2F8", fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.insight}</p>}
+                  {e.applying && <p style={{ color: "#3a7d56", fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.applying}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {MENTORSHIP_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

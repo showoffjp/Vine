@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "illness" | "scriptures" | "resources" | "videos";
+type Tab = "theology" | "practices" | "illness" | "scriptures" | "resources" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "The body is good — creation, not prison", color: GREEN, ref: "Genesis 1:31; John 1:14; 1 Corinthians 15:42-44", content: "Ancient Gnosticism taught that matter is evil and the spirit is good — the body is a prison from which the soul must escape. Christianity has always been the counter-claim: God created the body 'very good' (Gen 1:31); the Son of God took on a human body in the Incarnation (John 1:14); and the resurrection body is not the discarding of the body but its transformation. The resurrection of Jesus is a permanent bodily resurrection — he ate fish with the disciples, showed his wounds, and was touched. God's final answer to sin and death is not the escape of the soul but the resurrection of the body." },
@@ -55,10 +57,10 @@ const RESOURCES_DATA = [
 ];
 
 const BODY_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Your Body Is a Temple — What That Actually Means", channel: "Gospel in Life / Tim Keller", description: "Keller unpacks 1 Corinthians 6:19-20 and what it means practically that the Holy Spirit indwells the body." },
-  { videoId: "ACZbpLkY8To", title: "Resurrection of the Body — N.T. Wright", channel: "N.T. Wright Online", description: "Wright explains why the bodily resurrection of Jesus guarantees our own bodily resurrection, and why this changes everything." },
-  { videoId: "fJnGJN6laqE", title: "Theology of the Body — An Overview", channel: "Desiring God", description: "A theological survey of what Scripture teaches about the body from creation to resurrection." },
-  { videoId: "Z8lkuuhVkOI", title: "The Body Is Good — Fighting Gnostic Christianity", channel: "Ligonier Ministries", description: "Why the church must recover a robust theology of the body against both secular materialism and spiritual dualism." },
+  { videoId: "rtkS_8VWfB0", title: "Your Body Is a Temple — What That Actually Means", channel: "Gospel in Life / Tim Keller", description: "Keller unpacks 1 Corinthians 6:19-20 and what it means practically that the Holy Spirit indwells the body." },
+  { videoId: "ej_6dVdJSIU", title: "Resurrection of the Body — N.T. Wright", channel: "N.T. Wright Online", description: "Wright explains why the bodily resurrection of Jesus guarantees our own bodily resurrection, and why this changes everything." },
+  { videoId: "4Eg_di-O8nM", title: "Theology of the Body — An Overview", channel: "Desiring God", description: "A theological survey of what Scripture teaches about the body from creation to resurrection." },
+  { videoId: "gV9JugO_5Mk", title: "The Body Is Good — Fighting Gnostic Christianity", channel: "Ligonier Ministries", description: "Why the church must recover a robust theology of the body against both secular materialism and spiritual dualism." },
 ];
 
 const KEY_SCRIPTURES = [
@@ -76,6 +78,20 @@ export default function TheologyOfBodyPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_theology-of-body_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
+  type JournalEntry = { id: string; date: string; reflection: string; embodied: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_tobj_entries") ?? "[]"); } catch { return []; } });
+  const [jReflection, setJReflection] = useState("");
+  const [jEmbodied, setJEmbodied] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_tobj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jReflection.trim() && !jEmbodied.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jReflection, embodied: jEmbodied, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJReflection(""); setJEmbodied(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -91,10 +107,10 @@ export default function TheologyOfBodyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "practices", "illness", "scriptures", "resources", "videos"] as Tab[]).map(t => (
+          {(["theology", "practices", "illness", "scriptures", "resources", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "theology" ? "Body Theology" : t === "practices" ? "Embodied Practices" : t === "illness" ? "Illness & Disability" : t === "scriptures" ? "Key Scriptures" : t === "resources" ? "Resources" : "Videos"}
+              {t === "theology" ? "Body Theology" : t === "practices" ? "Embodied Practices" : t === "illness" ? "Illness & Disability" : t === "scriptures" ? "Key Scriptures" : t === "resources" ? "Resources" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -185,12 +201,44 @@ export default function TheologyOfBodyPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Theology of the Body Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record reflections on embodiment, practices you are forming, and how you are honoring God in your body.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What is God showing you about your body, health, or embodiment?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jEmbodied} onChange={e => setJEmbodied(e.target.value)} placeholder="Embodied practice you are forming (rest, movement, fasting…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Next step of bodily discipleship" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your journey of embodied discipleship.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>Body Reflection</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.reflection && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Reflection:</strong> {entry.reflection}</p>}
+                    {entry.embodied && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Practice:</strong> {entry.embodied}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Next Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {BODY_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "givers" | "organizations" | "practical" | "videos";
+type Tab = "theology" | "givers" | "organizations" | "practical" | "journal" | "videos";
 
 const GIVERS = [
   {
@@ -89,10 +91,10 @@ const PRACTICAL_TIPS = [
 ];
 
 const GIVING_VIDEOS = [
-  { videoId: "H4v4vNq_MKg", title: "The Grace of Giving", channel: "Desiring God", description: "John Piper on 2 Corinthians 8-9 and the grace-driven motivation behind Christian generosity." },
-  { videoId: "KI9RMhbHGQI", title: "Money, Possessions & Eternity", channel: "Ligonier Ministries", description: "Randy Alcorn on how Christians should think about money and giving in light of eternity." },
-  { videoId: "P3DkrB0ZAFE", title: "Generous Giving: A Biblical Theology", channel: "The Gospel Coalition", description: "A biblical theology of generosity from the Old Testament tithe to the New Testament call to radical giving." },
-  { videoId: "ACZbpLkY8To", title: "Tim Keller on Money and Generosity", channel: "Redeemer City to City", description: "Tim Keller explores how the gospel transforms our relationship with money and produces joyful, sacrificial giving." },
+  { videoId: "krxcqH522uo", title: "The Grace of Giving", channel: "Desiring God", description: "John Piper on 2 Corinthians 8-9 and the grace-driven motivation behind Christian generosity." },
+  { videoId: "nQWFzMvCfLE", title: "Money, Possessions & Eternity", channel: "Ligonier Ministries", description: "Randy Alcorn on how Christians should think about money and giving in light of eternity." },
+  { videoId: "ccNvwDPguNU", title: "Generous Giving: A Biblical Theology", channel: "The Gospel Coalition", description: "A biblical theology of generosity from the Old Testament tithe to the New Testament call to radical giving." },
+  { videoId: "ej_6dVdJSIU", title: "Tim Keller on Money and Generosity", channel: "Redeemer City to City", description: "Tim Keller explores how the gospel transforms our relationship with money and produces joyful, sacrificial giving." },
 ];
 
 export default function ChristianGivingGuidePage() {
@@ -100,6 +102,20 @@ export default function ChristianGivingGuidePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedGiver, setSelectedGiver] = usePersistedState("vine_christian-giving-guide_selected_giver", "muller");
   const giver = GIVERS.find(g => g.id === selectedGiver)!;
+
+  const [cgvEntries, setCgvEntries] = useState<{ id: string; date: string; gift: string; recipient: string; heart: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cgv_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cgvForm, setCgvForm] = useState({ gift: "", recipient: "", heart: "" });
+  const [cgvSaved, setCgvSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cgv_entries", JSON.stringify(cgvEntries)); }, [cgvEntries]);
+  function saveCgvEntry() {
+    if (!cgvForm.gift.trim()) return;
+    setCgvEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cgvForm }, ...prev]);
+    setCgvForm({ gift: "", recipient: "", heart: "" });
+    setCgvSaved(true); setTimeout(() => setCgvSaved(false), 2000);
+  }
+  function deleteCgvEntry(id: string) { setCgvEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -116,10 +132,10 @@ export default function ChristianGivingGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["theology", "givers", "organizations", "practical", "videos"] as Tab[]).map(t => (
+          {(["theology", "givers", "organizations", "practical", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Giving" : t === "givers" ? "Models of Generosity" : t === "organizations" ? "Where to Give" : t === "practical" ? "Practical Tips" : "🎬 Videos"}
+              {t === "theology" ? "Theology of Giving" : t === "givers" ? "Models of Generosity" : t === "organizations" ? "Where to Give" : t === "practical" ? "Practical Tips" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -207,12 +223,54 @@ export default function ChristianGivingGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Giving Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Track your generosity journey — what you are giving, where, and the condition of your heart.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Gift or Giving Commitment</label>
+                <input value={cgvForm.gift} onChange={e => setCgvForm(f => ({ ...f, gift: e.target.value }))} placeholder="What are you committing to give — tithe, offering, one-time gift?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Recipient / Cause</label>
+                <textarea value={cgvForm.recipient} onChange={e => setCgvForm(f => ({ ...f, recipient: e.target.value }))} placeholder="Church, ministry, neighbor, missionary, relief — where is this going?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Condition of Your Heart</label>
+                <textarea value={cgvForm.heart} onChange={e => setCgvForm(f => ({ ...f, heart: e.target.value }))} placeholder="Are you giving cheerfully? With sacrifice? Out of gratitude? What is God doing in you through this?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCgvEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cgvSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cgvEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cgvEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.gift}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCgvEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.recipient && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Recipient</div><div style={{ color: TEXT, fontSize: 13 }}>{e.recipient}</div></div>}
+                    {e.heart && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Heart Condition</div><div style={{ color: TEXT, fontSize: 13 }}>{e.heart}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {GIVING_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

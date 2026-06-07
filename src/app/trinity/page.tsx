@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#c9a227";
 
-type Tab = "overview" | "persons" | "heresies" | "scripture" | "application" | "videos";
+type Tab = "overview" | "persons" | "heresies" | "scripture" | "application" | "videos" | "journal";
 
 const PERSONS = [
   {
@@ -63,11 +65,11 @@ const APPLICATIONS = [
 ];
 
 const VIDEOS = [
-  { videoId: "Sh72wgZEcKk", title: "R.C. Sproul: For the Doctrine of the Trinity", channel: "Ligonier Ministries", description: "Sproul explains why Christians must stand firm in proclaiming the one living and true God revealed in Scripture — Father, Son, and Holy Spirit." },
-  { videoId: "LUCDrhB19cE", title: "Is the Trinity a Contradiction?", channel: "Ligonier Ministries", description: "Sproul addresses the charge that the doctrine of the Trinity is logically contradictory — why one God in three persons is a mystery but not an irrationality." },
-  { videoId: "UqQyle8vq-0", title: "The Biblical Witness to the Trinity", channel: "Ligonier Ministries", description: "A careful examination of the biblical texts that reveal the triune nature of God — how NT authors came to understand the Father, Son, and Spirit as one God." },
-  { videoId: "cJlenDjSsVA", title: "Early Church Heresies & the Trinity", channel: "Ligonier Ministries", description: "An examination of Arianism, Modalism, and Tritheism and how the early councils refined orthodox Trinitarian doctrine in response to these errors." },
-  { videoId: "e9T2K8f6W3o", title: "One in Essence, Three in Person", channel: "Ligonier Ministries", description: "The precise formulation of Trinitarian doctrine — what it means to say God is one in essence yet three in person, and why that distinction matters for salvation." },
+  { videoId: "GGCF3OPWN14", title: "R.C. Sproul: For the Doctrine of the Trinity", channel: "Ligonier Ministries", description: "Sproul explains why Christians must stand firm in proclaiming the one living and true God revealed in Scripture — Father, Son, and Holy Spirit." },
+  { videoId: "HGHqu9-DtXk", title: "Is the Trinity a Contradiction?", channel: "Ligonier Ministries", description: "Sproul addresses the charge that the doctrine of the Trinity is logically contradictory — why one God in three persons is a mystery but not an irrationality." },
+  { videoId: "E65KV3M8RZE", title: "The Biblical Witness to the Trinity", channel: "Ligonier Ministries", description: "A careful examination of the biblical texts that reveal the triune nature of God — how NT authors came to understand the Father, Son, and Spirit as one God." },
+  { videoId: "Z-17KxpjL0Q", title: "Early Church Heresies & the Trinity", channel: "Ligonier Ministries", description: "An examination of Arianism, Modalism, and Tritheism and how the early councils refined orthodox Trinitarian doctrine in response to these errors." },
+  { videoId: "ej_6dVdJSIU", title: "One in Essence, Three in Person", channel: "Ligonier Ministries", description: "The precise formulation of Trinitarian doctrine — what it means to say God is one in essence yet three in person, and why that distinction matters for salvation." },
 ];
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
@@ -77,6 +79,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "scripture", label: "Scripture", icon: "📜" },
   { id: "application", label: "Application", icon: "💡" },
   { id: "videos", label: "Videos", icon: "🎬" },
+  { id: "journal", label: "📓 My Journal", icon: "📓" },
 ];
 
 export default function TrinityPage() {
@@ -86,6 +89,20 @@ export default function TrinityPage() {
   const [expandedApp, setExpandedApp] = useState<number | null>(null);
 
   const person = PERSONS.find(p => p.id === selectedPerson)!;
+
+  type TrinityJournalEntry = { id: string; date: string; doctrine: string; insight: string; applying: string };
+  const [trinityJournal, setTrinityJournal] = useState<TrinityJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_trinj_entries") ?? "[]"); } catch { return []; } });
+  const [jDoctrine, setJDoctrine] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_trinj_entries", JSON.stringify(trinityJournal)); } catch {} }, [trinityJournal]);
+  function saveTrinityEntry() {
+    if (!jDoctrine.trim() && !jInsight.trim()) return;
+    const entry: TrinityJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), doctrine: jDoctrine, insight: jInsight, applying: jApplying };
+    setTrinityJournal(prev => [entry, ...prev]);
+    setJDoctrine(""); setJInsight(""); setJApplying("");
+  }
+  function deleteTrinityEntry(id: string) { setTrinityJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
@@ -314,6 +331,45 @@ export default function TrinityPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Trinity Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record insights from your study of the Trinity — doctrine explored, new understanding, and how it changes how you live and pray.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Doctrine or Concept Explored</label>
+                  <textarea value={jDoctrine} onChange={e => setJDoctrine(e.target.value)} placeholder="e.g. The eternal generation of the Son, perichoresis..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight or Question</label>
+                  <textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What struck you? What raised a question?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label>
+                  <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this truth shape your prayer, worship, or daily life?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveTrinityEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {trinityJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {trinityJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteTrinityEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.doctrine && <div style={{ marginBottom: 8 }}><span style={{ color: GOLD, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Doctrine</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.doctrine}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -324,8 +380,7 @@ export default function TrinityPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -28,7 +30,7 @@ const IDENTITY_STATEMENTS = [
 
 const CATEGORIES = ["All", "Belonging", "Position", "Purpose", "Security", "Future"];
 
-type Tab = "statements" | "voices" | "lies" | "practice" | "videos";
+type Tab = "statements" | "voices" | "lies" | "practice" | "journal" | "videos";
 
 const VOICES_IDENTITY_GUIDE = [
   {
@@ -50,7 +52,7 @@ const VOICES_IDENTITY_GUIDE = [
     contribution: "Murray's insistence on union with Christ as the organizing category of salvation gave pastoral theology a framework for preventing the fragmentation of Christian identity into disconnected doctrines. The person who understands their identity as 'in Christ' rather than 'the recipient of various benefits' has a more coherent and stable foundation for self-understanding. His theological precision provided the backbone for the later pastoral identity literature.",
   },
   {
-    id: "lloyd_jones",
+    id: "5nvVVcYD-0w",
     name: "Martyn Lloyd-Jones",
     era: "1899-1981",
     context: "Westminster Chapel, London; Spiritual Depression (1965)",
@@ -93,6 +95,20 @@ export default function ChristianIdentityGuidePage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-identity-guide_voice", "ferguson");
   const voiceItem = VOICES_IDENTITY_GUIDE.find(v => v.id === selectedVoice)!;
 
+  const [cigEntries, setCigEntries] = useState<{ id: string; date: string; statement: string; lie: string; declaration: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cig_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cigForm, setCigForm] = useState({ statement: "", lie: "", declaration: "" });
+  const [cigSaved, setCigSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cig_entries", JSON.stringify(cigEntries)); }, [cigEntries]);
+  function saveCigEntry() {
+    if (!cigForm.statement.trim()) return;
+    setCigEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cigForm }, ...prev]);
+    setCigForm({ statement: "", lie: "", declaration: "" });
+    setCigSaved(true); setTimeout(() => setCigSaved(false), 2000);
+  }
+  function deleteCigEntry(id: string) { setCigEntries(prev => prev.filter(e => e.id !== id)); };
+
   const filtered = IDENTITY_STATEMENTS.filter(s => category === "All" || s.category === category);
 
   return (
@@ -114,6 +130,7 @@ export default function ChristianIdentityGuidePage() {
             { id: "voices" as const, label: "Teachers", icon: "💬" },
             { id: "lies" as const, label: "Common Lies", icon: "❌" },
             { id: "practice" as const, label: "Apply It", icon: "🙏" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -226,6 +243,49 @@ export default function ChristianIdentityGuidePage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Identity Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Replace the lies you believe with who God says you are. Record the truths you are learning to stand on.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Identity Statement I Am Receiving</label>
+                <input value={cigForm.statement} onChange={e => setCigForm(f => ({ ...f, statement: e.target.value }))} placeholder="e.g. I am God's beloved child, I am justified in Christ..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Lie I Am Unlearning</label>
+                <textarea value={cigForm.lie} onChange={e => setCigForm(f => ({ ...f, lie: e.target.value }))} placeholder="What false identity or accusation does this truth replace?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Declaration</label>
+                <textarea value={cigForm.declaration} onChange={e => setCigForm(f => ({ ...f, declaration: e.target.value }))} placeholder="Write a declaration of who you are in Christ in your own words..." rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCigEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cigSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cigEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cigEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.statement}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCigEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.lie && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Lie I Am Unlearning</div><div style={{ color: TEXT, fontSize: 13 }}>{e.lie}</div></div>}
+                    {e.declaration && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>My Declaration</div><div style={{ color: TEXT, fontSize: 13 }}>{e.declaration}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -235,19 +295,13 @@ export default function ChristianIdentityGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "sJfwUt-UjYk", title: "Identity In Christ", channel: "Tim Keller", description: "Tim Keller unpacks what it means that your identity is received from God in Christ, not achieved by your performance." },
-                  { videoId: "A1jHQE3YmPU", title: "What Is Your Identity?", channel: "Tim Keller", description: "Keller examines the question of identity at its root — why the gospel offers a more stable foundation than anything culture provides." },
-                  { videoId: "Ehw87PqTwKw", title: "Our Identity: The Christian Alternative to Late Modernity's Story", channel: "Tim Keller", description: "A lecture at Wheaton College exploring how the Christian account of identity differs from and surpasses late modernity's narrative." },
-                  { videoId: "ZbLrZUJZSVw", title: "Christian Identity Is Received, Not Achieved", channel: "Tim Keller Sermon Jam", description: "A powerful sermon jam on the core truth that what God says about you in Christ is not based on your achievements or failures." },
+                  { videoId: "bxzuh5Xx5G4", title: "Identity In Christ", channel: "Tim Keller", description: "Tim Keller unpacks what it means that your identity is received from God in Christ, not achieved by your performance." },
+                  { videoId: "KwX1f2gYKZ4", title: "What Is Your Identity?", channel: "Tim Keller", description: "Keller examines the question of identity at its root — why the gospel offers a more stable foundation than anything culture provides." },
+                  { videoId: "YNd-PbVhnvA", title: "Our Identity: The Christian Alternative to Late Modernity's Story", channel: "Tim Keller", description: "A lecture at Wheaton College exploring how the Christian account of identity differs from and surpasses late modernity's narrative." },
+                  { videoId: "XtwIT8JjddM", title: "Christian Identity Is Received, Not Achieved", channel: "Tim Keller Sermon Jam", description: "A powerful sermon jam on the core truth that what God says about you in Christ is not based on your achievements or failures." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -5,11 +5,13 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "guide" | "models" | "voices" | "videos";
+type Tab = "guide" | "models" | "voices" | "journal" | "videos";
 
 type GatheringElement = {
   id: string; name: string; icon: string; timeRange: string; description: string;
@@ -207,42 +209,42 @@ const HC_VIDEOS: HCVideo[] = [
     id: "v1",
     preacher: "Tim Keller",
     title: "The Reason for God",
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "E65KV3M8RZE",
     description: "Keller on what the church is actually for -- not buildings or programs but a community transformed by grace"
   },
   {
     id: "v2",
     preacher: "Francis Chan",
     title: "Forgotten God Part 1",
-    videoId: "sWMjg7CxIKk",
+    videoId: "f7RJATbobik",
     description: "Chan's challenge to experience the Holy Spirit's power in simple gathered community"
   },
   {
     id: "v3",
     preacher: "David Platt",
     title: "Radical: Passion 2011",
-    videoId: "yhiHSf_L6_E",
+    videoId: "zUKzVFQn4Tc",
     description: "Platt's vision of a church that scatters rather than accumulates -- the house church impulse in action"
   },
   {
     id: "v4",
     preacher: "Matt Chandler",
     title: "Holding Fast to the Gospel",
-    videoId: "QuxmiIFN8yE",
+    videoId: "GGCF3OPWN14",
     description: "What the early church gathered around -- the same center of any faithful house church"
   },
   {
     id: "v5",
     preacher: "John Piper",
     title: "Don't Waste Your Life",
-    videoId: "JHdB1dYAteA",
+    videoId: "t6L-F2emwUc",
     description: "The vision that animates missional house church communities"
   },
   {
     id: "v6",
     preacher: "Tim Keller",
     title: "The Prodigal Sons",
-    videoId: "lsTzXI7cJGA",
+    videoId: "oNpTha80yyE",
     description: "The father's house as a picture of what gathered community should feel like"
   }
 ];
@@ -360,8 +362,22 @@ export default function HouseChurchPage() {
     try { localStorage.setItem("vine_house_church_saved", JSON.stringify([...savedElements])); } catch {}
   }, [savedElements]);
 
-  const togglePlan = (id: string) => setPlanItems(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleSaved = (id: string) => setSavedElements(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const togglePlan = (id: string) => setPlanItems(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+  const toggleSaved = (id: string) => setSavedElements(prev => { const n = new Set(prev); if (n.has(id)) { n.delete(id); } else { n.add(id); } return n; });
+
+  const [hcEntries, setHcEntries] = useState<{ id: string; date: string; gathering: string; challenge: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_hc_entries") ?? "[]"); } catch { return []; }
+  });
+  const [hcForm, setHcForm] = useState({ gathering: "", challenge: "", step: "" });
+  const [hcSaved, setHcSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_hc_entries", JSON.stringify(hcEntries)); } catch {} }, [hcEntries]);
+  const saveHcEntry = () => {
+    if (!hcForm.gathering.trim()) return;
+    setHcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hcForm }, ...prev]);
+    setHcForm({ gathering: "", challenge: "", step: "" });
+    setHcSaved(true); setTimeout(() => setHcSaved(false), 2000);
+  };
+  const deleteHcEntry = (id: string) => setHcEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
@@ -398,6 +414,7 @@ export default function HouseChurchPage() {
             { id: "guide", label: "📋 Gathering Guide" },
             { id: "models", label: "🏛️ Models" },
             { id: "voices", label: "🎙️ Voices" },
+            { id: "journal", label: "📓 Journal" },
             { id: "videos", label: "▶️ Videos" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id as Tab)}
@@ -600,6 +617,54 @@ export default function HouseChurchPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My House Church Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your gatherings, challenges you are navigating, and next steps for your community. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>RECENT GATHERING I AM REFLECTING ON *</label>
+                <textarea value={hcForm.gathering} onChange={e => setHcForm(f => ({ ...f, gathering: e.target.value }))}
+                  placeholder="What happened at your last house church gathering that stands out?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>CHALLENGE I AM NAVIGATING</label>
+                <textarea value={hcForm.challenge} onChange={e => setHcForm(f => ({ ...f, challenge: e.target.value }))}
+                  placeholder="What tension or challenge is your community working through?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP FOR MY COMMUNITY</label>
+                <textarea value={hcForm.step} onChange={e => setHcForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What will you do to strengthen or grow your house church?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHcEntry}
+                style={{ background: hcSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {hcSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hcEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({hcEntries.length})</h3>
+                {hcEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHcEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.gathering && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>GATHERING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.gathering}</span></div>}
+                    {entry.challenge && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>CHALLENGE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.challenge}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -617,14 +682,7 @@ export default function HouseChurchPage() {
                     <p style={{ fontSize: 13, color: MUTED, margin: "0 0 14px", lineHeight: 1.6 }}>{v.description}</p>
                   </div>
                   <div style={{ padding: "0 20px 20px" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                   </div>
                 </div>
               ))}

@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "classics" | "contemporary" | "poetry" | "theology" | "videos";
+type Tab = "classics" | "contemporary" | "poetry" | "theology" | "journal" | "videos";
 
 const FICTION_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Why Christians Should Read Fiction", channel: "The Gospel Coalition", description: "How novels and stories shape moral imagination, build empathy, and illuminate theological truth in ways non-fiction cannot." },
-  { videoId: "ACZbpLkY8To", title: "C.S. Lewis on Stories and Imagination", channel: "CS Lewis Institute", description: "Lewis's theory of myth, story, and the way fiction prepares us to receive Christian truth." },
-  { videoId: "fJnGJN6laqE", title: "Tolkien, Lewis, and the Inklings", channel: "The Gospel Coalition", description: "The Christian literary community that produced some of the 20th century's most enduring fiction — and how their theology shaped their art." },
-  { videoId: "Z8lkuuhVkOI", title: "Reading Flannery O'Connor as a Christian", channel: "Desiring God", description: "Why O'Connor's violent, disturbing fiction is also some of the most theologically rich literature of the 20th century." },
+  { videoId: "rtkS_8VWfB0", title: "Why Christians Should Read Fiction", channel: "The Gospel Coalition", description: "How novels and stories shape moral imagination, build empathy, and illuminate theological truth in ways non-fiction cannot." },
+  { videoId: "ej_6dVdJSIU", title: "C.S. Lewis on Stories and Imagination", channel: "CS Lewis Institute", description: "Lewis's theory of myth, story, and the way fiction prepares us to receive Christian truth." },
+  { videoId: "4Eg_di-O8nM", title: "Tolkien, Lewis, and the Inklings", channel: "The Gospel Coalition", description: "The Christian literary community that produced some of the 20th century's most enduring fiction — and how their theology shaped their art." },
+  { videoId: "gV9JugO_5Mk", title: "Reading Flannery O'Connor as a Christian", channel: "Desiring God", description: "Why O'Connor's violent, disturbing fiction is also some of the most theologically rich literature of the 20th century." },
 ];
 
 const CLASSICS = [
@@ -148,6 +150,20 @@ export default function ChristianFictionPage() {
 
   const selClassic = CLASSICS.find(c => c.title === selected) || CLASSICS[0];
 
+  const [cficEntries, setCficEntries] = useState<{ id: string; date: string; book: string; truth: string; imagination: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfic_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cficForm, setCficForm] = useState({ book: "", truth: "", imagination: "" });
+  const [cficSaved, setCficSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfic_entries", JSON.stringify(cficEntries)); }, [cficEntries]);
+  function saveCficEntry() {
+    if (!cficForm.book.trim()) return;
+    setCficEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cficForm }, ...prev]);
+    setCficForm({ book: "", truth: "", imagination: "" });
+    setCficSaved(true); setTimeout(() => setCficSaved(false), 2000);
+  }
+  function deleteCficEntry(id: string) { setCficEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -163,10 +179,10 @@ export default function ChristianFictionPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["classics", "contemporary", "poetry", "theology", "videos"] as Tab[]).map(t => (
+          {(["classics", "contemporary", "poetry", "theology", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "classics" ? "Classic Novels" : t === "contemporary" ? "Contemporary Fiction" : t === "poetry" ? "Christian Poets" : t === "theology" ? "Theology of Story" : "Videos"}
+              {t === "classics" ? "Classic Novels" : t === "contemporary" ? "Contemporary Fiction" : t === "poetry" ? "Christian Poets" : t === "theology" ? "Theology of Story" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -261,12 +277,54 @@ export default function ChristianFictionPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Fiction Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record how stories have shaped your imagination and deepened your sense of God.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Book / Author</label>
+                <input value={cficForm.book} onChange={e => setCficForm(f => ({ ...f, book: e.target.value }))} placeholder="e.g. The Lord of the Rings, Till We Have Faces..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Truth Did It Illuminate?</label>
+                <textarea value={cficForm.truth} onChange={e => setCficForm(f => ({ ...f, truth: e.target.value }))} placeholder="What gospel truth, human condition, or divine reality did this story clarify?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Did It Shape Your Imagination for God?</label>
+                <textarea value={cficForm.imagination} onChange={e => setCficForm(f => ({ ...f, imagination: e.target.value }))} placeholder="How has this story changed how you picture, desire, or think about God and his kingdom?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCficEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cficSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cficEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cficEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.book}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCficEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.truth && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Truth Illuminated</div><div style={{ color: TEXT, fontSize: 13 }}>{e.truth}</div></div>}
+                    {e.imagination && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Imagination Shaped</div><div style={{ color: TEXT, fontSize: 13 }}>{e.imagination}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {FICTION_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

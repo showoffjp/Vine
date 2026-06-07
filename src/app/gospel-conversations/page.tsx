@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -101,12 +103,26 @@ const VOICES_GOSP = [
 ];
 
 export default function GospelConversationsPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"methods" | "voices" | "objections" | "tips" | "videos">("vine_gospel-conversations_tab", "methods");
+  const [activeTab, setActiveTab] = usePersistedState<"methods" | "voices" | "objections" | "tips" | "log" | "videos">("vine_gospel-conversations_tab", "methods");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_gospel-conversations_voice", "schaeffer");
   const voiceItem = VOICES_GOSP.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
   const method = METHODS.find(m => m.name === selectedMethod);
+
+  const [gcLogs, setGcLogs] = useState<{ id: string; date: string; person: string; what: string; response: string; next: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_gc_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [gcForm, setGcForm] = useState({ person: "", what: "", response: "", next: "" });
+  const [gcSaved, setGcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_gc_logs", JSON.stringify(gcLogs)); }, [gcLogs]);
+  function saveGcLog() {
+    if (!gcForm.person.trim() && !gcForm.what.trim()) return;
+    setGcLogs(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...gcForm }, ...prev]);
+    setGcForm({ person: "", what: "", response: "", next: "" });
+    setGcSaved(true); setTimeout(() => setGcSaved(false), 2000);
+  }
+  function deleteGcLog(id: string) { setGcLogs(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -127,6 +143,7 @@ export default function GospelConversationsPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "tips" as const, label: "Practical Tips", icon: "💡" },
+            { id: "log" as const, label: "My Log", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -277,6 +294,62 @@ export default function GospelConversationsPage() {
             ))}
           </div>
         )}
+        {activeTab === "log" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Log your gospel conversations to see who God is putting in your path, track what the Spirit is doing, and identify next steps for follow-up.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Log a Conversation</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Who I talked with</label>
+                <input value={gcForm.person} onChange={e => setGcForm(f => ({ ...f, person: e.target.value }))} placeholder="First name or description (e.g. 'coworker', 'neighbor')"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What was shared / what we talked about</label>
+                <textarea value={gcForm.what} onChange={e => setGcForm(f => ({ ...f, what: e.target.value }))} rows={3}
+                  placeholder="The conversation, what gospel content came up, what questions they asked..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How they responded</label>
+                <textarea value={gcForm.response} onChange={e => setGcForm(f => ({ ...f, response: e.target.value }))} rows={2}
+                  placeholder="Open, resistant, curious, confused, hostile, receptive..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Next step / prayer need</label>
+                <input value={gcForm.next} onChange={e => setGcForm(f => ({ ...f, next: e.target.value }))} placeholder="Follow up, pray for them, invite to church, give a book..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGcLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {gcSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {gcLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Gospel Conversations ({gcLogs.length})</h3>
+                {gcLogs.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteGcLog(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.person}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.what}</p>}
+                    {e.response && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>Response: {e.response}</p>}
+                    {e.next && <p style={{ color: GREEN, fontSize: 13, fontWeight: 600, margin: 0 }}>Next: {e.next}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -286,19 +359,13 @@ export default function GospelConversationsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "hLD4kCkme2Q", title: "The Gospel-Centered Church: Evangelism", channel: "Tim Keller", description: "Keller lays out what gospel-centered evangelism looks like — not merely technique but a posture of love for people and confidence in the power of the gospel." },
-                  { videoId: "DHQBoLo31Ns", title: "Evangelism in the 21st Century", channel: "Tim Keller", description: "How to contextualize the gospel for a secular, post-Christian world without compromising it — Keller's framework for reaching people who reject traditional religious categories." },
-                  { videoId: "f_JDoMWZaRk", title: "Messengers", channel: "Timothy Keller", description: "Keller preaches on the disciple's calling as Christ's messenger — what it means to be sent, to speak, and to bear the news that changes everything." },
-                  { videoId: "zNve3Hexh28", title: "How to Bring the Gospel to Post-Christian America", channel: "Tim Keller", description: "Practical guidance for sharing Christ in an increasingly skeptical culture — how the gospel addresses the real questions people are actually asking." },
+                  { videoId: "krxcqH522uo", title: "The Gospel-Centered Church: Evangelism", channel: "Tim Keller", description: "Keller lays out what gospel-centered evangelism looks like — not merely technique but a posture of love for people and confidence in the power of the gospel." },
+                  { videoId: "52ZXFH1wzc8", title: "Evangelism in the 21st Century", channel: "Tim Keller", description: "How to contextualize the gospel for a secular, post-Christian world without compromising it — Keller's framework for reaching people who reject traditional religious categories." },
+                  { videoId: "KRsuCQe7aVk", title: "Messengers", channel: "Timothy Keller", description: "Keller preaches on the disciple's calling as Christ's messenger — what it means to be sent, to speak, and to bear the news that changes everything." },
+                  { videoId: "iK0NjiBXKN4", title: "How to Bring the Gospel to Post-Christian America", channel: "Tim Keller", description: "Practical guidance for sharing Christ in an increasingly skeptical culture — how the gospel addresses the real questions people are actually asking." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "songs" | "theology" | "history" | "videos";
+type Tab = "songs" | "theology" | "history" | "journal" | "videos";
 
 const ERAS = ["All", "Classic Hymn", "Modern Hymn", "Contemporary", "Global"];
 
@@ -189,7 +191,7 @@ const SONG_THEOLOGY = [
     examples: ["Holy Holy Holy (Reginald Heber)", "Come Thou Almighty King (anon., 18th c.)", "Praise God from Whom All Blessings Flow (Thomas Ken)"],
   },
   {
-    id: "sovereignty",
+    id: "izrk-erhDdk",
     doctrine: "God's Sovereignty",
     icon: "👑",
     scripture: "Psalm 46, Romans 8:28",
@@ -232,7 +234,7 @@ const SONG_HISTORY = [
     iconic_song: "Kyrie Eleison (Lord, Have Mercy)",
   },
   {
-    id: "reformation",
+    id: "dQl4izxPeNU",
     era: "Reformation Hymns",
     period: "16th Century",
     key_figures: ["Martin Luther", "John Calvin", "Genevan Psalter"],
@@ -240,7 +242,7 @@ const SONG_HISTORY = [
     iconic_song: "A Mighty Fortress Is Our God (Martin Luther, 1529)",
   },
   {
-    id: "great-hymns",
+    id: "dy9nwe9zeU8",
     era: "Great Hymn Tradition",
     period: "17th-19th Century",
     key_figures: ["Isaac Watts", "Charles Wesley", "John Newton"],
@@ -266,18 +268,32 @@ const SONG_HISTORY = [
 ];
 
 const SONG_VIDEOS = [
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
-  { id: "RE8QkBA0Syg", title: "How Great Is Our God (Universe)", speaker: "Louie Giglio", venue: "Passion" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul", venue: "Ligonier" },
-  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul", venue: "Ligonier" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller", venue: "Redeemer" },
+  { id: "sIaT8Jl2zpI", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "gYR0xP1j4PY", title: "How Great Is Our God (Universe)", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul", venue: "Ligonier" },
+  { id: "Wt5X91ciE6Y", title: "The Trauma of Holiness", speaker: "R.C. Sproul", venue: "Ligonier" },
+  { id: "cL4mTVpP73o", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
+  { id: "IvSuGyJQ6oM", title: "The Prodigal Sons", speaker: "Tim Keller", venue: "Redeemer" },
 ];
 
 export default function ChristianWorshipSongsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-worship-songs_tab", "songs");
   const [era, setEra] = usePersistedState<string>("vine_christian-worship-songs_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
+
+  const [cwsEntries, setCwsEntries] = useState<{ id: string; date: string; song: string; theology: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cws_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cwsForm, setCwsForm] = useState({ song: "", theology: "", applying: "" });
+  const [cwsSaved, setCwsSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cws_entries", JSON.stringify(cwsEntries)); }, [cwsEntries]);
+  function saveCwsEntry() {
+    if (!cwsForm.song.trim()) return;
+    setCwsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cwsForm }, ...prev]);
+    setCwsForm({ song: "", theology: "", applying: "" });
+    setCwsSaved(true); setTimeout(() => setCwsSaved(false), 2000);
+  }
+  function deleteCwsEntry(id: string) { setCwsEntries(prev => prev.filter(e => e.id !== id)); }
 
   const filtered = SONGS.filter(s => era === "All" || s.era === era);
   const song = SONGS.find(s => s.title === selected);
@@ -297,9 +313,9 @@ export default function ChristianWorshipSongsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["songs", "theology", "history", "videos"] as const).map(t => (
+          {(["songs", "theology", "history", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "songs" ? "Songs" : t === "theology" ? "Theology" : t === "history" ? "History" : "Videos"}
+              {t === "songs" ? "Songs" : t === "theology" ? "Theology" : t === "history" ? "History" : t === "journal" ? "📓 Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -421,18 +437,58 @@ export default function ChristianWorshipSongsPage() {
         )}
 
         {/* Videos Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Worship Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on worship songs and their theology in your life. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which song is speaking to you?</label>
+                <textarea value={cwsForm.song} onChange={e => setCwsForm(f => ({ ...f, song: e.target.value }))}
+                  placeholder="Song title and what draws you to it..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What theological truth does it carry?</label>
+                <textarea value={cwsForm.theology} onChange={e => setCwsForm(f => ({ ...f, theology: e.target.value }))}
+                  placeholder="The doctrine or truth this song embodies..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How is this song shaping your worship?</label>
+                <textarea value={cwsForm.applying} onChange={e => setCwsForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="In personal devotion, corporate worship, daily life..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCwsEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cwsSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cwsEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cwsEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCwsEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.song && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>SONG </span><span style={{ color: TEXT, fontSize: 14 }}>{e.song}</span></div>}
+                    {e.theology && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>THEOLOGY </span><span style={{ color: TEXT, fontSize: 14 }}>{e.theology}</span></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>APPLYING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 24 }}>
             {SONG_VIDEOS.map(v => (
               <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <iframe
-                  width="100%"
-                  style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-                  src={`https://www.youtube.com/embed/${v.id}`}
-                  title={v.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <VideoEmbed videoId={v.id} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                   <div style={{ color: MUTED, fontSize: 12 }}>{v.speaker} &middot; {v.venue}</div>

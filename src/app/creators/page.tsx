@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -404,7 +405,7 @@ export default function CreatorsPage() {
                     >
                       {followingFeatured ? "✓ Following" : "Follow"}
                     </button>
-                    <a
+                    <Link
                       href={`/creators/${featuredCreator.slug}`}
                       className="px-5 py-2.5 rounded-xl text-sm font-bold"
                       style={{
@@ -416,7 +417,7 @@ export default function CreatorsPage() {
                       }}
                     >
                       View Profile
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -446,11 +447,13 @@ export default function CreatorsPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {featuredCreator.recentContent.map((item) => {
                       const Icon = item.icon;
+                      const contentHref = item.type === "video" ? "/video" : item.type === "article" ? "/blog" : "/podcast";
                       return (
-                        <div
+                        <Link
                           key={item.title}
+                          href={contentHref}
                           className="rounded-xl p-3 flex items-center gap-3 cursor-pointer"
-                          style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                          style={{ display: "flex", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                         >
                           <div
                             className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -466,7 +469,7 @@ export default function CreatorsPage() {
                               {item.views} views · {item.time}
                             </p>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>

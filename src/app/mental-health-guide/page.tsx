@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "conditions" | "myths" | "resources" | "crisis" | "videos";
+type Tab = "theology" | "conditions" | "myths" | "resources" | "crisis" | "journal" | "videos";
 
 const MH_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Faith and Mental Health — A Pastor's Perspective", channel: "Gospel in Life", description: "Tim Keller addresses the relationship between prayer, therapy, medication, and genuine healing." },
-  { videoId: "ACZbpLkY8To", title: "The Bible and Mental Illness", channel: "Ligonier Ministries", description: "A theological framework for understanding depression, anxiety, and mental illness through a biblical lens." },
-  { videoId: "fJnGJN6laqE", title: "When Darkness Doesn't Lift — Depression and Faith", channel: "Desiring God", description: "John Piper reads his book on suffering and depression, offering pastoral care for those in the valley." },
-  { videoId: "Z8lkuuhVkOI", title: "Mental Health and the Christian Life", channel: "The Gospel Coalition", description: "Practical theological guidance for Christians navigating mental health struggles in themselves and others." },
+  { videoId: "rtkS_8VWfB0", title: "Faith and Mental Health — A Pastor's Perspective", channel: "Gospel in Life", description: "Tim Keller addresses the relationship between prayer, therapy, medication, and genuine healing." },
+  { videoId: "ej_6dVdJSIU", title: "The Bible and Mental Illness", channel: "Ligonier Ministries", description: "A theological framework for understanding depression, anxiety, and mental illness through a biblical lens." },
+  { videoId: "4Eg_di-O8nM", title: "When Darkness Doesn't Lift — Depression and Faith", channel: "Desiring God", description: "John Piper reads his book on suffering and depression, offering pastoral care for those in the valley." },
+  { videoId: "gV9JugO_5Mk", title: "Mental Health and the Christian Life", channel: "The Gospel Coalition", description: "Practical theological guidance for Christians navigating mental health struggles in themselves and others." },
 ];
 
 const THEOLOGY_POINTS = [
@@ -87,6 +89,20 @@ export default function MentalHealthGuidePage() {
 
   const condition = CONDITIONS.find(c => c.name === selected);
 
+  const [mhgEntries, setMhgEntries] = useState<{ id: string; date: string; struggle: string; truth: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mhg_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mhgForm, setMhgForm] = useState({ struggle: "", truth: "", step: "" });
+  const [mhgSaved, setMhgSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mhg_entries", JSON.stringify(mhgEntries)); } catch {} }, [mhgEntries]);
+  const saveMhgEntry = () => {
+    if (!mhgForm.struggle.trim()) return;
+    setMhgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mhgForm }, ...prev]);
+    setMhgForm({ struggle: "", truth: "", step: "" });
+    setMhgSaved(true); setTimeout(() => setMhgSaved(false), 2000);
+  };
+  const deleteMhgEntry = (id: string) => setMhgEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -107,10 +123,10 @@ export default function MentalHealthGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "conditions", "myths", "resources", "crisis", "videos"] as Tab[]).map(t => (
+          {(["theology", "conditions", "myths", "resources", "crisis", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology" : t === "conditions" ? "Conditions" : t === "myths" ? "Myths & Help" : t === "resources" ? "Resources" : t === "crisis" ? "Crisis Help" : "Videos"}
+              {t === "theology" ? "Theology" : t === "conditions" ? "Conditions" : t === "myths" ? "Myths & Help" : t === "resources" ? "Resources" : t === "crisis" ? "Crisis Help" : t === "journal" ? "My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -237,12 +253,47 @@ export default function MentalHealthGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Mental Health Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record your struggles, the truth you're holding onto, and steps you're taking.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mhgForm.struggle} onChange={e => setMhgForm(f => ({ ...f, struggle: e.target.value }))}
+                  placeholder="What are you walking through right now?" aria-label="Struggle"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={mhgForm.truth} onChange={e => setMhgForm(f => ({ ...f, truth: e.target.value }))}
+                  placeholder="What truth from Scripture or theology are you holding onto?" aria-label="Truth"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mhgForm.step} onChange={e => setMhgForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What step are you taking toward health? (optional)" aria-label="Step"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMhgEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mhgSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mhgEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first mental health reflection above.</p>}
+              {mhgEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMhgEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.struggle}</p>
+                  {e.truth && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.truth}</p>}
+                  {e.step && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.step}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {MH_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

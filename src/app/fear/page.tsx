@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -62,7 +65,7 @@ const STORIES = [
     lesson: "Mary's surrender did not wait for fear to resolve. She said yes while still perplexed and afraid. Faith is not the absence of fear — it is acting in accordance with what you trust while fear is still present. Mary's courage was not fearlessness; it was faithful action despite fear. The announcement also demonstrates that God's 'do not fear' is not always followed by easy circumstances. Mary's yes led to scandal, poverty, exile, and eventually watching her son die. 'Do not fear' means God will be with you — not that the difficult thing will not happen.",
   },
   {
-    id: "paul-prison",
+    id: "sIaT8Jl2zpI",
     name: "Paul's Night Vision in Corinth",
     ref: "Acts 18:9-10",
     color: "#EC4899",
@@ -81,12 +84,38 @@ const PRACTICES = [
   { title: "Professional Help for Chronic Fear", icon: "🩺", color: "#10B981", desc: "Chronic, debilitating fear is often physiological — the nervous system's threat-detection is dysregulated, and addressing it may require therapy, medication, or both. Seeking help is wisdom and stewardship, not a failure of faith.", steps: ["Distinguish situational fear from chronic anxiety disorder", "Consult a doctor if fear is persistent and limiting your life", "Consider a therapist who integrates faith and psychological treatment", "Medical and spiritual care are complementary, not competing"] },
 ];
 
-type Tab = "theology" | "types" | "stories" | "practices" | "videos";
+interface FearEntry {
+  id: string;
+  date: string;
+  fear: string;
+  type: string;
+  scripture: string;
+  resolution: string;
+}
+
+type Tab = "theology" | "types" | "stories" | "practices" | "tracker" | "videos";
 
 export default function FearPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_fear_tab", "theology");
   const [selectedType, setSelectedType] = usePersistedState("vine_fear_selected_type", "Fear of Death");
   const [selectedStory, setSelectedStory] = usePersistedState("vine_fear_selected_story", "disciples");
+  const [fearLog, setFearLog] = useState<FearEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_fear_tracker"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fearForm, setFearForm] = useState({ fear: "", type: "Fear of the Future", scripture: "", resolution: "" });
+  const [fearSaved, setFearSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_fear_tracker", JSON.stringify(fearLog)); } catch {} }, [fearLog]);
+
+  const saveFear = () => {
+    if (!fearForm.fear.trim()) return;
+    setFearLog(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...fearForm }, ...prev]);
+    setFearForm({ fear: "", type: "Fear of the Future", scripture: "", resolution: "" });
+    setFearSaved(true);
+    setTimeout(() => setFearSaved(false), 2000);
+  };
+
+  const deleteFear = (id: string) => setFearLog(prev => prev.filter(e => e.id !== id));
 
   const fearType = FEAR_TYPES.find(f => f.type === selectedType)!;
   const story = STORIES.find(s => s.id === selectedStory)!;
@@ -107,9 +136,10 @@ export default function FearPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "types" as const, label: "Types of Fear", icon: "🔍" },
-            { id: "stories" as const, label: "Bible Stories", icon: "📜" },
+            { id: "types" as const, label: "Types", icon: "🔍" },
+            { id: "stories" as const, label: "Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "tracker" as const, label: "My Fears", icon: "🛡️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -215,6 +245,80 @@ export default function FearPage() {
           </div>
         )}
 
+        {tab === "tracker" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Fear Tracker</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>Log specific fears — name them, bring Scripture to them, and record how God met you. Over time this builds a testimony.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>WHAT ARE YOU AFRAID OF?</label>
+                  <input value={fearForm.fear} onChange={e => setFearForm(f => ({ ...f, fear: e.target.value }))}
+                    placeholder="Be specific — not 'the future' but what exactly..." aria-label="What you are afraid of"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>TYPE</label>
+                  <select value={fearForm.type} onChange={e => setFearForm(f => ({ ...f, type: e.target.value }))}
+                    aria-label="Type of fear"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }}>
+                    {FEAR_TYPES.map(t => <option key={t.type} value={t.type}>{t.type}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>SCRIPTURE (OPTIONAL)</label>
+                  <input value={fearForm.scripture} onChange={e => setFearForm(f => ({ ...f, scripture: e.target.value }))}
+                    placeholder="A verse God brought to you for this fear..." aria-label="Scripture verse"
+                    style={{ width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>HOW GOD MET ME (fill in later)</label>
+                  <textarea value={fearForm.resolution} onChange={e => setFearForm(f => ({ ...f, resolution: e.target.value }))}
+                    placeholder="What happened? What did you learn?" aria-label="How God met me in this fear"
+                    style={{ width: "100%", marginTop: 6, minHeight: 60, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                </div>
+                <button type="button" onClick={saveFear}
+                  style={{ padding: "11px", background: fearSaved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: fearSaved ? BG : "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+                  {fearSaved ? "✓ Saved" : "Log This Fear"}
+                </button>
+              </div>
+            </div>
+            {fearLog.length === 0 && (
+              <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>🛡️</div>
+                <p>No fears logged yet. Naming your fears before God is the first step of trust.</p>
+              </div>
+            )}
+            {fearLog.map(e => {
+              const typeData = FEAR_TYPES.find(t => t.type === e.type);
+              return (
+                <div key={e.id} style={{ background: CARD, border: `1px solid ${typeData?.color ?? BORDER}25`, borderRadius: 12, padding: 18, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ color: TEXT, fontSize: 15, fontWeight: 700, margin: 0, marginBottom: 4 }}>{e.fear}</p>
+                      <span style={{ color: typeData?.color ?? MUTED, fontSize: 12, fontWeight: 700 }}>{e.type}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, marginLeft: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>
+                        {new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                      <button type="button" onClick={() => deleteFear(e.id)}
+                        style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer", fontSize: 12 }}>×</button>
+                    </div>
+                  </div>
+                  {e.scripture && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", marginBottom: 6 }}>{e.scripture}</p>}
+                  {e.resolution && (
+                    <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 10 }}>
+                      <span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>How God met me: </span>
+                      <span style={{ color: TEXT, fontSize: 13 }}>{e.resolution}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -224,19 +328,13 @@ export default function FearPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "cajScztdhJA", title: "Why God Says 'Fear Not'", channel: "Timothy Keller", description: "Keller explores why 'do not fear' is the most repeated command in Scripture, and what it means that the antidote to fear is always the presence of God, not the removal of the threat." },
-                  { videoId: "Hr3PkGXYRvI", title: "Courage: Fear and Faith", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the relationship between courage and faith — why the courageous Christian is not fearless but fear-conquering through trust in God's sovereignty." },
-                  { videoId: "haZPE6KxzPs", title: "Overcoming Fear with Faith", channel: "Desiring God", description: "John Piper on how faith does not eliminate fear but provides the resources to act in spite of it — drawing from Paul's 'weakness, fear, and much trembling' in Corinth." },
-                  { videoId: "F9oOD0Hlewo", title: "When Fear Paralyzes: The God Who Is With You", channel: "Timothy Keller Sermons", description: "An exposition of Isaiah 41:10 — 'Do not fear, for I am with you' — and what it means that God's answer to every fear is his presence, not the removal of danger." },
+                  { videoId: "3Dv4-n6OYGI", title: "Why God Says 'Fear Not'", channel: "Timothy Keller", description: "Keller explores why 'do not fear' is the most repeated command in Scripture, and what it means that the antidote to fear is always the presence of God, not the removal of the threat." },
+                  { videoId: "5nvVVcYD-0w", title: "Courage: Fear and Faith", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the relationship between courage and faith — why the courageous Christian is not fearless but fear-conquering through trust in God's sovereignty." },
+                  { videoId: "bxzuh5Xx5G4", title: "Overcoming Fear with Faith", channel: "Desiring God", description: "John Piper on how faith does not eliminate fear but provides the resources to act in spite of it — drawing from Paul's 'weakness, fear, and much trembling' in Corinth." },
+                  { videoId: "KwX1f2gYKZ4", title: "When Fear Paralyzes: The God Who Is With You", channel: "Timothy Keller Sermons", description: "An exposition of Isaiah 41:10 — 'Do not fear, for I am with you' — and what it means that God's answer to every fear is his presence, not the removal of danger." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

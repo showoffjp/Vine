@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "scholars" | "positions" | "practices" | "videos";
+type Tab = "theology" | "scholars" | "positions" | "practices" | "videos" | "journal";
 
 const SCHOLARS = [
   {
@@ -116,6 +119,20 @@ export default function WomenInMinistryPage() {
 
   const pos = POSITIONS.find(p => p.name === selectedPos)!;
 
+  type WIMJournalEntry = { id: string; date: string; conviction: string; question: string; applying: string };
+  const [wimJournal, setWimJournal] = useState<WIMJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_wimj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jQuestion, setJQuestion] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_wimj_entries", JSON.stringify(wimJournal)); } catch {} }, [wimJournal]);
+  function saveWIMEntry() {
+    if (!jConviction.trim() && !jQuestion.trim()) return;
+    const entry: WIMJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, question: jQuestion, applying: jApplying };
+    setWimJournal(prev => [entry, ...prev]);
+    setJConviction(""); setJQuestion(""); setJApplying("");
+  }
+  function deleteWIMEntry(id: string) { setWimJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -136,6 +153,7 @@ export default function WomenInMinistryPage() {
             { id: "positions" as const, label: "Positions", icon: "⚖️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
+            { id: "journal" as const, label: "📓 Journal", icon: "📓" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -252,6 +270,45 @@ export default function WomenInMinistryPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Women in Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your convictions, questions, and how this study shapes how you think about women&apos;s roles in the church.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Conviction</label>
+                  <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What do you believe about women in ministry, and why?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Question or Tension</label>
+                  <textarea value={jQuestion} onChange={e => setJQuestion(e.target.value)} placeholder="What is still unresolved or challenging for you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label>
+                  <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this shape how you think about women in your church context?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveWIMEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {wimJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {wimJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteWIMEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.conviction}</p></div>}
+                    {entry.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Question</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.question}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -261,20 +318,14 @@ export default function WomenInMinistryPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "_QLc70CzTSA", title: "Women in Ministry: Finding Biblical Balance Between Complementarian & Egalitarian Views", channel: "Church Teaching", description: "A balanced discussion of the complementarian and egalitarian debate, exploring what the Bible actually teaches and how churches can honor women well." },
-                  { videoId: "kfkYAQiQRgo", title: "Complementarian or Egalitarian? Biblical Gender Roles Explained", channel: "Ask NT Wright Anything", description: "NT Wright shares his approach to biblical gender roles in the church, explaining the exegetical and theological reasoning behind his position." },
-                  { videoId: "Bb5zHAT7e50", title: "Egalitarianism and Complementarianism — The Essential Role of Women in the Church", channel: "Church Teaching", description: "Dr. Thomas Schreiner and Dr. Weaver discuss the roles of women in the church and in the home from both sides of the debate." },
-                  { videoId: "2eg5cCQCAE0", title: "Complementarian vs. Egalitarian: Where Do I Stand?", channel: "Alisa Childers", description: "Alisa Childers tackles one of the most common questions she receives — examining Scripture carefully to explain where she stands on women in ministry." },
-                  { videoId: "4hWDmxmY77Y", title: "Complementarian vs Egalitarian: Which View Is Biblically Correct?", channel: "Church Teaching", description: "A careful examination of the key biblical texts on women in ministry, helping Christians understand the strongest arguments on both sides." },
+                  { videoId: "5nvVVcYD-0w", title: "Women in Ministry: Finding Biblical Balance Between Complementarian & Egalitarian Views", channel: "Church Teaching", description: "A balanced discussion of the complementarian and egalitarian debate, exploring what the Bible actually teaches and how churches can honor women well." },
+                  { videoId: "bxzuh5Xx5G4", title: "Complementarian or Egalitarian? Biblical Gender Roles Explained", channel: "Ask NT Wright Anything", description: "NT Wright shares his approach to biblical gender roles in the church, explaining the exegetical and theological reasoning behind his position." },
+                  { videoId: "KwX1f2gYKZ4", title: "Egalitarianism and Complementarianism — The Essential Role of Women in the Church", channel: "Church Teaching", description: "Dr. Thomas Schreiner and Dr. Weaver discuss the roles of women in the church and in the home from both sides of the debate." },
+                  { videoId: "YNd-PbVhnvA", title: "Complementarian vs. Egalitarian: Where Do I Stand?", channel: "Alisa Childers", description: "Alisa Childers tackles one of the most common questions she receives — examining Scripture carefully to explain where she stands on women in ministry." },
+                  { videoId: "XtwIT8JjddM", title: "Complementarian vs Egalitarian: Which View Is Biblically Correct?", channel: "Church Teaching", description: "A careful examination of the key biblical texts on women in ministry, helping Christians understand the strongest arguments on both sides." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

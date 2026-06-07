@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -131,7 +134,7 @@ const VOICES_FRUIT = [
     contribution: "Packer's integration of Reformed soteriology with a robust practical ethic of holiness gave an entire generation of evangelicals permission to take character formation as seriously as doctrinal precision. His work bridged the gap between Reformed theology and the spirituality of the Puritans.",
   },
   {
-    id: "thomas-gary",
+    id: "qjbYnCadoGw",
     name: "Gary Thomas",
     era: "b. 1958 · Evangelical",
     context: "Authentic Faith",
@@ -159,7 +162,7 @@ const VOICES_FRUIT = [
   },
 ];
 
-type Tab = "fruit" | "theology" | "practices" | "voices" | "videos";
+type Tab = "fruit" | "theology" | "practices" | "voices" | "journal" | "videos";
 
 export default function FruitOfSpiritPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_fruit-of-spirit_tab", "fruit");
@@ -168,6 +171,20 @@ export default function FruitOfSpiritPage() {
   const voiceItem = VOICES_FRUIT.find(v => v.id === selectedVoice)!;
 
   const fruit = FRUITS.find(f => f.fruit === selected)!;
+
+  const [fruitEntries, setFruitEntries] = useState<{ id: string; date: string; fruit: string; noticed: string; grew: string; blocked: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fruit_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fruitForm, setFruitForm] = useState({ fruit: "Love", noticed: "", grew: "", blocked: "" });
+  const [fruitSaved, setFruitSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fruit_entries", JSON.stringify(fruitEntries)); }, [fruitEntries]);
+  function saveFruitEntry() {
+    if (!fruitForm.noticed.trim() && !fruitForm.grew.trim()) return;
+    setFruitEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fruitForm }, ...prev]);
+    setFruitForm({ fruit: "Love", noticed: "", grew: "", blocked: "" });
+    setFruitSaved(true); setTimeout(() => setFruitSaved(false), 2000);
+  }
+  function deleteFruitEntry(id: string) { setFruitEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -188,6 +205,7 @@ export default function FruitOfSpiritPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "voices" as const, label: "Voices", icon: "🎓" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -305,6 +323,69 @@ export default function FruitOfSpiritPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The fruit of the Spirit is produced by the Spirit, but noticed and cooperated with by attentive disciples. Track where you see fruit appearing — and where it is being crowded out.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Fruit Journal Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Which fruit</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Love", "Joy", "Peace", "Patience", "Kindness", "Goodness", "Faithfulness", "Gentleness", "Self-Control"].map(f => (
+                    <button type="button" key={f} onClick={() => setFruitForm(ff => ({ ...ff, fruit: f }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${fruitForm.fruit === f ? GREEN : BORDER}`, background: fruitForm.fruit === f ? `${GREEN}20` : "transparent", color: fruitForm.fruit === f ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {f}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I noticed it today</label>
+                <textarea value={fruitForm.noticed} onChange={e => setFruitForm(f => ({ ...f, noticed: e.target.value }))} rows={2}
+                  placeholder="A specific moment when this fruit showed up in your life or someone else's..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How it grew (or how I cooperated)</label>
+                <textarea value={fruitForm.grew} onChange={e => setFruitForm(f => ({ ...f, grew: e.target.value }))} rows={2}
+                  placeholder="What helped this fruit appear? What did you choose, avoid, or practice?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What is blocking it (if anything)</label>
+                <textarea value={fruitForm.blocked} onChange={e => setFruitForm(f => ({ ...f, blocked: e.target.value }))} rows={2}
+                  placeholder="A habit, a relationship, a pattern that is choking this fruit in your life..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFruitEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {fruitSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fruitEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Fruit Journal ({fruitEntries.length})</h3>
+                {fruitEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteFruitEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.fruit}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.noticed && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.noticed}</p>}
+                    {e.grew && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.grew}</p>}
+                    {e.blocked && <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", margin: 0 }}>Blocked by: {e.blocked}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -314,20 +395,14 @@ export default function FruitOfSpiritPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "VGyBrSmiyFA", title: "The Fruit of the Spirit Is the Fruit of Faith", teacher: "John Piper" },
-                { id: "BqiocPRa5kg", title: "A Deep Study of Galatians 5", teacher: "Bible Study" },
-                { id: "fTBsK-KILEc", title: "The Fruit of the Spirit — Galatians 5:22-24", teacher: "Expository Sermon" },
-                { id: "LEK8_hlpPYY", title: "Fruit of the Holy Spirit", teacher: "Biblical Teaching" },
+                { id: "j9phNEaPrv8", title: "The Fruit of the Spirit Is the Fruit of Faith", teacher: "John Piper" },
+                { id: "AzmYV8GNAIM", title: "A Deep Study of Galatians 5", teacher: "Bible Study" },
+                { id: "Cus-z1hgAXw", title: "The Fruit of the Spirit — Galatians 5:22-24", teacher: "Expository Sermon" },
+                { id: "iVwauTiyFjM", title: "Fruit of the Holy Spirit", teacher: "Biblical Teaching" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -181,7 +183,7 @@ const VOICES_REL = [
     contribution: "The 5 Love Languages has sold over 20 million copies and has been translated into 50+ languages, making it one of the best-selling relationship books in history. Its framework has been adopted in premarital counseling programs, marriage enrichment retreats, and everyday conversation worldwide. The concept of love languages has entered popular culture to an extent that few Christian ideas achieve.",
   },
   {
-    id: "cloud-henry",
+    id: "XtwIT8JjddM",
     name: "Henry Cloud",
     era: "b. 1956",
     context: "Safe People (1995) and Boundaries (1992) — the psychology of healthy Christian relationships",
@@ -201,17 +203,33 @@ const VOICES_REL = [
 ];
 
 const REL_VIDEOS = [
-  { id: "rv1", title: "The Prodigal God: The Elder Brother", preacher: "Tim Keller", videoId: "OasF7lWlX_M", description: "Keller unpacks the elder brother in the parable — the religious person who has never truly understood grace and whose obedience is transactional." },
-  { id: "rv2", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "lsTzXI7cJGA", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
-  { id: "rv3", title: "Family Driven Faith", preacher: "Voddie Baucham", videoId: "k764Pe2P61U", description: "Baucham makes a compelling biblical case for intentional, faith-shaping family life rooted in Deuteronomy 6." },
-  { id: "rv4", title: "The Purpose of Parenting", preacher: "Voddie Baucham", videoId: "WUE-J-br7P0", description: "A clear articulation of the biblical purpose of parenting — raising children to know and fear God, not merely to succeed." },
-  { id: "rv5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "X1rPalyUshw", description: "Giglio's famous message connecting the vastness of the cosmos to the intimate love of God — one of the most-shared Christian talks ever." },
-  { id: "rv6", title: "Forgotten God Part 1", preacher: "Francis Chan", videoId: "sWMjg7CxIKk", description: "Chan challenges the church's neglect of the Holy Spirit and calls believers back to a Spirit-empowered, Spirit-directed life." },
+  { id: "rv1", title: "The Prodigal God: The Elder Brother", preacher: "Tim Keller", videoId: "jH_aojNJM3E", description: "Keller unpacks the elder brother in the parable — the religious person who has never truly understood grace and whose obedience is transactional." },
+  { id: "rv2", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "kfcVPh2VDhQ", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
+  { id: "rv3", title: "Family Driven Faith", preacher: "Voddie Baucham", videoId: "57LVVwba6_8", description: "Baucham makes a compelling biblical case for intentional, faith-shaping family life rooted in Deuteronomy 6." },
+  { id: "rv4", title: "The Purpose of Parenting", preacher: "Voddie Baucham", videoId: "HGHqu9-DtXk", description: "A clear articulation of the biblical purpose of parenting — raising children to know and fear God, not merely to succeed." },
+  { id: "rv5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "E65KV3M8RZE", description: "Giglio's famous message connecting the vastness of the cosmos to the intimate love of God — one of the most-shared Christian talks ever." },
+  { id: "rv6", title: "Forgotten God Part 1", preacher: "Francis Chan", videoId: "f7RJATbobik", description: "Chan challenges the church's neglect of the Holy Spirit and calls believers back to a Spirit-empowered, Spirit-directed life." },
 ];
 
 export default function RelationshipsPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"community" | "conflict" | "voices" | "videos">("vine_relationships_tab", "community");
+  const [activeTab, setActiveTab] = usePersistedState<"community" | "conflict" | "voices" | "journal" | "videos">("vine_relationships_tab", "community");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_relationships_voice", "lewis-cs");
+  const [relEntries, setRelEntries] = useState<{ id: string; date: string; relationship: string; gratitude: string; conflict: string; prayer: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_rel_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [rForm, setRForm] = useState({ relationship: "", gratitude: "", conflict: "", prayer: "" });
+  const [rSaved, setRSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_rel_journal", JSON.stringify(relEntries)); } catch {} }, [relEntries]);
+
+  const saveREntry = () => {
+    setRelEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...rForm }, ...prev]);
+    setRForm(f => ({ ...f, gratitude: "", conflict: "", prayer: "" }));
+    setRSaved(true);
+    setTimeout(() => setRSaved(false), 2000);
+  };
+
+  const deleteREntry = (id: string) => setRelEntries(prev => prev.filter(e => e.id !== id));
   const voiceItem = VOICES_REL.find(v => v.id === selectedVoice)!;
   const [openGuidance, setOpenGuidance] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
@@ -225,7 +243,7 @@ export default function RelationshipsPage() {
   const toggleSave = (id: string) => {
     setSavedIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_relationships_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -252,9 +270,9 @@ export default function RelationshipsPage() {
 
         {/* Main Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["community", "conflict", "voices", "videos"] as const).map(t => (
+          {(["community", "conflict", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "community" ? "Community" : t === "conflict" ? "Conflict" : t === "voices" ? "Voices" : "Videos"}
+              {t === "community" ? "Community" : t === "conflict" ? "Conflict" : t === "voices" ? "Voices" : t === "journal" ? "Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -264,7 +282,6 @@ export default function RelationshipsPage() {
           <>
             <CommunityContent
               GUIDANCE={GUIDANCE}
-              ARTICLES={ARTICLES}
               STORIES={STORIES}
               CATEGORIES={CATEGORIES}
               openGuidance={openGuidance}
@@ -345,6 +362,66 @@ export default function RelationshipsPage() {
           </div>
         )}
 
+        {/* Journal Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Love is not only felt — it is practiced and reflected on. Use this journal to notice what is growing in your relationships, where conflict needs attention, and what you're bringing to God.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Relationship Journal</h3>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Relationship (name or role)</label>
+                <input value={rForm.relationship} onChange={e => setRForm(f => ({ ...f, relationship: e.target.value }))}
+                  placeholder="e.g. spouse, friend, parent, colleague..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I'm grateful for in this relationship</label>
+                <textarea value={rForm.gratitude} onChange={e => setRForm(f => ({ ...f, gratitude: e.target.value }))} rows={2}
+                  placeholder="What I value, what they bring, a recent moment of grace or kindness..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Unresolved conflict or tension</label>
+                <textarea value={rForm.conflict} onChange={e => setRForm(f => ({ ...f, conflict: e.target.value }))} rows={2}
+                  placeholder="What needs to be said, what I've been avoiding, what requires forgiveness..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>My prayer for this person and relationship</label>
+                <textarea value={rForm.prayer} onChange={e => setRForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="What I want for them, what I need from God to love them well..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveREntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {rSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {relEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Journal History</h3>
+                {relEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteREntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      {e.relationship && <span style={{ color: PURPLE, fontWeight: 700, fontSize: 14 }}>{e.relationship}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.gratitude && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>Grateful: {e.gratitude}</p>}
+                    {e.conflict && <p style={{ color: "#F59E0B", fontSize: 13, lineHeight: 1.6, margin: "0 0 6px" }}>Tension: {e.conflict}</p>}
+                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, fontStyle: "italic", margin: 0 }}>🙏 {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos Tab */}
         {activeTab === "videos" && (
           <div>
@@ -355,14 +432,7 @@ export default function RelationshipsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))", gap: 24 }}>
               {REL_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
                       <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${PURPLE}20`, color: PURPLE, fontWeight: 700, border: `1px solid ${PURPLE}40` }}>{v.preacher}</span>
@@ -405,7 +475,7 @@ export default function RelationshipsPage() {
 }
 
 function CommunityContent({
-  GUIDANCE, ARTICLES, STORIES, CATEGORIES,
+  GUIDANCE, STORIES, CATEGORIES,
   openGuidance, setOpenGuidance,
   savedIds, toggleSave,
   catFilter, setCatFilter,
@@ -415,7 +485,6 @@ function CommunityContent({
   filteredArticles,
 }: {
   GUIDANCE: { id: string; title: string; icon: string; summary: string; content: string; verses: string[] }[];
-  ARTICLES: { id: string; title: string; summary: string; readTime: string; category: string; body: string }[];
   STORIES: { id: string; couple: string; title: string; type: string; story: string; verse: string; verseRef: string }[];
   CATEGORIES: string[];
   openGuidance: string | null;

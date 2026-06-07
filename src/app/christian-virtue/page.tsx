@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "cardinal" | "theological" | "formation" | "videos";
+type Tab = "theology" | "cardinal" | "theological" | "formation" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -353,6 +355,20 @@ export default function ChristianVirtuePage() {
   const [selectedCardinal, setSelectedCardinal] = usePersistedState("vine_christian-virtue_selected_cardinal", "Prudence");
   const [selectedTheological, setSelectedTheological] = usePersistedState("vine_christian-virtue_selected_theological", "Faith");
 
+  const [cvirtEntries, setCvirtEntries] = useState<{ id: string; date: string; virtue: string; practicing: string; obstacle: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cvirt_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cvirtForm, setCvirtForm] = useState({ virtue: "", practicing: "", obstacle: "" });
+  const [cvirtSaved, setCvirtSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cvirt_entries", JSON.stringify(cvirtEntries)); }, [cvirtEntries]);
+  function saveCvirtEntry() {
+    if (!cvirtForm.virtue.trim()) return;
+    setCvirtEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cvirtForm }, ...prev]);
+    setCvirtForm({ virtue: "", practicing: "", obstacle: "" });
+    setCvirtSaved(true); setTimeout(() => setCvirtSaved(false), 2000);
+  }
+  function deleteCvirtEntry(id: string) { setCvirtEntries(prev => prev.filter(e => e.id !== id)); }
+
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
@@ -362,6 +378,7 @@ export default function ChristianVirtuePage() {
     { id: "cardinal", label: "The Cardinal Virtues" },
     { id: "theological", label: "The Theological Virtues" },
     { id: "formation", label: "Virtue Formation" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -518,6 +535,53 @@ export default function ChristianVirtuePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Virtue Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Track your growth in virtue and spiritual formation. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which virtue are you focusing on?</label>
+                <textarea value={cvirtForm.virtue} onChange={e => setCvirtForm(f => ({ ...f, virtue: e.target.value }))}
+                  placeholder="Prudence, courage, temperance, faith, hope, love..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How are you actively practicing it?</label>
+                <textarea value={cvirtForm.practicing} onChange={e => setCvirtForm(f => ({ ...f, practicing: e.target.value }))}
+                  placeholder="Concrete habits, disciplines, acts..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What obstacle or vice are you working against?</label>
+                <textarea value={cvirtForm.obstacle} onChange={e => setCvirtForm(f => ({ ...f, obstacle: e.target.value }))}
+                  placeholder="The competing habit or temptation..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCvirtEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cvirtSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cvirtEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cvirtEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCvirtEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.virtue && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>VIRTUE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.virtue}</span></div>}
+                    {e.practicing && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>PRACTICING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.practicing}</span></div>}
+                    {e.obstacle && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>OBSTACLE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.obstacle}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -527,19 +591,13 @@ export default function ChristianVirtuePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "cFzsGeSFnqQ", title: "Desiring God, Part 1", channel: "Desiring God / John Piper", description: "John Piper on the foundation of Christian character: how joy in God is not the enemy of holiness but its very source." },
-                  { videoId: "_f12xZekF54", title: "Developing Godly Character", channel: "Wednesday Service", description: "A teaching on the biblical basis for developing godly character through spiritual disciplines and community accountability." },
-                  { videoId: "JaFRMaqHAdY", title: "The Gospel in 6 Minutes", channel: "Desiring God / John Piper", description: "John Piper on how the gospel is the foundation for all genuine virtue — character formed by grace, not mere effort." },
-                  { videoId: "NUB4I5vO12o", title: "What is the Gospel?", channel: "Desiring God / John Piper", description: "A clear exposition of the gospel that forms the theological foundation for understanding Christian virtue and character formation." },
+                  { videoId: "gV9JugO_5Mk", title: "Desiring God, Part 1", channel: "Desiring God / John Piper", description: "John Piper on the foundation of Christian character: how joy in God is not the enemy of holiness but its very source." },
+                  { videoId: "ej_6dVdJSIU", title: "Developing Godly Character", channel: "Wednesday Service", description: "A teaching on the biblical basis for developing godly character through spiritual disciplines and community accountability." },
+                  { videoId: "GQI72THyO5I", title: "The Gospel in 6 Minutes", channel: "Desiring God / John Piper", description: "John Piper on how the gospel is the foundation for all genuine virtue — character formed by grace, not mere effort." },
+                  { videoId: "krxcqH522uo", title: "What is the Gospel?", channel: "Desiring God / John Piper", description: "A clear exposition of the gospel that forms the theological foundation for understanding Christian virtue and character formation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

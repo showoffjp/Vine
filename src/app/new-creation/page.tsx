@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#c9a227";
 
-type Tab = "already" | "newearth" | "cosmic" | "bodies" | "implications" | "videos";
+type Tab = "already" | "newearth" | "cosmic" | "bodies" | "implications" | "journal" | "videos";
 
 const ALREADY_NOT_YET = [
   { title: "Already: The New Creation Has Begun", ref: "2 Corinthians 5:17", color: GREEN, body: "Paul writes: 'If anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come.' The new creation is not only a future hope — it has already begun in the person of every believer. When you are united to Christ by faith, you are incorporated into the new humanity that God is creating. The resurrection of Jesus is the firstfruits — the first particle of new creation appearing within the old order." },
@@ -49,11 +51,11 @@ const IMPLICATIONS = [
 ];
 
 const VIDEOS = [
-  { videoId: "RBDwg-jWsyY", title: "Surprised by Hope: N.T. Wright on New Creation", channel: "The Gospel Coalition", description: "N.T. Wright explains his landmark thesis — why the Christian hope is for bodily resurrection and the renewal of all creation, not escape to a spiritual realm." },
-  { videoId: "JY0lMqZ24y0", title: "The New Creation and Our Future", channel: "Desiring God", description: "John Piper on the biblical vision of the new creation — what it means for how Christians live now and what we have to look forward to." },
-  { videoId: "7bQCKFe_Bro", title: "New Heavens and New Earth", channel: "Ligonier Ministries", description: "An examination of the biblical passages on the new heavens and new earth — what they teach and what they correct about popular conceptions of heaven." },
-  { videoId: "s9-dJTgGMvM", title: "Romans 8 and Cosmic Renewal", channel: "The Gospel Coalition", description: "A deep dive into Romans 8:18-25 — Paul's vision of creation groaning for liberation and the coming glory that will be revealed." },
-  { videoId: "qU4WcnlHhEQ", title: "Already But Not Yet: The Kingdom Now", channel: "The Gospel Coalition", description: "Explaining the inaugurated eschatology of the NT — how the kingdom and new creation have already begun in Christ and will be consummated at his return." },
+  { videoId: "jH_aojNJM3E", title: "Surprised by Hope: N.T. Wright on New Creation", channel: "The Gospel Coalition", description: "N.T. Wright explains his landmark thesis — why the Christian hope is for bodily resurrection and the renewal of all creation, not escape to a spiritual realm." },
+  { videoId: "kfcVPh2VDhQ", title: "The New Creation and Our Future", channel: "Desiring God", description: "John Piper on the biblical vision of the new creation — what it means for how Christians live now and what we have to look forward to." },
+  { videoId: "57LVVwba6_8", title: "New Heavens and New Earth", channel: "Ligonier Ministries", description: "An examination of the biblical passages on the new heavens and new earth — what they teach and what they correct about popular conceptions of heaven." },
+  { videoId: "HGHqu9-DtXk", title: "Romans 8 and Cosmic Renewal", channel: "The Gospel Coalition", description: "A deep dive into Romans 8:18-25 — Paul's vision of creation groaning for liberation and the coming glory that will be revealed." },
+  { videoId: "E65KV3M8RZE", title: "Already But Not Yet: The Kingdom Now", channel: "The Gospel Coalition", description: "Explaining the inaugurated eschatology of the NT — how the kingdom and new creation have already begun in Christ and will be consummated at his return." },
 ];
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
@@ -62,6 +64,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "cosmic", label: "Cosmic Renewal", icon: "✨" },
   { id: "bodies", label: "Resurrection Bodies", icon: "💪" },
   { id: "implications", label: "Implications", icon: "💡" },
+  { id: "journal", label: "My Journal", icon: "📓" },
   { id: "videos", label: "Videos", icon: "🎬" },
 ];
 
@@ -71,6 +74,21 @@ export default function NewCreationPage() {
   const [expandedCosmic, setExpandedCosmic] = useState<number | null>(null);
   const [expandedBody, setExpandedBody] = useState<number | null>(null);
   const [expandedImpl, setExpandedImpl] = useState<number | null>(null);
+
+  const [ncJEntries, setNcJEntries] = useState<{ id: string; date: string; insight: string; cosmic: string; living: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_ncj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [ncJForm, setNcJForm] = useState({ insight: "", cosmic: "", living: "" });
+  const [ncJSaved, setNcJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_ncj_entries", JSON.stringify(ncJEntries)); } catch {} }, [ncJEntries]);
+  const saveNcJEntry = () => {
+    if (!ncJForm.insight.trim()) return;
+    setNcJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ncJForm }, ...prev]);
+    setNcJForm({ insight: "", cosmic: "", living: "" });
+    setNcJSaved(true);
+    setTimeout(() => setNcJSaved(false), 2000);
+  };
+  const deleteNcJEntry = (id: string) => setNcJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
@@ -268,6 +286,50 @@ export default function NewCreationPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My New Creation Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record insights from the new creation hope, how the cosmic scope moves you, and how this changes how you live today.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Insight from new creation theology</label>
+                  <textarea rows={2} value={ncJForm.insight} onChange={e => setNcJForm(f => ({ ...f, insight: e.target.value }))} placeholder="What truth about the new creation struck you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How the cosmic scope moves me</label>
+                  <textarea rows={2} value={ncJForm.cosmic} onChange={e => setNcJForm(f => ({ ...f, cosmic: e.target.value }))} placeholder="How does creation's groaning / coming renewal affect your heart?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I will live differently now</label>
+                  <textarea rows={2} value={ncJForm.living} onChange={e => setNcJForm(f => ({ ...f, living: e.target.value }))} placeholder="What changes in how you work, rest, or care for creation?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveNcJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {ncJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {ncJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {ncJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteNcJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.insight}</p></div>}
+                    {e.cosmic && <div style={{ marginBottom: 8 }}><span style={{ color: GOLD, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Cosmic Scope</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.cosmic}</p></div>}
+                    {e.living && <div><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Living It</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.living}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -278,8 +340,7 @@ export default function NewCreationPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>

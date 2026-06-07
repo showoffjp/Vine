@@ -9,8 +9,6 @@ import {
   Share2,
   BookOpen,
   Star,
-  Dumbbell,
-  Heart,
   Lock,
 } from "lucide-react";
 
@@ -777,7 +775,7 @@ export default function QuizPage() {
   }
 
   const activeQuizData = activeQuiz ? allQuizData[activeQuiz] : null;
-  const progress = activeQuizData ? (currentQ / activeQuizData.questions.length) * 100 : 0;
+  // progress variable removed - unused
 
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>

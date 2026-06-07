@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "parables" | "thinkers" | "practices" | "videos";
+type Tab = "theology" | "parables" | "thinkers" | "practices" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "The Kingdom Is Jesus's Central Message", verse: "Mark 1:15", body: "'The time has come. The kingdom of God has come near. Repent and believe the good news' (Mark 1:15). This was Jesus's first proclamation. Not 'how to have eternal life' or 'how to be saved' but the announcement of God's reign breaking into history. Understanding the kingdom is the key to understanding everything Jesus said and did. The parables, the miracles, the Sermon on the Mount — all are about the kingdom." },
@@ -85,6 +88,20 @@ export default function KingdomOfGodPage() {
   const parable = PARABLES.find(p => p.name === selectedParable)!;
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
 
+  const [kogEntries, setKogEntries] = useState<{ id: string; date: string; insight: string; parable: string; living: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_kog_entries") ?? "[]"); } catch { return []; }
+  });
+  const [kogForm, setKogForm] = useState({ insight: "", parable: "", living: "" });
+  const [kogSaved, setKogSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_kog_entries", JSON.stringify(kogEntries)); } catch {} }, [kogEntries]);
+  const saveKogEntry = () => {
+    if (!kogForm.insight.trim()) return;
+    setKogEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...kogForm }, ...prev]);
+    setKogForm({ insight: "", parable: "", living: "" });
+    setKogSaved(true); setTimeout(() => setKogSaved(false), 2000);
+  };
+  const deleteKogEntry = (id: string) => setKogEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -104,6 +121,7 @@ export default function KingdomOfGodPage() {
             { id: "parables" as Tab, label: "Kingdom Parables", icon: "🌾" },
             { id: "thinkers" as Tab, label: "Key Thinkers", icon: "🎓" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -196,6 +214,42 @@ export default function KingdomOfGodPage() {
             </div>
           </div>
         )}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Kingdom Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record insights about the kingdom of God and how you're living them out.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <textarea value={kogForm.insight} onChange={e => setKogForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What did you learn or see about the kingdom?" aria-label="Insight"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={kogForm.parable} onChange={e => setKogForm(f => ({ ...f, parable: e.target.value }))}
+                  placeholder="Which parable or passage sparked this? (optional)" aria-label="Parable"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <input value={kogForm.living} onChange={e => setKogForm(f => ({ ...f, living: e.target.value }))}
+                  placeholder="How are you living this out this week? (optional)" aria-label="Living it out"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveKogEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {kogSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {kogEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first kingdom insight above.</p>}
+              {kogEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteKogEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.6, margin: "0 0 4px" }}>{e.insight}</p>
+                  {e.parable && <p style={{ color: PURPLE, fontSize: 13, fontStyle: "italic", margin: "0 0 4px" }}>{e.parable}</p>}
+                  {e.living && <p style={{ color: GREEN, fontSize: 13, margin: 0 }}>→ {e.living}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -205,19 +259,13 @@ export default function KingdomOfGodPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller examines how Jesus introduces a revolutionary, counterintuitive kingdom in the Sermon on the Mount — reversing every expectation of power and greatness." },
-                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper on the kingdom's hidden treasure and pearl of great price — how finding the kingdom produces the joy that makes total surrender logical and willing." },
-                  { videoId: "0bafE4k4YXU", title: "The Essential Elements of the Great Commission", channel: "Paul Washer", description: "Paul Washer grounds the church's mission in the kingdom's global scope — making disciples of all nations as the outward expression of kingdom life." },
-                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul explores the sovereignty that undergirds the kingdom of God — how God's reign over all things is the foundation of Christian hope." },
+                  { videoId: "7_CGP-12AE0", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller examines how Jesus introduces a revolutionary, counterintuitive kingdom in the Sermon on the Mount — reversing every expectation of power and greatness." },
+                  { videoId: "GQI72THyO5I", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper on the kingdom's hidden treasure and pearl of great price — how finding the kingdom produces the joy that makes total surrender logical and willing." },
+                  { videoId: "t6L-F2emwUc", title: "The Essential Elements of the Great Commission", channel: "Paul Washer", description: "Paul Washer grounds the church's mission in the kingdom's global scope — making disciples of all nations as the outward expression of kingdom life." },
+                  { videoId: "jH_aojNJM3E", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul explores the sovereignty that undergirds the kingdom of God — how God's reign over all things is the foundation of Christian hope." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

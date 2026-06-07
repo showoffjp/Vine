@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 interface Sermon {
   id: string;
@@ -489,20 +491,14 @@ export default function SermonArchivePage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "OxwTqGJI9gM", title: "The Best of John Piper — Sermon Compilation", teacher: "John Piper" },
-                { id: "PsoE9GxSIcA", title: "Having a Heart on Fire for God", teacher: "John Piper" },
-                { id: "JaFRMaqHAdY", title: "The Gospel in 6 Minutes", teacher: "John Piper" },
-                { id: "ApIg22vigBI", title: "The Renewed Mind and How to Have It", teacher: "John Piper" },
+                { id: "6P_20VmE9aA", title: "The Best of John Piper — Sermon Compilation", teacher: "John Piper" },
+                { id: "nlVaaMD_hdw", title: "Having a Heart on Fire for God", teacher: "John Piper" },
+                { id: "LJHxNuvDVkI", title: "The Gospel in 6 Minutes", teacher: "John Piper" },
+                { id: "XbRsIlPktPc", title: "The Renewed Mind and How to Have It", teacher: "John Piper" },
               ].map(v => (
                 <div key={v.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

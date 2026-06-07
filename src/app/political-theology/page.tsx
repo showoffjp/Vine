@@ -1,13 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "models" | "issues" | "engagement" | "faqs" | "videos";
+type Tab = "foundations" | "models" | "issues" | "engagement" | "faqs" | "journal" | "videos";
 
 const FOUNDATIONS = [
   { title: "The Kingdom of God is not the kingdom of America — or any nation", color: GREEN, ref: "John 18:36; Philippians 3:20; Revelation 11:15", content: "Jesus told Pilate 'My kingdom is not of this world.' This is the foundational political statement of Christianity — not that Christians should be politically disengaged, but that their primary citizenship is elsewhere. Paul tells the Philippians that 'our citizenship is in heaven.' The church's loyalty to Jesus Christ is prior to and more ultimate than its loyalty to any political entity. When these loyalties conflict — as they inevitably do — the church must choose its King." },
@@ -55,10 +57,10 @@ const ENGAGEMENT = [
 ];
 
 const POLITICS_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Faith and Politics", channel: "The Gospel Coalition", description: "Tim Keller on what the Bible teaches about politics — why Christians can't simply baptize a political party and call it God's kingdom." },
-  { videoId: "dXxmSDhvbHY", title: "The Christian and Civil Government", channel: "Ligonier Ministries", description: "R.C. Sproul on Romans 13 and the Christian's responsibility to civil authorities — including when civil disobedience is warranted." },
-  { videoId: "fJnGJN6laqE", title: "Two Kingdoms: Church and State", channel: "Crossway", description: "The biblical doctrine of two kingdoms — how church and state relate, where they overlap, and where they must remain separate." },
-  { videoId: "Z8lkuuhVkOI", title: "Justice, Gospel, and Political Engagement", channel: "Desiring God", description: "John Piper on how Christians engage political life without making politics ultimate — holding conviction with humility." },
+  { videoId: "rtkS_8VWfB0", title: "Faith and Politics", channel: "The Gospel Coalition", description: "Tim Keller on what the Bible teaches about politics — why Christians can't simply baptize a political party and call it God's kingdom." },
+  { videoId: "kOYy8iCfIJ4", title: "The Christian and Civil Government", channel: "Ligonier Ministries", description: "R.C. Sproul on Romans 13 and the Christian's responsibility to civil authorities — including when civil disobedience is warranted." },
+  { videoId: "4Eg_di-O8nM", title: "Two Kingdoms: Church and State", channel: "Crossway", description: "The biblical doctrine of two kingdoms — how church and state relate, where they overlap, and where they must remain separate." },
+  { videoId: "gV9JugO_5Mk", title: "Justice, Gospel, and Political Engagement", channel: "Desiring God", description: "John Piper on how Christians engage political life without making politics ultimate — holding conviction with humility." },
 ];
 
 const FAQS = [
@@ -73,6 +75,21 @@ const FAQS = [
 export default function PoliticalTheologyPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_political-theology_tab", "foundations");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const [polJEntries, setPolJEntries] = useState<{ id: string; date: string; issue: string; principle: string; engagement: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_polj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [polJForm, setPolJForm] = useState({ issue: "", principle: "", engagement: "" });
+  const [polJSaved, setPolJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_polj_entries", JSON.stringify(polJEntries)); } catch {} }, [polJEntries]);
+  const savePolJEntry = () => {
+    if (!polJForm.issue.trim()) return;
+    setPolJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...polJForm }, ...prev]);
+    setPolJForm({ issue: "", principle: "", engagement: "" });
+    setPolJSaved(true);
+    setTimeout(() => setPolJSaved(false), 2000);
+  };
+  const deletePolJEntry = (id: string) => setPolJEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -94,10 +111,10 @@ export default function PoliticalTheologyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["foundations", "models", "issues", "engagement", "faqs", "videos"] as Tab[]).map(t => (
+          {(["foundations", "models", "issues", "engagement", "faqs", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "foundations" ? "Biblical Foundations" : t === "models" ? "Engagement Models" : t === "issues" ? "Key Issues" : t === "engagement" ? "Faithful Engagement" : t === "videos" ? "🎬 Videos" : "FAQs"}
+              {t === "foundations" ? "Biblical Foundations" : t === "models" ? "Engagement Models" : t === "issues" ? "Key Issues" : t === "engagement" ? "Faithful Engagement" : t === "journal" ? "📓 My Journal" : t === "videos" ? "🎬 Videos" : "FAQs"}
             </button>
           ))}
         </div>
@@ -206,12 +223,55 @@ export default function PoliticalTheologyPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Political Theology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the issue you are thinking through, the biblical principle that applies, and how you plan to engage faithfully.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Political issue I am thinking through</label>
+                  <textarea rows={2} value={polJForm.issue} onChange={e => setPolJForm(f => ({ ...f, issue: e.target.value }))} placeholder="What civic or political question is on your mind?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Biblical principle that applies</label>
+                  <textarea rows={2} value={polJForm.principle} onChange={e => setPolJForm(f => ({ ...f, principle: e.target.value }))} placeholder="What does Scripture say that bears on this?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I will engage faithfully</label>
+                  <textarea rows={2} value={polJForm.engagement} onChange={e => setPolJForm(f => ({ ...f, engagement: e.target.value }))} placeholder="What does faithful, gospel-centered engagement look like here?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={savePolJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {polJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {polJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {polJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deletePolJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.issue && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Issue</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.issue}</p></div>}
+                    {e.principle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Principle</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.principle}</p></div>}
+                    {e.engagement && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Engagement</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.engagement}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {POLITICS_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

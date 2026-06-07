@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "petitions" | "commentators" | "history" | "models" | "videos";
+type Tab = "petitions" | "commentators" | "history" | "models" | "journal" | "videos";
 
 const PETITIONS = [
   {
@@ -156,6 +158,21 @@ export default function PrayerOfJesusPage() {
   const petition = PETITIONS.find(p => p.line === selected)!;
   const commentator = COMMENTATORS.find(c => c.id === selectedCommentator)!;
 
+  const [lprJEntries, setLprJEntries] = useState<{ id: string; date: string; petition: string; reflection: string; praying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_lprj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [lprJForm, setLprJForm] = useState({ petition: "", reflection: "", praying: "" });
+  const [lprJSaved, setLprJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_lprj_entries", JSON.stringify(lprJEntries)); } catch {} }, [lprJEntries]);
+  const saveLprJEntry = () => {
+    if (!lprJForm.petition.trim()) return;
+    setLprJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...lprJForm }, ...prev]);
+    setLprJForm({ petition: "", reflection: "", praying: "" });
+    setLprJSaved(true);
+    setTimeout(() => setLprJSaved(false), 2000);
+  };
+  const deleteLprJEntry = (id: string) => setLprJEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -175,6 +192,7 @@ export default function PrayerOfJesusPage() {
             { id: "commentators" as const, label: "Commentators", icon: "💬" },
             { id: "history" as const, label: "History of Use", icon: "📜" },
             { id: "models" as const, label: "How to Pray It", icon: "📖" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -295,6 +313,50 @@ export default function PrayerOfJesusPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Lord&apos;s Prayer Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record the petition you are meditating on, your reflection on it, and how you are actively praying it.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Petition I am meditating on</label>
+                  <textarea rows={2} value={lprJForm.petition} onChange={e => setLprJForm(f => ({ ...f, petition: e.target.value }))} placeholder="e.g. 'Your kingdom come', 'Forgive us our debts'" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>My reflection</label>
+                  <textarea rows={2} value={lprJForm.reflection} onChange={e => setLprJForm(f => ({ ...f, reflection: e.target.value }))} placeholder="What does this petition reveal about God or about you?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How I am actively praying it</label>
+                  <textarea rows={2} value={lprJForm.praying} onChange={e => setLprJForm(f => ({ ...f, praying: e.target.value }))} placeholder="What specific prayer are you making from this line?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveLprJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {lprJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {lprJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {lprJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteLprJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.petition && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Petition</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.petition}</p></div>}
+                    {e.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.reflection}</p></div>}
+                    {e.praying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>How I Am Praying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.praying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -304,19 +366,13 @@ export default function PrayerOfJesusPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "IvWmwvdJ-mU", title: "How to Pray", channel: "R.C. Sproul / Ligonier", description: "Sproul walks through the structure of the Lord's Prayer as a model for Christian prayer, explaining each petition and its theological significance." },
-                  { videoId: "vqxXABgRhVo", title: "The Basis of Prayer: Our Father", channel: "Tim Keller", description: "Keller unpacks 'Our Father in heaven' — the opening address that shapes everything else in the Lord's Prayer — and what it means to pray as a child of God." },
-                  { videoId: "3VxyGP7z2rk", title: "If God Is Sovereign, Why Pray?", channel: "R.C. Sproul / Ligonier", description: "Sproul addresses the most common intellectual objection to prayer, arguing from Scripture why intercessory prayer is both necessary and effective despite divine sovereignty." },
-                  { videoId: "IWj00KJ6Jow", title: "Adoration — The First Movement of Prayer", channel: "R.C. Sproul / Ligonier", description: "A teaching on how 'hallowed be your name' grounds all prayer in the worship of God — adoration before petition." },
+                  { videoId: "52ZXFH1wzc8", title: "How to Pray", channel: "R.C. Sproul / Ligonier", description: "Sproul walks through the structure of the Lord's Prayer as a model for Christian prayer, explaining each petition and its theological significance." },
+                  { videoId: "5vp9hV8bOjk", title: "The Basis of Prayer: Our Father", channel: "Tim Keller", description: "Keller unpacks 'Our Father in heaven' — the opening address that shapes everything else in the Lord's Prayer — and what it means to pray as a child of God." },
+                  { videoId: "OU69so6VjHA", title: "If God Is Sovereign, Why Pray?", channel: "R.C. Sproul / Ligonier", description: "Sproul addresses the most common intellectual objection to prayer, arguing from Scripture why intercessory prayer is both necessary and effective despite divine sovereignty." },
+                  { videoId: "3DRE5kgbYjU", title: "Adoration — The First Movement of Prayer", channel: "R.C. Sproul / Ligonier", description: "A teaching on how 'hallowed be your name' grounds all prayer in the worship of God — adoration before petition." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

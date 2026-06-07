@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "howto" | "major" | "minor" | "themes" | "videos";
+type Tab = "howto" | "major" | "minor" | "themes" | "journal" | "videos";
 
 const STATS = [
   { value: "17", label: "prophetic books in the OT" },
@@ -242,11 +244,26 @@ export default function ReadingProphetsPage() {
 
   const majorBook = MAJOR_BOOKS.find((b) => b.book === selectedMajor) ?? MAJOR_BOOKS[0];
 
+  type JournalEntry = { id: string; date: string; prophet: string; message: string; applying: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_rpj_entries") ?? "[]"); } catch { return []; } });
+  const [jProphet, setJProphet] = useState("");
+  const [jMessage, setJMessage] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_rpj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jProphet.trim() && !jMessage.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), prophet: jProphet, message: jMessage, applying: jApplying };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJProphet(""); setJMessage(""); setJApplying("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "howto", label: "How to Read" },
     { id: "major", label: "Major Prophets" },
     { id: "minor", label: "Minor Prophets" },
     { id: "themes", label: "Major Themes" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -689,7 +706,39 @@ export default function ReadingProphetsPage() {
           </div>
         )}
 
-        {/* Tab: Major Themes */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Prophets Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record prophetic passages, their messages, and how God is calling you to respond.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jProphet} onChange={e => setJProphet(e.target.value)} placeholder="Prophet / passage (e.g. Isaiah 53)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jMessage} onChange={e => setJMessage(e.target.value)} placeholder="What was the prophet's message? What stood out to you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How are you applying this today?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Start recording what God is speaking through the prophets.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.prophet || "Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.message && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Message:</strong> {entry.message}</p>}
+                    {entry.applying && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Applying:</strong> {entry.applying}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Tab: Videos */}
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -699,19 +748,13 @@ export default function ReadingProphetsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "tHPRGR3TGUM", title: "Isaiah: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul examines the book of Isaiah — how the prophet was commissioned to warn Judah and how his writings more than any other OT book clearly reveal the coming Messiah." },
-                  { videoId: "lvDd0NmV2EE", title: "Covenant with Abraham: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul traces the Abrahamic promise that the prophets interpret and expand — essential context for reading the prophetic literature." },
-                  { videoId: "fn0I20M1KJI", title: "Providence: The Purposeful Sovereignty of God", channel: "Desiring God", description: "John Piper explains how God's sovereign providence is the controlling theme that makes the prophets' proclamations coherent and urgent." },
-                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper's approach to poetic Scripture applies equally to the prophets — read for encounter, not just information." },
+                  { videoId: "Z-17KxpjL0Q", title: "Isaiah: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul examines the book of Isaiah — how the prophet was commissioned to warn Judah and how his writings more than any other OT book clearly reveal the coming Messiah." },
+                  { videoId: "ej_6dVdJSIU", title: "Covenant with Abraham: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul traces the Abrahamic promise that the prophets interpret and expand — essential context for reading the prophetic literature." },
+                  { videoId: "G-2e9mMf7E8", title: "Providence: The Purposeful Sovereignty of God", channel: "Desiring God", description: "John Piper explains how God's sovereign providence is the controlling theme that makes the prophets' proclamations coherent and urgent." },
+                  { videoId: "5nvVVcYD-0w", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper's approach to poetic Scripture applies equally to the prophets — read for encounter, not just information." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

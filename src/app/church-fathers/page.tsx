@@ -1,12 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "fathers" | "theology" | "legacy" | "writings" | "videos";
+type Tab = "fathers" | "theology" | "legacy" | "writings" | "journal" | "videos";
 
 const THEOLOGY_DEVELOPMENTS = [
   { title: "The Canon of Scripture", era: "2nd-4th centuries", body: "The church did not invent the canon in 381 — it recognized it. The 27 books of the NT were already functioning as authoritative in most churches before formal councils. Athanasius's Easter letter (367 AD) is the first to list all 27 books exactly as we have them. The criteria: apostolic origin, universal use, and doctrinal consistency with the rule of faith. The canon reflects what the church was already reading, not what bishops invented." },
@@ -168,6 +171,20 @@ export default function ChurchFathersPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers_tab", "fathers");
   const [selectedWriting, setSelectedWriting] = usePersistedState("vine_church-fathers_selected_writing", "didache");
 
+  const [cfathEntries, setCfathEntries] = useState<{ id: string; date: string; father: string; insight: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cfath_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cfathForm, setCfathForm] = useState({ father: "", insight: "", applying: "" });
+  const [cfathSaved, setCfathSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cfath_entries", JSON.stringify(cfathEntries)); }, [cfathEntries]);
+  function saveCfathEntry() {
+    if (!cfathForm.father.trim()) return;
+    setCfathEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cfathForm }, ...prev]);
+    setCfathForm({ father: "", insight: "", applying: "" });
+    setCfathSaved(true); setTimeout(() => setCfathSaved(false), 2000);
+  }
+  function deleteCfathEntry(id: string) { setCfathEntries(prev => prev.filter(e => e.id !== id)); }
+
   const filtered = period === "All" ? FATHERS : FATHERS.filter(f => f.period === period);
   const father = FATHERS.find(f => f.name === selected);
 
@@ -190,6 +207,7 @@ export default function ChurchFathersPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "legacy" as const, label: "Legacy", icon: "🏛️" },
             { id: "writings" as const, label: "Writings", icon: "📜" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -323,6 +341,53 @@ export default function ChurchFathersPage() {
         </div>
         </div>}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Church Fathers Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record what you are learning from the early church theologians. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Which Father are you exploring?</label>
+                <textarea value={cfathForm.father} onChange={e => setCfathForm(f => ({ ...f, father: e.target.value }))}
+                  placeholder="Augustine, Athanasius, Origen, Chrysostom..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What insight or quote stands out?</label>
+                <textarea value={cfathForm.insight} onChange={e => setCfathForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="The idea or passage that struck you..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How does this apply to your faith today?</label>
+                <textarea value={cfathForm.applying} onChange={e => setCfathForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What it changes in your prayer, theology, or practice..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCfathEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cfathSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cfathEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cfathEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCfathEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.father && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>FATHER </span><span style={{ color: TEXT, fontSize: 14 }}>{e.father}</span></div>}
+                    {e.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>INSIGHT </span><span style={{ color: TEXT, fontSize: 14 }}>{e.insight}</span></div>}
+                    {e.applying && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>APPLYING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -332,19 +397,13 @@ export default function ChurchFathersPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Dp3LnNXACZ8", title: "Life in the Early Church (Acts 2:40–47)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the apostolic church's life in doctrine, fellowship, Eucharist, and prayer — the world the Fathers inhabited." },
-                  { videoId: "AtYCVDlV9kE", title: "Early Church Heresies: Modalistic Monarchianism", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the Trinitarian controversies that forced the Fathers to articulate orthodoxy with precision in the early centuries." },
-                  { videoId: "-I2VcMxXH0w", title: "Early Church Fathers & R.C. Sproul on the Birth of Jesus", channel: "Ligonier Ministries", description: "Primary texts from the Church Fathers on the Incarnation, read with commentary on their historical and theological context." },
-                  { videoId: "35A3oXb661k", title: "Catholic, Evangelical, and Reformed: What is Reformed Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul traces how Reformation theology was rooted in and represented a recovery of the Patristic tradition." },
+                  { videoId: "dy9nwe9zeU8", title: "Life in the Early Church (Acts 2:40–47)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the apostolic church's life in doctrine, fellowship, Eucharist, and prayer — the world the Fathers inhabited." },
+                  { videoId: "iK0NjiBXKN4", title: "Early Church Heresies: Modalistic Monarchianism", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the Trinitarian controversies that forced the Fathers to articulate orthodoxy with precision in the early centuries." },
+                  { videoId: "zMbUXpFiFeo", title: "Early Church Fathers & R.C. Sproul on the Birth of Jesus", channel: "Ligonier Ministries", description: "Primary texts from the Church Fathers on the Incarnation, read with commentary on their historical and theological context." },
+                  { videoId: "52ZXFH1wzc8", title: "Catholic, Evangelical, and Reformed: What is Reformed Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul traces how Reformation theology was rooted in and represented a recovery of the Patristic tradition." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

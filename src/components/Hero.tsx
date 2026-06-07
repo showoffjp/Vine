@@ -20,6 +20,7 @@ export default function Hero() {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setParticles(
       Array.from({ length: 22 }, (_, i) => ({
         id: i,

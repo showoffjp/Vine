@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -82,11 +85,25 @@ const PRACTICES = [
 ];
 
 export default function EcclesiologyPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"theology" | "models" | "thinkers" | "practices" | "videos">("vine_ecclesiology_tab", "theology");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "models" | "thinkers" | "practices" | "journal" | "videos">("vine_ecclesiology_tab", "theology");
   const [selectedModel, setSelectedModel] = usePersistedState("vine_ecclesiology_selected_model", "Body of Christ");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_ecclesiology_selected_thinker", "luther");
 
-  const model = MODELS.find(m => m.name === selectedModel)!;
+  const [ecclEntries, setEcclEntries] = useState<{ id: string; date: string; model: string; mark: string; applying: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_eccl_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [ecclForm, setEcclForm] = useState({ model: "", mark: "", applying: "" });
+  const [ecclSaved, setEcclSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_eccl_entries", JSON.stringify(ecclEntries)); }, [ecclEntries]);
+  function saveEcclEntry() {
+    if (!ecclForm.model.trim()) return;
+    setEcclEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...ecclForm }, ...prev]);
+    setEcclForm({ model: "", mark: "", applying: "" });
+    setEcclSaved(true); setTimeout(() => setEcclSaved(false), 2000);
+  }
+  function deleteEcclEntry(id: string) { setEcclEntries(prev => prev.filter(e => e.id !== id)); }
+
+  const model = MODELS.find(m => m.name === selectedModel)!
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
 
   return (
@@ -108,6 +125,7 @@ export default function EcclesiologyPage() {
             { id: "models" as const, label: "Models", icon: "🔭" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -209,6 +227,54 @@ export default function EcclesiologyPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Ecclesiology Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your ecclesiological convictions — which model resonates, what marks of the church you see (or don&apos;t), and how you are applying it. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MODEL THAT RESONATES WITH ME *</label>
+                <textarea value={ecclForm.model} onChange={e => setEcclForm(f => ({ ...f, model: e.target.value }))}
+                  placeholder="Which ecclesiological model (Body of Christ, People of God, Temple of the Spirit...) speaks most to you?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MARK OF THE CHURCH I SEE / DON&apos;T SEE</label>
+                <textarea value={ecclForm.mark} onChange={e => setEcclForm(f => ({ ...f, mark: e.target.value }))}
+                  placeholder="One, holy, catholic, apostolic — which mark is your church strongest or weakest in?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM APPLYING THIS</label>
+                <textarea value={ecclForm.applying} onChange={e => setEcclForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How is this ecclesiological understanding changing how you participate in church?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveEcclEntry}
+                style={{ background: ecclSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {ecclSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {ecclEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({ecclEntries.length})</h3>
+                {ecclEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteEcclEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.model && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>MODEL: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.model}</span></div>}
+                    {entry.mark && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>MARK: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.mark}</span></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>APPLYING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.applying}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -218,19 +284,13 @@ export default function EcclesiologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "5bYg6JL84rU", title: "What Is the Church? A Biblical Theology", channel: "The Bible Project", description: "An animated overview of the church's identity in the New Testament — ekklesia, body of Christ, temple of the Spirit — and why belonging to a local church is not optional." },
-                  { videoId: "LhUc3Z4J8B0", title: "The Marks of the True Church — Luther and Calvin", channel: "Ligonier Ministries", description: "Exploring the Reformation's answer to the question: what makes a church a church? Word, sacrament, and discipline as the marks that distinguish the true church." },
-                  { videoId: "21tY0ut8zvc", title: "Why You Need the Local Church — N.T. Wright", channel: "N.T. Wright Online", description: "Wright on the church as the advance community of new creation — not a gathering of souls waiting to escape earth, but the present sign and foretaste of God's renewed world." },
-                  { videoId: "vzk7zbuV2sg", title: "Life Together — Bonhoeffer on Christian Community", channel: "Theology Explained", description: "Exploring Bonhoeffer's vision of Christian community from Life Together — what genuine Christian fellowship costs and why we must love the real community rather than our dream of it." },
+                  { videoId: "krxcqH522uo", title: "What Is the Church? A Biblical Theology", channel: "The Bible Project", description: "An animated overview of the church's identity in the New Testament — ekklesia, body of Christ, temple of the Spirit — and why belonging to a local church is not optional." },
+                  { videoId: "52ZXFH1wzc8", title: "The Marks of the True Church — Luther and Calvin", channel: "Ligonier Ministries", description: "Exploring the Reformation's answer to the question: what makes a church a church? Word, sacrament, and discipline as the marks that distinguish the true church." },
+                  { videoId: "KRsuCQe7aVk", title: "Why You Need the Local Church — N.T. Wright", channel: "N.T. Wright Online", description: "Wright on the church as the advance community of new creation — not a gathering of souls waiting to escape earth, but the present sign and foretaste of God's renewed world." },
+                  { videoId: "iK0NjiBXKN4", title: "Life Together — Bonhoeffer on Christian Community", channel: "Theology Explained", description: "Exploring Bonhoeffer's vision of Christian community from Life Together — what genuine Christian fellowship costs and why we must love the real community rather than our dream of it." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

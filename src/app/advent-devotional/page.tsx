@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "weeks" | "practices" | "resources" | "videos";
+type Tab = "theology" | "weeks" | "practices" | "resources" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -162,6 +164,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "weeks", label: `The ${WEEKS_DATA.length} Weeks` },
   { id: "practices", label: "Advent Practices" },
   { id: "resources", label: "Resources" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "🎬 Videos" },
 ];
 
@@ -169,6 +172,20 @@ export default function AdventDevotionalPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_advent-devotional_tab", "theology");
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [selectedWeek, setSelectedWeek] = useState<number>(0);
+
+  const [advEntries, setAdvEntries] = useState<{ id: string; date: string; week: string; theme: string; intention: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_advent_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [advForm, setAdvForm] = useState({ week: "Week 1 – Hope", theme: "", intention: "" });
+  const [advSaved, setAdvSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_advent_entries", JSON.stringify(advEntries)); }, [advEntries]);
+  function saveAdvEntry() {
+    if (!advForm.theme.trim()) return;
+    setAdvEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...advForm }, ...prev]);
+    setAdvForm({ week: "Week 1 – Hope", theme: "", intention: "" });
+    setAdvSaved(true); setTimeout(() => setAdvSaved(false), 2000);
+  }
+  function deleteAdvEntry(id: string) { setAdvEntries(prev => prev.filter(e => e.id !== id)); }
 
   function toggleAccordion(index: number) {
     setOpenAccordion(openAccordion === index ? null : index);
@@ -605,6 +622,52 @@ export default function AdventDevotionalPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Advent Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record what God is showing you as you wait. Each entry holds the week&apos;s theme, what it opened in you, and one intention for the days ahead.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Week</label>
+                <select value={advForm.week} onChange={e => setAdvForm(f => ({ ...f, week: e.target.value }))} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px" }}>
+                  {["Week 1 – Hope", "Week 2 – Peace", "Week 3 – Joy", "Week 4 – Love", "Christmas Eve / Day"].map(w => <option key={w} value={w}>{w}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What this theme opened in me</label>
+                <textarea value={advForm.theme} onChange={e => setAdvForm(f => ({ ...f, theme: e.target.value }))} rows={3} placeholder="What did you notice, feel, or understand this week?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>One intention for this week</label>
+                <textarea value={advForm.intention} onChange={e => setAdvForm(f => ({ ...f, intention: e.target.value }))} rows={2} placeholder="One concrete way to practice waiting, hope, peace, joy, or love..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveAdvEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {advSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {advEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({advEntries.length})</h3>
+                {advEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <div><span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{e.week}</span></div>
+                      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                        <button type="button" onClick={() => deleteAdvEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      </div>
+                    </div>
+                    {e.theme && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Opened:</strong> {e.theme}</p>}
+                    {e.intention && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: PURPLE }}>Intention:</strong> {e.intention}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -614,19 +677,13 @@ export default function AdventDevotionalPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "w_nEa4-yXLc", title: "Advent Day 1: Prepare the Way", channel: "John Piper / Desiring God", description: "John Piper opens the Advent season with a devotional on preparing the way of the Lord — the prophetic call to expectant waiting." },
-                  { videoId: "cefE418Z9IY", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller", description: "Tim Keller preaches on the astonishing claim at the center of Advent: that the eternal Word became flesh and dwelt among us." },
-                  { videoId: "IkzzdfaqJ2k", title: "Advent: The Word", channel: "Timothy Keller", description: "Keller opens John 1 to show why Advent begins not in Bethlehem but before creation — in the eternal being of the Son." },
-                  { videoId: "tXJqa6ISZng", title: "Advent Day 24: Two Purposes for Christmas", channel: "John Piper / Desiring God", description: "Piper closes the Advent season exploring the two purposes behind the incarnation: glory to God and peace to those he loves." },
+                  { videoId: "8tllFmO5zhs", title: "Advent Day 1: Prepare the Way", channel: "John Piper / Desiring God", description: "John Piper opens the Advent season with a devotional on preparing the way of the Lord — the prophetic call to expectant waiting." },
+                  { videoId: "6UortPEFcpU", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller", description: "Tim Keller preaches on the astonishing claim at the center of Advent: that the eternal Word became flesh and dwelt among us." },
+                  { videoId: "9__ceHaHKEE", title: "Advent: The Word", channel: "Timothy Keller", description: "Keller opens John 1 to show why Advent begins not in Bethlehem but before creation — in the eternal being of the Son." },
+                  { videoId: "JRRbGCyr2Ac", title: "Advent Day 24: Two Purposes for Christmas", channel: "John Piper / Desiring God", description: "Piper closes the Advent season exploring the two purposes behind the incarnation: glory to God and peace to those he loves." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

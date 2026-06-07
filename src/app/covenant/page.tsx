@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "covenants" | "views" | "application" | "videos";
+type Tab = "what" | "covenants" | "views" | "application" | "journal" | "videos";
 
 const WHAT_ITEMS = [
   {
@@ -21,7 +23,7 @@ const WHAT_ITEMS = [
     body: "The Hebrew word berith (בְּרִית) is the backbone of covenant theology. It denotes a solemn, binding agreement — not a casual promise but a sworn commitment sealed by oath, sacrifice, or ceremony. In the Ancient Near East, suzerain-vassal treaties followed a recognizable pattern: the great king (suzerain) identified himself and his acts of benevolence, stated his requirements of the vassal, listed blessings for compliance and curses for violation, and invoked divine witnesses. Biblical scholars including Klaus Baltzer and Meredith Kline have shown that Exodus and Deuteronomy map directly onto this treaty form — God as the Great King, Israel as the vassal nation. A covenant has identifiable elements: (1) the parties involved, (2) the conditions stipulated, (3) the oaths sworn (often with the formula 'may it be done to me as to this animal if I break faith'), and (4) the signs or ratifying acts. Understanding berith as treaty rather than contract or mere promise opens up the legal and relational architecture of the entire Old Testament.",
   },
   {
-    id: "vs-contract",
+    id: "q5QEH9bH8AU",
     title: "Covenant vs. Contract",
     body: "The distinction between covenant and contract is not merely semantic — it is the difference between two entirely different understandings of human relationship. A contract is transactional: two parties of roughly equal standing exchange goods, services, or promises, and the contract is conditional on mutual performance. Breach by one party releases the other. Contracts are about what I get. Covenants are categorically different. Tim Keller, drawing on the sociologist Robert Bellah, argues that a covenant is a relationship where you bind yourself to another person's good independent of whether they fulfill their obligations. In marriage, the paradigmatic human covenant, you do not say 'I will love you as long as you love me.' You say 'I will love you.' Period. Covenants are relational at their core: they create a new identity for the parties involved (husband, wife, son, daughter, people of God). This is why covenant breaking in the Bible is never merely a legal infraction — it is a personal betrayal, a breach of self, which is why Hosea's language for Israel's idolatry is adultery, not contract violation. The covenant framework thus positions all of God's dealings with humanity within a relational, not merely transactional, frame.",
   },
@@ -263,8 +265,23 @@ export default function CovenantPage() {
     { key: "covenants", label: "The Biblical Covenants" },
     { key: "views", label: "Theological Views" },
     { key: "application", label: "Application" },
+    { key: "journal", label: "My Journal" },
     { key: "videos", label: "🎬 Videos" },
   ];
+
+  const [covEntries, setCovEntries] = useState<{ id: string; date: string; promise: string; faithful: string; unfaithful: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cov_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [covForm, setCovForm] = useState({ promise: "", faithful: "", unfaithful: "" });
+  const [covSaved, setCovSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cov_entries", JSON.stringify(covEntries)); }, [covEntries]);
+  function saveCovEntry() {
+    if (!covForm.promise.trim() && !covForm.faithful.trim()) return;
+    setCovEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...covForm }, ...prev]);
+    setCovForm({ promise: "", faithful: "", unfaithful: "" });
+    setCovSaved(true); setTimeout(() => setCovSaved(false), 2000);
+  }
+  function deleteCovEntry(id: string) { setCovEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80 }}>
@@ -562,6 +579,55 @@ export default function CovenantPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                We are covenant people. Journal God's covenant promises you are resting in, and where you are living faithfully — or unfaithfully — in your covenant commitments.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Covenant Journal</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A covenant promise I am resting in</label>
+                <textarea value={covForm.promise} onChange={e => setCovForm(f => ({ ...f, promise: e.target.value }))} rows={2}
+                  placeholder="A specific promise from God — his love, his faithfulness, his presence, the new covenant in Christ..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I was faithful today</label>
+                <textarea value={covForm.faithful} onChange={e => setCovForm(f => ({ ...f, faithful: e.target.value }))} rows={2}
+                  placeholder="Marriage, friendships, commitments, promises made to God or others..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Where I was unfaithful (honest)</label>
+                <textarea value={covForm.unfaithful} onChange={e => setCovForm(f => ({ ...f, unfaithful: e.target.value }))} rows={2}
+                  placeholder="Broken promises, neglect of covenant responsibilities, wavering commitment..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCovEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {covSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {covEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Covenant Journal ({covEntries.length})</h3>
+                {covEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteCovEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.promise && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}><span style={{ fontWeight: 600 }}>Resting in: </span>{e.promise}</p>}
+                    {e.faithful && <p style={{ color: GREEN, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}><span style={{ fontWeight: 600 }}>Faithful: </span>{e.faithful}</p>}
+                    {e.unfaithful && <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", margin: 0 }}><span style={{ fontWeight: 600 }}>Unfaithful: </span>{e.unfaithful}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -571,19 +637,13 @@ export default function CovenantPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "mW1X8j4kCus", title: "Covenant: What Is Reformed Theology?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul introduces covenant theology — the Reformed understanding of how God has structured all of redemptive history around a series of binding covenants." },
-                  { videoId: "uKNIPNbnHgw", title: "R.C. Sproul: The Covenant", channel: "Ligonier Ministries", description: "A foundational lecture on what a covenant is in Scripture — how it differs from a contract, and why covenant is the organizing principle of the entire Bible." },
-                  { videoId: "C9LWyRuWCFA", title: "The Meaning of Covenant", channel: "Ligonier Ministries", description: "Ligonier teaching on how the history of redemption is shaped by the covenants that God has made with his people from creation to the new covenant in Christ." },
-                  { videoId: "SkV5zp873MU", title: "The Covenant of Redemption", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul traces God's plan of salvation back to eternity itself — the covenant of redemption between Father and Son before the foundation of the world." },
+                  { videoId: "JqOqJlFF_eU", title: "Covenant: What Is Reformed Theology?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul introduces covenant theology — the Reformed understanding of how God has structured all of redemptive history around a series of binding covenants." },
+                  { videoId: "kOYy8iCfIJ4", title: "R.C. Sproul: The Covenant", channel: "Ligonier Ministries", description: "A foundational lecture on what a covenant is in Scripture — how it differs from a contract, and why covenant is the organizing principle of the entire Bible." },
+                  { videoId: "qjbYnCadoGw", title: "The Meaning of Covenant", channel: "Ligonier Ministries", description: "Ligonier teaching on how the history of redemption is shaped by the covenants that God has made with his people from creation to the new covenant in Christ." },
+                  { videoId: "j9phNEaPrv8", title: "The Covenant of Redemption", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul traces God's plan of salvation back to eternity itself — the covenant of redemption between Father and Son before the foundation of the world." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

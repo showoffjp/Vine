@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { Search, Hash } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
@@ -288,7 +289,7 @@ export default function TopicBrowser() {
               ? `/topics/${TOPIC_SLUGS[topic.label]}`
               : `/discussions?tag=${encodeURIComponent(topic.label)}`;
             return (
-              <a
+              <Link
                 key={topic.label}
                 href={href}
                 style={{
@@ -322,7 +323,7 @@ export default function TopicBrowser() {
               >
                 <Hash size={10} style={{ opacity: 0.6 }} />
                 {topic.label}
-              </a>
+              </Link>
             );
           })}
         </div>

@@ -1,7 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -97,13 +100,13 @@ const MEMORY_PLANS = [
 ];
 
 const VERSE_VIDEOS = [
-  { videoId: "dXxmSDhvbHY", title: "Meditating on Scripture", channel: "Desiring God", description: "John Piper on how to meditate on a single verse — turning it over in your mind until it yields nourishment for the soul." },
-  { videoId: "Hr3PkGXYRvI", title: "The Power of God's Word", channel: "Ligonier Ministries", description: "R.C. Sproul on why Scripture memorization and meditation are central spiritual disciplines — and what makes the Word of God unlike any other book." },
-  { videoId: "KbFKcFxqVlo", title: "Scripture Memory That Lasts", channel: "The Gospel Coalition", description: "How to memorize Scripture in a way that sticks — methods, motivations, and how memorized verses become weapons against temptation." },
-  { videoId: "ACZbpLkY8To", title: "Praying the Scripture", channel: "Crossway", description: "Donald Whitney on turning Scripture into prayer — how to take a verse and let it shape and fuel your conversation with God." },
+  { videoId: "rtkS_8VWfB0", title: "Meditating on Scripture", channel: "Desiring God", description: "John Piper on how to meditate on a single verse — turning it over in your mind until it yields nourishment for the soul." },
+  { videoId: "npEDqbE6faE", title: "The Power of God's Word", channel: "Ligonier Ministries", description: "R.C. Sproul on why Scripture memorization and meditation are central spiritual disciplines — and what makes the Word of God unlike any other book." },
+  { videoId: "rtkS_8VWfB0", title: "Scripture Memory That Lasts", channel: "The Gospel Coalition", description: "How to memorize Scripture in a way that sticks — methods, motivations, and how memorized verses become weapons against temptation." },
+  { videoId: "ej_6dVdJSIU", title: "Praying the Scripture", channel: "Crossway", description: "Donald Whitney on turning Scripture into prayer — how to take a verse and let it shape and fuel your conversation with God." },
 ];
 
-type Tab = "today" | "weekly" | "topics" | "memorize" | "videos";
+type Tab = "today" | "weekly" | "topics" | "memorize" | "videos" | "journal";
 
 export default function VerseOfTheDayPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_verse-of-the-day_tab", "today");
@@ -119,6 +122,20 @@ export default function VerseOfTheDayPage() {
   const todayWeekly = WEEKLY_PLAN[dayIndex];
   const topic = TOPICS.find(t => t.topic === selectedTopic)!;
   const plan = MEMORY_PLANS.find(p => p.name === selectedPlan)!;
+
+  // Journal state
+  type VerseJE = { id: string; date: string; verse: string; insight: string; applying: string };
+  const [verseJournal, setVerseJournal] = useState<VerseJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_versej_entries") ?? "[]"); } catch { return []; } });
+  const [jvVerse, setJvVerse] = useState("");
+  const [jvInsight, setJvInsight] = useState("");
+  const [jvApplying, setJvApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_versej_entries", JSON.stringify(verseJournal)); } catch {} }, [verseJournal]);
+  function saveVerseEntry() {
+    if (!jvVerse.trim() && !jvInsight.trim()) return;
+    setVerseJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), verse: jvVerse, insight: jvInsight, applying: jvApplying }, ...prev]);
+    setJvVerse(""); setJvInsight(""); setJvApplying("");
+  }
+  function deleteVerseEntry(id: string) { setVerseJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
@@ -148,6 +165,7 @@ export default function VerseOfTheDayPage() {
             { id: "topics" as const, label: "By Topic", icon: "🔍" },
             { id: "memorize" as const, label: "Memorize", icon: "🧠" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
+            { id: "journal" as const, label: "Journal", icon: "📓" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
@@ -300,12 +318,69 @@ export default function VerseOfTheDayPage() {
             </div>
           </div>
         )}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Scripture Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Record verses that spoke to you today, what they mean, and how you plan to live them out.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input
+                  value={jvVerse}
+                  onChange={e => setJvVerse(e.target.value)}
+                  placeholder="Scripture reference (e.g. John 3:16, Psalm 23:1)..."
+                  style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }}
+                />
+                <textarea
+                  value={jvInsight}
+                  onChange={e => setJvInsight(e.target.value)}
+                  placeholder="What did this verse say to you today?"
+                  rows={3}
+                  style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }}
+                />
+                <input
+                  value={jvApplying}
+                  onChange={e => setJvApplying(e.target.value)}
+                  placeholder="How will you apply this today?"
+                  style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={saveVerseEntry}
+                  style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+                >
+                  Save Entry
+                </button>
+              </div>
+            </div>
+            {verseJournal.length === 0 ? (
+              <div style={{ textAlign: "center", color: MUTED, padding: "40px 0" }}>No entries yet. Save your first Scripture reflection above.</div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {verseJournal.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                      <div>
+                        <span style={{ color: GOLD, fontWeight: 700, fontSize: 15 }}>{e.verse || "Untitled"}</span>
+                        <span style={{ color: MUTED, fontSize: 12, marginLeft: 10 }}>{e.date}</span>
+                      </div>
+                      <button type="button" onClick={() => deleteVerseEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.insight && <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}>{e.insight}</p>}
+                    {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic" }}>→ {e.applying}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VERSE_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

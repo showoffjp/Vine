@@ -920,7 +920,6 @@ export default async function EventDetailPage({
                     price={event.price}
                     accentColor={event.accentColor}
                     secondaryColor={event.secondaryColor}
-                    eventTitle={event.title}
                   />
                 </div>
               </div>

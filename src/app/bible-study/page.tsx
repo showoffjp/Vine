@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { BookOpen, Plus, ChevronDown, ChevronRight, CheckCircle2, Circle, Search, Tag, Save, X, Lightbulb } from "lucide-react";
+import { BookOpen, Plus, Search, X, Lightbulb } from "lucide-react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface StudyNote {

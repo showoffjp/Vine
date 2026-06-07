@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 interface Hub {
   id: string;
@@ -239,7 +240,7 @@ function HubCard({
   const delay = Math.min(index * 80, 500);
 
   return (
-    <a
+    <Link
       href={hub.href}
       style={{
         gridColumn: hub.featured ? "span 2" : "span 1",
@@ -370,9 +371,7 @@ function HubCard({
           </div>
 
           {/* See all button */}
-          <a
-            href={hub.seeAllHref}
-            onClick={(e) => e.stopPropagation()}
+          <span
             style={{
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
               fontSize: "0.68rem",
@@ -388,16 +387,6 @@ function HubCard({
               opacity: hovered ? 1 : 0.5,
               whiteSpace: "nowrap",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "1";
-              e.currentTarget.style.color = hub.color;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = hovered ? "1" : "0.5";
-              e.currentTarget.style.color = hovered
-                ? hub.color
-                : "rgba(255,255,255,0.25)";
-            }}
           >
             See all
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -409,10 +398,10 @@ function HubCard({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
@@ -542,7 +531,7 @@ export default function HubsGrid() {
             transition: "opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s",
           }}
         >
-          <a
+          <Link
             href="/explore"
             style={{
               display: "inline-flex",
@@ -581,7 +570,7 @@ export default function HubsGrid() {
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

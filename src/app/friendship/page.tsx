@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+import { Trash2, Pencil, Save } from "lucide-react";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -99,7 +102,7 @@ const SEED: Friend[] = [
 ];
 
 export default function FriendshipPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "obstacles" | "practice" | "videos">("vine_friendship_tab", "theology");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "obstacles" | "practice" | "journal" | "videos">("vine_friendship_tab", "theology");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_friendship_voice", "lewis");
   const voiceItem = VOICES_FRIENDSHIP.find(v => v.id === selectedVoice)!;
   const [friends, setFriends] = useState<Friend[]>(() => {
@@ -112,8 +115,26 @@ export default function FriendshipPage() {
     try { localStorage.setItem("vine_friendship_draft", JSON.stringify(form)); } catch {}
   }, [form]);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editNotes, setEditNotes] = useState("");
 
   useEffect(() => { try { localStorage.setItem("vine_friendship_list", JSON.stringify(friends)); } catch {} }, [friends]);
+
+  const deleteFriend = (id: string) => {
+    setFriends(prev => prev.filter(f => f.id !== id));
+  };
+
+  const startEdit = (f: Friend) => {
+    setEditingId(f.id);
+    setEditName(f.name);
+    setEditNotes(f.notes);
+  };
+
+  const saveEdit = () => {
+    setFriends(prev => prev.map(f => f.id === editingId ? { ...f, name: editName, notes: editNotes } : f));
+    setEditingId(null);
+  };
 
   const addFriend = () => {
     if (!form.name) return;
@@ -126,6 +147,21 @@ export default function FriendshipPage() {
     setFriends(prev => prev.map(f => f.id === id ? { ...f, lastContact: new Date().toISOString().split("T")[0] } : f));
   };
 
+  const [friendJEntries, setFriendJEntries] = useState<{ id: string; date: string; friend: string; practice: string; insight: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_friend_entries") ?? "[]"); } catch { return []; }
+  });
+  const [friendJForm, setFriendJForm] = useState({ friend: "", practice: "", insight: "" });
+  const [friendJSaved, setFriendJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_friend_entries", JSON.stringify(friendJEntries)); } catch {} }, [friendJEntries]);
+  const saveFriendJEntry = () => {
+    if (!friendJForm.friend.trim()) return;
+    setFriendJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...friendJForm }, ...prev]);
+    setFriendJForm({ friend: "", practice: "", insight: "" });
+    setFriendJSaved(true); setTimeout(() => setFriendJSaved(false), 2000);
+  };
+  const deleteFriendJEntry = (id: string) => setFriendJEntries(prev => prev.filter(e => e.id !== id));
+
+  // eslint-disable-next-line react-hooks/purity
   const daysSince = (date: string) => Math.floor((Date.now() - new Date(date + "T12:00:00").getTime()) / (1000 * 60 * 60 * 24));
 
   return (
@@ -147,6 +183,7 @@ export default function FriendshipPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "obstacles" as const, label: "Obstacles", icon: "🚧" },
             { id: "practice" as const, label: "My Friends", icon: "🤝" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -258,23 +295,97 @@ export default function FriendshipPage() {
               {friends.map(f => {
                 const days = daysSince(f.lastContact);
                 const color = days > 60 ? "#EF4444" : days > 30 ? "#F59E0B" : GREEN;
+                const isEditing = editingId === f.id;
                 return (
-                  <div key={f.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18 }}>
+                  <div key={f.id} style={{ background: CARD, border: `1px solid ${isEditing ? PURPLE + "60" : BORDER}`, borderRadius: 12, padding: 18 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ color: TEXT, fontWeight: 700, fontSize: 15, marginBottom: 2 }}>{f.name}</div>
                         <div style={{ color: color, fontSize: 12, fontWeight: 600, marginBottom: 4 }}>{days === 0 ? "Contacted today" : `${days} days since last contact`}</div>
-                        {f.notes && <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{f.notes}</p>}
+                        {f.notes && !isEditing && <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{f.notes}</p>}
                       </div>
-                      <button type="button" onClick={() => touchFriend(f.id)}
-                        style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${GREEN}50`, background: `${GREEN}15`, color: GREEN, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0, marginLeft: 12 }}>
-                        Mark Contact
-                      </button>
+                      <div style={{ display: "flex", gap: 6, flexShrink: 0, marginLeft: 12, alignItems: "center" }}>
+                        <button type="button" onClick={() => touchFriend(f.id)}
+                          style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${GREEN}50`, background: `${GREEN}15`, color: GREEN, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                          Mark Contact
+                        </button>
+                        <button type="button" onClick={() => isEditing ? setEditingId(null) : startEdit(f)}
+                          style={{ padding: "6px 10px", borderRadius: 8, border: `1px solid ${PURPLE}40`, background: `${PURPLE}12`, color: PURPLE, cursor: "pointer" }}
+                          title="Edit friend">
+                          <Pencil size={14} />
+                        </button>
+                        <button type="button" onClick={() => deleteFriend(f.id)}
+                          style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#EF4444", cursor: "pointer" }}
+                          title="Remove friend">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </div>
+                    {isEditing && (
+                      <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${BORDER}` }}>
+                        <input value={editName} onChange={e => setEditName(e.target.value)} aria-label="Friend name"
+                          style={{ width: "100%", padding: "8px 12px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, marginBottom: 8, boxSizing: "border-box" }} />
+                        <textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} aria-label="Notes"
+                          style={{ width: "100%", minHeight: 60, padding: "8px 12px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 8 }} />
+                        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                          <button type="button" onClick={() => setEditingId(null)} style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 13 }}>Cancel</button>
+                          <button type="button" onClick={saveEdit} style={{ padding: "6px 14px", borderRadius: 8, border: "none", background: GREEN, color: "#000", fontWeight: 800, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                            <Save size={13} /> Save
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
             </div>
+          </div>
+        )}
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Friendship Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on friendships you are cultivating, practices you are building, and what God is teaching you. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>FRIENDSHIP I AM INVESTING IN *</label>
+                <textarea value={friendJForm.friend} onChange={e => setFriendJForm(f => ({ ...f, friend: e.target.value }))}
+                  placeholder="Which friendship or friendship situation are you reflecting on?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PRACTICE I AM BUILDING</label>
+                <textarea value={friendJForm.practice} onChange={e => setFriendJForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What habit or practice of friendship are you working on?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>INSIGHT OR PRAYER</label>
+                <textarea value={friendJForm.insight} onChange={e => setFriendJForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What is God showing you about friendship right now?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFriendJEntry}
+                style={{ background: friendJSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {friendJSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {friendJEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({friendJEntries.length})</h3>
+                {friendJEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFriendJEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.friend && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>FRIENDSHIP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.friend}</span></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                    {entry.insight && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>INSIGHT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.insight}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
         {activeTab === "videos" && (
@@ -286,19 +397,13 @@ export default function FriendshipPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "8Tc4VIQrXdE", title: "Friendship", channel: "Timothy Keller", description: "Keller preaches on the biblical vision of friendship — why wise people are skilled at choosing, forging, and keeping deep friendships, and what the gospel makes possible." },
-                  { videoId: "i9iUYsQuY3w", title: "Spiritual Friendship", channel: "Timothy Keller", description: "Keller explores how the gospel of Jesus Christ creates and calls us into spiritual friendships — a category the modern church has largely lost." },
-                  { videoId: "poswQjoLG6I", title: "Real Friendship and the Pleading Priest", channel: "Timothy Keller", description: "Keller on what it looks like when Christ's love shapes our friendships — the costly, loyal, truthful love that distinguished David and Jonathan." },
-                  { videoId: "oNkFUdo7P8o", title: "Jesus's Death as an Act of Friendship", channel: "Tim Keller / The Gospel Coalition", description: "Keller meditates on John 15:13 — 'greater love has no one than this' — and what it means that Jesus calls his disciples friends rather than servants." },
+                  { videoId: "ccNvwDPguNU", title: "Friendship", channel: "Timothy Keller", description: "Keller preaches on the biblical vision of friendship — why wise people are skilled at choosing, forging, and keeping deep friendships, and what the gospel makes possible." },
+                  { videoId: "j9phNEaPrv8", title: "Spiritual Friendship", channel: "Timothy Keller", description: "Keller explores how the gospel of Jesus Christ creates and calls us into spiritual friendships — a category the modern church has largely lost." },
+                  { videoId: "dy9nwe9zeU8", title: "Real Friendship and the Pleading Priest", channel: "Timothy Keller", description: "Keller on what it looks like when Christ's love shapes our friendships — the costly, loyal, truthful love that distinguished David and Jonathan." },
+                  { videoId: "iK0NjiBXKN4", title: "Jesus's Death as an Act of Friendship", channel: "Tim Keller / The Gospel Coalition", description: "Keller meditates on John 15:13 — 'greater love has no one than this' — and what it means that Jesus calls his disciples friends rather than servants." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

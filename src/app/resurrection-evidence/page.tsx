@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "facts" | "theories" | "historians" | "significance" | "videos";
+type Tab = "facts" | "theories" | "historians" | "significance" | "journal" | "videos";
 
 const MINIMAL_FACTS = [
   { fact: "Jesus died by Roman crucifixion", color: GREEN, scholarly: "Virtually unanimous among historians — including non-Christian historians", evidence: "Multiple independent sources: Tacitus (Annals 15.44), Josephus (Antiquities 18.3), Lucian of Samosata, Mara bar Serapion, plus all four canonical Gospels. Roman crucifixion was the most efficient execution method in the ancient world. The Roman soldier's spear through the side (John 19:34) confirms death.", why_matters: "The resurrection requires that Jesus actually died. Swoon theories (Jesus merely fainted and recovered) fail against the medical evidence of crucifixion and the Roman confirmation process.", source: "Gary Habermas has catalogued over 2,200 scholarly sources on the resurrection; virtually all affirm the death by crucifixion." },
@@ -51,6 +53,20 @@ export default function ResurrectionEvidencePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const sel = MINIMAL_FACTS.find(f => f.fact === selected) || MINIMAL_FACTS[0];
 
+  type JournalEntry = { id: string; date: string; fact: string; significance: string; sharing: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_rej_entries") ?? "[]"); } catch { return []; } });
+  const [jFact, setJFact] = useState("");
+  const [jSignificance, setJSignificance] = useState("");
+  const [jSharing, setJSharing] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_rej_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jFact.trim() && !jSignificance.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), fact: jFact, significance: jSignificance, sharing: jSharing };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJFact(""); setJSignificance(""); setJSharing("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -71,10 +87,10 @@ export default function ResurrectionEvidencePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["facts", "theories", "historians", "significance", "videos"] as Tab[]).map(t => (
+          {(["facts", "theories", "historians", "significance", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "facts" ? "Minimal Facts" : t === "theories" ? "Alternative Theories" : t === "historians" ? "Key Scholars" : t === "significance" ? "Why It Matters" : "Videos"}
+              {t === "facts" ? "Minimal Facts" : t === "theories" ? "Alternative Theories" : t === "historians" ? "Key Scholars" : t === "significance" ? "Why It Matters" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -153,6 +169,38 @@ export default function ResurrectionEvidencePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Resurrection Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record the evidence that strengthens your faith and how you share the hope of the resurrection.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jFact} onChange={e => setJFact(e.target.value)} placeholder="Evidence or argument that moved you" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jSignificance} onChange={e => setJSignificance(e.target.value)} placeholder="Why does this matter to your faith?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <textarea value={jSharing} onChange={e => setJSharing(e.target.value)} placeholder="How are you sharing the hope of the resurrection?" rows={2} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Start recording what the resurrection evidence means for your faith.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>{entry.fact || "Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.significance && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Why it matters:</strong> {entry.significance}</p>}
+                    {entry.sharing && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Sharing:</strong> {entry.sharing}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -162,19 +210,13 @@ export default function ResurrectionEvidencePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Z8lkuuhVkOI", title: "Evidence for the Resurrection", channel: "William Lane Craig", description: "Dr. William Lane Craig presents the historical evidence for the bodily resurrection of Jesus using the minimal facts methodology." },
-                  { videoId: "Hr3PkGXYRvI", title: "The Resurrection of Christ", channel: "Ligonier Ministries", description: "R.C. Sproul defends the historical and theological significance of the bodily resurrection of Jesus Christ." },
-                  { videoId: "E9P76VJIcRY", title: "Is the Resurrection Essential?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses what Christianity means if the historical resurrection is rejected — and why no Christian compromise on this point is possible." },
-                  { videoId: "dXxmSDhvbHY", title: "A Living Hope Through the Resurrection", channel: "Desiring God", description: "John Piper preaches on the resurrection as the ground of Christian hope — an indestructible life that secures the believer's future." },
+                  { videoId: "gV9JugO_5Mk", title: "Evidence for the Resurrection", channel: "William Lane Craig", description: "Dr. William Lane Craig presents the historical evidence for the bodily resurrection of Jesus using the minimal facts methodology." },
+                  { videoId: "5PvcynQD-ag", title: "The Resurrection of Christ", channel: "Ligonier Ministries", description: "R.C. Sproul defends the historical and theological significance of the bodily resurrection of Jesus Christ." },
+                  { videoId: "qyFZbAjWWG4", title: "Is the Resurrection Essential?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses what Christianity means if the historical resurrection is rejected — and why no Christian compromise on this point is possible." },
+                  { videoId: "D3MWVMKKY3A", title: "A Living Hope Through the Resurrection", channel: "Desiring God", description: "John Piper preaches on the resurrection as the ground of Christian hope — an indestructible life that secures the believer's future." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

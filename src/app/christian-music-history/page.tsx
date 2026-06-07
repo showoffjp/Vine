@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
-type Tab = "overview" | "eras" | "today" | "videos";
+type Tab = "overview" | "eras" | "today" | "journal" | "videos";
 
 interface Era {
   id: string;
@@ -90,7 +92,7 @@ const ERAS: Era[] = [
       "Polyphony elevated sacred music to one of the supreme artistic achievements of human civilization. Palestrina's clarity reassured the Council of Trent that elaborate music could still serve worship rather than obscure the words.",
   },
   {
-    id: "reformation",
+    id: "IvSuGyJQ6oM",
     period: "1517 – 1600",
     title: "The Reformation & Congregational Singing",
     color: "#22C55E",
@@ -295,6 +297,20 @@ export default function ChristianMusicHistoryPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-music-history_tab", "overview");
   const [openEra, setOpenEra] = useState<string>(ERAS[0].id);
 
+  const [cmhisEntries, setCmhisEntries] = useState<{ id: string; date: string; era: string; form: string; shaping: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmhis_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmhisForm, setCmhisForm] = useState({ era: "", form: "", shaping: "" });
+  const [cmhisSaved, setCmhisSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmhis_entries", JSON.stringify(cmhisEntries)); }, [cmhisEntries]);
+  function saveCmhisEntry() {
+    if (!cmhisForm.era.trim()) return;
+    setCmhisEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmhisForm }, ...prev]);
+    setCmhisForm({ era: "", form: "", shaping: "" });
+    setCmhisSaved(true); setTimeout(() => setCmhisSaved(false), 2000);
+  }
+  function deleteCmhisEntry(id: string) { setCmhisEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
@@ -342,6 +358,7 @@ export default function ChristianMusicHistoryPage() {
           <TabButton active={tab === "overview"} label="Overview" onClick={() => setTab("overview")} />
           <TabButton active={tab === "eras"} label="Through the Eras" onClick={() => setTab("eras")} />
           <TabButton active={tab === "today"} label="Worship Today" onClick={() => setTab("today")} />
+          <TabButton active={tab === "journal"} label="📓 My Journal" onClick={() => setTab("journal")} />
           <TabButton active={tab === "videos"} label="Videos" onClick={() => setTab("videos")} />
         </div>
 
@@ -732,6 +749,49 @@ export default function ChristianMusicHistoryPage() {
         )}
 
         {/* VIDEOS */}
+        {tab === "journal" && (
+          <div style={{ maxWidth: 800, margin: "0 auto" }}>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Worship Music Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record what musical forms and eras have shaped your worship, and how music is forming you spiritually.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Era or Musical Form</label>
+                <input value={cmhisForm.era} onChange={e => setCmhisForm(f => ({ ...f, era: e.target.value }))} placeholder="e.g. Gregorian chant, Bach's cantatas, Bethel worship..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Musical Form Speaks to You?</label>
+                <textarea value={cmhisForm.form} onChange={e => setCmhisForm(f => ({ ...f, form: e.target.value }))} placeholder="What style of worship music opens your heart to God most fully?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Is Music Shaping You Spiritually?</label>
+                <textarea value={cmhisForm.shaping} onChange={e => setCmhisForm(f => ({ ...f, shaping: e.target.value }))} placeholder="How does worship music form your theological imagination and your heart toward God?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmhisEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmhisSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmhisEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmhisEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.era}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmhisEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.form && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Musical Form</div><div style={{ color: TEXT, fontSize: 13 }}>{e.form}</div></div>}
+                    {e.shaping && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>How Shaping Me</div><div style={{ color: TEXT, fontSize: 13 }}>{e.shaping}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <section>
             <p
@@ -754,10 +814,10 @@ export default function ChristianMusicHistoryPage() {
               }}
             >
               {[
-                { title: "Gregorian Chant — Kyrie", videoId: "kdmZdH52z9k", era: "Medieval" },
-                { title: "Bach — St. Matthew Passion (Chorale)", videoId: "Cv9j8Y8Zj1c", era: "Baroque" },
-                { title: "Swing Low, Sweet Chariot (Spiritual)", videoId: "QTHGZ29Ws9w", era: "Spirituals" },
-                { title: "In Christ Alone (Modern Hymn)", videoId: "rn9-UNer6MQ", era: "Modern" },
+                { title: "Gregorian Chant — Kyrie", videoId: "otmBLQJ7IUQ", era: "Medieval" },
+                { title: "Bach — St. Matthew Passion (Chorale)", videoId: "Sc6SSHuZvQE", era: "Baroque" },
+                { title: "Swing Low, Sweet Chariot (Spiritual)", videoId: "XtwIT8JjddM", era: "Spirituals" },
+                { title: "In Christ Alone (Modern Hymn)", videoId: "C_Bstciam1E", era: "Modern" },
               ].map((v) => (
                 <div
                   key={v.videoId}
@@ -768,13 +828,7 @@ export default function ChristianMusicHistoryPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: GREEN, fontSize: 12, marginBottom: 4 }}>{v.era}</div>
                     <h4 style={{ fontFamily: SERIF, fontSize: "1.2rem", margin: 0 }}>{v.title}</h4>

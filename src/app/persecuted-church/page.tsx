@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -144,12 +146,25 @@ const WITNESSES = [
 export default function PerisecutedChurchPage() {
   const [region, setRegion] = usePersistedState<string>("vine_persecuted-church_region", "All");
   const [selected, setSelected] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = usePersistedState<"countries" | "witnesses" | "orgs" | "prayer" | "videos">("vine_persecuted-church_tab", "countries");
+  const [activeTab, setActiveTab] = usePersistedState<"countries" | "witnesses" | "orgs" | "prayer" | "videos" | "journal">("vine_persecuted-church_tab", "countries");
   const [selectedWitness, setSelectedWitness] = usePersistedState("vine_persecuted-church_selected_witness", "polycarp-p");
   const witnessItem = WITNESSES.find(w => w.id === selectedWitness)!;
 
   const filtered = COUNTRIES.filter(c => region === "All" || c.region === region);
   const country = COUNTRIES.find(c => c.country === selected);
+
+  type PerChurchJE = { id: string; date: string; country: string; prayer: string; step: string };
+  const [perChurchJournal, setPerChurchJournal] = useState<PerChurchJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_perchurchj_entries") ?? "[]"); } catch { return []; } });
+  const [jCountry, setJCountry] = useState("");
+  const [jPrayer, setJPrayer] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_perchurchj_entries", JSON.stringify(perChurchJournal)); } catch {} }, [perChurchJournal]);
+  function savePerChurchEntry() {
+    if (!jCountry.trim() && !jPrayer.trim()) return;
+    setPerChurchJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), country: jCountry, prayer: jPrayer, step: jStep }, ...prev]);
+    setJCountry(""); setJPrayer(""); setJStep("");
+  }
+  function deletePerChurchEntry(id: string) { setPerChurchJournal(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -171,6 +186,7 @@ export default function PerisecutedChurchPage() {
             { id: "orgs" as const, label: "Organizations", icon: "🤝" },
             { id: "prayer" as const, label: "How to Pray", icon: "🙏" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
+            { id: "journal" as const, label: "Journal", icon: "📓" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -337,6 +353,33 @@ export default function PerisecutedChurchPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Persecuted Church Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record prayers for specific countries and believers, and your next steps in standing with the global church.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Country / Region</label><textarea value={jCountry} onChange={e => setJCountry(e.target.value)} placeholder="Who are you praying for specifically?" rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Prayer</label><textarea value={jPrayer} onChange={e => setJPrayer(e.target.value)} placeholder="Write out your prayer for these believers..." rows={4} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label><textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="How will you act in solidarity with persecuted believers?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={savePerChurchEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {perChurchJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {perChurchJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deletePerChurchEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.country && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Country</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.country}</p></div>}
+                    {entry.prayer && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Prayer</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.prayer}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -346,19 +389,13 @@ export default function PerisecutedChurchPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "_xo_umOy2Ik", title: "When Faith Is Tested — Stories from the Persecuted Church", channel: "Voice of the Martyrs", description: "Todd Nettleton of Voice of the Martyrs shares first-hand stories of believers whose faith has been tested by violence, imprisonment, and loss — and who have not abandoned Christ." },
-                  { videoId: "mFtsQES8txw", title: "Faith Under Fire: Stories of Persecuted Christians", channel: "Voice of the Martyrs (Todd Nettleton)", description: "A series of powerful testimonies from persecuted believers around the world, drawn from decades of field reporting by Voice of the Martyrs." },
-                  { videoId: "JZe3oVZUifw", title: "Life as a Persecuted Christian in North Korea: Bae's Story", channel: "Open Doors UK & Ireland", description: "Bae faces a lifetime sentence of hard labor for her faith in North Korea — ranked the world's most dangerous country for Christians. Her story calls the global church to pray." },
-                  { videoId: "-F8ITaF-Yxg", title: "Persecuted Pastor Brutally Beaten, Imprisoned Before 'Mind-Blowing' Miracle", channel: "CBN / Christian News", description: "A pastor's harrowing account of imprisonment and violence for his faith — and the miraculous story of what God did in and through it. A testimony of the power of faithfulness under fire." },
+                  { videoId: "Ver8qTBTLCQ", title: "When Faith Is Tested — Stories from the Persecuted Church", channel: "Voice of the Martyrs", description: "Todd Nettleton of Voice of the Martyrs shares first-hand stories of believers whose faith has been tested by violence, imprisonment, and loss — and who have not abandoned Christ." },
+                  { videoId: "mC-zw0zCCtg", title: "Faith Under Fire: Stories of Persecuted Christians", channel: "Voice of the Martyrs (Todd Nettleton)", description: "A series of powerful testimonies from persecuted believers around the world, drawn from decades of field reporting by Voice of the Martyrs." },
+                  { videoId: "jxaJZ5lBM5U", title: "Life as a Persecuted Christian in North Korea: Bae's Story", channel: "Open Doors UK & Ireland", description: "Bae faces a lifetime sentence of hard labor for her faith in North Korea — ranked the world's most dangerous country for Christians. Her story calls the global church to pray." },
+                  { videoId: "JG_BBH8DVPI", title: "Persecuted Pastor Brutally Beaten, Imprisoned Before 'Mind-Blowing' Miracle", channel: "CBN / Christian News", description: "A pastor's harrowing account of imprisonment and violence for his faith — and the miraculous story of what God did in and through it. A testimony of the power of faithfulness under fire." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

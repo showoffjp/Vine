@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "questions" | "figures" | "history" | "videos";
+type Tab = "theology" | "questions" | "figures" | "history" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "Created in the Image of God", verse: "Genesis 1:27", body: "The foundation of all Christian ethics for women (and men) is the imago dei: 'So God created mankind in his own image, in the image of God he created them; male and female he created them' (Genesis 1:27). Women bear the image of God completely and fully. Dignity, worth, and value are not derived from role or marital status — they are inherent in what God declared at creation." },
@@ -92,6 +94,20 @@ export default function BiblicalWomanhoodPage() {
 
   const historyFigure = HISTORY.find(h => h.id === selectedHistory)!;
 
+  const [bwEntries, setBwEntries] = useState<{ id: string; date: string; strength: string; question: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_bw_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [bwForm, setBwForm] = useState({ strength: "", question: "", prayer: "" });
+  const [bwSaved, setBwSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_bw_entries", JSON.stringify(bwEntries)); }, [bwEntries]);
+  function saveBwEntry() {
+    if (!bwForm.strength.trim()) return;
+    setBwEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bwForm }, ...prev]);
+    setBwForm({ strength: "", question: "", prayer: "" });
+    setBwSaved(true); setTimeout(() => setBwSaved(false), 2000);
+  }
+  function deleteBwEntry(id: string) { setBwEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -111,6 +127,7 @@ export default function BiblicalWomanhoodPage() {
             { id: "questions" as Tab, label: "Hard Questions", icon: "❓" },
             { id: "figures" as Tab, label: "Biblical Women", icon: "⭐" },
             { id: "history" as Tab, label: "Church History", icon: "🏛️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -203,6 +220,48 @@ export default function BiblicalWomanhoodPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Biblical Womanhood Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on your identity and calling as a woman of God — strengths, honest questions, and prayers.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Strength I am growing in as a woman of God</label>
+                <textarea value={bwForm.strength} onChange={e => setBwForm(f => ({ ...f, strength: e.target.value }))} rows={2} placeholder="Wisdom, faithfulness, courage, mercy, hospitality, teaching..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>An honest question I am holding</label>
+                <textarea value={bwForm.question} onChange={e => setBwForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="Questions about calling, gifts, Scripture, roles, identity..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My prayer for this season</label>
+                <textarea value={bwForm.prayer} onChange={e => setBwForm(f => ({ ...f, prayer: e.target.value }))} rows={2} placeholder="Bring your heart to God as a daughter..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveBwEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {bwSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {bwEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bwEntries.length})</h3>
+                {bwEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteBwEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.strength && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Growing:</strong> {e.strength}</p>}
+                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Question:</strong> {e.question}</p>}
+                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Prayer:</strong> {e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -212,19 +271,13 @@ export default function BiblicalWomanhoodPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "LD-emNf-VjE", title: "Biblical Womanhood in Five Minutes", channel: "Desiring God", description: "A concise Ask Pastor John episode explaining the core of biblical womanhood — what it is and what it is not — rooted in Genesis and the New Testament." },
-                  { videoId: "44-fMXjL5gI", title: "The Beauty and Behavior of a Godly Woman", channel: "Desiring God / John Piper", description: "John Piper expounds on what Scripture celebrates in a godly woman — not primarily roles but character, courage, and faith-filled trust in God." },
-                  { videoId: "EAim9C2hiGw", title: "Biblical Womanhood Is Not House Arrest", channel: "Desiring God", description: "A corrective teaching that biblical womanhood encompasses far more than domestic roles — it is about flourishing in God's calling, wherever that leads." },
-                  { videoId: "FUXkcZqV0SU", title: "John Piper on Christian Womanhood", channel: "Desiring God", description: "Piper discusses the distinctive calling of Christian women — grounded not in cultural roles but in the image of God and the redemption Christ brings." },
+                  { videoId: "ccNvwDPguNU", title: "Biblical Womanhood in Five Minutes", channel: "Desiring God", description: "A concise Ask Pastor John episode explaining the core of biblical womanhood — what it is and what it is not — rooted in Genesis and the New Testament." },
+                  { videoId: "j9phNEaPrv8", title: "The Beauty and Behavior of a Godly Woman", channel: "Desiring God / John Piper", description: "John Piper expounds on what Scripture celebrates in a godly woman — not primarily roles but character, courage, and faith-filled trust in God." },
+                  { videoId: "dy9nwe9zeU8", title: "Biblical Womanhood Is Not House Arrest", channel: "Desiring God", description: "A corrective teaching that biblical womanhood encompasses far more than domestic roles — it is about flourishing in God's calling, wherever that leads." },
+                  { videoId: "iK0NjiBXKN4", title: "John Piper on Christian Womanhood", channel: "Desiring God", description: "Piper discusses the distinctive calling of Christian women — grounded not in cultural roles but in the image of God and the redemption Christ brings." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

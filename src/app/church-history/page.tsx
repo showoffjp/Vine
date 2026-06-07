@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 interface HistoryEvent {
   id: string;
@@ -47,7 +49,7 @@ interface HistoryVideo {
   description: string;
 }
 
-type Tab = "timeline" | "figures" | "theology" | "videos";
+type Tab = "timeline" | "figures" | "theology" | "videos" | "journal";
 
 const EVENTS: HistoryEvent[] = [
   { id: "pentecost", year: "AD 33", yearNum: 33, title: "Pentecost & Birth of the Church", category: "Mission", era: "Early Church", description: "The Holy Spirit descends on 120 disciples gathered in Jerusalem. Peter preaches and 3,000 are baptized in a single day. The church is born not as an institution but as a Spirit-filled community.", keyFigures: ["Peter", "The Apostles", "Mary"], significance: "Every subsequent Christian mission traces its mandate and power to this moment. The church was never meant to operate by human strength alone.", scripture: "All of them were filled with the Holy Spirit and began to speak in other tongues as the Spirit enabled them.", scriptureRef: "Acts 2:4" },
@@ -58,7 +60,7 @@ const EVENTS: HistoryEvent[] = [
   { id: "great-schism", year: "AD 1054", yearNum: 1054, title: "The Great Schism", category: "Split", era: "Medieval", description: "After centuries of tension over theology, church authority, and politics, the Eastern and Western churches formally excommunicate each other. Rome (Catholic) and Constantinople (Orthodox) split, dividing Christianity's two largest branches.", keyFigures: ["Pope Leo IX", "Patriarch Michael Cerularius", "Cardinal Humbert"], significance: "This split has never been fully healed. Eastern Orthodox and Roman Catholic churches remain separate, though dialogue has increased in recent decades.", scripture: "I appeal to you, brothers and sisters, in the name of our Lord Jesus Christ, that all of you agree with one another in what you say and that there be no divisions among you.", scriptureRef: "1 Corinthians 1:10" },
   { id: "crusades", year: "AD 1095-1291", yearNum: 1095, title: "The Crusades", category: "Mission", era: "Medieval", description: "Pope Urban II calls Christian knights to retake the Holy Land from Muslim control. Eight major crusades follow over two centuries, resulting in the capture and later loss of Jerusalem, enormous bloodshed including massacres of Jews and Eastern Christians, and lasting damage to Christian-Muslim relations.", keyFigures: ["Pope Urban II", "Godfrey of Bouillon", "Saladin", "Richard I"], significance: "A cautionary tale about religious violence when mixed with political power. The Crusades are among the most cited examples of Christianity's failures.", scriptureRef: "" },
   { id: "aquinas", year: "AD 1225-1274", yearNum: 1225, title: "Thomas Aquinas & Scholasticism", category: "Theology", era: "Medieval", description: "Dominican friar Thomas Aquinas synthesizes Aristotelian philosophy with Christian theology in his massive Summa Theologica, presenting the Five Ways (cosmological arguments for God's existence) and a comprehensive system of natural law ethics.", keyFigures: ["Thomas Aquinas", "Albert the Great"], significance: "Thomism remains the official philosophical framework of the Catholic Church. His five arguments for God's existence are still debated and refined by philosophers and apologists.", scripture: "For since the creation of the world God's invisible qualities - his eternal power and divine nature - have been clearly seen.", scriptureRef: "Romans 1:20" },
-  { id: "reformation", year: "AD 1517", yearNum: 1517, title: "The Protestant Reformation", category: "Reformation", era: "Reformation", description: "German monk Martin Luther nails 95 theses to the Wittenberg church door, igniting a theological revolution. His core convictions: sola scriptura (Scripture alone), sola fide (faith alone), sola gratia (grace alone). The printing press spreads his ideas across Europe in weeks.", keyFigures: ["Martin Luther", "Philip Melanchthon", "John Tetzel"], significance: "The Reformation permanently fractured Western Christianity into Catholic and Protestant streams, gave ordinary people access to the Bible in their own language, and reshaped European civilization.", scripture: "For in the gospel the righteousness of God is revealed - a righteousness that is by faith from first to last, just as it is written: 'The righteous will live by faith.'", scriptureRef: "Romans 1:17" },
+  { id: "KwX1f2gYKZ4", year: "AD 1517", yearNum: 1517, title: "The Protestant Reformation", category: "Reformation", era: "Reformation", description: "German monk Martin Luther nails 95 theses to the Wittenberg church door, igniting a theological revolution. His core convictions: sola scriptura (Scripture alone), sola fide (faith alone), sola gratia (grace alone). The printing press spreads his ideas across Europe in weeks.", keyFigures: ["Martin Luther", "Philip Melanchthon", "John Tetzel"], significance: "The Reformation permanently fractured Western Christianity into Catholic and Protestant streams, gave ordinary people access to the Bible in their own language, and reshaped European civilization.", scripture: "For in the gospel the righteousness of God is revealed - a righteousness that is by faith from first to last, just as it is written: 'The righteous will live by faith.'", scriptureRef: "Romans 1:17" },
   { id: "calvin-geneva", year: "AD 1536-1564", yearNum: 1536, title: "Calvin's Geneva & Reformed Theology", category: "Reformation", era: "Reformation", description: "John Calvin flees France and settles in Geneva, turning the city into a 'Protestant Rome.' His Institutes of the Christian Religion (1536, expanded 1559) systematizes Reformed theology: TULIP (Total depravity, Unconditional election, Limited atonement, Irresistible grace, Perseverance of saints).", keyFigures: ["John Calvin", "William Farel", "Theodore Beza"], significance: "Calvinist/Reformed theology spread through Scotland (Presbyterianism), Netherlands, New England Puritanism, and continues as one of the largest Protestant traditions.", scripture: "For those God foreknew he also predestined to be conformed to the image of his Son.", scriptureRef: "Romans 8:29" },
   { id: "counter-reformation", year: "AD 1545-1563", yearNum: 1545, title: "Council of Trent & Counter-Reformation", category: "Council", era: "Reformation", description: "The Catholic Church responds to the Reformation with the Council of Trent, clarifying Catholic doctrine on Scripture and Tradition, justification by faith and works, the seven sacraments, and purgatory. The Jesuits (Society of Jesus, founded by Ignatius of Loyola) become the vanguard of Catholic renewal.", keyFigures: ["Ignatius of Loyola", "Francis Xavier", "Pope Paul III"], significance: "The Counter-Reformation strengthened Catholic institutions and launched one of the most successful missionary movements in history, especially in Latin America, Africa, and Asia." },
   { id: "great-awakening", year: "AD 1730-1740", yearNum: 1730, title: "The First Great Awakening", category: "Revival", era: "Modern", description: "A transatlantic revival sweeping the American colonies and Britain. George Whitefield draws 30,000+ outdoor crowds. Jonathan Edwards' 'Sinners in the Hands of an Angry God' catalyzes mass conversion. John and Charles Wesley's Methodist movement transforms England.", keyFigures: ["George Whitefield", "Jonathan Edwards", "John Wesley", "Charles Wesley"], significance: "The Great Awakening created a common Protestant identity in colonial America, contributed to the Revolutionary era's egalitarianism, and spawned Methodism - now a global denomination of 80+ million.", scripture: "Will you not revive us again, that your people may rejoice in you?", scriptureRef: "Psalm 85:6" },
@@ -143,42 +145,42 @@ const HISTORY_VIDEOS: HistoryVideo[] = [
     id: "holiness-of-god",
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Sproul traces how the church’s greatest theologians from Augustine to Calvin understood God’s holiness as the foundation of all Christian doctrine.",
   },
   {
     id: "supremacy-of-christ",
     title: "The Supremacy of Christ and Truth",
     preacher: "Voddie Baucham",
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     description: "Baucham’s 2006 Desiring God Conference message connecting Christ’s supremacy to postmodern challenges and the church’s historic witness.",
   },
   {
     id: "dont-waste-your-life",
     title: "Don’t Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "YNd-PbVhnvA",
     description: "The Passion OneDay message that called a generation to follow the same costly Christianity of the martyrs throughout church history.",
   },
   {
     id: "shocking-youth",
     title: "Shocking Youth Message",
     preacher: "Paul Washer",
-    videoId: "uuabITeO4l8",
+    videoId: "XtwIT8JjddM",
     description: "A diagnosis of cheap Christianity that mirrors the Reformation’s concern for genuine conversion over empty profession.",
   },
   {
     id: "prodigal-sons",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "jH_aojNJM3E",
     description: "Keller shows how Jesus’ teaching on grace continues to reshape every era of church history and every generation of the church.",
   },
   {
     id: "radical-passion",
     title: "Radical: Passion 2011",
     preacher: "David Platt",
-    videoId: "yhiHSf_L6_E",
+    videoId: "kfcVPh2VDhQ",
     description: "Platt connects the global mission of the early church to our call today, drawing on 2,000 years of faithful witness across every nation.",
   },
 ];
@@ -219,10 +221,23 @@ export default function ChurchHistoryPage() {
   const [selected, setSelected] = useState<HistoryEvent | null>(null);
   const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure | null>(null);
 
+  type ChurchHJE = { id: string; date: string; era: string; insight: string; applying: string };
+  const [churchHJournal, setChurchHJournal] = useState<ChurchHJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_churchhj_entries") ?? "[]"); } catch { return []; } });
+  const [jEra, setJEra] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_churchhj_entries", JSON.stringify(churchHJournal)); } catch {} }, [churchHJournal]);
+  function saveChurchHEntry() {
+    if (!jEra.trim() && !jInsight.trim()) return;
+    setChurchHJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), era: jEra, insight: jInsight, applying: jApplying }, ...prev]);
+    setJEra(""); setJInsight(""); setJApplying("");
+  }
+  function deleteChurchHEntry(id: string) { setChurchHJournal(prev => prev.filter(e => e.id !== id)); }
+
   const toggleSave = (id: string) => {
     setSavedIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_church_history_saved", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -231,7 +246,7 @@ export default function ChurchHistoryPage() {
   const toggleRead = (id: string) => {
     setReadIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_church_history_read", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -271,6 +286,7 @@ export default function ChurchHistoryPage() {
             ["figures", "Key Figures"],
             ["theology", "Theology"],
             ["videos", "Videos"],
+            ["journal", "📓 Journal"],
           ] as [Tab, string][]).map(([t, label]) => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${activeTab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
@@ -388,7 +404,7 @@ export default function ChurchHistoryPage() {
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {CHURCH_THEOLOGY.map((item, idx) => (
+              {CHURCH_THEOLOGY.map((item) => (
                 <div key={item.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 24, position: "relative", overflow: "hidden" }}>
                   <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 4, background: "linear-gradient(180deg, #3a7d56, #6B4FBB)", borderRadius: "16px 0 0 16px" }} />
                   <div style={{ paddingLeft: 8 }}>
@@ -425,6 +441,33 @@ export default function ChurchHistoryPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Church History Journal</h2>
+              <p style={{ color: "#9898B3", fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record what you're learning from church history — eras, figures, and how the story of the church shapes your faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: "#9898B3", fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Era or Figure</label><textarea value={jEra} onChange={e => setJEra(e.target.value)} placeholder="Which era or historical figure are you studying?" rows={1} style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: "#9898B3", fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What did you learn? What surprised or challenged you?" rows={3} style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: "#9898B3", fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does this moment in history speak to your faith today?" rows={2} style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveChurchHEntry} style={{ background: "#3a7d56", color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {churchHJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {churchHJournal.map(entry => (
+                  <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteChurchHEntry(entry.id)} style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.era && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Era / Figure</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.era}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: "#9898B3", fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: "#F2F2F8", fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Videos Tab */}
         {activeTab === "videos" && (
           <div>
@@ -437,14 +480,7 @@ export default function ChurchHistoryPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(460px, 1fr))", gap: 24 }}>
               {HISTORY_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: 18 }}>
                     <div style={{ marginBottom: 8 }}>
                       <span style={{ fontSize: 11, fontWeight: 700, color: "#07070F", background: "#6B4FBB", padding: "3px 10px", borderRadius: 20 }}>{v.preacher}</span>

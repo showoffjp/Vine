@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "habits" | "theology" | "schedule" | "videos";
+type Tab = "habits" | "theology" | "schedule" | "tracker" | "videos";
 
 interface HabitsTheology {
   id: string;
@@ -383,42 +385,42 @@ const HABITS_VIDEOS: HabitsVideo[] = [
     id: "forgotten-god",
     title: "Forgotten God Part 1: Why Do I Need the Spirit?",
     preacher: "Francis Chan",
-    videoId: "sWMjg7CxIKk",
+    videoId: "oNpTha80yyE",
     description: "Chan argues that real spiritual habits are Spirit-powered, not willpower-based. Without the Holy Spirit, our disciplines become exhausting self-improvement projects rather than joyful communion with God.",
   },
   {
     id: "dont-waste",
     title: "Don't Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "4Eg_di-O8nM",
     description: "The clarion call to make your one life count for eternity -- including how you spend your mornings, your commutes, and your evenings. Every daily habit is either building toward or away from this.",
   },
   {
     id: "radical-passion",
     title: "Radical: Passion 2011",
     preacher: "David Platt",
-    videoId: "yhiHSf_L6_E",
+    videoId: "mC-zw0zCCtg",
     description: "Platt's challenge to ordinary Christianity that becomes extraordinary through consistent devotion. The habits of the radical Christian are not glamorous -- they are ordinary disciplines practiced with extraordinary faithfulness.",
   },
   {
     id: "shocking-youth",
     title: "Shocking Youth Message",
     preacher: "Paul Washer",
-    videoId: "uuabITeO4l8",
+    videoId: "7_CGP-12AE0",
     description: "Washer's indictment of habits-without-heart and his call to genuine transformation. External religious practices with an unchanged heart are worse than no practice at all.",
   },
   {
     id: "prodigal-sons",
     title: "The Prodigal Sons",
     preacher: "Tim Keller",
-    videoId: "lsTzXI7cJGA",
+    videoId: "OqwbFGoRYVo",
     description: "Keller shows how daily return to the Father's house is the fundamental Christian habit -- not performance for approval but coming home to one who runs to meet us.",
   },
   {
     id: "how-great",
     title: "How Great Is Our God",
     preacher: "Louie Giglio",
-    videoId: "X1rPalyUshw",
+    videoId: "gV9JugO_5Mk",
     description: "Giglio's message that seeing God as truly great reshapes all our daily habits and priorities. When we have an accurate vision of God's greatness, the habits of prayer and Scripture become not duty but delight.",
   },
 ];
@@ -435,6 +437,21 @@ export default function DailyChristianHabitsPage() {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   const filtered = HABITS.filter(h => category === "All" || h.category === category);
+
+  const [habitLogs, setHabitLogs] = useState<{ id: string; date: string; habits: string[]; reflection: string; missed: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_habit_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [habForm, setHabForm] = useState({ habits: [] as string[], reflection: "", missed: "" });
+  const [habSaved, setHabSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_habit_logs", JSON.stringify(habitLogs)); }, [habitLogs]);
+  function toggleHabit(h: string) { setHabForm(f => ({ ...f, habits: f.habits.includes(h) ? f.habits.filter(x => x !== h) : [...f.habits, h] })); }
+  function saveHabLog() {
+    if (habForm.habits.length === 0 && !habForm.reflection.trim()) return;
+    setHabitLogs(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...habForm }, ...prev]);
+    setHabForm({ habits: [], reflection: "", missed: "" });
+    setHabSaved(true); setTimeout(() => setHabSaved(false), 2000);
+  }
+  function deleteHabLog(id: string) { setHabitLogs(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -457,6 +474,7 @@ export default function DailyChristianHabitsPage() {
             ["habits", "Habits"],
             ["theology", "Theology"],
             ["schedule", "Schedule"],
+            ["tracker", "My Tracker"],
             ["videos", "Videos"],
           ] as [Tab, string][]).map(([t, label]) => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
@@ -620,6 +638,64 @@ export default function DailyChristianHabitsPage() {
           </div>
         )}
 
+        {activeTab === "tracker" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Track your daily habits. Not for guilt — for faithfulness. Small habits compound over years. This is your record.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Today's Habits</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Which habits did you practice today?</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Bible reading", "Prayer", "Gratitude", "Fasting", "Service", "Confession", "Worship", "Journaling", "Community", "Evangelism", "Sabbath", "Scripture memory"].map(h => (
+                    <button type="button" key={h} onClick={() => toggleHabit(h)}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${habForm.habits.includes(h) ? GREEN : BORDER}`, background: habForm.habits.includes(h) ? `${GREEN}20` : "transparent", color: habForm.habits.includes(h) ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {h}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I noticed or received today</label>
+                <textarea value={habForm.reflection} onChange={e => setHabForm(f => ({ ...f, reflection: e.target.value }))} rows={2}
+                  placeholder="A moment of grace, a Scripture that landed, something God showed you..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I missed and why (honest)</label>
+                <textarea value={habForm.missed} onChange={e => setHabForm(f => ({ ...f, missed: e.target.value }))} rows={2}
+                  placeholder="Be honest about what you skipped. The pattern of what we avoid is as instructive as what we practice."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHabLog}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {habSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {habitLogs.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Habit Log ({habitLogs.length} days)</h3>
+                {habitLogs.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteHabLog(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
+                      <span style={{ color: MUTED, fontSize: 12, marginRight: 4 }}>{e.date}</span>
+                      {e.habits.map(h => (
+                        <span key={h} style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700 }}>{h}</span>
+                      ))}
+                    </div>
+                    {e.reflection && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 4px" }}>{e.reflection}</p>}
+                    {e.missed && <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", margin: 0 }}>Missed: {e.missed}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {/* Videos Tab */}
         {activeTab === "videos" && (
           <div>
@@ -632,14 +708,7 @@ export default function DailyChristianHabitsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
               {HABITS_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: 18 }}>
                     <div style={{ marginBottom: 8 }}>
                       <span style={{ fontSize: 11, fontWeight: 700, color: "#07070F", background: PURPLE, padding: "3px 10px", borderRadius: 20 }}>{v.preacher}</span>

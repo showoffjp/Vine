@@ -1,14 +1,16 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const VIDEOS = [
-  { videoId: "Z8lkuuhVkOI", title: "Understanding Global Missions Today", channel: "Lausanne Movement", description: "A comprehensive look at the current state of global missions — where the church is making inroads, where billions remain unreached, and what faithful mission looks like in the 21st century." },
-  { videoId: "fJnGJN6laqE", title: "Let the Nations Be Glad", channel: "Desiring God", description: "Based on John Piper's landmark book, this video unpacks the biblical foundation for world missions: worship is the goal of missions, and missions exists because worship doesn't. A must-watch for anyone discerning a call to the nations." },
-  { videoId: "Hr3PkGXYRvI", title: "The State of World Missions", channel: "International Mission Board", description: "IMB surveys the current landscape of global Christianity — explosive church growth in Africa and Asia, the ongoing challenge of unreached people groups, and what it means to participate in the Great Commission today." },
-  { videoId: "TuXTFlU-_To", title: "Unreached People Groups", channel: "Desiring God", description: "An introduction to the concept of unreached people groups — the approximately 3.2 billion people who live in ethno-linguistic groups with no indigenous access to the gospel — and why their evangelization is the central strategic challenge of global missions." },
+  { videoId: "gV9JugO_5Mk", title: "Understanding Global Missions Today", channel: "Lausanne Movement", description: "A comprehensive look at the current state of global missions — where the church is making inroads, where billions remain unreached, and what faithful mission looks like in the 21st century." },
+  { videoId: "4Eg_di-O8nM", title: "Let the Nations Be Glad", channel: "Desiring God", description: "Based on John Piper's landmark book, this video unpacks the biblical foundation for world missions: worship is the goal of missions, and missions exists because worship doesn't. A must-watch for anyone discerning a call to the nations." },
+  { videoId: "rtkS_8VWfB0", title: "The State of World Missions", channel: "International Mission Board", description: "IMB surveys the current landscape of global Christianity — explosive church growth in Africa and Asia, the ongoing challenge of unreached people groups, and what it means to participate in the Great Commission today." },
+  { videoId: "GnCscN9LiXM", title: "Unreached People Groups", channel: "Desiring God", description: "An introduction to the concept of unreached people groups — the approximately 3.2 billion people who live in ethno-linguistic groups with no indigenous access to the gospel — and why their evangelization is the central strategic challenge of global missions." },
 ];
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -16,7 +18,7 @@ const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3"
 
 const CATEGORIES = ["All", "Unreached Peoples", "Bible Translation", "Church Planting", "Holistic Mission", "Diaspora", "Training"];
 
-type Tab = "orgs" | "biblical" | "involved" | "videos";
+type Tab = "orgs" | "biblical" | "involved" | "journal" | "videos";
 
 const BIBLICAL_BASIS = [
   { ref: "Genesis 12:1-3", color: GREEN, title: "The Abrahamic Promise: All Nations Blessed", content: "The Great Commission of the Old Testament. God promises Abraham that 'all peoples on earth will be blessed through you' — this is not national favoritism but global mission from the start. Paul interprets this in Galatians 3:8 as the gospel announced in advance: God would justify the Gentiles by faith. Every missions organization today is the fulfillment of a 4,000-year-old promise. The blessing was never meant to stop at Israel — it was always meant to flow outward through Israel to every nation, tribe, people, and language." },
@@ -164,6 +166,20 @@ export default function GlobalMissionsOrgsPage() {
   const filtered = ORGS.filter(o => category === "All" || o.category === category);
   const org = ORGS.find(o => o.name === selected);
 
+  const [gmoEntries, setGmoEntries] = useState<{ id: string; date: string; org: string; calling: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_gmo_entries") ?? "[]"); } catch { return []; }
+  });
+  const [gmoForm, setGmoForm] = useState({ org: "", calling: "", step: "" });
+  const [gmoSaved, setGmoSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_gmo_entries", JSON.stringify(gmoEntries)); } catch {} }, [gmoEntries]);
+  const saveGmoEntry = () => {
+    if (!gmoForm.org.trim()) return;
+    setGmoEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...gmoForm }, ...prev]);
+    setGmoForm({ org: "", calling: "", step: "" });
+    setGmoSaved(true); setTimeout(() => setGmoSaved(false), 2000);
+  };
+  const deleteGmoEntry = (id: string) => setGmoEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -182,6 +198,7 @@ export default function GlobalMissionsOrgsPage() {
             { id: "orgs" as Tab, label: "Organizations", icon: "🌍" },
             { id: "biblical" as Tab, label: "Biblical Basis", icon: "📖" },
             { id: "involved" as Tab, label: "Get Involved", icon: "🚀" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -228,12 +245,59 @@ export default function GlobalMissionsOrgsPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Missions Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record organizations you are connecting with, your sense of calling, and how you are taking steps to engage in global missions. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>ORGANIZATION / FOCUS AREA *</label>
+                <textarea value={gmoForm.org} onChange={e => setGmoForm(f => ({ ...f, org: e.target.value }))}
+                  placeholder="Which missions organization or cause is resonating with you?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY SENSE OF CALLING</label>
+                <textarea value={gmoForm.calling} onChange={e => setGmoForm(f => ({ ...f, calling: e.target.value }))}
+                  placeholder="What is God stirring in you toward global missions?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+                <textarea value={gmoForm.step} onChange={e => setGmoForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="Research, partner, give, go — what is your specific next step?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGmoEntry}
+                style={{ background: gmoSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {gmoSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {gmoEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({gmoEntries.length})</h3>
+                {gmoEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteGmoEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.org && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>ORG: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.org}</span></div>}
+                    {entry.calling && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>CALLING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.calling}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

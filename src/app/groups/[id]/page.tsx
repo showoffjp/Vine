@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JoinGroupButton from "@/components/JoinGroupButton";
@@ -9,7 +10,6 @@ import {
   Users,
   MessageSquare,
   Pin,
-  Plus,
   Shield,
   Star,
   TrendingUp,
@@ -775,13 +775,13 @@ export default async function GroupPage({
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">👥</p>
           <h1 className="text-3xl font-black mb-4">Group not found</h1>
-          <a
+          <Link
             href="/groups"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
-            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", textDecoration: "none" }}
           >
             Back to Groups
-          </a>
+          </Link>
         </div>
         </main>
         <Footer />
@@ -795,13 +795,13 @@ export default async function GroupPage({
       <div className="page-body pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back */}
-          <a
+          <Link
             href="/groups"
             className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors"
             style={{ color: "#6A6A88" }}
           >
             <ArrowLeft size={14} /> All Groups
-          </a>
+          </Link>
 
           {/* Group Header */}
           <div
@@ -1039,10 +1039,11 @@ export default async function GroupPage({
                 </h3>
                 <div className="space-y-3">
                   {group.relatedGroups.map((rg) => (
-                    <a
+                    <Link
                       key={rg.id}
                       href={`/groups/${rg.id}`}
                       className="flex items-center gap-3 group/rg"
+                      style={{ textDecoration: "none" }}
                     >
                       <span className="text-xl">{rg.emoji}</span>
                       <span
@@ -1051,7 +1052,7 @@ export default async function GroupPage({
                       >
                         {rg.name}
                       </span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

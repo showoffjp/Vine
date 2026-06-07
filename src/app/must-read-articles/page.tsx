@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "articles" | "topics" | "writers" | "videos";
+type Tab = "articles" | "topics" | "writers" | "journal" | "videos";
 
 const CATEGORIES = ["All", "Gospel", "Suffering", "Prayer", "Church", "Culture", "Marriage", "Missions", "Doubt"];
 
@@ -281,12 +283,12 @@ const ARTICLE_WRITERS = [
 ];
 
 const ARTICLE_VIDEOS = [
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God", speaker: "Tim Keller", venue: "Google Talks" },
-  { id: "gySaWKg-NQQ", title: "Big Think Interview", speaker: "Tim Keller", venue: "Big Think" },
-  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham", venue: "Conference" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul", venue: "Ligonier" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "kfcVPh2VDhQ", title: "The Reason for God", speaker: "Tim Keller", venue: "Google Talks" },
+  { id: "57LVVwba6_8", title: "Big Think Interview", speaker: "Tim Keller", venue: "Big Think" },
+  { id: "mC-zw0zCCtg", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham", venue: "Conference" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul", venue: "Ligonier" },
+  { id: "HGHqu9-DtXk", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
+  { id: "E65KV3M8RZE", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
 ];
 
 export default function MustReadArticlesPage() {
@@ -298,6 +300,20 @@ export default function MustReadArticlesPage() {
   const filtered = ARTICLES.filter(a => category === "All" || a.category === category);
   const article = ARTICLES.find(a => a.title === selected);
   const writer = ARTICLE_WRITERS.find(w => w.id === selectedWriter);
+
+  const [mraEntries, setMraEntries] = useState<{ id: string; date: string; article: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mra_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mraForm, setMraForm] = useState({ article: "", insight: "", applying: "" });
+  const [mraSaved, setMraSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mra_entries", JSON.stringify(mraEntries)); } catch {} }, [mraEntries]);
+  const saveMraEntry = () => {
+    if (!mraForm.article.trim()) return;
+    setMraEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mraForm }, ...prev]);
+    setMraForm({ article: "", insight: "", applying: "" });
+    setMraSaved(true); setTimeout(() => setMraSaved(false), 2000);
+  };
+  const deleteMraEntry = (id: string) => setMraEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -314,9 +330,9 @@ export default function MustReadArticlesPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["articles", "topics", "writers", "videos"] as const).map(t => (
+          {(["articles", "topics", "writers", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "articles" ? "Articles" : t === "topics" ? "Topics" : t === "writers" ? "Writers" : "Videos"}
+              {t === "articles" ? "Articles" : t === "topics" ? "Topics" : t === "writers" ? "Writers" : t === "journal" ? "My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -472,18 +488,47 @@ export default function MustReadArticlesPage() {
         )}
 
         {/* Videos Tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Reading Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record articles you've read, what stood out, and how you're applying the insights.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mraForm.article} onChange={e => setMraForm(f => ({ ...f, article: e.target.value }))}
+                  placeholder="Which article did you read?" aria-label="Article"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={mraForm.insight} onChange={e => setMraForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What insight or argument stood out?" aria-label="Insight"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mraForm.applying} onChange={e => setMraForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How are you applying this? (optional)" aria-label="Applying"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMraEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mraSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mraEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first article reflection above.</p>}
+              {mraEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMraEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.article}</p>
+                  {e.insight && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.insight}</p>}
+                  {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.applying}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 24 }}>
             {ARTICLE_VIDEOS.map(v => (
               <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <iframe
-                  width="100%"
-                  style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                  src={`https://www.youtube.com/embed/${v.id}`}
-                  title={v.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <VideoEmbed videoId={v.id} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
                   <div style={{ color: MUTED, fontSize: 12 }}>{v.speaker} &middot; {v.venue}</div>

@@ -203,6 +203,7 @@ function AccountTab() {
   const [email, setEmail] = useState("jason@pharrgo.com");
   const [bio, setBio] = useState("Follower of Christ | Husband | Father | Proverbs 3:5-6");
   const [location, setLocation] = useState("Atlanta, GA");
+  const [website, setWebsite] = useState("");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const photoInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -395,7 +396,7 @@ function AccountTab() {
           <input style={inputStyle} value={location} onChange={(e) => setLocation(e.target.value)} />
         </Field>
         <Field label="Website">
-          <input style={inputStyle} aria-label="https://yoursite.com" placeholder="https://yoursite.com" />
+          <input style={inputStyle} value={website} onChange={(e) => setWebsite(e.target.value)} aria-label="https://yoursite.com" placeholder="https://yoursite.com" />
         </Field>
         <Field label="Denomination">
           <select aria-label="Denomination"
@@ -963,6 +964,7 @@ function FaithProfileTab() {
   const [gifts, setGifts] = useState<string[]>(["Teaching", "Encouragement"]);
   const [mentor, setMentor] = useState(false);
   const [seekMentor, setSeekMentor] = useState(true);
+  const [testimony, setTestimony] = useState("");
 
   const toggleGift = (g: string) =>
     setGifts((prev) =>
@@ -1048,6 +1050,8 @@ function FaithProfileTab() {
         </div>
         <Field label="Testimony (optional)">
           <textarea
+            value={testimony}
+            onChange={(e) => setTestimony(e.target.value)}
             style={{
               ...inputStyle,
               resize: "vertical",
@@ -1119,7 +1123,7 @@ function FaithProfileTab() {
 function ReadingPlansTab() {
   const [translation, setTranslation] = useState("NIV");
   const translations = ["NIV", "ESV", "KJV", "NKJV", "NLT", "MSG"];
-  const [readingDays, setReadingDays] = useState<Set<string>>(() => {
+  const [readingDays] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_reading_days"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
 
@@ -1421,6 +1425,19 @@ function ConnectionsTab() {
 // ─── Billing Tab ──────────────────────────────────────────────────────────────
 
 function BillingTab() {
+  const [earlyAccess, setEarlyAccess] = useState(() => {
+    try { return !!localStorage.getItem("vine_pro_early_access"); } catch { return false; }
+  });
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(earlyAccess);
+
+  const handleEarlyAccess = () => {
+    if (!email.trim()) return;
+    try { localStorage.setItem("vine_pro_early_access", email); } catch {}
+    setEarlyAccess(true);
+    setSubmitted(true);
+  };
+
   const freeFeatures = [
     "Access to all public discussions",
     "Unlimited prayer wall posts",
@@ -1483,8 +1500,7 @@ function BillingTab() {
       {/* Pro upgrade card */}
       <div
         style={{
-          background:
-            "linear-gradient(135deg, rgba(58,125,86,0.08), rgba(107,79,187,0.12))",
+          background: "linear-gradient(135deg, rgba(58,125,86,0.08), rgba(107,79,187,0.12))",
           border: "1px solid rgba(58,125,86,0.25)",
           borderRadius: 16,
           padding: 24,
@@ -1492,43 +1508,15 @@ function BillingTab() {
           overflow: "hidden",
         }}
       >
-        {/* Coming Soon ribbon */}
-        <div
-          style={{
-            position: "absolute",
-            top: 16,
-            right: -24,
-            background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
-            color: "#07070F",
-            fontSize: 10,
-            fontWeight: 900,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            padding: "4px 32px",
-            transform: "rotate(30deg)",
-          }}
-        >
-          Coming Soon
+        <div style={{ position: "absolute", top: 16, right: 16, background: "rgba(58,125,86,0.15)", border: "1px solid rgba(58,125,86,0.3)", borderRadius: 999, padding: "3px 10px" }}>
+          <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.08em", color: "#3a7d56", textTransform: "uppercase" }}>Early Access</span>
         </div>
 
         <div style={{ marginBottom: 6 }}>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              color: "#3a7d56",
-              textTransform: "uppercase",
-            }}
-          >
-            Vine Pro
-          </span>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#3a7d56", textTransform: "uppercase" }}>Vine Pro</span>
         </div>
         <div style={{ fontSize: 24, fontWeight: 800, color: "#F2F2F8", marginBottom: 4 }}>
-          $7{" "}
-          <span style={{ fontSize: 14, fontWeight: 400, color: "#8A8AA8" }}>
-            / month
-          </span>
+          $7{" "}<span style={{ fontSize: 14, fontWeight: 400, color: "#8A8AA8" }}>/ month</span>
         </div>
         <div style={{ fontSize: 13, color: "#8A8AA8", marginBottom: 20 }}>
           Everything in Free, plus powerful tools for serious believers.
@@ -1536,32 +1524,45 @@ function BillingTab() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
           {proFeatures.map((f) => (
-            <div
-              key={f}
-              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#3a7d56" }}
-            >
-              <Check size={14} />
-              {f}
+            <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#3a7d56" }}>
+              <Check size={14} />{f}
             </div>
           ))}
         </div>
 
-        <button type="button"
-          disabled
-          style={{
-            background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
-            color: "#07070F",
-            fontWeight: 700,
-            fontSize: 14,
-            border: "none",
-            borderRadius: 10,
-            padding: "12px 28px",
-            cursor: "not-allowed",
-            opacity: 0.7,
-          }}
-        >
-          Upgrade to Pro — Coming Soon
-        </button>
+        {submitted ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", background: "rgba(58,125,86,0.12)", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 10 }}>
+            <Check size={16} style={{ color: "#3a7d56", flexShrink: 0 }} />
+            <div>
+              <p style={{ fontSize: 13, fontWeight: 700, color: "#F2F2F8", marginBottom: 2 }}>You&apos;re on the list!</p>
+              <p style={{ fontSize: 12, color: "#8A8AA8" }}>We&apos;ll email you when Vine Pro launches.</p>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && handleEarlyAccess()}
+              style={{
+                flex: 1, padding: "10px 14px", background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, color: "#F2F2F8",
+                fontSize: 13, outline: "none",
+              }}
+            />
+            <button type="button" onClick={handleEarlyAccess}
+              style={{
+                background: "linear-gradient(135deg, #4a9e6e, #3a7d56)", color: "#07070F",
+                fontWeight: 700, fontSize: 13, border: "none", borderRadius: 10,
+                padding: "10px 18px", cursor: "pointer", whiteSpace: "nowrap",
+              }}
+            >
+              Get Early Access
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

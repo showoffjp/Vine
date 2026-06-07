@@ -1,15 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227";
 const TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "why" | "methods" | "lords_prayer" | "acts" | "daily" | "videos";
+type Tab = "why" | "methods" | "lords_prayer" | "acts" | "daily" | "journal" | "videos";
 
 const WHY_PRAYER = [
   {
@@ -107,18 +109,32 @@ const DAILY_PRAYER = [
 ];
 
 const VIDEOS = [
-  { id: "TJ_MRzf6n4A", title: "How to Have a Daily Prayer Life", teacher: "Timothy Keller" },
-  { id: "V8aN-5gJj4Q", title: "What Is Prayer?", teacher: "Tim Mackie (The Bible Project)" },
-  { id: "rz2kGV8A-Qo", title: "Praying the Psalms", teacher: "N.T. Wright" },
-  { id: "3mHu46cHJNI", title: "Learning to Pray", teacher: "John Piper" },
-  { id: "pnHFB3wvAeU", title: "The Prayer of Examen", teacher: "James Martin SJ" },
-  { id: "K0R_4e_2dGw", title: "Fixed Hour Prayer and the Daily Office", teacher: "Pete Greig" },
+  { id: "dy9nwe9zeU8", title: "How to Have a Daily Prayer Life", teacher: "Timothy Keller" },
+  { id: "OqwbFGoRYVo", title: "What Is Prayer?", teacher: "Tim Mackie (The Bible Project)" },
+  { id: "npEDqbE6faE", title: "Praying the Psalms", teacher: "N.T. Wright" },
+  { id: "F1Cz95NtJ4c", title: "Learning to Pray", teacher: "John Piper" },
+  { id: "W6NjAG4qp4M", title: "The Prayer of Examen", teacher: "James Martin SJ" },
+  { id: "krxcqH522uo", title: "Fixed Hour Prayer and the Daily Office", teacher: "Pete Greig" },
 ];
 
 export default function PrayerLifePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-life_tab", "why");
   const [selectedMethod, setSelectedMethod] = useState(0);
   const [selectedPhrase, setSelectedPhrase] = useState(0);
+
+  const [plEntries, setPlEntries] = useState<{ id: string; date: string; method: string; scripture: string; what: string; heard: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_pl_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [plForm, setPlForm] = useState({ method: "ACTS Model", scripture: "", what: "", heard: "" });
+  const [plSaved, setPlSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_pl_entries", JSON.stringify(plEntries)); }, [plEntries]);
+  function savePlEntry() {
+    if (!plForm.what.trim()) return;
+    setPlEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...plForm }, ...prev]);
+    setPlForm({ method: "ACTS Model", scripture: "", what: "", heard: "" });
+    setPlSaved(true); setTimeout(() => setPlSaved(false), 2000);
+  }
+  function deletePlEntry(id: string) { setPlEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: 80 }}>
@@ -149,7 +165,7 @@ export default function PrayerLifePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginTop: 36, marginBottom: 36, background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}` }}>
-          {([ { id: "why" as Tab, label: "Why Prayer" }, { id: "methods" as Tab, label: "Methods" }, { id: "lords_prayer" as Tab, label: "The Lord's Prayer" }, { id: "acts" as Tab, label: "ACTS Model" }, { id: "daily" as Tab, label: "Through the Day" }, { id: "videos" as Tab, label: "Videos" } ]).map(t => (
+          {([ { id: "why" as Tab, label: "Why Prayer" }, { id: "methods" as Tab, label: "Methods" }, { id: "lords_prayer" as Tab, label: "The Lord's Prayer" }, { id: "acts" as Tab, label: "ACTS Model" }, { id: "daily" as Tab, label: "Through the Day" }, { id: "journal" as Tab, label: "Prayer Journal" }, { id: "videos" as Tab, label: "Videos" } ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s" }}>
               {t.label}
@@ -379,7 +395,7 @@ export default function PrayerLifePage() {
                   onMouseEnter={e => (e.currentTarget.style.borderColor = `${PURPLE}50`)}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = BORDER)}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 5 }}>{v.title}</div>
@@ -407,6 +423,68 @@ export default function PrayerLifePage() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Keeping a prayer journal trains attentiveness. You begin to notice what you actually bring to God, what you avoid, and — over time — how he has answered.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>New Prayer Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Method used</label>
+                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
+                  {["ACTS Model", "Lectio Divina", "Examen", "Lord's Prayer", "Breath Prayer", "Lament", "Free Prayer"].map(m => (
+                    <button type="button" key={m} onClick={() => setPlForm(f => ({ ...f, method: m }))}
+                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${plForm.method === m ? PURPLE : BORDER}`, background: plForm.method === m ? `${PURPLE}20` : "transparent", color: plForm.method === m ? PURPLE : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Scripture (if any)</label>
+                <input value={plForm.scripture} onChange={e => setPlForm(f => ({ ...f, scripture: e.target.value }))} placeholder="e.g. Psalm 23, Matthew 6:9-13..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I prayed</label>
+                <textarea value={plForm.what} onChange={e => setPlForm(f => ({ ...f, what: e.target.value }))} rows={3}
+                  placeholder="What did you bring before God? What did you confess, ask, thank him for?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I heard or sensed</label>
+                <textarea value={plForm.heard} onChange={e => setPlForm(f => ({ ...f, heard: e.target.value }))} rows={2}
+                  placeholder="A sense of peace, a word, Scripture that came to mind, silence..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={savePlEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {plSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {plEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Prayer History ({plEntries.length})</h3>
+                {plEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deletePlEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.method}</span>
+                      {e.scripture && <span style={{ color: GOLD, fontSize: 12, fontWeight: 600 }}>{e.scripture}</span>}
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.what}</p>}
+                    {e.heard && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.heard}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -16,7 +18,7 @@ const THEOLOGY = [
   { title: "Generous and Content", verse: "Philippians 4:11-12", body: "Paul's testimony from prison: 'I have learned, in whatever state I am, to be content. I know how to be brought low, and I know how to abound. In any and every circumstance, I have learned the secret of facing plenty and hunger' (Philippians 4:11-12). Contentment is learned — it is a practiced skill, not a passive feeling. The secret Paul discovered is Christ as the source of sufficiency (4:13). Contentment and generosity are the double fruit of a life secured in God rather than money." },
 ];
 
-type Tab = "theology" | "voices" | "pitfalls" | "practices" | "videos";
+type Tab = "theology" | "voices" | "pitfalls" | "practices" | "journal" | "videos";
 
 const VOICES_MONEY = [
   {
@@ -89,6 +91,20 @@ export default function ChristianMoneyPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-money_voice", "chrysostom");
   const voiceItem = VOICES_MONEY.find(v => v.id === selectedVoice)!;
 
+  const [cmonEntries, setCmonEntries] = useState<{ id: string; date: string; conviction: string; obedience: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmon_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmonForm, setCmonForm] = useState({ conviction: "", obedience: "", prayer: "" });
+  const [cmonSaved, setCmonSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmon_entries", JSON.stringify(cmonEntries)); }, [cmonEntries]);
+  function saveCmonEntry() {
+    if (!cmonForm.conviction.trim()) return;
+    setCmonEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmonForm }, ...prev]);
+    setCmonForm({ conviction: "", obedience: "", prayer: "" });
+    setCmonSaved(true); setTimeout(() => setCmonSaved(false), 2000);
+  }
+  function deleteCmonEntry(id: string) { setCmonEntries(prev => prev.filter(e => e.id !== id)); };
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -108,6 +124,7 @@ export default function ChristianMoneyPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "pitfalls" as const, label: "Common Pitfalls", icon: "⚠️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "journal" as const, label: "📓 My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -212,6 +229,49 @@ export default function ChristianMoneyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Money Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record your growing convictions about money, steps of obedience, and prayers for freedom from mammon.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Conviction or Insight</label>
+                <input value={cmonForm.conviction} onChange={e => setCmonForm(f => ({ ...f, conviction: e.target.value }))} placeholder="What truth about money has God placed on your heart?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Act of Obedience</label>
+                <textarea value={cmonForm.obedience} onChange={e => setCmonForm(f => ({ ...f, obedience: e.target.value }))} placeholder="What specific act of generosity, simplicity, or stewardship are you taking?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Prayer for Freedom</label>
+                <textarea value={cmonForm.prayer} onChange={e => setCmonForm(f => ({ ...f, prayer: e.target.value }))} placeholder="Where do you need God to loosen money's grip on your heart?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmonEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmonSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmonEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmonEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.conviction}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmonEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.obedience && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Act of Obedience</div><div style={{ color: TEXT, fontSize: 13 }}>{e.obedience}</div></div>}
+                    {e.prayer && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Prayer</div><div style={{ color: TEXT, fontSize: 13 }}>{e.prayer}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -221,19 +281,13 @@ export default function ChristianMoneyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "oBuDK7bQB-4", title: "What Does the Bible Say About Giving Money?", channel: "Desiring God", description: "John Piper walks through key biblical texts on giving, generosity, and the heart's relationship to wealth." },
-                  { videoId: "vT4XMSgD2_w", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "A conversation between David Platt and John Piper on how materialism quietly corrupts the Christian heart." },
-                  { videoId: "nZJF3vQohqE", title: "John Piper Interviews David Platt", channel: "Desiring God", description: "John Piper and David Platt discuss radical generosity, global mission, and what it costs to follow Christ with money." },
-                  { videoId: "XfM8l_Gxo-E", title: "The Truth About Tithing", channel: "Voddie Baucham", description: "Voddie Baucham examines what the Bible actually teaches about tithing and giving, correcting common misunderstandings." },
+                  { videoId: "ccNvwDPguNU", title: "What Does the Bible Say About Giving Money?", channel: "Desiring God", description: "John Piper walks through key biblical texts on giving, generosity, and the heart's relationship to wealth." },
+                  { videoId: "j9phNEaPrv8", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "A conversation between David Platt and John Piper on how materialism quietly corrupts the Christian heart." },
+                  { videoId: "dy9nwe9zeU8", title: "John Piper Interviews David Platt", channel: "Desiring God", description: "John Piper and David Platt discuss radical generosity, global mission, and what it costs to follow Christ with money." },
+                  { videoId: "iK0NjiBXKN4", title: "The Truth About Tithing", channel: "Voddie Baucham", description: "Voddie Baucham examines what the Bible actually teaches about tithing and giving, correcting common misunderstandings." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -248,49 +250,49 @@ const CREED_VIDEOS = [
     id: "cv-1",
     title: "The Reason for God",
     preacher: "Tim Keller",
-    videoId: "Kxup3OS5ZhQ",
+    videoId: "iK0NjiBXKN4",
     description: "Keller&rsquo;s case for historic Christian faith &mdash; the substance behind the creeds",
   },
   {
     id: "cv-2",
     title: "The Holiness of God",
     preacher: "R.C. Sproul",
-    videoId: "v6xk8e7gdMA",
+    videoId: "3Dv4-n6OYGI",
     description: "Sproul on the God the creeds describe: holy, sovereign, eternal",
   },
   {
     id: "cv-3",
     title: "The Trauma of Holiness",
     preacher: "R.C. Sproul",
-    videoId: "7CBgp74UwbU",
+    videoId: "eIGAjoqBhhU",
     description: "What it means to encounter the God named in the Apostles&rsquo; Creed",
   },
   {
     id: "cv-4",
     title: "The Supremacy of Christ and Truth",
     preacher: "Voddie Baucham",
-    videoId: "by8ykv7-A3c",
+    videoId: "mC-zw0zCCtg",
     description: "Baucham defends the creedal Christ against postmodern challenges",
   },
   {
     id: "cv-5",
     title: "Don&rsquo;t Waste Your Life",
     preacher: "John Piper",
-    videoId: "JHdB1dYAteA",
+    videoId: "zDnSbLd9LFg",
     description: "Piper shows what the creed&rsquo;s claims demand of the one who says &ldquo;I believe&rdquo;",
   },
   {
     id: "cv-6",
     title: "Forgotten God Part 3",
     preacher: "Francis Chan",
-    videoId: "SCUEicqda1g",
+    videoId: "GnCscN9LiXM",
     description: "The Holy Spirit &mdash; the third person of the creed &mdash; explained practically",
   },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-type Tab = "creeds" | "commentary" | "history" | "videos";
+type Tab = "creeds" | "commentary" | "history" | "videos" | "journal";
 
 export default function CreedsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_creeds_tab", "creeds");
@@ -301,10 +303,23 @@ export default function CreedsPage() {
   });
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  type CreedsJE = { id: string; date: string; creed: string; insight: string; applying: string };
+  const [creedsJournal, setCreedsJournal] = useState<CreedsJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_creedsj_entries") ?? "[]"); } catch { return []; } });
+  const [jCreed, setJCreed] = useState("");
+  const [jInsight, setJInsight] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_creedsj_entries", JSON.stringify(creedsJournal)); } catch {} }, [creedsJournal]);
+  function saveCreedsEntry() {
+    if (!jCreed.trim() && !jInsight.trim()) return;
+    setCreedsJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), creed: jCreed, insight: jInsight, applying: jApplying }, ...prev]);
+    setJCreed(""); setJInsight(""); setJApplying("");
+  }
+  function deleteCreedsEntry(id: string) { setCreedsJournal(prev => prev.filter(e => e.id !== id)); }
+
   const toggleMemorized = (id: string) => {
     setMemorizedIds(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
       try { localStorage.setItem("vine_creeds_memorized", JSON.stringify([...next])); } catch {}
       return next;
     });
@@ -335,9 +350,9 @@ export default function CreedsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4 }}>
-          {(["creeds", "commentary", "history", "videos"] as const).map(t => (
+          {(["creeds", "commentary", "history", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "creeds" ? "Creeds" : t === "commentary" ? "Commentary" : t === "history" ? "History" : "Videos"}
+              {t === "creeds" ? "Creeds" : t === "commentary" ? "Commentary" : t === "history" ? "History" : t === "videos" ? "Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -490,6 +505,33 @@ export default function CreedsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Creeds Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record insights from studying the creeds, questions they raise, and how they shape your confession of faith.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Creed or Article</label><textarea value={jCreed} onChange={e => setJCreed(e.target.value)} placeholder="Which creed or article are you reflecting on?" rows={1} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Insight</label><textarea value={jInsight} onChange={e => setJInsight(e.target.value)} placeholder="What did this confession open up for you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does confessing this truth change how you live?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveCreedsEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {creedsJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {creedsJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteCreedsEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.creed && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Creed</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.creed}</p></div>}
+                    {entry.insight && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Insight</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.insight}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ── VIDEOS TAB ── */}
         {activeTab === "videos" && (
           <div>
@@ -502,14 +544,7 @@ export default function CreedsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
               {CREED_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 18px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
                       <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: `rgba(107,79,187,0.15)`, color: PURPLE, border: `1px solid rgba(107,79,187,0.3)` }}>{v.preacher}</span>

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -189,12 +190,12 @@ const VOICES_MEM = [
 ];
 
 const MEMORY_VIDEOS = [
-  { id: "mv1", title: "Don't Waste Your Life", preacher: "John Piper", videoId: "JHdB1dYAteA", description: "Piper's urgent call to live for something worthy of the one life God has given you — grounded in Paul's example in Philippians." },
-  { id: "mv2", title: "The Holiness of God", preacher: "R.C. Sproul", videoId: "v6xk8e7gdMA", description: "Sproul's classic exposition of Isaiah 6 and the character of God whose holiness makes Scripture indispensable for knowing him rightly." },
-  { id: "mv3", title: "Forgotten God Part 1", preacher: "Francis Chan", videoId: "sWMjg7CxIKk", description: "Chan challenges the church's neglect of the Holy Spirit and calls believers back to a Spirit-empowered, Spirit-directed life." },
-  { id: "mv4", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "lsTzXI7cJGA", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
-  { id: "mv5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "X1rPalyUshw", description: "Giglio's famous message connecting the vastness of the cosmos to the intimate love of God — one of the most-shared Christian talks ever." },
-  { id: "mv6", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham", videoId: "by8ykv7-A3c", description: "Baucham makes a compelling case for the exclusive supremacy of Christ in a pluralistic culture." },
+  { id: "mv1", title: "Don't Waste Your Life", preacher: "John Piper", videoId: "nQWFzMvCfLE", description: "Piper's urgent call to live for something worthy of the one life God has given you — grounded in Paul's example in Philippians." },
+  { id: "mv2", title: "The Holiness of God", preacher: "R.C. Sproul", videoId: "3Dv4-n6OYGI", description: "Sproul's classic exposition of Isaiah 6 and the character of God whose holiness makes Scripture indispensable for knowing him rightly." },
+  { id: "mv3", title: "Forgotten God Part 1", preacher: "Francis Chan", videoId: "ccNvwDPguNU", description: "Chan challenges the church's neglect of the Holy Spirit and calls believers back to a Spirit-empowered, Spirit-directed life." },
+  { id: "mv4", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "j9phNEaPrv8", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
+  { id: "mv5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "dy9nwe9zeU8", description: "Giglio's famous message connecting the vastness of the cosmos to the intimate love of God — one of the most-shared Christian talks ever." },
+  { id: "mv6", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham", videoId: "mC-zw0zCCtg", description: "Baucham makes a compelling case for the exclusive supremacy of Christ in a pluralistic culture." },
 ];
 
 type Tab = "memory" | "study" | "voices" | "videos";
@@ -245,6 +246,8 @@ export default function VerseMemoryPage() {
     setSavedFlash(true);
     setTimeout(() => { setSavedFlash(false); setAddingVerse(false); }, 1500);
   };
+
+  const deleteVerse = (id: number) => setVerses(prev => prev.filter(v => v.id !== id));
 
   const addSuggested = (v: typeof suggestedVerses[0]) => {
     if (verses.some(e => e.reference === v.reference)) return;
@@ -415,6 +418,12 @@ export default function VerseMemoryPage() {
                           <button type="button" onClick={() => toggleMastered(verse.id)} title={verse.mastered ? "Mark as in-progress" : "Mark as mastered"}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${verse.mastered ? GREEN + "40" : BORDER}`, background: verse.mastered ? "rgba(58,125,86,0.1)" : "transparent", cursor: "pointer", fontSize: 14, color: verse.mastered ? GREEN : MUTED }}>
                             {verse.mastered ? "✓" : "○"}
+                          </button>
+                          <button type="button" onClick={() => deleteVerse(verse.id)} title="Remove verse"
+                            style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", cursor: "pointer", fontSize: 16, color: "#3A3A58" }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#EF4444"; (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(239,68,68,0.3)"; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#3A3A58"; (e.currentTarget as HTMLButtonElement).style.borderColor = BORDER; }}>
+                            ×
                           </button>
                         </div>
                       </div>
@@ -683,14 +692,7 @@ export default function VerseMemoryPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
               {MEMORY_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
                       <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${PURPLE}20`, color: PURPLE, fontWeight: 700, border: `1px solid ${PURPLE}40` }}>{v.preacher}</span>

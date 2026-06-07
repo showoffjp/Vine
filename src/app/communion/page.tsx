@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -160,15 +162,15 @@ const VOICES_COM = [
 ];
 
 const COMMUNION_VIDEOS = [
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
-  { id: "OasF7lWlX_M", title: "The Prodigal God: The Elder Brother", speaker: "Tim Keller" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
-  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "52ZXFH1wzc8", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "KRsuCQe7aVk", title: "The Prodigal God: The Elder Brother", speaker: "Tim Keller" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "iK0NjiBXKN4", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
+  { id: "zDnSbLd9LFg", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "bQFIuYOg7uo", title: "Don't Waste Your Life", speaker: "John Piper" },
 ];
 
-type Tab = "practice" | "theology" | "voices" | "videos";
+type Tab = "practice" | "theology" | "voices" | "videos" | "journal";
 
 export default function CommunionPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_communion_tab", "practice");
@@ -183,6 +185,19 @@ export default function CommunionPage() {
     try { localStorage.setItem("vine_communion_reflected", "true"); } catch {}
     setReflected(true);
   };
+
+  type CommunionJE = { id: string; date: string; reflection: string; conviction: string; step: string };
+  const [communionJournal, setCommunionJournal] = useState<CommunionJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_communionj_entries") ?? "[]"); } catch { return []; } });
+  const [jReflection, setJReflection] = useState("");
+  const [jConviction, setJConviction] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_communionj_entries", JSON.stringify(communionJournal)); } catch {} }, [communionJournal]);
+  function saveCommunionEntry() {
+    if (!jReflection.trim() && !jConviction.trim()) return;
+    setCommunionJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), reflection: jReflection, conviction: jConviction, step: jStep }, ...prev]);
+    setJReflection(""); setJConviction(""); setJStep("");
+  }
+  function deleteCommunionEntry(id: string) { setCommunionJournal(prev => prev.filter(e => e.id !== id)); }
 
   const voice = VOICES_COM.find(v => v.id === selectedVoice) ?? null;
 
@@ -207,9 +222,9 @@ export default function CommunionPage() {
 
         {/* Top Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["practice", "theology", "voices", "videos"] as const).map(t => (
+          {(["practice", "theology", "voices", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "practice" ? "Practice" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : "Videos"}
+              {t === "practice" ? "Practice" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : t === "videos" ? "Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -415,6 +430,33 @@ export default function CommunionPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Communion Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your reflections after taking communion — what the Table means to you, convictions formed, and steps taken.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Reflection</label><textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What did the Table stir in you today?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Conviction</label><textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What do you believe about the Lord's Supper?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label><textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="How will you live differently in light of the cross?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveCommunionEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {communionJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {communionJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteCommunionEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.reflection}</p></div>}
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.conviction}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -424,9 +466,7 @@ export default function CommunionPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 20 }}>
               {COMMUNION_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, borderRadius: 14, overflow: "hidden", border: `1px solid ${BORDER}` }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 18px" }}>
                     <div style={{ fontWeight: 700, fontSize: 14, color: TEXT, marginBottom: 4 }}>{v.title}</div>
                     <div style={{ fontSize: 12, color: MUTED }}>{v.speaker}</div>

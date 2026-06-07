@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -122,7 +125,7 @@ const DAYS = [
   },
 ];
 
-type Tab = "guide" | "voices" | "methods" | "corporate" | "videos";
+type Tab = "guide" | "voices" | "methods" | "corporate" | "videos" | "journal";
 
 const VOICES_PRAYER = [
   {
@@ -197,12 +200,27 @@ export default function WeeklyPrayerGuidePage() {
   const day = DAYS.find(d => d.day === selectedDay)!;
   const voiceItem = VOICES_PRAYER.find(v => v.id === selectedVoice)!;
 
+  type WPGJournalEntry = { id: string; date: string; prayer: string; reflection: string; step: string };
+  const [wpgJournal, setWpgJournal] = useState<WPGJournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_wpgj_entries") ?? "[]"); } catch { return []; } });
+  const [jPrayer, setJPrayer] = useState("");
+  const [jReflection, setJReflection] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_wpgj_entries", JSON.stringify(wpgJournal)); } catch {} }, [wpgJournal]);
+  function saveWPGEntry() {
+    if (!jPrayer.trim() && !jReflection.trim()) return;
+    const entry: WPGJournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), prayer: jPrayer, reflection: jReflection, step: jStep };
+    setWpgJournal(prev => [entry, ...prev]);
+    setJPrayer(""); setJReflection(""); setJStep("");
+  }
+  function deleteWPGEntry(id: string) { setWpgJournal(prev => prev.filter(e => e.id !== id)); }
+
   const TABS: { id: Tab; label: string; icon: string }[] = [
     { id: "guide", label: "Weekly Guide", icon: "🗓️" },
     { id: "voices", label: "Voices on Prayer", icon: "💬" },
     { id: "methods", label: "Methods", icon: "🙏" },
     { id: "corporate", label: "Corporate Prayer", icon: "👥" },
     { id: "videos", label: "Videos", icon: "🎬" },
+    { id: "journal", label: "📓 Journal", icon: "📓" },
   ];
 
   return (
@@ -348,6 +366,45 @@ export default function WeeklyPrayerGuidePage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Prayer Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your prayers, reflections, and next steps as you work through the weekly guide.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Prayer</label>
+                  <textarea value={jPrayer} onChange={e => setJPrayer(e.target.value)} placeholder="Write out your prayer..." rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Reflection</label>
+                  <textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What did God bring to mind? What did you sense?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One thing to act on from this time of prayer..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveWPGEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {wpgJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {wpgJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteWPGEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.prayer && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Prayer</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.prayer}</p></div>}
+                    {entry.reflection && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Reflection</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.reflection}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -357,19 +414,13 @@ export default function WeeklyPrayerGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks Matthew 6:9–13 phrase by phrase — revealing why Jesus gave us this model prayer and what each petition demands from our lives." },
-                  { videoId: "V-_lmGR9EdE", title: "Teach Us to Pray", channel: "Desiring God (John Piper)", description: "A four-minute devotional by John Piper on the Lord's Prayer — rehearsing the most profound and familiar words ever spoken and helping us pray them with fresh depth." },
-                  { videoId: "IvWmwvdJ-mU", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul explores how prayer is far more than casual conversation — it is an audience with the King, and how we approach it reveals what we believe about God." },
-                  { videoId: "ZYmk3DiPJVI", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God (John Piper)", description: "John Piper on fasting and prayer as disciplines that train the soul to want God more than comfort — essential teaching for anyone seeking to deepen their prayer life." },
+                  { videoId: "KRsuCQe7aVk", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks Matthew 6:9–13 phrase by phrase — revealing why Jesus gave us this model prayer and what each petition demands from our lives." },
+                  { videoId: "52ZXFH1wzc8", title: "Teach Us to Pray", channel: "Desiring God (John Piper)", description: "A four-minute devotional by John Piper on the Lord's Prayer — rehearsing the most profound and familiar words ever spoken and helping us pray them with fresh depth." },
+                  { videoId: "5vp9hV8bOjk", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul explores how prayer is far more than casual conversation — it is an audience with the King, and how we approach it reveals what we believe about God." },
+                  { videoId: "OU69so6VjHA", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God (John Piper)", description: "John Piper on fasting and prayer as disciplines that train the soul to want God more than comfort — essential teaching for anyone seeking to deepen their prayer life." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

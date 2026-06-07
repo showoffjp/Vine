@@ -7,12 +7,10 @@ export default function EventDetailActions({
   price,
   accentColor,
   secondaryColor,
-  eventTitle,
 }: {
   price: string;
   accentColor: string;
   secondaryColor: string;
-  eventTitle: string;
 }) {
   const [registered, setRegistered] = useState(false);
   const [saved, setSaved] = useState(false);

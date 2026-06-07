@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -147,9 +149,53 @@ const CHALLENGES = [
   },
 ];
 
+interface ReadingLog {
+  id: string;
+  date: string;
+  challenge: string;
+  day: number;
+  passage: string;
+  note: string;
+}
+
+interface ActiveChallenge {
+  name: string;
+  startDate: string;
+  daysCompleted: number;
+}
+
 export default function BibleReadingChallengesPage() {
   const [difficulty, setDifficulty] = usePersistedState<string>("vine_bible-reading-challenges_difficulty", "All");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [showTracker, setShowTracker] = useState(false);
+  const [activeChallenge, setActiveChallenge] = useState<ActiveChallenge | null>(() => {
+    try { const s = localStorage.getItem("vine_brc_active"); return s ? JSON.parse(s) : null; } catch { return null; }
+  });
+  const [logs, setLogs] = useState<ReadingLog[]>(() => {
+    try { const s = localStorage.getItem("vine_brc_logs"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [logForm, setLogForm] = useState({ day: 1, passage: "", note: "" });
+  const [logSaved, setLogSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_brc_active", JSON.stringify(activeChallenge)); } catch {} }, [activeChallenge]);
+  useEffect(() => { try { localStorage.setItem("vine_brc_logs", JSON.stringify(logs)); } catch {} }, [logs]);
+
+  const startChallenge = (name: string) => {
+    setActiveChallenge({ name, startDate: new Date().toISOString().split("T")[0], daysCompleted: 0 });
+    setShowTracker(true);
+    setExpanded(null);
+  };
+
+  const saveLog = () => {
+    const entry: ReadingLog = { id: Date.now().toString(), date: new Date().toISOString().split("T")[0], challenge: activeChallenge?.name ?? "", ...logForm };
+    setLogs(prev => [entry, ...prev]);
+    if (activeChallenge) setActiveChallenge(a => a ? { ...a, daysCompleted: a.daysCompleted + 1 } : a);
+    setLogForm(f => ({ ...f, day: f.day + 1, passage: "", note: "" }));
+    setLogSaved(true);
+    setTimeout(() => setLogSaved(false), 2000);
+  };
+
+  const deleteLog = (id: string) => setLogs(prev => prev.filter(l => l.id !== id));
 
   const filtered = CHALLENGES.filter(c => difficulty === "All" || c.difficulty === difficulty);
 
@@ -183,6 +229,75 @@ export default function BibleReadingChallengesPage() {
               <div style={{ color: MUTED, fontSize: 12 }}>{l.desc}</div>
             </div>
           ))}
+        </div>
+
+        <div style={{ background: CARD, border: `1px solid ${GREEN}30`, borderRadius: 14, padding: 20, marginBottom: 24 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div>
+              <div style={{ color: GREEN, fontWeight: 800, fontSize: 16 }}>📅 My Reading Progress</div>
+              {activeChallenge ? (
+                <div style={{ color: MUTED, fontSize: 13, marginTop: 2 }}>
+                  Active: <strong style={{ color: TEXT }}>{activeChallenge.name}</strong> — {activeChallenge.daysCompleted} days logged since {activeChallenge.startDate}
+                </div>
+              ) : (
+                <div style={{ color: MUTED, fontSize: 13, marginTop: 2 }}>No active challenge — expand a plan below and click "Start This Challenge"</div>
+              )}
+            </div>
+            <button type="button" onClick={() => setShowTracker(!showTracker)}
+              style={{ padding: "7px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+              {showTracker ? "Hide" : "Show"}
+            </button>
+          </div>
+          {showTracker && (
+            <div style={{ marginTop: 16 }}>
+              {activeChallenge && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ marginBottom: 12 }}>
+                    <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Day number</label>
+                    <input type="number" min={1} value={logForm.day} onChange={e => setLogForm(f => ({ ...f, day: parseInt(e.target.value) || 1 }))}
+                      style={{ display: "block", width: "100%", marginTop: 6, padding: "9px 12px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                  </div>
+                  <div style={{ marginBottom: 12 }}>
+                    <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I read</label>
+                    <input value={logForm.passage} onChange={e => setLogForm(f => ({ ...f, passage: e.target.value }))}
+                      placeholder="e.g. Genesis 1-3, Matthew 5-7..."
+                      style={{ display: "block", width: "100%", marginTop: 6, padding: "9px 12px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+                  </div>
+                  <div style={{ marginBottom: 14 }}>
+                    <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Note or insight</label>
+                    <textarea value={logForm.note} onChange={e => setLogForm(f => ({ ...f, note: e.target.value }))} rows={2}
+                      placeholder="Something that struck you, a question, a verse..."
+                      style={{ display: "block", width: "100%", marginTop: 6, padding: "9px 12px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                  </div>
+                  <button type="button" onClick={saveLog}
+                    style={{ padding: "10px 22px", borderRadius: 8, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 14, cursor: "pointer", marginRight: 10 }}>
+                    {logSaved ? "Saved ✓" : "Log Day"}
+                  </button>
+                  <button type="button" onClick={() => setActiveChallenge(null)}
+                    style={{ padding: "10px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+                    Change Challenge
+                  </button>
+                </div>
+              )}
+              {logs.length > 0 && (
+                <div>
+                  <div style={{ color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>Reading Log</div>
+                  {logs.slice(0, 5).map(l => (
+                    <div key={l.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", background: BG, borderRadius: 8, padding: "10px 12px", marginBottom: 6, border: `1px solid ${BORDER}` }}>
+                      <div>
+                        <div style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>Day {l.day} · {l.date}</div>
+                        {l.passage && <div style={{ color: TEXT, fontSize: 13 }}>{l.passage}</div>}
+                        {l.note && <div style={{ color: MUTED, fontSize: 12, fontStyle: "italic" }}>{l.note}</div>}
+                      </div>
+                      <button type="button" onClick={() => deleteLog(l.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14, marginLeft: 8 }}>×</button>
+                    </div>
+                  ))}
+                  {logs.length > 5 && <div style={{ color: MUTED, fontSize: 12, textAlign: "center", marginTop: 4 }}>+ {logs.length - 5} more entries</div>}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
@@ -245,6 +360,16 @@ export default function BibleReadingChallengesPage() {
                     <div style={{ color: c.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>PRO TIP</div>
                     <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{c.tip}</p>
                   </div>
+                  <div style={{ marginTop: 14 }}>
+                    {activeChallenge?.name === c.name ? (
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 700 }}>✓ Active — tracking this challenge</span>
+                    ) : (
+                      <button type="button" onClick={() => startChallenge(c.name)}
+                        style={{ padding: "9px 18px", borderRadius: 8, border: "none", background: c.color, color: "#fff", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
+                        Start This Challenge
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -256,14 +381,13 @@ export default function BibleReadingChallengesPage() {
           <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, marginBottom: 20 }}>Talks on why and how to read the Bible — from habit formation to deep comprehension.</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {[
-              { videoId: "AYFkH8jtmCc", title: "How to Read the Bible for All Its Worth", channel: "The Gospel Coalition", description: "Practical guidance on reading different genres of Scripture — narrative, poetry, prophecy, and epistle — for maximum comprehension and application." },
-              { videoId: "Hr3PkGXYRvI", title: "Why You Should Read the Bible in Large Sections", channel: "Ligonier Ministries", description: "R.C. Sproul on why sustained, large-section reading is essential for understanding the Bible's grand narrative and theological unity." },
-              { videoId: "dXxmSDhvbHY", title: "Reading the Bible to Know God", channel: "Desiring God", description: "John Piper on the ultimate purpose of Bible reading — not information gathering but transformative encounter with the living God who speaks." },
-              { videoId: "KbFKcFxqVlo", title: "Building a Sustainable Bible Reading Habit", channel: "Crossway", description: "Research-informed and Scripture-rooted wisdom on building a daily Bible reading practice that survives busy seasons and spiritual dryness." },
+              { videoId: "GGCF3OPWN14", title: "How to Read the Bible for All Its Worth", channel: "The Gospel Coalition", description: "Practical guidance on reading different genres of Scripture — narrative, poetry, prophecy, and epistle — for maximum comprehension and application." },
+              { videoId: "HGHqu9-DtXk", title: "Why You Should Read the Bible in Large Sections", channel: "Ligonier Ministries", description: "R.C. Sproul on why sustained, large-section reading is essential for understanding the Bible's grand narrative and theological unity." },
+              { videoId: "E65KV3M8RZE", title: "Reading the Bible to Know God", channel: "Desiring God", description: "John Piper on the ultimate purpose of Bible reading — not information gathering but transformative encounter with the living God who speaks." },
+              { videoId: "rtkS_8VWfB0", title: "Building a Sustainable Bible Reading Habit", channel: "Crossway", description: "Research-informed and Scripture-rooted wisdom on building a daily Bible reading practice that survives busy seasons and spiritual dryness." },
             ].map(v => (
               <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "causes" | "voices" | "reconstruction" | "videos";
+type Tab = "what" | "causes" | "voices" | "reconstruction" | "journal" | "videos";
 
 const WHAT_ITEMS = [
   {
@@ -115,7 +117,7 @@ const VOICE_ITEMS = [
 
 const RECONSTRUCTION_ITEMS = [
   {
-    id: "distinguish",
+    id: "bxzuh5Xx5G4",
     title: "Distinguish Christianity from Bad Christianity",
     body: "The most important cognitive move in reconstruction is distinguishing the abuse, institution, or theology that failed you from the faith itself. The prosperity gospel is not Christianity. Spiritual abuse is not Christianity. Authoritarian control is not Christianity. The church that covered up abuse is not the Church. These distinctions are not apologetics tricks — they are accurate descriptions. Jesus himself was most severe toward the religious establishment of his day. The question is: what did Jesus actually teach, actually do, and actually invite people into? That Jesus is available for encounter independently of the failures of his followers.",
   },
@@ -151,6 +153,7 @@ const TABS = [
     { id: "causes" as Tab, label: "Common Causes", icon: "🔍" },
     { id: "voices" as Tab, label: "Voices That Help", icon: "🕊️" },
     { id: "reconstruction" as Tab, label: "Path Forward", icon: "🏗️" },
+    { id: "journal" as Tab, label: "My Journal", icon: "📓" },
     { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
@@ -162,6 +165,20 @@ export default function DeconstructionPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const toggleExpand = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
+
+  const [deconEntries, setDeconEntries] = useState<{ id: string; date: string; doubt: string; resource: string; step: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_decon_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [deconForm, setDeconForm] = useState({ doubt: "", resource: "", step: "" });
+  const [deconSaved, setDeconSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_decon_entries", JSON.stringify(deconEntries)); }, [deconEntries]);
+  function saveDeconEntry() {
+    if (!deconForm.doubt.trim()) return;
+    setDeconEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...deconForm }, ...prev]);
+    setDeconForm({ doubt: "", resource: "", step: "" });
+    setDeconSaved(true); setTimeout(() => setDeconSaved(false), 2000);
+  }
+  function deleteDeconEntry(id: string) { setDeconEntries(prev => prev.filter(e => e.id !== id)); }
   const whatItem = WHAT_ITEMS.find(w => w.id === selectedWhat)!;
   const causeItem = CAUSE_ITEMS.find(c => c.id === selectedCause)!;
   const voiceItem = VOICE_ITEMS.find(v => v.id === selectedVoice)!;
@@ -302,6 +319,54 @@ export default function DeconstructionPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Deconstruction Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Write honestly about your doubts, the resources helping you, and the next steps in your journey. This is a private space. Saved in your browser only.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>DOUBT OR QUESTION I AM HOLDING *</label>
+                <textarea value={deconForm.doubt} onChange={e => setDeconForm(f => ({ ...f, doubt: e.target.value }))}
+                  placeholder="What is the specific question or doubt you are wrestling with right now?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>RESOURCE OR VOICE HELPING ME</label>
+                <textarea value={deconForm.resource} onChange={e => setDeconForm(f => ({ ...f, resource: e.target.value }))}
+                  placeholder="Which book, thinker, pastor, or community is helping you work through this?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>NEXT STEP I AM TAKING</label>
+                <textarea value={deconForm.step} onChange={e => setDeconForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What is one concrete step toward reconstruction you can take this week?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveDeconEntry}
+                style={{ background: deconSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {deconSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {deconEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({deconEntries.length})</h3>
+                {deconEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteDeconEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.doubt && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>DOUBT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.doubt}</span></div>}
+                    {entry.resource && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>RESOURCE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.resource}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>NEXT STEP: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -311,19 +376,13 @@ export default function DeconstructionPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "FS-otLUeeTg", title: "Deconstruction & Reconstructing Faith: Navigating a Faith Crisis", channel: "Gospel Teaching", description: "A deep exploration of what deconstruction means, why it happens, and how Christians can navigate a faith crisis toward genuine reconstruction." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller examines how Jesus introduces a revolutionary kingdom that overturns our assumptions about power, worth, and belonging." },
-                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan shares the core of what Christian faith is — cutting through layers of cultural Christianity to the simple, transforming message of Jesus." },
-                  { videoId: "_ChnTOiYXcA", title: "God's Sovereignty: Chosen By God", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul grounds faith in the sovereign grace of God — essential for those rebuilding their understanding of salvation and assurance." },
+                  { videoId: "5PvcynQD-ag", title: "Deconstruction & Reconstructing Faith: Navigating a Faith Crisis", channel: "Gospel Teaching", description: "A deep exploration of what deconstruction means, why it happens, and how Christians can navigate a faith crisis toward genuine reconstruction." },
+                  { videoId: "qyFZbAjWWG4", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller examines how Jesus introduces a revolutionary kingdom that overturns our assumptions about power, worth, and belonging." },
+                  { videoId: "D3MWVMKKY3A", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan shares the core of what Christian faith is — cutting through layers of cultural Christianity to the simple, transforming message of Jesus." },
+                  { videoId: "iK0NjiBXKN4", title: "God's Sovereignty: Chosen By God", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul grounds faith in the sovereign grace of God — essential for those rebuilding their understanding of salvation and assurance." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

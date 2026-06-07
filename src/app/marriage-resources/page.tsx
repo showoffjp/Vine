@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "books" | "premarriage" | "counseling" | "principles" | "challenges" | "videos";
+type Tab = "books" | "premarriage" | "counseling" | "principles" | "challenges" | "journal" | "videos";
 
 const BOOKS = [
   { title: "The Meaning of Marriage", author: "Timothy & Kathy Keller", color: GREEN, description: "The most theologically complete treatment of Christian marriage available for a general audience. Keller argues that modern culture's view of marriage — as a romantic arrangement between self-actualized individuals — is fundamentally incompatible with the biblical picture of covenant love. Marriage is not primarily for happiness but for holiness, and it reveals the gospel in unique ways no other relationship can.", verdict: "Essential — the best starting point for any couple wanting to think biblically about marriage" },
@@ -57,10 +59,10 @@ const COUNSELING_RESOURCES = [
 ];
 
 const MARRIAGE_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Marriage — Tim Keller on the Gospel and Marriage", channel: "Gospel in Life", description: "Keller unpacks the profound theological meaning of marriage from Ephesians 5 and how the gospel reshapes the institution." },
-  { videoId: "ACZbpLkY8To", title: "What Is Christian Marriage?", channel: "Ligonier Ministries", description: "A theological foundation for marriage: what covenant means, why permanence matters, and how Scripture shapes the relationship." },
-  { videoId: "fJnGJN6laqE", title: "The Meaning of Marriage", channel: "Desiring God", description: "John Piper on the glory of God in marriage, the purpose of sex, and why the covenant matters more than the feeling." },
-  { videoId: "Z8lkuuhVkOI", title: "Loving Your Spouse Through Conflict", channel: "The Gospel Coalition", description: "Practical biblical guidance for navigating the inevitable conflicts of marriage with grace, truth, and forgiveness." },
+  { videoId: "rtkS_8VWfB0", title: "Marriage — Tim Keller on the Gospel and Marriage", channel: "Gospel in Life", description: "Keller unpacks the profound theological meaning of marriage from Ephesians 5 and how the gospel reshapes the institution." },
+  { videoId: "ej_6dVdJSIU", title: "What Is Christian Marriage?", channel: "Ligonier Ministries", description: "A theological foundation for marriage: what covenant means, why permanence matters, and how Scripture shapes the relationship." },
+  { videoId: "4Eg_di-O8nM", title: "The Meaning of Marriage", channel: "Desiring God", description: "John Piper on the glory of God in marriage, the purpose of sex, and why the covenant matters more than the feeling." },
+  { videoId: "gV9JugO_5Mk", title: "Loving Your Spouse Through Conflict", channel: "The Gospel Coalition", description: "Practical biblical guidance for navigating the inevitable conflicts of marriage with grace, truth, and forgiveness." },
 ];
 
 const CHALLENGES = [
@@ -78,6 +80,20 @@ export default function MarriageResourcesPage() {
 
   const book = BOOKS.find(b => b.title === selected);
 
+  const [mrEntries, setMrEntries] = useState<{ id: string; date: string; topic: string; insight: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mr_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mrForm, setMrForm] = useState({ topic: "", insight: "", applying: "" });
+  const [mrSaved, setMrSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mr_entries", JSON.stringify(mrEntries)); } catch {} }, [mrEntries]);
+  const saveMrEntry = () => {
+    if (!mrForm.topic.trim()) return;
+    setMrEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mrForm }, ...prev]);
+    setMrForm({ topic: "", insight: "", applying: "" });
+    setMrSaved(true); setTimeout(() => setMrSaved(false), 2000);
+  };
+  const deleteMrEntry = (id: string) => setMrEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -93,10 +109,10 @@ export default function MarriageResourcesPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["books", "premarriage", "principles", "challenges", "counseling", "videos"] as Tab[]).map(t => (
+          {(["books", "premarriage", "principles", "challenges", "counseling", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "books" ? "Books" : t === "premarriage" ? "Pre-Marriage" : t === "principles" ? "Principles" : t === "challenges" ? "Common Challenges" : t === "counseling" ? "Counseling" : "Videos"}
+              {t === "books" ? "Books" : t === "premarriage" ? "Pre-Marriage" : t === "principles" ? "Principles" : t === "challenges" ? "Common Challenges" : t === "counseling" ? "Counseling" : t === "journal" ? "My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -188,12 +204,47 @@ export default function MarriageResourcesPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Marriage Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record marriage insights, challenges, and how you're growing together.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mrForm.topic} onChange={e => setMrForm(f => ({ ...f, topic: e.target.value }))}
+                  placeholder="What area of marriage are you focusing on?" aria-label="Topic"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={mrForm.insight} onChange={e => setMrForm(f => ({ ...f, insight: e.target.value }))}
+                  placeholder="What insight or challenge have you encountered?" aria-label="Insight"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mrForm.applying} onChange={e => setMrForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="What will you practice or change? (optional)" aria-label="Applying"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMrEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mrSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mrEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first marriage reflection above.</p>}
+              {mrEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMrEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.topic}</p>
+                  {e.insight && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.insight}</p>}
+                  {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.applying}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {MARRIAGE_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

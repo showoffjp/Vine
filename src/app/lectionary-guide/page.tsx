@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "years" | "using" | "resources" | "videos";
+type Tab = "what" | "years" | "using" | "resources" | "journal" | "videos";
 
 const whatItems = [
   {
@@ -125,7 +127,7 @@ const lectionaryYears: LectionaryYear[] = [
 
 const usingItems = [
   {
-    id: "sermon_prep",
+    id: "5vp9hV8bOjk",
     title: "Lectionary Sermon Prep Process",
     content:
       "Begin on Monday or Tuesday for the following Sunday. (1) Read all four texts cold — without commentaries. Write down your first impressions, questions, confusions. (2) Identify the connecting thread: What do these four texts share? What is the liturgical season doing? (3) Choose your primary text. (4) Exegete the primary text in Hebrew/Greek or with a technical commentary. (5) Identify the 'good news' — what does this text announce that is actually good? (6) Listen to two other preachers on this text (WorkingPreacher.org sermon commentary; Lectionary Podcast). (7) Draft and deliver.",
@@ -206,6 +208,20 @@ export default function LectionaryGuidePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedYear, setSelectedYear] = useState<LectionaryYear>(lectionaryYears[0]);
 
+  const [lgEntries, setLgEntries] = useState<{ id: string; date: string; passage: string; theme: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_lg_entries") ?? "[]"); } catch { return []; }
+  });
+  const [lgForm, setLgForm] = useState({ passage: "", theme: "", applying: "" });
+  const [lgSaved, setLgSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_lg_entries", JSON.stringify(lgEntries)); } catch {} }, [lgEntries]);
+  const saveLgEntry = () => {
+    if (!lgForm.passage.trim()) return;
+    setLgEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...lgForm }, ...prev]);
+    setLgForm({ passage: "", theme: "", applying: "" });
+    setLgSaved(true); setTimeout(() => setLgSaved(false), 2000);
+  };
+  const deleteLgEntry = (id: string) => setLgEntries(prev => prev.filter(e => e.id !== id));
+
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
@@ -253,6 +269,7 @@ export default function LectionaryGuidePage() {
               { id: "years", label: "Year A / B / C" },
               { id: "using", label: "How to Use It" },
               { id: "resources", label: "Resources" },
+              { id: "journal", label: "My Journal" },
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -438,6 +455,42 @@ export default function LectionaryGuidePage() {
             </div>
           </div>
         )}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Lectionary Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Track your engagement with lectionary passages week by week.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={lgForm.passage} onChange={e => setLgForm(f => ({ ...f, passage: e.target.value }))}
+                  placeholder="Which passage or Sunday?" aria-label="Passage"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={lgForm.theme} onChange={e => setLgForm(f => ({ ...f, theme: e.target.value }))}
+                  placeholder="What theme or truth stood out?" aria-label="Theme"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={lgForm.applying} onChange={e => setLgForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How are you applying this? (optional)" aria-label="Applying"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveLgEntry}
+                  style={{ padding: "10px 20px", background: GREEN, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {lgSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {lgEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first lectionary reflection above.</p>}
+              {lgEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteLgEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.passage}</p>
+                  {e.theme && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.theme}</p>}
+                  {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.applying}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -447,19 +500,13 @@ export default function LectionaryGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "zWizZ53RFVw", title: "R.C. Sproul: What Is the Gospel?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul provides a clear, precise answer to the question every preacher must answer before opening Scripture — foundational for any approach to lectionary preaching." },
-                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller models how to preach a biblical text with theological depth and cultural engagement — an example of the kind of preaching the lectionary is designed to support." },
-                  { videoId: "4v_N2gxMnWQ", title: "Why All Sermons Should Be Christ-Centered", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explains the hermeneutical principle that should govern every lectionary sermon: all Scripture points to Christ." },
-                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul demonstrates careful biblical exposition — the kind of preaching that treats every text as God's authoritative Word." },
+                  { videoId: "OU69so6VjHA", title: "R.C. Sproul: What Is the Gospel?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul provides a clear, precise answer to the question every preacher must answer before opening Scripture — foundational for any approach to lectionary preaching." },
+                  { videoId: "3DRE5kgbYjU", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller models how to preach a biblical text with theological depth and cultural engagement — an example of the kind of preaching the lectionary is designed to support." },
+                  { videoId: "4Eg_di-O8nM", title: "Why All Sermons Should Be Christ-Centered", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explains the hermeneutical principle that should govern every lectionary sermon: all Scripture points to Christ." },
+                  { videoId: "ccNvwDPguNU", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul demonstrates careful biblical exposition — the kind of preaching that treats every text as God's authoritative Word." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

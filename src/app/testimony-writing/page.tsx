@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -35,7 +37,7 @@ const PITFALLS = [
   { pitfall: "Too long, too much detail", fix: "Edit ruthlessly. Every detail must serve the central story. Religious experiences, theological nuances, and church politics rarely help the listener. Focus on the turning point and its fruit." },
 ];
 
-type Tab = "theology" | "witnesses" | "structure" | "write" | "videos";
+type Tab = "theology" | "witnesses" | "structure" | "write" | "journal" | "videos";
 
 const WITNESSES = [
   {
@@ -105,6 +107,20 @@ export default function TestimonyWritingPage() {
 
   const wordCount = Object.values(draft).join(" ").split(/\s+/).filter(Boolean).length;
 
+  type JournalEntry = { id: string; date: string; theme: string; reflection: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_twj_entries") ?? "[]"); } catch { return []; } });
+  const [jTheme, setJTheme] = useState("");
+  const [jReflection, setJReflection] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_twj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jTheme.trim() && !jReflection.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), theme: jTheme, reflection: jReflection, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJTheme(""); setJReflection(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -124,6 +140,7 @@ export default function TestimonyWritingPage() {
             { id: "witnesses" as const, label: "Witnesses", icon: "🕯️" },
             { id: "structure" as const, label: "Structure", icon: "🏗️" },
             { id: "write" as const, label: "Write It", icon: "✍️" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -252,6 +269,38 @@ export default function TestimonyWritingPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Testimony Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record reflections on your testimony, key themes, and how you are refining your story.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <input value={jTheme} onChange={e => setJTheme(e.target.value)} placeholder="Key theme in your testimony (grace, freedom, belonging…)" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <textarea value={jReflection} onChange={e => setJReflection(e.target.value)} placeholder="What God is showing you about your story?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="How are you sharing or growing in your testimony?" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording reflections on your testimony.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: PURPLE, fontWeight: 700, fontSize: 15 }}>{entry.theme || "Testimony Reflection"}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.reflection && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Reflection:</strong> {entry.reflection}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Sharing:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -261,20 +310,14 @@ export default function TestimonyWritingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "9q6KrV2CDI0", title: "How to Share Your Personal Christian Testimony in 3-5 Minutes", channel: "Breaking Truth Ministries", description: "A clear, practical guide to crafting and sharing your personal testimony for evangelism — covering structure, focus, and what to include." },
-                  { videoId: "YN1bnmbjuv0", title: "How To Share Your Testimony", channel: "Christian Teaching", description: "A personal testimony is the Gospel presented in terms of your own experience. This video teaches you how to tell that story powerfully." },
-                  { videoId: "k4gi3k8thsE", title: "Your Story Is His Story", channel: "Christian Teaching", description: "A simple outline and practical tips to help you share your personal testimony — because your story of God's grace is one of the most powerful tools you have." },
-                  { videoId: "kLPFLwDaUTE", title: "The Power of Sharing Your Testimony", channel: "Christian Teaching", description: "Key steps for constructing and sharing your story of faith, with biblical foundations and practical application for real conversations." },
-                  { videoId: "udQltBlxyVo", title: "How to Share Your Testimony | UNcomplicated", channel: "UNcomplicated", description: "Beginning with 1 Peter 3:15, this video provides a simple, repeatable framework for sharing your faith story in any context." },
+                  { videoId: "oNpTha80yyE", title: "How to Share Your Personal Christian Testimony in 3-5 Minutes", channel: "Breaking Truth Ministries", description: "A clear, practical guide to crafting and sharing your personal testimony for evangelism — covering structure, focus, and what to include." },
+                  { videoId: "4Eg_di-O8nM", title: "How To Share Your Testimony", channel: "Christian Teaching", description: "A personal testimony is the Gospel presented in terms of your own experience. This video teaches you how to tell that story powerfully." },
+                  { videoId: "mC-zw0zCCtg", title: "Your Story Is His Story", channel: "Christian Teaching", description: "A simple outline and practical tips to help you share your personal testimony — because your story of God's grace is one of the most powerful tools you have." },
+                  { videoId: "7_CGP-12AE0", title: "The Power of Sharing Your Testimony", channel: "Christian Teaching", description: "Key steps for constructing and sharing your story of faith, with biblical foundations and practical application for real conversations." },
+                  { videoId: "OqwbFGoRYVo", title: "How to Share Your Testimony | UNcomplicated", channel: "UNcomplicated", description: "Beginning with 1 Peter 3:15, this video provides a simple, repeatable framework for sharing your faith story in any context." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

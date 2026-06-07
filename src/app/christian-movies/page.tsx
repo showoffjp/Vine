@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "films" | "theology" | "watchguide" | "videos";
+type Tab = "films" | "theology" | "watchguide" | "journal" | "videos";
 
 const GENRES = ["All", "Biblical Epic", "True Story", "Drama", "Documentary", "Family"];
 
@@ -282,18 +284,32 @@ const WATCH_GUIDE = [
 ];
 
 const VIDEOS = [
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
-  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
-  { id: "sWMjg7CxIKk", title: "Forgotten God Part 1", speaker: "Francis Chan" },
+  { id: "GQI72THyO5I", title: "How Great Is Our God", speaker: "Louie Giglio" },
+  { id: "krxcqH522uo", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "nQWFzMvCfLE", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "ccNvwDPguNU", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "j9phNEaPrv8", title: "Forgotten God Part 1", speaker: "Francis Chan" },
 ];
 
 export default function ChristianMoviesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-movies_tab", "films");
   const [genre, setGenre] = usePersistedState<string>("vine_christian-movies_genre", "All");
   const [selected, setSelected] = useState<string | null>(null);
+
+  const [cmovEntries, setCmovEntries] = useState<{ id: string; date: string; film: string; truth: string; question: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cmov_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cmovForm, setCmovForm] = useState({ film: "", truth: "", question: "" });
+  const [cmovSaved, setCmovSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cmov_entries", JSON.stringify(cmovEntries)); }, [cmovEntries]);
+  function saveCmovEntry() {
+    if (!cmovForm.film.trim()) return;
+    setCmovEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cmovForm }, ...prev]);
+    setCmovForm({ film: "", truth: "", question: "" });
+    setCmovSaved(true); setTimeout(() => setCmovSaved(false), 2000);
+  }
+  function deleteCmovEntry(id: string) { setCmovEntries(prev => prev.filter(e => e.id !== id)); }
 
   const filtered = MOVIES.filter(m => genre === "All" || m.genre === genre);
   const movie = MOVIES.find(m => m.title === selected);
@@ -313,9 +329,9 @@ export default function ChristianMoviesPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["films", "theology", "watchguide", "videos"] as const).map(t => (
+          {(["films", "theology", "watchguide", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "films" ? "Films" : t === "theology" ? "Theology" : t === "watchguide" ? "Watch Guide" : "Videos"}
+              {t === "films" ? "Films" : t === "theology" ? "Theology" : t === "watchguide" ? "Watch Guide" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -443,6 +459,49 @@ export default function ChristianMoviesPage() {
         )}
 
         {/* Videos tab */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Film Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record films that moved you, truths they carried, and questions they raised about faith and life.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Film Title</label>
+                <input value={cmovForm.film} onChange={e => setCmovForm(f => ({ ...f, film: e.target.value }))} placeholder="e.g. Silence, The Mission, Of Gods and Men..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Truth It Carried</label>
+                <textarea value={cmovForm.truth} onChange={e => setCmovForm(f => ({ ...f, truth: e.target.value }))} placeholder="What theological or spiritual truth did this film illuminate for you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Question It Raised</label>
+                <textarea value={cmovForm.question} onChange={e => setCmovForm(f => ({ ...f, question: e.target.value }))} placeholder="What question about God, suffering, faith, or human nature does this film raise?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCmovEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cmovSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cmovEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cmovEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.film}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCmovEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.truth && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Truth Carried</div><div style={{ color: TEXT, fontSize: 13 }}>{e.truth}</div></div>}
+                    {e.question && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Question Raised</div><div style={{ color: TEXT, fontSize: 13 }}>{e.question}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
@@ -451,9 +510,7 @@ export default function ChristianMoviesPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
               {VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
-                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.title}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginTop: 4 }}>{v.speaker}</div>

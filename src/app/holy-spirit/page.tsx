@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#c9a227";
 
-type Tab = "person" | "gifts" | "fruit" | "salvation" | "historical" | "videos";
+type Tab = "person" | "gifts" | "fruit" | "salvation" | "historical" | "journal" | "videos";
 
 const GIFTS = [
   { name: "Prophecy", ref: "1 Cor 14:3", icon: "📢", category: "Word", desc: "Speaking forth God's message for strengthening, encouraging, and comforting believers. Distinct from canonical prophecy — NT prophecy is subject to evaluation and weighing." },
@@ -50,11 +52,11 @@ const HISTORICAL = [
 ];
 
 const VIDEOS = [
-  { videoId: "oNNZO9i1Gjc", title: "Who Is the Holy Spirit?", channel: "Desiring God", description: "John Piper explains the person and work of the Holy Spirit — who he is, what he does, and why believers should cultivate deep communion with him." },
-  { videoId: "p9K3UlI2yUo", title: "The Fruit of the Spirit", channel: "Ligonier Ministries", description: "R.C. Sproul teaches on the nine fruit of the Spirit in Galatians 5 — what they are, how they grow, and why they are fruit (not works) of the Spirit." },
-  { videoId: "Lp3MQBM83p0", title: "Gifts of the Spirit Explained", channel: "The Gospel Coalition", description: "A careful examination of spiritual gifts — the charismatic debate, how to identify your gifts, and how gifts relate to the common good of the body." },
-  { videoId: "7RoqnGcEjcs", title: "Baptism of the Holy Spirit", channel: "Ligonier Ministries", description: "What does it mean to be baptized in the Holy Spirit? Examining the key texts and the different views across Christian traditions." },
-  { videoId: "v9Lm3kFVkDI", title: "Walking in the Spirit", channel: "Desiring God", description: "How to practically live a Spirit-filled life — abiding, praying in the Spirit, and cultivating sensitivity to his promptings in daily life." },
+  { videoId: "npEDqbE6faE", title: "Who Is the Holy Spirit?", channel: "Desiring God", description: "John Piper explains the person and work of the Holy Spirit — who he is, what he does, and why believers should cultivate deep communion with him." },
+  { videoId: "IvSuGyJQ6oM", title: "The Fruit of the Spirit", channel: "Ligonier Ministries", description: "R.C. Sproul teaches on the nine fruit of the Spirit in Galatians 5 — what they are, how they grow, and why they are fruit (not works) of the Spirit." },
+  { videoId: "sIaT8Jl2zpI", title: "Gifts of the Spirit Explained", channel: "The Gospel Coalition", description: "A careful examination of spiritual gifts — the charismatic debate, how to identify your gifts, and how gifts relate to the common good of the body." },
+  { videoId: "3Dv4-n6OYGI", title: "Baptism of the Holy Spirit", channel: "Ligonier Ministries", description: "What does it mean to be baptized in the Holy Spirit? Examining the key texts and the different views across Christian traditions." },
+  { videoId: "5nvVVcYD-0w", title: "Walking in the Spirit", channel: "Desiring God", description: "How to practically live a Spirit-filled life — abiding, praying in the Spirit, and cultivating sensitivity to his promptings in daily life." },
 ];
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
@@ -63,6 +65,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "fruit", label: "Fruit", icon: "🍇" },
   { id: "salvation", label: "Work in Salvation", icon: "🌊" },
   { id: "historical", label: "Historical", icon: "📜" },
+  { id: "journal", label: "My Journal", icon: "📓" },
   { id: "videos", label: "Videos", icon: "🎬" },
 ];
 
@@ -71,6 +74,20 @@ export default function HolySpiritPage() {
   const [expandedGift, setExpandedGift] = useState<number | null>(null);
   const [expandedFruit, setExpandedFruit] = useState<number | null>(null);
   const [expandedWork, setExpandedWork] = useState<number | null>(null);
+
+  const [hsEntries, setHsEntries] = useState<{ id: string; date: string; movement: string; gift: string; fruit: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_hs_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [hsForm, setHsForm] = useState({ movement: "", gift: "", fruit: "" });
+  const [hsSaved, setHsSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_hs_entries", JSON.stringify(hsEntries)); }, [hsEntries]);
+  function saveHsEntry() {
+    if (!hsForm.movement.trim() && !hsForm.fruit.trim()) return;
+    setHsEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...hsForm }, ...prev]);
+    setHsForm({ movement: "", gift: "", fruit: "" });
+    setHsSaved(true); setTimeout(() => setHsSaved(false), 2000);
+  }
+  function deleteHsEntry(id: string) { setHsEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
@@ -315,6 +332,54 @@ export default function HolySpiritPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Track the movements of the Spirit in your life. Where do you sense him convicting, leading, empowering, or producing fruit? Attentiveness to the Spirit grows with practice.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Spirit Journal Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>A movement of the Spirit I noticed</label>
+                <textarea value={hsForm.movement} onChange={e => setHsForm(f => ({ ...f, movement: e.target.value }))} rows={3}
+                  placeholder="Conviction, guidance, comfort, intercession through you, a word received, an unexpected stirring..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Gift I experienced or exercised (if any)</label>
+                <input value={hsForm.gift} onChange={e => setHsForm(f => ({ ...f, gift: e.target.value }))} placeholder="e.g. Teaching, encouragement, discernment, intercession..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Fruit I noticed growing (or being tested)</label>
+                <textarea value={hsForm.fruit} onChange={e => setHsForm(f => ({ ...f, fruit: e.target.value }))} rows={2}
+                  placeholder="Love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, or self-control — where did you see it?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHsEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {hsSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {hsEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Spirit Journal ({hsEntries.length})</h3>
+                {hsEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteHsEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    {e.movement && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "8px 0 4px" }}>{e.movement}</p>}
+                    {e.gift && <p style={{ color: GOLD, fontSize: 13, fontWeight: 600, margin: "0 0 4px" }}>Gift: {e.gift}</p>}
+                    {e.fruit && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>Fruit: {e.fruit}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -325,8 +390,7 @@ export default function HolySpiritPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>

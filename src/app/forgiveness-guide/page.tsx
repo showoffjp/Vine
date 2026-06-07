@@ -2,13 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "hard" | "stories" | "practices" | "videos";
+type Tab = "theology" | "hard" | "stories" | "practices" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "Forgiveness is Not Optional", verse: "Matthew 6:14-15", body: "'If you forgive other people when they sin against you, your heavenly Father will also forgive you. But if you do not forgive others their sins, your Father will not forgive your sins' (Matthew 6:14-15). Jesus's language is stark. The Lord's Prayer ties divine forgiveness and human forgiveness together in a single breath. The person who refuses to forgive has not yet understood what they themselves have been forgiven." },
@@ -85,6 +87,20 @@ export default function ForgivenessGuidePage() {
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 
+  const [fEntries, setFEntries] = useState<{ id: string; date: string; person: string; wound: string; release: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_forgiveness_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fForm, setFForm] = useState({ person: "", wound: "", release: "", prayer: "" });
+  const [fSaved, setFSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_forgiveness_entries", JSON.stringify(fEntries)); }, [fEntries]);
+  function saveFEntry() {
+    if (!fForm.person.trim() && !fForm.wound.trim()) return;
+    setFEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fForm }, ...prev]);
+    setFForm({ person: "", wound: "", release: "", prayer: "" });
+    setFSaved(true); setTimeout(() => setFSaved(false), 2000);
+  }
+  function deleteFEntry(id: string) { setFEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -104,6 +120,7 @@ export default function ForgivenessGuidePage() {
             { id: "hard" as Tab, label: "Hard Cases", icon: "⚠️" },
             { id: "stories" as Tab, label: "Stories", icon: "📜" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -202,6 +219,63 @@ export default function ForgivenessGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Forgiveness is often a process, not a single decision. This journal helps you track who you are forgiving, name the wound honestly, and record each step of release.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Forgiveness Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Who I am forgiving</label>
+                <input value={fForm.person} onChange={e => setFForm(f => ({ ...f, person: e.target.value }))} placeholder="A person, a group, yourself, God..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>The wound (name it honestly)</label>
+                <textarea value={fForm.wound} onChange={e => setFForm(f => ({ ...f, wound: e.target.value }))} rows={3}
+                  placeholder="What happened? What was the harm? Be specific — vague forgiveness rarely holds."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>The release (what I am letting go)</label>
+                <textarea value={fForm.release} onChange={e => setFForm(f => ({ ...f, release: e.target.value }))} rows={2}
+                  placeholder="What debt are you releasing? What right to collect are you surrendering?"
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Prayer for them (optional)</label>
+                <textarea value={fForm.prayer} onChange={e => setFForm(f => ({ ...f, prayer: e.target.value }))} rows={2}
+                  placeholder="Matthew 5:44: pray for those who hurt you. Even a single sentence."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {fSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Forgiveness Record ({fEntries.length})</h3>
+                {fEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteFEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ background: `${GREEN}20`, color: GREEN, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.person}</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    </div>
+                    {e.wound && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}><span style={{ color: MUTED, fontWeight: 600 }}>Wound: </span>{e.wound}</p>}
+                    {e.release && <p style={{ color: PURPLE, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}><span style={{ fontWeight: 600 }}>Released: </span>{e.release}</p>}
+                    {e.prayer && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.prayer}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -211,19 +285,13 @@ export default function ForgivenessGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "pMJiB9fuiEA", title: "Forgiving and Forgiven", channel: "Timothy Keller", description: "Tim Keller explores how having an attitude of compassionate forgiveness flows from understanding how much we ourselves have been forgiven by God." },
-                  { videoId: "-qsl3hwGkCk", title: "What Is Biblical Forgiveness?", channel: "Timothy Keller", description: "Keller explains that biblical forgiveness is not therapeutic or transactional — our understanding of forgiveness reveals our understanding of the cross." },
-                  { videoId: "fRlGs9hz_ho", title: "Forgiving Others, Freeing the Soul (Part 1)", channel: "Timothy Keller", description: "Keller addresses how forgiving others in a meaningful way is deeply difficult, especially when our culture distorts what forgiveness actually means." },
-                  { videoId: "Y2L0Kswj9h0", title: "Why Is It So Hard to Forgive? Joseph's Secret to Reconciliation", channel: "Timothy Keller", description: "Tim Keller uses the story of Joseph and his brothers to show the path from betrayal to genuine forgiveness and eventual reconciliation." },
+                  { videoId: "mC-zw0zCCtg", title: "Forgiving and Forgiven", channel: "Timothy Keller", description: "Tim Keller explores how having an attitude of compassionate forgiveness flows from understanding how much we ourselves have been forgiven by God." },
+                  { videoId: "7_CGP-12AE0", title: "What Is Biblical Forgiveness?", channel: "Timothy Keller", description: "Keller explains that biblical forgiveness is not therapeutic or transactional — our understanding of forgiveness reveals our understanding of the cross." },
+                  { videoId: "OqwbFGoRYVo", title: "Forgiving Others, Freeing the Soul (Part 1)", channel: "Timothy Keller", description: "Keller addresses how forgiving others in a meaningful way is deeply difficult, especially when our culture distorts what forgiveness actually means." },
+                  { videoId: "gV9JugO_5Mk", title: "Why Is It So Hard to Forgive? Joseph's Secret to Reconciliation", channel: "Timothy Keller", description: "Tim Keller uses the story of Joseph and his brothers to show the path from betrayal to genuine forgiveness and eventual reconciliation." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

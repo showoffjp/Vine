@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface HealingStep {
@@ -298,7 +300,7 @@ const HEALING_PATHS: HealingPath[] = [
     ],
   },
   {
-    id: "forgiveness",
+    id: "dy9nwe9zeU8",
     icon: "🤲",
     title: "Forgiveness Journey",
     description:
@@ -708,7 +710,7 @@ const RESOURCE_TYPES = ["All", "Book", "Program", "Hotline"];
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HealingPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"paths" | "scriptures" | "testimonies" | "resources" | "videos">("vine_healing_tab", "paths");
+  const [activeTab, setActiveTab] = usePersistedState<"paths" | "scriptures" | "testimonies" | "resources" | "journal" | "videos">("vine_healing_tab", "paths");
 
   // Saved verses (Set of IDs)
   const [savedVerses, setSavedVerses] = useState<Set<string>>(() => {
@@ -771,6 +773,20 @@ export default function HealingPage() {
       localStorage.setItem("vine_healing_liked", JSON.stringify([...likedVerses]));
     } catch {}
   }, [likedVerses]);
+
+  const [healingJEntries, setHealingJEntries] = useState<{ id: string; date: string; wound: string; scripture: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_healingj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [healingJForm, setHealingJForm] = useState({ wound: "", scripture: "", step: "" });
+  const [healingJSaved, setHealingJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_healingj_entries", JSON.stringify(healingJEntries)); } catch {} }, [healingJEntries]);
+  const saveHealingJEntry = () => {
+    if (!healingJForm.wound.trim()) return;
+    setHealingJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...healingJForm }, ...prev]);
+    setHealingJForm({ wound: "", scripture: "", step: "" });
+    setHealingJSaved(true); setTimeout(() => setHealingJSaved(false), 2000);
+  };
+  const deleteHealingJEntry = (id: string) => setHealingJEntries(prev => prev.filter(e => e.id !== id));
 
   // ── Handlers ────────────────────────────────────────────────────────────────
 
@@ -902,6 +918,7 @@ export default function HealingPage() {
             { key: "scriptures", label: "Scriptures", icon: "📖" },
             { key: "testimonies", label: "Testimonies", icon: "✨" },
             { key: "resources", label: "Resources", icon: "📚" },
+            { key: "journal", label: "My Journal", icon: "📓" },
             { key: "videos", label: "Videos", icon: "🎬" },
           ] as const
         ).map((tab) => (
@@ -1550,6 +1567,54 @@ export default function HealingPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: "#F2F2F8" }}>My Healing Journal</h2>
+            <p style={{ color: "#9898B3", fontSize: 15, marginBottom: 24 }}>Record wounds you are bringing to God, scriptures that are speaking to your healing, and the steps you are taking. Saved privately in your browser.</p>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: "#3a7d56", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>WOUND I AM BRINGING TO GOD *</label>
+                <textarea value={healingJForm.wound} onChange={e => setHealingJForm(f => ({ ...f, wound: e.target.value }))}
+                  placeholder="What pain, illness, or wound are you bringing to God for healing?" rows={3}
+                  style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>SCRIPTURE SPEAKING TO MY HEALING</label>
+                <textarea value={healingJForm.scripture} onChange={e => setHealingJForm(f => ({ ...f, scripture: e.target.value }))}
+                  placeholder="Which scripture is anchoring your faith for healing?" rows={2}
+                  style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: "#9898B3", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>STEP I AM TAKING</label>
+                <textarea value={healingJForm.step} onChange={e => setHealingJForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="What healing path or practice are you engaging with?" rows={2}
+                  style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, color: "#F2F2F8", fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveHealingJEntry}
+                style={{ background: healingJSaved ? "#3a7d56" : "#6B4FBB", color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {healingJSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {healingJEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: "#9898B3", fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({healingJEntries.length})</h3>
+                {healingJEntries.map(entry => (
+                  <div key={entry.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: "#9898B3", fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteHealingJEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.wound && <div style={{ marginBottom: 8 }}><span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11 }}>WOUND: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.wound}</span></div>}
+                    {entry.scripture && <div style={{ marginBottom: 8 }}><span style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 11 }}>SCRIPTURE: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.scripture}</span></div>}
+                    {entry.step && <div><span style={{ color: "#9898B3", fontWeight: 700, fontSize: 11 }}>STEP: </span><span style={{ color: "#F2F2F8", fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -1559,19 +1624,13 @@ export default function HealingPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "rwTdOh7ru0g", title: "Healing and Prayer", channel: "Timothy Keller", description: "Tim Keller examines what Scripture teaches about healing and prayer — what God promises, what we can ask, and how to trust him in illness and suffering." },
-                  { videoId: "54wB8FNdnlc", title: "The Healing", channel: "Timothy Keller", description: "Keller preaches on a healing account in the Gospels, drawing out its implications for understanding what Christ came to restore in body, soul, and community." },
-                  { videoId: "31BsnbECTjo", title: "Prayer That God Hears", channel: "Francis Chan", description: "Francis Chan unpacks Hebrews 5:7 and challenges the way we approach prayer, especially in seasons of suffering and the cry for healing." },
-                  { videoId: "DxOWWWVDGD0", title: "Praying Our Tears", channel: "Timothy Keller", description: "Keller explores how suffering is inevitable and teaches how to bring tears and grief honestly to God in prayer rather than pretending all is well." },
+                  { videoId: "iK0NjiBXKN4", title: "Healing and Prayer", channel: "Timothy Keller", description: "Tim Keller examines what Scripture teaches about healing and prayer — what God promises, what we can ask, and how to trust him in illness and suffering." },
+                  { videoId: "zMbUXpFiFeo", title: "The Healing", channel: "Timothy Keller", description: "Keller preaches on a healing account in the Gospels, drawing out its implications for understanding what Christ came to restore in body, soul, and community." },
+                  { videoId: "52ZXFH1wzc8", title: "Prayer That God Hears", channel: "Francis Chan", description: "Francis Chan unpacks Hebrews 5:7 and challenges the way we approach prayer, especially in seasons of suffering and the cry for healing." },
+                  { videoId: "rtkS_8VWfB0", title: "Praying Our Tears", channel: "Timothy Keller", description: "Keller explores how suffering is inevitable and teaches how to bring tears and grief honestly to God in prayer rather than pretending all is well." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

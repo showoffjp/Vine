@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#c9a227";
 
-type Tab = "evidence" | "meaning" | "appearances" | "theories" | "changed" | "videos";
+type Tab = "evidence" | "meaning" | "appearances" | "theories" | "changed" | "journal" | "videos";
 
 const MINIMAL_FACTS = [
   { num: 1, title: "Jesus Died by Crucifixion", color: "#EF4444", body: "The death of Jesus by Roman crucifixion is one of the best-attested facts in ancient history. It is confirmed by: the four Gospels; Paul (1 Corinthians 15:3-5, Galatians 3:1); the Roman historian Tacitus (Annals 15.44); the Jewish historian Josephus (Antiquities 18.3); Pliny the Younger; and Lucian of Samosata. Roman crucifixion was specifically designed to produce death — legionaries were professionals whose own lives depended on ensuring the condemned died. No historian seriously disputes that Jesus died on a cross circa 30-33 AD.", sources: ["Tacitus, Annals 15.44", "Josephus, Antiquities 18.3", "1 Corinthians 15:3", "All four Gospels"] },
@@ -53,11 +55,11 @@ const CHANGED_LIVES = [
 ];
 
 const VIDEOS = [
-  { videoId: "cgfDocaQFvs", title: "The Resurrection: Historical Evidence", channel: "Gary Habermas / Liberty University", description: "Gary Habermas, the world's leading scholar on the historical evidence for the resurrection, presents the minimal facts argument and responds to alternative theories." },
-  { videoId: "7bQCKFe_Bro", title: "The Case for the Resurrection", channel: "Ligonier Ministries", description: "R.C. Sproul examines the historical and theological case for the resurrection of Jesus Christ — why it is the center of Christian faith." },
-  { videoId: "JY0lMqZ24y0", title: "Why the Resurrection Matters", channel: "Desiring God", description: "John Piper on why the resurrection is not merely historical trivia but the center of the Christian gospel and the ground of Christian hope." },
-  { videoId: "s9-dJTgGMvM", title: "N.T. Wright on the Resurrection", channel: "The Gospel Coalition", description: "N.T. Wright, one of the world's leading NT scholars, explains why the bodily resurrection of Jesus is historically credible and theologically essential." },
-  { videoId: "p9K3UlI2yUo", title: "The Empty Tomb: Evidence and Implications", channel: "Ligonier Ministries", description: "An examination of the evidence for the empty tomb and its significance — why no first-century opponent of Christianity argued the tomb was still occupied." },
+  { videoId: "zMbUXpFiFeo", title: "The Resurrection: Historical Evidence", channel: "Gary Habermas / Liberty University", description: "Gary Habermas, the world's leading scholar on the historical evidence for the resurrection, presents the minimal facts argument and responds to alternative theories." },
+  { videoId: "bhfkhq-CM84", title: "The Case for the Resurrection", channel: "Ligonier Ministries", description: "R.C. Sproul examines the historical and theological case for the resurrection of Jesus Christ — why it is the center of Christian faith." },
+  { videoId: "6CulBuMCLg0", title: "Why the Resurrection Matters", channel: "Desiring God", description: "John Piper on why the resurrection is not merely historical trivia but the center of the Christian gospel and the ground of Christian hope." },
+  { videoId: "lXEHBgAGdZE", title: "N.T. Wright on the Resurrection", channel: "The Gospel Coalition", description: "N.T. Wright, one of the world's leading NT scholars, explains why the bodily resurrection of Jesus is historically credible and theologically essential." },
+  { videoId: "yIhGt1BQ1pw", title: "The Empty Tomb: Evidence and Implications", channel: "Ligonier Ministries", description: "An examination of the evidence for the empty tomb and its significance — why no first-century opponent of Christianity argued the tomb was still occupied." },
 ];
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
@@ -66,6 +68,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "appearances", label: "Appearances", icon: "👁️" },
   { id: "theories", label: "Alternative Theories", icon: "🧩" },
   { id: "changed", label: "Changed Lives", icon: "❤️" },
+  { id: "journal", label: "My Journal", icon: "📓" },
   { id: "videos", label: "Videos", icon: "🎬" },
 ];
 
@@ -75,6 +78,20 @@ export default function ResurrectionPage() {
   const [expandedMeaning, setExpandedMeaning] = useState<number | null>(null);
   const [expandedTheory, setExpandedTheory] = useState<number | null>(null);
   const [expandedAppearance, setExpandedAppearance] = useState<number | null>(null);
+
+  const [resEntries, setResEntries] = useState<{ id: string; date: string; meaning: string; doubts: string; hope: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_res_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [resForm, setResForm] = useState({ meaning: "", doubts: "", hope: "" });
+  const [resSaved, setResSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_res_entries", JSON.stringify(resEntries)); }, [resEntries]);
+  function saveResEntry() {
+    if (!resForm.meaning.trim()) return;
+    setResEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...resForm }, ...prev]);
+    setResForm({ meaning: "", doubts: "", hope: "" });
+    setResSaved(true); setTimeout(() => setResSaved(false), 2000);
+  }
+  function deleteResEntry(id: string) { setResEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
@@ -262,6 +279,49 @@ export default function ResurrectionPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Resurrection Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on what the resurrection means to you today — your hopes, your doubts, and the life you are living from it.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What the resurrection means to me today</label>
+                <textarea value={resForm.meaning} onChange={e => setResForm(f => ({ ...f, meaning: e.target.value }))} rows={3} placeholder="What is the risen Christ doing in your life right now?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Doubts I am wrestling with</label>
+                <textarea value={resForm.doubts} onChange={e => setResForm(f => ({ ...f, doubts: e.target.value }))} rows={2} placeholder="What is hard to believe right now? Bring it honestly." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Hope I am living from</label>
+                <textarea value={resForm.hope} onChange={e => setResForm(f => ({ ...f, hope: e.target.value }))} rows={2} placeholder="Because he is risen, I can..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveResEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {resSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {resEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({resEntries.length})</h3>
+                {resEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteResEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                    </div>
+                    {e.meaning && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Meaning:</strong> {e.meaning}</p>}
+                    {e.doubts && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Doubts:</strong> {e.doubts}</p>}
+                    {e.hope && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: GOLD }}>Hope:</strong> {e.hope}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
@@ -272,8 +332,7 @@ export default function ResurrectionPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "16px 20px" }}>
                     <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                     <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>

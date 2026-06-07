@@ -2,8 +2,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,7 +15,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "ai" | "socialmedia" | "practices" | "videos";
+type Tab = "theology" | "ai" | "socialmedia" | "practices" | "journal" | "videos";
 
 const STATS = [
   "Average American spends 7 hours/day on screens",
@@ -166,6 +168,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "ai", label: "AI and Faith" },
   { id: "socialmedia", label: "Social Media and the Soul" },
   { id: "practices", label: "Practices for Wisdom" },
+  { id: "journal", label: "📓 My Journal" },
   { id: "videos", label: "Videos" },
 ];
 
@@ -321,6 +324,20 @@ function PracticeCard({
 
 export default function TheologyOfTechnologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-technology_tab", "theology");
+
+  type JournalEntry = { id: string; date: string; conviction: string; practice: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_totechj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_totechj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jConviction.trim() && !jPractice.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, practice: jPractice, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJConviction(""); setJPractice(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div
@@ -524,6 +541,45 @@ export default function TheologyOfTechnologyPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Technology Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your convictions about technology use, practices you're adopting, and next steps toward digital wisdom.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Conviction</label>
+                  <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What conviction about technology is forming in you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Practice</label>
+                  <textarea value={jPractice} onChange={e => setJPractice(e.target.value)} placeholder="What digital discipline or practice are you trying?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One concrete step toward wiser technology use this week" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.conviction}</p></div>}
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Practice</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.practice}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -533,20 +589,14 @@ export default function TheologyOfTechnologyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "d5iV8Nc6DkQ", title: "Technology, AI, and the Christian Life", channel: "Oxford Collaboration on Theology & AI", description: "Rev. Lyndon Drake of Oxford discusses how Christians should engage with AI and modern technology in light of Scripture and Christian anthropology." },
-                  { videoId: "K2j8053yxbE", title: "Spiritual Formation and AI: A Deep Dive with Andy Crouch and Jay Kim", channel: "Gospel Teaching", description: "Andy Crouch and Jay Kim discuss how technologies like the smartphone and social media have transformed the way we relate to God and to each other." },
-                  { videoId: "wN9hU4hDqL8", title: "AI, Faith, and the Future: A Conversation Christians Must Hear", channel: "Christian Teaching", description: "A conversation about how artificial intelligence is reshaping culture, business, education, and the way we think about human identity and dignity." },
-                  { videoId: "QL1kViROrKM", title: "How Should Christians Engage with Technology?", channel: "Christian Teaching", description: "A thoughtful exploration of Christian engagement with apps, AI, social media, and modern communication — and the discernment required to use them wisely." },
-                  { videoId: "HzvQKLMKDA4", title: "A Christian Theological Approach to Technology and Ethics", channel: "Dr. Jordan B. Cooper", description: "A theological and ethical framework for thinking about technology from a Christian perspective, addressing questions of human dignity, creation, and the common good." },
+                  { videoId: "j9phNEaPrv8", title: "Technology, AI, and the Christian Life", channel: "Oxford Collaboration on Theology & AI", description: "Rev. Lyndon Drake of Oxford discusses how Christians should engage with AI and modern technology in light of Scripture and Christian anthropology." },
+                  { videoId: "AzmYV8GNAIM", title: "Spiritual Formation and AI: A Deep Dive with Andy Crouch and Jay Kim", channel: "Gospel Teaching", description: "Andy Crouch and Jay Kim discuss how technologies like the smartphone and social media have transformed the way we relate to God and to each other." },
+                  { videoId: "Cus-z1hgAXw", title: "AI, Faith, and the Future: A Conversation Christians Must Hear", channel: "Christian Teaching", description: "A conversation about how artificial intelligence is reshaping culture, business, education, and the way we think about human identity and dignity." },
+                  { videoId: "iVwauTiyFjM", title: "How Should Christians Engage with Technology?", channel: "Christian Teaching", description: "A thoughtful exploration of Christian engagement with apps, AI, social media, and modern communication — and the discernment required to use them wisely." },
+                  { videoId: "3Dv4-n6OYGI", title: "A Christian Theological Approach to Technology and Ethics", channel: "Dr. Jordan B. Cooper", description: "A theological and ethical framework for thinking about technology from a Christian perspective, addressing questions of human dignity, creation, and the common good." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+import VideoEmbed from "@/components/VideoEmbed";
+
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "albums" | "theology" | "artists" | "videos";
+type Tab = "albums" | "theology" | "artists" | "journal" | "videos";
 
 const GENRE_FILTERS = ["All", "Worship", "Gospel", "Contemporary Christian", "Hymns & Liturgical", "Christian Hip-Hop", "Christian Rock"];
 
@@ -275,12 +277,12 @@ const WORSHIP_ARTISTS = [
 ];
 
 const VIDEOS_ALB = [
-  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
-  { id: "RE8QkBA0Syg", title: "How Great Is Our God (Universe Version)", speaker: "Louie Giglio" },
-  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
-  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
-  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
-  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "kfcVPh2VDhQ", title: "How Great Is Our God", speaker: "Louie Giglio" },
+  { id: "57LVVwba6_8", title: "How Great Is Our God (Universe Version)", speaker: "Louie Giglio" },
+  { id: "3Dv4-n6OYGI", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "HGHqu9-DtXk", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
+  { id: "E65KV3M8RZE", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "f7RJATbobik", title: "The Prodigal Sons", speaker: "Tim Keller" },
 ];
 
 export default function ChristianAlbumsPage() {
@@ -290,6 +292,20 @@ export default function ChristianAlbumsPage() {
 
   const filtered = ALBUMS.filter(a => genre === "All" || a.genre === genre);
   const album = ALBUMS.find(a => a.title === selected);
+
+  const [caEntries, setCaEntries] = useState<{ id: string; date: string; title: string; opens: string; points: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_ca_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [caForm, setCaForm] = useState({ title: "", opens: "", points: "" });
+  const [caSaved, setCaSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_ca_entries", JSON.stringify(caEntries)); }, [caEntries]);
+  function saveCaEntry() {
+    if (!caForm.title.trim()) return;
+    setCaEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...caForm }, ...prev]);
+    setCaForm({ title: "", opens: "", points: "" });
+    setCaSaved(true); setTimeout(() => setCaSaved(false), 2000);
+  }
+  function deleteCaEntry(id: string) { setCaEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -307,9 +323,9 @@ export default function ChristianAlbumsPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {(["albums", "theology", "artists", "videos"] as const).map(t => (
+          {(["albums", "theology", "artists", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "albums" ? "Albums" : t === "theology" ? "Theology" : t === "artists" ? "Artists" : "Videos"}
+              {t === "albums" ? "Albums" : t === "theology" ? "Theology" : t === "artists" ? "Artists" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -443,6 +459,50 @@ export default function ChristianAlbumsPage() {
           </div>
         )}
 
+        {/* JOURNAL TAB */}
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Music Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record albums and songs that have shaped your faith and worship.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Album or Song Title</label>
+                <input value={caForm.title} onChange={e => setCaForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. How Great Is Our God, God of This City..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Does It Open Spiritually For You?</label>
+                <textarea value={caForm.opens} onChange={e => setCaForm(f => ({ ...f, opens: e.target.value }))} placeholder="How does this music move you toward God, truth, or worship?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Does It Point to Christ?</label>
+                <textarea value={caForm.points} onChange={e => setCaForm(f => ({ ...f, points: e.target.value }))} placeholder="What gospel truth does this music carry or illuminate?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCaEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {caSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {caEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {caEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.title}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCaEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.opens && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>What It Opens</div><div style={{ color: TEXT, fontSize: 13 }}>{e.opens}</div></div>}
+                    {e.points && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Points to Christ</div><div style={{ color: TEXT, fontSize: 13 }}>{e.points}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* VIDEOS TAB */}
         {activeTab === "videos" && (
           <div>
@@ -455,14 +515,7 @@ export default function ChristianAlbumsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 20 }}>
               {VIDEOS_ALB.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.id}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <VideoEmbed videoId={v.id} title={v.title} />
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 3 }}>{v.title}</div>
                     <div style={{ color: PURPLE, fontSize: 12, fontWeight: 600 }}>{v.speaker}</div>

@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "process" | "cases" | "restoration" | "videos";
+type Tab = "theology" | "process" | "cases" | "restoration" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -229,6 +231,20 @@ export default function ChurchDisciplinePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-discipline_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
+  const [cdiscEntries, setCdiscEntries] = useState<{ id: string; date: string; situation: string; principle: string; prayer: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cdisc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cdiscForm, setCdiscForm] = useState({ situation: "", principle: "", prayer: "" });
+  const [cdiscSaved, setCdiscSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cdisc_entries", JSON.stringify(cdiscEntries)); }, [cdiscEntries]);
+  function saveCdiscEntry() {
+    if (!cdiscForm.situation.trim()) return;
+    setCdiscEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cdiscForm }, ...prev]);
+    setCdiscForm({ situation: "", principle: "", prayer: "" });
+    setCdiscSaved(true); setTimeout(() => setCdiscSaved(false), 2000);
+  }
+  function deleteCdiscEntry(id: string) { setCdiscEntries(prev => prev.filter(e => e.id !== id)); }
+
   const handleToggle = (id: string) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   };
@@ -238,6 +254,7 @@ export default function ChurchDisciplinePage() {
     { id: "process", label: "The Process" },
     { id: "cases", label: "Case Studies" },
     { id: "restoration", label: "Restoration" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" },
   ];
 
@@ -572,6 +589,53 @@ export default function ChurchDisciplinePage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Reflection Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on a situation involving accountability, discipline, or restoration. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What situation are you thinking through?</label>
+                <textarea value={cdiscForm.situation} onChange={e => setCdiscForm(f => ({ ...f, situation: e.target.value }))}
+                  placeholder="A conflict, sin, accountability question..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What biblical principle guides you?</label>
+                <textarea value={cdiscForm.principle} onChange={e => setCdiscForm(f => ({ ...f, principle: e.target.value }))}
+                  placeholder="Matthew 18, Galatians 6, the goal of restoration..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How are you praying about this?</label>
+                <textarea value={cdiscForm.prayer} onChange={e => setCdiscForm(f => ({ ...f, prayer: e.target.value }))}
+                  placeholder="For the person, the church, yourself..." rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCdiscEntry}
+                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cdiscSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {cdiscEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {cdiscEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteCdiscEntry(e.id)}
+                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {e.situation && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>SITUATION </span><span style={{ color: TEXT, fontSize: 14 }}>{e.situation}</span></div>}
+                    {e.principle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>PRINCIPLE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.principle}</span></div>}
+                    {e.prayer && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>PRAYER </span><span style={{ color: TEXT, fontSize: 14 }}>{e.prayer}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -581,19 +645,13 @@ export default function ChurchDisciplinePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "Qg9yD4NbuRE", title: "Church Discipline and the Restoration of a Sinner in Matthew 18", channel: "Biblical Teaching", description: "A thorough exposition of Matthew 18:15-20 — the graduated process Jesus gave the church, its goal of restoration, and why every step matters." },
-                  { videoId: "fGpWbvdloz4", title: "Church Discipline and Restoration: Matthew 18:15-21", channel: "Pastoral Teaching", description: "A pastor walks through the Matthew 18 process step by step, explaining the theology behind each stage and what restoration looks like in practice." },
-                  { videoId: "SnOaTn_ASLg", title: "Membership, Discipline, and Authority in the Local Church", channel: "Biblical Exposition", description: "How Matthew 18:12-20 grounds the local church's authority in discipline — and why meaningful membership and meaningful discipline are inseparable." },
-                  { videoId: "X2EZ-kTH3C4", title: "Church Discipline and the Keys of the Kingdom", channel: "Reformed Teaching", description: "The theological weight of Matthew 18:18 — binding and loosing — and what it means that the church exercises real spiritual authority in discipline and restoration." },
+                  { videoId: "4Eg_di-O8nM", title: "Church Discipline and the Restoration of a Sinner in Matthew 18", channel: "Biblical Teaching", description: "A thorough exposition of Matthew 18:15-20 — the graduated process Jesus gave the church, its goal of restoration, and why every step matters." },
+                  { videoId: "mC-zw0zCCtg", title: "Church Discipline and Restoration: Matthew 18:15-21", channel: "Pastoral Teaching", description: "A pastor walks through the Matthew 18 process step by step, explaining the theology behind each stage and what restoration looks like in practice." },
+                  { videoId: "7_CGP-12AE0", title: "Membership, Discipline, and Authority in the Local Church", channel: "Biblical Exposition", description: "How Matthew 18:12-20 grounds the local church's authority in discipline — and why meaningful membership and meaningful discipline are inseparable." },
+                  { videoId: "OqwbFGoRYVo", title: "Church Discipline and the Keys of the Kingdom", channel: "Reformed Teaching", description: "The theological weight of Matthew 18:18 — binding and loosing — and what it means that the church exercises real spiritual authority in discipline and restoration." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

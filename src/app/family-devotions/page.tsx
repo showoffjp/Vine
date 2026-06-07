@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -57,7 +59,7 @@ const AGE_GUIDES = [
     sample: "Read a passage together. Ask: 'What questions does this raise for you?' Discuss openly. Pray.",
   },
   {
-    id: "high-school",
+    id: "3DRE5kgbYjU",
     name: "High School (Ages 15–18)",
     icon: "💬",
     color: PURPLE,
@@ -96,10 +98,23 @@ const VOICES_FAM = [
   { id: "wangerin-w", name: "Walter Wangerin Jr.", era: "1944-2021", context: "The Book of God (1996); Ragman and Other Cries of Faith — the master of Christian storytelling for families", bio: "Walter Wangerin Jr. was one of the most gifted Christian storytellers of the 20th century, and his approach to family devotionals was grounded in narrative: the conviction that faith is best transmitted through story rather than proposition, and that the Bible's stories — told well, with imagination and drama — reach children's hearts in ways that systematic instruction cannot. His The Book of God retells the entire biblical narrative with extraordinary literary power, and his Ragman and Other Cries of Faith contains meditations and stories that families can read together at any stage. Wangerin's work demonstrated what family devotional practice looks like when it is centered on the word as story rather than the word as information.", quote: "Tell the children the Story. Tell it with all the art you have. Tell it with tears and laughter. Tell it slowly and completely. The Story will do the work that lectures never can.", contribution: "Wangerin's work gave Christian families a model for family devotional practice centered on narrative and imagination rather than instruction and memorization. His books have been used as family read-alouds, devotional readings, and narrative Bible curricula by countless families across denominational lines. His influence on the 'story-formed family' approach to Christian education has been substantial." },
 ];
 
-interface FavPlan { id: string; name: string; }
 
 export default function FamilyDevotionsPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"ages" | "formats" | "plans" | "voices" | "videos">("vine_family-devotions_tab", "ages");
+  const [activeTab, setActiveTab] = usePersistedState<"ages" | "formats" | "plans" | "voices" | "journal" | "videos">("vine_family-devotions_tab", "ages");
+
+  const [fdEntries, setFdEntries] = useState<{ id: string; date: string; passage: string; response: string; memory: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_fd_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [fdForm, setFdForm] = useState({ passage: "", response: "", memory: "" });
+  const [fdSaved, setFdSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_fd_entries", JSON.stringify(fdEntries)); }, [fdEntries]);
+  function saveFdEntry() {
+    if (!fdForm.passage.trim()) return;
+    setFdEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...fdForm }, ...prev]);
+    setFdForm({ passage: "", response: "", memory: "" });
+    setFdSaved(true); setTimeout(() => setFdSaved(false), 2000);
+  }
+  function deleteFdEntry(id: string) { setFdEntries(prev => prev.filter(e => e.id !== id)); }
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_family-devotions_voice", "tullian-t");
   const voiceItem = VOICES_FAM.find(v => v.id === selectedVoice)!;
   const [selectedAge, setSelectedAge] = usePersistedState("vine_family-devotions_selected_age", "elementary");
@@ -126,6 +141,7 @@ export default function FamilyDevotionsPage() {
             { id: "formats" as const, label: "Formats", icon: "🗓️" },
             { id: "plans" as const, label: "Devotional Plans", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -256,6 +272,54 @@ export default function FamilyDevotionsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Family Devotions Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record the passages you studied together, how your family responded, and a memory from your family devotion time. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>PASSAGE OR TOPIC WE STUDIED *</label>
+                <textarea value={fdForm.passage} onChange={e => setFdForm(f => ({ ...f, passage: e.target.value }))}
+                  placeholder="What Scripture or topic did your family study together?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW OUR FAMILY RESPONDED</label>
+                <textarea value={fdForm.response} onChange={e => setFdForm(f => ({ ...f, response: e.target.value }))}
+                  placeholder="What questions did the children ask? What discussion happened? Was it difficult or fruitful?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>A MOMENT TO REMEMBER</label>
+                <textarea value={fdForm.memory} onChange={e => setFdForm(f => ({ ...f, memory: e.target.value }))}
+                  placeholder="What is one moment from this devotion time you want to remember?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveFdEntry}
+                style={{ background: fdSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {fdSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {fdEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({fdEntries.length})</h3>
+                {fdEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteFdEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.passage && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>PASSAGE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.passage}</span></div>}
+                    {entry.response && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>RESPONSE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.response}</span></div>}
+                    {entry.memory && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>MEMORY: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.memory}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -265,20 +329,14 @@ export default function FamilyDevotionsPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "Qj192ODnYc0", title: "How to Lead Your Family in the Lord", teacher: "Dr. Joel Beeke" },
-                { id: "OvhfqW91V3o", title: "How Do I Do Family Worship with My Kids?", teacher: "Pastor Adriel Sanchez" },
-                { id: "BwslrrPm1Q0", title: "How to Make Family Devotions Fun", teacher: "Family Ministry" },
-                { id: "AbPvS799_5Q", title: "How To Do Family Worship", teacher: "Family Devotional Guide" },
+                { id: "4Eg_di-O8nM", title: "How to Lead Your Family in the Lord", teacher: "Dr. Joel Beeke" },
+                { id: "ccNvwDPguNU", title: "How Do I Do Family Worship with My Kids?", teacher: "Pastor Adriel Sanchez" },
+                { id: "rtkS_8VWfB0", title: "How to Make Family Devotions Fun", teacher: "Family Ministry" },
+                { id: "iK0NjiBXKN4", title: "How To Do Family Worship", teacher: "Family Devotional Guide" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

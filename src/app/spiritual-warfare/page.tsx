@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "armor" | "tactics" | "victory" | "videos";
+type Tab = "theology" | "armor" | "tactics" | "victory" | "journal" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -63,7 +65,7 @@ const ARMOR_PIECES = [
     protects: "Against deception, self-deception, and the distortion of reality that enables all other attacks",
   },
   {
-    id: "breastplate",
+    id: "YNd-PbVhnvA",
     name: "Breastplate of Righteousness",
     verse: "Eph 6:14b",
     meaning: `The breastplate covered the vital organs — heart and lungs. In the ancient world the heart was the seat of emotion, will, and moral life. The righteousness that covers you is twofold: the imputed righteousness of Christ (justification — you are declared righteous by God because of Christ's record credited to you) and practical righteousness (your actual conduct, your walk). The first is the theological foundation; the second is the lived expression.\n\nA guilt-soaked believer who has not received justification by faith is fighting with a missing breastplate. Every accusation goes straight to the heart. But imputed righteousness without practical righteousness creates a different vulnerability — the one who claims Christ's righteousness while living in unconfessed sin finds that hypocrisy itself becomes an opening.`,
@@ -183,10 +185,10 @@ const VICTORY_ITEMS = [
 ];
 
 const SW_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Spiritual Warfare — Tim Keller", channel: "Gospel in Life", description: "Keller addresses the demonic realm, spiritual warfare, and how the gospel is the Christian's primary weapon." },
-  { videoId: "ACZbpLkY8To", title: "The Armor of God — Ephesians 6 Explained", channel: "Ligonier Ministries", description: "R.C. Sproul walks through each piece of the armor of God with careful exegesis and practical application." },
-  { videoId: "fJnGJN6laqE", title: "Spiritual Warfare and the Christian Life", channel: "Desiring God", description: "How to understand spiritual warfare in a way that is neither dismissive nor obsessive — biblical and balanced." },
-  { videoId: "Z8lkuuhVkOI", title: "Does Satan Really Exist? — The Case from Scripture", channel: "The Gospel Coalition", description: "A theological case for taking the reality of spiritual warfare seriously without collapsing into superstition." },
+  { videoId: "rtkS_8VWfB0", title: "Spiritual Warfare — Tim Keller", channel: "Gospel in Life", description: "Keller addresses the demonic realm, spiritual warfare, and how the gospel is the Christian's primary weapon." },
+  { videoId: "ej_6dVdJSIU", title: "The Armor of God — Ephesians 6 Explained", channel: "Ligonier Ministries", description: "R.C. Sproul walks through each piece of the armor of God with careful exegesis and practical application." },
+  { videoId: "4Eg_di-O8nM", title: "Spiritual Warfare and the Christian Life", channel: "Desiring God", description: "How to understand spiritual warfare in a way that is neither dismissive nor obsessive — biblical and balanced." },
+  { videoId: "gV9JugO_5Mk", title: "Does Satan Really Exist? — The Case from Scripture", channel: "The Gospel Coalition", description: "A theological case for taking the reality of spiritual warfare seriously without collapsing into superstition." },
 ];
 
 function AccordionItem({
@@ -304,11 +306,29 @@ export default function SpiritualWarfarePage() {
 
   const selectedPiece = ARMOR_PIECES.find((p) => p.id === selectedArmor) ?? ARMOR_PIECES[0];
 
+  const [warEntries, setWarEntries] = useState<{ id: string; date: string; battle: string; tactic: string; response: string; scripture: string; }[]>(() => {
+    try { const s = localStorage.getItem("vine_war_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [warForm, setWarForm] = useState({ battle: "", tactic: "", response: "", scripture: "" });
+  const [warSaved, setWarSaved] = useState(false);
+
+  useEffect(() => { try { localStorage.setItem("vine_war_entries", JSON.stringify(warEntries)); } catch {} }, [warEntries]);
+
+  const saveWarEntry = () => {
+    setWarEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...warForm }, ...prev]);
+    setWarForm({ battle: "", tactic: "", response: "", scripture: "" });
+    setWarSaved(true);
+    setTimeout(() => setWarSaved(false), 2000);
+  };
+
+  const deleteWarEntry = (id: string) => setWarEntries(prev => prev.filter(e => e.id !== id));
+
   const tabs: { key: Tab; label: string }[] = [
     { key: "theology", label: "Theology" },
     { key: "armor", label: "Armor of God" },
     { key: "tactics", label: "Enemy Tactics" },
     { key: "victory", label: "Walking in Victory" },
+    { key: "journal", label: "My Battle Log" },
     { key: "videos" as Tab, label: "Videos" },
   ];
 
@@ -714,12 +734,68 @@ export default function SpiritualWarfarePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The enemy's tactics are specific, not generic. Log your battles — name the tactic, record how you responded, and mark what Scripture you stood on. Over time you will see patterns and learn to recognize the enemy's strategies.
+              </p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 20 }}>Battle Log Entry</h3>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>The battle I'm in</label>
+                <textarea value={warForm.battle} onChange={e => setWarForm(f => ({ ...f, battle: e.target.value }))} rows={2}
+                  placeholder="A temptation, an accusation, a fear, a relational conflict that feels spiritual..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Enemy tactic I recognize</label>
+                <input value={warForm.tactic} onChange={e => setWarForm(f => ({ ...f, tactic: e.target.value }))}
+                  placeholder="e.g. accusation, discouragement, fear, counterfeit comfort, isolation..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>How I responded</label>
+                <textarea value={warForm.response} onChange={e => setWarForm(f => ({ ...f, response: e.target.value }))} rows={2}
+                  placeholder="Prayer I prayed, action I took, piece of armor I put on..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Scripture I stood on</label>
+                <input value={warForm.scripture} onChange={e => setWarForm(f => ({ ...f, scripture: e.target.value }))}
+                  placeholder="e.g. Romans 8:1, James 4:7, 1 Peter 5:8-9..."
+                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveWarEntry}
+                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
+                {warSaved ? "Saved ✓" : "Log This Battle"}
+              </button>
+            </div>
+            {warEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Battle History</h3>
+                {warEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
+                    <button type="button" onClick={() => deleteWarEntry(e.id)}
+                      style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
+                    <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{e.date}</div>
+                    {e.battle && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 6px", lineHeight: 1.6 }}><strong style={{ color: "#EF4444" }}>Battle:</strong> {e.battle}</p>}
+                    {e.tactic && <p style={{ color: MUTED, fontSize: 13, margin: "0 0 6px" }}><strong style={{ color: "#F59E0B" }}>Tactic:</strong> {e.tactic}</p>}
+                    {e.response && <p style={{ color: TEXT, fontSize: 13, margin: "0 0 6px", lineHeight: 1.6 }}><strong style={{ color: GREEN }}>Response:</strong> {e.response}</p>}
+                    {e.scripture && <p style={{ color: PURPLE, fontSize: 13, margin: 0 }}>📖 {e.scripture}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {SW_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

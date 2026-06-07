@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -72,7 +74,7 @@ const SEED_GOALS: GivingGoal[] = [
 ];
 
 export default function GenerosityPage() {
-  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "practical" | "goals" | "videos">("vine_generosity_tab", "theology");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "practical" | "goals" | "journal" | "videos">("vine_generosity_tab", "theology");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_generosity_voice", "muller");
   const voiceItem = VOICES_GENEROSITY.find(v => v.id === selectedVoice)!;
   const [goals, setGoals] = useState<GivingGoal[]>(() => {
@@ -87,6 +89,20 @@ export default function GenerosityPage() {
 
   const totalTarget = goals.reduce((s, g) => s + g.target, 0);
   const totalCurrent = goals.reduce((s, g) => s + g.current, 0);
+
+  const [genEntries, setGenEntries] = useState<{ id: string; date: string; practice: string; obstacle: string; commitment: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_gen_entries") ?? "[]"); } catch { return []; }
+  });
+  const [genForm, setGenForm] = useState({ practice: "", obstacle: "", commitment: "" });
+  const [genSaved, setGenSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_gen_entries", JSON.stringify(genEntries)); } catch {} }, [genEntries]);
+  const saveGenEntry = () => {
+    if (!genForm.practice.trim()) return;
+    setGenEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...genForm }, ...prev]);
+    setGenForm({ practice: "", obstacle: "", commitment: "" });
+    setGenSaved(true); setTimeout(() => setGenSaved(false), 2000);
+  };
+  const deleteGenEntry = (id: string) => setGenEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -107,6 +123,7 @@ export default function GenerosityPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practical" as const, label: "Practical Guide", icon: "🛠️" },
             { id: "goals" as const, label: "Giving Goals", icon: "🎯" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -235,6 +252,53 @@ export default function GenerosityPage() {
             ))}
           </div>
         )}
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Generosity Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on generosity practices you are building, obstacles you face, and commitments you are making. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>GENEROSITY PRACTICE *</label>
+                <textarea value={genForm.practice} onChange={e => setGenForm(f => ({ ...f, practice: e.target.value }))}
+                  placeholder="What specific act of generosity are you working on or reflecting on?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>OBSTACLE I AM FACING</label>
+                <textarea value={genForm.obstacle} onChange={e => setGenForm(f => ({ ...f, obstacle: e.target.value }))}
+                  placeholder="What holds you back from greater generosity?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>COMMITMENT I AM MAKING</label>
+                <textarea value={genForm.commitment} onChange={e => setGenForm(f => ({ ...f, commitment: e.target.value }))}
+                  placeholder="What concrete generosity commitment are you willing to make?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGenEntry}
+                style={{ background: genSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {genSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {genEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({genEntries.length})</h3>
+                {genEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteGenEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.practice && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>PRACTICE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.practice}</span></div>}
+                    {entry.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>OBSTACLE: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.obstacle}</span></div>}
+                    {entry.commitment && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>COMMITMENT: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.commitment}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -244,19 +308,13 @@ export default function GenerosityPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "P9AG4VNptUA", title: "The Treasure Principle — Randy Alcorn", channel: "Eternal Perspective Ministries", description: "Alcorn unpacks Jesus's teaching on treasure in heaven — why giving is not sacrifice but investment, and how radical generosity is the primary antidote to materialism's grip on the heart." },
-                  { videoId: "YEpfbN5VltI", title: "Why Christians Should Give Generously", channel: "Desiring God", description: "John Piper on the theology of Christian giving — how God's own generous character in the gospel transforms how we hold money and possessions, freeing us to give liberally." },
-                  { videoId: "tdqz2DCkisQ", title: "Stewardship: Everything Belongs to God", channel: "The Bible Project", description: "A biblical overview of stewardship — how the concept of human beings as managers of God's world runs from creation through the New Testament and reshapes how we understand ownership and giving." },
-                  { videoId: "QqTlFSkuA4w", title: "Radical Generosity: Living Beyond Yourself", channel: "David Platt", description: "Platt's challenge to the compatibility of the American Dream and Christian discipleship — what global need and the gospel together demand of comfortable Western Christians." },
+                  { videoId: "jH_aojNJM3E", title: "The Treasure Principle — Randy Alcorn", channel: "Eternal Perspective Ministries", description: "Alcorn unpacks Jesus's teaching on treasure in heaven — why giving is not sacrifice but investment, and how radical generosity is the primary antidote to materialism's grip on the heart." },
+                  { videoId: "kfcVPh2VDhQ", title: "Why Christians Should Give Generously", channel: "Desiring God", description: "John Piper on the theology of Christian giving — how God's own generous character in the gospel transforms how we hold money and possessions, freeing us to give liberally." },
+                  { videoId: "57LVVwba6_8", title: "Stewardship: Everything Belongs to God", channel: "The Bible Project", description: "A biblical overview of stewardship — how the concept of human beings as managers of God's world runs from creation through the New Testament and reshapes how we understand ownership and giving." },
+                  { videoId: "HGHqu9-DtXk", title: "Radical Generosity: Living Beyond Yourself", channel: "David Platt", description: "Platt's challenge to the compatibility of the American Dream and Christian discipleship — what global need and the gospel together demand of comfortable Western Christians." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -2,12 +2,15 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "aspects" | "stories" | "practices" | "videos";
+type Tab = "theology" | "aspects" | "stories" | "practices" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "What Is Providence?", verse: "Colossians 1:17", body: "Providence is God's ongoing governance of creation — not only that he made the world but that he continually sustains, directs, and orders it toward his purposes. The word comes from the Latin providere (to foresee, to provide). In Christ all things hold together (Colossians 1:17); the creation does not run on its own momentum but is upheld moment by moment by God's power. Providence distinguishes the living God of Scripture from both the deist's absent watchmaker and the pagan's capricious fate." },
@@ -64,7 +67,7 @@ const STORIES = [
     lesson: "Paul's confidence in the outcome did not produce passivity but active, courageous engagement with the immediate situation. Trusting providence is not quietism; it is the ground of purposeful action.",
   },
   {
-    id: "reformation",
+    id: "rtkS_8VWfB0",
     name: "Luther's Hidden Years",
     ref: "Wartburg Castle, 1521-22",
     color: GREEN,
@@ -91,6 +94,21 @@ export default function ProvidenceOfGodPage() {
   const aspect = ASPECTS.find(a => a.title === selectedAspect)!;
   const story = STORIES.find(s => s.id === selectedStory)!;
 
+  const [provJEntries, setProvJEntries] = useState<{ id: string; date: string; story: string; lesson: string; trust: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_provj_entries") ?? "[]"); } catch { return []; }
+  });
+  const [provJForm, setProvJForm] = useState({ story: "", lesson: "", trust: "" });
+  const [provJSaved, setProvJSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_provj_entries", JSON.stringify(provJEntries)); } catch {} }, [provJEntries]);
+  const saveProvJEntry = () => {
+    if (!provJForm.story.trim()) return;
+    setProvJEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...provJForm }, ...prev]);
+    setProvJForm({ story: "", lesson: "", trust: "" });
+    setProvJSaved(true);
+    setTimeout(() => setProvJSaved(false), 2000);
+  };
+  const deleteProvJEntry = (id: string) => setProvJEntries(prev => prev.filter(e => e.id !== id));
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -110,6 +128,7 @@ export default function ProvidenceOfGodPage() {
             { id: "aspects" as Tab, label: "Six Aspects", icon: "⚙️" },
             { id: "stories" as Tab, label: "Stories", icon: "📜" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
             { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setTab(t.id)}
@@ -215,6 +234,50 @@ export default function ProvidenceOfGodPage() {
           </div>
         )}
 
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>My Providence Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Record a story of God&apos;s providence in your life, the lesson it taught you, and how it is strengthening your trust.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>A story of providence I witnessed</label>
+                  <textarea rows={2} value={provJForm.story} onChange={e => setProvJForm(f => ({ ...f, story: e.target.value }))} placeholder="Where did you see God sovereignly working in your life or history?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>The lesson it taught me</label>
+                  <textarea rows={2} value={provJForm.lesson} onChange={e => setProvJForm(f => ({ ...f, lesson: e.target.value }))} placeholder="What did this reveal about God's character or ways?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>How it strengthens my trust</label>
+                  <textarea rows={2} value={provJForm.trust} onChange={e => setProvJForm(f => ({ ...f, trust: e.target.value }))} placeholder="How does reflecting on this help you trust God now?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveProvJEntry} style={{ alignSelf: "flex-start", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                  {provJSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+            </div>
+            {provJEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {provJEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                      <button type="button" onClick={() => deleteProvJEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 13 }}>✕</button>
+                    </div>
+                    {e.story && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Story</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.story}</p></div>}
+                    {e.lesson && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Lesson</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.lesson}</p></div>}
+                    {e.trust && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Trust</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{e.trust}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -224,19 +287,13 @@ export default function ProvidenceOfGodPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "fn0I20M1KJI", title: "Providence: The Purposeful Sovereignty of God", channel: "Desiring God", description: "John Piper presents a comprehensive vision of God's meticulous providence over all things — from the fall of sparrows to the rise and fall of empires." },
-                  { videoId: "8WXGM5SZIGc", title: "John Piper's Big Book on the Providence of God", channel: "Desiring God", description: "An overview of John Piper's definitive work on providence, tracing the doctrine through Scripture and showing its implications for Christian life." },
-                  { videoId: "3VxyGP7z2rk", title: "If God Is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the most common objection to the doctrine of providence and shows how God's sovereignty makes prayer more meaningful, not less." },
-                  { videoId: "iyVRcomeHVg", title: "Joseph — A Study in God's Sovereignty", channel: "Ligonier Ministries", description: "R.C. Sproul traces the life of Joseph as a case study in how God's providence works through human betrayal, suffering, and redemption." },
+                  { videoId: "npEDqbE6faE", title: "Providence: The Purposeful Sovereignty of God", channel: "Desiring God", description: "John Piper presents a comprehensive vision of God's meticulous providence over all things — from the fall of sparrows to the rise and fall of empires." },
+                  { videoId: "IvSuGyJQ6oM", title: "John Piper's Big Book on the Providence of God", channel: "Desiring God", description: "An overview of John Piper's definitive work on providence, tracing the doctrine through Scripture and showing its implications for Christian life." },
+                  { videoId: "sIaT8Jl2zpI", title: "If God Is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the most common objection to the doctrine of providence and shows how God's sovereignty makes prayer more meaningful, not less." },
+                  { videoId: "3Dv4-n6OYGI", title: "Joseph — A Study in God's Sovereignty", channel: "Ligonier Ministries", description: "R.C. Sproul traces the life of Joseph as a case study in how God's providence works through human betrayal, suffering, and redemption." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

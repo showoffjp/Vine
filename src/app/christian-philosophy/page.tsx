@@ -1,19 +1,21 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "thinkers" | "arguments" | "resources" | "voices" | "videos";
+type Tab = "thinkers" | "arguments" | "resources" | "voices" | "journal" | "videos";
 
 const CP_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Is God Reasonable? — Tim Keller", channel: "Gospel in Life", description: "Keller's accessible case for the rationality of Christian faith — addressing the most common intellectual objections." },
-  { videoId: "ACZbpLkY8To", title: "Does God Exist? — The Cosmological Argument", channel: "Ligonier Ministries", description: "R.C. Sproul explains the classical cosmological argument for the existence of God and its modern defenders." },
-  { videoId: "fJnGJN6laqE", title: "Alvin Plantinga and the Reformed Epistemology", channel: "The Gospel Coalition", description: "An introduction to one of the most important philosophers of the 20th century and his defense of Christian belief as properly basic." },
-  { videoId: "Z8lkuuhVkOI", title: "Christian Philosophy — An Introduction", channel: "Desiring God", description: "Why Christians should love philosophy, what philosophy is good for, and how it serves rather than replaces faith." },
+  { videoId: "rtkS_8VWfB0", title: "Is God Reasonable? — Tim Keller", channel: "Gospel in Life", description: "Keller's accessible case for the rationality of Christian faith — addressing the most common intellectual objections." },
+  { videoId: "ej_6dVdJSIU", title: "Does God Exist? — The Cosmological Argument", channel: "Ligonier Ministries", description: "R.C. Sproul explains the classical cosmological argument for the existence of God and its modern defenders." },
+  { videoId: "4Eg_di-O8nM", title: "Alvin Plantinga and the Reformed Epistemology", channel: "The Gospel Coalition", description: "An introduction to one of the most important philosophers of the 20th century and his defense of Christian belief as properly basic." },
+  { videoId: "gV9JugO_5Mk", title: "Christian Philosophy — An Introduction", channel: "Desiring God", description: "Why Christians should love philosophy, what philosophy is good for, and how it serves rather than replaces faith." },
 ];
 
 const THINKERS = [
@@ -181,7 +183,7 @@ const RESOURCE_LIST = [
 
 const VOICES_CP = [
   {
-    id: "plantinga-a",
+    id: "52ZXFH1wzc8",
     name: "Alvin Plantinga",
     era: "b. 1932 · Reformed Epistemologist",
     context: "Warranted Christian Belief",
@@ -199,7 +201,7 @@ const VOICES_CP = [
     contribution: "Kreeft has made the tradition of Christian philosophy — from Socrates through Aquinas to C.S. Lewis — accessible to millions of readers who would never approach academic philosophy. His ability to argue with rigor while writing with wit has made him the most effective popularizer of Thomistic philosophy in contemporary English.",
   },
   {
-    id: "swinburne-r",
+    id: "rtkS_8VWfB0",
     name: "Richard Swinburne",
     era: "b. 1934 · Anglican",
     context: "The Coherence of Theism",
@@ -234,6 +236,20 @@ export default function ChristianPhilosophyPage() {
   const voiceItem = VOICES_CP.find(v => v.id === selectedVoice)!;
 
   const thinker = THINKERS.find(t => t.name === selected);
+
+  const [cphilEntries, setCphilEntries] = useState<{ id: string; date: string; question: string; thinker: string; insight: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cphil_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cphilForm, setCphilForm] = useState({ question: "", thinker: "", insight: "" });
+  const [cphilSaved, setCphilSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cphil_entries", JSON.stringify(cphilEntries)); }, [cphilEntries]);
+  function saveCphilEntry() {
+    if (!cphilForm.question.trim()) return;
+    setCphilEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cphilForm }, ...prev]);
+    setCphilForm({ question: "", thinker: "", insight: "" });
+    setCphilSaved(true); setTimeout(() => setCphilSaved(false), 2000);
+  }
+  function deleteCphilEntry(id: string) { setCphilEntries(prev => prev.filter(e => e.id !== id)); }
   const argument = ARGUMENTS.find(a => a.name === selected);
 
   return (
@@ -251,10 +267,10 @@ export default function ChristianPhilosophyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["thinkers", "arguments", "resources", "voices", "videos"] as Tab[]).map(t => (
+          {(["thinkers", "arguments", "resources", "voices", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : t === "resources" ? "Resources" : t === "voices" ? "🎓 Voices" : "Videos"}
+              {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : t === "resources" ? "Resources" : t === "voices" ? "🎓 Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
             </button>
           ))}
         </div>
@@ -358,12 +374,54 @@ export default function ChristianPhilosophyPage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Philosophy Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record philosophical questions you are wrestling with, thinkers who are helping, and the insights you are gaining.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Philosophical Question</label>
+                <input value={cphilForm.question} onChange={e => setCphilForm(f => ({ ...f, question: e.target.value }))} placeholder="e.g. How do I know anything is real? What is the good?" style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Thinker or Resource Helping</label>
+                <textarea value={cphilForm.thinker} onChange={e => setCphilForm(f => ({ ...f, thinker: e.target.value }))} placeholder="Which philosopher, theologian, or book is helping you think through this?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Key Insight</label>
+                <textarea value={cphilForm.insight} onChange={e => setCphilForm(f => ({ ...f, insight: e.target.value }))} placeholder="What truth has your philosophical reflection uncovered about God, reality, or the good life?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCphilEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cphilSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cphilEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cphilEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.question}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCphilEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.thinker && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Thinker Helping</div><div style={{ color: TEXT, fontSize: 13 }}>{e.thinker}</div></div>}
+                    {e.insight && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Key Insight</div><div style={{ color: TEXT, fontSize: 13 }}>{e.insight}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {CP_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

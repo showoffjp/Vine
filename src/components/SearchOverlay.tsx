@@ -42,7 +42,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
       return () => { clearTimeout(id); document.body.style.overflow = ""; };
     } else {
       document.body.style.overflow = "";
-      setQuery("");
+      setQuery(""); // eslint-disable-line react-hooks/set-state-in-effect
       setSubmitted(null);
     }
   }, [open]);

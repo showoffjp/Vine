@@ -3,7 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   BookOpen,
   Flame,
@@ -15,11 +15,8 @@ import {
   TrendingUp,
   ChevronRight,
   Shield,
-  Music,
   Globe,
-  Bookmark,
   Users,
-  Calendar,
   Award,
   Zap,
   Brain,
@@ -128,6 +125,8 @@ function loadStats(): Stats {
     sermonNotes: parseArr("vine_sermon_notes"),
     spiritualGiftsPrimary: (() => {
       try {
+        const quizResults = JSON.parse(get("vine_quiz_results", "{}"));
+        if (quizResults["spiritual-gifts"]) return (quizResults["spiritual-gifts"] as string).toLowerCase();
         const done = get("vine_sg_done", "false") === "true";
         if (!done) return "";
         const answers: (number | null)[] = JSON.parse(get("vine_sg_answers", "[]"));
@@ -195,12 +194,10 @@ function loadStats(): Stats {
 }
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [stats] = useState<Stats | null>(() => {
+    try { return loadStats(); } catch { return null; }
+  });
   const [activeTab, setActiveTab] = usePersistedState("vine_dashboard_active_tab", "Overview");
-
-  useEffect(() => {
-    setStats(loadStats());
-  }, []);
 
   const totalEngagements = stats
     ? stats.prayerCards + stats.feedLikes + stats.feedSaves + stats.dailyCompleted +

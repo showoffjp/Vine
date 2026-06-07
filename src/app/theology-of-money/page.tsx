@@ -4,13 +4,15 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "practices" | "pitfalls" | "videos";
+type Tab = "theology" | "jesus" | "practices" | "pitfalls" | "journal" | "videos";
 
 // ─── TAB 1 DATA ──────────────────────────────────────────────────────────────
 
@@ -81,7 +83,7 @@ Micah's famous summary — "He has shown you, O mortal, what is good. And what d
 For the prophets, a community's faithfulness to God was legible in how it treated its poorest members.`,
   },
   {
-    id: "eschatology",
+    id: "zDnSbLd9LFg",
     title: "Eschatology and Money",
     body: `What does it mean to invest in something that will not last? The New Testament has a clear answer: earthly wealth is temporary and should be leveraged for eternal ends.
 
@@ -142,7 +144,7 @@ For the modern reader: how we spend, save, and give is evidence of where our loy
     keyVerse: "Luke 19:8 — \"Here and now I give half of my possessions to the poor, and if I have cheated anybody out of anything, I will pay back four times the amount.\"",
   },
   {
-    id: "widows-mite",
+    id: "bQFIuYOg7uo",
     title: "The Widow's Mite",
     reference: "Mark 12:41-44",
     summary: "Two small coins outvalue a fortune. The gift that costs most counts most.",
@@ -236,7 +238,7 @@ The deeper question is not "do I owe God 10%?" but "what does faithful stewardsh
 Practical suggestion: automate giving. If it requires a monthly act of will, it will eventually be skipped. Treat giving like taxes — taken off the top before discretionary spending begins.`,
   },
   {
-    id: "firstfruits",
+    id: "7_CGP-12AE0",
     title: "First Fruits Giving",
     body: `The concept of first fruits (Exodus 23:19; Deuteronomy 26:1-11; Proverbs 3:9-10) involves offering the first and best — not the leftovers. In an agrarian economy, this meant bringing the first portion of the harvest before you knew how the rest of the year would turn out. It was an act of trust: "I believe there will be enough, and I will honor God before I find out."
 
@@ -357,10 +359,10 @@ const pitfallItems: PitfallItem[] = [
 // ─── VIDEOS DATA ─────────────────────────────────────────────────────────────
 
 const MONEY_VIDEOS = [
-  { videoId: "KbFKcFxqVlo", title: "Money and the Gospel — Tim Keller", channel: "Gospel in Life", description: "Keller's landmark teaching on money, generosity, and how the gospel reshapes our relationship to wealth." },
-  { videoId: "ACZbpLkY8To", title: "The Theology of Money — R.C. Sproul", channel: "Ligonier Ministries", description: "A biblical theology of money, possessions, and stewardship from creation to the new creation." },
-  { videoId: "fJnGJN6laqE", title: "Battling the Unbelief of Greed", channel: "Desiring God", description: "John Piper on why covetousness is idolatry and how the gospel frees us from the power of money." },
-  { videoId: "Z8lkuuhVkOI", title: "The Generous Life — Biblical Stewardship", channel: "The Gospel Coalition", description: "What the Bible says about wealth, generosity, and how Jesus's teachings on money cut against both materialism and asceticism." },
+  { videoId: "rtkS_8VWfB0", title: "Money and the Gospel — Tim Keller", channel: "Gospel in Life", description: "Keller's landmark teaching on money, generosity, and how the gospel reshapes our relationship to wealth." },
+  { videoId: "ej_6dVdJSIU", title: "The Theology of Money — R.C. Sproul", channel: "Ligonier Ministries", description: "A biblical theology of money, possessions, and stewardship from creation to the new creation." },
+  { videoId: "4Eg_di-O8nM", title: "Battling the Unbelief of Greed", channel: "Desiring God", description: "John Piper on why covetousness is idolatry and how the gospel frees us from the power of money." },
+  { videoId: "gV9JugO_5Mk", title: "The Generous Life — Biblical Stewardship", channel: "The Gospel Coalition", description: "What the Bible says about wealth, generosity, and how Jesus's teachings on money cut against both materialism and asceticism." },
 ];
 
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
@@ -375,11 +377,26 @@ export default function TheologyOfMoneyPage() {
 
   const selectedTopic = jesusTopics.find(t => t.id === selectedJesusTopic) ?? jesusTopics[0];
 
+  type JournalEntry = { id: string; date: string; conviction: string; trap: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_tomj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jTrap, setJTrap] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_tomj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jConviction.trim() && !jTrap.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, trap: jTrap, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJConviction(""); setJTrap(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Biblical Theology of Money" },
     { id: "jesus", label: "Jesus and Money" },
     { id: "practices", label: "Practical Theology" },
     { id: "pitfalls", label: "Money Traps" },
+    { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "Videos" },
   ];
 
@@ -629,12 +646,44 @@ export default function TheologyOfMoneyPage() {
         )}
 
         {/* ── TAB 5: Videos ── */}
+        {tab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>My Money Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Record convictions God is giving you about money, traps you are avoiding, and steps you are taking toward financial faithfulness.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What conviction about money is God forming in you?" rows={3} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", outline: "none" }} />
+                <input value={jTrap} onChange={e => setJTrap(e.target.value)} placeholder="Money trap you are recognizing or avoiding" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <input value={jStep} onChange={e => setJStep(e.target.value)} placeholder="Step toward financial faithfulness" style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, outline: "none" }} />
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length === 0 ? (
+              <p style={{ color: MUTED, textAlign: "center", padding: 32 }}>No journal entries yet. Begin recording your money discipleship journey.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 700, fontSize: 15 }}>Money Reflection</span>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                    </div>
+                    {entry.conviction && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Conviction:</strong> {entry.conviction}</p>}
+                    {entry.trap && <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, marginBottom: 8 }}><strong>Trap Recognized:</strong> {entry.trap}</p>}
+                    {entry.step && <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}><strong>Step:</strong> {entry.step}</p>}
+                    <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 12px", color: MUTED, fontSize: 12, cursor: "pointer" }}>Delete</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {MONEY_VIDEOS.map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <VideoEmbed videoId={v.videoId} title={v.title} />
                 <div style={{ padding: "14px 16px" }}>
                   <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                   <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

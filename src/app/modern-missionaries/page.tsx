@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -221,13 +223,27 @@ const FIELDS_MM: { id: string; region: string; icon: string; unreached: string; 
 ];
 
 export default function ModernMissionariesPage() {
-  type Tab = "missionaries" | "principles" | "fields" | "callyou" | "videos";
+  type Tab = "missionaries" | "principles" | "fields" | "callyou" | "journal" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_modern-missionaries_tab", "missionaries");
   const [region, setRegion] = usePersistedState("vine_modern-missionaries_region", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = MISSIONARIES.filter(m => region === "All" || m.region === region);
   const missionary = MISSIONARIES.find(m => m.name === selected);
+
+  const [mmEntries, setMmEntries] = useState<{ id: string; date: string; missionary: string; inspired: string; applying: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_mm_entries") ?? "[]"); } catch { return []; }
+  });
+  const [mmForm, setMmForm] = useState({ missionary: "", inspired: "", applying: "" });
+  const [mmSaved, setMmSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_mm_entries", JSON.stringify(mmEntries)); } catch {} }, [mmEntries]);
+  const saveMmEntry = () => {
+    if (!mmForm.missionary.trim()) return;
+    setMmEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...mmForm }, ...prev]);
+    setMmForm({ missionary: "", inspired: "", applying: "" });
+    setMmSaved(true); setTimeout(() => setMmSaved(false), 2000);
+  };
+  const deleteMmEntry = (id: string) => setMmEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -255,6 +271,7 @@ export default function ModernMissionariesPage() {
             { id: "principles" as const, label: "Principles", icon: "🎯" },
             { id: "fields" as const, label: "Fields", icon: "🌍" },
             { id: "callyou" as const, label: "Called?", icon: "🙏" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -484,6 +501,42 @@ export default function ModernMissionariesPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Missionaries Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record missionaries whose stories have inspired you and how they're shaping your walk.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+                <input value={mmForm.missionary} onChange={e => setMmForm(f => ({ ...f, missionary: e.target.value }))}
+                  placeholder="Which missionary inspired you?" aria-label="Missionary"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <textarea value={mmForm.inspired} onChange={e => setMmForm(f => ({ ...f, inspired: e.target.value }))}
+                  placeholder="What specifically inspired or challenged you?" aria-label="Inspired"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, minHeight: 80, resize: "vertical", fontFamily: "inherit" }} />
+                <input value={mmForm.applying} onChange={e => setMmForm(f => ({ ...f, applying: e.target.value }))}
+                  placeholder="How are you applying this to your life? (optional)" aria-label="Applying"
+                  style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                <button type="button" onClick={saveMmEntry}
+                  style={{ padding: "10px 20px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>
+                  {mmSaved ? "Saved ✓" : "Save Entry"}
+                </button>
+              </div>
+              {mmEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first missionary reflection above.</p>}
+              {mmEntries.map(e => (
+                <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
+                    <button type="button" onClick={() => deleteMmEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 14 }}>✕</button>
+                  </div>
+                  <p style={{ color: TEXT, fontWeight: 700, fontSize: 14, margin: "0 0 4px" }}>{e.missionary}</p>
+                  {e.inspired && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: "0 0 4px" }}>{e.inspired}</p>}
+                  {e.applying && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>→ {e.applying}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -493,19 +546,13 @@ export default function ModernMissionariesPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "WU7BC_TS-So", title: "Elisabeth Elliot — Jim Elliot Story", channel: "Christian Missions History", description: "The story of Jim and Elisabeth Elliot — their calling, their sacrifice, and the extraordinary aftermath in which Elisabeth returned to live among the people who killed her husband." },
-                  { videoId: "931r5rHafZE", title: "Jim Elliot: Missionary Martyr and a Life of Faith", channel: "Hall of Faith Stories", description: "A documentary-style account of Jim Elliot's life, convictions, and martyrdom — and why his story continues to call a new generation to mission." },
-                  { videoId: "gWrH5-HXL-I", title: "He Is No Fool: The Story of Jim Elliot", channel: "Christian Biography", description: "The full story of Jim Elliot — the young man who gave what he could not keep to gain what he could not lose, and the movement his death unleashed." },
-                  { videoId: "Mhpiioj7cPI", title: "EVERY Missionary Story #4: Jim Elliot", channel: "EVERY Sermon Series", description: "Jim Elliot's story placed within the broader sweep of missionary history — what made him remarkable and what his example demands of believers today." },
+                  { videoId: "nP4tzAxbcy4", title: "Elisabeth Elliot — Jim Elliot Story", channel: "Christian Missions History", description: "The story of Jim and Elisabeth Elliot — their calling, their sacrifice, and the extraordinary aftermath in which Elisabeth returned to live among the people who killed her husband." },
+                  { videoId: "Rr3P0ATI0E8", title: "Jim Elliot: Missionary Martyr and a Life of Faith", channel: "Hall of Faith Stories", description: "A documentary-style account of Jim Elliot's life, convictions, and martyrdom — and why his story continues to call a new generation to mission." },
+                  { videoId: "UJlLkZ6tCG0", title: "He Is No Fool: The Story of Jim Elliot", channel: "Christian Biography", description: "The full story of Jim Elliot — the young man who gave what he could not keep to gain what he could not lose, and the movement his death unleashed." },
+                  { videoId: "krxcqH522uo", title: "EVERY Missionary Story #4: Jim Elliot", channel: "EVERY Sermon Series", description: "Jim Elliot's story placed within the broader sweep of missionary history — what made him remarkable and what his example demands of believers today." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

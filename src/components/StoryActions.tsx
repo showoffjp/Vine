@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Heart, Bookmark, Share2 } from "lucide-react";
 
 interface Props {
@@ -12,19 +12,19 @@ export default function StoryActions({ initialHearts, slug }: Props) {
   const likeKey = slug ? `vine_story_liked_${slug}` : null;
   const saveKey = slug ? `vine_story_saved_${slug}` : null;
 
-  const [hearted, setHearted] = useState(false);
-  const [hearts, setHearts] = useState(initialHearts);
-  const [saved, setSaved] = useState(false);
+  const [hearted, setHearted] = useState(() => {
+    if (typeof window === "undefined" || !likeKey) return false;
+    try { return localStorage.getItem(likeKey) === "1"; } catch { return false; }
+  });
+  const [hearts, setHearts] = useState(() => {
+    if (typeof window === "undefined" || !likeKey) return initialHearts;
+    try { return initialHearts + (localStorage.getItem(likeKey) === "1" ? 1 : 0); } catch { return initialHearts; }
+  });
+  const [saved, setSaved] = useState(() => {
+    if (typeof window === "undefined" || !saveKey) return false;
+    try { return localStorage.getItem(saveKey) === "1"; } catch { return false; }
+  });
   const [shared, setShared] = useState(false);
-
-  useEffect(() => {
-    if (likeKey) {
-      try { setHearted(localStorage.getItem(likeKey) === "1"); } catch {}
-    }
-    if (saveKey) {
-      try { setSaved(localStorage.getItem(saveKey) === "1"); } catch {}
-    }
-  }, [likeKey, saveKey]);
 
   const handleHeart = () => {
     const next = !hearted;

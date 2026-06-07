@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import React, { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -256,19 +258,13 @@ export default function MoneyDebtPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "JitXn_jtMbg", title: "Proven Biblical Money Principles", channel: "Dave Ramsey", description: "Ramsey teaches the core biblical principles behind his financial framework — why God's design for money leads to freedom, and what debt really costs." },
-                  { videoId: "oh2JJqOPYlY", title: "Should Christians Be in Debt?", channel: "Randy Alcorn", description: "Alcorn examines the biblical data on debt — what Scripture warns about, when debt may be permissible, and why financial freedom matters for generosity." },
-                  { videoId: "x6BicdamiIc", title: "How Should Christians View Money?", channel: "Randy Alcorn", description: "A theology of money from Randy Alcorn — exploring what the Bible actually says about wealth, possessions, and the relationship between money and the heart." },
-                  { videoId: "dto8n0NFzjs", title: "How to Manage Your Money God's Way", channel: "Dave Ramsey", description: "Practical biblical guidance on budgeting, saving, giving, and getting out of debt — applying Scripture's wisdom to real financial decisions." },
+                  { videoId: "IvSuGyJQ6oM", title: "Proven Biblical Money Principles", channel: "Dave Ramsey", description: "Ramsey teaches the core biblical principles behind his financial framework — why God's design for money leads to freedom, and what debt really costs." },
+                  { videoId: "sIaT8Jl2zpI", title: "Should Christians Be in Debt?", channel: "Randy Alcorn", description: "Alcorn examines the biblical data on debt — what Scripture warns about, when debt may be permissible, and why financial freedom matters for generosity." },
+                  { videoId: "3Dv4-n6OYGI", title: "How Should Christians View Money?", channel: "Randy Alcorn", description: "A theology of money from Randy Alcorn — exploring what the Bible actually says about wealth, possessions, and the relationship between money and the heart." },
+                  { videoId: "5nvVVcYD-0w", title: "How to Manage Your Money God's Way", channel: "Dave Ramsey", description: "Practical biblical guidance on budgeting, saving, giving, and getting out of debt — applying Scripture's wisdom to real financial decisions." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

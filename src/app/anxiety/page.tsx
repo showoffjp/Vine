@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
+import VideoEmbed from "@/components/VideoEmbed";
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -109,10 +111,24 @@ export default function AnxietyPage() {
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const deleteEntry = (id: string) => {
+    setEntries(prev => prev.filter(e => e.id !== id));
+  };
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
       <main id="main-content">
+      {/* Crisis banner */}
+      <div style={{ background: "rgba(239,68,68,0.08)", borderBottom: "1px solid rgba(239,68,68,0.18)", padding: "10px 20px", textAlign: "center" }}>
+        <p style={{ color: "#C0C0D8", fontSize: "13px", margin: 0 }}>
+          <strong style={{ color: "#F2F2F8" }}>If you&apos;re in crisis: </strong>
+          <strong style={{ color: "#3a7d56" }}>call or text 988</strong>
+          <span style={{ color: "#8A8AA8" }}> (Suicide &amp; Crisis Lifeline) · text </span>
+          <strong style={{ color: "#3a7d56" }}>HOME to 741741</strong>
+          <span style={{ color: "#8A8AA8" }}> (Crisis Text Line) — 24/7, free &amp; confidential</span>
+        </p>
+      </div>
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🌊</div>
@@ -124,7 +140,7 @@ export default function AnxietyPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "foundations" as const, label: "Foundations", icon: "📖" },
+            { id: "4Eg_di-O8nM" as const, label: "Foundations", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "journal" as const, label: "Fear Journal", icon: "✍️" },
@@ -249,10 +265,16 @@ export default function AnxietyPage() {
                 <h4 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12 }}>Past Entries ({entries.length})</h4>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {entries.map(e => (
-                    <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18 }}>
-                      <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
-                      <div style={{ color: "#EF4444", fontWeight: 600, fontSize: 14, marginBottom: 4, fontStyle: "italic" }}>"{e.fear}"</div>
-                      {e.truth && <div style={{ color: GREEN, fontSize: 14, fontStyle: "italic" }}>"{e.truth}"</div>}
+                    <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, display: "flex", alignItems: "flex-start", gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>{new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+                        <div style={{ color: "#EF4444", fontWeight: 600, fontSize: 14, marginBottom: 4, fontStyle: "italic" }}>"{e.fear}"</div>
+                        {e.truth && <div style={{ color: GREEN, fontSize: 14, fontStyle: "italic" }}>"{e.truth}"</div>}
+                      </div>
+                      <button type="button" onClick={() => deleteEntry(e.id)} aria-label="Delete"
+                        style={{ background: "none", border: "none", color: "#3A3A58", cursor: "pointer", fontSize: 16, lineHeight: 1, padding: "0 2px", flexShrink: 0 }}
+                        onMouseEnter={ev => (ev.currentTarget as HTMLButtonElement).style.color = "#EF4444"}
+                        onMouseLeave={ev => (ev.currentTarget as HTMLButtonElement).style.color = "#3A3A58"}>×</button>
                     </div>
                   ))}
                 </div>
@@ -270,19 +292,13 @@ export default function AnxietyPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "-8tdA8YMOYM", title: "Praying Our Fears", channel: "Timothy Keller", description: "Keller explores how honest prayer — not denial — is the biblical pathway through anxiety, drawing on the Psalms and Philippians 4." },
-                  { videoId: "haZPE6KxzPs", title: "Peace: Overcoming Anxiety", channel: "Timothy Keller", description: "A sermon on how many believers are cast down because they have not learned what Scripture teaches about Christian peace." },
-                  { videoId: "cajScztdhJA", title: "Peace", channel: "Timothy Keller", description: "Keller shows that Christian peace is not the absence of trouble but a settled confidence in God that the world cannot give or take away." },
-                  { videoId: "F9oOD0Hlewo", title: "Don't Worry", channel: "Timothy Keller Sermons", description: "An exposition of Matthew 6:25–34 — why Jesus commands us not to worry and what it looks like to live free from anxiety." },
+                  { videoId: "mC-zw0zCCtg", title: "Praying Our Fears", channel: "Timothy Keller", description: "Keller explores how honest prayer — not denial — is the biblical pathway through anxiety, drawing on the Psalms and Philippians 4." },
+                  { videoId: "7_CGP-12AE0", title: "Peace: Overcoming Anxiety", channel: "Timothy Keller", description: "A sermon on how many believers are cast down because they have not learned what Scripture teaches about Christian peace." },
+                  { videoId: "OqwbFGoRYVo", title: "Peace", channel: "Timothy Keller", description: "Keller shows that Christian peace is not the absence of trouble but a settled confidence in God that the world cannot give or take away." },
+                  { videoId: "gV9JugO_5Mk", title: "Don't Worry", channel: "Timothy Keller Sermons", description: "An exposition of Matthew 6:25–34 — why Jesus commands us not to worry and what it looks like to live free from anxiety." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
@@ -294,6 +310,27 @@ export default function AnxietyPage() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Real Help Resources */}
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
+        <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Get Real Help</h2>
+        <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>When anxiety becomes debilitating, professional support is wisdom — not weakness.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+          {[
+            { name: "988 Suicide & Crisis Lifeline", desc: "Call or text 988 — 24/7 crisis support. Not just for suicidal crises; anxiety crises welcome.", href: "https://988lifeline.org/", color: "#EF4444" },
+            { name: "Crisis Text Line", desc: "Text HOME to 741741 — free, confidential, 24/7. Connect with a trained crisis counselor via text.", href: "https://www.crisistextline.org/", color: "#EF4444" },
+            { name: "AACC Therapist Finder", desc: "Find a licensed Christian therapist who integrates faith with evidence-based clinical care.", href: "https://www.aacc.net/resources/find-a-counselor/", color: GREEN },
+            { name: "Focus on the Family", desc: "Free 1-hour consultation with a licensed Christian counselor. Anxiety and worry resources.", href: "https://www.focusonthefamily.com/get-help/speak-with-a-counselor/", color: "#F59E0B" },
+            { name: "Anxiety & Depression Assoc.", desc: "ADAA: evidence-based information on anxiety disorders, therapist finder, and self-help tools.", href: "https://adaa.org/find-help/treatment/find-a-therapist", color: PURPLE },
+          ].map(r => (
+            <a key={r.name} href={r.href} target="_blank" rel="noopener noreferrer"
+              style={{ display: "block", background: CARD, border: `1px solid ${r.color}30`, borderLeft: `3px solid ${r.color}`, borderRadius: 12, padding: 16, textDecoration: "none" }}>
+              <p style={{ color: r.color, fontWeight: 700, fontSize: 14, marginBottom: 6 }}>{r.name} ↗</p>
+              <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.5 }}>{r.desc}</p>
+            </a>
+          ))}
+        </div>
       </div>
       </main>
       <Footer />

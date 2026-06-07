@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -296,7 +298,7 @@ const VOICES_CDC = [
   },
 ];
 
-type Tab = "classics" | "themes" | "reading-guide" | "voices" | "videos";
+type Tab = "classics" | "themes" | "reading-guide" | "voices" | "journal" | "videos";
 
 export default function ChristianDevotionalClassicsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-devotional-classics_tab", "classics");
@@ -307,6 +309,20 @@ export default function ChristianDevotionalClassicsPage() {
   const filtered = CLASSICS.filter(c => era === "All" || c.era === era);
   const book = CLASSICS.find(c => c.title === selected);
   const voice = VOICES_CDC.find(v => v.id === selectedVoice) ?? VOICES_CDC[0];
+
+  const [cdcEntries, setCdcEntries] = useState<{ id: string; date: string; classic: string; opened: string; practice: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cdc_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cdcForm, setCdcForm] = useState({ classic: "", opened: "", practice: "" });
+  const [cdcSaved, setCdcSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cdc_entries", JSON.stringify(cdcEntries)); }, [cdcEntries]);
+  function saveCdcEntry() {
+    if (!cdcForm.classic.trim()) return;
+    setCdcEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cdcForm }, ...prev]);
+    setCdcForm({ classic: "", opened: "", practice: "" });
+    setCdcSaved(true); setTimeout(() => setCdcSaved(false), 2000);
+  }
+  function deleteCdcEntry(id: string) { setCdcEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -322,10 +338,10 @@ export default function ChristianDevotionalClassicsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, width: "fit-content" }}>
-          {(["classics", "themes", "reading-guide", "voices", "videos"] as const).map(t => (
+          {(["classics", "themes", "reading-guide", "voices", "journal", "videos"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "classics" ? "Classics" : t === "themes" ? "Themes" : t === "reading-guide" ? "Reading Guide" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "classics" ? "Classics" : t === "themes" ? "Themes" : t === "reading-guide" ? "Reading Guide" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -479,6 +495,49 @@ export default function ChristianDevotionalClassicsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Devotional Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record how the devotional classics are shaping your inner life and spiritual practice.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Classic / Author</label>
+                <input value={cdcForm.classic} onChange={e => setCdcForm(f => ({ ...f, classic: e.target.value }))} placeholder="e.g. The Interior Castle (Teresa of Ávila), Dark Night of the Soul..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Has It Opened In You?</label>
+                <textarea value={cdcForm.opened} onChange={e => setCdcForm(f => ({ ...f, opened: e.target.value }))} placeholder="What door to God has this book opened in your soul?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>One Practice You Are Taking From It</label>
+                <textarea value={cdcForm.practice} onChange={e => setCdcForm(f => ({ ...f, practice: e.target.value }))} placeholder="What specific practice, discipline, or posture is this book forming in you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCdcEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cdcSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cdcEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cdcEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.classic}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCdcEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.opened && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>What It Opened</div><div style={{ color: TEXT, fontSize: 13 }}>{e.opened}</div></div>}
+                    {e.practice && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Practice</div><div style={{ color: TEXT, fontSize: 13 }}>{e.practice}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -488,19 +547,13 @@ export default function ChristianDevotionalClassicsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "aqh5JgFOFqY", title: "Thomas à Kempis: Lessons on Devotion and Spiritual Growth", channel: "Spiritual Formation", description: "An introduction to Thomas à Kempis's life and the enduring lessons of 'The Imitation of Christ' — the most-read Christian book after the Bible." },
-                  { videoId: "5mZpN90XMew", title: "The Imitation of Christ by Thomas à Kempis — Summary & Review", channel: "Christian Classics Review", description: "A summary and review of 'The Imitation of Christ,' exploring why this 15th-century devotional has shaped more Christians than almost any other book." },
-                  { videoId: "WhMFn8syhCE", title: "Thomas à Kempis: The Imitation of Christ", channel: "Harvard Classics Lecture Series", description: "A scholarly lecture on 'The Imitation of Christ' from the Harvard Classics series — placing it in historical and literary context." },
-                  { videoId: "7z2MiXsR3L0", title: "Thomas à Kempis: The Monk Who Wrote The Imitation of Christ", channel: "Christian Author Series", description: "A biographical and theological portrait of Thomas à Kempis — who he was, why he wrote, and how his words have endured for 600 years." },
+                  { videoId: "KRsuCQe7aVk", title: "Thomas à Kempis: Lessons on Devotion and Spiritual Growth", channel: "Spiritual Formation", description: "An introduction to Thomas à Kempis's life and the enduring lessons of 'The Imitation of Christ' — the most-read Christian book after the Bible." },
+                  { videoId: "52ZXFH1wzc8", title: "The Imitation of Christ by Thomas à Kempis — Summary & Review", channel: "Christian Classics Review", description: "A summary and review of 'The Imitation of Christ,' exploring why this 15th-century devotional has shaped more Christians than almost any other book." },
+                  { videoId: "5vp9hV8bOjk", title: "Thomas à Kempis: The Imitation of Christ", channel: "Harvard Classics Lecture Series", description: "A scholarly lecture on 'The Imitation of Christ' from the Harvard Classics series — placing it in historical and literary context." },
+                  { videoId: "OU69so6VjHA", title: "Thomas à Kempis: The Monk Who Wrote The Imitation of Christ", channel: "Christian Author Series", description: "A biographical and theological portrait of Thomas à Kempis — who he was, why he wrote, and how his words have endured for 600 years." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

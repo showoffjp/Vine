@@ -1,8 +1,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -12,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "athletes" | "dangers" | "practices" | "videos";
+type Tab = "theology" | "athletes" | "dangers" | "practices" | "journal" | "videos";
 
 const STATS = [
   "Sports is a $500B+ global industry",
@@ -207,6 +209,20 @@ export default function TheologyOfSportsPage() {
   const [selectedAthlete, setSelectedAthlete] = useState<number>(0);
   const [expandedDanger, setExpandedDanger] = useState<string | null>(null);
 
+  type JournalEntry = { id: string; date: string; conviction: string; athlete: string; step: string };
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => { try { return JSON.parse(localStorage.getItem("vine_tosportsj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jAthlete, setJAthlete] = useState("");
+  const [jStep, setJStep] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_tosportsj_entries", JSON.stringify(journalEntries)); } catch {} }, [journalEntries]);
+  function saveJournalEntry() {
+    if (!jConviction.trim() && !jAthlete.trim()) return;
+    const entry: JournalEntry = { id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, athlete: jAthlete, step: jStep };
+    setJournalEntries(prev => [entry, ...prev]);
+    setJConviction(""); setJAthlete(""); setJStep("");
+  }
+  function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -240,6 +256,7 @@ export default function TheologyOfSportsPage() {
               { id: "athletes" as Tab, label: "Athletes of Faith" },
               { id: "dangers" as Tab, label: "Dangers" },
               { id: "practices" as Tab, label: "Practices" },
+              { id: "journal" as Tab, label: "📓 My Journal" },
               { id: "videos" as Tab, label: "🎬 Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
@@ -473,6 +490,45 @@ export default function TheologyOfSportsPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Sports & Faith Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your convictions about faith and competition, athletes who inspire you, and next steps in your walk.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Conviction</label>
+                  <textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What conviction about faith and sport is growing in you?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Athlete / Inspiration</label>
+                  <textarea value={jAthlete} onChange={e => setJAthlete(e.target.value)} placeholder="An athlete of faith who inspires you and why..." rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ color: MUTED, fontSize: 12, fontWeight: 700, display: "block", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</label>
+                  <textarea value={jStep} onChange={e => setJStep(e.target.value)} placeholder="One way you'll compete or play to the glory of God this week" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, padding: "10px 14px", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="button" onClick={saveJournalEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {journalEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {journalEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteJournalEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.conviction}</p></div>}
+                    {entry.athlete && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Athlete / Inspiration</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.athlete}</p></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Next Step</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0", lineHeight: 1.6 }}>{entry.step}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -482,19 +538,13 @@ export default function TheologyOfSportsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "GntEddUzkgc", title: "The Story of Eric Liddell — Inspiration for Chariots of Fire", channel: "Christian Biography", description: "The remarkable life of Eric Liddell — Olympic gold medalist who refused to run on Sunday, then gave his life as a missionary in China. The defining story of faith, sport, and sacrifice." },
-                  { videoId: "99UgdU0thto", title: "Eric Liddell: Olympian Devoted to God", channel: "Scottish Parliament Exhibition", description: "A documentary portrait of Liddell's life from the 1924 Paris Olympics to his death in a Japanese internment camp — and the extraordinary faith that carried him through both." },
-                  { videoId: "feP54aMCRDo", title: "Chariots of Fire — A Tribute to Eric Liddell", channel: "Christian Film Tribute", description: "The iconic scenes from Chariots of Fire that capture Liddell's famous words: 'When I run, I feel God's pleasure.' A meditation on why God made us for delight." },
-                  { videoId: "9eXXv2ZJlLs", title: "How to Be a Christian Athlete", channel: "The Gospel Coalition", description: "A practical and theological guide for athletes seeking to integrate genuine Christian faith with competitive sport — without the clichés and without compromising either." },
+                  { videoId: "G-2e9mMf7E8", title: "The Story of Eric Liddell — Inspiration for Chariots of Fire", channel: "Christian Biography", description: "The remarkable life of Eric Liddell — Olympic gold medalist who refused to run on Sunday, then gave his life as a missionary in China. The defining story of faith, sport, and sacrifice." },
+                  { videoId: "5nvVVcYD-0w", title: "Eric Liddell: Olympian Devoted to God", channel: "Scottish Parliament Exhibition", description: "A documentary portrait of Liddell's life from the 1924 Paris Olympics to his death in a Japanese internment camp — and the extraordinary faith that carried him through both." },
+                  { videoId: "f7RJATbobik", title: "Chariots of Fire — A Tribute to Eric Liddell", channel: "Christian Film Tribute", description: "The iconic scenes from Chariots of Fire that capture Liddell's famous words: 'When I run, I feel God's pleasure.' A meditation on why God made us for delight." },
+                  { videoId: "zUKzVFQn4Tc", title: "How to Be a Christian Athlete", channel: "The Gospel Coalition", description: "A practical and theological guide for athletes seeking to integrate genuine Christian faith with competitive sport — without the clichés and without compromising either." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "prophecies" | "theology" | "discernment" | "voices" | "videos";
+type Tab = "prophecies" | "theology" | "discernment" | "voices" | "videos" | "journal";
 
 const TOPIC_FILTERS = ["All", "Israel & Middle East", "Persecution & Church", "Global Events", "Signs & Seasons", "Study Resources"];
 
@@ -336,6 +338,19 @@ export default function ProphecyTodayPage() {
   const resource = RESOURCES.find(r => r.name === selected);
   const voice = VOICES_PROPH.find(v => v.id === selectedVoice);
 
+  type ProphJE = { id: string; date: string; conviction: string; question: string; applying: string };
+  const [prophJournal, setProphJournal] = useState<ProphJE[]>(() => { try { return JSON.parse(localStorage.getItem("vine_prophj_entries") ?? "[]"); } catch { return []; } });
+  const [jConviction, setJConviction] = useState("");
+  const [jQuestion, setJQuestion] = useState("");
+  const [jApplying, setJApplying] = useState("");
+  useEffect(() => { try { localStorage.setItem("vine_prophj_entries", JSON.stringify(prophJournal)); } catch {} }, [prophJournal]);
+  function saveProphEntry() {
+    if (!jConviction.trim() && !jQuestion.trim()) return;
+    setProphJournal(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), conviction: jConviction, question: jQuestion, applying: jApplying }, ...prev]);
+    setJConviction(""); setJQuestion(""); setJApplying("");
+  }
+  function deleteProphEntry(id: string) { setProphJournal(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -352,10 +367,10 @@ export default function ProphecyTodayPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, flexWrap: "wrap" }}>
-          {(["prophecies", "theology", "discernment", "voices", "videos"] as const).map(t => (
+          {(["prophecies", "theology", "discernment", "voices", "videos", "journal"] as const).map(t => (
             <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "prophecies" ? "Prophecies" : t === "theology" ? "Theology" : t === "discernment" ? "Discernment" : t === "voices" ? "Voices" : "🎬 Videos"}
+              {t === "prophecies" ? "Prophecies" : t === "theology" ? "Theology" : t === "discernment" ? "Discernment" : t === "voices" ? "Voices" : t === "videos" ? "🎬 Videos" : "📓 Journal"}
             </button>
           ))}
         </div>
@@ -517,6 +532,33 @@ export default function ProphecyTodayPage() {
           </div>
         )}
 
+        {activeTab === "journal" && (
+          <div style={{ maxWidth: 720 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 4 }}>My Prophecy Journal</h2>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>Record your convictions about prophecy today, questions you&apos;re holding, and how biblical discernment is shaping you.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Conviction</label><textarea value={jConviction} onChange={e => setJConviction(e.target.value)} placeholder="What do you believe about prophecy today, and why?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Question</label><textarea value={jQuestion} onChange={e => setJQuestion(e.target.value)} placeholder="What are you still wrestling with about spiritual gifts?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <div><label style={{ color: MUTED, fontSize: 12, fontWeight: 600, display: "block", marginBottom: 4 }}>Applying It</label><textarea value={jApplying} onChange={e => setJApplying(e.target.value)} placeholder="How does discernment apply in your church context?" rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} /></div>
+                <button type="button" onClick={saveProphEntry} style={{ background: GREEN, color: "#000", border: "none", borderRadius: 8, padding: "11px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", alignSelf: "flex-start" }}>Save Entry</button>
+              </div>
+            </div>
+            {prophJournal.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {prophJournal.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}><span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span><button type="button" onClick={() => deleteProphEntry(entry.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button></div>
+                    {entry.conviction && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Conviction</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.conviction}</p></div>}
+                    {entry.question && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Question</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.question}</p></div>}
+                    {entry.applying && <div><span style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Applying</span><p style={{ color: TEXT, fontSize: 14, margin: "4px 0 0" }}>{entry.applying}</p></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
@@ -526,20 +568,14 @@ export default function ProphecyTodayPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
               {[
-                { id: "u-cBlGvk0pQ", title: "Continuation vs. Cessation of Gifts", teacher: "John Piper vs. John MacArthur" },
-                { id: "CCi2yWeP5qA", title: "God's Demand for Discernment", teacher: "John MacArthur" },
-                { id: "A8zjZ9NAzvQ", title: "A Call to Discernment", teacher: "John MacArthur" },
-                { id: "P9TILEkaNq8", title: "The Holy Spirit, Discernment and Charismatic Pressure", teacher: "John MacArthur" },
+                { id: "IJ-FekWUZzE", title: "Continuation vs. Cessation of Gifts", teacher: "John Piper vs. John MacArthur" },
+                { id: "tp5MIrMZFqo", title: "God's Demand for Discernment", teacher: "John MacArthur" },
+                { id: "q5QEH9bH8AU", title: "A Call to Discernment", teacher: "John MacArthur" },
+                { id: "JqOqJlFF_eU", title: "The Holy Spirit, Discernment and Charismatic Pressure", teacher: "John MacArthur" },
               ].map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
+                    <VideoEmbed videoId={v.id} title={v.title} />
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>

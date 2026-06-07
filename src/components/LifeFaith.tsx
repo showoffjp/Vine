@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Coffee, DollarSign, Heart, Moon, Baby, Briefcase } from "lucide-react";
 
 const HACKS = [
@@ -118,20 +119,23 @@ export default function LifeFaith() {
           }}
         >
           {HACKS.map(({ icon: Icon, title, hack, verse, verseText }) => (
-            <div
+            <Link
               key={title}
+              href="/life-hacks"
               style={{
+                display: "block",
                 background: "#0a1a0e",
                 padding: "2rem",
                 cursor: "pointer",
                 position: "relative",
                 transition: "background 0.2s",
+                textDecoration: "none",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.background = "#0f2318";
+                (e.currentTarget as HTMLAnchorElement).style.background = "#0f2318";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.background = "#0a1a0e";
+                (e.currentTarget as HTMLAnchorElement).style.background = "#0a1a0e";
               }}
             >
               {/* Top rule */}
@@ -239,12 +243,12 @@ export default function LifeFaith() {
                   &ldquo;{verseText}&rdquo;
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
         <div style={{ textAlign: "center" }}>
-          <a
+          <Link
             href="/resources"
             style={{
               display: "inline-flex",
@@ -272,7 +276,7 @@ export default function LifeFaith() {
             }}
           >
             Browse All Life Guides
-          </a>
+          </Link>
         </div>
       </div>
     </section>

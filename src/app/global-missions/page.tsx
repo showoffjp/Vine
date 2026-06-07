@@ -2,7 +2,10 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -80,7 +83,7 @@ const HOWTO = [
   { title: "Support Local Partners", desc: "The most effective missionary work is done by local believers from within unreached cultures. Supporting indigenous church planters, Bible translators, and local evangelists is often more strategic and cost-effective than sending Western missionaries.", icon: "🌱" },
 ];
 
-type Tab = "theology" | "regions" | "pioneers" | "howto" | "videos";
+type Tab = "theology" | "regions" | "pioneers" | "howto" | "journal" | "videos";
 
 export default function GlobalMissionsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_global-missions_tab", "theology");
@@ -89,6 +92,20 @@ export default function GlobalMissionsPage() {
 
   const region = REGIONS.find(r => r.region === selected);
   const pioneer = PIONEERS.find(p => p.id === selectedPioneer)!;
+
+  const [gmEntries, setGmEntries] = useState<{ id: string; date: string; region: string; burden: string; step: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_gm_entries") ?? "[]"); } catch { return []; }
+  });
+  const [gmForm, setGmForm] = useState({ region: "", burden: "", step: "" });
+  const [gmSaved, setGmSaved] = useState(false);
+  useEffect(() => { try { localStorage.setItem("vine_gm_entries", JSON.stringify(gmEntries)); } catch {} }, [gmEntries]);
+  const saveGmEntry = () => {
+    if (!gmForm.region.trim()) return;
+    setGmEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...gmForm }, ...prev]);
+    setGmForm({ region: "", burden: "", step: "" });
+    setGmSaved(true); setTimeout(() => setGmSaved(false), 2000);
+  };
+  const deleteGmEntry = (id: string) => setGmEntries(prev => prev.filter(e => e.id !== id));
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -109,6 +126,7 @@ export default function GlobalMissionsPage() {
             { id: "regions" as const, label: "Regions", icon: "🗺️" },
             { id: "pioneers" as const, label: "Pioneers", icon: "✝️" },
             { id: "howto" as const, label: "How to Engage", icon: "🚀" },
+            { id: "journal" as const, label: "My Journal", icon: "📓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
@@ -213,6 +231,53 @@ export default function GlobalMissionsPage() {
             </div>
           </div>
         )}
+        {activeTab === "journal" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: TEXT }}>My Global Missions Journal</h2>
+            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Record regions on your heart, your burden for the unreached, and how you are engaging. Saved privately in your browser.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>REGION / PEOPLE GROUP *</label>
+                <textarea value={gmForm.region} onChange={e => setGmForm(f => ({ ...f, region: e.target.value }))}
+                  placeholder="Which region, country, or people group is on your heart?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>MY BURDEN FOR THEM</label>
+                <textarea value={gmForm.burden} onChange={e => setGmForm(f => ({ ...f, burden: e.target.value }))}
+                  placeholder="What specifically breaks your heart about this group's lostness?" rows={3}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>HOW I AM ENGAGING</label>
+                <textarea value={gmForm.step} onChange={e => setGmForm(f => ({ ...f, step: e.target.value }))}
+                  placeholder="Praying, giving, going, sending — what step are you taking?" rows={2}
+                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveGmEntry}
+                style={{ background: gmSaved ? GREEN : PURPLE, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {gmSaved ? "Saved ✓" : "Save Entry"}
+              </button>
+            </div>
+            {gmEntries.length > 0 && (
+              <div>
+                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 14, letterSpacing: 1 }}>SAVED ENTRIES ({gmEntries.length})</h3>
+                {gmEntries.map(entry => (
+                  <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18, marginBottom: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ color: MUTED, fontSize: 12 }}>{entry.date}</span>
+                      <button type="button" onClick={() => deleteGmEntry(entry.id)}
+                        style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+                    </div>
+                    {entry.region && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>REGION: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.region}</span></div>}
+                    {entry.burden && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontWeight: 700, fontSize: 11 }}>BURDEN: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.burden}</span></div>}
+                    {entry.step && <div><span style={{ color: MUTED, fontWeight: 700, fontSize: 11 }}>ENGAGING: </span><span style={{ color: TEXT, fontSize: 13 }}>{entry.step}</span></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -222,19 +287,13 @@ export default function GlobalMissionsPage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "4TTiA_dpsvc", title: "The Great Commission: What Jesus Actually Said", channel: "The Bible Project", description: "An animated overview of Matthew 28:18-20 in its full biblical context — the scope of 'all nations,' the authority grounding the command, and what making disciples actually entails." },
-                  { videoId: "NUjs-pL3k7I", title: "Unreached People Groups: Who Are They and Why Does It Matter?", channel: "Joshua Project", description: "A clear explanation of what makes a people group 'unreached,' the geography of the 10/40 Window, and why the least-reached peoples represent the primary frontier of Christian mission." },
-                  { videoId: "QqTlFSkuA4w", title: "Radical Generosity and Global Mission", channel: "David Platt", description: "Platt on the connection between sacrificial giving, simple living, and the global mission to unreached peoples — what the gospel demands of comfortable Western Christians." },
-                  { videoId: "GTnN_hstHec", title: "William Carey: The Father of Modern Missions", channel: "Christianity Today", description: "The story of William Carey — English cobbler, linguist, and pioneer who went to India and never returned, translating the Bible into dozens of languages and founding modern mission methodology." },
+                  { videoId: "GnCscN9LiXM", title: "The Great Commission: What Jesus Actually Said", channel: "The Bible Project", description: "An animated overview of Matthew 28:18-20 in its full biblical context — the scope of 'all nations,' the authority grounding the command, and what making disciples actually entails." },
+                  { videoId: "jdo56fmajx8", title: "Unreached People Groups: Who Are They and Why Does It Matter?", channel: "Joshua Project", description: "A clear explanation of what makes a people group 'unreached,' the geography of the 10/40 Window, and why the least-reached peoples represent the primary frontier of Christian mission." },
+                  { videoId: "nP4tzAxbcy4", title: "Radical Generosity and Global Mission", channel: "David Platt", description: "Platt on the connection between sacrificial giving, simple living, and the global mission to unreached peoples — what the gospel demands of comfortable Western Christians." },
+                  { videoId: "Rr3P0ATI0E8", title: "William Carey: The Father of Modern Missions", channel: "Christianity Today", description: "The story of William Carey — English cobbler, linguist, and pioneer who went to India and never returned, translating the Bible into dozens of languages and founding modern mission methodology." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

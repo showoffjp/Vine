@@ -1,47 +1,62 @@
 "use client";
 
+import Link from "next/link";
 import { Play, Eye, Clock, ArrowRight } from "lucide-react";
 
 const FEATURED = {
-  title: "When God Feels Silent: Trusting Him in the Dark Seasons",
-  channel: "Pastor David Okafor",
-  views: "142K views",
-  duration: "48:22",
+  youtubeId: "4Eg_di-O8nM",
+  title: "Nothing Is Wasted — Steven Furtick",
+  channel: "Elevation Church",
+  views: "3.2M views",
+  duration: "46:12",
   tag: "Sermon",
 };
 
 const VIDEOS = [
   {
-    title: "From Addiction to Grace: My Testimony",
-    channel: "Grace & Truth Ministry",
-    views: "38K views",
-    duration: "22:14",
-    tag: "Testimony",
-  },
-  {
-    title: "Sunday Worship: Enter His Courts with Praise",
-    channel: "Hillside Worship Collective",
-    views: "91K views",
-    duration: "35:08",
+    youtubeId: "nQWFzMvCfLE",
+    title: "What A Beautiful Name",
+    channel: "Hillsong Worship",
+    views: "248M views",
+    duration: "5:41",
     tag: "Worship",
   },
   {
-    title: "5-Minute Morning Devotional: Psalm 23",
-    channel: "The Daily Vine",
-    views: "27K views",
-    duration: "5:03",
-    tag: "Devotional",
+    youtubeId: "7_CGP-12AE0",
+    title: "The Story of the Bible",
+    channel: "BibleProject",
+    views: "5.4M views",
+    duration: "5:27",
+    tag: "Teaching",
   },
   {
-    title: "Does Science Disprove God? Answering Atheism",
-    channel: "Apologetics Academy",
-    views: "55K views",
-    duration: "41:50",
+    youtubeId: "sIaT8Jl2zpI",
+    title: "You Say (Official Music Video)",
+    channel: "Lauren Daigle",
+    views: "180M views",
+    duration: "3:44",
+    tag: "Worship",
+  },
+  {
+    youtubeId: "G-2e9mMf7E8",
+    title: "Gospel of John — Overview",
+    channel: "BibleProject",
+    views: "2.9M views",
+    duration: "9:15",
     tag: "Teaching",
   },
 ];
 
+const TAG_COLORS: Record<string, string> = {
+  Sermon: "#6B4FBB",
+  Worship: "#3a7d56",
+  Teaching: "#3B82F6",
+  Testimony: "#EC4899",
+  Devotional: "#F59E0B",
+};
+
 function TagPill({ tag }: { tag: string }) {
+  const color = TAG_COLORS[tag] ?? "#6B4FBB";
   return (
     <span
       style={{
@@ -51,9 +66,9 @@ function TagPill({ tag }: { tag: string }) {
         fontWeight: 600,
         letterSpacing: "0.1em",
         textTransform: "uppercase" as const,
-        background: "rgba(201,162,39,0.14)",
-        color: "#c9a227",
-        border: "0.5px solid rgba(201,162,39,0.3)",
+        background: `${color}25`,
+        color,
+        border: `0.5px solid ${color}50`,
         fontFamily: "var(--font-jost, system-ui, sans-serif)",
       }}
     >
@@ -115,7 +130,7 @@ export default function VideoSpotlight() {
               <em style={{ fontStyle: "italic", color: "#e8c162" }}> Library.</em>
             </h2>
           </div>
-          <a
+          <Link
             href="/video"
             style={{
               display: "flex",
@@ -131,12 +146,16 @@ export default function VideoSpotlight() {
             }}
           >
             Watch Now <ArrowRight size={14} />
-          </a>
+          </Link>
         </div>
 
         {/* Featured video */}
-        <div
+        <a
+          href={`https://www.youtube.com/watch?v=${FEATURED.youtubeId}`}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
+            display: "block",
             background: "#050e07",
             border: "0.5px solid rgba(201,162,39,0.18)",
             borderRadius: 3,
@@ -144,46 +163,39 @@ export default function VideoSpotlight() {
             marginBottom: "1.2rem",
             cursor: "pointer",
             transition: "border-color 0.2s",
+            textDecoration: "none",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.4)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.4)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.18)";
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.18)";
           }}
         >
-          <div style={{ position: "relative", paddingTop: "40%" }}>
-            {/* Thumbnail bg */}
+          <div style={{ position: "relative", paddingTop: "40%", background: "linear-gradient(135deg, #0a1a0e 0%, #061008 100%)" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://img.youtube.com/vi/${FEATURED.youtubeId}/maxresdefault.jpg`}
+              alt={FEATURED.title}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.display = "none";
+              }}
+            />
+            {/* Gradient overlay */}
             <div
               style={{
                 position: "absolute",
                 inset: 0,
-                background: "linear-gradient(135deg, #0f2318 0%, #1a3d26 40%, #0a1a0e 100%)",
+                background: "linear-gradient(to top, rgba(5,14,7,0.92) 0%, rgba(5,14,7,0.2) 50%, transparent 100%)",
               }}
             />
-            {/* Forest texture overlay */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background: "linear-gradient(to top, rgba(5,14,7,0.95) 0%, rgba(5,14,7,0.3) 50%, transparent 100%)",
-              }}
-            />
-            {/* Decorative cross */}
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -65%)",
-                opacity: 0.06,
-              }}
-            >
-              <svg width="120" height="140" viewBox="0 0 34 34" fill="none">
-                <rect x="15" y="4" width="4" height="18" rx="1.5" fill="#c9a227" />
-                <rect x="8" y="10" width="18" height="4" rx="1.5" fill="#c9a227" />
-              </svg>
-            </div>
             {/* Play button */}
             <div
               style={{
@@ -199,8 +211,8 @@ export default function VideoSpotlight() {
                   width: 70,
                   height: 70,
                   borderRadius: "50%",
-                  background: "rgba(201,162,39,0.12)",
-                  border: "1.5px solid rgba(201,162,39,0.5)",
+                  background: "rgba(201,162,39,0.15)",
+                  border: "1.5px solid rgba(201,162,39,0.6)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -274,7 +286,7 @@ export default function VideoSpotlight() {
               </div>
             </div>
           </div>
-        </div>
+        </a>
 
         {/* Video grid */}
         <div
@@ -286,37 +298,50 @@ export default function VideoSpotlight() {
           }}
         >
           {VIDEOS.map((v) => (
-            <div
-              key={v.title}
+            <a
+              key={v.youtubeId}
+              href={`https://www.youtube.com/watch?v=${v.youtubeId}`}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
+                display: "block",
                 background: "#050e07",
                 border: "0.5px solid rgba(201,162,39,0.13)",
                 borderRadius: 3,
                 overflow: "hidden",
                 cursor: "pointer",
                 transition: "border-color 0.2s",
+                textDecoration: "none",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.3)";
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.3)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.13)";
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.13)";
               }}
             >
               {/* Thumbnail 16:9 */}
-              <div style={{ position: "relative", paddingTop: "56.25%" }}>
-                <div
+              <div style={{ position: "relative", paddingTop: "56.25%", background: "linear-gradient(135deg, #0a1a0e 0%, #061008 100%)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg`}
+                  alt={v.title}
                   style={{
                     position: "absolute",
                     inset: 0,
-                    background: "linear-gradient(135deg, #050e07 0%, #0f2318 100%)",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
                   }}
                 />
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
-                    background: "linear-gradient(to top, rgba(5,14,7,0.7) 0%, transparent 60%)",
+                    background: "linear-gradient(to top, rgba(5,14,7,0.6) 0%, transparent 60%)",
                   }}
                 />
                 <div
@@ -333,8 +358,8 @@ export default function VideoSpotlight() {
                       width: 38,
                       height: 38,
                       borderRadius: "50%",
-                      background: "rgba(201,162,39,0.12)",
-                      border: "1px solid rgba(201,162,39,0.4)",
+                      background: "rgba(201,162,39,0.15)",
+                      border: "1px solid rgba(201,162,39,0.5)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -397,13 +422,13 @@ export default function VideoSpotlight() {
                   </span>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
         {/* Browse CTA */}
         <div style={{ textAlign: "center", display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <a
+          <Link
             href="/video"
             style={{
               display: "inline-flex",
@@ -430,39 +455,30 @@ export default function VideoSpotlight() {
               (e.currentTarget as HTMLAnchorElement).style.color = "#c9b98a";
             }}
           >
-            Browse All Videos <ArrowRight size={14} />
-          </a>
-          <a
-            href="/live"
+            Browse All 100+ Videos <ArrowRight size={14} />
+          </Link>
+          <Link
+            href="/video"
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
               padding: "0.9rem 2rem",
-              background: "rgba(239,68,68,0.08)",
-              border: "0.5px solid rgba(239,68,68,0.25)",
+              background: "rgba(58,125,86,0.08)",
+              border: "0.5px solid rgba(58,125,86,0.25)",
               borderRadius: 2,
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
               fontSize: "0.82rem",
               fontWeight: 500,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: "#ef9999",
+              color: "#52a876",
               textDecoration: "none",
             }}
           >
-            <span
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: "50%",
-                background: "#ef4444",
-                display: "inline-block",
-                boxShadow: "0 0 6px rgba(239,68,68,0.6)",
-              }}
-            />
-            Watch Live
-          </a>
+            <Play size={13} style={{ fill: "#52a876" }} />
+            Worship Radio
+          </Link>
         </div>
       </div>
     </section>

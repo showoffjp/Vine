@@ -1,13 +1,15 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
+
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "masterworks" | "architecture" | "contemporary" | "videos";
+type Tab = "theology" | "masterworks" | "architecture" | "contemporary" | "journal" | "videos";
 
 const THEOLOGY = [
   { title: "All beauty points to God — the Transcendentals", color: GREEN, content: "Medieval Christian theology identified three transcendental properties of being: Truth, Goodness, and Beauty — each of which is a name of God. Jonathan Edwards wrote that 'the beauty of the world is a communication of God's beauty.' Augustine's Confessions opens with the agonized recognition: 'our heart is restless until it repose in Thee' — that beauty disordered him before it was rightly ordered toward God. Great Christian art does not depict religious content; it participates in divine beauty." },
@@ -133,6 +135,20 @@ export default function ChristianArtGuidePage() {
   const [selected, setSelected] = useState(MASTERWORKS[0].title);
   const sel = MASTERWORKS.find(w => w.title === selected) || MASTERWORKS[0];
 
+  const [cagEntries, setCagEntries] = useState<{ id: string; date: string; artwork: string; reveals: string; shapes: string }[]>(() => {
+    try { const s = localStorage.getItem("vine_cag_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
+  const [cagForm, setCagForm] = useState({ artwork: "", reveals: "", shapes: "" });
+  const [cagSaved, setCagSaved] = useState(false);
+  useEffect(() => { localStorage.setItem("vine_cag_entries", JSON.stringify(cagEntries)); }, [cagEntries]);
+  function saveCagEntry() {
+    if (!cagForm.artwork.trim()) return;
+    setCagEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cagForm }, ...prev]);
+    setCagForm({ artwork: "", reveals: "", shapes: "" });
+    setCagSaved(true); setTimeout(() => setCagSaved(false), 2000);
+  }
+  function deleteCagEntry(id: string) { setCagEntries(prev => prev.filter(e => e.id !== id)); }
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
@@ -148,10 +164,10 @@ export default function ChristianArtGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "masterworks", "architecture", "contemporary", "videos"] as Tab[]).map(t => (
+          {(["theology", "masterworks", "architecture", "contemporary", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Art" : t === "masterworks" ? "Masterworks" : t === "architecture" ? "Sacred Spaces" : t === "contemporary" ? "Contemporary Artists" : "🎬 Videos"}
+              {t === "theology" ? "Theology of Art" : t === "masterworks" ? "Masterworks" : t === "architecture" ? "Sacred Spaces" : t === "contemporary" ? "Contemporary Artists" : t === "journal" ? "📓 My Journal" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -227,6 +243,49 @@ export default function ChristianArtGuidePage() {
           </div>
         )}
 
+        {tab === "journal" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Art & Worship Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Record encounters with art, architecture, and beauty that move you toward God.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Artwork, Architecture, or Artist</label>
+                <input value={cagForm.artwork} onChange={e => setCagForm(f => ({ ...f, artwork: e.target.value }))} placeholder="e.g. Isenheim Altarpiece, Chartres Cathedral, Makoto Fujimura..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>What Does It Reveal About God?</label>
+                <textarea value={cagForm.reveals} onChange={e => setCagForm(f => ({ ...f, reveals: e.target.value }))} placeholder="What truth, beauty, or attribute of God does this art make tangible?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Does It Shape Your Worship?</label>
+                <textarea value={cagForm.shapes} onChange={e => setCagForm(f => ({ ...f, shapes: e.target.value }))} placeholder="How has this encounter with beauty changed how you see or worship God?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button type="button" onClick={saveCagEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                {cagSaved ? "Saved!" : "Save Entry"}
+              </button>
+            </div>
+            {cagEntries.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {cagEntries.map(e => (
+                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div>
+                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.artwork}</div>
+                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
+                      </div>
+                      <button type="button" onClick={() => deleteCagEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
+                    </div>
+                    {e.reveals && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Reveals About God</div><div style={{ color: TEXT, fontSize: 13 }}>{e.reveals}</div></div>}
+                    {e.shapes && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Shapes Worship</div><div style={{ color: TEXT, fontSize: 13 }}>{e.shapes}</div></div>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
@@ -236,19 +295,13 @@ export default function ChristianArtGuidePage() {
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 {[
-                  { videoId: "lHdViyfMzNo", title: "Makoto Fujimura: Art and Faith", channel: "No Small Endeavor", description: "Renowned Christian artist Makoto Fujimura discusses the theology of art-making, the Incarnation's implications for material creativity, and what it means to make beauty in a broken world." },
-                  { videoId: "heYEh7DwueE", title: "Is God in Charge of Art?", channel: "Francis Schaeffer", description: "Francis Schaeffer challenges evangelicals to take art seriously — arguing that Christians relegated art to the fringe of life and why that must change." },
-                  { videoId: "rMm6NA1v4V8", title: "Art and the Bible: Francis Schaeffer Updated", channel: "L'Abri / Schaeffer Study", description: "An exploration of Schaeffer's landmark work 'Art and the Bible' and why his framework for Christian engagement with art remains vital today." },
-                  { videoId: "WoAE15gtEzg", title: "C.S. Lewis and J.R.R. Tolkien on the Power of Fiction", channel: "Tim Keller", description: "Keller discusses how Lewis and Tolkien understood fiction and imagination as theological categories — sub-creation as participation in the Creator's work." },
+                  { videoId: "OqwbFGoRYVo", title: "Makoto Fujimura: Art and Faith", channel: "No Small Endeavor", description: "Renowned Christian artist Makoto Fujimura discusses the theology of art-making, the Incarnation's implications for material creativity, and what it means to make beauty in a broken world." },
+                  { videoId: "gV9JugO_5Mk", title: "Is God in Charge of Art?", channel: "Francis Schaeffer", description: "Francis Schaeffer challenges evangelicals to take art seriously — arguing that Christians relegated art to the fringe of life and why that must change." },
+                  { videoId: "ej_6dVdJSIU", title: "Art and the Bible: Francis Schaeffer Updated", channel: "L'Abri / Schaeffer Study", description: "An exploration of Schaeffer's landmark work 'Art and the Bible' and why his framework for Christian engagement with art remains vital today." },
+                  { videoId: "GQI72THyO5I", title: "C.S. Lewis and J.R.R. Tolkien on the Power of Fiction", channel: "Tim Keller", description: "Keller discusses how Lewis and Tolkien understood fiction and imagination as theological categories — sub-creation as participation in the Creator's work." },
                 ].map(v => (
                   <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
+                    <VideoEmbed videoId={v.videoId} title={v.title} />
                     <div style={{ padding: "14px 16px" }}>
                       <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>

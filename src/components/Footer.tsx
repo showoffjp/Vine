@@ -64,6 +64,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Sacraments & Ordinances", href: "/sacraments-ordinances" },
   { label: "Law and Gospel", href: "/law-gospel" },
   { label: "Christian Apologetics Guide", href: "/christian-apologetics-guide" },
+  { label: "Theology of Beauty & Arts", href: "/theology-of-beauty" },
+  { label: "Calling & Vocation", href: "/calling-vocation" },
+  { label: "Hermeneutics Guide", href: "/hermeneutics-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

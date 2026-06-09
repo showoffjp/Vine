@@ -81,6 +81,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   Apologetics: "apologetics-101",
   Missions: "missions",
   Evangelism: "evangelism",
+  Beauty: "theology-of-beauty",
+  "Arts": "theology-of-beauty",
+  "Aesthetics": "theology-of-beauty",
+  Vocation: "calling-vocation",
+  "Calling": "calling-vocation",
+  Work: "calling-vocation",
+  Hermeneutics: "hermeneutics-guide",
+  "Bible Interpretation": "hermeneutics-guide",
+  Exegesis: "hermeneutics-guide",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -174,6 +183,15 @@ const ALL_TOPICS: Topic[] = [
   { label: "Sacraments" },
   { label: "Law and Gospel" },
   { label: "Legalism" },
+  { label: "Beauty" },
+  { label: "Arts" },
+  { label: "Aesthetics" },
+  { label: "Vocation" },
+  { label: "Calling" },
+  { label: "Work" },
+  { label: "Hermeneutics" },
+  { label: "Bible Interpretation" },
+  { label: "Exegesis" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

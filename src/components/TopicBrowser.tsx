@@ -26,6 +26,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   Examen: "ignatian-examen",
   "Digital Detox": "digital-detox-faith",
   "Prosperity Gospel": "prosperity-gospel",
+  Complementarianism: "complementarianism-egalitarianism",
+  Egalitarianism: "complementarianism-egalitarianism",
+  Cessationism: "cessationism-continuationism",
+  Continuationism: "cessationism-continuationism",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -102,6 +106,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Examen" },
   { label: "Digital Detox" },
   { label: "Prosperity Gospel" },
+  { label: "Complementarianism" },
+  { label: "Egalitarianism" },
+  { label: "Cessationism" },
+  { label: "Continuationism" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

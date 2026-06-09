@@ -43,6 +43,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "The Ignatian Examen", href: "/ignatian-examen" },
   { label: "Digital Detox", href: "/digital-detox-faith" },
   { label: "Prosperity Gospel", href: "/prosperity-gospel" },
+  { label: "Women in Ministry", href: "/complementarianism-egalitarianism" },
+  { label: "Spiritual Gifts Debate", href: "/cessationism-continuationism" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

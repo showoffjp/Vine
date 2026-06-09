@@ -121,6 +121,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Hebrews Guide", href: "/hebrews-guide" },
   { label: "Book of Galatians Guide", href: "/galatians-guide" },
   { label: "Women in Scripture Guide", href: "/women-theology-guide" },
+  { label: "Book of Philippians Guide", href: "/philippians-guide" },
+  { label: "Book of Ephesians Guide", href: "/ephesians-guide" },
+  { label: "Book of Colossians Guide", href: "/colossians-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

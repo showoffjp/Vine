@@ -329,6 +329,8 @@ export default function DashboardPage() {
     { label: "Scripture Game", icon: Zap, color: "#3a7d56", href: "/scripture-game" },
     { label: "Mentorship", icon: Users, color: "#6B4FBB", href: "/mentorship" },
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
+    { label: "Daily Examen", icon: Star, color: "#6B4FBB", href: "/ignatian-examen" },
+    { label: "Discernment", icon: Globe, color: "#14B8A6", href: "/discernment-gods-will" },
   ];
 
   const visibleSections = activeTab === "Overview" ? sections : sections.filter((s) => s.title === activeTab);

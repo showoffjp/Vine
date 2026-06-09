@@ -55,6 +55,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Theosis", href: "/theosis-union-with-christ" },
   { label: "Covenant vs. Dispensationalism", href: "/covenant-dispensationalism" },
   { label: "Christianity & Sexuality", href: "/christian-sexuality-theology" },
+  { label: "Christology", href: "/christology" },
+  { label: "The Five Solas", href: "/five-solas" },
+  { label: "Theology of Sin", href: "/theology-of-sin" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

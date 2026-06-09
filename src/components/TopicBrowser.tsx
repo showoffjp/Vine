@@ -49,6 +49,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   Dispensationalism: "covenant-dispensationalism",
   Sexuality: "christian-sexuality-theology",
   "Sexual Ethics": "christian-sexuality-theology",
+  Christology: "christology",
+  Incarnation: "christology",
+  "Five Solas": "five-solas",
+  Reformation: "five-solas",
+  Sin: "theology-of-sin",
+  Hamartiology: "theology-of-sin",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -144,6 +150,12 @@ const ALL_TOPICS: Topic[] = [
   { label: "Covenant Theology" },
   { label: "Dispensationalism" },
   { label: "Sexuality" },
+  { label: "Christology" },
+  { label: "Incarnation" },
+  { label: "Five Solas" },
+  { label: "Reformation" },
+  { label: "Sin" },
+  { label: "Hamartiology" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

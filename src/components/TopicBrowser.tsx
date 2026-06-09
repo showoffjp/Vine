@@ -90,6 +90,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   Hermeneutics: "hermeneutics-guide",
   "Bible Interpretation": "hermeneutics-guide",
   Exegesis: "hermeneutics-guide",
+  Justification: "justification-by-faith",
+  "Sola Fide": "justification-by-faith",
+  Imputation: "justification-by-faith",
+  Creation: "creation-theology",
+  "Creatio Ex Nihilo": "creation-theology",
+  "Cultural Mandate": "creation-theology",
+  Ethics: "christian-ethics-guide",
+  "Natural Law": "christian-ethics-guide",
+  "Virtue Ethics": "christian-ethics-guide",
+  "Moral Theology": "christian-ethics-guide",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -192,6 +202,15 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hermeneutics" },
   { label: "Bible Interpretation" },
   { label: "Exegesis" },
+  { label: "Justification" },
+  { label: "Sola Fide" },
+  { label: "Imputation" },
+  { label: "Creation" },
+  { label: "Cultural Mandate" },
+  { label: "Ethics" },
+  { label: "Natural Law" },
+  { label: "Virtue Ethics" },
+  { label: "Moral Theology" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

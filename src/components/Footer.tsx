@@ -67,6 +67,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Theology of Beauty & Arts", href: "/theology-of-beauty" },
   { label: "Calling & Vocation", href: "/calling-vocation" },
   { label: "Hermeneutics Guide", href: "/hermeneutics-guide" },
+  { label: "Justification by Faith", href: "/justification-by-faith" },
+  { label: "Theology of Creation", href: "/creation-theology" },
+  { label: "Christian Ethics Guide", href: "/christian-ethics-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

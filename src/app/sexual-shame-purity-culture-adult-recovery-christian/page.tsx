@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
@@ -136,7 +138,9 @@ export default function SexualShamePurityCulturePage() {
   }
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem" }}>
         <div style={{ marginBottom: "0.5rem", fontSize: "0.85rem", color: MUTED }}>Pastoral Care</div>
         <h1 style={{ fontSize: "2rem", fontWeight: 700, marginBottom: "0.5rem", lineHeight: 1.2 }}>
@@ -269,5 +273,7 @@ export default function SexualShamePurityCulturePage() {
         </div>
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -72,7 +74,9 @@ export default function SingleParentPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 20px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 13, letterSpacing: 3, color: ACCENT, textTransform: "uppercase", marginBottom: 12 }}>Single Parenting &amp; Christian Faith</div>
@@ -214,5 +218,7 @@ export default function SingleParentPage() {
         </div>
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -66,7 +68,9 @@ export default function AdultChildMentalIllnessPage() {
   const inp: React.CSSProperties = { width: "100%", background: "#07070F", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: "0.95rem", boxSizing: "border-box" };
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "2rem 1rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <div style={{ display: "inline-block", background: PURPLE, color: "#fff", borderRadius: 20, padding: "4px 16px", fontSize: "0.8rem", fontWeight: 700, marginBottom: "1rem", letterSpacing: 1 }}>PASTORAL CARE</div>
@@ -178,5 +182,7 @@ export default function AdultChildMentalIllnessPage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

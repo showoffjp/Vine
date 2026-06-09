@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const ACCENT = "#3a7d56";
@@ -122,7 +124,9 @@ export default function TeenUnexpectedPregnancyChristianParentPage() {
   }
 
   return (
-    <main style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <main style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ background: `linear-gradient(135deg, ${ACCENT}22 0%, #0d0d1a 60%)`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 1.5rem 2rem" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <div style={{ fontSize: "0.75rem", letterSpacing: "0.15em", color: ACCENT, textTransform: "uppercase", marginBottom: "0.75rem" }}>Vine Pastoral Care</div>
@@ -254,5 +258,7 @@ export default function TeenUnexpectedPregnancyChristianParentPage() {
         )}
       </div>
     </main>
+      <Footer />
+    </>
   );
 }

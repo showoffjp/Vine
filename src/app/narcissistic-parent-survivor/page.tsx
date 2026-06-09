@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -138,7 +140,9 @@ export default function NarcissisticParentSurvivorPage() {
   const tabs = ["theology", "voices", "practices", "scripture", "journal", "videos"];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ background: CARD, borderBottom: `1px solid ${BORDER}`, padding: "2rem 1rem 1.5rem" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           <div style={{ color: PURPLE, fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: 2, marginBottom: "0.5rem" }}>Childhood Trauma & Recovery</div>
@@ -281,5 +285,7 @@ export default function NarcissisticParentSurvivorPage() {
 
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

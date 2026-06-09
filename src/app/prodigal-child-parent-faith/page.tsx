@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
@@ -153,7 +155,9 @@ export default function ProdigalChildParentFaithPage() {
   const tabs = ["theology", "voices", "practices", "scripture", "journal", "videos"];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
@@ -316,5 +320,7 @@ export default function ProdigalChildParentFaithPage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

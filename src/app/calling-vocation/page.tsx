@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
@@ -215,7 +217,9 @@ export default function CallingVocationPage() {
   const [journal, setJournal] = useLocalStorage("vine_calling_journal", "");
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
@@ -423,5 +427,7 @@ export default function CallingVocationPage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

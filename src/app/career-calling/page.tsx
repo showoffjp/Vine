@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -60,7 +62,9 @@ export default function CareerCallingPage() {
   const tabs = ["theology", "voices", "practices", "scripture", "journal", "videos"];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 700, margin: "0 auto", padding: "2rem 1rem" }}>
         <div style={{ marginBottom: "0.5rem", fontSize: "0.8rem", color: MUTED }}>Vocation &amp; Purpose</div>
         <h1 style={{ fontSize: "2rem", fontWeight: 700, marginBottom: "0.5rem" }}>Career &amp; Calling</h1>
@@ -166,5 +170,7 @@ export default function CareerCallingPage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

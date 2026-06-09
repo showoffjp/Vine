@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -77,7 +79,9 @@ export default function MiscarriageLossPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 20px" }}>
         <div style={{ marginBottom: 8, fontSize: 13, color: MUTED, textTransform: "uppercase", letterSpacing: 2 }}>
           Vine Pastoral Care
@@ -240,5 +244,7 @@ export default function MiscarriageLossPage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

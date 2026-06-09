@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Star, ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
 import VideoEmbed from "@/components/VideoEmbed";
@@ -86,7 +88,9 @@ export default function TheosisPage() {
   const [journalPractice, setJournalPractice] = useLocalStorage("vine_theosis_practice", "");
 
   return (
-    <div style={{ minHeight: "100vh", background: "#07070F", color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ minHeight: "100vh", background: "#07070F", color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       {/* Header */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
         <Link href="/dashboard" style={{ color: MUTED, display: "flex", alignItems: "center" }}>
@@ -316,5 +320,7 @@ export default function TheosisPage() {
         </div>
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

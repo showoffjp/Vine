@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -67,7 +69,9 @@ export default function AdultSiblingConflictPage() {
   const tabs = ["theology", "voices", "practices", "scripture", "journal", "videos"];
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ background: "linear-gradient(135deg, #0a1f14 0%, #07070F 60%)", padding: "3rem 1rem 2rem", textAlign: "center" }}>
         <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>👥</div>
         <h1 style={{ fontSize: "clamp(1.6rem, 4vw, 2.4rem)", fontWeight: 800, color: TEXT, marginBottom: "0.5rem" }}>Adult Sibling Conflict</h1>
@@ -175,5 +179,7 @@ export default function AdultSiblingConflictPage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

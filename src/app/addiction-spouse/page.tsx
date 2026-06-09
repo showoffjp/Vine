@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -62,7 +64,9 @@ export default function AddictionSpousePage() {
   const tabs = ["theology", "voices", "practices", "scripture", "journal", "videos"];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", padding: "2rem 1rem" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", padding: "2rem 1rem" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <div style={{ marginBottom: "0.5rem", fontSize: "0.85rem", color: MUTED }}>Marriage & Addiction</div>
         <h1 style={{ fontSize: "2rem", fontWeight: 700, marginBottom: "0.5rem" }}>Loving a Spouse With Addiction</h1>
@@ -187,5 +191,7 @@ export default function AddictionSpousePage() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -73,7 +75,9 @@ export default function WidowhoodGrief() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 20px" }}>
         <div style={{ marginBottom: 8, fontSize: 13, color: MUTED }}>Vine / Grief & Loss</div>
         <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 8, color: TEXT }}>Widowhood, Spousal Loss, and Christian Faith</h1>
@@ -199,5 +203,7 @@ export default function WidowhoodGrief() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

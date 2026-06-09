@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const ACCENT = "#6B4FBB";
@@ -122,7 +124,9 @@ export default function AgingParentCaregiverPage() {
   }
 
   return (
-    <main style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" }}>
+    <>
+      <Navbar />
+    <main style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "Georgia, serif" , paddingTop: "var(--header-height, 80px)" }}>
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg, ${ACCENT}22 0%, #0d0d1a 60%)`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 1.5rem 2rem" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
@@ -262,5 +266,7 @@ export default function AgingParentCaregiverPage() {
         )}
       </div>
     </main>
+      <Footer />
+    </>
   );
 }

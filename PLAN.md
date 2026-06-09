@@ -40,39 +40,33 @@
 
 ---
 
+## ✅ SPRINTS 2–4 COMPLETE
+
+### Sprint 2 — Personal Discipleship Polish (DONE)
+- **Verse Memory**: `vine_verse_memory` format verified; dashboard integration confirmed
+- **Goals tracking**: `vine_goals[].completedAt` field verified; dashboard reads correctly
+- **Habits page**: `vine_habits[].completions[]` ISO date format verified; streak calc correct
+- **Journal export**: "Export as Text" button added — triggers `.txt` file download
+- **Sermon notes**: `vine_sermon_notes` format verified; dashboard reads correctly
+- **Prayer list**: `vine_prayer_list[].answered` boolean verified; dashboard integration correct
+
+### Sprint 3 — Community Features (DONE)
+- **Feed replies**: Inline reply panel added; saves to `vine_post_replies_[postId]`; persists across sessions
+- **Discussion replies**: ReplyBox persists to `vine_discussion_replies_[id]` with delete
+- **Prayer Wall**: Tested & verified cross-session persistence
+- **Notifications**: Real "Your Activity" entries generated from localStorage actions
+- **Leaderboard**: Real Faithfulness Points computed from actual activity data
+
+### Sprint 4 — Content & Discovery (DONE)
+- **Search**: 40+ item content index; searches by title, excerpt, tags, and category
+- **Daily devotional rotation**: Changed from day-of-week to day-of-year rotation
+- **Video page**: 100 curated YouTube videos, verified IDs, pagination
+- **Podcast play buttons**: Fixed — Play opens real podcast platforms in new tab; mini-player updated with Listen links
+- **Live stream**: Featured stream now embeds real YouTube worship content
+
 ## 🔄 IN PROGRESS / NEXT SPRINT
 
-### Sprint 2 — Personal Discipleship Polish
-
-| Feature | File | What's Needed |
-|---------|------|---------------|
-| Verse Memory persistence | `/verse-memory/page.tsx` | Verify `vine_verse_memory` format matches dashboard expectations |
-| Goals tracking | `/goals/page.tsx` | Verify goal completion saves to `vine_goals` with `completedAt` field |
-| Habits page | `/habits/page.tsx` | Verify `vine_habits[].completions[]` date format matches dashboard streak calc |
-| Journal export | `/journal/page.tsx` | Add "Export as PDF/Text" button |
-| Sermon notes | `/sermon-notes/page.tsx` | Verify `vine_sermon_notes` format matches dashboard |
-| Prayer list | `/prayer-list/page.tsx` | Verify `vine_prayer_list[].answered` boolean matches dashboard |
-
-### Sprint 3 — Community Features (localStorage-based)
-
-| Feature | Priority | Description |
-|---------|----------|-------------|
-| Feed replies | High | ReplyBox component should save to `vine_post_replies_[id]` and load on feed |
-| Discussion replies | High | Replies on `/discussions/[slug]` should persist to localStorage |
-| Prayer Wall: user submissions | Medium | Already works — test & verify cross-session |
-| Notifications: real events | Medium | Generate real notification entries from user actions (prayed, posted, completed devotional) |
-| Leaderboard: real scores | Medium | Calculate from real localStorage data instead of hardcoded |
-
-### Sprint 4 — Content & Discovery
-
-| Feature | Priority | Description |
-|---------|----------|-------------|
-| Search | High | `/search/page.tsx` — make it actually search the content database |
-| Daily devotional rotation | Medium | Cycle through a larger devotional bank by day-of-year |
-| Video page improvements | Medium | Verify more YouTube IDs are correct; add description text |
-| Podcast player | Low | Make podcast play buttons actually functional |
-
-### Sprint 5 — Real Backend (Phase 2)
+### Sprint 5 — Real Backend (Phase 2) [NEXT]
 
 | Feature | Technology | Notes |
 |---------|-----------|-------|

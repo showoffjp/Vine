@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 import {
   Headphones,
   Play,
-  Pause,
   SkipForward,
   SkipBack,
   Volume2,
@@ -157,6 +156,8 @@ const featuredEpisodes = [
     description: "Sometimes the closed door isn't a punishment — it's protection. Marcus Webb walks through Proverbs 16:9 and what happened when his biggest plan fell through.",
     tags: ["Providence", "Trust", "Proverbs"],
     listens: "42.3K",
+    spotifyUrl: "https://open.spotify.com/search/daily%20devotional%20christian%20podcast",
+    appleUrl: "https://podcasts.apple.com/us/podcast/daily-hope-with-rick-warren/id88110727",
   },
   {
     show: "Faith & Doubt Out Loud",
@@ -169,6 +170,8 @@ const featuredEpisodes = [
     description: "One of the greatest NT scholars alive joins Dr. Rachel Osei to talk resurrection, empire, and why Easter changes everything.",
     tags: ["Resurrection", "N.T. Wright", "Theology"],
     listens: "91.8K",
+    spotifyUrl: "https://open.spotify.com/search/ask%20nt%20wright%20anything%20podcast",
+    appleUrl: "https://podcasts.apple.com/us/podcast/ask-nt-wright-anything/id1441656192",
   },
   {
     show: "Anxious No More",
@@ -181,6 +184,8 @@ const featuredEpisodes = [
     description: "The lie that anxious Christians believe: 'If I had more faith, I wouldn't feel this way.' Dr. Kimani dismantles it with Scripture and clinical wisdom.",
     tags: ["Anxiety", "Mental Health", "Philippians 4"],
     listens: "58.1K",
+    spotifyUrl: "https://open.spotify.com/search/christian%20anxiety%20mental%20health%20podcast",
+    appleUrl: "https://podcasts.apple.com/us/podcast/therapy-and-theology/id1439554101",
   },
   {
     show: "Biblical Finance",
@@ -193,6 +198,8 @@ const featuredEpisodes = [
     description: "Is the tithe a New Testament command or an Old Covenant shadow? James and Priya look at every tithing passage with fresh eyes.",
     tags: ["Giving", "Tithe", "Malachi", "2 Corinthians"],
     listens: "33.7K",
+    spotifyUrl: "https://open.spotify.com/search/biblical%20finances%20christian%20money%20podcast",
+    appleUrl: "https://podcasts.apple.com/us/podcast/money-matters-with-crown/id1440956040",
   },
 ];
 
@@ -208,7 +215,6 @@ export default function PodcastPage() {
     try { const s = localStorage.getItem("vine_podcast_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [playingEp, setPlayingEp] = useState<number | null>(null);
-  const [progress, setProgress] = useState(38);
   const [globalPlaying, setGlobalPlaying] = useState(false);
 
   useEffect(() => {
@@ -435,18 +441,37 @@ export default function PodcastPage() {
                         ))}
                       </div>
                       <div className="flex items-center gap-2">
-                        <button type="button"
+                        <a
+                          href={ep.appleUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           onClick={() => { setPlayingEp(isPlaying ? null : i); setGlobalPlaying(!isPlaying); }}
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                           style={{
                             background: isPlaying ? `${ep.accentColor}20` : `${ep.accentColor}15`,
                             border: `1px solid ${ep.accentColor}40`,
                             color: ep.accentColor,
+                            textDecoration: "none",
                           }}
                         >
-                          {isPlaying ? <Pause size={11} /> : <Play size={11} />}
-                          {isPlaying ? "Pause" : "Play"}
-                        </button>
+                          <Play size={11} />
+                          Listen
+                        </a>
+                        <a
+                          href={ep.spotifyUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                          style={{
+                            background: "rgba(30,215,96,0.08)",
+                            border: "1px solid rgba(30,215,96,0.25)",
+                            color: "#1ED760",
+                            textDecoration: "none",
+                          }}
+                        >
+                          <Headphones size={11} />
+                          Spotify
+                        </a>
                         <button type="button"
                           onClick={() => toggleSave(i)}
                           className="p-1.5 rounded-lg transition-all"
@@ -504,7 +529,7 @@ export default function PodcastPage() {
         </div>
       </div>
 
-      {/* Fixed Now Playing Bar */}
+      {/* Now Playing Bar */}
       {playingEp !== null && (
         <div
           className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3"
@@ -523,41 +548,39 @@ export default function PodcastPage() {
             </div>
             <div className="flex-1 min-w-0 hidden sm:block">
               <p className="text-xs font-bold truncate" style={{ color: "#F2F2F8" }}>{featuredEpisodes[playingEp].title}</p>
-              <p className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].show}</p>
+              <p className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].show} · {featuredEpisodes[playingEp].duration}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button type="button"
-                onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p - 1 + featuredEpisodes.length) % featuredEpisodes.length)); setProgress(0); setGlobalPlaying(true); }}
+                onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p - 1 + featuredEpisodes.length) % featuredEpisodes.length)); }}
                 style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}
               ><SkipBack size={16} /></button>
               <button type="button"
-                onClick={() => setGlobalPlaying(!globalPlaying)}
-                className="w-9 h-9 rounded-full flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", border: "none", cursor: "pointer" }}
-              >
-                {globalPlaying ? <Pause size={14} style={{ color: "#000" }} /> : <Play size={14} style={{ color: "#000", marginLeft: "2px" }} />}
-              </button>
-              <button type="button"
-                onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p + 1) % featuredEpisodes.length)); setProgress(0); setGlobalPlaying(true); }}
+                onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p + 1) % featuredEpisodes.length)); }}
                 style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}
               ><SkipForward size={16} /></button>
             </div>
-            <div className="flex-1 hidden md:flex items-center gap-3">
-              <span className="text-xs" style={{ color: "#6A6A88" }}>18:24</span>
-              <div
-                className="flex-1 h-1 rounded-full cursor-pointer"
-                style={{ background: "rgba(255,255,255,0.1)" }}
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  setProgress(Math.round(((e.clientX - rect.left) / rect.width) * 100));
-                }}
+            <div className="flex items-center gap-2 ml-auto">
+              <a
+                href={featuredEpisodes[playingEp].appleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold"
+                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8", textDecoration: "none" }}
               >
-                <div
-                  className="h-full rounded-full"
-                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #4a9e6e, #3a7d56)" }}
-                />
-              </div>
-              <span className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].duration}</span>
+                <Headphones size={11} />
+                Apple
+              </a>
+              <a
+                href={featuredEpisodes[playingEp].spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold"
+                style={{ background: "rgba(30,215,96,0.08)", border: "1px solid rgba(30,215,96,0.25)", color: "#1ED760", textDecoration: "none" }}
+              >
+                <Play size={11} />
+                Spotify
+              </a>
             </div>
             <Volume2 size={16} style={{ color: "#6A6A88" }} className="hidden lg:block" />
             <button type="button"

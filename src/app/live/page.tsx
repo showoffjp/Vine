@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Users, Heart, MessageSquare, Bell, BellOff, Play, Eye } from "lucide-react";
+import { Users, Heart, MessageSquare, Bell, BellOff, Eye, ExternalLink } from "lucide-react";
+import VideoEmbed from "@/components/VideoEmbed";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 const liveStreams = [
@@ -332,52 +333,37 @@ export default function LivePage() {
         {/* Featured stream + Live chat */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            {/* Featured stream card */}
+            {/* Featured stream card — real YouTube worship content */}
             <div className="lg:col-span-2 rounded-2xl overflow-hidden" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
-              <div
-                className="relative flex items-center justify-center"
-                style={{
-                  background: "linear-gradient(135deg, #0A0A18 0%, #12121F 50%, #0F0F1C 100%)",
-                  aspectRatio: "16/9",
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-8xl mb-4">{liveStreams[0].thumbnail}</div>
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                    <span className="text-xs font-black text-red-400 uppercase tracking-widest">Live</span>
-                  </div>
-                  <p className="text-sm font-semibold" style={{ color: "#C0C0D8" }}>
-                    {liveStreams[0].host} {liveStreams[0].flag}
-                  </p>
-                </div>
-                <div className="absolute bottom-3 left-4 flex items-center gap-1.5 px-2 py-1 rounded-lg" style={{ background: "rgba(0,0,0,0.7)" }}>
-                  <Eye size={12} style={{ color: "#8A8AA8" }} />
-                  <span className="text-xs font-bold" style={{ color: "#F2F2F8" }}>{liveViewers.toLocaleString()}</span>
-                </div>
-                <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "rgba(58,125,86,0.2)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)" }}>
-                  {liveStreams[0].category}
-                </div>
-              </div>
+              <VideoEmbed
+                videoId="mC-zw0zCCtg"
+                title="Jireh — Elevation Worship (Live Worship)"
+              />
               <div className="p-5">
-                <h2 className="font-black text-lg mb-1" style={{ color: "#F2F2F8" }}>{liveStreams[0].title}</h2>
-                <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>{liveStreams[0].description}</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56" }}>
+                    Featured Worship
+                  </span>
+                  <span className="flex items-center gap-1 text-xs ml-auto" style={{ color: "#4A4A68" }}>
+                    <Eye size={12} />
+                    {liveViewers.toLocaleString()} watching
+                  </span>
+                </div>
+                <h2 className="font-black text-lg mb-1" style={{ color: "#F2F2F8" }}>Jireh — Elevation Worship</h2>
+                <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
+                  &ldquo;I&apos;ll never be more loved than I am right now.&rdquo; Press play for live worship that reminds you of your standing before God.
+                </p>
                 <div className="flex gap-2">
-                  <button type="button"
-                    onClick={() => toggleJoin(1)}
+                  <a
+                    href="https://www.youtube.com/watch?v=mC-zw0zCCtg"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold flex-1 justify-center transition-all"
-                    style={{
-                      background: joinedStreams.has(1) ? "rgba(58,125,86,0.15)" : "linear-gradient(135deg, #3a7d56, #3a7d56)",
-                      color: joinedStreams.has(1) ? "#3a7d56" : "#07070F",
-                      border: joinedStreams.has(1) ? "1px solid rgba(58,125,86,0.4)" : "none",
-                    }}
+                    style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F", textDecoration: "none" }}
                   >
-                    {joinedStreams.has(1) ? (
-                      <><Eye size={14} /> Watching</>
-                    ) : (
-                      <><Play size={14} /> Watch Live</>
-                    )}
-                  </button>
+                    <ExternalLink size={14} />
+                    Open on YouTube
+                  </a>
                   <button type="button"
                     onClick={() => setLikedFeatured((l) => !l)}
                     className="p-2.5 rounded-xl transition-all"
@@ -484,17 +470,21 @@ export default function LivePage() {
                     </div>
                     <h3 className="font-bold text-sm mb-1 leading-snug" style={{ color: "#F2F2F8" }}>{stream.title}</h3>
                     <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>{stream.host} {stream.flag}</p>
-                    <button type="button"
+                    <a
+                      href={`https://www.youtube.com/results?search_query=${encodeURIComponent(stream.title + " christian live")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => toggleJoin(stream.id)}
-                      className="w-full py-2 rounded-xl text-xs font-bold transition-all"
+                      className="w-full py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                       style={{
                         background: watching ? `${stream.color}15` : "rgba(255,255,255,0.04)",
                         color: watching ? stream.color : "#8A8AA8",
                         border: `1px solid ${watching ? stream.color + "40" : "rgba(255,255,255,0.08)"}`,
+                        textDecoration: "none",
                       }}
                     >
-                      {watching ? "✓ Watching" : "Join Stream"}
-                    </button>
+                      {watching ? <><Eye size={11} /> Watching</> : <><ExternalLink size={11} /> Find on YouTube</>}
+                    </a>
                   </div>
                 </div>
               );

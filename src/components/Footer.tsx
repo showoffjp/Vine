@@ -51,6 +51,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Just War & Pacifism", href: "/just-war-pacifism" },
   { label: "Christian Mindfulness", href: "/christian-mindfulness" },
   { label: "Book of Revelation", href: "/book-of-revelation" },
+  { label: "Hell & Judgment", href: "/hell-eternal-judgment" },
+  { label: "Theosis", href: "/theosis-union-with-christ" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

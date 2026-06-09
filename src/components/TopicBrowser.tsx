@@ -40,6 +40,11 @@ const TOPIC_SLUGS: Record<string, string> = {
   Meditation: "christian-mindfulness",
   Yoga: "christian-mindfulness",
   Revelation: "book-of-revelation",
+  Hell: "hell-eternal-judgment",
+  Judgment: "hell-eternal-judgment",
+  Universalism: "hell-eternal-judgment",
+  Theosis: "theosis-union-with-christ",
+  "Union with Christ": "theosis-union-with-christ",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -129,6 +134,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Mindfulness" },
   { label: "Yoga" },
   { label: "Revelation" },
+  { label: "Hell" },
+  { label: "Universalism" },
+  { label: "Theosis" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

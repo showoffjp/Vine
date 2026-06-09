@@ -547,6 +547,19 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Though the Fig Tree": "habakkuk-guide",
   "Righteous Live by Faith": "habakkuk-guide",
   "How Long O Lord": "habakkuk-guide",
+  Lamentations: "lamentations-guide",
+  "Book of Lamentations": "lamentations-guide",
+  "Steadfast Love": "lamentations-guide",
+  "New Every Morning": "lamentations-guide",
+  "Great Is Thy Faithfulness": "lamentations-guide",
+  Eikah: "lamentations-guide",
+  Zechariah: "zechariah-guide",
+  "Book of Zechariah": "zechariah-guide",
+  "Not by Might": "zechariah-guide",
+  "Triumphal Entry": "zechariah-guide",
+  "Thirty Pieces of Silver": "zechariah-guide",
+  "Night Visions": "zechariah-guide",
+  "The Branch": "zechariah-guide",
 };
 
 
@@ -1000,6 +1013,14 @@ const ALL_TOPICS: Topic[] = [
   { label: "Habakkuk 3:17" },
   { label: "Though the Fig Tree" },
   { label: "Righteous Live by Faith" },
+  { label: "Lamentations" },
+  { label: "Steadfast Love" },
+  { label: "New Every Morning" },
+  { label: "Zechariah" },
+  { label: "Not by Might" },
+  { label: "Triumphal Entry" },
+  { label: "Night Visions" },
+  { label: "The Branch" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

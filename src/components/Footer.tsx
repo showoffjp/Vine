@@ -153,6 +153,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Joshua & Judges Guide", href: "/joshua-judges-guide" },
   { label: "Numbers & Deuteronomy Guide", href: "/numbers-deuteronomy-guide" },
   { label: "Dark Night of the Soul", href: "/christian-dark-night-guide" },
+  { label: "1 & 2 Samuel Guide", href: "/samuel-guide" },
+  { label: "Grief & Lament Guide", href: "/grief-lament-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

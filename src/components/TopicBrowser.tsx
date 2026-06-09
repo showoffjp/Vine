@@ -486,6 +486,21 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Spiritual Desolation": "christian-dark-night-guide",
   "Mother Teresa": "christian-dark-night-guide",
   "Faith in Darkness": "christian-dark-night-guide",
+  Samuel: "samuel-guide",
+  "1 Samuel": "samuel-guide",
+  "2 Samuel": "samuel-guide",
+  David: "samuel-guide",
+  "King David": "samuel-guide",
+  "Davidic Covenant": "samuel-guide",
+  Hannah: "samuel-guide",
+  Goliath: "samuel-guide",
+  Absalom: "samuel-guide",
+  "Man After God's Own Heart": "samuel-guide",
+  "Jesus Wept": "grief-lament-guide",
+  Mourning: "grief-lament-guide",
+  "Psalms of Lament": "grief-lament-guide",
+  "Grief Guide": "grief-lament-guide",
+  Bereavement: "grief-lament-guide",
 };
 
 
@@ -887,6 +902,19 @@ const ALL_TOPICS: Topic[] = [
   { label: "Spiritual Dryness" },
   { label: "Mother Teresa" },
   { label: "Contemplative Prayer" },
+  { label: "Samuel" },
+  { label: "1 Samuel" },
+  { label: "2 Samuel" },
+  { label: "David" },
+  { label: "Davidic Covenant" },
+  { label: "Hannah" },
+  { label: "Goliath" },
+  { label: "Absalom" },
+  { label: "Man After God's Own Heart" },
+  { label: "Jesus Wept" },
+  { label: "Mourning" },
+  { label: "Psalms of Lament" },
+  { label: "Bereavement" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

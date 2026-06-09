@@ -76,6 +76,7 @@ const navLinks: NavLink[] = [
           { label: "Ezekiel Guide", href: "/ezekiel-guide" },
           { label: "Joshua & Judges Guide", href: "/joshua-judges-guide" },
           { label: "Numbers & Deuteronomy Guide", href: "/numbers-deuteronomy-guide" },
+          { label: "1 & 2 Samuel Guide", href: "/samuel-guide" },
         ],
       },
       {
@@ -294,6 +295,7 @@ const navLinks: NavLink[] = [
           { label: "Fear & Courage", href: "/fear" },
           { label: "Anger: A Christian Guide", href: "/anger" },
           { label: "Grief & Loss", href: "/grief" },
+          { label: "Grief & Lament Guide", href: "/grief-lament-guide" },
           { label: "Healing & Wholeness", href: "/healing" },
           { label: "Addiction & Recovery", href: "/addiction-recovery" },
           { label: "Biblical Counseling", href: "/biblical-counseling" },

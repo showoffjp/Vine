@@ -107,6 +107,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Church History": "church-history-survey",
   "Reformation History": "church-history-survey",
   "Church Fathers": "church-history-survey",
+  Eschatology: "eschatology-guide",
+  "End Times": "eschatology-guide",
+  Millennium: "eschatology-guide",
+  Rapture: "eschatology-guide",
+  Atonement: "atonement-guide",
+  "Penal Substitution": "atonement-guide",
+  "Christus Victor": "atonement-guide",
+  Bible: "word-of-god-theology",
+  Inerrancy: "word-of-god-theology",
+  "Scripture Authority": "word-of-god-theology",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -224,6 +234,13 @@ const ALL_TOPICS: Topic[] = [
   { label: "Church History" },
   { label: "Church Fathers" },
   { label: "Reformation History" },
+  { label: "Eschatology" },
+  { label: "End Times" },
+  { label: "Millennium" },
+  { label: "Rapture" },
+  { label: "Atonement" },
+  { label: "Penal Substitution" },
+  { label: "Inerrancy" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

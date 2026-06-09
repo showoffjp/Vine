@@ -73,6 +73,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Theology of Marriage", href: "/marriage-theology" },
   { label: "The Resurrection", href: "/resurrection-theology" },
   { label: "Church History Survey", href: "/church-history-survey" },
+  { label: "Eschatology Guide", href: "/eschatology-guide" },
+  { label: "The Atonement", href: "/atonement-guide" },
+  { label: "Theology of Scripture", href: "/word-of-god-theology" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

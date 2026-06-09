@@ -61,6 +61,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Pneumatology", href: "/pneumatology" },
   { label: "Assurance of Salvation", href: "/assurance-salvation" },
   { label: "Religious Liberty", href: "/religious-liberty" },
+  { label: "Sacraments & Ordinances", href: "/sacraments-ordinances" },
+  { label: "Law and Gospel", href: "/law-gospel" },
+  { label: "Christian Apologetics Guide", href: "/christian-apologetics-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

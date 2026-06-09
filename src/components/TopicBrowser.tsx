@@ -61,6 +61,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Eternal Security": "assurance-salvation",
   "Religious Liberty": "religious-liberty",
   "Church and State": "religious-liberty",
+  "Sacraments": "sacraments-ordinances",
+  "Lord's Supper": "sacraments-ordinances",
+  "Ordinances": "sacraments-ordinances",
+  "Law and Gospel": "law-gospel",
+  Antinomianism: "law-gospel",
+  Legalism: "law-gospel",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -165,6 +171,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Pneumatology" },
   { label: "Assurance" },
   { label: "Religious Liberty" },
+  { label: "Sacraments" },
+  { label: "Law and Gospel" },
+  { label: "Legalism" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

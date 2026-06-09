@@ -36,6 +36,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Open Theism": "open-theism",
   "Just War": "just-war-pacifism",
   Pacifism: "just-war-pacifism",
+  Mindfulness: "christian-mindfulness",
+  Meditation: "christian-mindfulness",
+  Yoga: "christian-mindfulness",
+  Revelation: "book-of-revelation",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -122,6 +126,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Open Theism" },
   { label: "Just War" },
   { label: "Pacifism" },
+  { label: "Mindfulness" },
+  { label: "Yoga" },
+  { label: "Revelation" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

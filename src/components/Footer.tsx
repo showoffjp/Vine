@@ -49,6 +49,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Christian Nationalism", href: "/christian-nationalism" },
   { label: "Open Theism", href: "/open-theism" },
   { label: "Just War & Pacifism", href: "/just-war-pacifism" },
+  { label: "Christian Mindfulness", href: "/christian-mindfulness" },
+  { label: "Book of Revelation", href: "/book-of-revelation" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

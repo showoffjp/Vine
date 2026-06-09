@@ -133,6 +133,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Confession & Repentance Guide", href: "/confession-repentance-guide" },
   { label: "Gospel of Mark Guide", href: "/gospel-of-mark-guide" },
   { label: "Christian Suffering Guide", href: "/christian-suffering-guide" },
+  { label: "Gospel of Luke Guide", href: "/gospel-of-luke-guide" },
+  { label: "Christian Community Guide", href: "/christian-community-guide" },
+  { label: "Theology of Prayer Guide", href: "/theology-of-prayer-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

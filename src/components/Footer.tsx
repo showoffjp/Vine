@@ -70,6 +70,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Justification by Faith", href: "/justification-by-faith" },
   { label: "Theology of Creation", href: "/creation-theology" },
   { label: "Christian Ethics Guide", href: "/christian-ethics-guide" },
+  { label: "Theology of Marriage", href: "/marriage-theology" },
+  { label: "The Resurrection", href: "/resurrection-theology" },
+  { label: "Church History Survey", href: "/church-history-survey" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

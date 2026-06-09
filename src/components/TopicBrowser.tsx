@@ -17,7 +17,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Deconstruction: "faith-doubt-deconstruction",
   Depression: "mental-health",
   "Mental Health": "mental-health",
-  Resurrection: "resurrection",
+  Resurrection: "resurrection-theology",
   "Gen Z": "youth",
   Discernment: "discernment-gods-will",
   Enneagram: "enneagram-christianity",
@@ -100,6 +100,13 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Natural Law": "christian-ethics-guide",
   "Virtue Ethics": "christian-ethics-guide",
   "Moral Theology": "christian-ethics-guide",
+  "Marriage Theology": "marriage-theology",
+  "Divorce": "marriage-theology",
+  "Covenant Marriage": "marriage-theology",
+  "Easter": "resurrection-theology",
+  "Church History": "church-history-survey",
+  "Reformation History": "church-history-survey",
+  "Church Fathers": "church-history-survey",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -211,6 +218,12 @@ const ALL_TOPICS: Topic[] = [
   { label: "Natural Law" },
   { label: "Virtue Ethics" },
   { label: "Moral Theology" },
+  { label: "Marriage Theology" },
+  { label: "Divorce" },
+  { label: "Easter" },
+  { label: "Church History" },
+  { label: "Church Fathers" },
+  { label: "Reformation History" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

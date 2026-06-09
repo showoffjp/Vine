@@ -30,6 +30,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   Egalitarianism: "complementarianism-egalitarianism",
   Cessationism: "cessationism-continuationism",
   Continuationism: "cessationism-continuationism",
+  Calvinism: "calvinism-arminianism",
+  Arminianism: "calvinism-arminianism",
+  "Christian Nationalism": "christian-nationalism",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -110,6 +113,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Egalitarianism" },
   { label: "Cessationism" },
   { label: "Continuationism" },
+  { label: "Calvinism" },
+  { label: "Arminianism" },
+  { label: "Christian Nationalism" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

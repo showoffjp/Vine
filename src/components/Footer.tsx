@@ -45,6 +45,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Prosperity Gospel", href: "/prosperity-gospel" },
   { label: "Women in Ministry", href: "/complementarianism-egalitarianism" },
   { label: "Spiritual Gifts Debate", href: "/cessationism-continuationism" },
+  { label: "Calvinism & Arminianism", href: "/calvinism-arminianism" },
+  { label: "Christian Nationalism", href: "/christian-nationalism" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

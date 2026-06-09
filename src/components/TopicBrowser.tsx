@@ -229,6 +229,19 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Counseling": "christian-counseling-guide",
   "Soul Care": "christian-counseling-guide",
   "Integration": "christian-counseling-guide",
+  Romans: "romans-guide",
+  "Book of Romans": "romans-guide",
+  "No Condemnation": "romans-guide",
+  Evolution: "science-faith-guide",
+  "Young Earth": "science-faith-guide",
+  "BioLogos": "science-faith-guide",
+  "Historical Adam": "science-faith-guide",
+  "Science and Faith": "science-faith-guide",
+  "Big Bang": "science-faith-guide",
+  "OT Theology": "old-testament-theology-guide",
+  "Biblical Theology": "old-testament-theology-guide",
+  Typology: "old-testament-theology-guide",
+  "Messianic Prophecy": "old-testament-theology-guide",
 };
 
 
@@ -417,6 +430,15 @@ const ALL_TOPICS: Topic[] = [
   { label: "Church Discipline" },
   { label: "Biblical Counseling" },
   { label: "Soul Care" },
+  { label: "Romans" },
+  { label: "No Condemnation" },
+  { label: "Evolution" },
+  { label: "Historical Adam" },
+  { label: "Science and Faith" },
+  { label: "OT Theology" },
+  { label: "Biblical Theology" },
+  { label: "Typology" },
+  { label: "Messianic Prophecy" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

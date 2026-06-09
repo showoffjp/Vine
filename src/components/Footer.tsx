@@ -106,6 +106,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Sermon on the Mount", href: "/sermon-on-the-mount-guide" },
   { label: "Pastoral Care Guide", href: "/pastoral-care-guide" },
   { label: "Christian Counseling", href: "/christian-counseling-guide" },
+  { label: "Book of Romans Guide", href: "/romans-guide" },
+  { label: "Science & Faith Guide", href: "/science-faith-guide" },
+  { label: "OT Theology Guide", href: "/old-testament-theology-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

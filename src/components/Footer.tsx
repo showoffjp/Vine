@@ -36,6 +36,12 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Theology 101", href: "/theology" },
   { label: "Podcast Library", href: "/podcast" },
   { label: "Reading Plans", href: "/reading-plan" },
+  { label: "Discernment Guide", href: "/discernment-gods-will" },
+  { label: "The Enneagram", href: "/enneagram-christianity" },
+  { label: "Generational Trauma", href: "/generational-trauma-faith" },
+  { label: "Introverts & Faith", href: "/introverts-faith-church" },
+  { label: "The Ignatian Examen", href: "/ignatian-examen" },
+  { label: "Digital Detox", href: "/digital-detox-faith" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

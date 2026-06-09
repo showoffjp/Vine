@@ -11,14 +11,34 @@ type Topic = {
 };
 
 const TOPIC_SLUGS: Record<string, string> = {
-  Prayer: "prayer-fasting",
-  Fasting: "prayer-fasting",
-  Marriage: "marriage-faith",
-  Deconstruction: "deconstruction",
-  Depression: "mental-health-god",
-  "Mental Health": "mental-health-god",
+  Prayer: "prayer-life",
+  Fasting: "fasting",
+  Marriage: "christian-marriage",
+  Deconstruction: "faith-doubt-deconstruction",
+  Depression: "mental-health",
+  "Mental Health": "mental-health",
   Resurrection: "resurrection",
-  "Gen Z": "genz-church",
+  "Gen Z": "youth",
+  Discernment: "discernment-gods-will",
+  Enneagram: "enneagram-christianity",
+  "Generational Trauma": "generational-trauma-faith",
+  Introverts: "introverts-faith-church",
+  Examen: "ignatian-examen",
+  "Digital Detox": "digital-detox-faith",
+  Burnout: "burnout",
+  Anxiety: "anxiety",
+  Loneliness: "loneliness",
+  Grief: "grief",
+  Forgiveness: "theology-of-forgiveness",
+  Suffering: "suffering",
+  Sabbath: "sabbath",
+  Lament: "lament",
+  Addiction: "addiction-recovery",
+  Trinity: "trinity",
+  Sanctification: "spiritual-formation",
+  Apologetics: "apologetics-101",
+  Missions: "missions",
+  Evangelism: "evangelism",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -73,6 +93,13 @@ const ALL_TOPICS: Topic[] = [
   { label: "Unity" },
   { label: "Worship" },
   { label: "Youth" },
+  { label: "Discernment" },
+  { label: "Enneagram" },
+  { label: "Generational Trauma" },
+  { label: "Introverts" },
+  { label: "Lament" },
+  { label: "Examen" },
+  { label: "Digital Detox" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -126,7 +153,7 @@ export default function TopicBrowser() {
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
             <Hash size={11} style={{ display: "inline", marginRight: 5 }} />
-            50+ Topics
+            60+ Topics
           </div>
           <h2
             style={{
@@ -286,7 +313,7 @@ export default function TopicBrowser() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
           {filtered.map((topic) => {
             const href = TOPIC_SLUGS[topic.label]
-              ? `/topics/${TOPIC_SLUGS[topic.label]}`
+              ? `/${TOPIC_SLUGS[topic.label]}`
               : `/discussions?tag=${encodeURIComponent(topic.label)}`;
             return (
               <Link

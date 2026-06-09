@@ -82,6 +82,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Soteriology Guide", href: "/soteriology-guide" },
   { label: "Christology Guide", href: "/christology-guide" },
   { label: "Pneumatology Guide", href: "/pneumatology-guide" },
+  { label: "Trinity Guide", href: "/trinity-guide" },
+  { label: "Theodicy Guide", href: "/theodicy-guide" },
+  { label: "Ecclesiology Guide", href: "/ecclesiology-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

@@ -76,7 +76,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Sabbath: "sabbath",
   Lament: "lament",
   Addiction: "addiction-recovery",
-  Trinity: "trinity",
+  Trinity: "trinity-guide",
   Sanctification: "spiritual-formation",
   Apologetics: "apologetics-101",
   Missions: "missions",
@@ -136,6 +136,14 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Holy Spirit": "pneumatology-guide",
   "Fruit of the Spirit": "pneumatology-guide",
   "Spiritual Gifts Theology": "pneumatology-guide",
+  Filioque: "trinity-guide",
+  Perichoresis: "trinity-guide",
+  "Problem of Evil": "theodicy-guide",
+  Theodicy: "theodicy-guide",
+  "Suffering Theology": "theodicy-guide",
+  Church: "ecclesiology-guide",
+  Ecclesiology: "ecclesiology-guide",
+  "Church Government": "ecclesiology-guide",
 };
 
 const ALL_TOPICS: Topic[] = [

@@ -256,6 +256,19 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Farewell Discourse": "gospel-of-john-guide",
   "Word Christology": "gospel-of-john-guide",
   "Seven Signs": "gospel-of-john-guide",
+  "Gospel of Matthew": "gospel-of-matthew-guide",
+  "New Moses": "gospel-of-matthew-guide",
+  "Fulfillment Quotations": "gospel-of-matthew-guide",
+  TULIP: "grace-theology-guide",
+  "Five Points": "grace-theology-guide",
+  "Unconditional Election": "grace-theology-guide",
+  "Irresistible Grace": "grace-theology-guide",
+  "Common Grace": "grace-theology-guide",
+  "Prevenient Grace": "grace-theology-guide",
+  Catechesis: "christian-parenting-guide",
+  "Family Worship": "christian-parenting-guide",
+  "Prodigal Children": "christian-parenting-guide",
+  "Home Discipleship": "christian-parenting-guide",
 };
 
 
@@ -466,6 +479,19 @@ const ALL_TOPICS: Topic[] = [
   { label: "Farewell Discourse" },
   { label: "Word Christology" },
   { label: "Seven Signs" },
+  { label: "Gospel of Matthew" },
+  { label: "New Moses" },
+  { label: "Fulfillment Quotations" },
+  { label: "TULIP" },
+  { label: "Five Points" },
+  { label: "Unconditional Election" },
+  { label: "Irresistible Grace" },
+  { label: "Common Grace" },
+  { label: "Prevenient Grace" },
+  { label: "Catechesis" },
+  { label: "Family Worship" },
+  { label: "Prodigal Children" },
+  { label: "Home Discipleship" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

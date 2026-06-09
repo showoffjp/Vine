@@ -112,6 +112,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Doubt & Faith Guide", href: "/doubt-faith-guide" },
   { label: "Christian Marriage Guide", href: "/christian-marriage-guide" },
   { label: "Gospel of John Guide", href: "/gospel-of-john-guide" },
+  { label: "Gospel of Matthew Guide", href: "/gospel-of-matthew-guide" },
+  { label: "Theology of Grace", href: "/grace-theology-guide" },
+  { label: "Christian Parenting Guide", href: "/christian-parenting-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

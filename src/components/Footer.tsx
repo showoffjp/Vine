@@ -79,6 +79,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Mental Health Theology", href: "/mental-health-theology" },
   { label: "Theology of Mission", href: "/mission-theology" },
   { label: "Kingdom of God Guide", href: "/kingdom-of-god-guide" },
+  { label: "Soteriology Guide", href: "/soteriology-guide" },
+  { label: "Christology Guide", href: "/christology-guide" },
+  { label: "Pneumatology Guide", href: "/pneumatology-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

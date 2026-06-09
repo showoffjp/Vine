@@ -55,8 +55,8 @@ const TOPIC_SLUGS: Record<string, string> = {
   Reformation: "five-solas",
   Sin: "theology-of-sin",
   Hamartiology: "theology-of-sin",
-  Pneumatology: "pneumatology",
-  "Holy Spirit Theology": "pneumatology",
+  Pneumatology: "pneumatology-guide",
+  "Holy Spirit Theology": "pneumatology-guide",
   "Assurance": "assurance-salvation",
   "Eternal Security": "assurance-salvation",
   "Religious Liberty": "religious-liberty",
@@ -127,6 +127,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Kingdom Theology": "kingdom-of-god-guide",
   "Already Not Yet": "kingdom-of-god-guide",
   Shalom: "kingdom-of-god-guide",
+  Salvation: "soteriology-guide",
+  "Ordo Salutis": "soteriology-guide",
+  "Perseverance of Saints": "soteriology-guide",
+  "Person of Christ": "christology-guide",
+  "Hypostatic Union": "christology-guide",
+  "Two Natures": "christology-guide",
+  "Holy Spirit": "pneumatology-guide",
+  "Fruit of the Spirit": "pneumatology-guide",
+  "Spiritual Gifts Theology": "pneumatology-guide",
 };
 
 const ALL_TOPICS: Topic[] = [

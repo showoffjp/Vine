@@ -560,6 +560,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Thirty Pieces of Silver": "zechariah-guide",
   "Night Visions": "zechariah-guide",
   "The Branch": "zechariah-guide",
+  Haggai: "haggai-guide",
+  "Book of Haggai": "haggai-guide",
+  "Latter Glory": "haggai-guide",
+  "Consider Your Ways": "haggai-guide",
+  Zerubbabel: "haggai-guide",
+  Malachi: "malachi-guide",
+  "Book of Malachi": "malachi-guide",
+  "Return to Me": "malachi-guide",
+  "Sun of Righteousness": "malachi-guide",
+  Tithe: "malachi-guide",
+  "I Have Loved You": "malachi-guide",
+  "400 Years of Silence": "malachi-guide",
 };
 
 
@@ -1021,6 +1033,13 @@ const ALL_TOPICS: Topic[] = [
   { label: "Triumphal Entry" },
   { label: "Night Visions" },
   { label: "The Branch" },
+  { label: "Haggai" },
+  { label: "Latter Glory" },
+  { label: "Consider Your Ways" },
+  { label: "Malachi" },
+  { label: "Return to Me" },
+  { label: "Sun of Righteousness" },
+  { label: "Tithe" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

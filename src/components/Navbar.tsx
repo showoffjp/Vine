@@ -82,6 +82,7 @@ const navLinks: NavLink[] = [
           { label: "Hosea Guide", href: "/hosea-guide" },
           { label: "Amos Guide", href: "/amos-guide" },
           { label: "Micah Guide", href: "/micah-guide" },
+          { label: "Obadiah Guide", href: "/obadiah-guide" },
           { label: "Jonah Guide", href: "/jonah-guide" },
           { label: "Habakkuk Guide", href: "/habakkuk-guide" },
           { label: "Lamentations Guide", href: "/lamentations-guide" },

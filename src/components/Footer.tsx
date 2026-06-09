@@ -165,6 +165,7 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Habakkuk Guide", href: "/habakkuk-guide" },
   { label: "Lamentations Guide", href: "/lamentations-guide" },
   { label: "Zechariah Guide", href: "/zechariah-guide" },
+  { label: "Zephaniah Guide", href: "/zephaniah-guide" },
   { label: "Haggai Guide", href: "/haggai-guide" },
   { label: "Malachi Guide", href: "/malachi-guide" },
 ];

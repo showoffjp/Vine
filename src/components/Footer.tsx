@@ -145,6 +145,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Exodus Guide", href: "/exodus-guide" },
   { label: "Minor Prophets Guide", href: "/minor-prophets-guide" },
   { label: "Letters of John Guide", href: "/letters-of-john-guide" },
+  { label: "Song of Songs Guide", href: "/song-of-songs-guide" },
+  { label: "Ruth & Esther Guide", href: "/ruth-esther-guide" },
+  { label: "Book of Jeremiah Guide", href: "/jeremiah-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

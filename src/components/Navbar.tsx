@@ -72,6 +72,7 @@ const navLinks: NavLink[] = [
           { label: "Book of Job Guide", href: "/job-guide" },
           { label: "The Prophets", href: "/prophets" },
           { label: "Minor Prophets Guide", href: "/minor-prophets-guide" },
+          { label: "Jeremiah Guide", href: "/jeremiah-guide" },
         ],
       },
       {
@@ -82,6 +83,8 @@ const navLinks: NavLink[] = [
           { label: "Romans Guide", href: "/romans-guide" },
           { label: "Hebrews Guide", href: "/hebrews-guide" },
           { label: "Letters of John Guide", href: "/letters-of-john-guide" },
+          { label: "Song of Songs Guide", href: "/song-of-songs-guide" },
+          { label: "Ruth & Esther Guide", href: "/ruth-esther-guide" },
           { label: "Parables of Jesus", href: "/parables-of-jesus" },
           { label: "Miracles of Jesus", href: "/miracles-of-jesus" },
           { label: "Sermon on the Mount", href: "/sermon-on-the-mount" },

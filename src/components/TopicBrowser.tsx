@@ -33,6 +33,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   Calvinism: "calvinism-arminianism",
   Arminianism: "calvinism-arminianism",
   "Christian Nationalism": "christian-nationalism",
+  "Open Theism": "open-theism",
+  "Just War": "just-war-pacifism",
+  Pacifism: "just-war-pacifism",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -116,6 +119,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Calvinism" },
   { label: "Arminianism" },
   { label: "Christian Nationalism" },
+  { label: "Open Theism" },
+  { label: "Just War" },
+  { label: "Pacifism" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

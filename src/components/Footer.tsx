@@ -47,6 +47,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Spiritual Gifts Debate", href: "/cessationism-continuationism" },
   { label: "Calvinism & Arminianism", href: "/calvinism-arminianism" },
   { label: "Christian Nationalism", href: "/christian-nationalism" },
+  { label: "Open Theism", href: "/open-theism" },
+  { label: "Just War & Pacifism", href: "/just-war-pacifism" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

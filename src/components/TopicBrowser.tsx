@@ -77,7 +77,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Lament: "lament-guide",
   Addiction: "addiction-recovery",
   Trinity: "trinity-guide",
-  Sanctification: "spiritual-formation",
+  Sanctification: "sanctification-guide",
   Apologetics: "apologetics-101",
   Missions: "missions",
   Evangelism: "evangelism",
@@ -180,6 +180,20 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Anthropology": "christian-anthropology-guide",
   "Theological Anthropology": "christian-anthropology-guide",
   "Intermediate State": "christian-anthropology-guide",
+  Angels: "angelology-guide",
+  Angelology: "angelology-guide",
+  Demons: "angelology-guide",
+  Satan: "angelology-guide",
+  "Spiritual Warfare": "angelology-guide",
+  "Armor of God": "angelology-guide",
+  Mortification: "sanctification-guide",
+  Vivification: "sanctification-guide",
+  Holiness: "sanctification-guide",
+  "Means of Grace": "sanctification-guide",
+  Preaching: "preaching-guide",
+  Homiletics: "preaching-guide",
+  "Expository Preaching": "preaching-guide",
+  "Sermon Preparation": "preaching-guide",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -329,6 +343,17 @@ const ALL_TOPICS: Topic[] = [
   { label: "Compatibilism" },
   { label: "Conscience" },
   { label: "Christian Anthropology" },
+  { label: "Angels" },
+  { label: "Angelology" },
+  { label: "Demons" },
+  { label: "Spiritual Warfare" },
+  { label: "Armor of God" },
+  { label: "Mortification" },
+  { label: "Holiness" },
+  { label: "Means of Grace" },
+  { label: "Preaching" },
+  { label: "Homiletics" },
+  { label: "Expository Preaching" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

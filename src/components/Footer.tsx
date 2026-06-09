@@ -94,6 +94,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Attributes of God", href: "/theology-proper-guide" },
   { label: "Doctrine of Scripture", href: "/bibliology-guide" },
   { label: "Christian Anthropology", href: "/christian-anthropology-guide" },
+  { label: "Angelology Guide", href: "/angelology-guide" },
+  { label: "Sanctification Guide", href: "/sanctification-guide" },
+  { label: "Preaching Guide", href: "/preaching-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

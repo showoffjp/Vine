@@ -148,6 +148,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Song of Songs Guide", href: "/song-of-songs-guide" },
   { label: "Ruth & Esther Guide", href: "/ruth-esther-guide" },
   { label: "Book of Jeremiah Guide", href: "/jeremiah-guide" },
+  { label: "Book of Ezekiel Guide", href: "/ezekiel-guide" },
+  { label: "Thessalonians Guide", href: "/thessalonians-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

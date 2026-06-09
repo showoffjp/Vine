@@ -449,6 +449,20 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Jeremiah 29:11": "jeremiah-guide",
   "Potter and Clay": "jeremiah-guide",
   "Letter to the Exiles": "jeremiah-guide",
+  Ezekiel: "ezekiel-guide",
+  "Book of Ezekiel": "ezekiel-guide",
+  "Valley of Dry Bones": "ezekiel-guide",
+  Merkabah: "ezekiel-guide",
+  "New Heart": "ezekiel-guide",
+  "River of Life": "ezekiel-guide",
+  "Glory of God": "ezekiel-guide",
+  Thessalonians: "thessalonians-guide",
+  "1 Thessalonians": "thessalonians-guide",
+  "2 Thessalonians": "thessalonians-guide",
+  Parousia: "thessalonians-guide",
+  "Dead in Christ": "thessalonians-guide",
+  "Day of the Lord": "thessalonians-guide",
+  "Pray Without Ceasing": "thessalonians-guide",
 };
 
 
@@ -821,6 +835,16 @@ const ALL_TOPICS: Topic[] = [
   { label: "Weeping Prophet" },
   { label: "Jeremiah 29:11" },
   { label: "Potter and Clay" },
+  { label: "Ezekiel" },
+  { label: "Valley of Dry Bones" },
+  { label: "New Heart" },
+  { label: "River of Life" },
+  { label: "Dry Bones" },
+  { label: "1 Thessalonians" },
+  { label: "2 Thessalonians" },
+  { label: "Parousia" },
+  { label: "Dead in Christ" },
+  { label: "Pray Without Ceasing" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

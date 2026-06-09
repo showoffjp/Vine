@@ -88,6 +88,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Hamartiology Guide", href: "/hamartiology-guide" },
   { label: "Covenant Theology", href: "/covenant-theology-guide" },
   { label: "Image of God Guide", href: "/image-of-god-guide" },
+  { label: "Biblical Lament", href: "/lament-guide" },
+  { label: "Spiritual Formation Guide", href: "/spiritual-formation-guide" },
+  { label: "Theology of Prayer", href: "/prayer-theology-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

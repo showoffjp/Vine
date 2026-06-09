@@ -11,7 +11,7 @@ type Topic = {
 };
 
 const TOPIC_SLUGS: Record<string, string> = {
-  Prayer: "prayer-life",
+  Prayer: "prayer-theology-guide",
   Fasting: "fasting",
   Marriage: "christian-marriage",
   Deconstruction: "faith-doubt-deconstruction",
@@ -74,7 +74,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Forgiveness: "theology-of-forgiveness",
   Suffering: "suffering",
   Sabbath: "sabbath",
-  Lament: "lament",
+  Lament: "lament-guide",
   Addiction: "addiction-recovery",
   Trinity: "trinity-guide",
   Sanctification: "spiritual-formation",
@@ -151,6 +151,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Image of God": "image-of-god-guide",
   "Imago Dei": "image-of-god-guide",
   "Human Dignity": "image-of-god-guide",
+  "Biblical Lament": "lament-guide",
+  "Lament Psalms": "lament-guide",
+  "Crying Out to God": "lament-guide",
+  "Spiritual Formation": "spiritual-formation-guide",
+  "Spiritual Disciplines": "spiritual-formation-guide",
+  "Lectio Divina": "spiritual-formation-guide",
+  "Rule of Life": "spiritual-formation-guide",
+  "Contemplative Prayer": "prayer-theology-guide",
+  "Theology of Prayer": "prayer-theology-guide",
+  Intercession: "prayer-theology-guide",
+  "Lord's Prayer": "prayer-theology-guide",
+  "Unanswered Prayer": "prayer-theology-guide",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -277,6 +289,17 @@ const ALL_TOPICS: Topic[] = [
   { label: "Atonement" },
   { label: "Penal Substitution" },
   { label: "Inerrancy" },
+  { label: "Biblical Lament" },
+  { label: "Lament Psalms" },
+  { label: "Spiritual Formation" },
+  { label: "Spiritual Disciplines" },
+  { label: "Lectio Divina" },
+  { label: "Rule of Life" },
+  { label: "Contemplative Prayer" },
+  { label: "Theology of Prayer" },
+  { label: "Intercession" },
+  { label: "Lord's Prayer" },
+  { label: "Unanswered Prayer" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

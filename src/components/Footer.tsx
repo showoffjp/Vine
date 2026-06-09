@@ -115,6 +115,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Gospel of Matthew Guide", href: "/gospel-of-matthew-guide" },
   { label: "Theology of Grace", href: "/grace-theology-guide" },
   { label: "Christian Parenting Guide", href: "/christian-parenting-guide" },
+  { label: "Book of Acts Guide", href: "/book-of-acts-guide" },
+  { label: "Genesis Study Guide", href: "/genesis-guide" },
+  { label: "Christian Joy Guide", href: "/christian-joy-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

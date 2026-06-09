@@ -80,7 +80,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Sanctification: "sanctification-guide",
   Apologetics: "apologetics-101",
   Missions: "missions",
-  Evangelism: "evangelism",
+  Evangelism: "evangelism-guide",
   Beauty: "theology-of-beauty",
   "Arts": "theology-of-beauty",
   "Aesthetics": "theology-of-beauty",
@@ -194,6 +194,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   Homiletics: "preaching-guide",
   "Expository Preaching": "preaching-guide",
   "Sermon Preparation": "preaching-guide",
+  Worship: "worship-theology-guide",
+  "Worship Theology": "worship-theology-guide",
+  Liturgy: "worship-theology-guide",
+  "Regulative Principle": "worship-theology-guide",
+  "Worship Music": "worship-theology-guide",
+  Discipleship: "discipleship-guide",
+  "Making Disciples": "discipleship-guide",
+  "Cost of Discipleship": "discipleship-guide",
+  "Small Groups": "discipleship-guide",
+  "Great Commission": "discipleship-guide",
+  "Gospel Presentation": "evangelism-guide",
+  Witness: "evangelism-guide",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -354,6 +366,15 @@ const ALL_TOPICS: Topic[] = [
   { label: "Preaching" },
   { label: "Homiletics" },
   { label: "Expository Preaching" },
+  { label: "Worship Theology" },
+  { label: "Liturgy" },
+  { label: "Worship Music" },
+  { label: "Discipleship" },
+  { label: "Cost of Discipleship" },
+  { label: "Small Groups" },
+  { label: "Great Commission" },
+  { label: "Gospel Presentation" },
+  { label: "Witness" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

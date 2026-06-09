@@ -97,6 +97,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Angelology Guide", href: "/angelology-guide" },
   { label: "Sanctification Guide", href: "/sanctification-guide" },
   { label: "Preaching Guide", href: "/preaching-guide" },
+  { label: "Theology of Worship", href: "/worship-theology-guide" },
+  { label: "Evangelism Guide", href: "/evangelism-guide" },
+  { label: "Discipleship Guide", href: "/discipleship-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

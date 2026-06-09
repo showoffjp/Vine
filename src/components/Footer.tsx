@@ -109,6 +109,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Romans Guide", href: "/romans-guide" },
   { label: "Science & Faith Guide", href: "/science-faith-guide" },
   { label: "OT Theology Guide", href: "/old-testament-theology-guide" },
+  { label: "Doubt & Faith Guide", href: "/doubt-faith-guide" },
+  { label: "Christian Marriage Guide", href: "/christian-marriage-guide" },
+  { label: "Gospel of John Guide", href: "/gospel-of-john-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

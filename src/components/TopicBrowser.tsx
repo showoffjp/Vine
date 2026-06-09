@@ -421,8 +421,8 @@ const TOPIC_SLUGS: Record<string, string> = {
   Amos: "amos-guide",
   Hosea: "hosea-guide",
   Micah: "micah-guide",
-  Jonah: "minor-prophets-guide",
-  Habakkuk: "minor-prophets-guide",
+  Jonah: "jonah-guide",
+  Habakkuk: "habakkuk-guide",
   "Micah 6:8": "micah-guide",
   "God Is Love": "letters-of-john-guide",
   "1 John": "letters-of-john-guide",
@@ -538,6 +538,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Swords into Plowshares": "micah-guide",
   "Bethlehem Prophecy": "micah-guide",
   "God Who Pardons": "micah-guide",
+  "Book of Jonah": "jonah-guide",
+  Nineveh: "jonah-guide",
+  "Sign of Jonah": "jonah-guide",
+  "Running from God": "jonah-guide",
+  "Book of Habakkuk": "habakkuk-guide",
+  "Habakkuk 3:17": "habakkuk-guide",
+  "Though the Fig Tree": "habakkuk-guide",
+  "Righteous Live by Faith": "habakkuk-guide",
+  "How Long O Lord": "habakkuk-guide",
 };
 
 
@@ -984,6 +993,13 @@ const ALL_TOPICS: Topic[] = [
   { label: "Walk Humbly" },
   { label: "Swords into Plowshares" },
   { label: "Bethlehem Prophecy" },
+  { label: "Book of Jonah" },
+  { label: "Nineveh" },
+  { label: "Sign of Jonah" },
+  { label: "Book of Habakkuk" },
+  { label: "Habakkuk 3:17" },
+  { label: "Though the Fig Tree" },
+  { label: "Righteous Live by Faith" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

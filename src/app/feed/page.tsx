@@ -16,6 +16,8 @@ import {
   BookOpen,
   Globe,
   Feather,
+  X,
+  CheckCircle2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
@@ -296,6 +298,18 @@ export default function FeedPage() {
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const [hiddenPosts, setHiddenPosts] = useState<Set<number>>(new Set());
   const [postNotice, setPostNotice] = useState<{ id: number; text: string } | null>(null);
+  const [openReply, setOpenReply] = useState<number | null>(null);
+  const [replyTexts, setReplyTexts] = useState<Record<number, string>>({});
+  const [replySaved, setReplySaved] = useState<number | null>(null);
+
+  function getPostReplies(postId: number): { id: number; text: string; time: string }[] {
+    try { const s = localStorage.getItem(`vine_post_replies_${postId}`); return s ? JSON.parse(s) : []; } catch { return []; }
+  }
+  function savePostReply(postId: number, text: string) {
+    const existing = getPostReplies(postId);
+    const updated = [...existing, { id: Date.now(), text, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }];
+    try { localStorage.setItem(`vine_post_replies_${postId}`, JSON.stringify(updated)); } catch {}
+  }
 
   const handlePostMenu = (id: number, action: "copy" | "hide" | "report") => {
     setOpenMenu(null);
@@ -666,10 +680,14 @@ export default function FeedPage() {
                       <Heart size={15} fill={likedPosts[post.id] ? "#EC4899" : "none"} />
                       <span className="text-xs">{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
                     </button>
-                    <Link href={post.link} className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#3a7d56]" style={{ color: "#6A6A88", textDecoration: "none" }}>
+                    <button type="button"
+                      onClick={() => { setOpenReply(openReply === post.id ? null : post.id); setReplyTexts((p) => ({ ...p, [post.id]: "" })); }}
+                      className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#3a7d56]"
+                      style={{ color: openReply === post.id ? "#3a7d56" : "#6A6A88" }}
+                    >
                       <MessageSquare size={15} />
                       <span className="text-xs">{post.comments}</span>
-                    </Link>
+                    </button>
                     <button type="button"
                       onClick={() => {
                         try { navigator.clipboard.writeText(window.location.origin + post.link); } catch {}
@@ -688,6 +706,55 @@ export default function FeedPage() {
                       <Bookmark size={15} fill={savedPosts[post.id] ? "#3a7d56" : "none"} />
                     </button>
                   </div>
+
+                  {/* Inline reply panel */}
+                  {openReply === post.id && (
+                    <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+                      {getPostReplies(post.id).map((r) => (
+                        <div key={r.id} className="flex gap-2 mb-2">
+                          <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold" style={{ background: "#3a7d56", color: "#fff" }}>Y</div>
+                          <div className="flex-1 rounded-xl px-3 py-2" style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.12)" }}>
+                            <p className="text-xs" style={{ color: "#C0C0D8" }}>{r.text}</p>
+                            <p className="text-xs mt-0.5" style={{ color: "#4A4A68" }}>{r.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                      {replySaved === post.id ? (
+                        <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs" style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56" }}>
+                          <CheckCircle2 size={13} /> Reply posted!
+                        </div>
+                      ) : (
+                        <div className="flex gap-2 items-start">
+                          <textarea
+                            rows={2}
+                            value={replyTexts[post.id] ?? ""}
+                            onChange={(e) => setReplyTexts((p) => ({ ...p, [post.id]: e.target.value }))}
+                            placeholder="Write a reply... (Eph 4:29)"
+                            className="flex-1 rounded-xl px-3 py-2 text-xs resize-none outline-none"
+                            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
+                          />
+                          <div className="flex flex-col gap-1">
+                            <button type="button"
+                              disabled={!(replyTexts[post.id] ?? "").trim()}
+                              onClick={() => {
+                                const txt = (replyTexts[post.id] ?? "").trim();
+                                if (!txt) return;
+                                savePostReply(post.id, txt);
+                                setReplyTexts((p) => ({ ...p, [post.id]: "" }));
+                                setReplySaved(post.id);
+                                setTimeout(() => setReplySaved(null), 2000);
+                              }}
+                              className="px-3 py-1.5 rounded-lg text-xs font-bold"
+                              style={{ background: (replyTexts[post.id] ?? "").trim() ? "#3a7d56" : "#1E1E32", color: (replyTexts[post.id] ?? "").trim() ? "#fff" : "#4A4A68" }}
+                            >Post</button>
+                            <button type="button" onClick={() => setOpenReply(null)} className="px-3 py-1.5 rounded-lg text-xs" style={{ color: "#4A4A68" }}>
+                              <X size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

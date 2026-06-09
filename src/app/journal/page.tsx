@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { BookOpen, Plus, Search, Tag, Calendar, ChevronRight, X, Save, Sparkles, Pencil, Trash2 } from "lucide-react";
+import { BookOpen, Plus, Search, Tag, Calendar, ChevronRight, X, Save, Sparkles, Pencil, Trash2, Download } from "lucide-react";
 
 interface JournalEntry {
   id: number;
@@ -181,6 +181,37 @@ export default function JournalPage() {
     setSelectedEntry(null);
   };
 
+  const exportJournal = () => {
+    const lines: string[] = [
+      "MY VINE DEVOTIONAL JOURNAL",
+      "=".repeat(40),
+      `Exported on ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`,
+      `Total entries: ${entries.length}`,
+      "",
+    ];
+    entries.forEach((e, i) => {
+      lines.push(`${"─".repeat(40)}`);
+      lines.push(`Entry ${i + 1}: ${e.title}`);
+      lines.push(`Date: ${e.date}  |  Mood: ${e.mood}`);
+      if (e.tags.length) lines.push(`Tags: ${e.tags.map((t) => `#${t}`).join(" ")}`);
+      lines.push("");
+      lines.push(e.body);
+      if (e.verseRef) {
+        lines.push("");
+        lines.push(`Scripture: "${e.verse}"`);
+        lines.push(`  — ${e.verseRef}`);
+      }
+      lines.push("");
+    });
+    const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `vine-journal-${new Date().toISOString().split("T")[0]}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleSave = () => {
     if (!newEntry.title.trim() || !newEntry.body.trim()) return;
     if (editingId !== null) {
@@ -276,6 +307,20 @@ export default function JournalPage() {
                     <span className="font-bold" style={{ color: "#F2F2F8" }}>{s.value}</span>
                   </div>
                 ))}
+                <button
+                  type="button"
+                  onClick={exportJournal}
+                  disabled={entries.length === 0}
+                  className="flex items-center justify-center gap-2 w-full mt-4 px-3 py-2 rounded-xl text-xs font-bold transition-all"
+                  style={{
+                    background: entries.length ? "rgba(58,125,86,0.1)" : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${entries.length ? "rgba(58,125,86,0.3)" : "rgba(255,255,255,0.06)"}`,
+                    color: entries.length ? "#3a7d56" : "#4A4A68",
+                    cursor: entries.length ? "pointer" : "not-allowed",
+                  }}
+                >
+                  <Download size={12} /> Export as Text
+                </button>
               </div>
             </aside>
 

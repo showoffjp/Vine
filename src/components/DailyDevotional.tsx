@@ -256,7 +256,12 @@ const devotionals = [
 ];
 
 export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex: number) => void }) {
-  const [dayIndex, setDayIndex] = useState(() => (new Date().getDay() + 6) % 7);
+  const [dayIndex, setDayIndex] = useState(() => {
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / 86400000);
+    return dayOfYear % devotionals.length;
+  });
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [shared, setShared] = useState(false);

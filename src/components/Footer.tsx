@@ -118,6 +118,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Acts Guide", href: "/book-of-acts-guide" },
   { label: "Genesis Study Guide", href: "/genesis-guide" },
   { label: "Christian Joy Guide", href: "/christian-joy-guide" },
+  { label: "Book of Hebrews Guide", href: "/hebrews-guide" },
+  { label: "Book of Galatians Guide", href: "/galatians-guide" },
+  { label: "Women in Scripture Guide", href: "/women-theology-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

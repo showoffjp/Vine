@@ -100,6 +100,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Theology of Worship", href: "/worship-theology-guide" },
   { label: "Evangelism Guide", href: "/evangelism-guide" },
   { label: "Discipleship Guide", href: "/discipleship-guide" },
+  { label: "Heaven & New Creation", href: "/heaven-guide" },
+  { label: "Theology of Suffering", href: "/suffering-guide" },
+  { label: "Spiritual Gifts Guide", href: "/spiritual-gifts-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

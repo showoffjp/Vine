@@ -72,7 +72,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Loneliness: "loneliness",
   Grief: "grief",
   Forgiveness: "theology-of-forgiveness",
-  Suffering: "suffering",
+  Suffering: "suffering-guide",
   Sabbath: "sabbath",
   Lament: "lament-guide",
   Addiction: "addiction-recovery",
@@ -179,7 +179,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Conscience: "christian-anthropology-guide",
   "Christian Anthropology": "christian-anthropology-guide",
   "Theological Anthropology": "christian-anthropology-guide",
-  "Intermediate State": "christian-anthropology-guide",
+  "Intermediate State": "heaven-guide",
   Angels: "angelology-guide",
   Angelology: "angelology-guide",
   Demons: "angelology-guide",
@@ -206,7 +206,20 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Great Commission": "discipleship-guide",
   "Gospel Presentation": "evangelism-guide",
   Witness: "evangelism-guide",
+  Heaven: "heaven-guide",
+  "New Creation": "heaven-guide",
+  "New Jerusalem": "heaven-guide",
+  "Resurrection Body": "heaven-guide",
+  "Eternal Life": "heaven-guide",
+  "Theology of Suffering": "suffering-guide",
+  "Suffering Ministry": "suffering-guide",
+  "Spiritual Gifts": "spiritual-gifts-guide",
+  "Sign Gifts": "spiritual-gifts-guide",
+  Tongues: "spiritual-gifts-guide",
+  Healing: "spiritual-gifts-guide",
+  "Service Gifts": "spiritual-gifts-guide",
 };
+
 
 const ALL_TOPICS: Topic[] = [
   { label: "Addiction" },
@@ -375,6 +388,16 @@ const ALL_TOPICS: Topic[] = [
   { label: "Great Commission" },
   { label: "Gospel Presentation" },
   { label: "Witness" },
+  { label: "Heaven" },
+  { label: "New Creation" },
+  { label: "Resurrection Body" },
+  { label: "New Jerusalem" },
+  { label: "Eternal Life" },
+  { label: "Theology of Suffering" },
+  { label: "Spiritual Gifts" },
+  { label: "Sign Gifts" },
+  { label: "Tongues" },
+  { label: "Healing" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

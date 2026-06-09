@@ -393,6 +393,22 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Timothy": "pastoral-epistles-guide",
   "2 Timothy": "pastoral-epistles-guide",
   Titus: "pastoral-epistles-guide",
+  Proverbs: "proverbs-guide",
+  "Book of Proverbs": "proverbs-guide",
+  "Fear of the Lord": "proverbs-guide",
+  "Lady Wisdom": "proverbs-guide",
+  "Proverbs 31": "proverbs-guide",
+  "Woman of Valor": "proverbs-guide",
+  Ecclesiastes: "ecclesiastes-guide",
+  "Book of Ecclesiastes": "ecclesiastes-guide",
+  Qoheleth: "ecclesiastes-guide",
+  Hebel: "ecclesiastes-guide",
+  "Vanity of Vanities": "ecclesiastes-guide",
+  "Meaning of Life": "ecclesiastes-guide",
+  "Job Study": "job-guide",
+  "Innocent Suffering": "job-guide",
+  "My Redeemer Lives": "job-guide",
+  "Whirlwind Speech": "job-guide",
 };
 
 
@@ -725,6 +741,16 @@ const ALL_TOPICS: Topic[] = [
   { label: "Elder Qualifications" },
   { label: "Sound Doctrine" },
   { label: "New Heavens" },
+  { label: "Proverbs" },
+  { label: "Fear of the Lord" },
+  { label: "Lady Wisdom" },
+  { label: "Proverbs 31" },
+  { label: "Ecclesiastes" },
+  { label: "Qoheleth" },
+  { label: "Vanity of Vanities" },
+  { label: "Innocent Suffering" },
+  { label: "Whirlwind Speech" },
+  { label: "My Redeemer Lives" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

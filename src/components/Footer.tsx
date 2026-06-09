@@ -139,6 +139,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Daniel Guide", href: "/daniel-guide" },
   { label: "Book of Isaiah Guide", href: "/isaiah-guide" },
   { label: "Pastoral Epistles Guide", href: "/pastoral-epistles-guide" },
+  { label: "Book of Proverbs Guide", href: "/proverbs-guide" },
+  { label: "Book of Ecclesiastes Guide", href: "/ecclesiastes-guide" },
+  { label: "Book of Job Guide", href: "/job-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

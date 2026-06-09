@@ -375,6 +375,24 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Life Together": "christian-community-guide",
   "Jesus Prayer": "theology-of-prayer-guide",
   "Centering Prayer": "theology-of-prayer-guide",
+  Daniel: "daniel-guide",
+  "Book of Daniel": "daniel-guide",
+  "Four Kingdoms": "daniel-guide",
+  "Fiery Furnace": "daniel-guide",
+  "Son of Man Vision": "daniel-guide",
+  Isaiah: "isaiah-guide",
+  "Book of Isaiah": "isaiah-guide",
+  "Servant Songs": "isaiah-guide",
+  "Isaiah 53": "isaiah-guide",
+  "Suffering Servant": "isaiah-guide",
+  "Holy One of Israel": "isaiah-guide",
+  "New Heavens": "isaiah-guide",
+  "Pastoral Epistles": "pastoral-epistles-guide",
+  "Elder Qualifications": "pastoral-epistles-guide",
+  "Sound Doctrine": "pastoral-epistles-guide",
+  "1 Timothy": "pastoral-epistles-guide",
+  "2 Timothy": "pastoral-epistles-guide",
+  Titus: "pastoral-epistles-guide",
 };
 
 
@@ -699,6 +717,14 @@ const ALL_TOPICS: Topic[] = [
   { label: "Centering Prayer" },
   { label: "Unanswered Prayer" },
   { label: "Contemplative Prayer" },
+  { label: "Daniel" },
+  { label: "Isaiah" },
+  { label: "Servant Songs" },
+  { label: "Isaiah 53" },
+  { label: "Pastoral Epistles" },
+  { label: "Elder Qualifications" },
+  { label: "Sound Doctrine" },
+  { label: "New Heavens" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -136,6 +136,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Gospel of Luke Guide", href: "/gospel-of-luke-guide" },
   { label: "Christian Community Guide", href: "/christian-community-guide" },
   { label: "Theology of Prayer Guide", href: "/theology-of-prayer-guide" },
+  { label: "Book of Daniel Guide", href: "/daniel-guide" },
+  { label: "Book of Isaiah Guide", href: "/isaiah-guide" },
+  { label: "Pastoral Epistles Guide", href: "/pastoral-epistles-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

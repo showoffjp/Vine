@@ -130,6 +130,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Revelation Guide", href: "/revelation-guide" },
   { label: "Book of 2 Corinthians Guide", href: "/second-corinthians-guide" },
   { label: "Theology of Work Guide", href: "/theology-of-work-guide" },
+  { label: "Confession & Repentance Guide", href: "/confession-repentance-guide" },
+  { label: "Gospel of Mark Guide", href: "/gospel-of-mark-guide" },
+  { label: "Christian Suffering Guide", href: "/christian-suffering-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

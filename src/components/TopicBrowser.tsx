@@ -117,6 +117,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   Bible: "word-of-god-theology",
   Inerrancy: "word-of-god-theology",
   "Scripture Authority": "word-of-god-theology",
+  "Theology of Mental Health": "mental-health-theology",
+  "Faith and Psychology": "mental-health-theology",
+  "Biblical Counseling": "mental-health-theology",
+  "Mission Theology": "mission-theology",
+  Missiology: "mission-theology",
+  "Missio Dei": "mission-theology",
+  "Kingdom of God": "kingdom-of-god-guide",
+  "Kingdom Theology": "kingdom-of-god-guide",
+  "Already Not Yet": "kingdom-of-god-guide",
+  Shalom: "kingdom-of-god-guide",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -152,6 +162,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Ministry" },
   { label: "Miracles" },
   { label: "Missions" },
+  { label: "Kingdom of God" },
+  { label: "Missiology" },
   { label: "Parenting" },
   { label: "Prayer" },
   { label: "Prophecy" },

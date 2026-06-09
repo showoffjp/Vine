@@ -76,6 +76,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Eschatology Guide", href: "/eschatology-guide" },
   { label: "The Atonement", href: "/atonement-guide" },
   { label: "Theology of Scripture", href: "/word-of-god-theology" },
+  { label: "Mental Health Theology", href: "/mental-health-theology" },
+  { label: "Theology of Mission", href: "/mission-theology" },
+  { label: "Kingdom of God Guide", href: "/kingdom-of-god-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

@@ -119,7 +119,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Scripture Authority": "bibliology-guide",
   "Theology of Mental Health": "mental-health-theology",
   "Faith and Psychology": "mental-health-theology",
-  "Biblical Counseling": "mental-health-theology",
+  "Biblical Counseling": "christian-counseling-guide",
   "Mission Theology": "mission-theology",
   Missiology: "mission-theology",
   "Missio Dei": "mission-theology",
@@ -218,6 +218,17 @@ const TOPIC_SLUGS: Record<string, string> = {
   Tongues: "spiritual-gifts-guide",
   Healing: "spiritual-gifts-guide",
   "Service Gifts": "spiritual-gifts-guide",
+  "Beatitudes": "sermon-on-the-mount-guide",
+  "Sermon on the Mount": "sermon-on-the-mount-guide",
+  "Kingdom Ethics": "sermon-on-the-mount-guide",
+  "Golden Rule": "sermon-on-the-mount-guide",
+  "Pastoral Care": "pastoral-care-guide",
+  Shepherding: "pastoral-care-guide",
+  "Church Discipline": "pastoral-care-guide",
+  "Cure of Souls": "pastoral-care-guide",
+  "Christian Counseling": "christian-counseling-guide",
+  "Soul Care": "christian-counseling-guide",
+  "Integration": "christian-counseling-guide",
 };
 
 
@@ -398,6 +409,14 @@ const ALL_TOPICS: Topic[] = [
   { label: "Sign Gifts" },
   { label: "Tongues" },
   { label: "Healing" },
+  { label: "Beatitudes" },
+  { label: "Sermon on the Mount" },
+  { label: "Kingdom Ethics" },
+  { label: "Pastoral Care" },
+  { label: "Shepherding" },
+  { label: "Church Discipline" },
+  { label: "Biblical Counseling" },
+  { label: "Soul Care" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

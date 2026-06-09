@@ -103,6 +103,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Heaven & New Creation", href: "/heaven-guide" },
   { label: "Theology of Suffering", href: "/suffering-guide" },
   { label: "Spiritual Gifts Guide", href: "/spiritual-gifts-guide" },
+  { label: "Sermon on the Mount", href: "/sermon-on-the-mount-guide" },
+  { label: "Pastoral Care Guide", href: "/pastoral-care-guide" },
+  { label: "Christian Counseling", href: "/christian-counseling-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

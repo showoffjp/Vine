@@ -124,6 +124,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Philippians Guide", href: "/philippians-guide" },
   { label: "Book of Ephesians Guide", href: "/ephesians-guide" },
   { label: "Book of Colossians Guide", href: "/colossians-guide" },
+  { label: "Book of 1 Corinthians Guide", href: "/first-corinthians-guide" },
+  { label: "Book of James Guide", href: "/book-of-james-guide" },
+  { label: "Book of 1 Peter Guide", href: "/first-peter-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

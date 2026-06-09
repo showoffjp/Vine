@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -205,7 +207,9 @@ export default function ChristianParentingGuide() {
   const [journal, setJournal] = useLocalStorage("vine_parent_journal", "");
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif" }}>
+    <>
+      <Navbar />
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "32px 16px" }}>
         <div style={{ marginBottom: 8 }}>
           <span style={{ color: GOLD, fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>Christian Living</span>
@@ -415,5 +419,7 @@ export default function ChristianParentingGuide() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

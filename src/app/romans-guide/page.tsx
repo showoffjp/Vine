@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -135,7 +137,9 @@ export default function RomansGuide() {
   const [journal, setJournal] = useLocalStorage("vine_romans_journal", "");
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif" }}>
+    <>
+      <Navbar />
+      <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem" }}>
         <div style={{ marginBottom: "0.5rem" }}>
           <span style={{ background: GOLD + "22", color: GOLD, padding: "0.2rem 0.7rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1 }}>PAUL · ROMANS</span>
@@ -356,5 +360,7 @@ export default function RomansGuide() {
         )}
       </div>
     </div>
+      <Footer />
+    </>
   );
 }

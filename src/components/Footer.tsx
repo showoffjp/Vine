@@ -150,6 +150,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Jeremiah Guide", href: "/jeremiah-guide" },
   { label: "Book of Ezekiel Guide", href: "/ezekiel-guide" },
   { label: "Thessalonians Guide", href: "/thessalonians-guide" },
+  { label: "Joshua & Judges Guide", href: "/joshua-judges-guide" },
+  { label: "Numbers & Deuteronomy Guide", href: "/numbers-deuteronomy-guide" },
+  { label: "Dark Night of the Soul", href: "/christian-dark-night-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

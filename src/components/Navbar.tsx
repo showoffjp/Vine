@@ -74,6 +74,8 @@ const navLinks: NavLink[] = [
           { label: "Minor Prophets Guide", href: "/minor-prophets-guide" },
           { label: "Jeremiah Guide", href: "/jeremiah-guide" },
           { label: "Ezekiel Guide", href: "/ezekiel-guide" },
+          { label: "Joshua & Judges Guide", href: "/joshua-judges-guide" },
+          { label: "Numbers & Deuteronomy Guide", href: "/numbers-deuteronomy-guide" },
         ],
       },
       {
@@ -235,6 +237,7 @@ const navLinks: NavLink[] = [
           { label: "Stages of Spiritual Growth", href: "/spiritual-growth-stages" },
           { label: "The Practice of Lament", href: "/lament" },
           { label: "Spiritual Gifts", href: "/spiritual-gifts" },
+          { label: "Dark Night of the Soul", href: "/christian-dark-night-guide" },
         ],
       },
       {

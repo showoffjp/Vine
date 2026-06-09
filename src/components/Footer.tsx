@@ -91,6 +91,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Biblical Lament", href: "/lament-guide" },
   { label: "Spiritual Formation Guide", href: "/spiritual-formation-guide" },
   { label: "Theology of Prayer", href: "/prayer-theology-guide" },
+  { label: "Attributes of God", href: "/theology-proper-guide" },
+  { label: "Doctrine of Scripture", href: "/bibliology-guide" },
+  { label: "Christian Anthropology", href: "/christian-anthropology-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

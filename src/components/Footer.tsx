@@ -58,6 +58,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Christology", href: "/christology" },
   { label: "The Five Solas", href: "/five-solas" },
   { label: "Theology of Sin", href: "/theology-of-sin" },
+  { label: "Pneumatology", href: "/pneumatology" },
+  { label: "Assurance of Salvation", href: "/assurance-salvation" },
+  { label: "Religious Liberty", href: "/religious-liberty" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

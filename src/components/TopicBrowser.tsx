@@ -55,6 +55,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   Reformation: "five-solas",
   Sin: "theology-of-sin",
   Hamartiology: "theology-of-sin",
+  Pneumatology: "pneumatology",
+  "Holy Spirit Theology": "pneumatology",
+  "Assurance": "assurance-salvation",
+  "Eternal Security": "assurance-salvation",
+  "Religious Liberty": "religious-liberty",
+  "Church and State": "religious-liberty",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -156,6 +162,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Reformation" },
   { label: "Sin" },
   { label: "Hamartiology" },
+  { label: "Pneumatology" },
+  { label: "Assurance" },
+  { label: "Religious Liberty" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

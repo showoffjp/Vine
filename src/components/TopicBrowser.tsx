@@ -45,6 +45,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   Universalism: "hell-eternal-judgment",
   Theosis: "theosis-union-with-christ",
   "Union with Christ": "theosis-union-with-christ",
+  "Covenant Theology": "covenant-dispensationalism",
+  Dispensationalism: "covenant-dispensationalism",
+  Sexuality: "christian-sexuality-theology",
+  "Sexual Ethics": "christian-sexuality-theology",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -137,6 +141,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hell" },
   { label: "Universalism" },
   { label: "Theosis" },
+  { label: "Covenant Theology" },
+  { label: "Dispensationalism" },
+  { label: "Sexuality" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

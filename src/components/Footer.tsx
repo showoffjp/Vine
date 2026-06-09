@@ -53,6 +53,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of Revelation", href: "/book-of-revelation" },
   { label: "Hell & Judgment", href: "/hell-eternal-judgment" },
   { label: "Theosis", href: "/theosis-union-with-christ" },
+  { label: "Covenant vs. Dispensationalism", href: "/covenant-dispensationalism" },
+  { label: "Christianity & Sexuality", href: "/christian-sexuality-theology" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

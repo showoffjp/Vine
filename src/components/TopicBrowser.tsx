@@ -45,7 +45,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Universalism: "hell-eternal-judgment",
   Theosis: "theosis-union-with-christ",
   "Union with Christ": "theosis-union-with-christ",
-  "Covenant Theology": "covenant-dispensationalism",
+  "Covenant Theology": "covenant-theology-guide",
   Dispensationalism: "covenant-dispensationalism",
   Sexuality: "christian-sexuality-theology",
   "Sexual Ethics": "christian-sexuality-theology",
@@ -53,8 +53,8 @@ const TOPIC_SLUGS: Record<string, string> = {
   Incarnation: "christology",
   "Five Solas": "five-solas",
   Reformation: "five-solas",
-  Sin: "theology-of-sin",
-  Hamartiology: "theology-of-sin",
+  Sin: "hamartiology-guide",
+  Hamartiology: "hamartiology-guide",
   Pneumatology: "pneumatology-guide",
   "Holy Spirit Theology": "pneumatology-guide",
   "Assurance": "assurance-salvation",
@@ -144,6 +144,13 @@ const TOPIC_SLUGS: Record<string, string> = {
   Church: "ecclesiology-guide",
   Ecclesiology: "ecclesiology-guide",
   "Church Government": "ecclesiology-guide",
+  "Original Sin": "hamartiology-guide",
+  "Total Depravity": "hamartiology-guide",
+  "New Covenant": "covenant-theology-guide",
+  "Covenant of Grace": "covenant-theology-guide",
+  "Image of God": "image-of-god-guide",
+  "Imago Dei": "image-of-god-guide",
+  "Human Dignity": "image-of-god-guide",
 };
 
 const ALL_TOPICS: Topic[] = [

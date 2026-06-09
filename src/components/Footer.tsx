@@ -127,6 +127,9 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Book of 1 Corinthians Guide", href: "/first-corinthians-guide" },
   { label: "Book of James Guide", href: "/book-of-james-guide" },
   { label: "Book of 1 Peter Guide", href: "/first-peter-guide" },
+  { label: "Book of Revelation Guide", href: "/revelation-guide" },
+  { label: "Book of 2 Corinthians Guide", href: "/second-corinthians-guide" },
+  { label: "Theology of Work Guide", href: "/theology-of-work-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

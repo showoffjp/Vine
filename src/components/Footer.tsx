@@ -42,6 +42,7 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Introverts & Faith", href: "/introverts-faith-church" },
   { label: "The Ignatian Examen", href: "/ignatian-examen" },
   { label: "Digital Detox", href: "/digital-detox-faith" },
+  { label: "Prosperity Gospel", href: "/prosperity-gospel" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

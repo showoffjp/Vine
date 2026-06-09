@@ -25,6 +25,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   Introverts: "introverts-faith-church",
   Examen: "ignatian-examen",
   "Digital Detox": "digital-detox-faith",
+  "Prosperity Gospel": "prosperity-gospel",
   Burnout: "burnout",
   Anxiety: "anxiety",
   Loneliness: "loneliness",
@@ -100,6 +101,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Lament" },
   { label: "Examen" },
   { label: "Digital Detox" },
+  { label: "Prosperity Gospel" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

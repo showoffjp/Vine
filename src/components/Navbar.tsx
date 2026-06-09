@@ -77,6 +77,7 @@ const navLinks: NavLink[] = [
           { label: "Joshua & Judges Guide", href: "/joshua-judges-guide" },
           { label: "Numbers & Deuteronomy Guide", href: "/numbers-deuteronomy-guide" },
           { label: "1 & 2 Samuel Guide", href: "/samuel-guide" },
+          { label: "1 & 2 Kings Guide", href: "/kings-guide" },
         ],
       },
       {
@@ -225,6 +226,7 @@ const navLinks: NavLink[] = [
           { label: "Unanswered Prayer", href: "/unanswered-prayer" },
           { label: "Confession Guide", href: "/confession" },
           { label: "Prayer Warriors of History", href: "/prayer-warrior-history" },
+          { label: "How to Pray Guide", href: "/how-to-pray-guide" },
         ],
       },
       {

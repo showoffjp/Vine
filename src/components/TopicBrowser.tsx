@@ -501,6 +501,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalms of Lament": "grief-lament-guide",
   "Grief Guide": "grief-lament-guide",
   Bereavement: "grief-lament-guide",
+  Solomon: "kings-guide",
+  Elijah: "kings-guide",
+  Elisha: "kings-guide",
+  Naaman: "kings-guide",
+  Hezekiah: "kings-guide",
+  "Divided Kingdom": "kings-guide",
+  "Still Small Voice": "kings-guide",
+  "Solomon's Temple": "kings-guide",
+  "How to Pray": "how-to-pray-guide",
+  "ACTS Prayer": "how-to-pray-guide",
+  "Daily Prayer": "how-to-pray-guide",
+  "Prayer Practice": "how-to-pray-guide",
 };
 
 
@@ -915,6 +927,18 @@ const ALL_TOPICS: Topic[] = [
   { label: "Mourning" },
   { label: "Psalms of Lament" },
   { label: "Bereavement" },
+  { label: "Solomon" },
+  { label: "Elijah" },
+  { label: "Elisha" },
+  { label: "Naaman" },
+  { label: "Hezekiah" },
+  { label: "Still Small Voice" },
+  { label: "Divided Kingdom" },
+  { label: "How to Pray" },
+  { label: "ACTS Prayer" },
+  { label: "Unanswered Prayer" },
+  { label: "Daily Prayer" },
+  { label: "Intercession" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

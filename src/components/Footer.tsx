@@ -157,6 +157,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "How to Pray Guide", href: "/how-to-pray-guide" },
   { label: "1 & 2 Samuel Guide", href: "/samuel-guide" },
   { label: "Grief & Lament Guide", href: "/grief-lament-guide" },
+  { label: "Ezra & Nehemiah Guide", href: "/ezra-nehemiah-guide" },
+  { label: "Hosea Guide", href: "/hosea-guide" },
 ];
 
 const COMPANY_LINKS: LinkEntry[] = [

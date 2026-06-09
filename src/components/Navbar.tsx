@@ -78,6 +78,8 @@ const navLinks: NavLink[] = [
           { label: "Numbers & Deuteronomy Guide", href: "/numbers-deuteronomy-guide" },
           { label: "1 & 2 Samuel Guide", href: "/samuel-guide" },
           { label: "1 & 2 Kings Guide", href: "/kings-guide" },
+          { label: "Ezra & Nehemiah Guide", href: "/ezra-nehemiah-guide" },
+          { label: "Hosea Guide", href: "/hosea-guide" },
         ],
       },
       {

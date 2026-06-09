@@ -513,6 +513,21 @@ const TOPIC_SLUGS: Record<string, string> = {
   "ACTS Prayer": "how-to-pray-guide",
   "Daily Prayer": "how-to-pray-guide",
   "Prayer Practice": "how-to-pray-guide",
+  Ezra: "ezra-nehemiah-guide",
+  Nehemiah: "ezra-nehemiah-guide",
+  "Book of Ezra": "ezra-nehemiah-guide",
+  "Book of Nehemiah": "ezra-nehemiah-guide",
+  "Return from Exile": "ezra-nehemiah-guide",
+  "Rebuilding Jerusalem": "ezra-nehemiah-guide",
+  "Ezra Prayer": "ezra-nehemiah-guide",
+  "Nehemiah Wall": "ezra-nehemiah-guide",
+  "Covenant Renewal": "ezra-nehemiah-guide",
+  Gomer: "hosea-guide",
+  "Book of Hosea": "hosea-guide",
+  "Spiritual Adultery": "hosea-guide",
+  "Hosea 11": "hosea-guide",
+  "Marriage Metaphor": "hosea-guide",
+  "Valley of Achor": "hosea-guide",
 };
 
 
@@ -939,6 +954,16 @@ const ALL_TOPICS: Topic[] = [
   { label: "Unanswered Prayer" },
   { label: "Daily Prayer" },
   { label: "Intercession" },
+  { label: "Ezra" },
+  { label: "Nehemiah" },
+  { label: "Return from Exile" },
+  { label: "Rebuilding Jerusalem" },
+  { label: "Covenant Renewal" },
+  { label: "Gomer" },
+  { label: "Book of Hosea" },
+  { label: "Spiritual Adultery" },
+  { label: "Valley of Achor" },
+  { label: "Hosea 11" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

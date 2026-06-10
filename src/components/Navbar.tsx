@@ -99,6 +99,7 @@ const navLinks: NavLink[] = [
         title: "New Testament Books",
         items: [
           { label: "NT Survey", href: "/new-testament-survey" },
+          { label: "The Life of Christ", href: "/life-of-christ" },
           { label: "Gospel of John Guide", href: "/gospel-of-john-guide" },
           { label: "Romans Guide", href: "/romans-guide" },
           { label: "Hebrews Guide", href: "/hebrews-guide" },

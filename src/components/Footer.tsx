@@ -124,6 +124,7 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "The Life of Christ", href: "/life-of-christ" },
   { label: "Acts of the Apostles Guide", href: "/acts-of-the-apostles-guide" },
   { label: "Parables Deep Dive", href: "/parables-deep-dive" },
+  { label: "Names of God Deep Study", href: "/names-of-god-study" },
   { label: "Book of Galatians Guide", href: "/galatians-guide" },
   { label: "Women in Scripture Guide", href: "/women-theology-guide" },
   { label: "Book of Philippians Guide", href: "/philippians-guide" },

@@ -133,6 +133,7 @@ const navLinks: NavLink[] = [
           { label: "Biblical Theology Primer", href: "/biblical-theology-primer" },
           { label: "The Holy Trinity", href: "/trinity" },
           { label: "Names of God", href: "/names-of-god" },
+          { label: "Names of God Deep Study", href: "/names-of-god-study" },
           { label: "Names of Jesus", href: "/names-of-jesus" },
           { label: "The Incarnation", href: "/incarnation" },
           { label: "The Resurrection", href: "/resurrection" },

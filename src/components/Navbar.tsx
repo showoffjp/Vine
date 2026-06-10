@@ -106,6 +106,7 @@ const navLinks: NavLink[] = [
           { label: "Romans Guide", href: "/romans-guide" },
           { label: "Hebrews Guide", href: "/hebrews-guide" },
           { label: "Jude Guide", href: "/jude-guide" },
+          { label: "Philemon Guide", href: "/philemon-guide" },
           { label: "2 Peter Guide", href: "/second-peter-guide" },
           { label: "Letters of John Guide", href: "/letters-of-john-guide" },
           { label: "Song of Songs Guide", href: "/song-of-songs-guide" },

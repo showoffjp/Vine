@@ -127,6 +127,7 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Names of God Deep Study", href: "/names-of-god-study" },
   { label: "Church History Timeline", href: "/church-history-timeline" },
   { label: "Joel Guide", href: "/joel-guide" },
+  { label: "Philemon Guide", href: "/philemon-guide" },
   { label: "Book of Galatians Guide", href: "/galatians-guide" },
   { label: "Women in Scripture Guide", href: "/women-theology-guide" },
   { label: "Book of Philippians Guide", href: "/philippians-guide" },

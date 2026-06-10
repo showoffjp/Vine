@@ -100,6 +100,7 @@ const navLinks: NavLink[] = [
         items: [
           { label: "NT Survey", href: "/new-testament-survey" },
           { label: "The Life of Christ", href: "/life-of-christ" },
+          { label: "Acts of the Apostles", href: "/acts-of-the-apostles-guide" },
           { label: "Gospel of John Guide", href: "/gospel-of-john-guide" },
           { label: "Romans Guide", href: "/romans-guide" },
           { label: "Hebrews Guide", href: "/hebrews-guide" },
@@ -110,6 +111,7 @@ const navLinks: NavLink[] = [
           { label: "Ruth & Esther Guide", href: "/ruth-esther-guide" },
           { label: "Thessalonians Guide", href: "/thessalonians-guide" },
           { label: "Parables of Jesus", href: "/parables-of-jesus" },
+          { label: "Parables Deep Dive", href: "/parables-deep-dive" },
           { label: "Miracles of Jesus", href: "/miracles-of-jesus" },
           { label: "Sermon on the Mount", href: "/sermon-on-the-mount" },
           { label: "The Armor of God", href: "/armor-of-god" },

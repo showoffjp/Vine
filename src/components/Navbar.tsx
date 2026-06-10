@@ -180,6 +180,7 @@ const navLinks: NavLink[] = [
         title: "Church History",
         items: [
           { label: "Church History", href: "/church-history" },
+          { label: "Church History Timeline", href: "/church-history-timeline" },
           { label: "Great Revivals", href: "/great-revivals" },
           { label: "Church Fathers Guide", href: "/church-fathers-guide" },
           { label: "Church Fathers Writings", href: "/church-fathers-writings" },

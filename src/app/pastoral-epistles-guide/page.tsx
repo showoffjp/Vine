@@ -69,9 +69,9 @@ export default function PastoralEpistlesGuidePage() {
   const deleteEntry = useCallback((id: string) => setJEntries(prev => prev.filter(e => e.id !== id)), []);
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+    <div style={{ background: BG, minHeight: "100vh", fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 860, margin: "0 auto", padding: "40px 20px 60px" }}>
+      <main id="main-content" style={{ maxWidth: 860, margin: "0 auto", padding: "40px 20px 60px" }}>
         <div style={{ marginBottom: 32 }}>
           <div style={{ display: "inline-block", background: `${GREEN}20`, border: `1px solid ${GREEN}40`, borderRadius: 20, padding: "4px 14px", fontSize: 12, color: GREEN, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>Pastoral Letters · NT</div>
           <h1 style={{ color: TEXT, fontSize: 34, fontWeight: 900, margin: "0 0 10px" }}>The Pastoral Epistles</h1>

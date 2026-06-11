@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -13,18 +14,6 @@ const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 const GOLD = "#D97706";
 const TEAL = "#0D9488";
-
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -135,14 +124,14 @@ const VIDEOS = [
 ];
 
 export default function ColossiansGuide() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_col_tab", "overview");
-  const [openHer, setOpenHer] = useLocalStorage("vine_col_her", "");
-  const [journal, setJournal] = useLocalStorage("vine_col_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_col_tab", "overview");
+  const [openHer, setOpenHer] = usePersistedState<string>("vine_col_her", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_col_journal", "");
 
   return (
-    <>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
+      <main id="main-content">
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "32px 16px" }}>
         <div style={{ marginBottom: 8 }}>
           <span style={{ color: GOLD, fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>Bible Study</span>
@@ -291,23 +280,14 @@ export default function ColossiansGuide() {
             <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Video Teaching</h2>
             <div style={{ display: "grid", gap: 20 }}>
               {VIDEOS.map((v, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
-                  <div style={{ padding: "12px 16px" }}>
-                    <p style={{ color: TEXT, fontWeight: 600, fontSize: 14 }}>{v.title}</p>
-                  </div>
-                </div>
+                <VideoEmbed key={i} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>
         )}
       </div>
-    </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

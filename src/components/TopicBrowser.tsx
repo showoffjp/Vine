@@ -848,6 +848,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Death Theology": "end-of-life-care",
   "Hospice Christian": "end-of-life-care",
   "Caring for the Dying": "end-of-life-care",
+  "Christian Leadership": "christian-leadership",
+  "Servant Leadership Bible": "christian-leadership",
+  "Leadership Character": "christian-leadership",
+  "Biblical Leader": "christian-leadership",
+  "Church Planting": "church-planting",
+  "How to Plant a Church": "church-planting",
+  "Church Plant Theology": "church-planting",
+  "Missionary Church Planting": "church-planting",
+  "Creation Care Christian": "christian-environmentalism",
+  "Christian Environmentalism": "christian-environmentalism",
+  "Stewardship Environment": "christian-environmentalism",
+  "Biblical Ecology": "christian-environmentalism",
 };
 
 
@@ -1394,6 +1406,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Advent Guide" },
   { label: "Lent Guide" },
   { label: "End of Life Care" },
+  { label: "Christian Leadership" },
+  { label: "Church Planting" },
+  { label: "Creation Care" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

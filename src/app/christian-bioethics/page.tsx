@@ -1,403 +1,235 @@
 "use client";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
-
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", ACCENT = "#0D9488", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "issues" | "endoflife" | "emerging" | "journal" | "videos";
-
-const FOUNDATION_ITEMS = [
-  {
-    id: "imagodei",
-    title: "The Image of God as Bioethical Foundation",
-    body: "Genesis 1:26-28 establishes the cornerstone of Christian bioethics: every human being, from conception to natural death, bears the image of God. This is not a conditional status earned by capacity, achievement, or viability — it is an ontological fact about what every human being is. This means: a fertilized embryo, a person in a persistent vegetative state, a person with severe cognitive disability, an elderly person with dementia — all bear the image of God with equal dignity. Christian bioethics rejects any framework that assigns differential human value based on capacity, utility, or quality of life.",
-  },
-  {
-    id: "sanctity",
-    title: "The Sanctity of Human Life",
-    body: "The Christian tradition has historically affirmed the sanctity of human life — that human life is inherently sacred and not to be taken without profound justification. Genesis 9:6 grounds the prohibition on murder in the image: 'for in the image of God has God made mankind.' The commandment against murder (Exodus 20:13) has been extended in Christian ethics to cover all unjustified killing of human beings. The Didache (c. 100 AD), one of the earliest Christian documents, explicitly condemned abortion and infanticide — practices common in the Roman world. This was not a political position but a theological one.",
-  },
-  {
-    id: "embodiment",
-    title: "The Theology of Embodiment",
-    body: "Christian theology takes the body seriously. The incarnation (God becoming flesh), the bodily resurrection of Christ, and the promised resurrection of the dead all declare that bodies are not prisons from which souls escape but essential to human personhood. This has direct bioethical implications: our bodies are not merely our property to do with as we wish. They are temples of the Holy Spirit (1 Corinthians 6:19-20). Medical interventions that heal and restore bodies participate in the restoration of creation. Interventions that treat bodies as mere instruments for preferences or engineering projects require careful scrutiny.",
-  },
-  {
-    id: "suffering",
-    title: "The Meaning of Suffering and Limitation",
-    body: "Christian bioethics takes a counter-cultural view of suffering and limitation. Where modern bioethics often treats suffering as inherently meaningless and to be eliminated at any cost, the Christian tradition sees suffering as potentially formative, redemptive, and participating in the suffering of Christ (Colossians 1:24, Romans 8:17). This does not mean celebrating suffering or withholding compassionate care — it means that the person in the hospital bed is not a problem to be solved but a person to be accompanied, and that the goal of medicine is not the elimination of all suffering but the promotion of genuine human flourishing.",
-  },
-  {
-    id: "methods",
-    title: "Methods in Christian Bioethics",
-    body: "Christian bioethics draws on multiple sources: Scripture (the canonical witness to human dignity, the specific commands, the narrative of creation-fall-redemption), natural law (moral truths accessible through reason and the observation of human nature — Aquinas), virtue ethics (what practices and characters are formed by medical choices — what does this do to the practitioner, patient, and community?), and the wisdom of the Christian tradition across 2,000 years of reflection on life, death, and healing. No single method is sufficient; all must be brought to bear on genuinely hard questions.",
-  },
-];
-
-const ISSUE_ITEMS = [
-  {
-    id: "abortion",
-    title: "Abortion",
-    color: "#EF4444",
-    consensus: "Broad Christian consensus against abortion, with varying exceptions",
-    theology: "The central question is the status of the embryo and fetus from conception. The Christian tradition has generally held that human life begins at or near conception — supported by Psalm 139:13-16, Jeremiah 1:5, Luke 1:41-44, and the Didache's condemnation of abortion. The Catechism of the Catholic Church states: 'Human life must be respected and protected absolutely from the moment of conception.' Most evangelical statements affirm a strong presumption against abortion while acknowledging hard cases (rape, incest, severe fetal anomaly, life of the mother). The Eastern Orthodox tradition generally condemns abortion with some pastoral flexibility in extreme circumstances.",
-    harder_questions: "How should Christians respond pastorally to women who have had abortions? What is the church's role in preventing unwanted pregnancies? How do Christians engage politically on this issue in a pluralist democracy?",
-  },
-  {
-    id: "ivf",
-    title: "In Vitro Fertilization (IVF)",
-    color: "#F59E0B",
-    consensus: "Divided — Roman Catholic opposes; Protestant views vary widely",
-    theology: "IVF raises distinct bioethical questions from abortion: the status of spare embryos created in the process (often frozen or discarded), the separation of procreation from the conjugal act (Catholic natural law concern), and the commodification of children as products manufactured to specification. The Roman Catholic Church condemns IVF as violating the inherent unity of the conjugal act and the dignity of the embryo. Most evangelical Protestants permit IVF in principle but with concern about the disposition of spare embryos. The ERLC (Southern Baptist) advocates for limiting IVF cycles and requiring implantation of all created embryos.",
-    harder_questions: "What is the status of the frozen embryo? Should Christians adopt frozen embryos? What restrictions should Christians advocate for in IVF regulation?",
-  },
-  {
-    id: "contraception",
-    title: "Contraception",
-    color: PURPLE,
-    consensus: "Roman Catholic prohibition; Protestant generally permissive with caveats",
-    theology: "The Roman Catholic Church's Humanae Vitae (1968) holds that each act of marital intercourse must remain open to the possibility of new life — hence artificial contraception is prohibited. This is a natural law argument, not primarily a biblical one. Most Protestant traditions do not share this view, permitting contraception within marriage. Where the traditions converge: both oppose contraceptives that work by preventing implantation of a fertilized egg (treating it as an abortifacient), and both oppose a purely contraceptive mentality that treats children as inconveniences rather than gifts.",
-    harder_questions: "Do hormonal contraceptives sometimes prevent implantation? Is barrier contraception different from hormonal? What about emergency contraception?",
-  },
-  {
-    id: "genetics",
-    title: "Genetic Testing & Screening",
-    color: "#3B82F6",
-    consensus: "Widely varied; no settled Christian consensus",
-    theology: "Prenatal genetic testing raises bioethical questions depending on what follows from the information: if testing leads to abortion for conditions like Down syndrome, most Christian bioethicists oppose it; if testing provides information to help prepare for and care for a child with a condition, it is widely accepted. Preimplantation genetic diagnosis (PGD) in IVF — selecting which embryos to implant based on genetic characteristics — raises questions about genetic selection and 'designer babies.' Genetic carrier testing (to know if a couple carries genes for heritable conditions) is generally less controversial.",
-    harder_questions: "When is prenatal testing a form of eugenics? What is owed to children with disabilities? How should Christians counsel couples with high genetic risk?",
-  },
-];
-
-const ENDOFLIFE_ITEMS = [
-  {
-    id: "ordinary",
-    title: "Ordinary vs. Extraordinary Care",
-    body: "Christian ethics has traditionally distinguished ordinary care (food, water, basic comfort — generally required) from extraordinary means (intensive interventions that provide no reasonable expectation of benefit — not always required). The Catechism of the Catholic Church: 'One can cease all extraordinary and disproportionate means to prolong life.' This distinction helps navigate end-of-life decisions: withholding a ventilator that will only prolong the dying process is not the same as killing; stopping chemotherapy that is causing suffering without benefit is not abandonment. The goal is human flourishing, not maximum biological duration.",
-  },
-  {
-    id: "advance",
-    title: "Advance Directives and Living Wills",
-    body: "Christians should prepare advance directives — documents that specify their wishes for medical care if they become incapacitated. This is a form of stewardship: relieving loved ones and medical personnel of agonizing decisions without guidance, and ensuring that one's body is treated consistent with one's values. A Christian advance directive will reflect: the value of life (avoid hasty withdrawal of care), the acceptance of death as not the ultimate enemy (the resurrected Christ defeated death), the dignity of the person (prioritize comfort and dignity), and the relational context (involve family and pastor in end-of-life decisions).",
-  },
-  {
-    id: "euthanasia",
-    title: "Euthanasia and Physician-Assisted Death",
-    body: "The Christian tradition broadly opposes euthanasia (the intentional killing of a patient by a physician) and physician-assisted suicide (the physician providing means for the patient to end their own life). The reasons: the sanctity of life (the prohibition on murder extends to self-killing), the danger of the slippery slope (as evidenced in the Netherlands and Belgium, where the practice has expanded significantly beyond original limits), the alternative of palliative care, and the theological conviction that suffering can have meaning and that dying is a spiritual process to be accompanied rather than terminated. The Christian response to the desire for euthanasia is not argument but presence: robust palliative care, hospice ministry, and genuine accompaniment in dying.",
-  },
-  {
-    id: "hospice",
-    title: "The Theology of Dying Well",
-    body: "The Christian tradition has rich resources for dying well — the ars moriendi ('art of dying') tradition, developed in the 15th century, provided guidance for dying persons and their companions. Christian dying is characterized by: reconciliation with God and with others; reception of the sacraments (last rites in Catholic/Orthodox traditions); the presence of the Christian community; honest acknowledgment of death rather than its denial; and the hope of resurrection that gives death its proper perspective. The church's ministry to the dying is one of its most important — and most neglected — callings.",
-  },
-];
-
-const EMERGING_ITEMS = [
-  {
-    id: "ai",
-    title: "Artificial Intelligence and Human Identity",
-    color: "#3B82F6",
-    issue: "What is the relationship between human consciousness, the soul, and AI systems that increasingly simulate human cognition and even emotion? Does the imago Dei include cognitive capacity, making AGI relevant to human dignity questions?",
-    christian_response: "The imago Dei is not reducible to cognitive capacity — if it were, people with severe cognitive disabilities would have lesser dignity. The soul (Greek: psyche; Hebrew: nephesh) in Scripture is not simply the mind but the whole person in relation to God. An AI system, however sophisticated, is not made in God's image, does not have a body that will be resurrected, and is not in covenantal relationship with God. Christian ethics should resist both the inflation of AI (treating it as having human-like status) and the deflation of humanity (treating humans as merely complex information processors).",
-  },
-  {
-    id: "3Dv4-n6OYGI",
-    title: "Human Enhancement Technologies",
-    color: PURPLE,
-    issue: "Technologies that enhance human capacities beyond natural limits — cognitive enhancers, genetic editing of future children (germline editing), implanted computing interfaces, life-extension interventions — raise questions about the proper limits of human self-modification.",
-    christian_response: "Christian tradition distinguishes therapy (restoring what is damaged) from enhancement (exceeding natural design). Enhancement is not categorically prohibited — eyeglasses enhance vision beyond what human eyes achieve naturally. But the transhumanist vision of fundamentally redesigning humanity raises questions: Who decides what the enhanced human looks like? Does enhancement exacerbate inequality? Is the impetus to transcend human limits a form of pride (the Tower of Babel impulse)? Christians should engage these technologies with careful discernment rather than reflexive acceptance or rejection.",
-  },
-  {
-    id: "climate",
-    title: "Population Ethics and Climate",
-    color: GREEN,
-    issue: "Arguments that reducing population is a moral good for environmental reasons. Pressures on reproductive decisions in the name of climate responsibility.",
-    christian_response: "Genesis's command to 'be fruitful and multiply' has not been revoked, though it operates in a different context than ancient Israel's sparsely populated world. Christian ethics affirms children as gifts rather than burdens and rejects any framework that treats human beings as ecological problems rather than image-bearers with genuine dignity. At the same time, responsible stewardship of creation (the creation care mandate) creates genuine obligations — not to limit human reproduction but to live in ways that honor the creation we share.",
-  },
-  {
-    id: "organ",
-    title: "Organ Donation and Transplantation",
-    color: "#F59E0B",
-    issue: "Is organ donation obligatory? Permitted? When is a person 'dead' enough to donate? Are there limits on what organs can be donated?",
-    christian_response: "Most Christian traditions affirm organ donation as an act of love and generosity — the gift of life to another person. Some Orthodox theologians raise concerns about brain-death criteria (whether it constitutes genuine death) and whole-body integrity. The Catholic Church explicitly supports organ donation as a gift. Limits: Christians should not sell organs (treating the body as mere property) and should not donate organs in ways that hasten or cause their own death. Voluntary organ donation after death is widely affirmed as consistent with the Christian commitment to the good of neighbor.",
-  },
-];
-
-const TABS = [
-    { id: "5nvVVcYD-0w" as Tab, label: "Theological Foundations", icon: "📖" },
-    { id: "issues" as Tab, label: "Core Issues", icon: "⚖️" },
-    { id: "endoflife" as Tab, label: "End of Life", icon: "🕊️" },
-    { id: "emerging" as Tab, label: "Emerging Questions", icon: "🔬" },
-    { id: "journal" as Tab, label: "📓 My Journal", icon: "📓" },
-    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-  ];
+type BEthEntry = { id: string; date: string; dilemma: string; principle: string; application: string };
 
 export default function ChristianBioethicsPage() {
-  const [tab, setTab] = usePersistedState<Tab>("vine_christian-bioethics_tab", "foundations");
-  const [selectedFoundation, setSelectedFoundation] = usePersistedState("vine_christian-bioethics_selected_foundation", "imagodei");
-  const [selectedIssue, setSelectedIssue] = usePersistedState("vine_christian-bioethics_selected_issue", "abortion");
-  const [selectedEndOfLife, setSelectedEndOfLife] = usePersistedState("vine_christian-bioethics_selected_end_of_life", "ordinary");
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
-  const toggleExpand = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
-
-  const [cbeEntries, setCbeEntries] = useState<{ id: string; date: string; issue: string; scripture: string; position: string }[]>(() => {
-    try { const s = localStorage.getItem("vine_cbe_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  const [tab, setTab] = useState("theology");
+  const [entries, setEntries] = useState<BEthEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_bioethics_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
-  const [cbeForm, setCbeForm] = useState({ issue: "", scripture: "", position: "" });
-  const [cbeSaved, setCbeSaved] = useState(false);
-  useEffect(() => { localStorage.setItem("vine_cbe_entries", JSON.stringify(cbeEntries)); }, [cbeEntries]);
-  function saveCbeEntry() {
-    if (!cbeForm.issue.trim()) return;
-    setCbeEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...cbeForm }, ...prev]);
-    setCbeForm({ issue: "", scripture: "", position: "" });
-    setCbeSaved(true); setTimeout(() => setCbeSaved(false), 2000);
-  }
-  function deleteCbeEntry(id: string) { setCbeEntries(prev => prev.filter(e => e.id !== id)); }
-  const foundationItem = FOUNDATION_ITEMS.find(f => f.id === selectedFoundation)!;
-  const issueItem = ISSUE_ITEMS.find(i => i.id === selectedIssue)!;
-  const endOfLifeItem = ENDOFLIFE_ITEMS.find(e => e.id === selectedEndOfLife)!;
+  const [jDilemma, setJDilemma] = useState("");
+  const [jPrinciple, setJPrinciple] = useState("");
+  const [jApplication, setJApplication] = useState("");
 
+  useEffect(() => { localStorage.setItem("vine_bioethics_entries", JSON.stringify(entries)); }, [entries]);
+
+  const saveEntry = () => {
+    if (!jDilemma.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), dilemma: jDilemma, principle: jPrinciple, application: jApplication }, ...prev]);
+    setJDilemma(""); setJPrinciple(""); setJApplication("");
+  };
+
+  const deleteEntry = (id: string) => setEntries(prev => prev.filter(e => e.id !== id));
+
+  const tabs = [
+    { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
+    { id: "voices", label: "Voices" }, { id: "scripture", label: "Scripture" },
+    { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
+  ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main id="main-content">
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 60px" }}>
+      <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
 
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>⚕️</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Christian Bioethics</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto", lineHeight: 1.65 }}>
-            From abortion to AI, from end-of-life care to genetic engineering — bioethics is where the theology of the image of God meets the hardest questions of modern medicine and technology.
-          </p>
+        <div style={{ marginBottom: "0.5rem" }}>
+          <span style={{ background: ACCENT + "22", color: ACCENT, padding: "0.2rem 0.8rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Faith &amp; Ethics</span>
         </div>
+        <h1 style={{ fontSize: "clamp(1.7rem,4vw,2.6rem)", fontWeight: 900, lineHeight: 1.2, margin: "0.75rem 0 0.75rem" }}>
+          Christian Bioethics
+        </h1>
+        <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.7, maxWidth: 640, margin: "0 0 2rem" }}>
+          From abortion to genetic engineering, from end-of-life care to stem cell research &mdash; bioethics is where the theology of the image of God meets the hardest questions of modern medicine and technology. Christian ethics does not begin with positions; it begins with a person &mdash; every human being made in the image of God.
+        </p>
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {TABS.map(t => (
-            <button type="button" key={t.id} onClick={() => setTab(t.id)}
-              style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t.icon} {t.label}
-            </button>
+        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "2rem" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{
+              padding: "0.45rem 1.1rem", borderRadius: 20, border: "1px solid", fontSize: "0.85rem", fontWeight: 600, cursor: "pointer",
+              borderColor: tab === t.id ? ACCENT : BORDER, background: tab === t.id ? ACCENT + "22" : "transparent", color: tab === t.id ? ACCENT : MUTED,
+            }}>{t.label}</button>
           ))}
         </div>
 
-        {tab === "foundations" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Christian bioethics does not begin with positions on specific issues — it begins with a theology of the human person rooted in Scripture and Christian tradition. These foundations determine the approach to every specific question.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 180 }}>
-                {FOUNDATION_ITEMS.map(f => (
-                  <button type="button" key={f.id} onClick={() => setSelectedFoundation(f.id)}
-                    style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedFoundation === f.id ? GREEN : BORDER}`, background: selectedFoundation === f.id ? `${GREEN}18` : CARD, color: selectedFoundation === f.id ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
-                    {f.title.split(' ').slice(0, 4).join(' ')}...
-                  </button>
-                ))}
+        {/* THEOLOGY */}
+        {tab === "theology" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {[
+              {
+                title: "The Image of God as Bioethical Foundation (Gen 1:26&ndash;28)",
+                body: "Genesis 1:26&ndash;28 establishes the cornerstone of Christian bioethics: every human being, from conception to natural death, bears the image of God. This is not a conditional status earned by capacity, achievement, or viability &mdash; it is an ontological fact about what every human being is. A fertilized embryo, a person in a persistent vegetative state, a person with severe cognitive disability, an elderly person with dementia &mdash; all bear the image of God with equal dignity. Christian bioethics rejects any framework that assigns differential human value based on capacity, utility, or quality of life. The Didache (c. 100 AD), one of the earliest Christian documents, explicitly condemned abortion and infanticide &mdash; practices common in the Roman world &mdash; on this basis.",
+              },
+              {
+                title: "The Sanctity of Life: Creation, Fall, and Redemption",
+                body: "The sanctity of human life is not merely a slogan but a theological conviction rooted in three acts of the Christian story. In creation, God makes human beings in his image and breathes life into them (Gen 2:7). In the fall, death enters as the enemy of God&rsquo;s intention &mdash; the last enemy to be destroyed (1 Cor 15:26). In redemption, God so values human life that the eternal Son takes human flesh (John 1:14) and dies to restore it. The incarnation means human bodies matter to God eternally. The resurrection of Jesus is the firstfruits of the bodily resurrection of all believers (1 Cor 15:20&ndash;23). This framework shapes every bioethical judgment: we are not free to treat human life as a commodity because God has declared its worth in creation, mourned its loss in death, and invested himself fully in its restoration.",
+              },
+              {
+                title: "Abortion: The Status of the Human Embryo and Fetus",
+                body: "The central question in abortion ethics is not primarily political but ontological: what is the embryo? The Christian tradition has generally held that human life begins at or near conception. Psalm 139:13&ndash;16 speaks of God&rsquo;s intimate knowledge of the person in the womb; Jeremiah 1:5 records God knowing Jeremiah before formation in the womb; Luke 1:41&ndash;44 shows John the Baptist responding to the presence of Jesus while Elizabeth was pregnant with John. The consensus of Catholic, Orthodox, and most evangelical Protestant traditions affirms the embryo&rsquo;s full human status and opposes elective abortion. Hard cases &mdash; rape, incest, severe fetal anomaly, life of the mother &mdash; require careful case-by-case pastoral reasoning rather than sweeping categorical answers, but the starting presumption is always toward life.",
+              },
+              {
+                title: "Euthanasia, Physician-Assisted Death, and End-of-Life Care",
+                body: "The Christian tradition broadly opposes euthanasia (intentional killing of a patient) and physician-assisted suicide. The reasons are theological: the sanctity of life (the prohibition on murder extends to self-killing), the spiritual meaning of dying (death is not an emergency exit but a threshold), and the danger of expanding definitions (as evidenced in the Netherlands and Belgium, where legal assisted dying has grown far beyond its original scope). The Christian response to the desire for euthanasia is not argument but presence: robust palliative care, hospice ministry, honest accompaniment in dying. The church has rich resources in the ars moriendi tradition &mdash; the &ldquo;art of dying well&rdquo; &mdash; that provide a counter-vision to death on demand: dying surrounded by community, in reconciliation, in hope of resurrection.",
+              },
+              {
+                title: "Genetic Engineering, Stem Cell Research, and Human Enhancement",
+                body: "Genetic technologies force bioethicists to distinguish therapy from enhancement and creation from curation. Christian tradition supports therapeutic interventions that restore what is damaged &mdash; including, cautiously, some genetic therapies for heritable diseases. It raises serious questions about germline editing (changes heritable by future generations), the destruction of embryos in embryonic stem cell research (the embryo&rsquo;s status again is central), and the transhumanist vision of redesigning humanity itself. The Tower of Babel (Gen 11) is a recurring motif: the impulse to transcend creatureliness without reference to God produces not flourishing but confusion. Organ donation is broadly affirmed as an act of love and generosity consistent with Christian teaching on the good of neighbor.",
+              },
+            ].map(item => (
+              <div key={item.title} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+                <h3 style={{ color: ACCENT, fontWeight: 700, fontSize: "1.05rem", margin: "0 0 0.75rem" }} dangerouslySetInnerHTML={{ __html: item.title }} />
+                <p style={{ color: MUTED, lineHeight: 1.8, margin: 0, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: item.body }} />
               </div>
-              <div style={{ flex: 1, minWidth: 280 }}>
-                <div style={{ background: CARD, border: `1px solid ${GREEN}30`, borderRadius: 14, padding: 28 }}>
-                  <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 20, marginBottom: 16 }}>{foundationItem.title}</h2>
-                  <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>{foundationItem.body}</p>
+            ))}
+          </div>
+        )}
+
+        {/* PRACTICES */}
+        {tab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Practices</h2>
+            {[
+              "Before forming a position on any bioethical question, identify your foundational conviction: what is the status of the human being in question? Start with the image of God and work outward to the specific dilemma &mdash; do not start with political alignment or cultural consensus.",
+              "Prepare an advance directive that reflects Christian values around end-of-life care. Name a trusted advocate, specify your wishes regarding extraordinary measures, and explicitly address the difference between refusing futile treatment (permissible) and requesting to be killed (not permissible). Discuss it with your pastor and family.",
+              "Read one careful Christian bioethicist whose tradition differs from your own &mdash; a Catholic reading an evangelical, an evangelical reading an Orthodox writer. The Christian tradition is richer than any single tradition&rsquo;s bioethics, and genuine disagreement within the tradition is more instructive than confident partisanship.",
+              "When someone you love faces a bioethical crisis &mdash; a difficult diagnosis, a pregnancy decision, end-of-life care for a parent &mdash; resist the impulse to answer quickly. Be present first. The ministry of presence and accompaniment is more important in most cases than having the right answer immediately available.",
+              "Engage with the disability community before forming final opinions on prenatal testing, quality-of-life arguments, and end-of-life care. The assumption that a life with disability is not worth living is contested most effectively not by argument but by the witness of people with disabilities who testify to full and meaningful lives made in the image of God.",
+            ].map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem", display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+                <div style={{ background: ACCENT + "22", color: ACCENT, fontWeight: 800, borderRadius: "50%", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.9rem" }}>{i + 1}</div>
+                <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: p }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* VOICES */}
+        {tab === "voices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Voices</h2>
+            {[
+              {
+                name: "Joni Eareckson Tada",
+                work: "When Is It Right to Die?",
+                quote: "The value of a life cannot be measured by what it produces or what it experiences. A person in a coma bears the image of God as much as a concert pianist. To say otherwise is to slip into a utilitarian ethic that has no barrier against the logic of the Holocaust.",
+                bio: "Joni Eareckson Tada became a quadriplegic at 17 following a diving accident and has spent over five decades as one of the most compelling Christian voices on disability, suffering, and bioethics. Her organization Joni and Friends has provided theological and practical resources for disability ministry worldwide. Her personal testimony &mdash; of finding meaning and purpose in a severely limited body &mdash; makes her bioethical writing unusually credible and moving. She opposes euthanasia, assisted suicide, and quality-of-life arguments from lived experience, not theory.",
+              },
+              {
+                name: "Gilbert Meilaender",
+                work: "Bioethics: A Primer for Christians",
+                quote: "We should not try to eliminate suffering whenever possible as if it had no place in a good human life. We should, rather, try to care for those who suffer, accompanying them in their suffering, not abandoning them to it. The goal of medicine is not to eliminate mortality but to care for mortal persons.",
+                bio: "Gilbert Meilaender is a Lutheran bioethicist and longtime professor at Valparaiso University whose work represents some of the most careful and accessible Christian engagement with bioethical questions. His Bioethics: A Primer for Christians is the standard introduction for thoughtful lay Christians. He served on the President&rsquo;s Council on Bioethics under George W. Bush. His approach combines Protestant theological convictions with natural law reasoning and a deep engagement with the Catholic tradition in a way that is ecumenically instructive.",
+              },
+              {
+                name: "C. Everett Koop",
+                work: "Whatever Happened to the Human Race?",
+                quote: "When the sanctity of human life is eroded at any point on the continuum of life &mdash; whether at the beginning, the end, or anywhere in between &mdash; all life becomes vulnerable. The logic of abortion, accepted for convenience, becomes the logic that threatens the disabled, the elderly, the inconvenient.",
+                bio: "C. Everett Koop was a pioneering pediatric surgeon who became Surgeon General of the United States under Ronald Reagan. Together with Francis Schaeffer he produced the landmark film and book series Whatever Happened to the Human Race? (1979), which argued that the erosion of the sanctity of life in abortion would logically extend to euthanasia and infanticide. Koop&rsquo;s combination of medical expertise and Christian conviction made him one of the most influential voices in the development of evangelical bioethics. His predictions about the slippery slope have been borne out in subsequent decades.",
+              },
+            ].map(v => (
+              <div key={v.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+                <div style={{ marginBottom: "0.75rem" }}>
+                  <div style={{ fontWeight: 700, fontSize: "1.05rem", color: TEXT }}>{v.name}</div>
+                  <div style={{ color: ACCENT, fontSize: "0.85rem", marginTop: "0.15rem" }}><em>{v.work}</em></div>
                 </div>
+                <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem", margin: "0 0 0.75rem", color: TEXT, fontStyle: "italic", lineHeight: 1.7 }}>
+                  &ldquo;<span dangerouslySetInnerHTML={{ __html: v.quote }} />&rdquo;
+                </blockquote>
+                <p style={{ color: MUTED, fontSize: "0.9rem", lineHeight: 1.7, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.bio }} />
               </div>
-            </div>
+            ))}
           </div>
         )}
 
-        {tab === "issues" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These are the most contested bioethical issues facing Christians today. The goal here is honest engagement — presenting the theological reasoning, not just the conclusions.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-              {ISSUE_ITEMS.map(i => (
-                <button type="button" key={i.id} onClick={() => setSelectedIssue(i.id)}
-                  style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedIssue === i.id ? i.color : BORDER}`, background: selectedIssue === i.id ? `${i.color}15` : "transparent", color: selectedIssue === i.id ? i.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                  {i.title}
-                </button>
-              ))}
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${issueItem.color}30`, borderRadius: 14, padding: 28 }}>
-              <div style={{ marginBottom: 16 }}>
-                <h2 style={{ color: issueItem.color, fontWeight: 900, fontSize: 22, margin: 0 }}>{issueItem.title}</h2>
-                <div style={{ background: `${issueItem.color}15`, color: issueItem.color, padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 700, display: "inline-block", marginTop: 8 }}>{issueItem.consensus}</div>
+        {/* SCRIPTURE */}
+        {tab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Scripture</h2>
+            {[
+              { ref: "Gen 1:26&ndash;27", text: "Then God said, &ldquo;Let us make man in our image, after our likeness. And let them have dominion over the fish of the sea and over the birds of the heavens and over the livestock and over all the earth.&rdquo; So God created man in his own image, in the image of God he created him; male and female he created them.", insight: "The imago Dei is the non-negotiable foundation of Christian bioethics. Every human being at every stage of development bears this image." },
+              { ref: "Ps 139:13&ndash;16", text: "For you formed my inward parts; you knitted me together in my mother&rsquo;s womb. I praise you, for I am fearfully and wonderfully made. Wonderful are your works; my soul knows it very well. My frame was not hidden from you, when I was being made in secret, intricately woven in the depths of the earth.", insight: "God&rsquo;s intimate knowledge and involvement in human formation before birth is a key text for the personhood of the unborn." },
+              { ref: "Jer 1:5", text: "&ldquo;Before I formed you in the womb I knew you, and before you were born I consecrated you; I appointed you a prophet to the nations.&rdquo;", insight: "God&rsquo;s knowledge and calling of persons before birth implies personhood and purpose that precede physical development." },
+              { ref: "1 Cor 6:19&ndash;20", text: "Or do you not know that your body is a temple of the Holy Spirit within you, whom you have from God? You are not your own, for you were bought with a price. So glorify God in your body.", insight: "The body is not mere property to be disposed of according to personal preference &mdash; it belongs to God who made and redeemed it." },
+              { ref: "Luke 1:41&ndash;44", text: "And when Elizabeth heard the greeting of Mary, the baby leaped in her womb. And Elizabeth was filled with the Holy Spirit, and she exclaimed with a loud cry, &ldquo;Blessed are you among women, and blessed is the fruit of your womb! And why is this granted to me that the mother of my Lord should come to me? For behold, when the sound of your greeting came to my ears, the baby in my womb leaped for joy.&rdquo;", insight: "John the Baptist responds to the presence of Jesus while both are still in utero &mdash; a striking text for the personhood and spiritual responsiveness of the unborn." },
+              { ref: "Gen 9:6", text: "&ldquo;Whoever sheds the blood of man, by man shall his blood be shed, for God made man in his image.&rdquo;", insight: "The prohibition on murder is grounded explicitly in the image of God &mdash; connecting the sanctity of life directly to God&rsquo;s own character and design." },
+            ].map(s => (
+              <div key={s.ref} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+                <div style={{ color: ACCENT, fontWeight: 700, marginBottom: "0.5rem", fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: s.ref }} />
+                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.7, margin: "0 0 0.6rem" }} dangerouslySetInnerHTML={{ __html: s.text }} />
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }} dangerouslySetInnerHTML={{ __html: s.insight }} />
               </div>
-              <div style={{ marginBottom: 18 }}>
-                <div style={{ color: MUTED, fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>The Theological Case</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{issueItem.theology}</p>
-              </div>
-              <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
-                <div style={{ color: MUTED, fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>The Harder Questions</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>{issueItem.harder_questions}</p>
-              </div>
-            </div>
+            ))}
           </div>
         )}
 
-        {tab === "endoflife" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                How we die matters. Christian tradition has rich resources for end-of-life decisions that distinguish between killing and letting die, between aggressive intervention and dignified dying, between despair and hope.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-              {ENDOFLIFE_ITEMS.map(e => (
-                <button type="button" key={e.id} onClick={() => setSelectedEndOfLife(e.id)}
-                  style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedEndOfLife === e.id ? PURPLE : BORDER}`, background: selectedEndOfLife === e.id ? `${PURPLE}15` : "transparent", color: selectedEndOfLife === e.id ? PURPLE : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                  {e.title.split(' ').slice(0, 3).join(' ')}...
-                </button>
-              ))}
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
-              <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 20, marginBottom: 16 }}>{endOfLifeItem.title}</h2>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>{endOfLifeItem.body}</p>
-            </div>
-          </div>
-        )}
-
-        {tab === "emerging" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Christian bioethics must engage genuinely new questions that earlier generations never faced. These are not academic puzzles — they are forming the world our children will inhabit.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {EMERGING_ITEMS.map(e => (
-                <div role="button" tabIndex={0} key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button type="button" onClick={() => toggleExpand(e.id)}
-                    style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: e.color, flexShrink: 0 }} />
-                      <div style={{ fontWeight: 800, fontSize: 16 }}>{e.title}</div>
-                    </div>
-                    <div style={{ color: MUTED, fontWeight: 700, fontSize: 20, flexShrink: 0 }}>{expanded[e.id] ? "−" : "+"}</div>
-                  </button>
-                  {expanded[e.id] && (
-                    <div style={{ padding: "0 22px 22px" }}>
-                      <div style={{ background: `${e.color}10`, border: `1px solid ${e.color}25`, borderRadius: 10, padding: 14, marginBottom: 14 }}>
-                        <div style={{ color: e.color, fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>The Issue</div>
-                        <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{e.issue}</p>
-                      </div>
-                      <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
-                        <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Christian Response</div>
-                        <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{e.christian_response}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 22, marginTop: 20 }}>
-              <div style={{ color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 10 }}>FURTHER RESOURCES</div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
-                {[
-                  { title: "The Ethics of Human Enhancement", author: "Andy Crouch" },
-                  { title: "The Case for Life", author: "Scott Klusendorf" },
-                  { title: "Technologized", author: "Trevin Wax" },
-                  { title: "A Time to Die", author: "Robert Mounce" },
-                  { title: "Joni Eareckson Tada on disability and bioethics", author: "Various essays" },
-                  { title: "The Bioethics of Artificial Intelligence", author: "C. Ben Mitchell, CBHD" },
-                ].map((r, i) => (
-                  <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
-                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{r.title}</div>
-                    <div style={{ color: MUTED, fontSize: 12 }}>{r.author}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
+        {/* JOURNAL */}
         {tab === "journal" && (
-          <div>
-            <div style={{ marginBottom: 28 }}>
-              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>My Bioethics Journal</h2>
-              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Work through hard bioethical questions in light of Scripture and Christian tradition.</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+              <h2 style={{ color: ACCENT, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 0.4rem" }}>Reflection Journal</h2>
+              <p style={{ color: MUTED, fontSize: "0.88rem", margin: "0 0 1.25rem", lineHeight: 1.6 }}>Private and stored only on this device. No account required.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>What bioethical dilemma are you thinking through?</label>
+                  <textarea
+                    value={jDilemma}
+                    onChange={e => setJDilemma(e.target.value)}
+                    placeholder="e.g. End-of-life care for a parent, prenatal testing, IVF, genetic counseling..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>Which Christian principle or Scripture most directly applies?</label>
+                  <textarea
+                    value={jPrinciple}
+                    onChange={e => setJPrinciple(e.target.value)}
+                    placeholder="Image of God, sanctity of life, bodily resurrection, suffering as meaningful, neighbor love..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>How does this principle apply to your specific situation or question?</label>
+                  <textarea
+                    value={jApplication}
+                    onChange={e => setJApplication(e.target.value)}
+                    placeholder="Work through the application — where does it lead you? What tensions remain?"
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+              </div>
+              <button onClick={saveEntry} style={{ marginTop: "1rem", padding: "0.6rem 1.5rem", background: ACCENT, border: "none", borderRadius: 8, color: "#fff", cursor: "pointer", fontWeight: 700, fontSize: "0.93rem" }}>Save Entry</button>
             </div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28, marginBottom: 32 }}>
-              <div style={{ marginBottom: 18 }}>
-                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>Bioethical Issue or Question</label>
-                <input value={cbeForm.issue} onChange={e => setCbeForm(f => ({ ...f, issue: e.target.value }))} placeholder="e.g. End-of-life care, genetic testing, IVF..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, boxSizing: "border-box" }} />
+            {entries.map(e => (
+              <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.25rem 1.5rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
+                  <span style={{ color: MUTED, fontSize: "0.82rem" }}>{e.date}</span>
+                  <button onClick={() => deleteEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: "0.82rem" }}>Delete</button>
+                </div>
+                {e.dilemma && <div style={{ marginBottom: "0.5rem" }}><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Dilemma</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.dilemma}</p></div>}
+                {e.principle && <div style={{ marginBottom: "0.5rem" }}><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Principle</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.principle}</p></div>}
+                {e.application && <div><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Application</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.application}</p></div>}
               </div>
-              <div style={{ marginBottom: 18 }}>
-                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>How Does Scripture Inform This?</label>
-                <textarea value={cbeForm.scripture} onChange={e => setCbeForm(f => ({ ...f, scripture: e.target.value }))} placeholder="Which biblical principles or passages speak to this question?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div style={{ marginBottom: 18 }}>
-                <label style={{ display: "block", color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>My Current Position or Conviction</label>
-                <textarea value={cbeForm.position} onChange={e => setCbeForm(f => ({ ...f, position: e.target.value }))} placeholder="Where have you landed, and what tensions remain?" rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <button type="button" onClick={saveCbeEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
-                {cbeSaved ? "Saved!" : "Save Entry"}
-              </button>
-            </div>
-            {cbeEntries.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {cbeEntries.map(e => (
-                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                      <div>
-                        <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{e.issue}</div>
-                        <div style={{ color: MUTED, fontSize: 11 }}>{e.date}</div>
-                      </div>
-                      <button type="button" onClick={() => deleteCbeEntry(e.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 10px", color: MUTED, fontSize: 11, cursor: "pointer" }}>Delete</button>
-                    </div>
-                    {e.scripture && <div style={{ marginBottom: 10 }}><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>Scripture</div><div style={{ color: TEXT, fontSize: 13 }}>{e.scripture}</div></div>}
-                    {e.position && <div><div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3, textTransform: "uppercase" }}>My Position</div><div style={{ color: TEXT, fontSize: 13 }}>{e.position}</div></div>}
-                  </div>
-                ))}
-              </div>
-            )}
+            ))}
           </div>
         )}
 
+        {/* VIDEOS */}
         {tab === "videos" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                {[
-                  { videoId: "bxzuh5Xx5G4", title: "Bioethics: The Christian Response to Euthanasia and Gene Manipulation", channel: "Andy Moore & Calum Miller", description: "A scholarly Christian examination of euthanasia and genetic engineering — exploring the image of God, human dignity, and what faithfulness looks like at medicine's frontiers." },
-                  { videoId: "KwX1f2gYKZ4", title: "A Belief That Prevents Abortion", channel: "Desiring God / John Piper", description: "Piper argues that the single most powerful barrier to abortion is the conviction that every human being — from conception — bears the image of God." },
-                  { videoId: "YNd-PbVhnvA", title: "A Biblical Perspective on Abortion and Euthanasia", channel: "Bible Teaching", description: "A careful biblical examination of the sanctity of human life from conception to natural death, applied to the contemporary challenges of abortion and euthanasia." },
-                  { videoId: "XtwIT8JjddM", title: "Should Christians Support 'Death with Dignity'?", channel: "Biblical Worldview", description: "A biblical response to assisted suicide movements — arguing from the image of God and the sanctity of life that there is no such thing as undignified natural death." },
-                ].map(v => (
-                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Videos</h2>
+            <VideoEmbed videoId="bxzuh5Xx5G4" title="Christian Bioethics: Sanctity of Life &mdash; Euthanasia and Genetic Engineering" />
+            <VideoEmbed videoId="KwX1f2gYKZ4" title="Abortion and the Christian Perspective: The Image of God from Conception" />
+            <VideoEmbed videoId="YNd-PbVhnvA" title="Euthanasia and the Christian View: Dying with Dignity vs. Dying Well" />
+            <VideoEmbed videoId="XtwIT8JjddM" title="Genetic Ethics and Christianity: Where Should the Church Draw the Line?" />
           </div>
         )}
 
-      </div>
       </main>
       <Footer />
     </div>

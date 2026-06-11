@@ -1,11 +1,8 @@
-import { Metadata } from "next";
-
+import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Spiritual Gifts: A Complete Biblical Guide | Vine",
-  description:
-    "A comprehensive guide to spiritual gifts — the biblical lists, cessationism vs. continuationism, sign gifts, service gifts, how to discover your gift, using gifts in community, and guarding against abuse.",
+  title: "Spiritual Gifts Guide | Vine",
+  description: "A complete guide to discovering your spiritual gifts — teaching, prophecy, healing, tongues, administration, mercy, giving, and faith. Covers cessationist and continuationist views with Scripture and practical steps.",
 };
-
 export default function Layout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

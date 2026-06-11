@@ -973,6 +973,24 @@ const TOPIC_SLUGS: Record<string, string> = {
   "End Times Guide": "end-times-guide",
   "Eschatology Guide": "end-times-guide",
   "Bible Prophecy Guide": "end-times-guide",
+  "Christian Bioethics": "christian-bioethics",
+  Bioethics: "christian-bioethics",
+  "Sanctity of Life": "christian-bioethics",
+  "Christian Identity": "christian-identity",
+  "Identity in Christ": "christian-identity",
+  "Who Am I in Christ": "christian-identity",
+  "Christian Parenting": "christian-parenting",
+  "Biblical Parenting": "christian-parenting",
+  "Gospel-Centered Parenting": "christian-parenting",
+  "Discover Spiritual Gifts": "spiritual-gifts-guide",
+  "Find Your Spiritual Gifts": "spiritual-gifts-guide",
+  "Spiritual Gifts Test": "spiritual-gifts-guide",
+  "Christian Activism": "christian-activism",
+  "Christians and Politics": "christian-activism",
+  "Christian Social Justice": "christian-activism",
+  "Death and Dying Guide": "death-dying-guide",
+  "Christian View of Death": "death-dying-guide",
+  "Dying Well Guide": "death-dying-guide",
 };
 
 
@@ -1554,6 +1572,12 @@ const ALL_TOPICS: Topic[] = [
   { label: "Repentance Guide" },
   { label: "Christian Community" },
   { label: "End Times Guide" },
+  { label: "Christian Bioethics" },
+  { label: "Christian Identity" },
+  { label: "Christian Parenting" },
+  { label: "Spiritual Gifts Guide" },
+  { label: "Christian Activism" },
+  { label: "Death and Dying Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -765,6 +765,27 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Observe Interpret Apply": "inductive-bible-study",
   "Bible Study Method": "inductive-bible-study",
   "How to Study Bible": "inductive-bible-study",
+  "Christian Productivity": "christian-productivity",
+  "Productivity as Stewardship": "christian-productivity",
+  "Time Management Christian": "christian-productivity",
+  "Midnight Anxiety": "midnight-anxiety",
+  "3am Fear": "midnight-anxiety",
+  "Nighttime Anxiety Christian": "midnight-anxiety",
+  "Sleep Anxiety Faith": "midnight-anxiety",
+  "Biblical Conflict Resolution": "biblical-conflict-resolution",
+  "Matthew 18 Process": "biblical-conflict-resolution",
+  "Christian Conflict": "biblical-conflict-resolution",
+  "Peacemaking": "biblical-conflict-resolution",
+  "Christian Athlete": "christian-athlete",
+  "Faith and Sports": "christian-athlete",
+  "Athletic Faith": "christian-athlete",
+  "Christian Financial Planning": "christian-financial-planning",
+  "Budgeting Biblically": "christian-financial-planning",
+  "Christian Estate Planning": "christian-financial-planning",
+  "Aging Well Christian": "aging-well-christian",
+  "Christian Aging": "aging-well-christian",
+  "Growing Old Gracefully": "aging-well-christian",
+  "Legacy Planning Christian": "aging-well-christian",
 };
 
 
@@ -1294,6 +1315,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Anger" },
   { label: "Productivity" },
   { label: "Midnight Anxiety" },
+  { label: "Conflict Resolution" },
+  { label: "Christian Athlete" },
+  { label: "Financial Planning" },
+  { label: "Aging Well" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

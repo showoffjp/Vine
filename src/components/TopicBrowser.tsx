@@ -942,7 +942,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Men of God Guide": "biblical-manhood",
   "Christian Fasting Guide": "christian-fasting",
   "Fasting and Prayer Guide": "christian-fasting",
-  "How to Fast Christian": "christian-fasting",
+  "Christian Fasting Discipline": "christian-fasting",
   "Church History Guide": "church-history-guide",
   "History of Christianity": "church-history-guide",
   "Christian History Guide": "church-history-guide",

@@ -4,64 +4,28 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GOLD = "#D97706", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", ACCENT = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-const theology = [
-  { title: "Servant Leadership Is Not Weak Leadership — the Paradox of Mark 10:42-45", verse: "Mark 10:42-45", text: "Whoever wants to become great among you must be your servant. Jesus redefines greatness not by eliminating authority but by inverting its purpose — authority exercised for the benefit of those under it, not for the self-interest of the one holding it. The cross is the ultimate leadership act: the one with all authority lays it down for others. Servant leadership is not the absence of decision-making — it is the orientation of decision-making toward others. Leaders who grasp this stop asking what the organization can do for them and start asking what they can sacrifice for the people in their care." },
-  { title: "Character Before Competence — the 1 Timothy 3 Standard", verse: "1 Tim 3:1-7", text: "The qualifications for an overseer that Paul lists in 1 Timothy 3 are overwhelmingly about character, not gifting. Above reproach, self-controlled, respectable, hospitable, not given to drunkenness, not violent, not quarrelsome, not a lover of money — these are not skill sets but soul qualities. The church regularly inverts this standard, elevating the gifted over the good. But Scripture is clear: character without gifting is still usable, while gifting without character eventually destroys. The specific qualities Paul lists are leadership-defining because they describe a person whose inner life matches their outer role." },
-  { title: "Moses and the Lesson of Jethro — Delegation and the Limits of One-Person Leadership", verse: "Exod 18:18", text: "What you are doing is not good — you will wear yourself out. Jethro's intervention in Exodus 18 is one of the most practical leadership passages in Scripture. Moses is doing everything himself, and it is unsustainable. The leader who cannot delegate eventually becomes the bottleneck — the person through whom everything must flow and at whom everything eventually stalls. Behind the inability to delegate is often a spiritual problem: the pathology of indispensability. Some leaders cannot let go because letting go reveals that they are not as necessary as they believed. Jethro's gift to Moses is not just a management technique — it is a confrontation with a theology problem." },
-  { title: "David as Case Study in Leadership Failure — Gifting Without Accountability", verse: "2 Sam 12:7", text: "You are the man. David's failure in 2 Samuel 11-12 is not primarily a story of personal sin — it is a story of structural absence of accountability. A leader with unchecked power in any domain will eventually abuse it. The Nathan moment is the hinge: a truth-teller enters the room and says what everyone else was unwilling or unable to say. David's tragedy is not that he failed but that there was no architecture of accountability that might have interrupted the failure earlier. Building truth-tellers into your leadership structure is not optional — it is the difference between a leader whose failure is corrected and one whose failure is catastrophic." },
-  { title: "Nehemiah's Leadership Principles — Vision, Opposition, and Finishing", verse: "Neh 6:3", text: "I am doing a great work and I cannot come down. Nehemiah models a complete leadership curriculum in six chapters: a clear vision that survives sustained opposition, the ability to motivate dispirited and scattered people, strategic responses to external attack and internal conflict (the economic exploitation documented in Nehemiah 5), and the discipline to finish. These principles transfer across leadership contexts. Vision without resilience fails at the first opposition. Resilience without vision is merely stubbornness. And both without the discipline to finish produce a long list of impressive starts and nothing completed." },
-];
-
-const voices = [
-  { name: "James MacGregor Burns", role: "Leadership", quote: "Transforming leadership occurs when one or more persons engage with others in such a way that leaders and followers raise one another to higher levels of motivation and morality. Its ultimate goal is to elevate followers to become leaders in their own right — not to manage their behavior but to liberate their aspirations.", bio: "Burns introduced the distinction between transactional and transformational leadership that has shaped leadership studies for half a century. Transactional leadership manages the exchange of reward for performance. Transformational leadership elevates the moral aspirations of followers — it changes what they want, not merely whether they get it. For Christian leaders, this distinction maps directly onto the difference between managing a congregation and forming disciples." },
-  { name: "Eugene Peterson", role: "Under the Unpredictable Plant", quote: "The vocation of pastor is not a profession but a way of life. It is characterized not by spectacular achievement but by long obedience in the same direction — a steady, unhurried, unspectacular attentiveness to the ordinary means of grace over many years and in a particular place among particular people.", bio: "Peterson spent his career resisting the celebrity model of ministry — the leader defined by platform, audience size, and institutional influence. Under the Unpredictable Plant is his sustained argument that pastoral leadership is fundamentally about presence, patience, and particularity: staying with the people God has given you long enough for the gospel to take root. For leaders tempted by scale and visibility, it is a necessary corrective." },
-  { name: "Patrick Lencioni", role: "The Five Dysfunctions of a Team", quote: "The first dysfunction is absence of trust — and trust in this context is not about predicting each other's behavior but about vulnerability. Team members who cannot be vulnerable with one another spend enormous energy on self-protection rather than collective work. Vulnerability-based trust is the foundation everything else is built on.", bio: "Lencioni's work is secular in origin but maps closely onto what Scripture teaches about community and leadership teams. Applied to church and ministry contexts, his five dysfunctions (absence of trust, fear of conflict, lack of commitment, avoidance of accountability, inattention to results) describe exactly how well-intentioned leadership teams fail. The vulnerability he calls for is indistinguishable from the posture the New Testament calls humility." },
-];
-
-const practices = [
-  { icon: "🔁", title: "Regular 360-Degree Feedback", text: "Solicit honest assessment not just from those above you but from those you lead. Upward feedback is often sanitized — the people who will tell you the truth about your leadership are the ones experiencing it directly. A structured 360 process, conducted annually and taken seriously, gives you information no other source provides." },
-  { icon: "📋", title: "A Personal Leadership Development Plan", text: "A written plan focused on character, not merely skill, asks: what kind of leader am I becoming, and what disciplines are forming that character? Skill-focused development makes you more competent. Character-focused development makes you more trustworthy. The gap between them is where most leadership failures originate." },
-  { icon: "🧑‍🤝‍🧑", title: "A Truth-Telling Board", text: "Identify three to five people who are committed to telling you what you need to hear — not what you want to hear. These are people who have earned the right to speak into your life, who know you well enough to see your blind spots, and who care enough about you to name them. Without this, every leader eventually lives inside an echo chamber." },
-  { icon: "🛌", title: "Regular Sabbatical Rhythm", text: "Burnout does not announce itself — it accumulates. The leaders who end ministries and damage communities through moral failure or emotional collapse are often leaders who ran too long without rest. A sustainable sabbatical rhythm — weekly, annual, and periodic extended sabbatical — is not a luxury but a leadership discipline that protects the people in your care as much as it protects you." },
-  { icon: "📖", title: "Read Biography of Leaders Who Failed", text: "Success confirms what we already believe. Failure teaches what we were unwilling to learn. Reading the biographies of leaders who collapsed — morally, relationally, institutionally — is one of the most practical leadership development investments available. The patterns recur: isolation, unchecked power, character compromises rationalized as necessary, truth-tellers marginalized or absent." },
-];
-
-const scriptures = [
-  { verse: "Mark 10:42-45", text: "Whoever wants to become great among you must be your servant, and whoever wants to be first must be slave of all. For even the Son of Man did not come to be served, but to serve, and to give his life as a ransom for many." },
-  { verse: "1 Tim 3:1-7", text: "Now the overseer is to be above reproach, faithful to his spouse, temperate, self-controlled, respectable, hospitable, able to teach, not given to drunkenness, not violent but gentle, not quarrelsome, not a lover of money." },
-  { verse: "Exod 18:18", text: "What you are doing is not good. You and these people who come to you will only wear yourselves out. The work is too heavy for you; you cannot handle it alone." },
-  { verse: "2 Sam 12:7", text: "Then Nathan said to David, You are the man! This is what the Lord, the God of Israel, says: I anointed you king over Israel, and I delivered you from the hand of Saul." },
-  { verse: "Neh 6:3", text: "I am carrying on a great project and cannot go down. Why should the work stop while I leave it and go down to you?" },
-  { verse: "John 13:14-15", text: "Now that I, your Lord and Teacher, have washed your feet, you also should wash one another's feet. I have set you an example that you should do as I have done for you." },
-];
-
-const videos = [
-  { id: "qDyMJMSEbkk", title: "Servant Leadership and the Way of Jesus" },
-  { id: "WNTfpPIq1Ig", title: "Character Over Competence in Ministry" },
-  { id: "LJ5A_-kR8iQ", title: "Building Accountability into Your Leadership" },
-  { id: "PqV55T-B8Lk", title: "Nehemiah: Leadership Under Pressure" },
-];
-
-type CLEntry = { id: string; date: string; challenge: string; principle: string; growth: string };
+type LDEntry = { id: string; date: string; area: string; principle: string; step: string };
 
 export default function ChristianLeadershipPage() {
   const [tab, setTab] = useState("theology");
-  const [entries, setEntries] = useState<CLEntry[]>(() => {
-    try { return JSON.parse(localStorage.getItem("vine_chrleadership_entries") ?? "[]"); } catch { return []; }
+  const [entries, setEntries] = useState<LDEntry[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_christianleadership_entries") ?? "[]"); } catch { return []; }
   });
-  const [jChallenge, setJChallenge] = useState("");
+  const [jArea, setJArea] = useState("");
   const [jPrinciple, setJPrinciple] = useState("");
-  const [jGrowth, setJGrowth] = useState("");
+  const [jStep, setJStep] = useState("");
 
-  useEffect(() => { localStorage.setItem("vine_chrleadership_entries", JSON.stringify(entries)); }, [entries]);
+  useEffect(() => { localStorage.setItem("vine_christianleadership_entries", JSON.stringify(entries)); }, [entries]);
 
   const saveEntry = () => {
-    if (!jChallenge.trim()) return;
-    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), challenge: jChallenge, principle: jPrinciple, growth: jGrowth }, ...prev]);
-    setJChallenge(""); setJPrinciple(""); setJGrowth("");
+    if (!jArea.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), area: jArea, principle: jPrinciple, step: jStep }, ...prev]);
+    setJArea(""); setJPrinciple(""); setJStep("");
   };
+
+  const deleteEntry = (id: string) => setEntries(prev => prev.filter(e => e.id !== id));
 
   const tabs = [
     { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
@@ -73,109 +37,199 @@ export default function ChristianLeadershipPage() {
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
-        <div style={{ marginBottom: "0.4rem", fontSize: "0.78rem", color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase" }}>Leadership &amp; Vocation</div>
-        <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.2rem)", fontWeight: 700, marginBottom: "0.5rem" }}>Christian Leadership</h1>
-        <p style={{ color: MUTED, marginBottom: "2rem", lineHeight: 1.6 }}>Servant leadership, character formation, and leading from gospel foundations — the theology and practice of leading as Jesus led.</p>
 
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2rem" }}>
+        <div style={{ marginBottom: "0.5rem" }}>
+          <span style={{ background: ACCENT + "22", color: ACCENT, padding: "0.2rem 0.8rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Church &amp; Ministry</span>
+        </div>
+        <h1 style={{ fontSize: "clamp(1.7rem,4vw,2.6rem)", fontWeight: 900, lineHeight: 1.2, margin: "0.75rem 0 0.75rem" }}>
+          Christian Leadership
+        </h1>
+        <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.7, maxWidth: 640, margin: "0 0 2rem" }}>
+          Jesus redefined greatness: the leader is the servant, and the first is last. Christian leadership is not a platform to be seized but a life to be poured out &mdash; shaped by character, empowered by the Spirit, and accountable to the body of Christ.
+        </p>
+
+        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "2rem" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${tab === t.id ? GOLD : BORDER}`, background: tab === t.id ? GOLD + "22" : "transparent", color: tab === t.id ? GOLD : MUTED, cursor: "pointer", fontSize: "0.85rem", fontWeight: tab === t.id ? 600 : 400 }}>{t.label}</button>
+            <button key={t.id} onClick={() => setTab(t.id)} style={{
+              padding: "0.45rem 1.1rem", borderRadius: 20, border: "1px solid", fontSize: "0.85rem", fontWeight: 600, cursor: "pointer",
+              borderColor: tab === t.id ? ACCENT : BORDER, background: tab === t.id ? ACCENT + "22" : "transparent", color: tab === t.id ? ACCENT : MUTED,
+            }}>{t.label}</button>
           ))}
         </div>
 
+        {/* THEOLOGY */}
         {tab === "theology" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {theology.map((item, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
-                <div style={{ fontSize: "0.78rem", color: GOLD, fontWeight: 600, marginBottom: 6, letterSpacing: "0.04em" }}>{item.verse}</div>
-                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>{item.title}</h3>
-                <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem" }}>{item.text}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {tab === "practices" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {practices.map((p, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.2rem 1.4rem" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                  <span style={{ fontSize: "1.3rem" }}>{p.icon}</span>
-                  <h3 style={{ fontWeight: 700, fontSize: "0.95rem" }}>{p.title}</h3>
-                </div>
-                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.65 }}>{p.text}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {tab === "voices" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {voices.map((v, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
-                <div style={{ fontWeight: 700, marginBottom: 4 }}>{v.name}</div>
-                <div style={{ fontSize: "0.8rem", color: GOLD, marginBottom: 12 }}>{v.role}</div>
-                <blockquote style={{ borderLeft: `3px solid ${GOLD}`, paddingLeft: 14, color: TEXT, fontStyle: "italic", marginBottom: 12, lineHeight: 1.6 }}>&ldquo;{v.quote}&rdquo;</blockquote>
-                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6 }}>{v.bio}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {tab === "scripture" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {scriptures.map((s, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "1.1rem 1.3rem" }}>
-                <div style={{ fontWeight: 700, color: GOLD, marginBottom: 6 }}>{s.verse}</div>
-                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.65 }}>&ldquo;{s.text}&rdquo;</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {tab === "journal" && (
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.5rem" }}>
-            <h3 style={{ marginBottom: "0.5rem", fontWeight: 700 }}>Reflect on Your Leadership</h3>
-            <p style={{ color: MUTED, fontSize: "0.88rem", marginBottom: "1.2rem" }}>Use these prompts to think honestly about the leader you are becoming and the leader you are called to be.</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             {[
-              { label: "Challenge — a leadership challenge you are currently facing", val: jChallenge, set: setJChallenge },
-              { label: "Principle — a biblical principle you are applying to that challenge", val: jPrinciple, set: setJPrinciple },
-              { label: "Growth — what you are learning about yourself as a leader", val: jGrowth, set: setJGrowth },
-            ].map((f, i) => (
-              <div key={i} style={{ marginBottom: "1rem" }}>
-                <label style={{ display: "block", marginBottom: 6, fontSize: "0.88rem", color: MUTED }}>{f.label}</label>
-                <textarea value={f.val} onChange={e => f.set(e.target.value)} rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 6, padding: "0.7rem", color: TEXT, fontSize: "0.9rem", resize: "vertical" }} />
+              {
+                title: "Servant Leadership &mdash; The Inversion of Greatness (Mark 10:43-45)",
+                body: "Whoever would be great among you must be your servant, and whoever would be first among you must be slave of all. For even the Son of Man came not to be served but to serve, and to give his life as a ransom for many. Jesus&rsquo;s model of leadership is not management theory dressed in theological language &mdash; it is a structural inversion of every human instinct about power. The disciples are arguing about who will be greatest (Mark 10:35-41) when Jesus intervenes with the most radical redefinition of leadership in history. Greatness is not positional; it is directional &mdash; it moves toward those below rather than ascending above them. The cross is not an addendum to Jesus&rsquo;s leadership; it is its full expression.",
+              },
+              {
+                title: "Character Before Competence &mdash; The Elder Qualifications (1 Tim 3:1-7)",
+                body: "The saying is trustworthy: if anyone aspires to the office of overseer, he desires a noble task. Therefore an overseer must be above reproach... Paul&rsquo;s qualification list for elders is striking in what it emphasizes: nearly every item is a character quality, not a competency. Above reproach, husband of one wife, sober-minded, self-controlled, respectable, hospitable, not a drunkard, not violent, not quarrelsome, not a lover of money, managing his household well &mdash; all of these are descriptions of who a person is, not what a person can do. The single teaching-related competency (able to teach) is embedded within a matrix of character requirements. The church has too often reversed this ratio &mdash; selecting for platform presence and communication skill while neglecting soul health.",
+              },
+              {
+                title: "Spiritual Authority Is Given, Not Taken (John 13:3-5)",
+                body: "Jesus, knowing that the Father had given all things into his hands, and that he had come from God and was going back to God, rose from supper. He laid aside his outer garments, and taking a towel, tied it around his waist. Then he poured water into a basin and began to wash the disciples&rsquo; feet. The washing of feet is possible precisely because Jesus is secure in his identity: knowing who he is and where he comes from, he is free to move downward. Spiritual authority that is grasped or performed is always brittle; it requires constant reinforcement and becomes defensive when threatened. Authority that flows from genuine identity in Christ does not need to protect itself &mdash; it can afford to serve, to yield, to absorb accusation without retaliation.",
+              },
+              {
+                title: "Developing Other Leaders &mdash; The Multiplication Mandate (2 Tim 2:2)",
+                body: "What you have heard from me in the presence of many witnesses entrust to faithful men, who will be able to teach others also. Paul&rsquo;s instruction to Timothy establishes a four-generation discipleship chain: Paul &rarr; Timothy &rarr; faithful men &rarr; others. The Christian leader is not a keeper of ministry but a multiplier of it. The leader who accumulates ministry around himself, who becomes indispensable, who has no apprentices or successors, has misunderstood the calling. Jesus spent three years not building an institution but forming twelve people who would form others. Eugene Peterson&rsquo;s term for this is &ldquo;formation under conditions of community&rdquo; &mdash; leaders are made in the context of sustained relationship, not in training programs.",
+              },
+              {
+                title: "Failure, Restoration, and Leading Again &mdash; Peter&rsquo;s Reinstatement (John 21:15-17)",
+                body: "When they had finished breakfast, Jesus said to Simon Peter, &ldquo;Simon, son of John, do you love me more than these?&rdquo; He said to him, &ldquo;Yes, Lord; you know that I love you.&rdquo; He said to him, &ldquo;Feed my lambs.&rdquo; Peter denied Jesus three times; Jesus asks him three times. The structure is deliberate: each &ldquo;do you love me?&rdquo; corresponds to a denial, and each &ldquo;feed my sheep&rdquo; re-commissions the apostle. The Christian tradition has a robust theology of failure-and-restoration that should shape how the church thinks about leaders who have fallen. Restoration is possible; it is neither automatic nor quick; it requires honest confrontation, genuine repentance, sustained accountability, and appropriate time away from public ministry. The church&rsquo;s failure to think carefully here has produced both premature restoration and permanent exclusion &mdash; neither reflects the gospel.",
+              },
+            ].map(item => (
+              <div key={item.title} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+                <h3 style={{ color: ACCENT, fontWeight: 700, fontSize: "1.05rem", margin: "0 0 0.75rem" }} dangerouslySetInnerHTML={{ __html: item.title }} />
+                <p style={{ color: MUTED, lineHeight: 1.8, margin: 0, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: item.body }} />
               </div>
             ))}
-            <button onClick={saveEntry} style={{ background: GOLD, color: "#fff", border: "none", borderRadius: 6, padding: "0.6rem 1.4rem", cursor: "pointer", fontWeight: 600 }}>Save Entry</button>
-            {entries.length > 0 && (
-              <div style={{ marginTop: "1.5rem" }}>
-                <h4 style={{ marginBottom: "1rem", fontWeight: 600, color: GOLD }}>My Entries ({entries.length})</h4>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {entries.map(e => (
-                    <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.9rem 1rem" }}>
-                      <div style={{ fontSize: "0.78rem", color: MUTED, marginBottom: 6 }}>{e.date}</div>
-                      <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: GOLD, fontWeight: 600 }}>Challenge:</span> {e.challenge}</p>
-                      {e.principle && <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: GOLD, fontWeight: 600 }}>Principle:</span> {e.principle}</p>}
-                      {e.growth && <p style={{ fontSize: "0.88rem", color: TEXT }}><span style={{ color: GOLD, fontWeight: 600 }}>Growth:</span> {e.growth}</p>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
-        {tab === "videos" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {videos.map((v, i) => (
-              <div key={i}>
-                <h3 style={{ marginBottom: 10, fontWeight: 600, fontSize: "0.95rem", color: GOLD }}>{v.title}</h3>
-                <VideoEmbed videoId={v.id} title={v.title} />
+        {/* PRACTICES */}
+        {tab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Practices</h2>
+            {[
+              "Identify the person in your sphere of influence you are most actively developing. If no one comes to mind, you are consuming ministry rather than multiplying it. Begin an intentional apprenticeship &mdash; sharing access, context, responsibility, and honest feedback over a sustained period.",
+              "Conduct a regular character audit (not just a skills audit): ask a trusted friend or spouse the questions you most fear asking &mdash; about how you handle conflict, how you respond to criticism, whether your private and public lives match, and whether you are known for listening or only for speaking.",
+              "Practice what Jeannine Brown calls &ldquo;power-with&rdquo; rather than &ldquo;power-over&rdquo;: in your next meeting or decision-making moment, identify where you could share power, invite dissent, or defer to someone with less positional authority but greater proximity to the question.",
+              "Study the eldership and deacon structures of your local church: understand the theological rationale for plurality of elders, the accountability structures in place, and where the gaps are. Leadership in the church is always plural and accountable &mdash; never solo.",
+              "Read the stories of leaders in the tradition whose failure became formative &mdash; Augustine&rsquo;s Confessions, Thomas Cranmer&rsquo;s recantations and death, John Newton&rsquo;s conversion from slave trader. Consider what sustained patterns of accountability might have interrupted their failures earlier and what God did with the wreckage.",
+            ].map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem", display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+                <div style={{ background: ACCENT + "22", color: ACCENT, fontWeight: 800, borderRadius: "50%", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.9rem" }}>{i + 1}</div>
+                <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: p }} />
               </div>
             ))}
           </div>
         )}
+
+        {/* VOICES */}
+        {tab === "voices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Voices</h2>
+            {[
+              {
+                name: "Eugene Peterson",
+                work: "The Contemplative Pastor",
+                quote: "The pastor&rsquo;s primary responsibility is not to be competent but to be present &mdash; present to God and present to the people God has given to care for. Busyness is the enemy of that presence. The pastor who is too busy to pray is too busy to lead.",
+                bio: "Eugene Peterson was a pastor for thirty years at Christ Our King Presbyterian Church in Maryland before becoming a professor and writer. His pastoral theology, gathered across dozens of books, consistently challenged the cultural pressure to measure ministry by size, program, and platform. His translation of the Bible, The Message, and his trilogy on spiritual theology have shaped a generation of pastors toward what he called &ldquo;a long obedience in the same direction.&rdquo;",
+              },
+              {
+                name: "J. Oswald Sanders",
+                work: "Spiritual Leadership",
+                quote: "The person who is impatient with weakness will be defective in his leadership... A true leader must be willing to accept the burden of people&rsquo;s weaknesses, failures, and sins &mdash; bearing them rather than condemning them, being with them rather than above them.",
+                bio: "J. Oswald Sanders served as the General Director of the China Inland Mission (now OMF International) and wrote prolifically on leadership, discipleship, and prayer. His book Spiritual Leadership, first published in 1967, has remained one of the most widely used resources in Christian leadership development. Sanders draws on Scripture, biography, and pastoral experience to argue that spiritual leadership is always a matter of inner life before outer influence.",
+              },
+              {
+                name: "Tish Harrison Warren",
+                work: "Liturgy of the Ordinary",
+                quote: "We are not shaped primarily by dramatic decisions or intense spiritual experiences, but by the ordinary, repeated patterns of our days. The same is true of leadership &mdash; the small, daily choices to listen, to serve, to tell the truth, accumulate over time into a person who can be trusted with others&rsquo; souls.",
+                bio: "Tish Harrison Warren is an Anglican priest and the author of Liturgy of the Ordinary and Prayer in the Night. Her work explores how the shape of daily Christian practice forms the people God uses, and her voice on leadership is grounded not in corporate success narratives but in the rhythms of liturgy, sacrament, and the slow work of faithfulness in ordinary parishes.",
+              },
+            ].map(v => (
+              <div key={v.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+                <div style={{ marginBottom: "0.75rem" }}>
+                  <div style={{ fontWeight: 700, fontSize: "1.05rem", color: TEXT }}>{v.name}</div>
+                  <div style={{ color: ACCENT, fontSize: "0.85rem", marginTop: "0.15rem" }}><em>{v.work}</em></div>
+                </div>
+                <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem", margin: "0 0 0.75rem", color: TEXT, fontStyle: "italic", lineHeight: 1.7 }}>
+                  &ldquo;<span dangerouslySetInnerHTML={{ __html: v.quote }} />&rdquo;
+                </blockquote>
+                <p style={{ color: MUTED, fontSize: "0.9rem", lineHeight: 1.7, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.bio }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* SCRIPTURE */}
+        {tab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Scripture</h2>
+            {[
+              { ref: "Mark 10:43-45", text: "Whoever would be great among you must be your servant, and whoever would be first among you must be slave of all. For even the Son of Man came not to be served but to serve, and to give his life as a ransom for many.", insight: "The definitive text on Christian leadership: greatness is directional, not positional &mdash; it moves downward into service and self-giving." },
+              { ref: "1 Timothy 3:1-2", text: "The saying is trustworthy: if anyone aspires to the office of overseer, he desires a noble task. Therefore an overseer must be above reproach, the husband of one wife, sober-minded, self-controlled, respectable, hospitable, able to teach.", insight: "Paul grounds leadership qualification almost entirely in character formation, not skill or giftedness. The church selects for virtue first." },
+              { ref: "John 13:14-15", text: "If I then, your Lord and Teacher, have washed your feet, you also ought to wash one another&rsquo;s feet. For I have given you an example, that you also should do just as I have done to you.", insight: "Jesus&rsquo;s foot-washing is not merely symbolic &mdash; it is a commissioning of the disciples into a particular kind of leadership culture." },
+              { ref: "2 Timothy 2:2", text: "What you have heard from me in the presence of many witnesses entrust to faithful men, who will be able to teach others also.", insight: "The leadership multiplication mandate: four generations of transmission in one verse. Leaders make leaders who make leaders." },
+              { ref: "1 Peter 5:2-3", text: "Shepherd the flock of God that is among you, exercising oversight, not under compulsion, but willingly, as God would have you; not for shameful gain, but eagerly; not domineering over those in your charge, but being examples to the flock.", insight: "Peter identifies three failure modes of leadership: coercion, greed, and domination &mdash; and the corresponding virtues: willingness, eagerness, and exemplary life." },
+              { ref: "John 21:15-17", text: "&ldquo;Simon, son of John, do you love me more than these?&rdquo; He said to him, &ldquo;Yes, Lord; you know that I love you.&rdquo; He said to him, &ldquo;Feed my lambs.&rdquo;", insight: "Jesus&rsquo;s three-fold reinstatement of Peter establishes that leadership after failure is possible &mdash; through honest reckoning and re-commissioning, not cheap restoration." },
+            ].map(s => (
+              <div key={s.ref} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+                <div style={{ color: ACCENT, fontWeight: 700, marginBottom: "0.5rem", fontSize: "0.95rem" }}>{s.ref}</div>
+                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.7, margin: "0 0 0.6rem" }} dangerouslySetInnerHTML={{ __html: s.text }} />
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }} dangerouslySetInnerHTML={{ __html: s.insight }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+              <h2 style={{ color: ACCENT, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 0.4rem" }}>Leadership Reflection Journal</h2>
+              <p style={{ color: MUTED, fontSize: "0.88rem", margin: "0 0 1.25rem", lineHeight: 1.6 }}>Private and stored only on this device. No account required.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>What area of leadership are you reflecting on?</label>
+                  <textarea
+                    value={jArea}
+                    onChange={e => setJArea(e.target.value)}
+                    placeholder="e.g. how I handle conflict, how I develop others, how I use power..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>What principle from Scripture or the tradition is shaping you?</label>
+                  <textarea
+                    value={jPrinciple}
+                    onChange={e => setJPrinciple(e.target.value)}
+                    placeholder="A passage, a quote, a conviction that is currently forming you..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>What is the next concrete step you sense God calling you toward?</label>
+                  <textarea
+                    value={jStep}
+                    onChange={e => setJStep(e.target.value)}
+                    placeholder="A specific action, conversation, surrender, or practice..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+              </div>
+              <button onClick={saveEntry} style={{ marginTop: "1rem", padding: "0.6rem 1.5rem", background: ACCENT, border: "none", borderRadius: 8, color: "#fff", cursor: "pointer", fontWeight: 700, fontSize: "0.93rem" }}>Save Entry</button>
+            </div>
+            {entries.map(e => (
+              <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.25rem 1.5rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
+                  <span style={{ color: MUTED, fontSize: "0.82rem" }}>{e.date}</span>
+                  <button onClick={() => deleteEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: "0.82rem" }}>Delete</button>
+                </div>
+                {e.area && <div style={{ marginBottom: "0.5rem" }}><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Area</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.area}</p></div>}
+                {e.principle && <div style={{ marginBottom: "0.5rem" }}><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Principle</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.principle}</p></div>}
+                {e.step && <div><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Next Step</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.step}</p></div>}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* VIDEOS */}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Videos</h2>
+            <VideoEmbed videoId="OMfuGfHvxLY" title="Servant Leadership: What Jesus Said About Greatness" />
+            <VideoEmbed videoId="BuViMy_wPzM" title="Character Qualifications for Elders and Deacons" />
+            <VideoEmbed videoId="4h3IlBkZ8eQ" title="Developing Leaders: The Multiplication Mandate in 2 Timothy" />
+            <VideoEmbed videoId="8YlEb8POSo4" title="Failure and Restoration: Peter&rsquo;s Reinstatement and the Gospel of Second Chances" />
+          </div>
+        )}
+
       </main>
       <Footer />
     </div>

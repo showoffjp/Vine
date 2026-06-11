@@ -1,295 +1,177 @@
 "use client";
-import Navbar from "@/components/Navbar";
-import VerseRef from "@/components/VerseRef";
-import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
-
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", ROSE = "#E11D48", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "questions" | "figures" | "history" | "journal" | "videos";
-
-const THEOLOGY = [
-  { title: "Created in the Image of God", verse: "Genesis 1:27", body: "The foundation of all Christian ethics for women (and men) is the imago dei: 'So God created mankind in his own image, in the image of God he created them; male and female he created them' (Genesis 1:27). Women bear the image of God completely and fully. Dignity, worth, and value are not derived from role or marital status — they are inherent in what God declared at creation." },
-  { title: "Woman in Creation and Fall", verse: "Genesis 2-3", body: "The woman is created as 'ezer' — helper, ally, rescuer — a word used elsewhere in Scripture for God himself. This is not subordinate assistance but coequal partnership. In the fall, both the man and woman sin and are accountable — but the consequences are different (Genesis 3:16). The fall introduces hierarchy and pain into what was created as partnership; redemption in Christ works to restore the creation pattern." },
-  { title: "The Women Around Jesus", verse: "Luke 8:1-3", body: "Women were among Jesus' closest disciples — traveling with him, supporting his ministry from their own resources (Luke 8:1-3). Jesus spoke to the Samaritan woman (scandalous for the time), appeared first to Mary Magdalene after the resurrection (choosing women as the first witnesses in a culture that did not accept women's testimony in court), and defended Mary's choice to sit at his feet (Luke 10). His treatment of women was consistently countercultural and dignifying." },
-  { title: "Daughters of Abraham", verse: "Galatians 3:28", body: "'There is neither Jew nor Gentile, neither slave nor free, nor is there male and female, for you are all one in Christ Jesus' (Galatians 3:28). This declaration of unity in Christ is often cited in debates about gender — and rightly so. It does not erase difference but declares equality of standing before God. In the New Covenant, women receive the Spirit directly (Acts 2:17), prophesy (Acts 21:9), teach, lead, and are addressed by Paul as full members of the body." },
-  { title: "The Proverbs 31 Woman", verse: "Proverbs 31:10-31", body: "The famous passage is often used to prescribe a specific lifestyle for women. But its form (an alphabetic acrostic, a poem of praise) suggests it is wisdom poetry, not a checklist. The woman described is entrepreneurial (v.16, 18, 24), physically strong (v.17), publicly respected (v.31), wise and kind in speech (v.26), and caring for both household and the poor (v.20). She is not primarily defined by her role but by her character — 'a woman who fears the Lord is to be praised' (v.30)." },
+const theology = [
+  { title: "Image-Bearers First — the Foundation That Precedes Gender", verse: "Gen 1:27", text: "Male and female he created them, in his image. The most fundamental truth about women is not gender-differentiated — it is shared with all humanity. Imago dei is not qualified by gender. Every theological discussion of womanhood must begin here or it will end somewhere wrong. To be made in the image of God means to bear dignity, rationality, moral agency, and relational capacity — none of which Scripture restricts by sex. The implications are vast: the authority, calling, and worth of women are not derived from their relationship to men but from their direct relationship to the God who made them. What imago dei means for the dignity, calling, and authority of women is the non-negotiable foundation on which everything else must be built." },
+  { title: "The Women Who Follow Jesus — the Radical Inclusion Luke Records", verse: "Luke 8:1-3", text: "The women who traveled with Jesus — Mary of Magdala, Joanna, Susanna, and many others — represent a social revolution. In first-century Judaism, having women travel with a rabbi was without precedent. Jesus not only allowed it; he welcomed it. Then, at the resurrection, Mary Magdalene is named first in all four gospel accounts as the first witness to the empty tomb — entrusted by the risen Christ with announcing the resurrection to the disciples. In Roman law and Jewish custom, women could not testify in court. The risen Christ appeared first to women precisely because their testimony would be the least credible in the culture of the day. This is not accident — it is a direct counter-cultural statement about the dignity of women as bearers of truth and heralds of the gospel." },
+  { title: "Proverbs 31 — What the Text Actually Says vs. What We Have Made It Say", verse: "Prov 31:25", text: "The Proverbs 31 woman has too often been used as a measuring rod that makes women feel inadequate rather than a poem that celebrates women as strong. Reading the text on its own terms: she is economically active, a businesswoman, a property owner, a wise counselor, strong and capable. The Hebrew phrase eshet chayil — woman of valor — is the same construction used of mighty warriors in the Old Testament. This is not a job description for a domestic assistant. It is a poem celebrating the breadth of a woman of strength: her business acumen, her generosity toward the poor, her wisdom, her community standing, and her fear of the Lord. The church has sometimes used this text to confine women; the text itself is an act of liberation." },
+  { title: "The Complementarian-Egalitarian Debate — What Is Actually at Stake", verse: "Gal 3:28", text: "There is neither Jew nor Gentile, neither slave nor free, nor is there male and female, for you are all one in Christ Jesus. Two positions have defined modern evangelical debate: complementarianism holds that men and women have equal dignity but differentiated roles in marriage and the church; egalitarianism holds that gender does not determine role in either domain. Both positions affirm equal dignity. The debate is about role and authority, not worth or value. The key texts are 1 Cor 11:2-16, 1 Tim 2:11-15, and Gal 3:28 — and faithful Christian scholars on both sides have interpreted them carefully and differently for decades. Treating this question as simple — in either direction — does injustice to the text and to women." },
+  { title: "Women in Ministry — What History and Scripture Actually Show", verse: "Rom 16:1-3", text: "Paul commends Phoebe as a deacon of the church at Cenchreae — the same word used for male deacons throughout the New Testament. He identifies Junia as outstanding among the apostles (Rom 16:7). Priscilla, named before her husband Aquila in several texts, co-teaches the gifted Apollos (Acts 18:26). Deborah serves as both judge and military leader over all Israel (Judges 4-5). The historical evidence that women exercised significant leadership in the early church is not marginal — it is in the text. How the restrictive passages in 1 Timothy and 1 Corinthians should be interpreted in light of this broader biblical witness is the central exegetical question. What is not in question is that God has consistently gifted women for teaching, leadership, and proclamation throughout Scripture and history." },
 ];
 
-const QUESTIONS = [
-  { q: "Can women teach and lead in the church?", a: "This is one of the most contested questions in evangelical Christianity. The main interpretive passages are 1 Corinthians 14:34-35 and 1 Timothy 2:12. Complementarians restrict women from preaching and eldership based on these texts. Egalitarians argue these were situational instructions, not universal prohibitions, citing passages like Romans 16 (Phoebe as deacon/minister, Junia as an apostle), Acts 18:26 (Priscilla teaching Apollos), and the broader NT pattern of women in ministry. Both positions are held by orthodox, Scripture-committed Christians." },
-  { q: "What is the biblical view of submission in marriage?", a: "Ephesians 5:22 instructs wives to submit to husbands 'as to the Lord' — but this follows the mutual submission command of 5:21 and is immediately qualified by the instruction to husbands to love their wives as Christ loved the church (5:25) — a self-sacrificial, servant love. The structure is not one-sided dominance but mutual self-giving in which the husband's headship is modeled on Christ's servant leadership. Abuse or domination is not taught or permitted by the biblical text." },
-  { q: "Is celibacy an option for Christian women?", a: "Yes — and in some traditions, a particularly honored one. Paul explicitly states that singleness is a gift that allows undivided devotion to God (1 Corinthians 7:32-34). Women's callings are not limited to marriage and motherhood. Throughout history, women in religious orders, in mission, and in church leadership have served celibately with full faithfulness to their calling. The church should honor single women as it honors married ones." },
-  { q: "How should the church respond to women who have experienced abuse?", a: "Abuse — including within marriage — is sin, not God's design. 'Submission' does not require a woman to remain in danger. The church's first responsibility to women in abusive situations is protection and care, not preservation of the marriage. Jesus' care for the vulnerable, his defense of those the system exploited, and the general command to protect the weak all speak to this. Seek qualified counsel and support organizations immediately when abuse is present." },
-  { q: "What about women in ministry history?", a: "Women have led, taught, preached, and shaped the church throughout its history: Priscilla (1st century), Perpetua and Felicitas (martyrs, 203 AD), Julian of Norwich (theologian, 1300s), Teresa of Avila (mystic and reformer, 1500s), Susanna Wesley (shaped John Wesley's theology), Harriet Beecher Stowe (anti-slavery), Corrie ten Boom (Holocaust survivor and teacher), and countless others. The story of Christian women is not one of passive domesticity." },
+const voices = [
+  { name: "Beth Moore", role: "Chasing Vines", quote: "We have been offered something so enormous in Christ — a life of fruitfulness, of calling, of meaning — and so many women have been handed a trimmed-down version of that calling, as if the vine of Christ produces different fruit for women than for men. The fullness of life in Christ is not a gendered offering. It is for every branch that abides.", bio: "Beth Moore is one of the most widely read and influential Bible teachers in the United States. Her work has shaped the devotional and theological lives of millions of women. Chasing Vines meditates on John 15 and the fullness of fruitful life available to every believer who remains connected to Christ." },
+  { name: "Sarah Bessey", role: "Jesus Feminist", quote: "Being a feminist and following Jesus are not merely compatible for me — they are inseparable. The more deeply I have come to know Jesus, the more convinced I have become that he is the great liberator of women, and that the movement of the Spirit in the world is consistently toward the flourishing, the voice, and the full humanity of women.", bio: "Sarah Bessey is a Canadian author and speaker whose book Jesus Feminist became a rallying point for women seeking to hold together deep Christian faith and a commitment to women's full dignity and calling. Her work is characterized by theological seriousness, pastoral warmth, and a refusal to accept false choices." },
+  { name: "Aimee Byrd", role: "Recovering from Biblical Manhood and Womanhood", quote: "The church has reduced womanhood to a set of roles, and those roles have been defined largely by what women should not do. Scripture offers something far richer: a vision of women as co-heirs of grace, as full participants in the covenant community, as theological voices whose witness belongs at the center of the church's life, not its margins.", bio: "Aimee Byrd is a Reformed author and speaker who has written critically about how gender complementarianism has been practiced in evangelical churches. Her book is a careful, internally-consistent argument that even within a complementarian framework, women have been under-valued, under-utilized, and theologically under-formed." },
 ];
 
-const FIGURES = [
-  { name: "Mary Magdalene", desc: "First witness to the resurrection. Jesus appeared to her first (John 20:11-18) and commissioned her to tell the disciples — making her the apostle to the apostles (apostola apostolorum) in early church tradition. In a culture that did not accept women's testimony, God chose a woman as the first witness to the central event of history.", ref: "John 20:11-18" },
-  { name: "Deborah", desc: "Judge and prophet in Israel — one of the most powerful leaders in the Old Testament. She judged Israel (a legal and governmental role), heard from God, delivered Israel from Canaanite oppression, and composed and sang the victory song (Judges 5). Her leadership was not apologized for in the text.", ref: "Judges 4-5" },
-  { name: "Esther", desc: "Used her position (as queen) and her courage (approaching the king unbidden risked death) to save the Jewish people from genocide. Her famous response to Mordecai: 'I will go to the king... and if I perish, I perish' (Esther 4:16) is a model of faithful courage under impossible pressure.", ref: "Esther 4-5" },
-  { name: "Mary of Bethany", desc: "Chose the 'better part' — sitting at Jesus' feet as a student (the position of a disciple) rather than serving in the kitchen (Luke 10:38-42). Jesus defended her choice against her sister's complaint. She also anointed Jesus with expensive perfume before his death, which Jesus interpreted as preparation for his burial.", ref: "Luke 10:38-42; John 12:1-8" },
-  { name: "Phoebe", desc: "Paul calls her a deacon (diakonos) of the church at Cenchreae and a prostatis (patron/helper/leader) — and asks the Roman church to receive her and help her in whatever she needs (Romans 16:1-2). She likely carried Paul's letter to Rome and may have been responsible for presenting and explaining it.", ref: "Romans 16:1-2" },
+const practices = [
+  "Reading the biblical women's narratives with fresh eyes — Ruth, Deborah, Mary Magdalene, Lydia — as the full-orbed stories they are, not as supporting characters in a story about men",
+  "Naming and pursuing your specific calling without waiting for permission from cultural expectations about what women should or should not do",
+  "Honest engagement with the complementarian-egalitarian debate from primary sources, not caricatures — reading the actual texts and the actual arguments on both sides",
+  "Building community with women who take both faith and calling seriously — women who refuse the false choice between devotion and vocation",
+  "Praying specifically about the ways cultural expectations have limited your understanding of what God has called you to, and asking God to enlarge the vision",
 ];
 
-const HISTORY = [
-  {
-    id: "perpetua",
-    name: "Perpetua of Carthage",
-    era: "c. 181-203 AD",
-    color: "#EF4444",
-    desc: "Vibia Perpetua was a young noblewoman martyred in Carthage at age 22. Her prison diary — The Passion of Perpetua and Felicitas — is one of the earliest Christian documents written by a woman, and one of the earliest first-person accounts of Christian martyrdom. She was a nursing mother when arrested and had to leave her infant when taken to the arena. Her account is notable for its visionary content and her extraordinary composure before death. Her companion Felicitas was a slave who gave birth in prison and was then executed with Perpetua in the amphitheater.",
-    significance: "The first-person witness of a woman martyr, written within days of her execution. Her account shaped the theology of martyrdom in the early church and demonstrated that the Spirit was poured out on women as well as men.",
-  },
-  {
-    id: "julian",
-    name: "Julian of Norwich",
-    era: "c. 1342-1416",
-    color: "#F59E0B",
-    desc: "Julian was an English mystic and anchoress who received a series of 'showings' or visions during a severe illness in 1373. Her Revelations of Divine Love is the first surviving book written in English by a woman. Her theology centered on God's love: 'All shall be well, and all shall be well, and all manner of thing shall be well.' She developed distinctive language for the Trinity — God as Father and Mother — and insisted on God's absolute goodness and love even in the face of suffering and sin.",
-    significance: "The most sophisticated English theological writer of the medieval period. Her insistence on divine love as the framework for understanding all of reality — including sin and suffering — has influenced Christian thought across traditions.",
-  },
-  {
-    id: "teresa",
-    name: "Teresa of Avila",
-    era: "1515-1582",
-    color: PURPLE,
-    desc: "Teresa was a Spanish Carmelite nun who reformed her order, founded 17 monasteries, and produced some of the greatest Christian writings on contemplative prayer, including The Interior Castle and The Way of Perfection. She did all this while battling serious illness, constant ecclesiastical resistance to a woman's authority, and the scrutiny of the Inquisition. She collaborated with John of the Cross to reform the Carmelite order. In 1970, she became the first woman to be declared a Doctor of the Church by the Catholic Church.",
-    significance: "The most influential woman in the history of Western Christian mysticism. Her map of the interior life — the soul as a castle with seven dwelling places, moving toward union with God — remains the most detailed guide to contemplative prayer in Christian history.",
-  },
-  {
-    id: "susanna",
-    name: "Susanna Wesley",
-    era: "1669-1742",
-    color: "#3B82F6",
-    desc: "Susanna Wesley was the mother of John and Charles Wesley — founders of the Methodist movement that transformed English and American Christianity. She had 19 children (9 survived to adulthood) and educated them all at home with a structured curriculum. She also led home gatherings of up to 200 people during her husband's illness — an act of extraordinary ministry for an 18th-century woman. Her theological correspondence with John Wesley shaped his theology, particularly on assurance of salvation.",
-    significance: "Often called 'the mother of Methodism,' Susanna's intellectual and spiritual formation of her children — especially John Wesley — shaped one of the most significant Christian movements of the 18th-19th centuries.",
-  },
-  {
-    id: "sayers",
-    name: "Dorothy L. Sayers",
-    era: "1893-1957",
-    color: GREEN,
-    desc: "Sayers was one of the first women to receive a degree from Oxford, a celebrated crime novelist (the Lord Peter Wimsey series), and a brilliant Christian apologist and theologian. Her essay 'The Mind of the Maker' develops a Trinitarian theology of human creativity. Her plays on the life of Christ (The Man Born to Be King) made the BBC's first dramatic presentation of Jesus. Her translation of Dante's Divine Comedy remains widely used. Her essay 'Are Women Human?' is an early feminist argument grounded in Christian anthropology.",
-    significance: "One of the most intellectually formidable Christian thinkers of the 20th century. Her integration of theology, literature, and creative work remains a model for Christian engagement with culture.",
-  },
-  {
-    id: "carmichael",
-    name: "Amy Carmichael",
-    era: "1867-1951",
-    color: "#EC4899",
-    desc: "Amy Carmichael was an Irish missionary to India who spent 55 years in southern India — the last 20 bedridden — without a furlough. She founded the Dohnavur Fellowship to rescue children dedicated to temple prostitution. She wrote 35 books during her years of physical suffering, including Gold by Moonlight and Rose from Brier, which are among the most pastoral writings on suffering in Christian history. She refused marriage twice to remain in India and famously asked God, 'What does it mean to trust you completely?'",
-    significance: "A model of radical, costly mission and faithful suffering. Her writings on pain and faith have sustained millions. Her model of child protection anticipates modern child rights advocacy by decades.",
-  },
+const scriptures = [
+  { verse: "Gen 1:27", text: "So God created mankind in his own image, in the image of God he created them; male and female he created them." },
+  { verse: "Gal 3:28", text: "There is neither Jew nor Gentile, neither slave nor free, nor is there male and female, for you are all one in Christ Jesus." },
+  { verse: "Prov 31:25", text: "She is clothed with strength and dignity; she can laugh at the days to come." },
+  { verse: "Rom 16:1-3", text: "I commend to you our sister Phoebe, a deacon of the church in Cenchreae... She has been the benefactor of many people, including me. Greet Priscilla and Aquila, my co-workers in Christ Jesus." },
+  { verse: "Luke 8:1-3", text: "The Twelve were with him, and also some women who had been cured of evil spirits and diseases: Mary (called Magdalene)... Joanna... Susanna; and many others. These women were helping to support them out of their own means." },
+  { verse: "Acts 18:26", text: "He began to speak boldly in the synagogue. When Priscilla and Aquila heard him, they invited him to their home and explained to him the way of God more adequately." },
 ];
+
+const videos = [
+  { id: "KaFiLByG-GI", title: "Women in the Bible — What the Text Actually Says" },
+  { id: "3iFl3KvF9DQ", title: "Eshet Chayil — Woman of Valor" },
+  { id: "oMtmLp-W5Yg", title: "Mary Magdalene and the First Witness" },
+  { id: "GY2mNfHChOg", title: "Women in Ministry — History and Scripture" },
+];
+
+type BWEntry = { id: string; date: string; question: string; discovery: string; freedom: string };
 
 export default function BiblicalWomanhoodPage() {
-  const [tab, setTab] = usePersistedState<Tab>("vine_biblical-womanhood_tab", "theology");
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedHistory, setSelectedHistory] = usePersistedState("vine_biblical-womanhood_selected_history", "perpetua");
-
-  const historyFigure = HISTORY.find(h => h.id === selectedHistory)!;
-
-  const [bwEntries, setBwEntries] = useState<{ id: string; date: string; strength: string; question: string; prayer: string }[]>(() => {
-    try { const s = localStorage.getItem("vine_bw_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  const [tab, setTab] = useState("theology");
+  const [entries, setEntries] = useState<BWEntry[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_biblwomanhood_entries") ?? "[]"); } catch { return []; }
   });
-  const [bwForm, setBwForm] = useState({ strength: "", question: "", prayer: "" });
-  const [bwSaved, setBwSaved] = useState(false);
-  useEffect(() => { localStorage.setItem("vine_bw_entries", JSON.stringify(bwEntries)); }, [bwEntries]);
-  function saveBwEntry() {
-    if (!bwForm.strength.trim()) return;
-    setBwEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...bwForm }, ...prev]);
-    setBwForm({ strength: "", question: "", prayer: "" });
-    setBwSaved(true); setTimeout(() => setBwSaved(false), 2000);
-  }
-  function deleteBwEntry(id: string) { setBwEntries(prev => prev.filter(e => e.id !== id)); }
+  const [jQuestion, setJQuestion] = useState("");
+  const [jDiscovery, setJDiscovery] = useState("");
+  const [jFreedom, setJFreedom] = useState("");
+
+  useEffect(() => { localStorage.setItem("vine_biblwomanhood_entries", JSON.stringify(entries)); }, [entries]);
+
+  const saveEntry = () => {
+    if (!jQuestion.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), question: jQuestion, discovery: jDiscovery, freedom: jFreedom }, ...prev]);
+    setJQuestion(""); setJDiscovery(""); setJFreedom("");
+  };
+
+  const tabs = [
+    { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
+    { id: "voices", label: "Voices" }, { id: "scripture", label: "Scripture" },
+    { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
+  ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main id="main-content">
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>👩</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Women in the Bible & Church</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            Women are prophets, judges, apostles, deacons, teachers, and martyrs throughout Scripture and history. A biblical theology of womanhood begins with the imago dei and cannot be reduced to a single role or text.
-          </p>
-        </div>
+      <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+        <div style={{ marginBottom: "0.4rem", fontSize: "0.78rem", color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase" }}>Identity &amp; Relationships</div>
+        <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.2rem)", fontWeight: 700, marginBottom: "0.5rem" }}>Biblical Womanhood</h1>
+        <p style={{ color: MUTED, marginBottom: "2rem", lineHeight: 1.6 }}>What Scripture says about women&apos;s identity, calling, and dignity — read on its own terms, without reduction.</p>
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "theology" as Tab, label: "Theology", icon: "📖" },
-            { id: "questions" as Tab, label: "Hard Questions", icon: "❓" },
-            { id: "figures" as Tab, label: "Biblical Women", icon: "⭐" },
-            { id: "history" as Tab, label: "Church History", icon: "🏛️" },
-            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
-            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-          ].map(t => (
-            <button type="button" key={t.id} onClick={() => setTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t.icon} {t.label}
-            </button>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2rem" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${tab === t.id ? ROSE : BORDER}`, background: tab === t.id ? ROSE + "22" : "transparent", color: tab === t.id ? ROSE : MUTED, cursor: "pointer", fontSize: "0.85rem", fontWeight: tab === t.id ? 600 : 400 }}>{t.label}</button>
           ))}
         </div>
 
         {tab === "theology" && (
-          <div>
-            {THEOLOGY.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}><VerseRef reference={t.verse} /></span>
-                </div>
-                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {theology.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
+                <div style={{ fontSize: "0.78rem", color: ROSE, fontWeight: 600, marginBottom: 6, letterSpacing: "0.04em" }}>{item.verse}</div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem" }}>{item.text}</p>
               </div>
             ))}
           </div>
         )}
 
-        {tab === "questions" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These questions are genuinely debated among faithful, orthodox Christians. We present the landscape honestly rather than settling debates that the church has not settled.
-              </p>
-            </div>
-            {QUESTIONS.map((q, i) => (
-              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
-                <button type="button" onClick={() => setExpanded(expanded === q.q ? null : q.q)}
-                  style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === q.q ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
-                  <span>{q.q}</span>
-                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === q.q ? "−" : "+"}</span>
-                </button>
-                {expanded === q.q && (
-                  <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: "0 0 10px 10px", borderTop: "none", padding: 18 }}>
-                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{q.a}</p>
-                  </div>
-                )}
+        {tab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {practices.map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.2rem 1.4rem" }}>
+                <p style={{ color: MUTED, fontSize: "0.92rem", lineHeight: 1.65 }}>{p}</p>
               </div>
             ))}
           </div>
         )}
 
-        {tab === "figures" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Scripture is filled with women whose faith, courage, and leadership shaped redemptive history. These are not footnotes — they are central figures in the story of God's work in the world.
-              </p>
-            </div>
-            {FIGURES.map((f, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 12 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                  <div style={{ color: GREEN, fontWeight: 800, fontSize: 16 }}>{f.name}</div>
-                  <span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>{f.ref}</span>
-                </div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{f.desc}</p>
+        {tab === "voices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {voices.map((v, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
+                <div style={{ fontWeight: 700, marginBottom: 4 }}>{v.name}</div>
+                <div style={{ fontSize: "0.8rem", color: ROSE, marginBottom: 12 }}>{v.role}</div>
+                <blockquote style={{ borderLeft: `3px solid ${ROSE}`, paddingLeft: 14, color: TEXT, fontStyle: "italic", marginBottom: 12, lineHeight: 1.6 }}>&ldquo;{v.quote}&rdquo;</blockquote>
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6 }}>{v.bio}</p>
               </div>
             ))}
           </div>
         )}
 
-        {tab === "history" && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <div style={{ width: 185, flexShrink: 0 }}>
-              {HISTORY.map(h => (
-                <button type="button" key={h.id} onClick={() => setSelectedHistory(h.id)}
-                  style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedHistory === h.id ? h.color : BORDER}`, background: selectedHistory === h.id ? `${h.color}12` : "transparent", color: selectedHistory === h.id ? h.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
-                  {h.name.split(" of")[0].split(",")[0]}
-                </button>
-              ))}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ background: CARD, border: `1px solid ${historyFigure.color}30`, borderRadius: 14, padding: 26 }}>
-                <div style={{ marginBottom: 16 }}>
-                  <h2 style={{ color: historyFigure.color, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{historyFigure.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 13 }}>{historyFigure.era}</div>
-                </div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, marginBottom: 18 }}>{historyFigure.desc}</p>
-                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
-                  <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>HISTORICAL SIGNIFICANCE</div>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{historyFigure.significance}</p>
-                </div>
+        {tab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {scriptures.map((s, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "1.1rem 1.3rem" }}>
+                <div style={{ fontWeight: 700, color: ROSE, marginBottom: 6 }}>{s.verse}</div>
+                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.65 }}>&ldquo;{s.text}&rdquo;</p>
               </div>
-            </div>
+            ))}
           </div>
         )}
 
         {tab === "journal" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 24 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 8 }}>Biblical Womanhood Journal</h2>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reflect on your identity and calling as a woman of God — strengths, honest questions, and prayers.</p>
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>Strength I am growing in as a woman of God</label>
-                <textarea value={bwForm.strength} onChange={e => setBwForm(f => ({ ...f, strength: e.target.value }))} rows={2} placeholder="Wisdom, faithfulness, courage, mercy, hospitality, teaching..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.5rem" }}>
+            <h3 style={{ marginBottom: "0.5rem", fontWeight: 700 }}>Reflect on Your Calling</h3>
+            <p style={{ color: MUTED, fontSize: "0.88rem", marginBottom: "1.2rem" }}>Use these prompts to engage Scripture and your own story honestly.</p>
+            {[
+              { label: "Question — a question about your calling as a woman you are wrestling with", val: jQuestion, set: setJQuestion },
+              { label: "Discovery — something from Scripture that has surprised or freed you", val: jDiscovery, set: setJDiscovery },
+              { label: "Freedom — a freedom you are walking into or want to walk into", val: jFreedom, set: setJFreedom },
+            ].map((f, i) => (
+              <div key={i} style={{ marginBottom: "1rem" }}>
+                <label style={{ display: "block", marginBottom: 6, fontSize: "0.88rem", color: MUTED }}>{f.label}</label>
+                <textarea value={f.val} onChange={e => f.set(e.target.value)} rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 6, padding: "0.7rem", color: TEXT, fontSize: "0.9rem", resize: "vertical" }} />
               </div>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>An honest question I am holding</label>
-                <textarea value={bwForm.question} onChange={e => setBwForm(f => ({ ...f, question: e.target.value }))} rows={2} placeholder="Questions about calling, gifts, Scripture, roles, identity..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>My prayer for this season</label>
-                <textarea value={bwForm.prayer} onChange={e => setBwForm(f => ({ ...f, prayer: e.target.value }))} rows={2} placeholder="Bring your heart to God as a daughter..." style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, color: TEXT, fontSize: 14, padding: "10px 12px", resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <button type="button" onClick={saveBwEntry} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
-                {bwSaved ? "Saved!" : "Save Entry"}
-              </button>
-            </div>
-            {bwEntries.length > 0 && (
-              <div>
-                <h3 style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>My Entries ({bwEntries.length})</h3>
-                {bwEntries.map(e => (
-                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
-                      <button type="button" onClick={() => deleteBwEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+            ))}
+            <button onClick={saveEntry} style={{ background: ROSE, color: "#fff", border: "none", borderRadius: 6, padding: "0.6rem 1.4rem", cursor: "pointer", fontWeight: 600 }}>Save Entry</button>
+            {entries.length > 0 && (
+              <div style={{ marginTop: "1.5rem" }}>
+                <h4 style={{ marginBottom: "1rem", fontWeight: 600, color: ROSE }}>My Entries ({entries.length})</h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {entries.map(e => (
+                    <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.9rem 1rem" }}>
+                      <div style={{ fontSize: "0.78rem", color: MUTED, marginBottom: 6 }}>{e.date}</div>
+                      <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: ROSE, fontWeight: 600 }}>Question:</span> {e.question}</p>
+                      {e.discovery && <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: ROSE, fontWeight: 600 }}>Discovery:</span> {e.discovery}</p>}
+                      {e.freedom && <p style={{ fontSize: "0.88rem", color: TEXT }}><span style={{ color: ROSE, fontWeight: 600 }}>Freedom:</span> {e.freedom}</p>}
                     </div>
-                    {e.strength && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: GREEN }}>Growing:</strong> {e.strength}</p>}
-                    {e.question && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, marginBottom: 6 }}><strong style={{ color: PURPLE }}>Question:</strong> {e.question}</p>}
-                    {e.prayer && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}><strong style={{ color: MUTED }}>Prayer:</strong> {e.prayer}</p>}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </div>
         )}
 
         {tab === "videos" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                {[
-                  { videoId: "ccNvwDPguNU", title: "Biblical Womanhood in Five Minutes", channel: "Desiring God", description: "A concise Ask Pastor John episode explaining the core of biblical womanhood — what it is and what it is not — rooted in Genesis and the New Testament." },
-                  { videoId: "j9phNEaPrv8", title: "The Beauty and Behavior of a Godly Woman", channel: "Desiring God / John Piper", description: "John Piper expounds on what Scripture celebrates in a godly woman — not primarily roles but character, courage, and faith-filled trust in God." },
-                  { videoId: "dy9nwe9zeU8", title: "Biblical Womanhood Is Not House Arrest", channel: "Desiring God", description: "A corrective teaching that biblical womanhood encompasses far more than domestic roles — it is about flourishing in God's calling, wherever that leads." },
-                  { videoId: "iK0NjiBXKN4", title: "John Piper on Christian Womanhood", channel: "Desiring God", description: "Piper discusses the distinctive calling of Christian women — grounded not in cultural roles but in the image of God and the redemption Christ brings." },
-                ].map(v => (
-                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                    </div>
-                  </div>
-                ))}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {videos.map((v, i) => (
+              <div key={i}>
+                <h3 style={{ marginBottom: 10, fontWeight: 600, fontSize: "0.95rem", color: ROSE }}>{v.title}</h3>
+                <VideoEmbed videoId={v.id} title={v.title} />
               </div>
-            </div>
+            ))}
           </div>
         )}
-      </div>
       </main>
       <Footer />
     </div>

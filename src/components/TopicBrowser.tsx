@@ -880,6 +880,30 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Father": "biblical-fatherhood",
   "Godly Father": "biblical-fatherhood",
   "Fatherhood Scripture": "biblical-fatherhood",
+  "Biblical Womanhood Guide": "biblical-womanhood",
+  "Christian Woman Identity": "biblical-womanhood",
+  "Women in Ministry Bible": "biblical-womanhood",
+  "Eshet Chayil Womanhood": "biblical-womanhood",
+  "Prodigal Parent": "prodigal-parent",
+  "Waiting for Prodigal Child": "prodigal-parent",
+  "Child Walked Away from Faith": "prodigal-parent",
+  "Praying for Wayward Child": "prodigal-parent",
+  "Christian Immigration": "christian-immigration",
+  "Bible and Immigration": "christian-immigration",
+  "Ger Stranger Immigrant": "christian-immigration",
+  "Welcoming Immigrant Christian": "christian-immigration",
+  "Theology of Money": "theology-of-money",
+  "Jesus Money Bible": "theology-of-money",
+  "Mammon Scripture": "theology-of-money",
+  "Christian Generosity Theology": "theology-of-money",
+  "Christian Counseling Guide": "christian-counseling-guide",
+  "Integration Faith Psychology": "christian-counseling-guide",
+  "Biblical Counseling Integration": "christian-counseling-guide",
+  "Christian Therapist Guide": "christian-counseling-guide",
+  "Christian Addiction Recovery": "addiction-recovery-christian",
+  "Addiction Recovery Gospel": "addiction-recovery-christian",
+  "Celebrate Recovery": "addiction-recovery-christian",
+  "Breaking Addiction Christian": "addiction-recovery-christian",
 };
 
 
@@ -1434,6 +1458,12 @@ const ALL_TOPICS: Topic[] = [
   { label: "Spiritual Warfare" },
   { label: "Christian Marriage Prep" },
   { label: "Biblical Fatherhood" },
+  { label: "Biblical Womanhood" },
+  { label: "Waiting for the Prodigal" },
+  { label: "Immigration and the Bible" },
+  { label: "Theology of Money" },
+  { label: "Christian Counseling Guide" },
+  { label: "Addiction Recovery" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -999,6 +999,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Faith in College": "christian-college",
   "Christian College Student": "christian-college",
   "Campus Faith Guide": "christian-college",
+  "Christian Anxiety Guide": "christian-anxiety-guide",
+  "Overcoming Anxiety Christian": "christian-anxiety-guide",
+  "Biblical Anxiety Relief": "christian-anxiety-guide",
+  "Christian Personal Finance": "christian-finances",
+  "Biblical Stewardship Guide": "christian-finances",
+  "Christian Money Management": "christian-finances",
 };
 
 
@@ -1589,6 +1595,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Worship Guide" },
   { label: "Spiritual Disciplines Guide" },
   { label: "Faith in College" },
+  { label: "Christian Anxiety Guide" },
+  { label: "Christian Personal Finance" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

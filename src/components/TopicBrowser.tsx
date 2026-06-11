@@ -746,6 +746,21 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Creating Rule of Life": "rule-of-life",
   "Benedictine Rule": "rule-of-life",
   "Spiritual Rhythm": "rule-of-life",
+  "Intercessory Prayer": "intercessory-prayer",
+  "Standing in the Gap": "intercessory-prayer",
+  "Prayer for Others": "intercessory-prayer",
+  "Intercession Ministry": "intercessory-prayer",
+  "Baptism Views": "baptism-views",
+  "Credobaptism": "baptism-views",
+  "Paedobaptism": "baptism-views",
+  "Infant Baptism Debate": "baptism-views",
+  "Believer Baptism": "baptism-views",
+  "Spiritual Direction": "spiritual-director",
+  "Finding Spiritual Director": "spiritual-director",
+  "Ignatian Spiritual Direction": "spiritual-director",
+  "Christian Minimalism": "christian-minimalism",
+  "Voluntary Simplicity": "christian-minimalism",
+  "Digital Minimalism Christian": "christian-minimalism",
 };
 
 
@@ -1267,7 +1282,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Healing Prayer" },
   { label: "Word of Faith" },
   { label: "Christian Counseling" },
-  { label: "Rule of Life" },
+  { label: "Intercession" },
+  { label: "Baptism Views" },
+  { label: "Spiritual Direction" },
+  { label: "Minimalism" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

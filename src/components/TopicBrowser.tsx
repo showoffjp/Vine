@@ -1049,6 +1049,14 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Pride Guide": "christian-pride-guide",
   "Christian Contentment": "christian-contentment",
   "Contentment in Christ": "christian-contentment",
+  "Christian Envy": "christian-envy",
+  "Overcoming Envy": "christian-envy",
+  "Christian Worry": "christian-worry",
+  "Worry and the Christian": "christian-worry",
+  "Generous Christian Life": "christian-generosity",
+  "Christian Generosity Guide": "christian-generosity",
+  "Tithing Guide": "tithing-guide",
+  "Should Christians Tithe": "tithing-guide",
 };
 
 
@@ -1661,6 +1669,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Intercession Guide" },
   { label: "Overcoming Pride" },
   { label: "Christian Contentment" },
+  { label: "Christian Envy" },
+  { label: "Christian Worry" },
+  { label: "Christian Generosity Guide" },
+  { label: "Tithing Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

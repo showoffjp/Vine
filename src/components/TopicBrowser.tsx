@@ -961,6 +961,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Lord's Supper Guide": "lords-supper",
   "Communion Guide": "lords-supper",
   "Eucharist Guide": "lords-supper",
+  "Christian Mental Health Guide": "christian-mental-health",
+  "Faith and Mental Illness": "christian-mental-health",
+  "Church and Mental Health": "christian-mental-health",
+  "Repentance Guide": "repentance-guide",
+  "How to Repent Christian": "repentance-guide",
+  "True Repentance Guide": "repentance-guide",
 };
 
 
@@ -1538,6 +1544,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Scripture Memorization" },
   { label: "Baptism Guide" },
   { label: "Lord's Supper Guide" },
+  { label: "Christian Mental Health" },
+  { label: "Repentance Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

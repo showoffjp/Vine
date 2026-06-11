@@ -1022,6 +1022,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Building a Prayer Life": "prayer-life-guide",
   "How to Pray Longer": "prayer-life-guide",
   "Prayer Life Guide": "prayer-life-guide",
+  "Christian Grief Guide": "christian-grief",
+  "Grief and Loss Christian": "christian-grief",
+  "Christian Forgiveness Guide": "christian-forgiveness",
+  "How to Forgive Christian": "christian-forgiveness",
+  "Christian Fear Guide": "christian-fear",
+  "Fear and Anxiety Christian": "christian-fear",
+  "Bible Study Guide": "bible-study-guide",
+  "How to Study the Bible": "bible-study-guide",
+  "Bible Study Methods": "bible-study-guide",
 };
 
 
@@ -1621,6 +1630,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Addiction Guide" },
   { label: "Christian Depression Guide" },
   { label: "Prayer Life Guide" },
+  { label: "Christian Grief Guide" },
+  { label: "Christian Forgiveness Guide" },
+  { label: "Christian Fear Guide" },
+  { label: "Bible Study Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

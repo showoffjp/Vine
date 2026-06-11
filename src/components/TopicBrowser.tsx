@@ -1073,6 +1073,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Peace of God": "christian-peace",
   "Christian Gratitude": "christian-gratitude",
   "Grateful Heart": "christian-gratitude",
+  "Christian Calling": "christian-calling",
+  "Discovering Your Calling": "christian-calling",
+  "Christian Decision Making": "christian-decision-making",
+  "Decision Making God's Way": "christian-decision-making",
+  "Christian Friendship": "christian-friendship",
+  "Friendship in Christ": "christian-friendship",
 };
 
 
@@ -1697,6 +1703,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Joy" },
   { label: "Christian Peace" },
   { label: "Christian Gratitude" },
+  { label: "Christian Calling" },
+  { label: "Christian Decision Making" },
+  { label: "Christian Friendship" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

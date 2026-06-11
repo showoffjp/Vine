@@ -129,6 +129,7 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Joel Guide", href: "/joel-guide" },
   { label: "Philemon Guide", href: "/philemon-guide" },
   { label: "Women of the Bible", href: "/women-of-the-bible" },
+  { label: "Men of the Bible", href: "/men-of-the-bible" },
   { label: "Heroes of Faith", href: "/heroes-of-faith" },
   { label: "Book of Galatians Guide", href: "/galatians-guide" },
   { label: "Women in Scripture Guide", href: "/women-theology-guide" },

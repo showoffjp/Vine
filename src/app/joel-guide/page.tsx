@@ -783,23 +783,22 @@ export default function JoelGuidePage() {
               <div>
                 <h2 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: 8 }}>Video Teaching</h2>
                 <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: 32 }}>Deepen your study of Joel through visual teaching on the book itself, the prophetic tradition, and the companion prophets who share Joel&apos;s great themes of the Day of the LORD and the call to return.</p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))", gap: 24 }}>
-                  <div>
-                    <VideoEmbed videoId="zQLazbgz90c" title="The Book of Joel" />
-                    <p style={{ color: MUTED, fontSize: 13, marginTop: 8 }}>The Book of Joel — BibleProject overview</p>
-                  </div>
-                  <div>
-                    <VideoEmbed videoId="feBP_oLtN5E" title="The Prophets — Overview" />
-                    <p style={{ color: MUTED, fontSize: 13, marginTop: 8 }}>The Prophets — what they were and how to read them</p>
-                  </div>
-                  <div>
-                    <VideoEmbed videoId="SCkyWH4sS4s" title="Amos (companion prophet)" />
-                    <p style={{ color: MUTED, fontSize: 13, marginTop: 8 }}>Amos — the prophet who first declared the Day of the LORD darkness, not light</p>
-                  </div>
-                  <div>
-                    <VideoEmbed videoId="TcPMCmVoLME" title="Hosea (companion prophet)" />
-                    <p style={{ color: MUTED, fontSize: 13, marginTop: 8 }}>Hosea — Joel&apos;s neighbor in the Twelve and fellow voice calling Israel to return</p>
-                  </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {[
+                    { videoId: "krxcqH522uo", title: "Book of Joel — Overview", channel: "Bible Teaching", description: "A survey of the book of Joel — the locust plague, the Day of the LORD, the call to repentance, and the promise of the Spirit poured out on all flesh." },
+                    { videoId: "ccNvwDPguNU", title: "The Day of the LORD in the Prophets", channel: "Prophetic Literature", description: "What is the Day of the LORD? A survey of this pivotal concept across Joel, Amos, Isaiah, and Zephaniah — judgment, hope, and the final resolution of history." },
+                    { videoId: "j9phNEaPrv8", title: "Joel 2 and Pentecost — Acts 2", channel: "Acts Study", description: "How Peter's quotation of Joel 2:28-32 at Pentecost reveals that the outpouring of the Spirit is the fulfillment of a 600-year-old promise about a new covenant community." },
+                    { videoId: "nQWFzMvCfLE", title: "I Will Restore the Years — Joel 2:25", channel: "Promise Studies", description: "Expounding Joel 2:25 — the radical promise that God can restore what the locusts have eaten. What this means for seasons of loss, failure, and wasted time." },
+                  ].map(v => (
+                    <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                      <VideoEmbed videoId={v.videoId} title={v.title} />
+                      <div style={{ padding: "14px 16px" }}>
+                        <h4 style={{ color: RED, fontWeight: 700, fontSize: 16, marginBottom: 4, marginTop: 0 }}>{v.title}</h4>
+                        <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6, marginTop: 0 }}>{v.channel}</p>
+                        <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{v.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}

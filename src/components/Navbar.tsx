@@ -117,6 +117,7 @@ const navLinks: NavLink[] = [
           { label: "Miracles of Jesus", href: "/miracles-of-jesus" },
           { label: "Sermon on the Mount", href: "/sermon-on-the-mount" },
           { label: "Women of the Bible", href: "/women-of-the-bible" },
+          { label: "Men of the Bible", href: "/men-of-the-bible" },
           { label: "Heroes of Faith", href: "/heroes-of-faith" },
           { label: "The Armor of God", href: "/armor-of-god" },
           { label: "The Beatitudes", href: "/beatitudes" },

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -14,17 +15,6 @@ const MUTED = "#9898B3";
 const GOLD = "#D97706";
 const TEAL = "#0D9488";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -140,24 +130,23 @@ const FAITH11 = [
 ];
 
 const VIDEOS = [
-  { videoId: "1fNWTZZwgbs", title: "The Book of Hebrews — BibleProject Overview" },
-  { videoId: "JLDSXwbJRaA", title: "Hebrews Part 1 — BibleProject" },
-  { videoId: "kE6SZ1ogOVU", title: "Hebrews Part 2 — BibleProject" },
-  { videoId: "FiUWsBOD4jo", title: "Hebrews 11 — The Hall of Faith" },
-  { videoId: "TL2zJzAVJFI", title: "Jesus as High Priest in Hebrews" },
-  { videoId: "0q6yoKvjL04", title: "Melchizedek in Hebrews — Who Was He?" },
+  { videoId: "mC-zw0zCCtg", title: "Hebrews Overview", channel: "The Bible Project", description: "The Bible Project's overview of Hebrews — the anonymous letter to Jewish Christians being tempted to abandon Christ for the Mosaic system." },
+  { videoId: "kfcVPh2VDhQ", title: "The New Covenant in Hebrews", channel: "The Bible Project", description: "How Hebrews reads Jeremiah 31 — the new covenant written on hearts — as the fulfillment of everything the Mosaic covenant pointed to." },
+  { videoId: "jH_aojNJM3E", title: "Hebrews 11 — The Hall of Faith", channel: "Desiring God", description: "An exposition of Hebrews 11 — how the great cloud of witnesses were all commended for trusting God's promises without seeing their fulfillment." },
+  { videoId: "3Dv4-n6OYGI", title: "Christ Our High Priest", channel: "John Piper / Desiring God", description: "The significance of Jesus as our Melchizedekian high priest — what it means that he ever lives to intercede for us and has offered one sacrifice for all time." },
+  { videoId: "AzmYV8GNAIM", title: "The Tabernacle and the New Temple", channel: "The Bible Project", description: "How the tabernacle and temple were types that pointed forward to Christ — and how Hebrews uses this typology to show Christ's superiority." },
 ];
 
 export default function HebrewsGuide() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_heb_tab", "overview");
-  const [openSup, setOpenSup] = useLocalStorage("vine_heb_sup", "");
-  const [openCov, setOpenCov] = useLocalStorage("vine_heb_cov", "");
-  const [journal, setJournal] = useLocalStorage("vine_heb_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_heb_tab", "overview");
+  const [openSup, setOpenSup] = usePersistedState<string>("vine_heb_sup", "");
+  const [openCov, setOpenCov] = usePersistedState<string>("vine_heb_cov", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_heb_journal", "");
 
   return (
-    <>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+      <main id="main-content">
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "32px 16px" }}>
         <div style={{ marginBottom: 8 }}>
           <span style={{ color: GOLD, fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>Bible Study</span>
@@ -335,16 +324,13 @@ export default function HebrewsGuide() {
         {activeTab === "videos" && (
           <div>
             <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Video Teaching</h2>
-            <div style={{ display: "grid", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {VIDEOS.map((v, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "12px 16px" }}>
-                    <p style={{ color: TEXT, fontWeight: 600, fontSize: 14 }}>{v.title}</p>
+                    <p style={{ color: TEXT, fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{v.title}</p>
+                    <p style={{ color: MUTED, fontSize: 13 }}>{v.channel} — {v.description}</p>
                   </div>
                 </div>
               ))}
@@ -352,8 +338,8 @@ export default function HebrewsGuide() {
           </div>
         )}
       </div>
-    </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

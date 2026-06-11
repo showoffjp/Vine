@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -16,17 +18,6 @@ const TEAL = "#0D9488";
 const BLUE = "#3B82F6";
 const RED = "#EF4444";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -122,24 +113,24 @@ const ETHICS_ITEMS = [
 ];
 
 const VIDEOS = [
-  { videoId: "0SVTl4Xa5fY", title: "Romans Overview — BibleProject" },
-  { videoId: "K3bkCOXmBek", title: "Romans 8 in Full — John Piper" },
-  { videoId: "NkqL_lE48ys", title: "Justification by Faith in Romans — Tim Keller" },
-  { videoId: "lMflRJGgRps", title: "Romans 9 and God's Sovereignty — R.C. Sproul" },
-  { videoId: "5fXHRtxhZ-8", title: "Romans 12 — Living Sacrifice — Matt Chandler" },
+  { videoId: "AzmYV8GNAIM", title: "Romans Overview", channel: "The Bible Project", description: "The Bible Project's visual overview of Romans — Paul's argument, structure, and the central themes of righteousness, justification, and grace." },
+  { videoId: "Cus-z1hgAXw", title: "No Condemnation — Romans 8", channel: "Timothy Keller", description: "Tim Keller on Romans 8:1 — what it means to live without condemnation and how the gospel grounds absolute assurance for the believer." },
+  { videoId: "iVwauTiyFjM", title: "Justification by Faith Alone", channel: "The Bible Project", description: "The forensic and relational dimensions of justification — what it means to be declared righteous by God through faith in Christ." },
+  { videoId: "3Dv4-n6OYGI", title: "The Righteousness of God in Romans 1–3", channel: "John Piper / Desiring God", description: "Piper on the meaning of 'the righteousness of God' — the righteousness that comes from God and justifies the ungodly through faith." },
+  { videoId: "ccNvwDPguNU", title: "Romans 12 — The Living Sacrifice", channel: "Timothy Keller", description: "How the theological argument of Romans 1–11 grounds the radical ethical demand of Romans 12:1-2 — offering the whole body as worship." },
 ];
 
 export default function RomansGuide() {
-  const [tab, setTab] = useLocalStorage("vine_romans_tab", "overview");
-  const [probOpen, setProbOpen] = useLocalStorage("vine_romans_prob", "");
-  const [unionOpen, setUnionOpen] = useLocalStorage("vine_romans_union", "");
-  const [isrOpen, setIsrOpen] = useLocalStorage("vine_romans_isr", "");
-  const [journal, setJournal] = useLocalStorage("vine_romans_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_romans_tab", "overview");
+  const [probOpen, setProbOpen] = usePersistedState<string>("vine_romans_prob", "");
+  const [unionOpen, setUnionOpen] = usePersistedState<string>("vine_romans_union", "");
+  const [isrOpen, setIsrOpen] = usePersistedState<string>("vine_romans_isr", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_romans_journal", "");
 
   return (
-    <>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+      <main id="main-content">
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem" }}>
         <div style={{ marginBottom: "0.5rem" }}>
           <span style={{ background: GOLD + "22", color: GOLD, padding: "0.2rem 0.7rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1 }}>PAUL · ROMANS</span>
@@ -345,13 +336,11 @@ export default function RomansGuide() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "0.9rem 1rem" }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.95rem" }}>{v.title}</div>
+                    <div style={{ fontWeight: 700, color: GOLD, fontSize: "0.95rem", marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: PURPLE, fontWeight: 600, fontSize: "0.85rem", marginBottom: 6 }}>{v.channel}</div>
+                    <div style={{ color: MUTED, fontSize: "0.85rem", lineHeight: 1.6 }}>{v.description}</div>
                   </div>
                 </div>
               ))}
@@ -359,8 +348,8 @@ export default function RomansGuide() {
           </div>
         )}
       </div>
-    </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

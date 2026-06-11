@@ -1005,6 +1005,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Personal Finance": "christian-finances",
   "Biblical Stewardship Guide": "christian-finances",
   "Christian Money Management": "christian-finances",
+  "Christian Loneliness": "christian-loneliness",
+  "Loneliness Guide": "christian-loneliness",
+  "Overcoming Loneliness Christian": "christian-loneliness",
 };
 
 
@@ -1597,6 +1600,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Faith in College" },
   { label: "Christian Anxiety Guide" },
   { label: "Christian Personal Finance" },
+  { label: "Christian Loneliness" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

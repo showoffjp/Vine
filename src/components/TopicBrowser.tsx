@@ -724,6 +724,28 @@ const TOPIC_SLUGS: Record<string, string> = {
   "How to Fast Christian": "prayer-fasting-guide",
   "Biblical Fasting Guide": "prayer-fasting-guide",
   "Fasting Prayer Discipline": "prayer-fasting-guide",
+  "Generational Curses": "generational-curses",
+  "Generational Sin Patterns": "generational-sin-patterns",
+  "Breaking Generational Curses": "generational-curses",
+  "Ancestral Sin": "generational-curses",
+  "Family Patterns Christian": "generational-sin-patterns",
+  "Healing Prayer": "healing-prayer-guide",
+  "Prayer for Healing": "healing-prayer-guide",
+  "Miraculous Healing": "healing-prayer-guide",
+  "James 5 Healing": "healing-prayer-guide",
+  "Yahweh Rapha": "healing-prayer-guide",
+  "Word of Faith": "word-of-faith-theology",
+  "Prosperity Gospel Theology": "word-of-faith-theology",
+  "Kenneth Hagin": "word-of-faith-theology",
+  "Positive Confession": "word-of-faith-theology",
+  "Name It Claim It": "word-of-faith-theology",
+  "Finding Christian Therapist": "christian-therapy-guide",
+  "Christian Therapy Guide": "christian-therapy-guide",
+  "Biblical vs Christian Counseling": "christian-therapy-guide",
+  "Personal Rule of Life": "rule-of-life",
+  "Creating Rule of Life": "rule-of-life",
+  "Benedictine Rule": "rule-of-life",
+  "Spiritual Rhythm": "rule-of-life",
 };
 
 
@@ -1240,6 +1262,12 @@ const ALL_TOPICS: Topic[] = [
   { label: "Fear of Death" },
   { label: "Sabbath Rest" },
   { label: "Prayer & Fasting" },
+  { label: "Generational Curses" },
+  { label: "Generational Patterns" },
+  { label: "Healing Prayer" },
+  { label: "Word of Faith" },
+  { label: "Christian Counseling" },
+  { label: "Rule of Life" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

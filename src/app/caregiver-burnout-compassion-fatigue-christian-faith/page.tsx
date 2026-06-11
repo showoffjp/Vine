@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -15,42 +16,6 @@ type Tab = typeof TABS[number];
 
 const JOURNAL_KEY = "vine_caregiver_burnout_entries";
 interface JournalEntry { id: string; date: string; text: string; }
-
-function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
-  const [playing, setPlaying] = useState(false);
-  return (
-    <div style={{ borderRadius: 12, overflow: "hidden", background: CARD, border: `1px solid ${BORDER}` }}>
-      {playing ? (
-        <iframe
-          width="100%"
-          style={{ aspectRatio: "16/9", display: "block" }}
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-          title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      ) : (
-        <div
-          onClick={() => setPlaying(true)}
-          style={{ position: "relative", cursor: "pointer", aspectRatio: "16/9", background: "linear-gradient(135deg, #0d0820 0%, #060610 100%)" }}
-        >
-          <img
-            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-            alt={title}
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ width: 56, height: 56, borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 24px rgba(107,79,187,0.5)" }}>
-              <div style={{ width: 0, height: 0, borderTop: "10px solid transparent", borderBottom: "10px solid transparent", borderLeft: `18px solid ${TEXT}`, marginLeft: 4 }} />
-            </div>
-          </div>
-        </div>
-      )}
-      <div style={{ padding: "12px 16px", color: MUTED, fontSize: 14 }}>{title}</div>
-    </div>
-  );
-}
 
 export default function CaregiverBurnout() {
   const [tab, setTab] = useState<Tab>("Theology");

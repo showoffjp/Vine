@@ -761,6 +761,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Minimalism": "christian-minimalism",
   "Voluntary Simplicity": "christian-minimalism",
   "Digital Minimalism Christian": "christian-minimalism",
+  "Inductive Bible Study": "inductive-bible-study",
+  "Observe Interpret Apply": "inductive-bible-study",
+  "Bible Study Method": "inductive-bible-study",
+  "How to Study Bible": "inductive-bible-study",
 };
 
 
@@ -1286,6 +1290,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Baptism Views" },
   { label: "Spiritual Direction" },
   { label: "Minimalism" },
+  { label: "Inductive Bible Study" },
+  { label: "Anger" },
+  { label: "Productivity" },
+  { label: "Midnight Anxiety" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

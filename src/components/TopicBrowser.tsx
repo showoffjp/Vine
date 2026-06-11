@@ -1039,6 +1039,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Marriage Guide": "christian-marriage-guide",
   "Marriage Enrichment Christian": "christian-marriage-guide",
   "Christian Rest Guide": "christian-rest",
+  "Christian Humility": "christian-humility",
+  "Humility Christian Life": "christian-humility",
+  "Christian Patience": "christian-patience",
+  "Patience in Suffering Christian": "christian-patience",
+  "Intercession Guide": "intercession-guide",
+  "Ministry of Intercession": "intercession-guide",
+  "Overcoming Pride Christian": "christian-pride-guide",
+  "Christian Pride Guide": "christian-pride-guide",
+  "Christian Contentment": "christian-contentment",
+  "Contentment in Christ": "christian-contentment",
 };
 
 
@@ -1646,6 +1656,11 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Sex Guide" },
   { label: "Christian Marriage Guide" },
   { label: "Christian Rest Guide" },
+  { label: "Christian Humility" },
+  { label: "Christian Patience" },
+  { label: "Intercession Guide" },
+  { label: "Overcoming Pride" },
+  { label: "Christian Contentment" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

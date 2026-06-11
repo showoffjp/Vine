@@ -275,7 +275,7 @@ export default function PrayerWallPage() {
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
       <main id="main-content">
-      <div className="pb-20" style={{ paddingTop: 80 }}>
+      <div className="pb-20" style={{ paddingTop: "var(--header-height, 80px)" }}>
 
         {/* Hero */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-2">

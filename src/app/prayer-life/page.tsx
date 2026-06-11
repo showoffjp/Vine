@@ -137,7 +137,7 @@ export default function PrayerLifePage() {
   function deletePlEntry(id: string) { setPlEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: 80 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
 

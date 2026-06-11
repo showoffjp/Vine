@@ -116,7 +116,7 @@ export default function AnxietyPage() {
   };
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
       {/* Crisis banner */}

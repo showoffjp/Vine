@@ -284,7 +284,7 @@ export default function CovenantPage() {
   function deleteCovEntry(id: string) { setCovEntries(prev => prev.filter(e => e.id !== id)); }
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px" }}>

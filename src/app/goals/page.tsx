@@ -195,7 +195,7 @@ export default function GoalsPage() {
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
       <main id="main-content">
-      <div className="pb-24" style={{ paddingTop: 80 }}>
+      <div className="pb-24" style={{ paddingTop: "var(--header-height, 80px)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}

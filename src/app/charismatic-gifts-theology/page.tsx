@@ -252,7 +252,7 @@ export default function CharismaticGiftsTheologyPage() {
       style={{
         background: BG,
         minHeight: "100vh",
-        paddingTop: 80,
+        paddingTop: "var(--header-height, 80px)",
         color: TEXT,
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}

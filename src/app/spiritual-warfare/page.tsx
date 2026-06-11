@@ -333,7 +333,7 @@ export default function SpiritualWarfarePage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, paddingTop: 80 }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 20px 80px" }}>

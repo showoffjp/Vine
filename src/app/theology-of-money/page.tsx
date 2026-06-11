@@ -401,7 +401,7 @@ export default function TheologyOfMoneyPage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit", paddingTop: 80 }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 16px 80px" }}>

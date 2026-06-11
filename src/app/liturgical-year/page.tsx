@@ -279,7 +279,7 @@ export default function LiturgicalYearPage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80, fontFamily: "system-ui, sans-serif" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)", fontFamily: "system-ui, sans-serif" }}>
       <Navbar />
       <main id="main-content">
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>

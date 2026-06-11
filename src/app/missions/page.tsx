@@ -403,7 +403,7 @@ export default function MissionsPage() {
     <div className="min-h-screen" style={{ background: BG, color: TEXT }}>
       <Navbar />
       <main id="main-content">
-      <div className="pb-20" style={{ paddingTop: 80 }}>
+      <div className="pb-20" style={{ paddingTop: "var(--header-height, 80px)" }}>
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-3xl mx-auto">

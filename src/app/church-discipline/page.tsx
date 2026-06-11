@@ -265,7 +265,7 @@ export default function ChurchDisciplinePage() {
         minHeight: "100vh",
         color: TEXT,
         fontFamily: "system-ui, sans-serif",
-        paddingTop: 80,
+        paddingTop: "var(--header-height, 80px)",
       }}
     >
       <Navbar />

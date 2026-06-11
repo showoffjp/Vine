@@ -212,7 +212,7 @@ export default function LentDevotionalPage() {
         backgroundColor: BG,
         color: TEXT,
         minHeight: "100vh",
-        paddingTop: 80,
+        paddingTop: "var(--header-height, 80px)",
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >

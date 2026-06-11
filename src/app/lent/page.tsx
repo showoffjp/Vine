@@ -92,7 +92,7 @@ export default function LentPage() {
   const allReadings = WEEKS.flatMap(w => w.readings.map(r => ({ week: w.week, title: w.title, reading: r, color: w.color })));
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>

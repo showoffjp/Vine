@@ -501,7 +501,7 @@ export default function SpiritualDirectionPage() {
       style={{
         background: BG,
         minHeight: "100vh",
-        paddingTop: 80,
+        paddingTop: "var(--header-height, 80px)",
         paddingBottom: 80,
         color: TEXT,
         fontFamily: "system-ui, -apple-system, sans-serif",

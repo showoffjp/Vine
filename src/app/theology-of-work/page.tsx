@@ -233,7 +233,7 @@ export default function TheologyOfWorkPage() {
   const selectedVocation = VOCATION_TOPICS.find(t => t.id === vocabSelected) ?? VOCATION_TOPICS[0];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
       <main id="main-content">
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>

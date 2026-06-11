@@ -254,7 +254,7 @@ export default function TheologyOfSabbathPage() {
         background: BG,
         minHeight: "100vh",
         color: TEXT,
-        paddingTop: 80,
+        paddingTop: "var(--header-height, 80px)",
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >

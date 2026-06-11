@@ -259,7 +259,7 @@ export default function ChristianSimplicityPage() {
         background: BG,
         color: TEXT,
         minHeight: "100vh",
-        paddingTop: 80,
+        paddingTop: "var(--header-height, 80px)",
       }}
     >
       <Navbar />

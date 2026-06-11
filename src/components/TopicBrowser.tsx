@@ -920,6 +920,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Prayer Theology Guide": "theology-of-prayer",
   "How Does Prayer Work": "theology-of-prayer",
   "Contemplative Prayer Guide": "theology-of-prayer",
+  "Christian Sexuality": "christian-sexuality",
+  "Sexual Ethics Christian": "christian-sexuality",
+  "Christian Sexual Ethics": "christian-sexuality",
+  "Sexuality and Faith": "christian-sexuality",
 };
 
 
@@ -1484,6 +1488,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Race and the Gospel" },
   { label: "Theology of the Church" },
   { label: "Theology of Prayer" },
+  { label: "Christian Sexuality" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -800,6 +800,31 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Practical Forgiveness Guide": "forgiveness-practice",
   "REACH Model Forgiveness": "forgiveness-practice",
   "Forgiving the Unforgivable": "forgiveness-practice",
+  "Christian Dating Guide": "christian-dating-guide",
+  "Christian Dating Principles": "christian-dating-guide",
+  "Dating with Purpose": "christian-dating-guide",
+  "Guarding Your Heart Dating": "christian-dating-guide",
+  "Biblical Dating": "christian-dating-guide",
+  "Christian Hospitality": "christian-hospitality",
+  "Welcoming the Stranger": "christian-hospitality",
+  "Hospitality Ministry": "christian-hospitality",
+  "Biblical Hospitality": "christian-hospitality",
+  "Open Table Hospitality": "christian-hospitality",
+  "Christian Mentoring": "christian-mentoring",
+  "Finding a Mentor": "christian-mentoring",
+  "Being a Mentor": "christian-mentoring",
+  "Discipleship Mentoring": "christian-mentoring",
+  "Paul Barnabas Timothy": "christian-mentoring",
+  "Sharing Your Testimony": "sharing-your-testimony",
+  "How to Share Faith": "sharing-your-testimony",
+  "Christian Witness": "sharing-your-testimony",
+  "Personal Testimony": "sharing-your-testimony",
+  "Evangelism Testimony": "sharing-your-testimony",
+  "Raising Christian Children": "raising-christian-children",
+  "Faith Formation Children": "raising-christian-children",
+  "Christian Parenting Faith": "raising-christian-children",
+  "Deuteronomy 6 Parenting": "raising-christian-children",
+  "Teaching Faith to Kids": "raising-christian-children",
 };
 
 
@@ -1336,6 +1361,11 @@ const ALL_TOPICS: Topic[] = [
   { label: "Small Groups" },
   { label: "Rest" },
   { label: "Forgiveness Practice" },
+  { label: "Christian Dating Guide" },
+  { label: "Christian Hospitality" },
+  { label: "Christian Mentoring" },
+  { label: "Sharing Your Testimony" },
+  { label: "Raising Christian Children" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

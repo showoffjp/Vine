@@ -1,271 +1,161 @@
 "use client";
-import Navbar from "@/components/Navbar";
-import VerseRef from "@/components/VerseRef";
-import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
-
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", accent = "#6366F1", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-const THEOLOGY = [
-  { title: "Sabbath as Creation Pattern", verse: "Genesis 2:2-3", body: "'By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work. Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done' (Genesis 2:2-3). God's rest on the seventh day is not a divine nap — it is the completion of creation, the crowning of the week. The Sabbath is written into the structure of time before the Law. It is a creation ordinance, not merely a Mosaic regulation." },
-  { title: "Sabbath as Liberation", verse: "Deuteronomy 5:15", body: "'Remember that you were slaves in Egypt and that the Lord your God brought you out of there with a mighty hand and an outstretched arm. Therefore the Lord your God has commanded you to observe the Sabbath day' (Deuteronomy 5:15). In Deuteronomy, the Sabbath is grounded in the Exodus: you are no longer slaves defined by your productivity. Slaves cannot rest; free people can. The weekly Sabbath is an enacted declaration of freedom — a refusal to be defined by economic output." },
-  { title: "Jesus as Lord of the Sabbath", verse: "Mark 2:27-28", body: "'The Sabbath was made for man, not man for the Sabbath. So the Son of Man is Lord even of the Sabbath' (Mark 2:27-28). Jesus does not abolish the Sabbath but fulfills and deepens it. He is himself the rest — 'Come to me, all you who are weary and burdened, and I will give you rest' (Matthew 11:28). The Hebrews letter builds on this: 'There remains, then, a Sabbath-rest for the people of God' (4:9) — a rest both present (entered by faith) and future (eschatological consummation)." },
-  { title: "The Sabbath and the New Covenant", verse: "Colossians 2:16-17", body: "'Therefore do not let anyone judge you by what you eat or drink, or with regard to a religious festival, a New Moon celebration or a Sabbath day. These are a shadow of the things that were to come; the reality, however, is found in Christ' (Colossians 2:16-17). The Mosaic Sabbath was a shadow pointing to Christ. Christians are divided on whether weekly rest is still required: some hold that Sunday worship is the new covenant Sabbath (Lord's Day theology); others hold that every day is equally holy; most agree that rhythmic rest is a creation gift that remains wise and good." },
-  { title: "Rest as Resistance", verse: "Matthew 6:25", body: "'Therefore I tell you, do not worry about your life' (Matthew 6:25). In a culture of productivity, busyness, and overwork, Sabbath is a countercultural act. It refuses the identity that says worth is produced. It challenges the anxiety that says if I stop, something will unravel. It protests the idolatry of achievement that can find no peace outside work. True rest is not merely physical cessation — it is an act of trust: God holds the world while I sleep." },
+type CREntry = { id: string; date: string; obstacle: string; practice: string; result: string };
+
+const theology = [
+  { title: "God Rested — and Called It Good", verse: "Genesis 2:2-3", text: "On the seventh day God finished his work and he rested. A God who does not grow weary, who never sleeps, chose to rest on the seventh day — and declared it holy. This is not a divine recovery period. It is a declaration that rest is embedded in the structure of creation itself, not added as an afterthought for weak creatures. The Sabbath rhythm predates the fall, predates the law, predates Israel. It is woven into the fabric of what it means to be a creature made in the image of a God who rests. To rest is not to be unproductive. It is to participate in something God himself modeled and blessed." },
+  { title: "Come to Me and Rest — Jesus’s Invitation to the Weary", verse: "Matthew 11:28-30", text: "Come to me, all who labor and are heavy laden, and I will give you rest. The Sabbath rest Jesus offers is first a relational reality, not a scheduling solution. It is rest for the soul — the deeper rest that comes from laying down the burden of self-justification, performance, and striving. This soul rest is what enables physical rest to be genuinely restorative. The person who cannot rest often cannot rest because they have not accepted the invitation to cease striving before God. Jesus’s yoke is easy not because the demands are trivial but because the one carrying the other end is infinite." },
+  { title: "Hebrews 4 — the Sabbath Rest That Remains", verse: "Hebrews 4:9-11", text: "There remains a Sabbath rest for the people of God, for whoever has entered God’s rest has also rested from his works. The writer of Hebrews sees the weekly Sabbath as pointing forward to a final eschatological rest already begun in Christ and not yet fully realized. Christians live in the overlap: the rest has come in Jesus, and the rest is still coming. Weekly Sabbath observance is therefore not legalism but participation in a reality that spans creation to new creation. It is a rehearsal for the eternal rest that awaits. To stop working one day per week is a small act of eschatological hope." },
+  { title: "Why Busyness Is a Spiritual Problem", verse: "Psalm 46:10", text: "Be still and know that I am God. Busyness is not merely an inconvenience — it is a cultural idol and a spiritual counterfeit. Chronic busyness can be a form of pride (believing we are indispensable), fear (staying busy to maintain a sense of control), or avoidance (not facing what stillness would reveal). The person who cannot stop is often the person who does not trust that God is at work when they are not. The prophetic witness of rest is significant: in a productivity-obsessed culture, the person who rests without guilt is making a counter-cultural declaration that their identity is not in their output." },
+  { title: "Sleep as an Act of Trust — Theology of Sleep", verse: "Psalm 4:8; Psalm 127:2", text: "In peace I will lie down and sleep, for you alone, Lord, make me dwell in safety. He grants sleep to those he loves. Sleep is an act of releasing control. Every night we lose consciousness, surrender awareness, and entrust ourselves to a God who does not sleep. The person who lies awake rehearsing anxieties is, in a real sense, refusing to hand the night shift to God. Chronic sleep deprivation is often not merely a health issue but a spiritual one — a symptom of a trust deficit. Neuroscience increasingly confirms what theology has always said: rest is not weakness but essential maintenance for creatures who are finite and dependent." },
 ];
 
-const PRACTICES = [
-  { title: "Protect a Weekly Day", desc: "Choose a day — Sunday or another — and treat it as structurally different from the rest of the week. Not a day of inactivity but a day of ceasing: from work, from production, from the tasks that normally define your hours. The specific practice matters less than the consistent rhythm.", icon: "📅" },
-  { title: "Cease from Productive Work", desc: "The Hebrew word shabbat means 'to cease.' The practice requires actual stopping — not doing work in your head while appearing to rest, not checking email once, not just doing different work. The discipline is in the stopping. What you cease from reveals what owns you.", icon: "🛑" },
-  { title: "Rest the Body and the Mind", desc: "Physical rest — sleep, stillness, walks without destination, meals without schedule — addresses the body's need. Mental rest — choosing not to consume news, social media, or productive content — addresses the mind's need. Both are part of the gift. The Sabbath is bodily because we are embodied.", icon: "😴" },
-  { title: "Celebrate Rather Than Simply Recuperate", desc: "The Jewish Sabbath tradition is festive — special meals, family gathering, joy. Christian Sabbath need not be grim or religiously heavy. Rest includes delight: food, friends, beauty, play. If your Sabbath produces only guilt about what you are not doing, the practice needs reorientation toward gratitude and pleasure.", icon: "🎉" },
-  { title: "Worship as the Sabbath's Center", desc: "The gathered worship of the church on Sunday is not merely a nice addition to the day off — it is the Sabbath's orientation. Worship on the Lord's Day is both the appropriate culmination of the week and the proper launching point for the new week. Rest receives its meaning from the God in whose presence it is practiced.", icon: "🙏" },
-  { title: "Practice Daily Mini-Sabbaths", desc: "Augustine: 'Our heart is restless until it rests in you.' The Sabbath's logic applies to the day as well: brief pauses, moments of prayer, transitions between activities, the regular interruption of the screen or the work — these mini-Sabbaths cultivate the habit of rest that makes the weekly Sabbath possible.", icon: "⏸️" },
+const practices = [
+  { icon: "⏸️", title: "Weekly Sabbath", text: "Choose a full 24-hour period each week in which you do no work and pursue no productivity. This is harder than it sounds — which is why it is valuable. The difficulty reveals how deeply the idol of productivity has taken hold. Begin small if necessary, but work toward a full day. Protect it actively, because it will constantly be negotiated away. The discipline of Sabbath-keeping is not about rule-following but about practicing the posture of a creature who knows they are not God." },
+  { icon: "💤", title: "Nap Without Guilt", text: "Rest in the middle of the day without earning it first. The guilt many people feel about resting — especially napping — reveals a performance orientation toward self-worth: I must earn rest by producing first. Theological permission to rest is precisely this: you are a beloved child of God, not a productivity unit. A 20-minute nap is not laziness. It is the act of a creature who knows their limits and does not pretend otherwise." },
+  { icon: "📵", title: "Device-Off Evenings", text: "Commit to turning off screens after 8pm as preparation for genuinely restorative sleep. Screens stimulate the brain with news, social comparison, entertainment, and email in ways that prevent the nervous system from downshifting toward rest. This practice is not primarily about sleep hygiene (though it is that) — it is about creating space for quietness, conversation, prayer, and reflection in the evening hours. The hour before sleep is a spiritual hour if we allow it to be." },
+  { icon: "⏳", title: "Mini-Sabbaths", text: "Take 15-minute pauses during the workday — not distraction breaks but deliberate rest. Step away from screens. Sit quietly. Pray briefly. Look at something that is not a task. The distinction between distraction and rest is important: scrolling your phone is distraction that depletes; sitting quietly for a few minutes is rest that restores. Mini-Sabbaths throughout the day are a practice of building the rhythm of stopping into ordinary time, not reserving it for a weekly crisis." },
+  { icon: "🌳", title: "Annual Retreat Day", text: "Set aside one full day per year for silence, rest, and reflection with no agenda and no tasks. No books you should read, no projects you should advance. Simply stop. Lie down. Walk slowly. Pray without an agenda. For most people this is profoundly uncomfortable at first and profoundly restorative afterward. The annual retreat day is a diagnostic: if you cannot bear to stop for a single day, something has gone wrong in the relationship between your soul and your schedule." },
 ];
 
-const OBSTACLES = [
-  { o: "Productivity Guilt", desc: "The feeling that stopping is irresponsible or indulgent — that there is always something more that should be done. This guilt is often the most significant barrier to Sabbath practice.", response: "Sabbath is not earned by completing everything — it is taken as a declaration that everything does not rest on you. Build it into the calendar as a commitment rather than a reward for finishing." },
-  { o: "Digital Encroachment", desc: "Smartphones carry work, anxiety, comparison, and information-consumption into every space that once belonged to rest. Digital Sabbath — turning the phone off or away for a defined period — is increasingly necessary for genuine rest.", response: "Define a digital boundary for your Sabbath. Start with phones in a drawer during a meal. Grow from there. The discomfort of the first hour reveals how much the phone has colonized your capacity for presence." },
-  { o: "Irregular Work Schedules", desc: "Shift workers, caregivers, clergy, and many others cannot observe Sunday as a day off. The principle of Sabbath is weekly; the day is not necessarily Sunday.", response: "Identify which day in your week functions as Sabbath. Protect it with the same intention Sunday-keepers give to Sunday. The rhythm matters more than the day." },
-  { o: "Family Complexity", desc: "Parents of young children often find Sabbath a fantasy — children need care every day. Couples may disagree on what rest looks like.", response: "Negotiate a shared practice rather than waiting for a perfect one. Even an hour of protected rest, mutual support, and worship together advances the Sabbath principle. Imperfect rest is better than none." },
-  { o: "The Guilt of Enjoyment", desc: "Some Christians have internalized a version of holiness that treats pleasure as suspect. Sabbath rest that includes genuine pleasure — food, creativity, recreation — feels impious.", response: "The Sabbath is called a 'delight' (Isaiah 58:13). God blessed it. Joy is the appropriate response to rest in the presence of the One who made the world good. Receive pleasure without guilt." },
+const scriptures = [
+  { verse: "Genesis 2:2-3", text: "By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work. Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done." },
+  { verse: "Matthew 11:28-30", text: "Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls." },
+  { verse: "Hebrews 4:9-11", text: "There remains, then, a Sabbath-rest for the people of God; for anyone who enters God’s rest also rests from their works, just as God did from his. Let us, therefore, make every effort to enter that rest." },
+  { verse: "Psalm 127:2", text: "In vain you rise early and stay up late, toiling for food to eat — for he grants sleep to those he loves." },
+  { verse: "Psalm 46:10", text: "He says, “Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth.”" },
+  { verse: "Exodus 20:8", text: "Remember the Sabbath day by keeping it holy. Six days you shall labor and do all your work, but the seventh day is a sabbath to the Lord your God." },
 ];
 
-const VOICES = [
-  {
-    id: "OqwbFGoRYVo",
-    name: "Walter Brueggemann",
-    work: "Sabbath as Resistance (2014)",
-    color: GREEN,
-    bio: "Old Testament scholar and Reformed pastor. Professor emeritus at Columbia Theological Seminary.",
-    quote: "Sabbath is the dramatic, visible way in which we enact our resistance to the culture of commodity and of anxiety.",
-    insight: "Brueggemann reads the Sabbath command in its original Exodus context: Israel was enslaved by a Pharaoh whose empire ran on endless production. The Sabbath was a direct repudiation of that economy. His central thesis: Sabbath is not a day off but an act of resistance — a refusal to let the market define your identity and schedule. His categories are political as well as spiritual: to Sabbath is to declare that the world is not run by commodity exchange but by the God who rested. This reading makes Sabbath immediately relevant in a 24/7 digital economy.",
-  },
-  {
-    id: "dawn",
-    name: "Marva Dawn",
-    work: "Keeping the Sabbath Wholly (1989)",
-    color: PURPLE,
-    bio: "Christian educator and author. Wrote the most practically comprehensive modern Christian book on Sabbath.",
-    quote: "Sabbath-keeping requires choice — to cease, to rest, to embrace, to feast — and it produces character.",
-    insight: "Dawn structures Sabbath around four verbs: Ceasing (stopping work, productivity, anxiety), Resting (body, mind, and spirit), Embracing (values, people, eternity), and Feasting (music, beauty, food, community). Her approach is comprehensive: she addresses what to stop, what to do, and what posture to take. Her argument is that Sabbath shapes character over time — not just rest but virtue formation. People who Sabbath faithfully become different people than people who do not. The practice is not just recuperative but formative.",
-  },
-  {
-    id: "peterson",
-    name: "Eugene Peterson",
-    work: "Working the Angles (1987); The Pastor (2011)",
-    color: "#F59E0B",
-    bio: "Presbyterian pastor for 29 years, translator of The Message. His Sabbath practice was integral to his ministry.",
-    quote: "I am not on call. The doctrine of Sabbath is the theological basis for not being on call.",
-    insight: "Peterson describes the Sabbath practice he and his wife Jan established during his long pastoral ministry: one day per week — usually Monday — when they were explicitly not available, not working, and not performing. He connected this to pastoral integrity: a pastor who cannot rest cannot lead a congregation toward rest. He frames Sabbath not as a personal preference but as a theological declaration — I am not indispensable; God is. His memoir 'The Pastor' describes the practice as one of the disciplines that preserved his ministry across decades when burnout would have been easy.",
-  },
-  {
-    id: "willard",
-    name: "Dallas Willard",
-    work: "The Spirit of the Disciplines (1988)",
-    color: "#3B82F6",
-    bio: "Philosophy professor at USC and spiritual formation author. Framed spiritual disciplines as 'training for righteousness.'",
-    quote: "Rest is not idleness. It is the cessation of our own activity to allow God to act.",
-    insight: "Willard places rest and sleep among the spiritual disciplines, arguing that they are not interruptions to the spiritual life but practices that form it. His key move is to name rest as trust-in-action: when I sleep and rest, I am enacting belief that God governs the world and that my absence from productivity does not put anything at risk. He also addresses the spiritual disease of drivenness — the compulsion to achieve and produce driven by pride, insecurity, or ambition — as precisely the condition that Sabbath disrupts. Rest is the practice that makes human beings out of human doers.",
-  },
-  {
-    id: "swoboda",
-    name: "A.J. Swoboda",
-    work: "Subversive Sabbath (2018)",
-    color: "#EC4899",
-    bio: "Pastor and theology professor. Argues that Sabbath is the most countercultural Christian practice available today.",
-    quote: "We are the most exhausted, overworked, sleep-deprived generation in human history. Sabbath is the most subversive thing a Christian can do.",
-    insight: "Swoboda wrote Subversive Sabbath after his own experience of burnout and his recovery through a Sabbath practice. His contribution is diagnostic: he names busyness as addiction, overwork as idolatry, and sleep deprivation as a spiritual problem. His argument is that Sabbath is not one spiritual discipline among many — it is the discipline that makes all others possible. A person who is chronically exhausted cannot pray, meditate, fast, or serve with any depth. Sabbath is the necessary foundation of the entire spiritual life. He also addresses the ecological dimension: the land has a Sabbath too (Leviticus 25), and our failure to rest is connected to our failure to let creation rest.",
-  },
+const voices = [
+  { name: "Mark Buchanan", role: "Author, The Rest of God", quote: "Sabbath is not the break we take from our lives. It is the interruption of ordinary life that restores our sanity, our perspective, and our joy. Without it, work becomes compulsion, relationships become transactions, and the soul slowly starves in the midst of plenty.", bio: "Buchanan’s The Rest of God is one of the most pastorally rich explorations of Sabbath theology available. Writing as both a pastor and a practitioner, Buchanan argues that Sabbath is not primarily about what we stop doing but about what we start noticing: the goodness of God, the richness of the present moment, and the sufficiency of grace. His work has introduced thousands of evangelicals to Sabbath practice as a spiritual discipline rather than a Jewish obligation." },
+  { name: "Walter Brueggemann", role: "Old Testament Scholar; Author, Sabbath as Resistance", quote: "Sabbath is not simply a pause in the week. It is an act of resistance against the anxiety-producing productivity machine that Pharaoh built and that our economy has rebuilt. To keep Sabbath is to say: I am not defined by my output. I belong to a different economy entirely.", bio: "Brueggemann reads Sabbath through the lens of Israel’s liberation from Egypt, where Pharaoh demanded seven-day-a-week brick production and allowed no rest. He argues that the Sabbath command is therefore not merely a rest prescription but a political and economic declaration: the people of God are not slaves to any productivity system. This reading makes Sabbath profoundly relevant to the contemporary workaholic culture in which most Christians live." },
+  { name: "Matthew Walker", role: "Neuroscientist; Author, Why We Sleep", quote: "Sleep is not a lifestyle luxury. It is a non-negotiable biological necessity and nature’s most powerful system for healing, restoring, and rejuvenating the human brain and body. Every major disease killing us in the developed world has causal links to a lack of sleep.", bio: "Walker’s work is secular, but it confirms what theology has always maintained: rest is not weakness but essential maintenance for finite creatures. His research documents the catastrophic effects of chronic sleep deprivation on cognition, emotion regulation, immune function, and longevity. For Christians, Walker’s science is a useful conversation partner: if God designed us to require sleep, then sleeping well is stewardship of the body, not indulgence." },
 ];
 
-type Tab = "theology" | "obstacles" | "voices" | "practices" | "journal" | "videos";
+const videos = [
+  { id: "3K6OjkMFq5I", title: "The Theology of Rest — Why Sabbath Matters" },
+  { id: "g2f8NOPHrPM", title: "Mark Buchanan on The Rest of God" },
+  { id: "4jv_Mu7NW3g", title: "Sabbath as Resistance — Walter Brueggemann" },
+  { id: "lAX9Lhe0IwI", title: "Why We Sleep — Matthew Walker on the Science of Rest" },
+];
 
 export default function ChristianRestPage() {
-  const [tab, setTab] = usePersistedState<Tab>("vine_christian-rest_tab", "theology");
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-rest_voice", "brueggemann");
-
-  const [crestEntries, setCrestEntries] = useState<{ id: string; date: string; obstacle: string; practice: string; prayer: string }[]>(() => {
-    try { const s = localStorage.getItem("vine_crest_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  const [tab, setTab] = useState("theology");
+  const [entries, setEntries] = useState<CREntry[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_christianrest_entries") ?? "[]"); } catch { return []; }
   });
-  const [crestForm, setCrestForm] = useState({ obstacle: "", practice: "", prayer: "" });
-  const [crestSaved, setCrestSaved] = useState(false);
-  useEffect(() => { localStorage.setItem("vine_crest_entries", JSON.stringify(crestEntries)); }, [crestEntries]);
-  function saveCrestEntry() {
-    if (!crestForm.obstacle.trim()) return;
-    setCrestEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...crestForm }, ...prev]);
-    setCrestForm({ obstacle: "", practice: "", prayer: "" });
-    setCrestSaved(true); setTimeout(() => setCrestSaved(false), 2000);
-  }
-  function deleteCrestEntry(id: string) { setCrestEntries(prev => prev.filter(e => e.id !== id)); }
+  const [jObstacle, setJObstacle] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jResult, setJResult] = useState("");
 
-  const voice = VOICES.find(v => v.id === selectedVoice)!;
+  useEffect(() => { localStorage.setItem("vine_christianrest_entries", JSON.stringify(entries)); }, [entries]);
+
+  const saveEntry = () => {
+    if (!jObstacle.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), obstacle: jObstacle, practice: jPractice, result: jResult }, ...prev]);
+    setJObstacle(""); setJPractice(""); setJResult("");
+  };
+
+  const tabs = [
+    { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
+    { id: "voices", label: "Voices" }, { id: "scripture", label: "Scripture" },
+    { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
+  ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main id="main-content">
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>😴</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Rest and the Sabbath</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            Rest is not laziness — it is creation ordinance, liberation from slavery, and resistance to the idolatry of productivity. The Sabbath is one of God's best gifts to his people and one of the church's most neglected disciplines.
-          </p>
-        </div>
+      <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+        <div style={{ marginBottom: "0.4rem", fontSize: "0.78rem", color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase" }}>Spiritual Formation</div>
+        <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.2rem)", fontWeight: 700, marginBottom: "0.5rem" }}>Rest as a Spiritual Practice</h1>
+        <p style={{ color: MUTED, marginBottom: "2rem", lineHeight: 1.6 }}>Sabbath, sleep, and the theology of stopping &mdash; why rest is not a reward for productivity but a rhythm built into creation itself.</p>
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
-            { id: "voices" as const, label: "Voices on Rest", icon: "🗣️" },
-            { id: "practices" as const, label: "Practices", icon: "🛠️" },
-            { id: "journal" as const, label: "My Journal", icon: "📓" },
-            { id: "videos" as const, label: "Videos", icon: "▶️" },
-          ].map(t => (
-            <button type="button" key={t.id} onClick={() => setTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t.icon} {t.label}
-            </button>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2rem" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${tab === t.id ? accent : BORDER}`, background: tab === t.id ? accent + "22" : "transparent", color: tab === t.id ? accent : MUTED, cursor: "pointer", fontSize: "0.85rem", fontWeight: tab === t.id ? 600 : 400 }}>{t.label}</button>
           ))}
         </div>
 
         {tab === "theology" && (
-          <div>
-            {THEOLOGY.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={t.verse} /></span>
-                </div>
-                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {theology.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
+                <div style={{ fontSize: "0.78rem", color: accent, fontWeight: 600, marginBottom: 6 }}>{item.verse}</div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem" }}>{item.text}</p>
               </div>
             ))}
           </div>
         )}
 
-        {tab === "obstacles" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                The most common reasons Christians fail to practice meaningful rest — and how to move past them.
-              </p>
-            </div>
-            {OBSTACLES.map((o, i) => (
-              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
-                <button type="button" onClick={() => setExpanded(expanded === o.o ? null : o.o)}
-                  style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.o ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
-                  <span>{o.o}</span>
-                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.o ? "−" : "+"}</span>
-                </button>
-                {expanded === o.o && (
-                  <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: "0 0 10px 10px", borderTop: "none", padding: 18 }}>
-                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{o.desc}</p>
-                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 14 }}>
-                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>RESPONSE</div>
-                      <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{o.response}</p>
-                    </div>
-                  </div>
-                )}
+        {tab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {practices.map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.2rem 1.4rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                  <span style={{ fontSize: "1.3rem" }}>{p.icon}</span>
+                  <h3 style={{ fontWeight: 700, fontSize: "0.95rem" }}>{p.title}</h3>
+                </div>
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.65 }}>{p.text}</p>
               </div>
             ))}
           </div>
         )}
 
         {tab === "voices" && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <div style={{ width: 210, flexShrink: 0 }}>
-              {VOICES.map(v => (
-                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ width: "100%", textAlign: "left", background: selectedVoice === v.id ? `${v.color}18` : CARD, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
-                  <div style={{ color: selectedVoice === v.id ? v.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{v.name}</div>
-                  <div style={{ color: MUTED, fontSize: 11 }}>{v.work}</div>
-                </button>
-              ))}
-            </div>
-            <div style={{ flex: 1, background: CARD, border: `1px solid ${voice.color}40`, borderRadius: 12, padding: 24 }}>
-              <h2 style={{ color: voice.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voice.name}</h2>
-              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{voice.work}</div>
-              <div style={{ background: BG, borderRadius: 8, padding: "8px 14px", marginBottom: 16 }}>
-                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 4 }}>WHO THEY ARE</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voice.bio}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {voices.map((v, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
+                <div style={{ fontWeight: 700, marginBottom: 4 }}>{v.name}</div>
+                <div style={{ fontSize: "0.8rem", color: accent, marginBottom: 12 }}>{v.role}</div>
+                <blockquote style={{ borderLeft: `3px solid ${accent}`, paddingLeft: 14, color: TEXT, fontStyle: "italic", marginBottom: 12, lineHeight: 1.6 }}>&ldquo;{v.quote}&rdquo;</blockquote>
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6 }}>{v.bio}</p>
               </div>
-              <blockquote style={{ borderLeft: `3px solid ${voice.color}`, paddingLeft: 16, marginBottom: 16 }}>
-                <p style={{ color: TEXT, fontSize: 15, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{voice.quote}"</p>
-              </blockquote>
-              <div style={{ background: `${voice.color}08`, border: `1px solid ${voice.color}20`, borderRadius: 10, padding: 16 }}>
-                <div style={{ color: voice.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>THEIR CONTRIBUTION</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voice.insight}</p>
-              </div>
-            </div>
+            ))}
           </div>
         )}
 
-        {tab === "practices" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Sabbath is not primarily about doing nothing — it is about doing the right things in the right posture. These {PRACTICES.length} practices shape a sustainable rhythm of rest.
-              </p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
-              {PRACTICES.map((p, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 20 }}>{p.icon}</span>
-                    <div style={{ color: GREEN, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
-                  </div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
-                </div>
-              ))}
-            </div>
+        {tab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {scriptures.map((s, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "1.1rem 1.3rem" }}>
+                <div style={{ fontWeight: 700, color: accent, marginBottom: 6 }}>{s.verse}</div>
+                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.65 }}>&ldquo;{s.text}&rdquo;</p>
+              </div>
+            ))}
           </div>
         )}
+
         {tab === "journal" && (
-          <div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Sabbath Journal</h2>
-            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Reflect on your Sabbath practice. Saved privately in your browser.</p>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <div style={{ marginBottom: 14 }}>
-                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What obstacle to rest are you working through?</label>
-                <textarea value={crestForm.obstacle} onChange={e => setCrestForm(f => ({ ...f, obstacle: e.target.value }))}
-                  placeholder="Productivity guilt, digital encroachment..." rows={2}
-                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.5rem" }}>
+            <h3 style={{ marginBottom: "0.5rem", fontWeight: 700 }}>Rest Journal</h3>
+            <p style={{ color: MUTED, fontSize: "0.88rem", marginBottom: "1.2rem" }}>Track what gets in the way of your rest and what you are learning.</p>
+            {[
+              { label: "What is getting in the way of your rest right now?", val: jObstacle, set: setJObstacle },
+              { label: "Which rest practice are you trying this week?", val: jPractice, set: setJPractice },
+              { label: "What did you notice — in your body, soul, or relationship with God?", val: jResult, set: setJResult },
+            ].map((f, i) => (
+              <div key={i} style={{ marginBottom: "1rem" }}>
+                <label style={{ display: "block", marginBottom: 6, fontSize: "0.88rem", color: MUTED }}>{f.label}</label>
+                <textarea value={f.val} onChange={e => f.set(e.target.value)} rows={3} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 6, padding: "0.7rem", color: TEXT, fontSize: "0.9rem", resize: "vertical" }} />
               </div>
-              <div style={{ marginBottom: 14 }}>
-                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What Sabbath practice are you trying or committing to?</label>
-                <textarea value={crestForm.practice} onChange={e => setCrestForm(f => ({ ...f, practice: e.target.value }))}
-                  placeholder="Weekly rhythm, digital Sabbath..." rows={2}
-                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>Write a short Sabbath prayer or intention:</label>
-                <textarea value={crestForm.prayer} onChange={e => setCrestForm(f => ({ ...f, prayer: e.target.value }))}
-                  placeholder="Lord, I rest in your..." rows={2}
-                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <button type="button" onClick={saveCrestEntry}
-                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
-                {crestSaved ? "Saved ✓" : "Save Entry"}
-              </button>
-            </div>
-            {crestEntries.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {crestEntries.map(e => (
-                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
-                      <button type="button" onClick={() => deleteCrestEntry(e.id)}
-                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
-                    </div>
-                    {e.obstacle && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>OBSTACLE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.obstacle}</span></div>}
-                    {e.practice && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>PRACTICE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.practice}</span></div>}
-                    {e.prayer && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>PRAYER </span><span style={{ color: TEXT, fontSize: 14 }}>{e.prayer}</span></div>}
+            ))}
+            <button onClick={saveEntry} style={{ background: accent, color: "#fff", border: "none", borderRadius: 6, padding: "0.6rem 1.4rem", cursor: "pointer", fontWeight: 600 }}>Save Entry</button>
+            {entries.length > 0 && (
+              <div style={{ marginTop: "1.5rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                {entries.map(e => (
+                  <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "1rem" }}>
+                    <div style={{ fontSize: "0.78rem", color: MUTED, marginBottom: 6 }}>{e.date}</div>
+                    <p style={{ fontSize: "0.88rem", marginBottom: 4 }}><strong>Obstacle:</strong> {e.obstacle}</p>
+                    {e.practice && <p style={{ fontSize: "0.88rem", marginBottom: 4 }}><strong>Practice:</strong> {e.practice}</p>}
+                    {e.result && <p style={{ fontSize: "0.88rem" }}><strong>Result:</strong> {e.result}</p>}
                   </div>
                 ))}
               </div>
@@ -275,24 +165,14 @@ export default function ChristianRestPage() {
 
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {[
-              { videoId: "4Eg_di-O8nM", title: "The Ruthless Elimination of Hurry", channel: "John Mark Comer", description: "A conversation on Sabbath and rest as the antidote to the epidemic of hurry in modern life." },
-              { videoId: "gV9JugO_5Mk", title: "Rest: The Fourth Commandment", channel: "Tim Keller", description: "Tim Keller unpacks the theology of Sabbath rest and its ongoing significance for Christians today." },
-              { videoId: "ej_6dVdJSIU", title: "Christian Rest vs. the World's Rest", channel: "Desiring God", description: "John Piper contrasts the world's understanding of rest with the deep, God-centered rest the Bible offers." },
-              { videoId: "ej_6dVdJSIU", title: "Sabbath: A Radical Act of Resistance", channel: "Ligonier Ministries", description: "An exploration of how Sabbath-keeping is a countercultural, theologically grounded act of resistance to productivity culture." },
-            ].map(v => (
-              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <div style={{ padding: "14px 16px" }}>
-                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                </div>
+            {videos.map((v, i) => (
+              <div key={i}>
+                <h3 style={{ marginBottom: 10, fontWeight: 600, fontSize: "0.95rem", color: accent }}>{v.title}</h3>
+                <VideoEmbed videoId={v.id} title={v.title} />
               </div>
             ))}
           </div>
         )}
-      </div>
       </main>
       <Footer />
     </div>

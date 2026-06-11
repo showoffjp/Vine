@@ -1008,6 +1008,13 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Loneliness": "christian-loneliness",
   "Loneliness Guide": "christian-loneliness",
   "Overcoming Loneliness Christian": "christian-loneliness",
+  "Freedom from Pornography": "christian-pornography",
+  "Pornography Addiction Christian": "christian-pornography",
+  "Christian Purity Guide": "christian-pornography",
+  "Christian Divorce Guide": "christian-divorce",
+  "Divorce Remarriage Bible": "christian-divorce",
+  "Christian Anger Guide": "christian-anger",
+  "Anger Management Christian": "christian-anger",
 };
 
 
@@ -1601,6 +1608,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Anxiety Guide" },
   { label: "Christian Personal Finance" },
   { label: "Christian Loneliness" },
+  { label: "Freedom from Pornography" },
+  { label: "Christian Divorce Guide" },
+  { label: "Christian Anger Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

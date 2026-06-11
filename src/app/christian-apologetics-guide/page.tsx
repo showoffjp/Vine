@@ -177,9 +177,9 @@ export default function ChristianApologeticsGuidePage() {
   const [journal, setJournal] = usePersistedState<string>("vine_apol_journal", "");
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT , paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 860, margin: "0 auto", padding: "40px 20px 80px" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "40px 20px 80px" }}>
         <div style={{ marginBottom: 36 }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
             <span style={{ background: `${BLUE}20`, color: BLUE, border: `1px solid ${BLUE}40`, borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 600 }}>Apologetics</span>

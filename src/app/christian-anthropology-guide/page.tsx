@@ -160,9 +160,9 @@ export default function ChristianAnthropologyGuide() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" , paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 4rem" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 4rem" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ display: "inline-block", background: "rgba(13,148,136,0.12)", border: `1px solid rgba(13,148,136,0.25)`, borderRadius: 20, padding: "0.35rem 1rem", fontSize: "0.78rem", color: TEAL, fontWeight: 600, marginBottom: "1rem" }}>

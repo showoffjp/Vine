@@ -937,6 +937,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Missions Guide": "christian-missions",
   "World Missions Christian": "christian-missions",
   "Great Commission Guide": "christian-missions",
+  "Biblical Manhood Guide": "biblical-manhood",
+  "Christian Masculinity Guide": "biblical-manhood",
+  "Men of God Guide": "biblical-manhood",
+  "Christian Fasting Guide": "christian-fasting",
+  "Fasting and Prayer Guide": "christian-fasting",
+  "How to Fast Christian": "christian-fasting",
+  "Church History Guide": "church-history-guide",
+  "History of Christianity": "church-history-guide",
+  "Christian History Guide": "church-history-guide",
+  "Christian Giving Guide": "christian-giving",
+  "Biblical Generosity": "christian-giving",
+  "Stewardship Christian Giving": "christian-giving",
 };
 
 
@@ -1506,6 +1518,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Holy Spirit Guide" },
   { label: "Assurance of Salvation" },
   { label: "Christian Missions" },
+  { label: "Biblical Manhood" },
+  { label: "Christian Fasting" },
+  { label: "Church History Guide" },
+  { label: "Christian Giving" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1,615 +1,178 @@
 "use client";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
-
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", INDIGO = "#6366F1", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-const FORM_TYPE_COLORS: Record<string, string> = {
-  Petition: "#3a7d56",
-  Intercession: "#6B4FBB",
-  Thanksgiving: "#D4A017",
-  Confession: "#C0392B",
-  Lament: "#5B8CB7",
-  Contemplation: "#9898B3",
-};
-
-type Tab = "theology" | "jesus" | "forms" | "obstacles" | "prayerlog" | "videos";
-
-const THEOLOGY_ITEMS = [
-  {
-    title: "What Is Prayer?",
-    body: "Prayer is not a technique for bending God's will toward ours — it is relational communication between creature and Creator. E.M. Bounds captured this precisely: \"Prayer is not overcoming God's reluctance but laying hold of His willingness.\" At its core, prayer assumes that God is personal, hearing, and responsive. The structure of biblical prayer is trinitarian: we pray to the Father, through the Son who has opened the way, by the Spirit who enables and intercedes. This means prayer is never a solo performance but a participation in the inner life of God himself.",
-  },
-  {
-    title: "Does God Change His Mind?",
-    body: "Divine immutability — the doctrine that God does not change — creates apparent tension with the biblical record. Abraham intercedes for Sodom (Genesis 18) and God agrees to relent if ten righteous are found. Moses pleads for Israel after the golden calf (Numbers 14) and God does not destroy them. Open theism takes these passages at face value: God genuinely adjusts based on creaturely prayer. Classical theism responds that God's eternal decree already included Abraham's intercession and its effects. The pastoral answer holds both: prayer genuinely matters, God genuinely responds, and the mystery of how divine immutability and creaturely prayer coexist is not resolved but honored.",
-  },
-  {
-    title: "Why Pray If God Is Sovereign?",
-    body: "The Westminster Larger Catechism (Q. 183) defines prayer as \"an offering up of our desires unto God\" and notes that God requires it as a means of grace. The Reformed answer to the sovereignty objection is that God ordains means as well as ends — prayer is one of the chief means by which he accomplishes his sovereign purposes. Prayer is not a means of giving God information he lacks; it is a means of grace by which we are formed, our desires aligned, and God's ordained outcomes brought to pass. The mystery of providential cooperation — that divine sovereignty and human agency genuinely cooperate — cannot be fully resolved, but both must be affirmed.",
-  },
-  {
-    title: "Unanswered Prayer",
-    body: "Paul asked three times for the thorn in the flesh to be removed (2 Corinthians 12:7-10). God said no — and the no was more merciful than any yes could have been: \"My grace is sufficient for you, for my power is made perfect in weakness.\" The categories for unanswered prayer are not just \"yes\" and \"no\" but \"not yet\" and \"something better.\" Philip Yancey's Prayer: Does It Make Any Difference? takes seriously the experience of prayers that seem to bounce off the ceiling. The honest biblical answer: God's agenda is our transformation and his glory, not our comfort. This does not diminish the pain of the unanswered; it reframes it.",
-  },
-  {
-    title: "The Prayer of Jesus (John 17)",
-    body: "John 17 preserves the longest recorded prayer of Jesus — the High Priestly Prayer — offered on the night of his arrest. Jesus prays for his own glorification (that the glory he shared before the world began would be restored), for his disciples' protection from the evil one, for their sanctification in truth, and for the unity of all future believers. What is striking is the intercessory character: Jesus prays for others, not for himself, even as he faces the cross. This prayer invites believers into something extraordinary: when we pray, we join the ongoing intercession of Jesus who \"always lives to intercede\" for us (Hebrews 7:25).",
-  },
-  {
-    title: "Prayer and the Holy Spirit",
-    body: "\"In the same way, the Spirit helps us in our weakness. We do not know what we ought to pray for, but the Spirit himself intercedes for us through wordless groans\" (Romans 8:26-27). The Spirit is the enabler of prayer — not an optional accessory but the one who carries our prayers when we have no words. \"Praying in the Spirit\" (Ephesians 6:18, Jude 20) means praying in alignment with the Spirit's desires, which are always aligned with the Father's will. This means no honest prayer is wasted: even the inarticulate groan of a suffering believer is carried before the throne by the Spirit who interprets it perfectly.",
-  },
+const theology = [
+  { title: "What Is Prayer? — the Three Most Common Misunderstandings", verse: "Matt 6:9-10", text: "Prayer is not a vending machine for getting things from God, not an update service for informing God of things he does not know, and not a performance of piety for the benefit of observers. Prayer is conscious, relational communication with the living God who is present and engaged. The model prayer in Matthew 6:9-13 establishes the shape of authentic prayer: God is Father (relational intimacy), hallowed be your name (theocentric orientation — God's honor, not my preferences, is the first concern), your kingdom come (submissive eschatology — I am asking for what God has already promised), daily bread (daily dependence, not stockpiled self-sufficiency), forgiveness (confessional honesty — the petition Jesus expands in his commentary), and deliver us from evil (a recognition that prayer exists inside a spiritual conflict). The Lord's Prayer is a curriculum for how to pray, not merely a script to repeat." },
+  { title: "Does Prayer Change God's Mind? — the Sovereignty-Prayer Tension", verse: "Luke 18:1", text: "One of the hardest theological questions in Christian faith: if God is sovereign and knows all things, why pray? The three major approaches each have serious proponents. The Arminian position holds that prayer genuinely changes the divine course of events — God responds to prayer in ways he would not have acted without it, and this is not a threat to his sovereignty but an expression of how he has chosen to work in covenant with his people. The Reformed position holds that prayer is the means God ordains to accomplish his sovereign ends — he has predestined both the prayer and its answer, and prayer is the means by which the ordained outcome is brought about. Open Theism holds that God genuinely responds to prayer in ways he has not predetermined. What Jesus's own practice of prayer — extended, earnest, and sometimes agonized — suggests is that prayer is not redundant even for the Son of God. The tension cannot be resolved by making prayer a formality." },
+  { title: "Unanswered Prayer — What to Do When God Says No", verse: "Matt 7:7-8", text: "Matthew 7:7-8 says ask and it will be given, seek and you will find, knock and the door will be opened. Paul asked three times for the thorn in the flesh to be removed and God said no — and the no was more merciful than any yes could have been: my grace is sufficient for you, for my power is made perfect in weakness (2 Cor 12:8-9). Jesus in Gethsemane prayed not my will, but yours — the most honest prayer in Scripture, offered by the one who knew God's will better than anyone. The spectrum of responses to unanswered prayer runs from formulaic name-it-and-claim-it theology (the no is always your fault) to fatalistic resignation (nothing really changes so why bother). Faithfulness in the face of persistent unanswered prayer means continuing to bring real desires to God while trusting his wisdom, and discovering that the communion created in prayer is itself a gift worth more than the granted petition." },
+  { title: "Contemplative Prayer — the Tradition the Western Church Has Mostly Lost", verse: "Ps 46:10", text: "The Desert Fathers, Lectio Divina, Centering Prayer, and the Ignatian Examen represent a contemplative tradition stretching from the third century to the present — a tradition that the Western evangelical church has largely neglected in favor of verbal, petitionary, and expository forms of prayer. Contemplative prayer is not the emptying of the mind of all content, which is the Eastern religious practice critics sometimes confuse it with. It is attentive receptivity to the presence of God — the practice of being still and knowing that he is God. Lectio Divina (slow, receptive reading of Scripture as a form of listening prayer) is less controversial than Centering Prayer because it is explicitly Scripture-anchored. The listening dimension of prayer — waiting, attending, receiving — has been crowded out in most evangelical practice, which tends to treat prayer as a monologue directed toward God rather than a dialogue with him. Solitude and silence are prerequisites for contemplative prayer, which makes them also prerequisites for spiritual depth." },
+  { title: "Corporate Prayer — the Power and Neglect of Praying Together", verse: "Acts 1:14", text: "They all joined together constantly in prayer — and Pentecost followed. The early church's corporate prayer life was not a transitional ritual between announcements and the sermon: it was the primary gathering of the community before God. The prayer meeting preceded and enabled every spiritual breakthrough in Acts. In most Western evangelical churches, corporate prayer has been reduced in practice to a pastoral monologue that opens and closes the service, with occasional congregational participation in moments of crisis. The prayer meeting — once the defining gathering of the healthy church — is the most neglected and most needed meeting in the church. What genuine corporate prayer looks like: honest, specific, participatory, sustained, and expectant. The church that does not pray together will eventually find that it has little left that is worth doing together." },
 ];
 
-const JESUS_EPISODES = [
-  {
-    id: "lords-prayer",
-    title: "The Lord's Prayer",
-    ref: "Matt 6:9-13",
-    detail: "The Lord's Prayer is a curriculum, not a recitation — Jesus says 'pray like this,' not 'repeat this.' Each line is a school of prayer. 'Our Father' (not 'my Father') establishes the communal, familial register — the Aramaic Abba behind the Greek Pater signals intimacy. 'Hallowed be your name' is a petition, not a statement: we are asking God to cause his name to be honored in the world. 'Your kingdom come' orients prayer eschatologically: we are asking for what God has promised to do. 'Daily bread' echoes the manna in the wilderness — God's provision is daily, not stockpiled. The petition for forgiveness is the only petition Jesus elaborates in the commentary that follows (Matthew 6:14-15): it is a discipline, not merely a request. 'Deliver us from evil' (or 'the evil one') is a recognition that prayer exists in a war zone.",
-  },
-  {
-    id: "ask-seek-knock",
-    title: "Ask, Seek, Knock",
-    ref: "Luke 11:9-13",
-    detail: "The Lukan context of Ask-Seek-Knock is the parable of the friend at midnight (Luke 11:5-8), which establishes the theme of persistence. Jesus uses a qal v'homer argument (lesser to greater): if a reluctant human friend gives what is needed because of shameless persistence, how much more will the heavenly Father give? The guarantee is not 'whatever you ask' in an unqualified sense — the promise culminates in 'how much more will your Father in heaven give the Holy Spirit to those who ask him' (v. 13). The greatest gift of prayer is not the answered petition but the Giver himself. The verbs ask-seek-knock are in the present imperative in Greek — keep asking, keep seeking, keep knocking.",
-  },
-  {
-    id: "gethsemane",
-    title: "Gethsemane",
-    ref: "Matt 26:36-46",
-    detail: "Gethsemane is the hardest prayer in Scripture. Jesus is 'sorrowful and troubled' — the Greek word (adēmonein) suggests a deep, disorienting anguish. He asks for the cup to pass. The Father says no. This is not a theatrical performance: Hebrews 5:7-8 tells us Jesus 'offered up prayers and petitions with fervent cries and tears to the one who could save him from death, and he was heard because of his reverent submission. Son though he was, he learned obedience from what he suffered.' The prayer was heard — not answered as petitioned. What Gethsemane teaches: bring your real anguish, name your honest desire, submit to the Father's wisdom, and trust that the cross leads to resurrection. 'Not my will but yours' is not resignation — it is the deepest form of faith.",
-  },
-  {
-    id: "persistent-widow",
-    title: "The Persistent Widow",
-    ref: "Luke 18:1-8",
-    detail: "Luke gives us the purpose of the parable before the parable itself: 'Jesus told his disciples a parable to show them that they should always pray and not give up' (Luke 18:1). The unjust judge is not an image of God — he is a contrast to God. If even a corrupt, godless judge grants justice to stop being bothered, how much more will the righteous God who loves his children grant justice to those who cry to him? The parable ends with an eschatological question that cuts unexpectedly: 'When the Son of Man comes, will he find faith on the earth?' Persistent prayer is an expression of faith — it is the refusal to act as if God is not there or does not care.",
-  },
-  {
-    id: "in-my-name",
-    title: "Praying in Jesus's Name",
-    ref: "John 14:13-14",
-    detail: "Praying 'in Jesus's name' is not a formula that functions like a password — as if appending the phrase to any request guarantees fulfillment. To pray in someone's name in the ancient world meant to pray on their behalf, in alignment with their character and authority. Jesus says he will do whatever we ask in his name 'so that the Father may be glorified in the Son' (John 14:13). The purpose clause is the interpretive key: prayers that glorify the Father through the Son are the prayers answered. This is why praying in Jesus's name is a theological act — it is asking: is this prayer consistent with who Jesus is, what he values, and what he is building? That question is itself a school of prayer.",
-  },
+const voices = [
+  { name: "P.T. Forsyth", role: "The Soul of Prayer", quote: "The greatest thing any of us can do is pray. It is greater than all education, greater than all conference, greater than all organization, greater than all methods and movements — because it is the source of them all. And the reason we pray so little is that we have not yet begun to believe in God as much as we believe in the things we do for him.", bio: "P.T. Forsyth was a Scottish Congregationalist theologian writing in the early twentieth century whose work on prayer has never been surpassed in theological depth. His central argument is that prayer is not a technique or a spiritual discipline among others — it is the fundamental act of the creature before the Creator, and its difficulty is proportionate to its importance. Forsyth's work is harder to read than most popular prayer books, but there is more theology of prayer per page than anywhere else." },
+  { name: "Eugene Peterson", role: "Working the Angles", quote: "The two most important acts of the pastor are prayer and Scripture — not preaching, not administration, not pastoral care in the conventional sense, but the angles that give everything else its shape. The scandal of the church is not immorality or heresy, most of the time — it is the busyness of pastors who are professionally active and personally prayerless, who have traded the hard work of prayer for the visible work of ministry.", bio: "Peterson's Working the Angles is addressed primarily to pastors but applies to every Christian who finds themselves busy in service and thin in prayer. His argument is that the visible angles of ministry — preaching and teaching — depend on the invisible angles of prayer and Scripture study, and that neglecting the invisible angles eventually collapses the entire structure. Peterson's own practice of prayer was shaped by the Psalms, which he translated over decades in The Message." },
+  { name: "Richard Foster", role: "Prayer: Finding the Heart's True Home", quote: "Prayer is the central avenue God uses to transform us. If we are willing to make space for it in the texture of our daily lives, we will find that prayer covers a vast range of human experience — from the simplest arrow prayer in a moment of need to the deepest contemplative silence before the face of God. Learning to pray is one of the most important things a person can do, and it is also one of the most underestimated, because we imagine it is simpler than it is.", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive popular treatment of Christian prayer in print. Foster surveys twenty-one forms of prayer — from simple beginning prayer to contemplative prayer — and treats the full range of the tradition with both theological care and pastoral warmth. Foster's own formation was shaped by Quaker spirituality, which explains his strong emphasis on listening, silence, and the inward dimension of prayer." },
 ];
 
-type FormCategory = "Petition" | "Intercession" | "Confession" | "Thanksgiving" | "Contemplation" | "Lament";
-
-const FORM_CATEGORIES: FormCategory[] = ["Petition", "Intercession", "Confession", "Thanksgiving", "Contemplation", "Lament"];
-
-const FORM_CARDS: { type: FormCategory; title: string; desc: string }[] = [
-  // Petition
-  {
-    type: "Petition",
-    title: "General Supplication",
-    desc: "Bringing broad desires and needs before God without a specific agenda. Supplication is not passive; it is the honest posture of dependence on One who provides. It guards against the self-sufficiency that forgets we receive every good gift.",
-  },
-  {
-    type: "Petition",
-    title: "Specific Requests",
-    desc: "Naming concrete needs — healing, provision, wisdom, a specific outcome — before God. Specificity builds faith: you can see when God answers, and you must reckon honestly when he does not. Vagueness is comfortable but dishonest.",
-  },
-  {
-    type: "Petition",
-    title: "Kingdom-Focused Prayer",
-    desc: "Petitions aligned with God's agenda rather than personal comfort — for the advance of the gospel, for laborers in the harvest, for justice, for revival. The Lord's Prayer teaches us to orient our petitions toward what God is building.",
-  },
-  {
-    type: "Petition",
-    title: "Arrow Prayers",
-    desc: "Short, urgent, mid-situation prayers — Nehemiah's silent prayer before answering the king (Neh 2:4), Peter's 'Lord, save me!' as he sinks (Matt 14:30). Prayer need not be long to be real; the whole day can become a running conversation with God.",
-  },
-  // Intercession
-  {
-    type: "Intercession",
-    title: "Praying for Others",
-    desc: "Standing before God on behalf of another person, naming their needs, presenting them to the Father. Intercession is an act of love — it is the prayer form that most directly serves others. Paul's letters are filled with reports of intercessory prayer for his churches.",
-  },
-  {
-    type: "Intercession",
-    title: "Standing in the Gap",
-    desc: "The image comes from Ezekiel 22:30 — God looks for someone to 'stand in the gap' before him on behalf of the land. Intercession is priestly: the one who prays represents others before God, presenting their case as an advocate.",
-  },
-  {
-    type: "Intercession",
-    title: "Praying for Enemies",
-    desc: "Jesus commands it explicitly: 'Pray for those who persecute you' (Matt 5:44). This is the hardest intercession because it requires releasing the offense, wishing good on one who has done harm. It is also, mysteriously, one of the most transformative — for the one who prays.",
-  },
-  // Confession
-  {
-    type: "Confession",
-    title: "The Daily Examen",
-    desc: "The Ignatian practice of reviewing the day with God — where did I sense God's presence? Where did I pull away? Where did I fail? The Examen is not self-torture but honest attention, ending in gratitude and resolution. It makes confession daily rather than crisis-driven.",
-  },
-  {
-    type: "Confession",
-    title: "Corporate Confession",
-    desc: "Nehemiah 9 and Daniel 9 model prayer that confesses not just personal sin but the sin of a community and its history. 'We have sinned' — not just 'I have sinned.' Corporate confession acknowledges that we are embedded in communities with shared failures before God.",
-  },
-  {
-    type: "Confession",
-    title: "1 John 1:9 and Assurance",
-    desc: "'If we confess our sins, he is faithful and just and will forgive us our sins and purify us from all unrighteousness.' Confession is followed by promise, not probation. The goal is not guilt management but restored relationship — and the difference between guilt (I did wrong) and shame (I am wrong) is crucial here.",
-  },
-  // Thanksgiving
-  {
-    type: "Thanksgiving",
-    title: "Gratitude as Disposition",
-    desc: "Paul commands thanksgiving 'in all circumstances' (1 Thess 5:18) — not for all circumstances but in them. Thanksgiving is not denial of suffering but the discipline of noticing grace alongside it. It is a reorientation of attention that changes what we see.",
-  },
-  {
-    type: "Thanksgiving",
-    title: "Eucharistic Prayer",
-    desc: "The word Eucharist comes from the Greek for thanksgiving. The Lord's Supper is a prayer of thanksgiving — for the body broken, the blood poured out, the new covenant sealed. Liturgical thanksgiving trains Christians to see all of life through the lens of what Christ has given.",
-  },
-  {
-    type: "Thanksgiving",
-    title: "Counting Specific Blessings",
-    desc: "Research in positive psychology and the testimony of the saints converge: naming specific blessings — not generic gratitude — builds faith and reduces anxiety. Keep a running list. The practice reveals how much of life is unearned gift rather than entitled expectation.",
-  },
-  {
-    type: "Thanksgiving",
-    title: "Thanksgiving in Suffering",
-    desc: "Paul writes his most thanksgiving-saturated letter (Philippians) from prison. Thanksgiving in suffering is not stoic resignation but the hard-won conviction that God is still good and still working. It is the prayer that the enemy most wants to silence.",
-  },
-  // Contemplation
-  {
-    type: "Contemplation",
-    title: "Centering Prayer (and Its Controversy)",
-    desc: "Thomas Keating popularized centering prayer — a method of silent prayer using a sacred word to return attention to God. Conservative evangelical critics (e.g., Tim Challies) worry it imports Eastern religious emptying-of-mind. Defenders argue the tradition is patristic. The debate is real; the hunger for contemplative depth is legitimate.",
-  },
-  {
-    type: "Contemplation",
-    title: "Lectio Divina",
-    desc: "Lectio Divina (sacred reading) treats Scripture as a conversation with God: read slowly (lectio), meditate on a phrase (meditatio), respond in prayer (oratio), rest in God's presence (contemplatio). It is less controversial than centering prayer because it is explicitly Scripture-anchored.",
-  },
-  {
-    type: "Contemplation",
-    title: "The Prayer of Examen",
-    desc: "Ignatian contemplation includes the Examen — not merely a technique but a form of receptive presence to God's activity in the day. Be still and know that I am God (Psalm 46:10) — contemplation is the practice of the 'be still,' trusting that God will do the 'knowing.'",
-  },
-  // Lament
-  {
-    type: "Lament",
-    title: "Psalms of Lament as Model",
-    desc: "One third of the Psalms are laments — honest complaints addressed to God. Psalm 13 ('How long, Lord? Will you forget me forever?'), Psalm 88 (which never resolves), and Lamentations model prayer that does not sanitize pain. Lament is addressed to God, not merely about him — it keeps the relationship alive under pressure.",
-  },
-  {
-    type: "Lament",
-    title: "Prayer as Protest",
-    desc: "Job's comforters tell him to stop complaining; God at the end vindicates Job's honest protest over their pious platitudes (Job 42:7). Lament is not faithlessness — it is the refusal to pretend, directed toward the One who can do something about it. Walter Brueggemann: lament is the 'speech of the powerless to the powerful.'",
-  },
-  {
-    type: "Lament",
-    title: "Why God Welcomes Complaint",
-    desc: "God does not rebuke the psalmist for 'How long will you hide your face from me?' He preserves these words in inspired Scripture. The willingness to complain to God rather than about him is a form of faith — it assumes God hears, that his justice matters, and that the relationship can bear honesty.",
-  },
+const practices = [
+  "The Daily Office: praying fixed-hour prayers as a structured practice (morning, midday, evening) rather than only when the mood arises",
+  "Lectio Divina: slow, receptive reading of Scripture as a form of listening prayer rather than study or exposition",
+  "The ACTS model as a starter — Adoration, Confession, Thanksgiving, Supplication — to give shape to unstructured prayer",
+  "Praying the Psalms in their entirety over a 30-day cycle, including the laments and the imprecatory psalms",
+  "Weekly extended prayer — one hour per week, outside of church gatherings — as a committed practice rather than an intention",
 ];
 
-const OBSTACLE_ITEMS = [
-  {
-    title: "Prayerlessness",
-    body: "The most universal obstacle is simply not praying. The confession of most Christians — even pastors — is that their prayer life is thinner than they want it to be. The gap between desire and practice is telling: we say prayer is important and then live as if it is not. The root is rarely theological; it is anthropological — distraction, comfort, self-sufficiency. We do not pray because we do not feel needy enough, and we do not feel needy enough because we are not paying attention to how genuinely dependent we are.",
-  },
-  {
-    title: "Doubt and Unanswered Prayer",
-    body: "When prayers seem to bounce off the ceiling — when nothing changes, when the child is not healed, when the marriage still ends — many simply stop praying. John of the Cross named this 'the dark night of the soul': a season of spiritual dryness in which God seems absent. His counsel was not to stop praying but to continue in faith without feeling. What to do: return to the basics (Scripture prayer, fixed rhythms), be honest with God about the doubt, and find a community that holds faith when you cannot.",
-  },
-  {
-    title: "Guilt and Unworthiness",
-    body: "'I haven't prayed in weeks, so I can't approach God now.' This is the logic of the older brother in the prodigal son parable — and notice: the older brother never returns home. The prodigal does, and the father runs. The model for approaching God after a drought of prayer is the prodigal who 'came to his senses' and simply got up and went back. God does not require a qualifying performance before prayer; he requires only the turning. The guilt that keeps us from prayer is itself the reason we need it.",
-  },
-  {
-    title: "Busy-ness and Hurry",
-    body: "The most commonly attributed quotation to Carl Jung in Christian circles: 'Hurry is not of the devil, it is the devil.' Whether or not Jung said it, the observation is accurate. Hurry is the enemy of prayer because prayer requires presence — and presence requires slowing. The result is a prayer life that is entirely crisis-driven: we pray when things fall apart, not as the daily structure that prevents falling apart. The solution is not finding more time but deciding that prayer is time, not a waste of it.",
-  },
-  {
-    title: "Boredom in Prayer",
-    body: "The attention economy — social media, streaming, notification culture — has atrophied the capacity for sustained, non-stimulating attention. Prayer is the opposite of the dopamine loop: it is slow, quiet, non-spectacular, and largely unrewarded in the short term. Practical helps that actually work: keep a prayer journal (giving the wandering mind a task), pray Scripture aloud (engaging the body), walking prayer (using physical motion), and very short sessions that are actually completed rather than long sessions that are not.",
-  },
-  {
-    title: "Theological Uncertainty",
-    body: "'What's the point of prayer if God already knows everything and has already decided?' This is the most sophisticated obstacle — and it is best answered not philosophically but relationally. Consider: you do not stop talking to a close friend because they know you well. Knowing does not replace speaking. Prayer is not primarily information transfer; it is relational presence. God ordains prayer as the means by which he works, and he ordains it because relationship — not efficiency — is the point. Prayer is formation, not information delivery.",
-  },
+const scriptures = [
+  { verse: "Matt 6:9-10", text: "Our Father in heaven, hallowed be your name, your kingdom come, your will be done, on earth as it is in heaven." },
+  { verse: "Luke 18:1", text: "Then Jesus told his disciples a parable to show them that they should always pray and not give up." },
+  { verse: "Phil 4:6-7", text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus." },
+  { verse: "1 Thess 5:17", text: "Pray continually." },
+  { verse: "James 5:16", text: "The prayer of a righteous person is powerful and effective." },
+  { verse: "Ps 46:10", text: "He says, be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth." },
 ];
 
-const CATEGORY_COLORS: Record<FormCategory, string> = {
-  Petition: GREEN,
-  Intercession: PURPLE,
-  Confession: "#EC4899",
-  Thanksgiving: "#F59E0B",
-  Contemplation: "#8B5CF6",
-  Lament: "#3B82F6",
-};
+const videos = [
+  { id: "4K9CRLW4CMY", title: "What Is Prayer? — The Theology of Talking to God" },
+  { id: "RFTrM_nMzKs", title: "The Lord's Prayer Unpacked" },
+  { id: "mflciSg6eBo", title: "Contemplative Prayer and the Christian Tradition" },
+  { id: "VLtxkW-6_KU", title: "Corporate Prayer and the Health of the Church" },
+];
+
+type TPEntry = { id: string; date: string; question: string; practice: string; encounter: string };
 
 export default function TheologyOfPrayerPage() {
-  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-prayer_tab", "theology");
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedJesus, setSelectedJesus] = useState<string>(JESUS_EPISODES[0].id);
-  const [activeFormFilter, setActiveFormFilter] = usePersistedState<string>("vine_theology-of-prayer_active_form_filter", "All");
-
-  function toggleAccordion(key: string) {
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
-  }
-
-  const visibleCards =
-    activeFormFilter === "All"
-      ? FORM_CARDS
-      : FORM_CARDS.filter((c) => c.type === activeFormFilter);
-
-  const selectedEpisode = JESUS_EPISODES.find((e) => e.id === selectedJesus) ?? JESUS_EPISODES[0];
-
-  const [pEntries, setPEntries] = useState<{ id: string; date: string; form: string; what: string; outcome: string; }[]>(() => {
-    try { const s = localStorage.getItem("vine_top_prayers"); return s ? JSON.parse(s) : []; } catch { return []; }
+  const [tab, setTab] = useState("theology");
+  const [entries, setEntries] = useState<TPEntry[]>(() => {
+    try { return JSON.parse(localStorage.getItem("vine_theopray_entries") ?? "[]"); } catch { return []; }
   });
-  const [pForm2, setPForm2] = useState({ form: "Petition", what: "", outcome: "" });
-  const [pSaved2, setPSaved2] = useState(false);
+  const [jQuestion, setJQuestion] = useState("");
+  const [jPractice, setJPractice] = useState("");
+  const [jEncounter, setJEncounter] = useState("");
 
-  useEffect(() => { try { localStorage.setItem("vine_top_prayers", JSON.stringify(pEntries)); } catch {} }, [pEntries]);
+  useEffect(() => { localStorage.setItem("vine_theopray_entries", JSON.stringify(entries)); }, [entries]);
 
-  const savePEntry = () => {
-    setPEntries(prev => [{ id: Date.now().toString(), date: new Date().toISOString().split("T")[0], ...pForm2 }, ...prev]);
-    setPForm2(f => ({ ...f, what: "", outcome: "" }));
-    setPSaved2(true);
-    setTimeout(() => setPSaved2(false), 2000);
+  const saveEntry = () => {
+    if (!jQuestion.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), question: jQuestion, practice: jPractice, encounter: jEncounter }, ...prev]);
+    setJQuestion(""); setJPractice(""); setJEncounter("");
   };
 
-  const deletePEntry = (id: string) => setPEntries(prev => prev.filter(e => e.id !== id));
-
-  const TABS: { id: Tab; label: string }[] = [
-    { id: "theology", label: "Theology of Prayer" },
-    { id: "jesus", label: "Jesus on Prayer" },
-    { id: "forms", label: "Forms of Prayer" },
-    { id: "obstacles", label: "Obstacles to Prayer" },
-    { id: "prayerlog", label: "Prayer Log" },
-    { id: "videos", label: "Videos" },
+  const tabs = [
+    { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
+    { id: "voices", label: "Voices" }, { id: "scripture", label: "Scripture" },
+    { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main id="main-content">
-      <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
+      <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+        <div style={{ marginBottom: "0.4rem", fontSize: "0.78rem", color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase" }}>Spiritual Formation</div>
+        <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.2rem)", fontWeight: 700, marginBottom: "0.5rem" }}>Theology of Prayer</h1>
+        <p style={{ color: MUTED, marginBottom: "2rem", lineHeight: 1.6 }}>What prayer is, why it works, and how to pray more honestly — the theology behind the practice, the tradition the church has mostly lost, and the habits that build a real prayer life.</p>
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <h1 style={{ fontSize: 34, fontWeight: 900, color: TEXT, margin: "0 0 10px" }}>
-            The Theology of Prayer
-          </h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 580, margin: "0 auto", lineHeight: 1.7 }}>
-            Why pray if God already knows? What are we actually doing when we pray? Explore the theology, the teaching of Jesus, the forms, and the honest obstacles.
-          </p>
-        </div>
-
-        {/* Tab Bar */}
-        <div style={{ display: "flex", gap: 4, marginBottom: 36, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}` }}>
-          {TABS.map((t) => (
-            <button type="button"
-              key={t.id}
-              onClick={() => setActiveTab(t.id)}
-              style={{
-                flex: 1,
-                padding: "10px 6px",
-                borderRadius: 8,
-                border: "none",
-                background: activeTab === t.id ? PURPLE : "transparent",
-                color: activeTab === t.id ? "#fff" : MUTED,
-                fontWeight: 700,
-                fontSize: 12,
-                cursor: "pointer",
-                transition: "background 0.15s",
-              }}
-            >
-              {t.label}
-            </button>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2rem" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${tab === t.id ? INDIGO : BORDER}`, background: tab === t.id ? INDIGO + "22" : "transparent", color: tab === t.id ? INDIGO : MUTED, cursor: "pointer", fontSize: "0.85rem", fontWeight: tab === t.id ? 600 : 400 }}>{t.label}</button>
           ))}
         </div>
 
-        {/* Tab 1: Theology of Prayer */}
-        {activeTab === "theology" && (
-          <div>
-            {THEOLOGY_ITEMS.map((item, i) => {
-              const key = `theology-${i}`;
-              const isOpen = !!expanded[key];
-              return (
-                <div
-                  key={key}
-                  style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden" }}
-                >
-                  <button type="button"
-                    onClick={() => toggleAccordion(key)}
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "18px 22px",
-                      background: "transparent",
-                      border: "none",
-                      color: TEXT,
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
-                  >
-                    <span style={{ fontWeight: 800, fontSize: 16, color: isOpen ? GREEN : TEXT }}>{item.title}</span>
-                    <span style={{ color: MUTED, fontSize: 20, lineHeight: 1, marginLeft: 12, flexShrink: 0 }}>{isOpen ? "−" : "+"}</span>
-                  </button>
-                  {isOpen && (
-                    <div style={{ padding: "0 22px 20px", color: TEXT, fontSize: 15, lineHeight: 1.85 }}>
-                      {item.body}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Tab 2: Jesus on Prayer */}
-        {activeTab === "jesus" && (
-          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-            {/* Left list */}
-            <div style={{ width: 220, flexShrink: 0 }}>
-              {JESUS_EPISODES.map((ep) => {
-                const active = selectedJesus === ep.id;
-                return (
-                  <button type="button"
-                    key={ep.id}
-                    onClick={() => setSelectedJesus(ep.id)}
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      padding: "14px 16px",
-                      marginBottom: 6,
-                      borderRadius: 10,
-                      border: `1px solid ${active ? PURPLE : BORDER}`,
-                      background: active ? `${PURPLE}22` : CARD,
-                      color: active ? TEXT : MUTED,
-                      cursor: "pointer",
-                    }}
-                  >
-                    <div style={{ fontWeight: 700, fontSize: 14, color: active ? GREEN : TEXT, marginBottom: 3 }}>{ep.title}</div>
-                    <div style={{ fontSize: 11, color: active ? PURPLE : MUTED, fontWeight: 600 }}>{ep.ref}</div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Right detail — sticky */}
-            <div style={{ flex: 1, position: "sticky", top: 20 }}>
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 16 }}>
-                  <h2 style={{ fontSize: 22, fontWeight: 900, color: GREEN, margin: 0 }}>{selectedEpisode.title}</h2>
-                  <span style={{ background: `${PURPLE}25`, color: PURPLE, fontSize: 12, fontWeight: 700, padding: "3px 10px", borderRadius: 10 }}>
-                    {selectedEpisode.ref}
-                  </span>
-                </div>
-                <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.9, margin: 0 }}>{selectedEpisode.detail}</p>
+        {tab === "theology" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {theology.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
+                <div style={{ fontSize: "0.78rem", color: INDIGO, fontWeight: 600, marginBottom: 6, letterSpacing: "0.04em" }}>{item.verse}</div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem" }}>{item.text}</p>
               </div>
-            </div>
+            ))}
           </div>
         )}
 
-        {/* Tab 3: Forms of Prayer */}
-        {activeTab === "forms" && (
-          <div>
-            {/* Filter buttons */}
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
-              <button type="button"
-                onClick={() => setActiveFormFilter("All")}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: 20,
-                  border: `1px solid ${activeFormFilter === "All" ? GREEN : BORDER}`,
-                  background: activeFormFilter === "All" ? `${GREEN}18` : "transparent",
-                  color: activeFormFilter === "All" ? GREEN : MUTED,
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: "pointer",
-                }}
-              >
-                All
-              </button>
-              {FORM_CATEGORIES.map((cat) => {
-                const active = activeFormFilter === cat;
-                const color = CATEGORY_COLORS[cat];
-                return (
-                  <button type="button"
-                    key={cat}
-                    onClick={() => setActiveFormFilter(cat)}
-                    style={{
-                      padding: "8px 16px",
-                      borderRadius: 20,
-                      border: `1px solid ${active ? color : BORDER}`,
-                      background: active ? `${color}18` : "transparent",
-                      color: active ? color : MUTED,
-                      fontWeight: 700,
-                      fontSize: 13,
-                      cursor: "pointer",
-                    }}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
+        {tab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {practices.map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.1rem 1.4rem", display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <span style={{ color: INDIGO, fontWeight: 700, fontSize: "1rem", marginTop: 2 }}>{i + 1}.</span>
+                <p style={{ color: MUTED, fontSize: "0.92rem", lineHeight: 1.65, margin: 0 }}>{p}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
-            {/* Card grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
-              {visibleCards.map((card, i) => {
-                const color = CATEGORY_COLORS[card.type];
-                return (
-                  <div
-                    key={i}
-                    style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, display: "flex", flexDirection: "column", gap: 10 }}
-                  >
-                    <div>
-                      <span
-                        style={{
-                          background: `${color}18`,
-                          color,
-                          fontSize: 11,
-                          fontWeight: 800,
-                          padding: "3px 10px",
-                          borderRadius: 8,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {card.type}
-                      </span>
+        {tab === "voices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {voices.map((v, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
+                <div style={{ fontWeight: 700, marginBottom: 4 }}>{v.name}</div>
+                <div style={{ fontSize: "0.8rem", color: INDIGO, marginBottom: 12 }}>{v.role}</div>
+                <blockquote style={{ borderLeft: `3px solid ${INDIGO}`, paddingLeft: 14, color: TEXT, fontStyle: "italic", marginBottom: 12, lineHeight: 1.6 }}>&ldquo;{v.quote}&rdquo;</blockquote>
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6 }}>{v.bio}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {scriptures.map((s, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "1.1rem 1.3rem" }}>
+                <div style={{ fontWeight: 700, color: INDIGO, marginBottom: 6 }}>{s.verse}</div>
+                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.65 }}>&ldquo;{s.text}&rdquo;</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "journal" && (
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.5rem" }}>
+            <h3 style={{ marginBottom: "0.5rem", fontWeight: 700 }}>Prayer Journal</h3>
+            <p style={{ color: MUTED, fontSize: "0.88rem", marginBottom: "1.2rem" }}>Use these prompts to reflect honestly on your prayer life — the questions you are wrestling with, the practices you are exploring, and the moments where God has felt near.</p>
+            {[
+              { label: "Question — a question about prayer you are wrestling with", val: jQuestion, set: setJQuestion },
+              { label: "Practice — a prayer practice you are exploring", val: jPractice, set: setJPractice },
+              { label: "Encounter — a moment in prayer where you sensed God near", val: jEncounter, set: setJEncounter },
+            ].map((f, i) => (
+              <div key={i} style={{ marginBottom: "1rem" }}>
+                <label style={{ display: "block", marginBottom: 6, fontSize: "0.88rem", color: MUTED }}>{f.label}</label>
+                <textarea value={f.val} onChange={e => f.set(e.target.value)} rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 6, padding: "0.7rem", color: TEXT, fontSize: "0.9rem", resize: "vertical" }} />
+              </div>
+            ))}
+            <button onClick={saveEntry} style={{ background: INDIGO, color: "#fff", border: "none", borderRadius: 6, padding: "0.6rem 1.4rem", cursor: "pointer", fontWeight: 600 }}>Save Entry</button>
+            {entries.length > 0 && (
+              <div style={{ marginTop: "1.5rem" }}>
+                <h4 style={{ marginBottom: "1rem", fontWeight: 600, color: INDIGO }}>My Entries ({entries.length})</h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {entries.map(e => (
+                    <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.9rem 1rem" }}>
+                      <div style={{ fontSize: "0.78rem", color: MUTED, marginBottom: 6 }}>{e.date}</div>
+                      <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: INDIGO, fontWeight: 600 }}>Question:</span> {e.question}</p>
+                      {e.practice && <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: INDIGO, fontWeight: 600 }}>Practice:</span> {e.practice}</p>}
+                      {e.encounter && <p style={{ fontSize: "0.88rem", color: TEXT }}><span style={{ color: INDIGO, fontWeight: 600 }}>Encounter:</span> {e.encounter}</p>}
                     </div>
-                    <div style={{ fontWeight: 800, fontSize: 15, color: TEXT }}>{card.title}</div>
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{card.desc}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Tab 4: Obstacles to Prayer */}
-        {activeTab === "obstacles" && (
-          <div>
-            {OBSTACLE_ITEMS.map((item, i) => {
-              const key = `obstacle-${i}`;
-              const isOpen = !!expanded[key];
-              return (
-                <div
-                  key={key}
-                  style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden" }}
-                >
-                  <button type="button"
-                    onClick={() => toggleAccordion(key)}
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "18px 22px",
-                      background: "transparent",
-                      border: "none",
-                      color: TEXT,
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
-                  >
-                    <span style={{ fontWeight: 800, fontSize: 16, color: isOpen ? PURPLE : TEXT }}>{item.title}</span>
-                    <span style={{ color: MUTED, fontSize: 20, lineHeight: 1, marginLeft: 12, flexShrink: 0 }}>{isOpen ? "−" : "+"}</span>
-                  </button>
-                  {isOpen && (
-                    <div style={{ padding: "0 22px 20px", color: TEXT, fontSize: 15, lineHeight: 1.85 }}>
-                      {item.body}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {activeTab === "prayerlog" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Prayer that is recorded is prayer that can be reviewed — and reviewing prayer over months and years reveals a record of God's faithfulness that feelings alone cannot provide.
-              </p>
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 24 }}>
-              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 18 }}>Prayer Entry</h3>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>Form of prayer</label>
-                <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
-                  {["Petition", "Intercession", "Thanksgiving", "Confession", "Lament", "Contemplation"].map(form => (
-                    <button type="button" key={form} onClick={() => setPForm2(f => ({ ...f, form }))}
-                      style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${pForm2.form === form ? GREEN : BORDER}`, background: pForm2.form === form ? `${GREEN}20` : "transparent", color: pForm2.form === form ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-                      {form}
-                    </button>
                   ))}
                 </div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What I prayed</label>
-                <textarea value={pForm2.what} onChange={e => setPForm2(f => ({ ...f, what: e.target.value }))} rows={3}
-                  placeholder="What you brought to God, what you confessed, what you asked for, what you thanked him for..."
-                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ color: MUTED, fontSize: 13, fontWeight: 600 }}>What happened (if anything)</label>
-                <textarea value={pForm2.outcome} onChange={e => setPForm2(f => ({ ...f, outcome: e.target.value }))} rows={2}
-                  placeholder="A sense of peace, a word received, silence, a shift in perspective..."
-                  style={{ display: "block", width: "100%", marginTop: 6, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <button type="button" onClick={savePEntry}
-                style={{ padding: "12px 28px", borderRadius: 10, border: "none", background: GREEN, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
-                {pSaved2 ? "Saved ✓" : "Save Entry"}
-              </button>
-            </div>
-            {pEntries.length > 0 && (
-              <div>
-                <h3 style={{ color: MUTED, fontSize: 14, fontWeight: 700, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Prayer History ({pEntries.length})</h3>
-                {pEntries.map(e => {
-                  const formColor = (FORM_TYPE_COLORS as Record<string, string>)[e.form] ?? MUTED;
-                  return (
-                    <div key={e.id} style={{ background: CARD, border: `1px solid ${formColor}25`, borderRadius: 12, padding: 18, marginBottom: 12, position: "relative" }}>
-                      <button type="button" onClick={() => deletePEntry(e.id)}
-                        style={{ position: "absolute", top: 12, right: 12, background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 16 }}>×</button>
-                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8 }}>
-                        <span style={{ background: `${formColor}20`, color: formColor, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{e.form}</span>
-                        <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
-                      </div>
-                      {e.what && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>{e.what}</p>}
-                      {e.outcome && <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>{e.outcome}</p>}
-                    </div>
-                  );
-                })}
               </div>
             )}
           </div>
         )}
 
-        {activeTab === "videos" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-                Sermons, lectures, and teachings from trusted Christian scholars and pastors on prayer.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                {[
-                  { videoId: "rtkS_8VWfB0", title: "Prayer Causes Things to Happen", channel: "Desiring God / John Piper", description: "John Piper unpacks the biblical theology of intercessory prayer — why and how prayer actually causes things to happen in God's sovereign purposes." },
-                  { videoId: "iK0NjiBXKN4", title: "Prayer and the Victory of God", channel: "Desiring God / John Piper", description: "Piper shows how prayer is not merely a spiritual practice but a weapon in the cosmic battle — and what it means to pray in partnership with God's purposes." },
-                  { videoId: "j9phNEaPrv8", title: "What Makes the Lord's Prayer a Christian Prayer?", channel: "Desiring God / John Piper", description: "Piper examines what is distinctively Christian about the Lord's Prayer and why its structure is a model for all Christian prayer." },
-                  { videoId: "mC-zw0zCCtg", title: "Hallowed Be Your Name — The Lord's Prayer, Part 2", channel: "Desiring God / John Piper", description: "A sermon on the opening petition of the Lord's Prayer — what it means to pray that God's name is glorified, adored, and honored as holy throughout the earth." },
-                  { videoId: "ZOBIPb-6PTc", title: "Prayer Vocalizes Our Abiding in Christ", channel: "Desiring God / John Piper", description: "Based on John 15:1-11, Piper explores the deep connection between abiding in Christ and the practice of prayer — why prayer is not just a discipline but a relationship." },
-                ].map(v => (
-                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                    </div>
-                  </div>
-                ))}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {videos.map((v, i) => (
+              <div key={i}>
+                <h3 style={{ marginBottom: 10, fontWeight: 600, fontSize: "0.95rem", color: INDIGO }}>{v.title}</h3>
+                <VideoEmbed videoId={v.id} title={v.title} />
               </div>
-            </div>
+            ))}
           </div>
         )}
-
-      </div>
       </main>
       <Footer />
     </div>

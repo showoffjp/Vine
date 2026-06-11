@@ -931,6 +931,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Spiritual Gifts Guide": "holy-spirit-guide",
   "Pneumatology Guide": "holy-spirit-guide",
   "Work of the Holy Spirit": "holy-spirit-guide",
+  "Assurance of Salvation": "assurance-of-salvation",
+  "Can I Know I Am Saved": "assurance-of-salvation",
+  "Security of the Believer": "assurance-of-salvation",
+  "Christian Missions Guide": "christian-missions",
+  "World Missions Christian": "christian-missions",
+  "Great Commission Guide": "christian-missions",
 };
 
 
@@ -1498,6 +1504,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Sexuality" },
   { label: "Christian Discipleship" },
   { label: "Holy Spirit Guide" },
+  { label: "Assurance of Salvation" },
+  { label: "Christian Missions" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

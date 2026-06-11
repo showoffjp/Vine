@@ -1,16 +1,9 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-function useLocalStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try { const s = localStorage.getItem(key); if (s !== null) setValue(JSON.parse(s)); } catch {}
-  }, [key]);
-  const set = useCallback((v: T) => { setValue(v); try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }, [key]);
-  return [value, set] as const;
-}
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56",
   PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3", GOLD = "#D97706",
@@ -53,16 +46,16 @@ const VIDEOS = [
 ];
 
 export default function SecondCorinthiansGuidePage() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_2cor_tab", 0);
-  const [openJar, setOpenJar] = useLocalStorage("vine_2cor_jar", -1);
-  const [openRec, setOpenRec] = useLocalStorage("vine_2cor_rec", -1);
-  const [openThorn, setOpenThorn] = useLocalStorage("vine_2cor_thorn", -1);
-  const [journal, setJournal] = useLocalStorage("vine_2cor_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_2cor_tab", "Overview");
+  const [openJar, setOpenJar] = useState<number>(-1);
+  const [openRec, setOpenRec] = useState<number>(-1);
+  const [openThorn, setOpenThorn] = useState<number>(-1);
+  const [journal, setJournal] = usePersistedState<string>("vine_2cor_journal", "");
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "3rem", marginBottom: ".5rem" }}>🏺</div>
           <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", fontWeight: 900, color: TEXT, marginBottom: ".5rem" }}>The Book of 2 Corinthians</h1>
@@ -71,13 +64,12 @@ export default function SecondCorinthiansGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "2rem", justifyContent: "center" }}>
-          {TABS.map((t, i) => (
-            <button key={t} onClick={() => setActiveTab(i)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === i ? TEAL : BORDER}`, background: activeTab === i ? `${TEAL}22` : CARD, color: activeTab === i ? TEAL : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === t ? TEAL : BORDER}`, background: activeTab === t ? `${TEAL}22` : CARD, color: activeTab === t ? TEAL : MUTED, fontWeight: activeTab === t ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
           ))}
         </div>
 
-        {/* Tab 0: Overview */}
-        {activeTab === 0 && (
+        {activeTab === "Overview" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.4rem", marginBottom: "1rem" }}>Overview of 2 Corinthians</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1rem" }}>Second Corinthians is the most emotionally revealing of Paul's letters — a window into the heart of a pastor in profound pain. Written around AD 55–56, after a difficult intervening visit and a painful letter (now lost), it is simultaneously a defense of apostolic ministry, a theology of suffering, and a call to generosity.</p>
@@ -93,8 +85,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 1: Jars of Clay */}
-        {activeTab === 1 && (
+        {activeTab === "Jars of Clay" && (
           <div>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Treasure in Jars of Clay (Chapter 4)</h2>
             {JARS_ITEMS.map((item, i) => (
@@ -109,8 +100,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 2: Reconciliation */}
-        {activeTab === 2 && (
+        {activeTab === "Reconciliation" && (
           <div>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Ministry of Reconciliation (Chapter 5)</h2>
             {RECONCILIATION_ITEMS.map((item, i) => (
@@ -125,8 +115,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 3: Thorn & Grace */}
-        {activeTab === 3 && (
+        {activeTab === "Thorn & Grace" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Thorn in the Flesh (Chapter 12)</h2>
             {THORN_ITEMS.map((item, i) => (
@@ -141,8 +130,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 4: Boasting in Weakness */}
-        {activeTab === 4 && (
+        {activeTab === "Boasting in Weakness" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Boasting in Weakness (Chapters 10–12)</h2>
             <blockquote style={{ borderLeft: `3px solid ${PURPLE}`, paddingLeft: "1rem", color: MUTED, fontStyle: "italic", lineHeight: 1.8, marginBottom: "1.5rem" }}>
@@ -162,8 +150,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 5: Generosity */}
-        {activeTab === 5 && (
+        {activeTab === "Generosity" && (
           <div>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Grace of Generosity (Chapters 8–9)</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -182,8 +169,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 6: New Creation */}
-        {activeTab === 6 && (
+        {activeTab === "New Creation" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>New Creation in Christ (5:14–21)</h2>
             <blockquote style={{ borderLeft: `3px solid ${TEAL}`, paddingLeft: "1rem", color: MUTED, fontStyle: "italic", lineHeight: 1.8, marginBottom: "1.5rem" }}>
@@ -203,8 +189,7 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 7: Journal */}
-        {activeTab === 7 && (
+        {activeTab === "Journal" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: ".5rem" }}>Study Journal</h2>
             <p style={{ color: MUTED, marginBottom: "1rem", fontSize: ".9rem" }}>Reflect on your study of 2 Corinthians. Your notes are saved locally.</p>
@@ -223,22 +208,13 @@ export default function SecondCorinthiansGuidePage() {
           </div>
         )}
 
-        {/* Tab 8: Videos */}
-        {activeTab === 8 && (
+        {activeTab === "Videos" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Video Resources</h2>
-            <div style={{ display: "grid", gap: "1.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, borderRadius: 14, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
-                  </div>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "1rem" }}>
                     <div style={{ color: TEXT, fontWeight: 700 }}>{v.title}</div>
                   </div>

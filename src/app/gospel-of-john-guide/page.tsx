@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -14,18 +15,6 @@ const MUTED = "#9898B3";
 const GOLD = "#D97706";
 const TEAL = "#0D9488";
 const BLUE = "#3B82F6";
-
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -82,15 +71,15 @@ const VIDEOS = [
 ];
 
 export default function GospelOfJohnGuide() {
-  const [tab, setTab] = useLocalStorage("vine_john_tab", "overview");
-  const [signOpen, setSignOpen] = useLocalStorage("vine_john_sign", "");
-  const [iamOpen, setIamOpen] = useLocalStorage("vine_john_iam", "");
-  const [journal, setJournal] = useLocalStorage("vine_john_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_john_tab", "overview");
+  const [signOpen, setSignOpen] = usePersistedState<string>("vine_john_sign", "");
+  const [iamOpen, setIamOpen] = usePersistedState<string>("vine_john_iam", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_john_journal", "");
 
   return (
-    <>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+      <main id="main-content">
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem" }}>
         <div style={{ marginBottom: "0.5rem" }}>
           <span style={{ background: BLUE + "22", color: BLUE, padding: "0.2rem 0.7rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1 }}>GOSPEL OF JOHN</span>
@@ -299,11 +288,7 @@ export default function GospelOfJohnGuide() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "0.9rem 1rem" }}>
                     <div style={{ fontWeight: 600, fontSize: "0.95rem" }}>{v.title}</div>
                   </div>
@@ -313,8 +298,8 @@ export default function GospelOfJohnGuide() {
           </div>
         )}
       </div>
-    </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

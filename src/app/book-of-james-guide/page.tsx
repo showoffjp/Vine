@@ -1,16 +1,9 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-function useLocalStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try { const s = localStorage.getItem(key); if (s !== null) setValue(JSON.parse(s)); } catch {}
-  }, [key]);
-  const set = useCallback((v: T) => { setValue(v); try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }, [key]);
-  return [value, set] as const;
-}
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56",
   PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3", GOLD = "#D97706",
@@ -59,16 +52,16 @@ const VIDEOS = [
 ];
 
 export default function BookOfJamesGuidePage() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_james_tab", 0);
-  const [openTest, setOpenTest] = useLocalStorage("vine_james_test", -1);
-  const [openWis, setOpenWis] = useLocalStorage("vine_james_wis", -1);
-  const [openRP, setOpenRP] = useLocalStorage("vine_james_rp", -1);
-  const [journal, setJournal] = useLocalStorage("vine_james_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_james_tab", "Overview");
+  const [openTest, setOpenTest] = useState<number>(-1);
+  const [openWis, setOpenWis] = useState<number>(-1);
+  const [openRP, setOpenRP] = useState<number>(-1);
+  const [journal, setJournal] = usePersistedState<string>("vine_james_journal", "");
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "3rem", marginBottom: ".5rem" }}>⚒️</div>
           <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", fontWeight: 900, color: TEXT, marginBottom: ".5rem" }}>The Book of James</h1>
@@ -77,13 +70,12 @@ export default function BookOfJamesGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "2rem", justifyContent: "center" }}>
-          {TABS.map((t, i) => (
-            <button key={t} onClick={() => setActiveTab(i)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === i ? GREEN : BORDER}`, background: activeTab === i ? `${GREEN}22` : CARD, color: activeTab === i ? GREEN : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === t ? GREEN : BORDER}`, background: activeTab === t ? `${GREEN}22` : CARD, color: activeTab === t ? GREEN : MUTED, fontWeight: activeTab === t ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
           ))}
         </div>
 
-        {/* Tab 0: Overview */}
-        {activeTab === 0 && (
+        {activeTab === "Overview" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.4rem", marginBottom: "1rem" }}>Overview of James</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1rem" }}>The Letter of James is the NT's wisdom epistle — its closest analogue is Proverbs, though it is saturated with the teaching of Jesus (especially the Sermon on the Mount). Attributed to James the brother of Jesus, it was written to Jewish Christians scattered throughout the Roman world, possibly as early as AD 40–50, making it one of the earliest NT writings.</p>
@@ -99,8 +91,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 1: Testing & Trials */}
-        {activeTab === 1 && (
+        {activeTab === "Testing & Trials" && (
           <div>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Testing, Trials & Temptation (Chapter 1)</h2>
             {TESTING_ITEMS.map((item, i) => (
@@ -115,8 +106,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 2: Faith & Works */}
-        {activeTab === 2 && (
+        {activeTab === "Faith & Works" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Faith and Works (Chapter 2)</h2>
             <blockquote style={{ borderLeft: `3px solid ${GREEN}`, paddingLeft: "1rem", color: MUTED, fontStyle: "italic", lineHeight: 1.8, marginBottom: "1.5rem" }}>
@@ -136,8 +126,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 3: The Tongue */}
-        {activeTab === 3 && (
+        {activeTab === "The Tongue" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Taming the Tongue (Chapter 3:1–12)</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -156,8 +145,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 4: Two Wisdoms */}
-        {activeTab === 4 && (
+        {activeTab === "Two Wisdoms" && (
           <div>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Two Wisdoms & Worldliness (Chapters 3:13–4:10)</h2>
             {TWO_WISDOMS.map((item, i) => (
@@ -180,8 +168,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 5: Prayer */}
-        {activeTab === 5 && (
+        {activeTab === "Prayer" && (
           <div>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Prayer of Faith (Chapter 5)</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -200,8 +187,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 6: Rich & Poor */}
-        {activeTab === 6 && (
+        {activeTab === "Rich & Poor" && (
           <div>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Wealth, Poverty & Social Justice</h2>
             {RICH_POOR_ITEMS.map((item, i) => (
@@ -220,8 +206,7 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 7: Journal */}
-        {activeTab === 7 && (
+        {activeTab === "Journal" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: ".5rem" }}>Study Journal</h2>
             <p style={{ color: MUTED, marginBottom: "1rem", fontSize: ".9rem" }}>Reflect on your study of James. Your notes are saved locally.</p>
@@ -240,22 +225,13 @@ export default function BookOfJamesGuidePage() {
           </div>
         )}
 
-        {/* Tab 8: Videos */}
-        {activeTab === 8 && (
+        {activeTab === "Videos" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Video Resources</h2>
-            <div style={{ display: "grid", gap: "1.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
                 <div key={v.videoId} style={{ background: CARD, borderRadius: 14, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
-                  </div>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
                   <div style={{ padding: "1rem" }}>
                     <div style={{ color: TEXT, fontWeight: 700 }}>{v.title}</div>
                   </div>

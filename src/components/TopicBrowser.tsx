@@ -703,6 +703,22 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Femininity": "christian-femininity",
   "Biblical Womanhood": "christian-femininity",
   "Women's Formation": "christian-femininity",
+  "Debt Freedom Christian": "debt-freedom-christian",
+  "Christian Debt Freedom": "debt-freedom-christian",
+  "Get Out of Debt Bible": "debt-freedom-christian",
+  "Financial Bondage": "debt-freedom-christian",
+  "Debt Payoff Faith": "debt-freedom-christian",
+  "Christian Creativity": "christian-creativity",
+  "Creativity as Calling": "christian-creativity",
+  "Christian Art Making": "christian-creativity",
+  "Sub-Creation": "christian-creativity",
+  "Art and Faith": "christian-creativity",
+  "Imago Dei Creativity": "christian-creativity",
+  "Ten Commandments Study": "ten-commandments-study",
+  "Decalogue Study": "ten-commandments-study",
+  "Study Ten Commandments": "ten-commandments-study",
+  "Commandments Deep Dive": "ten-commandments-study",
+  "Moral Law Study": "ten-commandments-study",
 };
 
 
@@ -1209,6 +1225,15 @@ const ALL_TOPICS: Topic[] = [
   { label: "Rapture Theology" },
   { label: "Pre-Tribulation" },
   { label: "Post-Tribulation" },
+  { label: "Creativity" },
+  { label: "Debt Freedom" },
+  { label: "Commandments Study" },
+  { label: "Lord's Supper" },
+  { label: "Communion" },
+  { label: "Singleness" },
+  { label: "Bible Memory" },
+  { label: "Fear of Death" },
+  { label: "Sabbath Rest" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

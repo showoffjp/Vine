@@ -1,292 +1,235 @@
 "use client";
-import Navbar from "@/components/Navbar";
-import VerseRef from "@/components/VerseRef";
-import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
-
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", ACCENT = "#D97706", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "voices" | "responses" | "practices" | "journal" | "videos";
-
-const SUFF_VIDEOS = [
-  { videoId: "rtkS_8VWfB0", title: "The Gift of Suffering — Tim Keller", channel: "Gospel in Life", description: "Keller's classic teaching on why suffering is not an obstacle to faith but often its deepest school." },
-  { videoId: "ej_6dVdJSIU", title: "Suffering and the Sovereignty of God", channel: "Ligonier Ministries", description: "How R.C. Sproul holds together divine sovereignty and real human suffering without minimizing either." },
-  { videoId: "4Eg_di-O8nM", title: "Don't Waste Your Cancer — John Piper", channel: "Desiring God", description: "Piper's moving reflection on his cancer diagnosis and what he learned about faith, God, and the preciousness of life." },
-  { videoId: "gV9JugO_5Mk", title: "When the Darkness Doesn't Lift", channel: "The Gospel Coalition", description: "What to say and not say to someone suffering deeply — and how the church can truly be the body of Christ in hard times." },
-];
-
-const THEOLOGY = [
-  { title: "Suffering in a Fallen World", verse: "Romans 8:20-22", body: "For the creation was subjected to frustration, not by its own choice, but by the will of the one who subjected it (Romans 8:20). Suffering is real, pervasive, and rooted in the fall — the rebellion of humanity that fractured the created order. The whole creation groans as in the pains of childbirth (v.22). The Christian account of suffering begins here: it is not illusion (as some Eastern philosophies hold) nor is it the final word (as secular despair holds). It is the real consequence of a real fall, in a world moving toward a real redemption." },
-  { title: "The Suffering of Christ", verse: "Isaiah 53:3", body: "He was despised and rejected by mankind, a man of suffering, and familiar with pain (Isaiah 53:3). The Incarnation means God did not stay at a safe distance from suffering but entered fully into it. Jesus wept at Lazarus's tomb; he sweated blood in Gethsemane; he cried out 'My God, my God, why have you forsaken me?' from the cross. The God of the Bible is not immune to suffering — he has suffered. This does not explain suffering, but it transforms it: we suffer in the company of One who has been there and who carries the weight of it with us." },
-  { title: "Suffering Produces Character", verse: "Romans 5:3-4", body: "We also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope (Romans 5:3-4). The scriptural pattern is not that suffering is good in itself but that God works through it to produce what cannot be formed in comfort: proven character, deep perseverance, tested hope. James says something similar: the testing of your faith produces endurance (1:3). This is not a counsel to seek suffering, but a promise for those who cannot avoid it: God is working even here, especially here." },
-  { title: "Suffering as Participation in Christ", verse: "Philippians 3:10", body: "I want to know Christ — yes, to know the power of his resurrection and participation in his sufferings (Philippians 3:10). Paul does not merely tolerate suffering — he sees in it an opportunity for profound union with Christ. The theology of the cross (theologia crucis) runs throughout the NT: the path of the disciple follows the path of the Master, and the Master went through suffering to glory. The present sufferings are not worth comparing with the glory that will be revealed (Romans 8:18) — not because suffering is minimized but because glory is that overwhelming." },
-  { title: "The Promise of Redemption", verse: "Revelation 21:4", body: "He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away (Revelation 21:4). The Christian approach to suffering is not stoic endurance — it is hope. The suffering is real and it matters; it is not denied or explained away. But it is temporary. The creation itself will be liberated (Romans 8:21). The day is coming when every wrong will be righted, every tear wiped, every groaning answered. That day does not arrive by ignoring suffering but by holding onto the One who is making all things new." },
-];
-
-const VOICES = [
-  {
-    id: "lewis",
-    name: "C.S. Lewis",
-    work: "A Grief Observed (1961)",
-    color: "#F59E0B",
-    quote: "You never know how much you really believe anything until its truth or falsehood becomes a matter of life and death to you. It is easy to say you believe a rope to be strong and sound as long as you are merely using it to cord a box. But suppose you had to hang by that rope over a precipice. Wouldn't you then discover how much you really trusted it?",
-    contribution: "Lewis wrote A Grief Observed after the death of his wife Joy from cancer — raw, angry, bewildered entries that he initially published under a pseudonym. It is the most honest account of Christian suffering by any major theologian precisely because it is not theological argument but personal record. His early entries read like accusations against God; the later ones show a faith being rebuilt rather than recovered. His conclusion: his idea of God was too small, and the grief dismantled the idol and left him with something more real. A Grief Observed has probably done more to give grieving Christians permission to be honest than any other modern book.",
-  },
-  {
-    id: "tada",
-    name: "Joni Eareckson Tada",
-    work: "Joni (1976) / A Place of Healing (2010)",
-    color: "#3B82F6",
-    quote: "God allows what he hates to accomplish what he loves. He hates suffering. He loves the deep conformity to Christ that suffering can produce.",
-    contribution: "Tada became a quadriplegic at 17 after a diving accident and has spent more than fifty years ministering to people with disabilities from a wheelchair. Her theology of suffering is not abstract — it is lived. Her core contribution: disability and suffering are not obstacles to God's purposes but instruments of them. She has consistently refused the prosperity gospel's framing, insisting that God is glorified through weakness, not despite it. Her ministry Joni and Friends has shaped Christian disability theology for decades. The second book, written during her battle with cancer, shows her wrestling honestly with the question of whether she had the faith she had preached.",
-  },
-  {
-    id: "tenBoom",
-    name: "Corrie Ten Boom",
-    work: "The Hiding Place (1971)",
-    color: "#EC4899",
-    quote: "There is no pit so deep that God's love is not deeper still. They told me that in Ravensbruck. And I have learned it to be true.",
-    contribution: "Ten Boom survived Ravensbruck concentration camp after her family was arrested for hiding Jewish people. Her sister Betsie died in the camp. The Hiding Place records how they maintained faith — and how Betsie's confidence in God's love grew rather than diminished in the camp. Ten Boom's most famous story is from after the war: she met a former guard at one of her speaking events and, in a moment she describes as one of the hardest of her life, shook his hand and felt forgiveness flow through her that was not her own. Her contribution: suffering does not destroy faith if the root is deep enough — and God's love is accessible even in the deepest human darkness.",
-  },
-  {
-    id: "dostoevsky",
-    name: "Fyodor Dostoevsky",
-    work: "The Brothers Karamazov (1880)",
-    color: PURPLE,
-    quote: "I believe like a child that suffering will be healed and made up for, that all the humiliating absurdity of human contradictions will vanish like a pitiful mirage. In the world's finale, at the moment of eternal harmony, something so precious will come to pass that it will suffice for all hearts, for the comforting of all resentments, for the atonement of all the crimes of humanity.",
-    contribution: "Dostoevsky gave Christianity's most honest opponent to suffering in Ivan Karamazov — whose 'rebellion' against God on the basis of children's suffering remains the sharpest fictional statement of the problem of evil. Ivan returns his 'ticket' to God's world because the suffering of innocents cannot be justified by any future harmony. But the novel's response is not an argument — it is a person: Father Zosima, and then Alyosha, whose love incarnates an answer Ivan cannot refute. Dostoevsky's contribution: the intellectual problem of suffering cannot be resolved by argument alone; it requires the encounter with love that makes the theodicy question secondarily important.",
-  },
-  {
-    id: "kempis",
-    name: "Thomas a Kempis",
-    work: "The Imitation of Christ (c. 1418)",
-    color: GREEN,
-    quote: "What doth it profit thee to enter into deep discussion concerning the Holy Trinity, if thou lack humility? What doth it profit thee to dispute learnedly concerning the Trinity, if thou be void of humility? Verily it is not deep discourse that maketh a man holy and upright, but a virtuous life maketh him dear to God.",
-    contribution: "Written in the late medieval period, the Imitation of Christ has been the most widely read Christian book after the Bible. On suffering, Kempis is blunt: the cross is the way, not an interruption of it. 'Many words satisfy not the soul, but a good life refresheth the mind.' His approach to suffering is not pastoral in the modern therapeutic sense — it is ascetic: suffering received with patience is transformed into conformity to Christ. While his framework requires updating with modern psychology, his core insight remains: the one who avoids suffering avoids the school in which sanctification is primarily taught.",
-  },
-];
-
-const RESPONSES = [
-  { o: "Denying It", desc: "Pretending things are fine when they are not — the toxic positivity that says every trial is a blessing in disguise and grief is a failure of faith. This approach protects neither the person suffering nor their theology.", response: "The Psalms model honest lament. One third of the Psalter gives permission to say it hurts, it is not okay, I do not understand, and to say so directly to God. Honesty about suffering is not the absence of faith — it is faith in a God who can handle the truth." },
-  { o: "Over-Explaining It", desc: "Reaching for immediate explanations: God is teaching you a lesson, this is punishment for sin, there must be a hidden blessing. These are often applied prematurely and can cause profound harm to the person suffering.", response: "Job's friends offered explanations and were rebuked by God. The first pastoral response to suffering is presence, not explanation. Sit with the person. Listen. Resist the urge to solve the unsolvable before it is time." },
-  { o: "Theological Despair", desc: "Concluding from suffering that God is absent, indifferent, or powerless — that the Christian account of a good and sovereign God cannot be true in a world with this much pain.", response: "The cross is the answer to this despair — not as a philosophical argument but as a historical event. The God who seemed absent on Good Friday was vindicated on Easter. The apparent abandonment was not the last word. Suffering does not disprove God; it asks us to trust the One who suffered and was raised." },
-  { o: "Superficial Comfort", desc: "Offering platitudes — everything happens for a reason, God won't give you more than you can handle (not a biblical quote), at least you have... — that minimize pain while appearing to address it. These close off the space for genuine lament.", response: "Weep with those who weep (Romans 12:15). Before any theology is offered, presence and solidarity are required. The most powerful thing you can often do is say: this is terrible, and I am with you, and I am not going anywhere." },
-  { o: "Isolation", desc: "Withdrawing in suffering — hiding the pain, declining community, refusing help. Shame around suffering and the desire not to be a burden are common, and they deepen the suffering.", response: "Carry each other's burdens (Galatians 6:2). The body of Christ is designed for the distribution of suffering — what is unbearable alone becomes more bearable carried by many. Receiving help is itself an act of community and trust." },
-];
-
-const PRACTICES = [
-  { title: "Lament Before God Honestly", desc: "Bring the suffering to God as it actually is — not packaged in faith language that obscures the pain. The Psalms give you language: How long, O Lord? Why? Where are you? God is not frightened by your honest anguish. He is drawn to it. Bring it to him first, before bringing it anywhere else.", icon: "💧" },
-  { title: "Receive the Gift of Presence", desc: "When someone is suffering, do not wait until you know what to say. Go. Sit. Stay. The ministry of presence — simply being with another person without an agenda to fix — is often the most powerful thing available. When Job's friends sat with him in silence for seven days, they were at their best.", icon: "🤝" },
-  { title: "Hold Lament and Hope Together", desc: "Biblical lament does not end in despair — it moves through honest grief toward trust in God's character. The Psalms of lament almost always turn: I will trust, I will praise, he has not abandoned. The turn is not a denial of the pain; it is a refusal to let the pain have the final word.", icon: "🌅" },
-  { title: "Let Suffering Loosen Your Grip", desc: "Suffering has a clarifying effect on what matters. Things that seemed essential often prove to be optional; things that seemed optional often prove to be essential. Use the clarity that suffering brings to make changes that comfort would never have prompted.", icon: "🕊️" },
-  { title: "Find a Companion for the Dark Season", desc: "Do not suffer alone. Find someone — a pastor, a counselor, a trusted friend — who can journey through the dark season with you. Not to fix it, but to accompany it. The desert fathers called this the practice of disclosure — naming the darkness to another person has its own healing power.", icon: "🌿" },
-  { title: "Study the Cross Deeply", desc: "The theology of the cross is the most powerful resource for suffering available in Christianity. Not as an explanation for why your particular suffering happened, but as a declaration about the kind of God who is with you in it: one who did not remain at a safe distance but entered the full depth of human pain and came through it into resurrection.", icon: "✝️" },
-];
+type SFEntry = { id: string; date: string; pain: string; promise: string; response: string };
 
 export default function ChristianSufferingPage() {
-  const [tab, setTab] = usePersistedState<Tab>("vine_christian-suffering_tab", "theology");
-  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-suffering_voice", "lewis");
-  const [expanded, setExpanded] = useState<string | null>(null);
-
-  const [csufEntries, setCsufEntries] = useState<{ id: string; date: string; suffering: string; truth: string; response: string }[]>(() => {
-    try { const s = localStorage.getItem("vine_csuf_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
+  const [tab, setTab] = useState("theology");
+  const [entries, setEntries] = useState<SFEntry[]>(() => {
+    try { const s = localStorage.getItem("vine_christiansuffering_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
-  const [csufForm, setCsufForm] = useState({ suffering: "", truth: "", response: "" });
-  const [csufSaved, setCsufSaved] = useState(false);
-  useEffect(() => { localStorage.setItem("vine_csuf_entries", JSON.stringify(csufEntries)); }, [csufEntries]);
-  function saveCsufEntry() {
-    if (!csufForm.suffering.trim()) return;
-    setCsufEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), ...csufForm }, ...prev]);
-    setCsufForm({ suffering: "", truth: "", response: "" });
-    setCsufSaved(true); setTimeout(() => setCsufSaved(false), 2000);
-  }
-  function deleteCsufEntry(id: string) { setCsufEntries(prev => prev.filter(e => e.id !== id)); }
+  const [jPain, setJPain] = useState("");
+  const [jPromise, setJPromise] = useState("");
+  const [jResponse, setJResponse] = useState("");
 
-  const voice = VOICES.find(v => v.id === selectedVoice)!;
+  useEffect(() => { localStorage.setItem("vine_christiansuffering_entries", JSON.stringify(entries)); }, [entries]);
+
+  const saveEntry = () => {
+    if (!jPain.trim()) return;
+    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), pain: jPain, promise: jPromise, response: jResponse }, ...prev]);
+    setJPain(""); setJPromise(""); setJResponse("");
+  };
+
+  const deleteEntry = (id: string) => setEntries(prev => prev.filter(e => e.id !== id));
+
+  const tabs = [
+    { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
+    { id: "voices", label: "Voices" }, { id: "scripture", label: "Scripture" },
+    { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
+  ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main id="main-content">
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>✝️</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Suffering and the Cross</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            Suffering is the most universal human experience and the most searched theological question. The Christian answer is not a philosophical argument — it is a person: the God who suffered, died, and rose again.
-          </p>
-        </div>
+      <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "theology" as Tab, label: "Theology", icon: "📖" },
-            { id: "voices" as Tab, label: "Voices", icon: "💬" },
-            { id: "responses" as Tab, label: "Bad Responses", icon: "⚠️" },
-            { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
-            { id: "journal" as Tab, label: "My Journal", icon: "📓" },
-            { id: "videos" as Tab, label: "Videos", icon: "▶️" },
-          ].map(t => (
-            <button type="button" key={t.id} onClick={() => setTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t.icon} {t.label}
-            </button>
+        <div style={{ marginBottom: "0.5rem" }}>
+          <span style={{ background: ACCENT + "22", color: ACCENT, padding: "0.2rem 0.8rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Faith &amp; Life</span>
+        </div>
+        <h1 style={{ fontSize: "clamp(1.7rem,4vw,2.6rem)", fontWeight: 900, lineHeight: 1.2, margin: "0.75rem 0 0.75rem" }}>
+          Suffering &amp; the Christian
+        </h1>
+        <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.7, maxWidth: 640, margin: "0 0 2rem" }}>
+          Pain is not a sign that God has abandoned you &mdash; it is often the very place where he draws nearest. Scripture does not explain away suffering but meets it with lament, promise, and the cross of Christ who was himself acquainted with grief.
+        </p>
+
+        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "2rem" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)} style={{
+              padding: "0.45rem 1.1rem", borderRadius: 20, border: "1px solid", fontSize: "0.85rem", fontWeight: 600, cursor: "pointer",
+              borderColor: tab === t.id ? ACCENT : BORDER, background: tab === t.id ? ACCENT + "22" : "transparent", color: tab === t.id ? ACCENT : MUTED,
+            }}>{t.label}</button>
           ))}
         </div>
 
+        {/* THEOLOGY */}
         {tab === "theology" && (
-          <div>
-            {THEOLOGY.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={t.verse} /></span>
-                </div>
-                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {[
+              {
+                title: "Suffering Produces &mdash; the Progression of Romans 5:3-5",
+                body: "We rejoice in our sufferings, knowing that suffering produces endurance, and endurance produces character, and character produces hope, and hope does not put us to shame (Romans 5:3-5). Paul does not say suffering is good in itself but that God works through it in a definite direction: endurance &rarr; character &rarr; hope. This is not therapeutic optimism but a claim about divine agency. The word <em>thlipsis</em> (affliction, tribulation) was used for the crushing of grapes or olives; pressing is required to produce oil and wine. Paul rejoices not <em>because</em> of the suffering but <em>in</em> it &mdash; from within it &mdash; because he knows where it is headed. The hope produced is not wishful thinking but a confident expectation grounded in God&rsquo;s love poured into us by the Spirit.",
+              },
+              {
+                title: "The Testing of Faith &mdash; James 1:2-4 and the Teleios",
+                body: "Count it all joy, my brothers, when you meet trials of various kinds, for you know that the testing of your faith produces steadfastness. And let steadfastness have its full effect, that you may be perfect and complete, lacking in nothing (James 1:2-4). The word <em>teleios</em> translated &ldquo;perfect&rdquo; means mature, complete, having reached its intended end &mdash; not moral flawlessness. James is making a teleological argument: trials are the means by which faith reaches its telos, its full maturity. The &ldquo;joy&rdquo; commanded is not emotional positivity but a considered orientation &mdash; a choice to interpret suffering through the lens of what God is producing rather than what is being lost.",
+              },
+              {
+                title: "The God of All Comfort &mdash; 2 Corinthians 1:3-7",
+                body: "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort, who comforts us in all our affliction, so that we may be able to comfort those who are in any affliction, with the comfort with which we ourselves are comforted by God (2 Corinthians 1:3-4). Paul&rsquo;s theology of suffering here is profoundly relational: suffering is the context in which we receive comfort, and the comfort received becomes the content of the comfort we give. The word <em>paraklesis</em> (comfort, encouragement) appears ten times in five verses &mdash; the God of all comfort is insistently present in affliction.",
+              },
+              {
+                title: "Participation in Christ&rsquo;s Sufferings &mdash; Philippians 3:10",
+                body: "That I may know him and the power of his resurrection, and may share his sufferings, becoming like him in his death (Philippians 3:10). Christian suffering is not merely something to be endured but something to be participated in &mdash; sharing in the ongoing sufferings of the body of Christ in the world. The cross is not simply a past event but a pattern into which believers are drawn. To be conformed to Christ&rsquo;s death is a way of knowing him that no other path provides. Paul also writes: I fill up in my flesh what is still lacking in regard to Christ&rsquo;s afflictions, for the sake of his body, that is, the church (Col 1:24). Suffering, for Paul, is not an interruption of the Christian life but part of its deepest texture.",
+              },
+              {
+                title: "Lament as Faithful Prayer &mdash; Permission to Cry Out",
+                body: "Approximately one third of the Psalter consists of lament psalms &mdash; honest, often raw complaints addressed directly to God. My God, my God, why have you forsaken me? Why are you so far from saving me, so far from my cries of anguish? (Psalm 22:1). How long, Lord? Will you forget me forever? (Psalm 13:1). The lament psalms give the suffering believer a language and a permission: you may bring your full experience &mdash; the anger, the confusion, the sense of abandonment &mdash; directly to God without theological tidying. Walter Brueggemann notes that the church has often sanitized worship by eliminating lament, producing a faith that cannot hold real suffering. Lament is not faithlessness; it is a form of faith that takes God seriously enough to argue with him.",
+              },
+            ].map(item => (
+              <div key={item.title} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+                <h3 style={{ color: ACCENT, fontWeight: 700, fontSize: "1.05rem", margin: "0 0 0.75rem" }} dangerouslySetInnerHTML={{ __html: item.title }} />
+                <p style={{ color: MUTED, lineHeight: 1.8, margin: 0, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: item.body }} />
               </div>
             ))}
           </div>
         )}
 
-        {tab === "voices" && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <div style={{ width: 190, flexShrink: 0 }}>
-              {VOICES.map(v => (
-                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, background: selectedVoice === v.id ? `${v.color}12` : "transparent", color: selectedVoice === v.id ? v.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
-                  {v.name}
-                </button>
-              ))}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ background: CARD, border: `1px solid ${voice.color}30`, borderRadius: 14, padding: 26 }}>
-                <div style={{ marginBottom: 16 }}>
-                  <h2 style={{ color: voice.color, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{voice.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 13 }}>{voice.work}</div>
-                </div>
-                <blockquote style={{ borderLeft: `3px solid ${voice.color}`, paddingLeft: 16, margin: "0 0 18px 0" }}>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, fontStyle: "italic", margin: 0 }}>"{voice.quote}"</p>
-                </blockquote>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, margin: 0 }}>{voice.contribution}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {tab === "responses" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                How we respond to suffering — both our own and others' — matters as much as what we believe about it. These are the most common unhelpful responses and what to do instead.
-              </p>
-            </div>
-            {RESPONSES.map((r, i) => (
-              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
-                <button type="button" onClick={() => setExpanded(expanded === r.o ? null : r.o)}
-                  style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === r.o ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
-                  <span>{r.o}</span>
-                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === r.o ? "−" : "+"}</span>
-                </button>
-                {expanded === r.o && (
-                  <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: "0 0 10px 10px", borderTop: "none", padding: 18 }}>
-                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{r.desc}</p>
-                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 14 }}>
-                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>BETTER RESPONSE</div>
-                      <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.response}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
+        {/* PRACTICES */}
         {tab === "practices" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Suffering cannot be fixed — but it can be accompanied, interpreted, and ultimately redeemed. These practices help orient suffering toward God rather than away from him.
-              </p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
-              {PRACTICES.map((p, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 20 }}>{p.icon}</span>
-                    <div style={{ color: GREEN, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
-                  </div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {tab === "journal" && (
-          <div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>My Suffering Journal</h2>
-            <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>Process your suffering honestly before God. Saved privately in your browser.</p>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <div style={{ marginBottom: 14 }}>
-                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What suffering are you currently carrying?</label>
-                <textarea value={csufForm.suffering} onChange={e => setCsufForm(f => ({ ...f, suffering: e.target.value }))}
-                  placeholder="Loss, illness, grief, confusion, pain..." rows={2}
-                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div style={{ marginBottom: 14 }}>
-                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>What truth from Scripture anchors you?</label>
-                <textarea value={csufForm.truth} onChange={e => setCsufForm(f => ({ ...f, truth: e.target.value }))}
-                  placeholder="A promise, a psalm, a name of God..." rows={2}
-                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ color: MUTED, fontSize: 13, display: "block", marginBottom: 6 }}>How are you responding — or how do you want to respond?</label>
-                <textarea value={csufForm.response} onChange={e => setCsufForm(f => ({ ...f, response: e.target.value }))}
-                  placeholder="Prayer, lament, trust, action..." rows={2}
-                  style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 12px", color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <button type="button" onClick={saveCsufEntry}
-                style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "10px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
-                {csufSaved ? "Saved ✓" : "Save Entry"}
-              </button>
-            </div>
-            {csufEntries.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {csufEntries.map(e => (
-                  <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 18 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                      <span style={{ color: MUTED, fontSize: 12 }}>{e.date}</span>
-                      <button type="button" onClick={() => deleteCsufEntry(e.id)}
-                        style={{ background: "transparent", border: "none", color: MUTED, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
-                    </div>
-                    {e.suffering && <div style={{ marginBottom: 8 }}><span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>SUFFERING </span><span style={{ color: TEXT, fontSize: 14 }}>{e.suffering}</span></div>}
-                    {e.truth && <div style={{ marginBottom: 8 }}><span style={{ color: PURPLE, fontSize: 12, fontWeight: 700 }}>TRUTH </span><span style={{ color: TEXT, fontSize: 14 }}>{e.truth}</span></div>}
-                    {e.response && <div><span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>RESPONSE </span><span style={{ color: TEXT, fontSize: 14 }}>{e.response}</span></div>}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {tab === "videos" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {SUFF_VIDEOS.map(v => (
-              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <div style={{ padding: "14px 16px" }}>
-                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Practices</h2>
+            {[
+              "When you are suffering, practice lament before you practice explanation &mdash; open a lament psalm (Ps 13, 22, 88) and pray it aloud as your own. Do not rush to resolve it with a &ldquo;but God&hellip;&rdquo; until the lament has been fully spoken.",
+              "Keep a suffering and promise journal: on one side, name the pain honestly; on the other, write the specific promise of Scripture you are standing on &mdash; not as denial of the pain but as the counter-testimony of faith.",
+              "Find one person who has suffered similarly and ask them to share how God met them in it &mdash; the communion of saints includes those whose faith was forged in suffering, and their testimony is part of your inheritance.",
+              "Resist the urge to explain someone else&rsquo;s suffering to them; practice the ministry of presence (sitting with) before the ministry of speech. Job&rsquo;s friends were most helpful in the seven days before they opened their mouths (Job 2:13).",
+              "When suffering is chronic &mdash; illness, grief, long seasons of darkness &mdash; establish small daily anchors: a morning prayer, a verse on a card, a brief confession of what you still believe even when you do not feel it. Faith in chronic suffering is sustained by practice more than emotion.",
+            ].map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem", display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+                <div style={{ background: ACCENT + "22", color: ACCENT, fontWeight: 800, borderRadius: "50%", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.9rem" }}>{i + 1}</div>
+                <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: p }} />
               </div>
             ))}
           </div>
         )}
-      </div>
+
+        {/* VOICES */}
+        {tab === "voices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Voices</h2>
+            {[
+              {
+                name: "C.S. Lewis",
+                work: "A Grief Observed",
+                quote: "You never know how much you really believe anything until its truth or falsehood becomes a matter of life and death to you. It is easy to say you believe a rope to be strong as long as you are merely using it to cord a box. But suppose you had to hang by that rope over a precipice.",
+                bio: "C.S. Lewis wrote A Grief Observed in the raw weeks after his wife Joy Davidman died of cancer &mdash; unguarded entries he initially published under a pseudonym. It is the most honest account of Christian suffering by any major theologian precisely because it is not theological argument but personal record. His early entries read like accusations against God; the later ones show a faith being rebuilt rather than merely recovered. A Grief Observed has probably done more to give grieving Christians permission to be honest than any other modern book.",
+              },
+              {
+                name: "Tim Keller",
+                work: "Walking with God Through Pain and Suffering",
+                quote: "Christianity&rsquo;s answer to suffering is not an explanation but a person. Jesus Christ entered our world of pain, took it on himself, and transformed it from the inside. He is the only one who has earned the right to say, I understand.",
+                bio: "Tim Keller&rsquo;s Walking with God Through Pain and Suffering is one of the most comprehensive treatments of the subject from a Reformed evangelical perspective. Keller surveys the major secular and religious responses to suffering, grounds the Christian response in the cross, and gives both theological and pastoral guidance. Keller himself died of pancreatic cancer in 2023 after a years-long public testimony of grace in suffering &mdash; the book was tested against his own biography.",
+              },
+              {
+                name: "Joni Eareckson Tada",
+                work: "A Place of Healing",
+                quote: "God permits what he hates to accomplish what he loves. He hates suffering &mdash; it was not in the original creation &mdash; but he permits it because he loves the deep conformity to Christ that suffering can produce in the lives of his people.",
+                bio: "Joni Eareckson Tada became a quadriplegic at seventeen in a diving accident and has spent over five decades in a wheelchair. She is the founder of Joni and Friends International Disability Center. Her theology of suffering is not theoretical; it is the lived testimony of someone whose entire adult life has been shaped by profound physical limitation. Her books, including A Place of Healing (written during her battle with cancer), are among the most trustworthy guides available on chronic suffering and God&rsquo;s purposes in disability.",
+              },
+            ].map(v => (
+              <div key={v.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+                <div style={{ marginBottom: "0.75rem" }}>
+                  <div style={{ fontWeight: 700, fontSize: "1.05rem", color: TEXT }}>{v.name}</div>
+                  <div style={{ color: ACCENT, fontSize: "0.85rem", marginTop: "0.15rem" }}><em>{v.work}</em></div>
+                </div>
+                <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem", margin: "0 0 0.75rem", color: TEXT, fontStyle: "italic", lineHeight: 1.7 }}>
+                  &ldquo;<span dangerouslySetInnerHTML={{ __html: v.quote }} />&rdquo;
+                </blockquote>
+                <p style={{ color: MUTED, fontSize: "0.9rem", lineHeight: 1.7, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.bio }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* SCRIPTURE */}
+        {tab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Scripture</h2>
+            {[
+              { ref: "Romans 5:3-4", text: "We rejoice in our sufferings, knowing that suffering produces endurance, and endurance produces character, and character produces hope.", insight: "Paul reveals a divine trajectory embedded in suffering &mdash; each stage produces the next, culminating in hope that does not shame us." },
+              { ref: "James 1:2-4", text: "Count it all joy, my brothers, when you meet trials of various kinds, for you know that the testing of your faith produces steadfastness. And let steadfastness have its full effect, that you may be perfect and complete, lacking in nothing.", insight: "James commands a reframing: trials are the means by which faith reaches its full maturity (<em>teleios</em>). This is not denial but a deeper reading of what God is doing." },
+              { ref: "2 Corinthians 1:3-4", text: "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort, who comforts us in all our affliction, so that we may be able to comfort those who are in any affliction, with the comfort with which we ourselves are comforted by God.", insight: "The comfort received in suffering becomes the very content of the comfort we can give others. God redeems suffering by making it the source of compassion." },
+              { ref: "Psalm 22:1-2", text: "My God, my God, why have you forsaken me? Why are you so far from saving me, so far from my cries of anguish? O my God, I cry by day, but you do not answer, and by night, but I find no rest.", insight: "Jesus quoted this psalm from the cross. Lament is not lack of faith &mdash; it is faith crying out in the dark, addressed to the God who is still &ldquo;my God.&rdquo;" },
+              { ref: "Isaiah 53:3-4", text: "He was despised and rejected by men, a man of sorrows and acquainted with grief; and as one from whom men hide their faces he was despised, and we esteemed him not. Surely he has borne our griefs and carried our sorrows.", insight: "The Servant&rsquo;s description is the foundation of Christian suffering: we do not suffer alone but with One who is acquainted with grief and who has borne our sorrows." },
+              { ref: "Revelation 21:4", text: "He will wipe away every tear from their eyes, and death shall be no more, neither shall there be mourning, nor crying, nor pain anymore, for the former things have passed away.", insight: "The eschatological horizon of all Christian suffering: not endless pain but its final end. Present suffering is held within the arc of a story that ends with God&rsquo;s own tenderness drying every tear." },
+            ].map(s => (
+              <div key={s.ref} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+                <div style={{ color: ACCENT, fontWeight: 700, marginBottom: "0.5rem", fontSize: "0.95rem" }}>{s.ref}</div>
+                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.7, margin: "0 0 0.6rem" }} dangerouslySetInnerHTML={{ __html: s.text }} />
+                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6, margin: 0 }} dangerouslySetInnerHTML={{ __html: s.insight }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* JOURNAL */}
+        {tab === "journal" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.5rem 1.75rem" }}>
+              <h2 style={{ color: ACCENT, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 0.4rem" }}>Suffering &amp; Promise Journal</h2>
+              <p style={{ color: MUTED, fontSize: "0.88rem", margin: "0 0 1.25rem", lineHeight: 1.6 }}>Private and stored only on this device. No account required.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>What pain or suffering are you carrying right now?</label>
+                  <textarea
+                    value={jPain}
+                    onChange={e => setJPain(e.target.value)}
+                    placeholder="Name it honestly — grief, illness, loss, confusion, abandonment..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>What promise of God are you holding onto?</label>
+                  <textarea
+                    value={jPromise}
+                    onChange={e => setJPromise(e.target.value)}
+                    placeholder="A verse, a name of God, a truth you are anchoring to even when you cannot feel it..."
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", color: MUTED, fontSize: "0.82rem", marginBottom: "0.3rem", fontWeight: 600, letterSpacing: 0.5 }}>How are you responding to God in this season?</label>
+                  <textarea
+                    value={jResponse}
+                    onChange={e => setJResponse(e.target.value)}
+                    placeholder="Lament, trust, anger, waiting, surrender — what is your honest response?"
+                    style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.75rem", color: TEXT, fontSize: "0.93rem", lineHeight: 1.6, resize: "vertical", boxSizing: "border-box" }}
+                  />
+                </div>
+              </div>
+              <button onClick={saveEntry} style={{ marginTop: "1rem", padding: "0.6rem 1.5rem", background: ACCENT, border: "none", borderRadius: 8, color: "#fff", cursor: "pointer", fontWeight: 700, fontSize: "0.93rem" }}>Save Entry</button>
+            </div>
+            {entries.map(e => (
+              <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "1.25rem 1.5rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
+                  <span style={{ color: MUTED, fontSize: "0.82rem" }}>{e.date}</span>
+                  <button onClick={() => deleteEntry(e.id)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: "0.82rem" }}>Delete</button>
+                </div>
+                {e.pain && <div style={{ marginBottom: "0.5rem" }}><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Pain</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.pain}</p></div>}
+                {e.promise && <div style={{ marginBottom: "0.5rem" }}><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Promise</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.promise}</p></div>}
+                {e.response && <div><span style={{ color: ACCENT, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>Response</span><p style={{ color: TEXT, lineHeight: 1.6, margin: "0.2rem 0 0", whiteSpace: "pre-wrap", fontSize: "0.93rem" }}>{e.response}</p></div>}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* VIDEOS */}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: ACCENT, margin: "0 0 0.5rem" }}>Videos</h2>
+            <VideoEmbed videoId="rtkS_8VWfB0" title="The Gift of Suffering — Tim Keller" />
+            <VideoEmbed videoId="ej_6dVdJSIU" title="Suffering and the Sovereignty of God — Ligonier Ministries" />
+            <VideoEmbed videoId="4Eg_di-O8nM" title="Don't Waste Your Cancer — John Piper" />
+            <VideoEmbed videoId="gV9JugO_5Mk" title="When the Darkness Doesn't Lift — The Gospel Coalition" />
+          </div>
+        )}
+
       </main>
       <Footer />
     </div>

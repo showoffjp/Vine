@@ -872,6 +872,14 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Full Armor of God": "spiritual-warfare-guide",
   "Spiritual Warfare Prayer Guide": "spiritual-warfare-guide",
   "Demonic Warfare": "spiritual-warfare-guide",
+  "Christian Marriage Preparation": "christian-marriage-prep",
+  "Premarital Counseling Christian": "christian-marriage-prep",
+  "Marriage Prep Bible": "christian-marriage-prep",
+  "Preparing for Marriage Christian": "christian-marriage-prep",
+  "Biblical Fatherhood": "biblical-fatherhood",
+  "Christian Father": "biblical-fatherhood",
+  "Godly Father": "biblical-fatherhood",
+  "Fatherhood Scripture": "biblical-fatherhood",
 };
 
 
@@ -1424,6 +1432,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Suffering Theology" },
   { label: "Singleness" },
   { label: "Spiritual Warfare" },
+  { label: "Christian Marriage Prep" },
+  { label: "Biblical Fatherhood" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

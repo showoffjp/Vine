@@ -825,6 +825,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Parenting Faith": "raising-christian-children",
   "Deuteronomy 6 Parenting": "raising-christian-children",
   "Teaching Faith to Kids": "raising-christian-children",
+  "Biblical Social Justice": "social-justice-guide",
+  "Social Justice Christianity": "social-justice-guide",
+  "Prophets and Justice": "social-justice-guide",
+  "Christian Justice Advocacy": "social-justice-guide",
+  "Justice and Poverty": "social-justice-guide",
+  "Christian Witness Workplace": "christian-witness-workplace",
+  "Faith at Work": "christian-witness-workplace",
+  "Workplace Evangelism": "christian-witness-workplace",
+  "Christian Professional Integrity": "christian-witness-workplace",
+  "Theology of Work Witness": "christian-witness-workplace",
 };
 
 
@@ -1366,6 +1376,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Mentoring" },
   { label: "Sharing Your Testimony" },
   { label: "Raising Christian Children" },
+  { label: "Biblical Social Justice" },
+  { label: "Christian Witness Workplace" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

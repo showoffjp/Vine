@@ -949,6 +949,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Giving Guide": "christian-giving",
   "Biblical Generosity": "christian-giving",
   "Stewardship Christian Giving": "christian-giving",
+  "Christian Doubt Guide": "christian-doubt-guide",
+  "Handling Doubt Christian": "christian-doubt-guide",
+  "Faith and Doubt": "christian-doubt-guide",
+  "Scripture Memorization Guide": "scripture-memorization",
+  "How to Memorize Bible": "scripture-memorization",
+  "Bible Memorization Guide": "scripture-memorization",
 };
 
 
@@ -1522,6 +1528,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Fasting" },
   { label: "Church History Guide" },
   { label: "Christian Giving" },
+  { label: "Christian Doubt Guide" },
+  { label: "Scripture Memorization" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

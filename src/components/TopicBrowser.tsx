@@ -860,6 +860,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Environmentalism": "christian-environmentalism",
   "Stewardship Environment": "christian-environmentalism",
   "Biblical Ecology": "christian-environmentalism",
+  "Suffering Theology Guide": "theology-of-suffering",
+  "Theodicy Christian": "theology-of-suffering",
+  "Problem of Evil Christian": "theology-of-suffering",
+  "Why Christians Suffer": "theology-of-suffering",
+  "Singleness Christian Calling": "christian-singleness",
+  "Single Christian Life": "christian-singleness",
+  "Singleness as Gift": "christian-singleness",
+  "Celibacy Christian": "christian-singleness",
+  "Spiritual Warfare Bible Guide": "spiritual-warfare-guide",
+  "Full Armor of God": "spiritual-warfare-guide",
+  "Spiritual Warfare Prayer Guide": "spiritual-warfare-guide",
+  "Demonic Warfare": "spiritual-warfare-guide",
 };
 
 
@@ -1409,6 +1421,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Leadership" },
   { label: "Church Planting" },
   { label: "Creation Care" },
+  { label: "Suffering Theology" },
+  { label: "Singleness" },
+  { label: "Spiritual Warfare" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1065,6 +1065,14 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Courage in Faith": "christian-courage",
   "Christian Wisdom": "christian-wisdom",
   "Walking in Wisdom": "christian-wisdom",
+  "Christian Hope": "christian-hope",
+  "Hope in Christ": "christian-hope",
+  "Christian Joy": "christian-joy",
+  "Joy of the Lord": "christian-joy",
+  "Christian Peace": "christian-peace",
+  "Peace of God": "christian-peace",
+  "Christian Gratitude": "christian-gratitude",
+  "Grateful Heart": "christian-gratitude",
 };
 
 
@@ -1685,6 +1693,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Honesty" },
   { label: "Christian Courage" },
   { label: "Christian Wisdom" },
+  { label: "Christian Hope" },
+  { label: "Christian Joy" },
+  { label: "Christian Peace" },
+  { label: "Christian Gratitude" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

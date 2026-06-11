@@ -786,6 +786,20 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Aging": "aging-well-christian",
   "Growing Old Gracefully": "aging-well-christian",
   "Legacy Planning Christian": "aging-well-christian",
+  "Small Group Guide": "small-group-guide",
+  "Starting Small Group": "small-group-guide",
+  "Leading Small Group": "small-group-guide",
+  "Small Group Covenant": "small-group-guide",
+  "One Anothers": "small-group-guide",
+  "Christian Rest": "christian-rest",
+  "Rest as Spiritual Practice": "christian-rest",
+  "Sabbath Rest Theology": "christian-rest",
+  "Theology of Sleep": "christian-rest",
+  "Forgiveness Practice": "forgiveness-practice",
+  "How to Forgive": "forgiveness-practice",
+  "Practical Forgiveness Guide": "forgiveness-practice",
+  "REACH Model Forgiveness": "forgiveness-practice",
+  "Forgiving the Unforgivable": "forgiveness-practice",
 };
 
 
@@ -1319,6 +1333,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Athlete" },
   { label: "Financial Planning" },
   { label: "Aging Well" },
+  { label: "Small Groups" },
+  { label: "Rest" },
+  { label: "Forgiveness Practice" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

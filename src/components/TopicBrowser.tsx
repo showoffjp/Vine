@@ -904,6 +904,22 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Addiction Recovery Gospel": "addiction-recovery-christian",
   "Celebrate Recovery": "addiction-recovery-christian",
   "Breaking Addiction Christian": "addiction-recovery-christian",
+  "Christian Apologetics Guide": "christian-apologetics-guide",
+  "Defending the Faith": "christian-apologetics-guide",
+  "God Exist Argument": "christian-apologetics-guide",
+  "Resurrection Evidence": "christian-apologetics-guide",
+  "Christian Race Relations": "christian-race-relations",
+  "Race and the Gospel": "christian-race-relations",
+  "Racial Reconciliation Church": "christian-race-relations",
+  "Multiethnic Church": "christian-race-relations",
+  "Theology of the Church": "theology-of-the-church",
+  "Ecclesiology Bible": "theology-of-the-church",
+  "What Is the Church": "theology-of-the-church",
+  "Church Membership Theology": "theology-of-the-church",
+  "Theology of Prayer New": "theology-of-prayer",
+  "Prayer Theology Guide": "theology-of-prayer",
+  "How Does Prayer Work": "theology-of-prayer",
+  "Contemplative Prayer Guide": "theology-of-prayer",
 };
 
 
@@ -1464,6 +1480,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Theology of Money" },
   { label: "Christian Counseling Guide" },
   { label: "Addiction Recovery" },
+  { label: "Christian Apologetics Guide" },
+  { label: "Race and the Gospel" },
+  { label: "Theology of the Church" },
+  { label: "Theology of Prayer" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

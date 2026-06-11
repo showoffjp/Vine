@@ -173,7 +173,7 @@ export default function LordsPrayerPage() {
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
-      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "0 16px 60px" }}>
+      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "0 16px 60px", paddingTop: "var(--header-height, 80px)" }}>
         <header style={{ textAlign: "center", padding: "48px 0 36px" }}>
           <span style={{ display: "inline-block", background: `${PURPLE}22`, color: PURPLE, border: `1px solid ${PURPLE}55`, padding: "5px 14px", borderRadius: 20, fontSize: 12, fontWeight: 800, letterSpacing: 1, textTransform: "uppercase", marginBottom: 18 }}>
             Matthew 6:9–13

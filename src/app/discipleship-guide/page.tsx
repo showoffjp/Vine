@@ -2,18 +2,9 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -94,11 +85,11 @@ const VIDEOS = [
 ];
 
 export default function DiscipleshipGuide() {
-  const [tab, setTab] = useLocalStorage("vine_discip_tab", "overview");
-  const [theolOpen, setTheolOpen] = useLocalStorage("vine_discip_theol", "");
-  const [costOpen, setCostOpen] = useLocalStorage("vine_discip_cost", "");
-  const [multOpen, setMultOpen] = useLocalStorage("vine_discip_mult", "");
-  const [journal, setJournal] = useLocalStorage("vine_discip_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_discip_tab", "overview");
+  const [theolOpen, setTheolOpen] = usePersistedState<string>("vine_discip_theol", "");
+  const [costOpen, setCostOpen] = usePersistedState<string>("vine_discip_cost", "");
+  const [multOpen, setMultOpen] = usePersistedState<string>("vine_discip_mult", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_discip_journal", "");
 
   const card = (body: React.ReactNode) => (
     <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "1.5rem" }}>{body}</div>
@@ -262,16 +253,7 @@ export default function DiscipleshipGuide() {
             {card(<div><h2 style={{ fontWeight: 800, color: TEXT, marginBottom: "0.5rem" }}>Video Teaching</h2><p style={{ color: MUTED, fontSize: "0.88rem" }}>Recommended videos on discipleship, disciple-making, and the cost of following Jesus.</p></div>)}
             <div style={{ marginTop: "1.5rem", display: "grid", gap: "1.5rem" }}>
               {VIDEOS.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
-                  <div style={{ padding: "1rem" }}>
-                    <p style={{ fontWeight: 700, color: TEXT, fontSize: "0.9rem" }}>{v.title}</p>
-                  </div>
-                </div>
+                <VideoEmbed key={v.videoId} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

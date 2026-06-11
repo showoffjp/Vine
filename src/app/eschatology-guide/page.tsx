@@ -2,19 +2,9 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import VideoEmbed from "@/components/VideoEmbed";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -209,11 +199,11 @@ const VIDEOS = [
 ];
 
 export default function EschatologyGuidePage() {
-  const [tab, setTab] = useLocalStorage("vine_escha_tab", "overview");
-  const [openMill, setOpenMill] = useLocalStorage("vine_escha_mill", "");
-  const [openRap, setOpenRap] = useLocalStorage("vine_escha_rap", "");
-  const [openIsrael, setOpenIsrael] = useLocalStorage("vine_escha_israel", "");
-  const [journal, setJournal] = useLocalStorage("vine_escha_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_escha_tab", "overview");
+  const [openMill, setOpenMill] = usePersistedState<string>("vine_escha_mill", "");
+  const [openRap, setOpenRap] = usePersistedState<string>("vine_escha_rap", "");
+  const [openIsrael, setOpenIsrael] = usePersistedState<string>("vine_escha_israel", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_escha_journal", "");
 
   return (
     <>

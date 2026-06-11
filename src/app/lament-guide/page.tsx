@@ -3,22 +3,13 @@ import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 const GOLD = "#D97706", TEAL = "#0D9488", BLUE = "#3B82F6", RED = "#EF4444";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -162,10 +153,10 @@ const VIDEOS = [
 ];
 
 export default function LamentGuidePage() {
-  const [tab, setTab] = useLocalStorage("vine_lam_tab", "overview");
-  const [openWhy, setOpenWhy] = useLocalStorage("vine_lam_why", "");
-  const [openPsalm, setOpenPsalm] = useLocalStorage("vine_lam_psalm", "");
-  const [lamentText, setLamentText] = useLocalStorage("vine_lam_text", "");
+  const [tab, setTab] = usePersistedState<string>("vine_lam_tab", "overview");
+  const [openWhy, setOpenWhy] = usePersistedState<string>("vine_lam_why", "");
+  const [openPsalm, setOpenPsalm] = usePersistedState<string>("vine_lam_psalm", "");
+  const [lamentText, setLamentText] = usePersistedState<string>("vine_lam_text", "");
 
   const card = { background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "1.5rem" };
   const accordionBtn = (open: boolean, color: string) => ({
@@ -367,18 +358,7 @@ export default function LamentGuidePage() {
             <h2 style={{ fontWeight: 900, fontSize: "1.3rem", marginBottom: "1rem", color: TEAL }}>Video Teaching on Lament</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {VIDEOS.map((v) => (
-                <div key={v.videoId}>
-                  <div style={{ fontWeight: 700, marginBottom: "0.5rem", color: TEXT }}>{v.title}</div>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
-                  </div>
-                </div>
+                <VideoEmbed key={v.videoId} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

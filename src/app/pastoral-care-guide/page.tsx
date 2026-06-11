@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -15,17 +17,6 @@ const GOLD = "#D97706";
 const TEAL = "#0D9488";
 const BLUE = "#3B82F6";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -120,10 +111,10 @@ const VIDEOS = [
 ];
 
 export default function PastoralCareGuide() {
-  const [tab, setTab] = useLocalStorage("vine_pastoral_tab", "overview");
-  const [theolOpen, setTheolOpen] = useLocalStorage("vine_pastoral_theol", "");
-  const [discOpen, setDiscOpen] = useLocalStorage("vine_pastoral_disc", "");
-  const [journal, setJournal] = useLocalStorage("vine_pastoral_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_pastoral_tab", "overview");
+  const [theolOpen, setTheolOpen] = usePersistedState<string>("vine_pastoral_theol", "");
+  const [discOpen, setDiscOpen] = usePersistedState<string>("vine_pastoral_disc", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_pastoral_journal", "");
 
   return (
     <>
@@ -335,16 +326,7 @@ export default function PastoralCareGuide() {
             <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: "1.5rem", fontSize: "0.95rem" }}>Teaching on pastoral care, shepherding, and ministry to people in need.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
-                  <div style={{ padding: "0.9rem 1rem" }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.95rem" }}>{v.title}</div>
-                  </div>
-                </div>
+                <VideoEmbed key={v.videoId} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

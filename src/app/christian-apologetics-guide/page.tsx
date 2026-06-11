@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import VideoEmbed from "@/components/VideoEmbed";
 import { ChevronDown, ChevronUp, Shield, BookOpen, AlertCircle } from "lucide-react";
 
@@ -19,17 +20,6 @@ const RED = "#EF4444";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -180,11 +170,11 @@ const VIDEOS = [
 ];
 
 export default function ChristianApologeticsGuidePage() {
-  const [tab, setTab] = useLocalStorage("vine_apol_tab", "overview");
-  const [openArg, setOpenArg] = useLocalStorage("vine_apol_arg", "");
-  const [openObj, setOpenObj] = useLocalStorage("vine_apol_obj", "");
-  const [openAppr, setOpenAppr] = useLocalStorage("vine_apol_appr", "");
-  const [journal, setJournal] = useLocalStorage("vine_apol_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_apol_tab", "overview");
+  const [openArg, setOpenArg] = usePersistedState<string>("vine_apol_arg", "");
+  const [openObj, setOpenObj] = usePersistedState<string>("vine_apol_obj", "");
+  const [openAppr, setOpenAppr] = usePersistedState<string>("vine_apol_appr", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_apol_journal", "");
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>

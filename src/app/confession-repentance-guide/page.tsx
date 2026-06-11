@@ -1,16 +1,10 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
-function useLocalStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try { const s = localStorage.getItem(key); if (s !== null) setValue(JSON.parse(s)); } catch {}
-  }, [key]);
-  const set = useCallback((v: T) => { setValue(v); try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }, [key]);
-  return [value, set] as const;
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56",
   PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3", GOLD = "#D97706",
@@ -69,18 +63,18 @@ const VIDEOS = [
 ];
 
 export default function ConfessionRepentanceGuidePage() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_conf_tab", 0);
-  const [openWord, setOpenWord] = useLocalStorage("vine_conf_word", -1);
-  const [openPs51, setOpenPs51] = useLocalStorage("vine_conf_ps51", -1);
-  const [openSorrow, setOpenSorrow] = useLocalStorage("vine_conf_sorrow", -1);
-  const [openCom, setOpenCom] = useLocalStorage("vine_conf_com", -1);
-  const [openAfter, setOpenAfter] = useLocalStorage("vine_conf_after", -1);
-  const [journal, setJournal] = useLocalStorage("vine_conf_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_conf_tab", "Overview");
+  const [openWord, setOpenWord] = useState<number>(-1);
+  const [openPs51, setOpenPs51] = useState<number>(-1);
+  const [openSorrow, setOpenSorrow] = useState<number>(-1);
+  const [openCom, setOpenCom] = useState<number>(-1);
+  const [openAfter, setOpenAfter] = useState<number>(-1);
+  const [journal, setJournal] = usePersistedState<string>("vine_conf_journal", "");
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+      <main id="main-content" style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "3rem", marginBottom: ".5rem" }}>🙇</div>
           <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", fontWeight: 900, color: TEXT, marginBottom: ".5rem" }}>Confession and Repentance</h1>
@@ -89,13 +83,13 @@ export default function ConfessionRepentanceGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "2rem", justifyContent: "center" }}>
-          {TABS.map((t, i) => (
-            <button key={t} onClick={() => setActiveTab(i)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === i ? PURPLE : BORDER}`, background: activeTab === i ? `${PURPLE}22` : CARD, color: activeTab === i ? PURPLE : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === t ? PURPLE : BORDER}`, background: activeTab === t ? `${PURPLE}22` : CARD, color: activeTab === t ? PURPLE : MUTED, fontWeight: activeTab === t ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
           ))}
         </div>
 
         {/* Tab 0: Overview */}
-        {activeTab === 0 && (
+        {activeTab === "Overview" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.4rem", marginBottom: "1rem" }}>Overview: The Gift of Repentance</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1rem" }}>Repentance is not a gloomy obligation but a liberating gift. It is the God-given capacity to turn — to change direction from death toward life, from autonomy toward relationship, from self-destruction toward restoration. The Reformers called it one of the central graces of the Christian life, practiced not once at conversion but continuously, daily.</p>
@@ -112,7 +106,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 1: Biblical Words */}
-        {activeTab === 1 && (
+        {activeTab === "Biblical Words" && (
           <div>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Biblical Words for Repentance</h2>
             {BIBLICAL_WORDS.map((item, i) => (
@@ -128,7 +122,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 2: Psalm 51 */}
-        {activeTab === 2 && (
+        {activeTab === "Psalm 51" && (
           <div>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Psalm 51 — The Model Penitential Prayer</h2>
             {PSALM51_ITEMS.map((item, i) => (
@@ -144,7 +138,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 3: Godly Sorrow */}
-        {activeTab === 3 && (
+        {activeTab === "Godly Sorrow" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Godly Sorrow vs. Worldly Sorrow</h2>
             {GODLY_SORROW.map((item, i) => (
@@ -160,7 +154,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 4: Prodigal Son */}
-        {activeTab === 4 && (
+        {activeTab === "Prodigal Son" && (
           <div>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Prodigal Son — Repentance Illustrated</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -180,7 +174,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 5: Community Confession */}
-        {activeTab === 5 && (
+        {activeTab === "Community Confession" && (
           <div>
             <h2 style={{ color: BLUE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Confession in Community</h2>
             {COMMUNITY_ITEMS.map((item, i) => (
@@ -196,7 +190,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 6: After Repentance */}
-        {activeTab === 6 && (
+        {activeTab === "After Repentance" && (
           <div>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Grace That Follows Repentance</h2>
             {AFTER_REPENTANCE.map((item, i) => (
@@ -212,7 +206,7 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 7: Journal */}
-        {activeTab === 7 && (
+        {activeTab === "Journal" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: ".5rem" }}>Study Journal</h2>
             <p style={{ color: MUTED, marginBottom: "1rem", fontSize: ".9rem" }}>Reflect on confession and repentance. Your notes are saved locally.</p>
@@ -232,25 +226,12 @@ export default function ConfessionRepentanceGuidePage() {
         )}
 
         {/* Tab 8: Videos */}
-        {activeTab === 8 && (
+        {activeTab === "Videos" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Video Resources</h2>
             <div style={{ display: "grid", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
-                <div key={v.videoId} style={{ background: CARD, borderRadius: 14, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
-                  </div>
-                  <div style={{ padding: "1rem" }}>
-                    <div style={{ color: TEXT, fontWeight: 700 }}>{v.title}</div>
-                  </div>
-                </div>
+                <VideoEmbed key={v.videoId} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

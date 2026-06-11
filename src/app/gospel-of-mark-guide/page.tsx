@@ -1,17 +1,10 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import VideoEmbed from "@/components/VideoEmbed";
 
-function useLocalStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try { const s = localStorage.getItem(key); if (s !== null) setValue(JSON.parse(s)); } catch {}
-  }, [key]);
-  const set = useCallback((v: T) => { setValue(v); try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }, [key]);
-  return [value, set] as const;
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56",
   PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3", GOLD = "#D97706",
@@ -54,16 +47,16 @@ const VIDEOS = [
 ];
 
 export default function GospelOfMarkGuidePage() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_mark_tab", 0);
-  const [openSec, setOpenSec] = useLocalStorage("vine_mark_sec", -1);
-  const [openSom, setOpenSom] = useLocalStorage("vine_mark_som", -1);
-  const [openPas, setOpenPas] = useLocalStorage("vine_mark_pas", -1);
-  const [journal, setJournal] = useLocalStorage("vine_mark_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_mark_tab", "Overview");
+  const [openSec, setOpenSec] = useState<number>(-1);
+  const [openSom, setOpenSom] = useState<number>(-1);
+  const [openPas, setOpenPas] = useState<number>(-1);
+  const [journal, setJournal] = usePersistedState<string>("vine_mark_journal", "");
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem", paddingTop: "var(--header-height, 80px)" }}>
+      <main id="main-content" style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "3rem", marginBottom: ".5rem" }}>⚡</div>
           <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", fontWeight: 900, color: TEXT, marginBottom: ".5rem" }}>The Gospel of Mark</h1>
@@ -72,13 +65,13 @@ export default function GospelOfMarkGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "2rem", justifyContent: "center" }}>
-          {TABS.map((t, i) => (
-            <button key={t} onClick={() => setActiveTab(i)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === i ? RED : BORDER}`, background: activeTab === i ? `${RED}22` : CARD, color: activeTab === i ? RED : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === t ? RED : BORDER}`, background: activeTab === t ? `${RED}22` : CARD, color: activeTab === t ? RED : MUTED, fontWeight: activeTab === t ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
           ))}
         </div>
 
         {/* Tab 0: Overview */}
-        {activeTab === 0 && (
+        {activeTab === "Overview" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.4rem", marginBottom: "1rem" }}>Overview of Mark's Gospel</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1rem" }}>Mark is the shortest and almost certainly the earliest Gospel, written around AD 65–70, possibly during Nero's persecution of Christians in Rome. It opens without a birth narrative or genealogy: "The beginning of the good news about Jesus the Messiah, the Son of God" — and immediately Jesus appears as an adult at the Jordan, already moving toward the cross.</p>
@@ -95,7 +88,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 1: Immediately! */}
-        {activeTab === 1 && (
+        {activeTab === "Immediately!" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Mark's Urgency: Immediately!</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1.5rem" }}>Mark's favorite word is euthys — immediately, at once, straightway. It appears more than 40 times in 16 chapters, giving the narrative its breathless, urgent quality. The kingdom of God arrives not gradually but suddenly, decisively, irruptively. Mark's portrait of Jesus is of someone in constant, purposeful motion toward the cross.</p>
@@ -114,7 +107,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 2: Messianic Secret */}
-        {activeTab === 2 && (
+        {activeTab === "Messianic Secret" && (
           <div>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Messianic Secret</h2>
             {SECRET_ITEMS.map((item, i) => (
@@ -130,7 +123,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 3: Miracles */}
-        {activeTab === 3 && (
+        {activeTab === "Miracles" && (
           <div>
             <h2 style={{ color: BLUE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Miracles and Authority</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -150,7 +143,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 4: Son of Man */}
-        {activeTab === 4 && (
+        {activeTab === "Son of Man" && (
           <div>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Son of Man</h2>
             {SON_OF_MAN.map((item, i) => (
@@ -166,7 +159,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 5: Discipleship Failure */}
-        {activeTab === 5 && (
+        {activeTab === "Discipleship Failure" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Disciples' Failure to Understand</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1.5rem" }}>Mark is ruthlessly honest about the disciples. They are dull, fearful, ambitious, and ultimately abandon Jesus. This is not incidental — it is theological. Mark shows that the cross cannot be understood before it happens; the disciples' failure illustrates the human inability to grasp a cruciform Messiah.</p>
@@ -185,7 +178,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 6: Passion */}
-        {activeTab === 6 && (
+        {activeTab === "Passion" && (
           <div>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Passion Narrative (Chapters 11–16)</h2>
             {PASSION_ITEMS.map((item, i) => (
@@ -201,7 +194,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 7: Journal */}
-        {activeTab === 7 && (
+        {activeTab === "Journal" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: ".5rem" }}>Study Journal</h2>
             <p style={{ color: MUTED, marginBottom: "1rem", fontSize: ".9rem" }}>Reflect on your study of Mark. Your notes are saved locally.</p>
@@ -221,7 +214,7 @@ export default function GospelOfMarkGuidePage() {
         )}
 
         {/* Tab 8: Videos */}
-        {activeTab === 8 && (
+        {activeTab === "Videos" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Video Resources</h2>
             <div style={{ display: "grid", gap: "1.5rem" }}>

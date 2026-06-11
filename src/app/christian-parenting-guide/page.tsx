@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -14,17 +16,6 @@ const MUTED = "#9898B3";
 const GOLD = "#D97706";
 const TEAL = "#0D9488";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -201,10 +192,10 @@ const VIDEOS = [
 ];
 
 export default function ChristianParentingGuide() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_parent_tab", "overview");
-  const [openTheol, setOpenTheol] = useLocalStorage("vine_parent_theol", "");
-  const [openDisc, setOpenDisc] = useLocalStorage("vine_parent_disc", "");
-  const [journal, setJournal] = useLocalStorage("vine_parent_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_parent_tab", "overview");
+  const [openTheol, setOpenTheol] = usePersistedState<string>("vine_parent_theol", "");
+  const [openDisc, setOpenDisc] = usePersistedState<string>("vine_parent_disc", "");
+  const [journal, setJournal] = usePersistedState<string>("vine_parent_journal", "");
 
   return (
     <>
@@ -403,16 +394,7 @@ export default function ChristianParentingGuide() {
             <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Video Teaching</h2>
             <div style={{ display: "grid", gap: 20 }}>
               {VIDEOS.map((v, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-                  </div>
-                  <div style={{ padding: "12px 16px" }}>
-                    <p style={{ color: TEXT, fontWeight: 600, fontSize: 14 }}>{v.title}</p>
-                  </div>
-                </div>
+                <VideoEmbed key={i} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

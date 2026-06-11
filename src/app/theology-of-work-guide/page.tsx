@@ -1,16 +1,10 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
-function useLocalStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try { const s = localStorage.getItem(key); if (s !== null) setValue(JSON.parse(s)); } catch {}
-  }, [key]);
-  const set = useCallback((v: T) => { setValue(v); try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }, [key]);
-  return [value, set] as const;
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56",
   PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3", GOLD = "#D97706",
@@ -66,16 +60,16 @@ const VIDEOS = [
 ];
 
 export default function TheologyOfWorkGuidePage() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_work_tab", 0);
-  const [openCreate, setOpenCreate] = useLocalStorage("vine_work_create", -1);
-  const [openFall, setOpenFall] = useLocalStorage("vine_work_fall", -1);
-  const [openEtern, setOpenEtern] = useLocalStorage("vine_work_etern", -1);
-  const [journal, setJournal] = useLocalStorage("vine_work_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_work_tab", "Overview");
+  const [openCreate, setOpenCreate] = useState<number>(-1);
+  const [openFall, setOpenFall] = useState<number>(-1);
+  const [openEtern, setOpenEtern] = useState<number>(-1);
+  const [journal, setJournal] = usePersistedState<string>("vine_work_journal", "");
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+      <main id="main-content" style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "3rem", marginBottom: ".5rem" }}>⚒️</div>
           <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", fontWeight: 900, color: TEXT, marginBottom: ".5rem" }}>A Theology of Work</h1>
@@ -84,13 +78,13 @@ export default function TheologyOfWorkGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "2rem", justifyContent: "center" }}>
-          {TABS.map((t, i) => (
-            <button key={t} onClick={() => setActiveTab(i)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === i ? GREEN : BORDER}`, background: activeTab === i ? `${GREEN}22` : CARD, color: activeTab === i ? GREEN : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === t ? GREEN : BORDER}`, background: activeTab === t ? `${GREEN}22` : CARD, color: activeTab === t ? GREEN : MUTED, fontWeight: activeTab === t ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
           ))}
         </div>
 
         {/* Tab 0: Overview */}
-        {activeTab === 0 && (
+        {activeTab === "Overview" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.4rem", marginBottom: "1rem" }}>Overview: Why a Theology of Work?</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1rem" }}>Most Christians spend more waking hours working than in any other activity, yet receive almost no theological formation for it. A theology of work asks: What does the gospel have to say about Monday morning? How is my nine-to-five related to the kingdom of God? Is secular work spiritually meaningful, or do I just endure it until I can do real ministry?</p>
@@ -107,7 +101,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 1: Creation & Work */}
-        {activeTab === 1 && (
+        {activeTab === "Creation & Work" && (
           <div>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Work in Creation (Genesis 1–2)</h2>
             {CREATION_ITEMS.map((item, i) => (
@@ -123,7 +117,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 2: Work & the Fall */}
-        {activeTab === 2 && (
+        {activeTab === "Work & the Fall" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Work After the Fall</h2>
             {FALL_ITEMS.map((item, i) => (
@@ -139,7 +133,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 3: Calling & Vocation */}
-        {activeTab === 3 && (
+        {activeTab === "Calling & Vocation" && (
           <div>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Calling and Vocation</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -159,7 +153,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 4: Work as Worship */}
-        {activeTab === 4 && (
+        {activeTab === "Work as Worship" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Work as Worship</h2>
             {WORSHIP_ITEMS.map((item, i) => (
@@ -172,7 +166,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 5: Rest & Sabbath */}
-        {activeTab === 5 && (
+        {activeTab === "Rest & Sabbath" && (
           <div>
             <h2 style={{ color: BLUE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Rest and the Sabbath</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -192,7 +186,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 6: Work in Eternity */}
-        {activeTab === 6 && (
+        {activeTab === "Work in Eternity" && (
           <div>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Work in the New Creation</h2>
             {ETERNITY_ITEMS.map((item, i) => (
@@ -212,7 +206,7 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 7: Journal */}
-        {activeTab === 7 && (
+        {activeTab === "Journal" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: ".5rem" }}>Study Journal</h2>
             <p style={{ color: MUTED, marginBottom: "1rem", fontSize: ".9rem" }}>Reflect on your theology of work. Your notes are saved locally.</p>
@@ -232,25 +226,12 @@ export default function TheologyOfWorkGuidePage() {
         )}
 
         {/* Tab 8: Videos */}
-        {activeTab === 8 && (
+        {activeTab === "Videos" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Video Resources</h2>
             <div style={{ display: "grid", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
-                <div key={v.videoId} style={{ background: CARD, borderRadius: 14, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
-                  </div>
-                  <div style={{ padding: "1rem" }}>
-                    <div style={{ color: TEXT, fontWeight: 700 }}>{v.title}</div>
-                  </div>
-                </div>
+                <VideoEmbed key={v.videoId} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

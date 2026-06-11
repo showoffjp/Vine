@@ -2,19 +2,9 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import VideoEmbed from "@/components/VideoEmbed";
 
-function useLocalStorage(key: string, init: string): [string, (v: string) => void] {
-  const [val, setVal] = useState<string>(() => {
-    if (typeof window === "undefined") return init;
-    return localStorage.getItem(key) ?? init;
-  });
-  const setter = (v: string) => {
-    setVal(v);
-    if (typeof window !== "undefined") localStorage.setItem(key, v);
-  };
-  return [val, setter];
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -176,8 +166,8 @@ const VIDEOS = [
 ];
 
 export default function AtonementGuidePage() {
-  const [tab, setTab] = useLocalStorage("vine_aton_tab", "overview");
-  const [journal, setJournal] = useLocalStorage("vine_aton_journal", "");
+  const [tab, setTab] = usePersistedState<string>("vine_aton_tab", "overview");
+  const [journal, setJournal] = usePersistedState<string>("vine_aton_journal", "");
 
   return (
     <>

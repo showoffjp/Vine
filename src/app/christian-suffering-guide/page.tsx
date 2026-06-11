@@ -1,16 +1,10 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VideoEmbed from "@/components/VideoEmbed";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
-function useLocalStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
-  useEffect(() => {
-    try { const s = localStorage.getItem(key); if (s !== null) setValue(JSON.parse(s)); } catch {}
-  }, [key]);
-  const set = useCallback((v: T) => { setValue(v); try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }, [key]);
-  return [value, set] as const;
-}
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", GREEN = "#3a7d56",
   PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3", GOLD = "#D97706",
@@ -60,17 +54,17 @@ const VIDEOS = [
 ];
 
 export default function ChristianSufferingGuidePage() {
-  const [activeTab, setActiveTab] = useLocalStorage("vine_suf_tab", 0);
-  const [openCross, setOpenCross] = useLocalStorage("vine_suf_cross", -1);
-  const [openPaul, setOpenPaul] = useLocalStorage("vine_suf_paul", -1);
-  const [openJob, setOpenJob] = useLocalStorage("vine_suf_job", -1);
-  const [openChrist, setOpenChrist] = useLocalStorage("vine_suf_christ", -1);
-  const [journal, setJournal] = useLocalStorage("vine_suf_journal", "");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_suf_tab", "Overview");
+  const [openCross, setOpenCross] = useState<number>(-1);
+  const [openPaul, setOpenPaul] = useState<number>(-1);
+  const [openJob, setOpenJob] = useState<number>(-1);
+  const [openChrist, setOpenChrist] = useState<number>(-1);
+  const [journal, setJournal] = usePersistedState<string>("vine_suf_journal", "");
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui,sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
-      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+      <main id="main-content" style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "3rem", marginBottom: ".5rem" }}>🕊️</div>
           <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.4rem)", fontWeight: 900, color: TEXT, marginBottom: ".5rem" }}>A Theology of Christian Suffering</h1>
@@ -79,13 +73,13 @@ export default function ChristianSufferingGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "2rem", justifyContent: "center" }}>
-          {TABS.map((t, i) => (
-            <button key={t} onClick={() => setActiveTab(i)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === i ? BLUE : BORDER}`, background: activeTab === i ? `${BLUE}22` : CARD, color: activeTab === i ? BLUE : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ padding: ".5rem 1.1rem", borderRadius: 20, border: `1px solid ${activeTab === t ? BLUE : BORDER}`, background: activeTab === t ? `${BLUE}22` : CARD, color: activeTab === t ? BLUE : MUTED, fontWeight: activeTab === t ? 700 : 400, cursor: "pointer", fontSize: ".85rem" }}>{t}</button>
           ))}
         </div>
 
         {/* Tab 0: Overview */}
-        {activeTab === 0 && (
+        {activeTab === "Overview" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: BLUE, fontWeight: 800, fontSize: "1.4rem", marginBottom: "1rem" }}>Overview: The Christian and Suffering</h2>
             <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: "1rem" }}>No theological question presses harder on faith than suffering. Why does a good, all-powerful God allow it? Why do the righteous suffer? What do I do when God is silent? Where is God in my pain? The Bible does not offer simple answers, but it offers something better: honest engagement, divine solidarity, and eschatological hope.</p>
@@ -102,7 +96,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 1: Theology of Cross */}
-        {activeTab === 1 && (
+        {activeTab === "Theology of Cross" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Cross as God's Answer to Suffering</h2>
             {CROSS_ITEMS.map((item, i) => (
@@ -118,7 +112,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 2: Paul on Suffering */}
-        {activeTab === 2 && (
+        {activeTab === "Paul on Suffering" && (
           <div>
             <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Paul's Theology of Suffering</h2>
             {PAUL_ITEMS.map((item, i) => (
@@ -134,7 +128,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 3: Job & Theodicy */}
-        {activeTab === 3 && (
+        {activeTab === "Job & Theodicy" && (
           <div>
             <h2 style={{ color: GOLD, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Job and the Problem of Suffering</h2>
             {JOB_ITEMS.map((item, i) => (
@@ -150,7 +144,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 4: Psalms of Lament */}
-        {activeTab === 4 && (
+        {activeTab === "The Psalms of Lament" && (
           <div>
             <h2 style={{ color: BLUE, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>The Psalms of Lament</h2>
             <div style={{ display: "grid", gap: "1rem" }}>
@@ -170,7 +164,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 5: Suffering with Christ */}
-        {activeTab === 5 && (
+        {activeTab === "Suffering with Christ" && (
           <div>
             <h2 style={{ color: TEAL, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Suffering with Christ</h2>
             {CHRIST_SUFFERING_ITEMS.map((item, i) => (
@@ -186,7 +180,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 6: Grief & Hope */}
-        {activeTab === 6 && (
+        {activeTab === "Grief & Hope" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Grief and Hope — Held Together</h2>
             <blockquote style={{ borderLeft: `3px solid ${GREEN}`, paddingLeft: "1rem", color: MUTED, fontStyle: "italic", lineHeight: 1.8, marginBottom: "1.5rem" }}>
@@ -208,7 +202,7 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 7: Journal */}
-        {activeTab === 7 && (
+        {activeTab === "Journal" && (
           <div style={{ background: CARD, borderRadius: 16, border: `1px solid ${BORDER}`, padding: "2rem" }}>
             <h2 style={{ color: GREEN, fontWeight: 800, fontSize: "1.3rem", marginBottom: ".5rem" }}>Study Journal</h2>
             <p style={{ color: MUTED, marginBottom: "1rem", fontSize: ".9rem" }}>Reflect on your theology of suffering. Your notes are saved locally.</p>
@@ -228,25 +222,12 @@ export default function ChristianSufferingGuidePage() {
         )}
 
         {/* Tab 8: Videos */}
-        {activeTab === 8 && (
+        {activeTab === "Videos" && (
           <div>
             <h2 style={{ color: RED, fontWeight: 800, fontSize: "1.3rem", marginBottom: "1.2rem" }}>Video Resources</h2>
             <div style={{ display: "grid", gap: "1.5rem" }}>
               {VIDEOS.map(v => (
-                <div key={v.videoId} style={{ background: CARD, borderRadius: 14, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
-                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    />
-                  </div>
-                  <div style={{ padding: "1rem" }}>
-                    <div style={{ color: TEXT, fontWeight: 700 }}>{v.title}</div>
-                  </div>
-                </div>
+                <VideoEmbed key={v.videoId} videoId={v.videoId} title={v.title} />
               ))}
             </div>
           </div>

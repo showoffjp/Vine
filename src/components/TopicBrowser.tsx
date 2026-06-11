@@ -1079,6 +1079,8 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Decision Making God's Way": "christian-decision-making",
   "Christian Friendship": "christian-friendship",
   "Friendship in Christ": "christian-friendship",
+  "Aging with Grace": "christian-aging",
+  "Aging Faithfully": "christian-aging",
 };
 
 
@@ -1706,6 +1708,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Calling" },
   { label: "Christian Decision Making" },
   { label: "Christian Friendship" },
+  { label: "Aging with Grace" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

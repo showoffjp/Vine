@@ -128,6 +128,8 @@ const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Church History Timeline", href: "/church-history-timeline" },
   { label: "Joel Guide", href: "/joel-guide" },
   { label: "Philemon Guide", href: "/philemon-guide" },
+  { label: "Women of the Bible", href: "/women-of-the-bible" },
+  { label: "Heroes of Faith", href: "/heroes-of-faith" },
   { label: "Book of Galatians Guide", href: "/galatians-guide" },
   { label: "Women in Scripture Guide", href: "/women-theology-guide" },
   { label: "Book of Philippians Guide", href: "/philippians-guide" },

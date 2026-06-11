@@ -312,7 +312,7 @@ export default function MentorshipPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       {/* Hero */}
       <div
         style={{

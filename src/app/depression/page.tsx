@@ -155,7 +155,7 @@ export default function DepressionPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif" }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       {/* Hero */}
       <div style={{ background: "linear-gradient(180deg, rgba(107,79,187,0.08) 0%, transparent 100%)", padding: "80px 24px 48px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
         <div style={{ fontSize: 52, marginBottom: 12 }}>🌑</div>

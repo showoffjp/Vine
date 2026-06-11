@@ -162,7 +162,7 @@ export default function OnboardingPage() {
       style={{ background: "#07070F" }}
     >
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"

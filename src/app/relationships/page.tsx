@@ -258,7 +258,7 @@ export default function RelationshipsPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}

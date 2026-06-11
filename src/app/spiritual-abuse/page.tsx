@@ -67,7 +67,7 @@ export default function SpiritualAbusePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ background: "linear-gradient(180deg, rgba(107,79,187,0.10) 0%, transparent 100%)", padding: "80px 24px 48px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
         <div style={{ fontSize: 52, marginBottom: 12 }}>⚠️</div>
         <h1 style={{ fontSize: "clamp(28px, 5vw, 50px)", fontWeight: 900, lineHeight: 1.1, marginBottom: 12 }}>Spiritual Abuse</h1>

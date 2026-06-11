@@ -48,7 +48,7 @@ export default function CatholicFaithPage() {
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh", fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
-      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "0 16px 60px" }}>
+      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 1100, margin: "0 auto", padding: "0 16px 60px" }}>
 
         {/* Hero */}
         <div style={{ textAlign: "center", padding: "56px 0 40px" }}>

@@ -185,7 +185,7 @@ export default function EatingDisorderRecoveryChristianFaith() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
         <div style={{ background: `linear-gradient(135deg, ${ACCENT}18 0%, transparent 60%)`, borderBottom: `1px solid ${BORDER}`, padding: "4rem 1.5rem 3rem" }}>
           <div style={{ maxWidth: 760, margin: "0 auto" }}>
             <div style={{ display: "inline-block", background: `${ACCENT}22`, border: `1px solid ${ACCENT}44`, borderRadius: 20, padding: "4px 14px", fontSize: "0.75rem", fontWeight: 700, color: ACCENT, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1.2rem" }}>Body & Recovery</div>

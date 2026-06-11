@@ -201,7 +201,7 @@ export default function PneumatologyGuidePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT }}>
       <Navbar />
-      <main style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 900, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
         <div style={{ marginBottom: "2rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
             <span style={{ fontSize: "2rem" }}>🔥</span>

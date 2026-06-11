@@ -783,7 +783,7 @@ export default function ChristianMusicPage() {
   return (
     <div style={{ background: "#07070F", minHeight: "100vh", color: "#F2F2F8" }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       {/* ── Header ── */}
       <section
         style={{

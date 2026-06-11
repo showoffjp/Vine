@@ -1055,7 +1055,7 @@ export default function BiblePage() {
         }
       `}</style>
       <Navbar />
-      <main style={{ maxWidth: 1400, margin: "0 auto", padding: "0 16px 60px" }}>
+      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 1400, margin: "0 auto", padding: "0 16px 60px" }}>
 
         {/* Header */}
         <div style={{ textAlign: "center", padding: "104px 0 32px" }}>

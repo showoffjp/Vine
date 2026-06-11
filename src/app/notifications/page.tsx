@@ -407,7 +407,7 @@ export default function NotificationsPage() {
   return (
     <div style={{ background: "#07070F", minHeight: "100vh", color: "#F2F2F8" }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
 
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "100px 24px 80px" }}>
         {/* Page header */}

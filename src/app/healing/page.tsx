@@ -842,7 +842,7 @@ export default function HealingPage() {
       }}
     >
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       {/* Hero Header */}
       <div
         style={{

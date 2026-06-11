@@ -176,7 +176,7 @@ export default function BibliologyGuide() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "system-ui, sans-serif" }}>
       <Navbar />
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 4rem" }}>
+      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 4rem" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <div style={{ display: "inline-block", background: "rgba(212,119,6,0.12)", border: `1px solid rgba(212,119,6,0.25)`, borderRadius: 20, padding: "0.35rem 1rem", fontSize: "0.78rem", color: GOLD, fontWeight: 600, marginBottom: "1rem" }}>

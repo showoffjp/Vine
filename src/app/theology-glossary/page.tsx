@@ -295,7 +295,7 @@ export default function TheologyGlossaryPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ background: "linear-gradient(135deg, #070714 0%, #07070F 100%)", padding: "52px 24px 36px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
         <div style={{ fontSize: 44, marginBottom: 10 }}>🎓</div>
         <h1 style={{ fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Theology Glossary</h1>

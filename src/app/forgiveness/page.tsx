@@ -247,7 +247,7 @@ export default function ForgivenessPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
 
       {/* Hero */}
       <div style={{

@@ -203,7 +203,7 @@ export default function FruitOfTheSpiritPage() {
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
-      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "0 16px 60px" }}>
+      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 1100, margin: "0 auto", padding: "0 16px 60px" }}>
         <header style={{ textAlign: "center", padding: "48px 0 36px" }}>
           <span style={{ display: "inline-block", background: `${GREEN}1A`, color: GREEN, border: `1px solid ${GREEN}55`, padding: "5px 14px", borderRadius: 20, fontSize: 12, fontWeight: 800, letterSpacing: 1, textTransform: "uppercase", marginBottom: 18 }}>
             Galatians 5:22–23

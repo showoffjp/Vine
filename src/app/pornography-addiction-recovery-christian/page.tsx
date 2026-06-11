@@ -193,7 +193,7 @@ export default function PornographyAddictionRecoveryChristian() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
         {/* Hero */}
         <div style={{ background: `linear-gradient(135deg, ${ACCENT}18 0%, transparent 60%)`, borderBottom: `1px solid ${BORDER}`, padding: "4rem 1.5rem 3rem" }}>
           <div style={{ maxWidth: 760, margin: "0 auto" }}>

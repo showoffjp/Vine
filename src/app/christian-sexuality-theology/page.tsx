@@ -354,7 +354,7 @@ export default function ChristianSexualityPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "40px 20px 80px" }}>
+      <main style={{ paddingTop: "var(--header-height, 80px)", maxWidth: 860, margin: "0 auto", padding: "40px 20px 80px" }}>
         {/* Header */}
         <div style={{ marginBottom: 36 }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>

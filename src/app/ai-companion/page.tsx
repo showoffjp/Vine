@@ -422,7 +422,7 @@ export default function AICompanionPage() {
 
       <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "#07070F" }}>
         <Navbar />
-        <main id="main-content">
+        <main id="main-content" style={{ paddingTop: "var(--header-height, 80px)" }}>
 
         {/* ── Top bar ───────────────────────────────────────────────────────── */}
         <div

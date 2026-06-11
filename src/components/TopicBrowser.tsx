@@ -835,6 +835,19 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Workplace Evangelism": "christian-witness-workplace",
   "Christian Professional Integrity": "christian-witness-workplace",
   "Theology of Work Witness": "christian-witness-workplace",
+  "Advent Guide": "advent-guide",
+  "Advent Season": "advent-guide",
+  "Preparing for Christmas Advent": "advent-guide",
+  "Theology of Waiting Advent": "advent-guide",
+  "Lent Guide": "lent-guide",
+  "Lent Season": "lent-guide",
+  "Ash Wednesday Lent": "lent-guide",
+  "Fasting Lent": "lent-guide",
+  "End of Life Care Christian": "end-of-life-care",
+  "Dying Well Christian": "end-of-life-care",
+  "Christian Death Theology": "end-of-life-care",
+  "Hospice Christian": "end-of-life-care",
+  "Caring for the Dying": "end-of-life-care",
 };
 
 
@@ -1378,6 +1391,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Raising Christian Children" },
   { label: "Biblical Social Justice" },
   { label: "Christian Witness Workplace" },
+  { label: "Advent Guide" },
+  { label: "Lent Guide" },
+  { label: "End of Life Care" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

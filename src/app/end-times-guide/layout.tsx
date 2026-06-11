@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "End Times Guide",
-  description: "A clear-headed survey of eschatology — the timeline of the end, the rapture debate, millennium views, and principles for studying prophecy. Hold your system with conviction; hold it with humility.",
-  openGraph: {
-    title: "End Times Guide — Vine",
-    description: "A clear-headed survey of eschatology — the timeline of the end, the rapture debate, millennium views, and principles for studying prophecy. Hold your system with conviction; hold it with humility.",
-    images: ["/api/og?title=End+Times+Guide"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "End Times Guide — Vine",
-    description: "A clear-headed survey of eschatology — the timeline of the end, the rapture debate, millennium views, and principles for studying prophecy. Hold your system with conviction; hold it with humility.",
-    images: ["/api/og?title=End+Times+Guide"],
-  },
+  title: "End Times Guide: Eschatology, the Millennium, and New Creation | Vine",
+  description:
+    "A guide to Christian eschatology — the already/not yet framework, the major views on the millennium, the resurrection body, new creation, and how the end shapes present faithfulness.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

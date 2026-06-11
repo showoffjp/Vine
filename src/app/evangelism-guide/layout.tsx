@@ -1,9 +1,19 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Evangelism: A Comprehensive Guide to Sharing Your Faith | Vine",
-  description:
-    "A comprehensive guide to Christian evangelism — the biblical theology of sharing the faith, the message of the gospel, how to start spiritual conversations, common objections and responses, compassion evangelism, the relationship between evangelism and social justice, and how to build a culture of witness.",
+  title: "Evangelism Guide — Vine",
+  description: "The theology, practice, and courage of sharing the gospel — from the Great Commission to everyday conversations with the people you already know.",
+  openGraph: {
+    title: "Evangelism Guide — Vine",
+    description: "The theology, practice, and courage of sharing the gospel — from the Great Commission to everyday conversations with the people you already know.",
+    images: ["/api/og?title=Evangelism+Guide"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Evangelism Guide — Vine",
+    description: "The theology, practice, and courage of sharing the gospel — from the Great Commission to everyday conversations with the people you already know.",
+    images: ["/api/og?title=Evangelism+Guide"],
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

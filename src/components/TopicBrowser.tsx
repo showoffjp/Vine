@@ -967,6 +967,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Repentance Guide": "repentance-guide",
   "How to Repent Christian": "repentance-guide",
   "True Repentance Guide": "repentance-guide",
+  "Christian Community": "christian-community",
+  Community: "christian-community",
+  "Church Community": "christian-community",
+  "End Times Guide": "end-times-guide",
+  "Eschatology Guide": "end-times-guide",
+  "Bible Prophecy Guide": "end-times-guide",
 };
 
 
@@ -1546,6 +1552,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Lord's Supper Guide" },
   { label: "Christian Mental Health" },
   { label: "Repentance Guide" },
+  { label: "Christian Community" },
+  { label: "End Times Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

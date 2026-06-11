@@ -1,9 +1,19 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Theology of Beauty & the Arts | Vine",
-  description:
-    "A Christian theology of beauty, creativity, and the arts — from the Creator God who made a beautiful world to the image-bearers who make beautiful things. How art, music, and creativity reflect and glorify God.",
+  title: "Theology of Beauty — Vine",
+  description: "God is not only true and good — he is beautiful. A theology of aesthetics, art, and creativity rooted in the character of the Creator and the calling of his image-bearers.",
+  openGraph: {
+    title: "Theology of Beauty — Vine",
+    description: "God is not only true and good — he is beautiful. A theology of aesthetics, art, and creativity rooted in the character of the Creator and the calling of his image-bearers.",
+    images: ["/api/og?title=Theology+of+Beauty"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Theology of Beauty — Vine",
+    description: "God is not only true and good — he is beautiful. A theology of aesthetics, art, and creativity rooted in the character of the Creator and the calling of his image-bearers.",
+    images: ["/api/og?title=Theology+of+Beauty"],
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

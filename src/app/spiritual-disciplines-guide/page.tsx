@@ -8,8 +8,10 @@ import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const RED = "#EF4444";
+const GOLD = "#D97706";
 
-type Tab = "disciplines" | "rhythms" | "resources" | "voices" | "journal" | "videos";
+type Tab = "disciplines" | "traditions" | "rhythms" | "resources" | "voices" | "journal" | "videos";
 
 const SDG_VIDEOS = [
   { videoId: "rtkS_8VWfB0", title: "The Spiritual Disciplines — Dallas Willard and Tim Keller", channel: "Gospel in Life", description: "How Willard's framework for spiritual formation through disciplined practices shaped a generation of Christian leaders." },
@@ -159,6 +161,159 @@ const DISCIPLINES = [
     scripture: "Luke 5:16; 1 Kings 19:12; Psalm 62:1",
     initials: "SS",
   },
+  {
+    name: "Intercessory Prayer",
+    tradition: "Universal",
+    color: GREEN,
+    category: "Prayer",
+    time_needed: "20-60 min",
+    difficulty: "Beginner",
+    description: "The practice of sustained prayer for others — standing before God on behalf of another person, community, or need. The church fathers understood intercession through the Old Testament images of Moses lifting his arms on the hill (Exodus 17) and Abraham negotiating with God over Sodom (Genesis 18). Intercessory prayer is not a shopping list delivered to a vending machine but a participation in God's redemptive work for the world. It is the priestly function of every believer.",
+    how_to: "Maintain a written prayer list organized by category: family, friends, church, neighbors, city, nation, missionaries. Each day, pray through one or two sections fully rather than rushing through the whole list superficially. Pray Scripture into specific situations. Record answers — seeing prayers answered builds faith for continued intercession. Set a fixed time: early morning intercession is the historic pattern of the church.",
+    common_mistake: "Treating intercession as information transfer — giving God facts he already knows. Intercession is relational, persistent engagement. Jesus taught the parable of the persistent widow to show that God honors sustained, faithful asking.",
+    recommended_resource: "Ole Hallesby, Prayer (Augsburg); E.M. Bounds, Power Through Prayer",
+    scripture: "1 Timothy 2:1; Romans 8:26-27; Exodus 17:11-12",
+    initials: "INT",
+  },
+  {
+    name: "Simplicity",
+    tradition: "Quaker / Franciscan",
+    color: "#10B981",
+    category: "Life",
+    time_needed: "Ongoing",
+    difficulty: "Advanced",
+    description: "Voluntary detachment from possessions, status, and consumption as a spiritual discipline. Simplicity is not poverty — it is freedom. Francis of Assisi's embrace of Lady Poverty was not asceticism for its own sake but a declaration of absolute dependence on God. John Wesley's rule — earn all you can, save all you can, give all you can — is one of the most radical financial disciplines in Protestant history. Richard Foster distinguishes inner simplicity (freedom from acquisitiveness) from outer simplicity (the practices that make that inner freedom visible).",
+    how_to: "Begin with an audit: what do you own that owns you? Identify possessions, digital habits, or status markers that generate anxiety, pride, or identity. Systematically loosen your grip — give things away, downgrade where possible, refuse the upgrade. Practice regular giving beyond tithe as a discipline of detachment. As Foster notes: simplicity is not about having less — it is about being governed by different values.",
+    common_mistake: "Making simplicity into an aesthetic (minimalism as lifestyle brand) rather than a spiritual discipline. Minimalism can become a new form of pride — look how simply I live. True simplicity is invisible; it does not announce itself.",
+    recommended_resource: "Richard Foster, Freedom of Simplicity (HarperOne); Sider, Rich Christians in an Age of Hunger",
+    scripture: "Matthew 6:19-21; Luke 12:15; 1 Timothy 6:6-8",
+    initials: "SIM",
+  },
+  {
+    name: "Service",
+    tradition: "Universal",
+    color: RED,
+    category: "Action",
+    time_needed: "Variable",
+    difficulty: "Beginner",
+    description: "Deliberate, unrecognized service as a spiritual discipline — not volunteer work for resume purposes, but the kind of serving that nobody notices. Jesus washed feet the night before he was crucified. Benedict's Rule instructed monks to receive guests as they would receive Christ, assigning the lowest members of the community to the most menial tasks. Dallas Willard argued that service is one of the most effective disciplines for training the ego out of us, because it places us in situations where we receive no credit, no recognition, and no advancement.",
+    how_to: "Identify one act of anonymous service per week — something that will never be known, credited, or rewarded by anyone but God. Over time, add structured commitments: regular service in your local church in an unglamorous role, serving in your neighborhood, caring for a specific person in need. The test of service as discipline: would you still do it if no one ever found out?",
+    common_mistake: "Serving from depletion — giving what you do not have, from a tank that is already empty. Service as a discipline requires solitude and prayer as its foundation. You cannot give what you have not received.",
+    recommended_resource: "Mark Scandrette, Practicing the Way of Jesus (IVP); Gary Haugen, Just Courage",
+    scripture: "Mark 10:45; John 13:14-15; Matthew 25:40",
+    initials: "SVC",
+  },
+  {
+    name: "Study (as Discipline)",
+    tradition: "Universal / Reformed emphasis",
+    color: PURPLE,
+    category: "Scripture",
+    time_needed: "30-60 min",
+    difficulty: "Intermediate",
+    description: "The disciplined engagement with Scripture and theology as a means of formation — distinct from devotional reading. Where Lectio Divina asks what does this say to me, Study asks what does this mean and what does it require. The Reformed tradition has been the strongest Protestant advocate of doctrinal formation: the Westminster Larger Catechism is a curriculum of study-as-formation. Dallas Willard argued that Study is the discipline most directly aimed at mortifying ignorance — and that willful ignorance of Scripture is itself a spiritual problem, not merely an intellectual one.",
+    how_to: "Use a structured Bible reading plan (professor Grant Horner's system, or M'Cheyne). Study with a good study Bible (ESV Study Bible) and a single-volume commentary (IVP Bible Background Commentary). Add one theology book per quarter. Memorize key passages from what you study — do not merely pass through the material. Keep a study journal where you record observations, questions, and applications.",
+    common_mistake: "Substituting study for prayer and relationship with God. The Pharisees studied the Scriptures intensively and missed Christ entirely. Study must be held together with Lectio, prayer, and community to be formative rather than merely informational.",
+    recommended_resource: "Howard Hendricks, Living by the Book (Moody); Gordon Fee & Douglas Stuart, How to Read the Bible for All Its Worth",
+    scripture: "2 Timothy 2:15; Ezra 7:10; Acts 17:11",
+    initials: "STD",
+  },
+];
+
+const TRADITIONS = [
+  {
+    id: "ignatian",
+    name: "Ignatian Spirituality",
+    color: PURPLE,
+    founder: "Ignatius of Loyola (1491-1556)",
+    keyText: "The Spiritual Exercises",
+    summary: "Centers formation on imaginative prayer, discernment of spirits, consolation/desolation, and finding God in all things. The Daily Examen is its signature practice.",
+    distinctives: [
+      "Discernment of spirits — reading interior movements of consolation and desolation",
+      "Imaginative prayer — placing yourself in the biblical scene using all five senses",
+      "Contemplation in action — finding God in the midst of ordinary life, not just in retreat",
+      "The Spiritual Exercises — a 30-day guided retreat for deep interior transformation",
+    ],
+    bestFor: "People who struggle with anxiety, decision-making, or finding God in ordinary life; those drawn to prayer through imagination and narrative",
+    caution: "The emphasis on experience can sometimes blur into subjectivism — always bring interior movements to Scripture and a spiritual director",
+    keyPractices: ["Daily Examen", "Lectio Divina", "Contemplative prayer", "Journaling as discernment"],
+    recommendedEntry: "Jim Manney, A Simple Life-Changing Prayer (Daily Examen); then David Fleming, What Is Ignatian Spirituality?",
+  },
+  {
+    id: "reformed",
+    name: "Reformed/Puritan Spirituality",
+    color: GREEN,
+    founder: "John Calvin, the English Puritans (16th-17th c.)",
+    keyText: "The Institutes of the Christian Religion; The Westminster Standards",
+    summary: "Grounds formation in the sovereignty of God, systematic study of Scripture, careful doctrinal formation, and structured corporate worship. The means of grace — Word, sacrament, prayer — are central.",
+    distinctives: [
+      "Scripture as the primary and sufficient means of grace",
+      "Systematic Bible reading and doctrinal study as disciplines",
+      "Corporate worship and preaching as formative, not supplementary",
+      "Self-examination before Communion as a regular practice",
+      "Family worship — heads of households leading prayer and Scripture at home",
+    ],
+    bestFor: "People who are intellectually oriented; those who need doctrinal grounding before experiential practice; those who thrive in structure",
+    caution: "Can produce intellectualism without transformation — knowing more without becoming more. The Puritans themselves warned against this: head knowledge that never reaches the affections.",
+    keyPractices: ["Scripture memory", "Extended Bible study", "Corporate worship", "Family devotions", "Lord's Day observance"],
+    recommendedEntry: "J.I. Packer, Knowing God; then John Owen, The Mortification of Sin",
+  },
+  {
+    id: "monastic",
+    name: "Monastic / Benedictine Spirituality",
+    color: "#3B82F6",
+    founder: "Benedict of Nursia (480-550 AD)",
+    keyText: "The Rule of Saint Benedict",
+    summary: "Organizes life around a Rule — a structured rhythm of prayer, work, and rest. The Divine Office (Liturgy of the Hours) structures the day around prayer at fixed times. Community, stability, and manual labor are treated as spiritual practices.",
+    distinctives: [
+      "Ora et Labora — pray and work as a single integrated calling",
+      "The Divine Office — structured prayer at fixed hours (morning, noon, evening, night)",
+      "Stability — commitment to a place and community as a spiritual discipline",
+      "Hospitality as a spiritual practice (Benedict: receive guests as you would receive Christ)",
+      "The abbot as a model of servant leadership — ruling but always serving",
+    ],
+    bestFor: "People who need structure and rhythm; those recovering from burnout; those drawn to liturgy and fixed-hour prayer",
+    caution: "Can become legalistic if the Rule becomes an end rather than a means. Benedict himself warned: the Rule is a school for beginners, not a final destination.",
+    keyPractices: ["Fixed-hour prayer (Liturgy of the Hours)", "Lectio Divina", "Sabbath rest", "Manual labor as prayer", "Hospitality"],
+    recommendedEntry: "Joan Chittister, The Rule of Benedict; then Mark Buchanan, The Rest of God (Sabbath)",
+  },
+  {
+    id: "charismatic",
+    name: "Charismatic/Pentecostal Spirituality",
+    color: RED,
+    founder: "Early Pentecostalism (Azusa Street, 1906); renewed in 1960s Charismatic movement",
+    keyText: "Acts 2; 1 Corinthians 12-14",
+    summary: "Centers formation on the immediate experience of the Holy Spirit — tongues, prophecy, healing, and the gifts of the Spirit as present-tense realities. Worship is expressive, prayer is expectant, and formation happens through direct encounter.",
+    distinctives: [
+      "Expectation of direct, immediate experience of the Holy Spirit",
+      "Spiritual gifts (charismata) as regular part of community life",
+      "Expressive, participatory worship as formation",
+      "Extended prayer, prayer with laying on of hands, prophetic prayer",
+      "Spiritual warfare prayer as a regular discipline",
+    ],
+    bestFor: "People who have become intellectually over-formed but experientially under-formed; those needing to move from head to heart",
+    caution: "Experience without doctrinal grounding can lead to spiritual instability or manipulation. Paul in 1 Corinthians was addressing a Charismatic church's excesses: test all things, hold fast what is good.",
+    keyPractices: ["Expressive worship", "Extended prayer", "Prophetic prayer", "Fasting and intercession", "Small group accountability"],
+    recommendedEntry: "Gordon Fee, God's Empowering Presence; then Jon Tyson, Beautiful Resistance",
+  },
+  {
+    id: "contemplative",
+    name: "Contemplative/Desert Spirituality",
+    color: GOLD,
+    founder: "The Desert Fathers and Mothers (3rd-4th c. Egypt); later Thomas Merton (20th c.)",
+    keyText: "The Sayings of the Desert Fathers (Apophthegmata); Thomas Merton, Contemplative Prayer",
+    summary: "Grounds formation in radical simplicity, extended silence, and apophatic prayer (approaching God through what he is not). The goal is purification of the heart through kenosis (self-emptying) so that God may fill what is emptied.",
+    distinctives: [
+      "Hesychasm — the pursuit of inner stillness as the path to divine encounter",
+      "Apophatic prayer — resting before God without agenda, concept, or image",
+      "Compunction — a deep, loving sorrow for sin that is not guilt but grief",
+      "The cell — a physical or interior space of solitude deliberately protected",
+      "Abba/Amma — the spiritual guide who knows your interior life and speaks truth into it",
+    ],
+    bestFor: "People in burnout, over-stimulation, or spiritual dryness; those who need to recover silence and interiority; advanced practitioners",
+    caution: "Can become too individualistic, and some contemplative practices imported from non-Christian traditions require careful theological evaluation. Centering Prayer in particular is debated among evangelicals.",
+    keyPractices: ["Centering Prayer", "Extended silence", "Lectio Divina", "The Jesus Prayer", "Desert retreats"],
+    recommendedEntry: "Henri Nouwen, The Way of the Heart (Desert Fathers); then Thomas Merton, The Seven Storey Mountain",
+  },
 ];
 
 const SAMPLE_RHYTHMS = [
@@ -186,6 +341,22 @@ const SAMPLE_RHYTHMS = [
     monthly: ["8-hour personal retreat day", "Review of Rule and adjustment"],
     best_for: "Those in intentional formation programs; spiritual directors; those in seasons of significant discernment",
   },
+  {
+    name: "The Ministry Leader's Rule",
+    color: GOLD,
+    daily: ["Personal Lectio Divina before sermon/teaching prep (30 min)", "The Daily Examen with particular attention to desolation (15 min)", "One unscheduled margin block — no ministry tasks"],
+    weekly: ["Full Sabbath — no ministry email, no pastoral availability", "One hour of intercessory prayer for congregation by name", "Physical rest and recreation as a non-negotiable"],
+    monthly: ["Spiritual direction (not supervision — a director who holds your soul, not your ministry outcomes)", "Half-day personal retreat away from church building", "Review: am I ministering from overflow or from depletion?"],
+    best_for: "Pastors, worship leaders, youth ministers, and anyone in vocational ministry who faces the specific temptation to minister to others while neglecting their own formation",
+  },
+  {
+    name: "The Recovery Rule",
+    color: RED,
+    daily: ["Morning: simply sit with God for 10 minutes without agenda", "One small physical practice (walk, rest, nourishment) treated as spiritual discipline", "Evening: name one thing you are grateful for and one thing you release"],
+    weekly: ["One extended period of complete rest (not productive rest — actual rest)", "One honest conversation with a trusted person about your interior state", "Gentle re-engagement with one simple practice (Examen or Lectio)"],
+    monthly: ["Meeting with a spiritual director or trusted counselor", "Gentle assessment: what is recovering? What still needs care?", "No new ministry commitments — protection of the recovering self"],
+    best_for: "People coming out of burnout, spiritual dryness, ministry failure, significant loss, or seasons of spiritual numbness where standard disciplines feel impossible",
+  },
 ];
 
 const RESOURCE_LIST = [
@@ -194,6 +365,10 @@ const RESOURCE_LIST = [
   { title: "The Life You Always Wanted", author: "John Ortberg", note: "Willard's ideas made maximally accessible for everyday believers. Ortberg's warm, pastoral voice and storytelling make this the most readable introduction to the disciplines.", color: "#3B82F6" },
   { title: "Sacred Rhythms", author: "Ruth Haley Barton", note: "Focused on establishing actual rhythms of spiritual practice — solitude, lectio divina, prayer, Sabbath — with deep pastoral wisdom from Barton's formation work at Transforming Center.", color: "#F59E0B" },
   { title: "Transforming Center (Ruth Haley Barton)", note: "The premier evangelical spiritual formation training center. Online courses, retreats, and resources. transformingcenter.org", author: "", color: "#10B981" },
+  { title: "The Ruthless Elimination of Hurry", author: "John Mark Comer", note: "The most-read contemporary treatment of the disciplines for a digital-age audience. Comer's diagnosis of hurry as the primary spiritual disease of the smartphone era, and his application of Willard's disciplines as the cure, has made this the most accessible entry point for millennials and Gen Z.", color: GOLD },
+  { title: "A Praying Life", author: "Paul Miller", note: "Recovers prayer from duty to delight by treating God as a person rather than a process. Miller's framework — pray like a child, bring your whole self, expect real responses — cuts through the performance anxiety that makes prayer feel impossible for many believers.", color: RED },
+  { title: "The Spiritual Exercises", author: "Ignatius of Loyola", note: "The original 30-day retreat guide that formed the Jesuit tradition and shaped five centuries of Catholic and Protestant spiritual direction. Even read as a text rather than practiced as a retreat, it is one of the most important documents in the history of Christian formation.", color: PURPLE },
+  { title: "Pray Without Ceasing (Transforming Center)", author: "Ruth Haley Barton", note: "Ruth Haley Barton's formation curriculum — an online course series covering solitude, prayer, Lectio Divina, and communal discernment. Among the most structured and well-resourced Protestant formation curricula available. transformingcenter.org", color: GREEN },
 ];
 
 const VOICES_SDG = [
@@ -247,7 +422,9 @@ const VOICES_SDG = [
 export default function SpiritualDisciplinesGuidePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_spiritual-disciplines-guide_tab", "disciplines");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_spiritual-disciplines-guide_voice", "foster-r");
+  const [selectedTradition, setSelectedTradition] = usePersistedState("vine_sdg_tradition", "ignatian");
   const voiceItem = VOICES_SDG.find(v => v.id === selectedVoice)!;
+  const traditionItem = TRADITIONS.find(t => t.id === selectedTradition)!;
   const [selected, setSelected] = useState<string | null>(null);
 
   const discipline = DISCIPLINES.find(d => d.name === selected);
@@ -266,6 +443,16 @@ export default function SpiritualDisciplinesGuidePage() {
   }
   function deleteJournalEntry(id: string) { setJournalEntries(prev => prev.filter(e => e.id !== id)); }
 
+  const TAB_LABELS: Record<Tab, string> = {
+    disciplines: "The Disciplines",
+    traditions: "Traditions",
+    rhythms: "Sample Rhythms",
+    resources: "Best Resources",
+    voices: "Voices",
+    journal: "📓 My Journal",
+    videos: "Videos",
+  };
+
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
       <Navbar />
@@ -280,11 +467,11 @@ export default function SpiritualDisciplinesGuidePage() {
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["disciplines", "rhythms", "resources", "voices", "journal", "videos"] as Tab[]).map(t => (
+        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
+          {(["disciplines", "traditions", "rhythms", "resources", "voices", "journal", "videos"] as Tab[]).map(t => (
             <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : t === "voices" ? "Voices" : t === "journal" ? "📓 My Journal" : "Videos"}
+              {TAB_LABELS[t]}
             </button>
           ))}
         </div>
@@ -339,6 +526,63 @@ export default function SpiritualDisciplinesGuidePage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {tab === "traditions" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {TRADITIONS.map(trad => (
+                <button type="button" key={trad.id} onClick={() => setSelectedTradition(trad.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedTradition === trad.id ? trad.color + "60" : BORDER}`, background: selectedTradition === trad.id ? trad.color + "12" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedTradition === trad.id ? trad.color : TEXT, marginBottom: 2 }}>{trad.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{trad.founder.split("(")[0].trim()}</div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${traditionItem.color}25`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 4 }}>Key text: {traditionItem.keyText}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: traditionItem.color }}>{traditionItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 18 }}>{traditionItem.founder}</div>
+
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 22 }}>{traditionItem.summary}</p>
+
+              <div style={{ background: `${traditionItem.color}08`, border: `1px solid ${traditionItem.color}18`, borderRadius: 10, padding: 16, marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: traditionItem.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Distinctives</div>
+                {traditionItem.distinctives.map((d, i) => (
+                  <div key={i} style={{ display: "flex", gap: 10, marginBottom: 8, alignItems: "flex-start" }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: traditionItem.color, flexShrink: 0, marginTop: 5 }} />
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{d}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 14 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Best For</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{traditionItem.bestFor}</p>
+                </div>
+                <div style={{ background: "#EF444408", border: "1px solid #EF444420", borderRadius: 8, padding: 14 }}>
+                  <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 10, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Caution</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{traditionItem.caution}</p>
+                </div>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Key Practices</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {traditionItem.keyPractices.map((p, i) => (
+                    <span key={i} style={{ background: `${traditionItem.color}15`, color: traditionItem.color, padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{p}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ background: BG, borderRadius: 10, padding: 16, borderLeft: `3px solid ${traditionItem.color}` }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Recommended Entry Point</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{traditionItem.recommendedEntry}</p>
+              </div>
+            </div>
           </div>
         )}
 

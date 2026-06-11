@@ -719,6 +719,11 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Study Ten Commandments": "ten-commandments-study",
   "Commandments Deep Dive": "ten-commandments-study",
   "Moral Law Study": "ten-commandments-study",
+  "Prayer and Fasting Guide": "prayer-fasting-guide",
+  "Fasting and Prayer": "prayer-fasting-guide",
+  "How to Fast Christian": "prayer-fasting-guide",
+  "Biblical Fasting Guide": "prayer-fasting-guide",
+  "Fasting Prayer Discipline": "prayer-fasting-guide",
 };
 
 
@@ -1234,6 +1239,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Bible Memory" },
   { label: "Fear of Death" },
   { label: "Sabbath Rest" },
+  { label: "Prayer & Fasting" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

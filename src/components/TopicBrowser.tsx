@@ -1031,6 +1031,14 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Bible Study Guide": "bible-study-guide",
   "How to Study the Bible": "bible-study-guide",
   "Bible Study Methods": "bible-study-guide",
+  "Sabbath Guide": "sabbath-guide",
+  "Practicing Sabbath": "sabbath-guide",
+  "Lord's Day Guide": "sabbath-guide",
+  "Christian Sex Guide": "christian-sex-guide",
+  "Sex in Christian Marriage": "christian-sex-guide",
+  "Christian Marriage Guide": "christian-marriage-guide",
+  "Marriage Enrichment Christian": "christian-marriage-guide",
+  "Christian Rest Guide": "christian-rest",
 };
 
 
@@ -1634,6 +1642,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Forgiveness Guide" },
   { label: "Christian Fear Guide" },
   { label: "Bible Study Guide" },
+  { label: "Sabbath Guide" },
+  { label: "Christian Sex Guide" },
+  { label: "Christian Marriage Guide" },
+  { label: "Christian Rest Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

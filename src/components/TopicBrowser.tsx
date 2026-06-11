@@ -924,6 +924,13 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Sexual Ethics Christian": "christian-sexuality",
   "Christian Sexual Ethics": "christian-sexuality",
   "Sexuality and Faith": "christian-sexuality",
+  "Christian Discipleship Guide": "christian-discipleship",
+  "Following Jesus Guide": "christian-discipleship",
+  "Discipleship Formation": "christian-discipleship",
+  "Holy Spirit Guide": "holy-spirit-guide",
+  "Spiritual Gifts Guide": "holy-spirit-guide",
+  "Pneumatology Guide": "holy-spirit-guide",
+  "Work of the Holy Spirit": "holy-spirit-guide",
 };
 
 
@@ -1489,6 +1496,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Theology of the Church" },
   { label: "Theology of Prayer" },
   { label: "Christian Sexuality" },
+  { label: "Christian Discipleship" },
+  { label: "Holy Spirit Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

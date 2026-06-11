@@ -14,7 +14,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "curriculum" | "resources" | "journal" | "videos";
+type Tab = "theology" | "practices" | "lifestages" | "curriculum" | "leadership" | "resources" | "journal" | "videos";
 
 const theologyPoints = [
   {
@@ -40,7 +40,164 @@ const theologyPoints = [
   {
     title: "Fatherhood as Discipleship",
     content: "Deuteronomy 6 places the primary responsibility for spiritual formation squarely on fathers: talk about these things when you sit at home, when you walk along the road, when you lie down, when you rise. The crisis of absent fatherhood — physically or spiritually — is the most significant upstream cause of nearly every social pathology we face. But the church can also raise up spiritual fathers (1 Corinthians 4:15 — Paul as father in the faith). Older men mentoring younger men is not a program idea; it is the apostolic pattern. The man who invests in younger men is fulfilling one of the most sacred callings available to him."
+  },
+  {
+    title: "The Danger of the Elder Brother",
+    content: "Luke 15:25-32 presents one of Scripture's most penetrating portraits of the religious man: the elder brother who is present but not celebratory, who serves but does not love, who is technically faithful but spiritually hollow. He has kept the rules, stayed home, and done his duty — and is furious when grace is extended to the prodigal. This is one of the most specific warnings in Scripture aimed at men who are already in the church, already serving, already morally respectable. The elder-brother spirit is pride disguised as faithfulness. The man who resents God's grace toward others has revealed that he was serving for a wage, not out of love. This failure is subtler and harder to diagnose than the prodigal's failure, which is why Jesus told the story."
+  },
+  {
+    title: "Men Who Wept: Emotional Honesty in Scripture",
+    content: "John 11:35 records that Jesus wept at the tomb of Lazarus without embarrassment or apology — in public, in front of both his disciples and his opponents. Jeremiah complained to God with remarkable directness: 'You deceived me, LORD, and I was deceived' (Jeremiah 20:7). Psalm 22 opens with the raw cry of desolation: 'My God, my God, why have you forsaken me?' The men of Scripture were not stoic. They grieved, raged, wept, complained, and cried out. The suppression of male emotion is a cultural imposition, not a biblical one. The church that holds up an image of Christian manhood as perpetual composure is not following the pattern of Christ, the prophets, or the psalmists. Men who cannot name their grief, fear, or sorrow are not stronger — they are more isolated, more prone to explosion, and less able to empathize with those they lead."
   }
+];
+
+const LIFE_STAGES = [
+  {
+    stage: "Young Man (18-30)",
+    icon: "🔥",
+    color: "#EF4444",
+    challenges: [
+      "Identity formation detached from career success",
+      "Sexual integrity in the digital age (pornography)",
+      "Marriage readiness vs. prolonged adolescence",
+      "Finding mentors and meaningful male community",
+      "Establishing spiritual disciplines before life's demands peak"
+    ],
+    callings: [
+      "1 John 2:14 — 'young men, you are strong, and the word of God abides in you, and you have overcome the evil one'",
+      "Flee youthful passions, pursue righteousness, faith, love (2 Tim 2:22)",
+      "Find a Barnabas (mentor) and a Timothy (someone to invest in)"
+    ],
+    discipleshipFocus: "Establishing the foundation — daily Scripture, accountability, sexual purity, spiritual disciplines. A young man who builds these habits before marriage and children will carry them for life; one who doesn't will struggle to establish them under the pressures of the next stage.",
+    practicalStep: "Find one older man (5-10 years ahead in life stage) who will meet you monthly. Prepare 3 specific questions each time. Don't just absorb — bring something back.",
+  },
+  {
+    stage: "Early Family Man (30-45)",
+    icon: "🏡",
+    color: "#3B82F6",
+    challenges: [
+      "Marriage health under the weight of young children and career pressure",
+      "Spiritual leadership of home that doesn't feel performative or crushing",
+      "Maintaining male friendships as everyone's schedules implode",
+      "Career ambition potentially displacing family priority",
+      "The temptation to give church leadership what should go to family"
+    ],
+    callings: [
+      "Ephesians 5:25 — love your wife as Christ loved the church",
+      "Deuteronomy 6:7 — teach your children when you sit, walk, lie down, rise up",
+      "Titus 2:2 — pattern for older men teaching younger"
+    ],
+    discipleshipFocus: "The crisis of this stage: most men are maximally busy precisely when maximum investment is required at home. The disciplines must be non-negotiable or they will simply not happen. Family devotions, even imperfect ones, matter. The father who prays with his children five minutes each morning will have more lasting impact than the father who attends every men's retreat.",
+    practicalStep: "Start a family worship rhythm. Even 5 minutes: read one passage, ask one question, pray one prayer together. Do it before you're ready. Don't wait for a system.",
+  },
+  {
+    stage: "Mid-Life Man (45-60)",
+    icon: "⚓",
+    color: "#6B4FBB",
+    challenges: [
+      "Mid-life disorientation — achievement and still feeling empty",
+      "The second half question: is this all there is?",
+      "Marriage entering the post-children season — the relationship that remains",
+      "Health, mortality, and stewardship of the body",
+      "The danger of career plateau producing bitterness or despair"
+    ],
+    callings: [
+      "Moses at 80 beginning his greatest work (Num 11-12)",
+      "Caleb at 85 asking for the hill country (Joshua 14:12)",
+      "The man who plants trees whose shade he will never sit under"
+    ],
+    discipleshipFocus: "Mid-life is the most theologically rich season for men who have eyes to see it. The world's promises have been tested and found partly wanting. The man at 50 knows that career success does not satisfy, that health is uncertain, and that children leave. This can produce either bitter disillusionment or a deep, durable faith that the younger man cannot yet have. The mid-life man who stewards this season well becomes the most powerful discipler in the congregation.",
+    practicalStep: "Write down 5 things you believed at 25 about what would make you happy. Evaluate each one honestly. What has held? What has failed? Bring these to God and to a trusted friend.",
+  },
+  {
+    stage: "Empty Nest / Pre-Retirement (60-70)",
+    icon: "🌳",
+    color: "#10B981",
+    challenges: [
+      "Purpose redefinition after children leave",
+      "Marriage rediscovery — who are we now that it's just us?",
+      "Health management and stewardship of remaining capacity",
+      "Financial faithfulness — enough vs. more",
+      "The temptation to coast spiritually because the hard parenting years are over"
+    ],
+    callings: [
+      "The elder statesman calling — Titus 2:2, older men teaching younger",
+      "Caleb's spirit: 'give me this hill country'",
+      "Paul at the end: 'I have fought the good fight, finished the race'"
+    ],
+    discipleshipFocus: "The empty nest season is a gift for men who use it wisely — time and perspective that the younger man cannot have. The church desperately needs men at this stage who have enough wisdom to be honest about their failures and enough life experience to be credible. The most neglected ministry in most churches is older men investing in younger men. This is the season to do it.",
+    practicalStep: "Identify one younger man in your church (20s or 30s) who is at the stage you were 25 years ago. Reach out. Invite him to breakfast. Come prepared to talk about what you've learned — both what worked and what you'd do differently.",
+  },
+  {
+    stage: "Senior Man (70+)",
+    icon: "👑",
+    color: "#D97706",
+    challenges: [
+      "Health limitations and the spiritual discipline of receiving care",
+      "Grief — spouses, friends, capacities lost",
+      "Leaving a legacy that outlasts the man himself",
+      "The temptation to disengage from the church's life when capacity decreases",
+      "Fear of death honestly faced and theologically equipped"
+    ],
+    callings: [
+      "Psalm 71:18 — 'declare your power to the next generation, your mighty acts to all who are to come'",
+      "Simeon in the temple — finishing well, eyes having seen salvation",
+      "Paul writing 2 Timothy from prison — pouring out to the end"
+    ],
+    discipleshipFocus: "The senior man's most powerful spiritual act may be dying well — dying with hope, with trust, with the witness of a man who has banked everything on what he preached. This is not morbidity; it is Paul in Philippians 1:21. The man who can say 'to live is Christ and to die is gain' with genuine conviction, not just as a doctrinal position, is the most powerful testimony in the congregation. The senior man who continues to pray, serve, and invest even as capacity diminishes is the cloud of witnesses made visible.",
+    practicalStep: "Write a letter to the significant younger people in your life — children, grandchildren, church members you have mentored — describing what you have learned about God. Seal it to be opened when you die or at age 80, whichever comes first.",
+  },
+];
+
+const LEADERSHIP_PRINCIPLES = [
+  {
+    title: "Servant Leadership Is Not Passive Leadership",
+    verse: "Mark 10:42-45",
+    body: "Jesus's most direct teaching on leadership: 'Whoever wants to be great among you must be your servant, and whoever wants to be first must be slave of all.' This is not a call to passivity or indecision. The servant-leader initiates, decides, and bears the weight of outcomes — but he does so for others, not for himself. The distinction between servant leadership and passive leadership is this: the servant-leader gives himself for others' flourishing; the passive man withdraws to avoid the cost of engagement.",
+    color: "#3B82F6",
+  },
+  {
+    title: "Leadership Is Stewardship, Not Ownership",
+    verse: "Matthew 25:14-30",
+    body: "The parable of the talents is a leadership parable. The master entrusts, expects multiplication, and returns to evaluate. The wicked servant did not steal the talent; he buried it. He was judged not for taking what wasn't his but for failing to steward what was. Christian leadership is always stewardship — of resources, of relationships, of influence, of spiritual gifts. The man who treats his role, his platform, or his family as his own possession to manage for his own benefit has misunderstood the fundamental nature of his leadership.",
+    color: "#D97706",
+  },
+  {
+    title: "Prayer Is the Foundation of Christian Leadership",
+    verse: "Nehemiah 1:4-5; 2:4",
+    body: "Nehemiah prays before he speaks to the king (1:4). When the king asks an unexpected question, Nehemiah prays on the spot before answering (2:4). The pattern: prayer precedes every significant action. J. Oswald Sanders argues that the man whose prayer life is not growing is not growing as a leader. The leader who is too busy to pray has inverted the means and the end. Character is built in prayer; strategy follows from it. The church needs men who pray more than it needs men who plan.",
+    color: "#3a7d56",
+  },
+  {
+    title: "The Leader Develops Other Leaders",
+    verse: "2 Timothy 2:2",
+    body: "'The things you have heard me say in the presence of many witnesses entrust to reliable people who will also be qualified to teach others.' The Pauline model: four generations of leadership in one verse (Paul → Timothy → reliable people → others). The leader who does not develop other leaders is a bottleneck, not a builder. The measure of a man's leadership is not what he accomplished in his lifetime but what continued after him. Moses's greatest act of leadership may have been the laying of hands on Joshua.",
+    color: "#6B4FBB",
+  },
+  {
+    title: "Accountability Preserves Leadership",
+    verse: "Proverbs 11:14; 15:22",
+    body: "Plans fail for lack of counsel, but with many advisers they succeed. The man who cannot be corrected will eventually fail publicly and significantly. The history of fallen Christian leaders is largely a history of men who removed themselves from genuine accountability — who surrounded themselves with admirers, not honest friends. Genuine accountability is not a corporate HR process; it is a covenant relationship with specific men who have the right and obligation to speak truth to your life.",
+    color: "#EF4444",
+  },
+  {
+    title: "Integrity Is Not a Leadership Technique",
+    verse: "Psalm 78:72",
+    body: "David 'shepherded them with integrity of heart; with skillful hands he led them.' Integrity precedes skill. The man of integrity leads from who he is; the man of techniques leads from what he does. Techniques can be learned and deployed without character; integrity cannot be faked in the long run. The leader who is different at home than at church, who is generous in public and miserly in private, who preaches courage and practices cowardice, is working against himself — the truth will eventually surface.",
+    color: "#3a7d56",
+  },
+  {
+    title: "The Leader Admits Failure",
+    verse: "2 Corinthians 12:9-10",
+    body: "'I will boast all the more gladly about my weaknesses, so that Christ's power may rest on me.' Paul's leadership model inverted every expectation of his culture — and ours. The Christian leader who admits failure, acknowledges weakness, and confesses sin publicly is not undermining his leadership; he is modeling the gospel he preaches. The man who is never wrong has made his authority the point, not Christ. The man who confesses publicly makes space for others to confess; the man who is always composed prevents it.",
+    color: "#D97706",
+  },
+  {
+    title: "Longevity Is a Form of Leadership",
+    verse: "Hebrews 12:1",
+    body: "The cloud of witnesses is a running metaphor: you are in a race, and the finish line matters. Many men lead brilliantly for a season and then collapse — morally, spiritually, or relationally. The men whose long-term faithfulness has shaped the church most deeply are often not the most gifted but the most persistent. Finishing well — at 70, with your marriage intact, your faith deeper than at 30, your children honoring God, the younger men around you better for having known you — is the ultimate leadership achievement.",
+    color: "#6B4FBB",
+  },
 ];
 
 const practices = [
@@ -178,6 +335,24 @@ const curriculum = [
     age: "Adult men — especially those stuck in shame cycles",
     theology: "Evangelical / Grace-centered",
     note: "Particularly powerful for men who live in chronic shame and performance. Breaks the lie that God's acceptance is contingent on our improvement. Life-changing for many."
+  },
+  {
+    name: "Spiritual Leadership",
+    author: "J. Oswald Sanders",
+    publisher: "Moody Publishers",
+    focus: "The foundations of Christian leadership: prayer, character, sacrifice, and the cost of genuine leadership",
+    age: "Adult men — especially those in or preparing for leadership roles",
+    theology: "Evangelical / Broadly applicable",
+    note: "Written by the former director of China Inland Mission. Sanders argues that prayer is the irreducible foundation of leadership — the man whose prayer life is not growing is not growing as a leader. A classic that rewards re-reading at every decade. Widely recommended across denominational lines."
+  },
+  {
+    name: "The Intentional Father",
+    author: "Jon Tyson",
+    publisher: "Baker Books",
+    focus: "12 rites of passage for raising sons; deliberate, multi-year family discipleship journey",
+    age: "Fathers of sons — especially ages 10-18",
+    theology: "Evangelical / Broadly applicable",
+    note: "Tyson describes how he designed a deliberate, multi-year discipleship journey for his own son. Practical family discipleship that any father can adapt and implement regardless of church tradition or theological background."
   }
 ];
 
@@ -228,6 +403,7 @@ export default function MensMinistryGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_mens-ministry-guide_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedCurriculum, setSelectedCurriculum] = useState(curriculum[0]);
+  const [openStage, setOpenStage] = useState<string | null>(null);
 
   const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
 
@@ -248,7 +424,9 @@ export default function MensMinistryGuidePage() {
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Brotherhood" },
     { id: "practices", label: "Core Practices" },
+    { id: "lifestages", label: "Life Stages" },
     { id: "curriculum", label: "Curriculum Guide" },
+    { id: "leadership", label: "Leadership" },
     { id: "resources", label: "Resources" },
     { id: "journal", label: "📓 My Journal" },
     { id: "videos", label: "🎬 Videos" }
@@ -279,7 +457,9 @@ export default function MensMinistryGuidePage() {
             { num: "57%", label: "Of church attendees are women" },
             { num: "33%", label: "Of men never open their Bible outside church" },
             { num: "1 in 6", label: "Christian men regularly view pornography" },
-            { num: "72%", label: "Of fathers who practice faith raise faithful children" }
+            { num: "72%", label: "Of fathers who practice faith raise faithful children" },
+            { num: "90%", label: "Of men who become Christians do so before age 30" },
+            { num: "3x", label: "More likely to stay in church if father attended regularly" }
           ].map(s => (
             <div key={s.label} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 14, textAlign: "center" }}>
               <div style={{ fontSize: 22, fontWeight: 900, color: GREEN }}>{s.num}</div>
@@ -309,8 +489,31 @@ export default function MensMinistryGuidePage() {
         {/* Theology */}
         {activeTab === "theology" && (
           <div style={{ maxWidth: 720 }}>
-            <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
+            <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 20 }}>
               Before strategy, models, or curriculum, a theology of men&apos;s ministry must be built. What does Scripture actually say about men — their design, their failures, and their calling in the body of Christ?
+            </p>
+
+            {/* Key Scripture Anchors */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 10, marginBottom: 28 }}>
+              {[
+                { ref: "1 Cor 16:13", text: "\"Act like men, be strong\"" },
+                { ref: "Deut 6:6-7", text: "\"Teach them to your children\"" },
+                { ref: "Titus 2:2", text: "\"Older men, be sober, dignified, self-controlled\"" },
+                { ref: "Eph 5:25", text: "\"Husbands, love as Christ loved\"" },
+                { ref: "James 5:16", text: "\"Confess your sins to one another\"" },
+                { ref: "2 Tim 2:2", text: "\"Entrust to reliable people who will teach others\"" },
+                { ref: "Prov 27:17", text: "\"As iron sharpens iron, so one man sharpens another\"" },
+                { ref: "Josh 1:9", text: "\"Be strong and courageous. Do not be afraid\"" },
+              ].map(s => (
+                <div key={s.ref} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px" }}>
+                  <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, marginBottom: 4 }}>{s.ref}</div>
+                  <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", lineHeight: 1.5 }}>{s.text}</div>
+                </div>
+              ))}
+            </div>
+
+            <p style={{ fontSize: 12, color: MUTED, marginBottom: 20 }}>
+              Click any topic below to expand the full theological treatment.
             </p>
             {theologyPoints.map((pt, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
@@ -338,6 +541,18 @@ export default function MensMinistryGuidePage() {
 
         {/* Practices */}
         {activeTab === "practices" && (
+          <div>
+            <div style={{ maxWidth: 720, marginBottom: 28 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 16 }}>
+                Theology must translate into practice. These six practices are the most consistently effective approaches to men&apos;s discipleship — not as a checklist, but as a menu. A healthy men&apos;s ministry will typically have 2-3 of these operating well at any given time.
+              </p>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 16px", display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ color: "#F59E0B", fontSize: 16 }}>⚠</span>
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0 }}>
+                  Each practice below includes a caution. Read the cautions — they represent the most common failure modes observed across men&apos;s ministries.
+                </p>
+              </div>
+            </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 20 }}>
             {practices.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, borderTop: `3px solid ${p.color}` }}>
@@ -358,12 +573,117 @@ export default function MensMinistryGuidePage() {
               </div>
             ))}
           </div>
+          </div>
+        )}
+
+        {/* Life Stages */}
+        {activeTab === "lifestages" && (
+          <div style={{ maxWidth: 760 }}>
+            <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
+              Men face distinct challenges and callings at each stage of life. Effective men&apos;s ministry addresses where men actually are — not where we wish they were. Click each stage to see the specific challenges, Scripture callings, discipleship focus, and practical next step.
+            </p>
+
+            {/* Life Stage Key Stats */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12, marginBottom: 32 }}>
+              {[
+                { stage: "18–30", label: "Foundation years — habits set here often persist for life" },
+                { stage: "30–45", label: "Highest-pressure season — maximum demand, least flexibility" },
+                { stage: "45–60", label: "Mid-life recalibration — richest season for honest faith" },
+                { stage: "60–70", label: "Legacy season — the church needs your wisdom most now" },
+                { stage: "70+", label: "Finishing strong — dying well is the final testimony" },
+              ].map(s => (
+                <div key={s.stage} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 14, textAlign: "center" }}>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: GREEN, marginBottom: 6 }}>{s.stage}</div>
+                  <div style={{ fontSize: 11, color: MUTED, lineHeight: 1.5 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+            {LIFE_STAGES.map((ls) => {
+              const isOpen = openStage === ls.stage;
+              return (
+                <div key={ls.stage} style={{ background: CARD, border: `1px solid ${isOpen ? ls.color : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenStage(isOpen ? null : ls.stage)}
+                    style={{
+                      width: "100%", background: "none", border: "none", color: TEXT,
+                      padding: "18px 22px", textAlign: "left", cursor: "pointer",
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <span style={{ fontSize: 24 }}>{ls.icon}</span>
+                      <span style={{ fontWeight: 800, fontSize: 16, color: isOpen ? ls.color : TEXT }}>{ls.stage}</span>
+                    </div>
+                    <span style={{ color: MUTED, flexShrink: 0, fontSize: 20, fontWeight: 300 }}>{isOpen ? "−" : "+"}</span>
+                  </button>
+
+                  {isOpen && (
+                    <div style={{ padding: "0 22px 22px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 16, marginBottom: 18 }}>
+
+                        {/* Challenges */}
+                        <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                          <div style={{ fontSize: 11, color: "#EF4444", fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>CHALLENGES</div>
+                          {ls.challenges.map((c, ci) => (
+                            <div key={ci} style={{ display: "flex", gap: 8, marginBottom: 7 }}>
+                              <div style={{ color: "#EF4444", flexShrink: 0, fontSize: 13, marginTop: 1 }}>▸</div>
+                              <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }}>{c}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Callings */}
+                        <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                          <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>SCRIPTURE CALLINGS</div>
+                          {ls.callings.map((c, ci) => (
+                            <div key={ci} style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+                              <div style={{ color: GREEN, flexShrink: 0, fontSize: 13, marginTop: 1 }}>✦</div>
+                              <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.55, fontStyle: "italic" }}>{c}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Discipleship Focus */}
+                      <div style={{ background: BG, borderRadius: 10, padding: 16, marginBottom: 14 }}>
+                        <div style={{ fontSize: 11, color: PURPLE, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>DISCIPLESHIP FOCUS</div>
+                        <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, margin: 0 }}>{ls.discipleshipFocus}</p>
+                      </div>
+
+                      {/* Practical Step */}
+                      <div style={{ borderLeft: `3px solid ${ls.color}`, paddingLeft: 14 }}>
+                        <div style={{ fontSize: 11, color: ls.color, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>PRACTICAL STEP</div>
+                        <p style={{ fontSize: 13, color: TEXT, lineHeight: 1.6, margin: 0 }}>{ls.practicalStep}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Life Stage Mentoring Note */}
+            <div style={{ marginTop: 24, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+                <div style={{ fontSize: 22, flexShrink: 0, marginTop: 2 }}>🔗</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6 }}>The Mentoring Chain</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>
+                    Effective men&apos;s ministry creates connections across life stages. The Young Man (18-30) needs an Early Family Man (30-45) who has recently navigated what he faces. The Early Family Man needs a Mid-Life Man who has survived the crucible of young children and career. The Mid-Life Man needs a Senior Man who can speak to the second half. Every man should have someone ahead of him and someone behind him. The church that facilitates these connections is doing the work of Titus 2 — not as a program, but as a culture.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Curriculum */}
         {activeTab === "curriculum" && (
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start", flexWrap: "wrap" }}>
             <div style={{ flex: 1, minWidth: 240 }}>
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
+                Select any title to see the full summary, audience, and theological notes in the panel on the right.
+              </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {curriculum.map(c => (
                   <div
@@ -407,8 +727,87 @@ export default function MensMinistryGuidePage() {
           </div>
         )}
 
+        {/* Leadership */}
+        {activeTab === "leadership" && (
+          <div>
+            <div style={{ maxWidth: 720, marginBottom: 28 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 20 }}>
+                Christian male leadership is neither passive nor domineering — it is servant leadership that initiates, decides, and bears cost for the flourishing of others. These eight principles are grounded in Scripture and tested in the long arc of Christian history.
+              </p>
+              {/* Leadership Key Tensions */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 8 }}>
+                <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ fontSize: 11, color: "#EF4444", fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>FAILURE MODES TO AVOID</div>
+                  {[
+                    "Passivity — leading by non-decision",
+                    "Domination — leading for self-benefit",
+                    "People-pleasing — leading by consensus",
+                    "Isolation — leading without accountability",
+                    "Short-termism — optimizing for the moment",
+                    "Platform-building — leading for personal brand",
+                    "Burnout — giving out without taking in"
+                  ].map((f, fi) => (
+                    <div key={fi} style={{ display: "flex", gap: 8, marginBottom: 7 }}>
+                      <div style={{ color: "#EF4444", flexShrink: 0, fontSize: 12 }}>✕</div>
+                      <div style={{ fontSize: 12, color: MUTED, lineHeight: 1.5 }}>{f}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>MARKS OF SERVANT LEADERSHIP</div>
+                  {[
+                    "Initiates for others' benefit, not his own",
+                    "Absorbs cost rather than passing it on",
+                    "Tells the truth even when it costs him",
+                    "Develops those around him toward independence",
+                    "Outlasts the season — finishes well",
+                    "Welcomes correction from trusted men",
+                    "Prays before he acts"
+                  ].map((m, mi) => (
+                    <div key={mi} style={{ display: "flex", gap: 8, marginBottom: 7 }}>
+                      <div style={{ color: GREEN, flexShrink: 0, fontSize: 12 }}>✓</div>
+                      <div style={{ fontSize: 12, color: MUTED, lineHeight: 1.5 }}>{m}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(340px,1fr))", gap: 20 }}>
+              {LEADERSHIP_PRINCIPLES.map((lp, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, borderTop: `3px solid ${lp.color}` }}>
+                  <div style={{
+                    display: "inline-block", background: lp.color + "22", color: lp.color,
+                    fontSize: 11, fontWeight: 700, letterSpacing: 1,
+                    padding: "3px 10px", borderRadius: 20, marginBottom: 12
+                  }}>
+                    {lp.verse}
+                  </div>
+                  <h3 style={{ margin: "0 0 12px", fontSize: 16, fontWeight: 800, lineHeight: 1.4 }}>{lp.title}</h3>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{lp.body}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Leadership Closing Quote */}
+            <div style={{ marginTop: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+              <div style={{ borderLeft: `4px solid ${PURPLE}`, paddingLeft: 20 }}>
+                <p style={{ fontSize: 15, color: TEXT, lineHeight: 1.8, fontStyle: "italic", margin: "0 0 12px" }}>
+                  &ldquo;The world is waiting for men who are not for sale; men who are honest, sound from center to circumference, true to the heart&apos;s core; men with consciences as steady as the needle to the pole; men who will stand for the right if the heavens totter and the earth reels; men who can tell the truth and look the world and the devil in the face. Men who neither brag nor run; men that neither flag nor flinch; men who can have courage without shouting it; men in whom the courage of everlasting life runs still, deep, and strong.&rdquo;
+                </p>
+                <div style={{ fontSize: 12, color: PURPLE, fontWeight: 700 }}>— A. T. Pierson</div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Resources */}
         {activeTab === "resources" && (
+          <div>
+            <div style={{ maxWidth: 720, marginBottom: 24 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 0 }}>
+                Organizations, books, apps, and conferences specifically proven in men&apos;s discipleship contexts. Each entry has been selected for track record, theological substance, and practical applicability in a local church setting.
+              </p>
+            </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 20 }}>
             {resources.map((r, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
@@ -428,12 +827,13 @@ export default function MensMinistryGuidePage() {
               </div>
             ))}
           </div>
+          </div>
         )}
         {activeTab === "journal" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Men's Ministry Journal</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record challenges, practices you're developing, and next steps as a man in community.</p>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>📓 My Men&apos;s Ministry Journal</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Record challenges, practices you&apos;re developing, and next steps as a man in community.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
                 <input value={mmgForm.challenge} onChange={e => setMmgForm(f => ({ ...f, challenge: e.target.value }))}
                   placeholder="What challenge or area of growth are you working on?" aria-label="Challenge"
@@ -449,7 +849,7 @@ export default function MensMinistryGuidePage() {
                   {mmgSaved ? "Saved ✓" : "Save Entry"}
                 </button>
               </div>
-              {mmgEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first men's ministry reflection above.</p>}
+              {mmgEntries.length === 0 && <p style={{ color: MUTED, fontSize: 14 }}>No entries yet. Record your first men&apos;s ministry reflection above.</p>}
               {mmgEntries.map(e => (
                 <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16, marginBottom: 10 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>

@@ -991,6 +991,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Death and Dying Guide": "death-dying-guide",
   "Christian View of Death": "death-dying-guide",
   "Dying Well Guide": "death-dying-guide",
+  "Christian Worship Guide": "christian-worship-guide",
+  "Theology of Worship": "christian-worship-guide",
+  "Corporate Worship Guide": "christian-worship-guide",
 };
 
 
@@ -1578,6 +1581,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Spiritual Gifts Guide" },
   { label: "Christian Activism" },
   { label: "Death and Dying Guide" },
+  { label: "Christian Worship Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

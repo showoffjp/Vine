@@ -1,9 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Apologetics: A Comprehensive Guide | Vine",
-  description:
-    "How do you defend the Christian faith? A guide to the major apologetics arguments — cosmological, teleological, moral, ontological — and the main objections: the problem of evil, religious diversity, science and faith.",
+  title: "Christian Apologetics Guide",
+  description: "Defending the faith — classical apologetics (Aquinas), evidential apologetics (McDowell), presuppositionalism (Van Til/Bahnsen), the cosmological argument, the resurrection evidence, the problem of evil, and why apologetics is an act of love.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

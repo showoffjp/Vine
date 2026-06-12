@@ -1215,6 +1215,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Poverty Guide": "christian-poverty",
   "Good News Poor": "christian-poverty",
   "Poverty Theology": "christian-poverty",
+  "Tend and Keep Creation": "christian-environment",
+  "Christian Ecology Deep": "christian-environment",
+  "Creation Care Theology": "christian-environment",
+  "Christian Technology Ethics": "christian-technology-ethics",
+  "Digital Discipleship Guide": "christian-technology-ethics",
+  "Social Media Christian": "christian-technology-ethics",
+  "Prayer for Healing Guide": "christian-prayer-healing",
+  "Healing Prayer James 5": "christian-prayer-healing",
+  "Cessationist Continuationist": "christian-prayer-healing",
+  "Spiritual Warfare Guide": "christian-spiritual-warfare",
+  "Armor of God Guide": "christian-spiritual-warfare",
+  "Screwtape Warfare": "christian-spiritual-warfare",
 };
 
 
@@ -1885,6 +1897,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christians and Culture Guide" },
   { label: "Christian Racism Guide" },
   { label: "Christian Poverty Guide" },
+  { label: "Tend and Keep Creation" },
+  { label: "Christian Technology Ethics" },
+  { label: "Prayer for Healing Guide" },
+  { label: "Spiritual Warfare Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

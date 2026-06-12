@@ -1392,6 +1392,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Chalcedon Two Natures": "christian-incarnation-guide",
   "Kenosis Philippians 2": "christian-incarnation-guide",
   "Virgin Birth Theology": "christian-incarnation-guide",
+  "Inductive Bible Study Guide": "christian-bible-study-guide",
+  "Bible Study Tools Guide": "christian-bible-study-guide",
+  "SOAP Bible Method": "christian-bible-study-guide",
+  "Grammatical Historical Method": "christian-hermeneutics-guide",
+  "Typology Allegory Guide": "christian-hermeneutics-guide",
+  "Literal Literalistic Bible": "christian-hermeneutics-guide",
+  "Nicaea Reformation History": "christian-church-history-guide",
+  "Great Schism 1054 Guide": "christian-church-history-guide",
+  "Global Church Today Guide": "christian-church-history-guide",
 };
 
 
@@ -2121,6 +2130,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Nicaea Arianism Guide" },
   { label: "Penal Sub Christus Victor" },
   { label: "Chalcedon Two Natures" },
+  { label: "Inductive Bible Study Guide" },
+  { label: "Grammatical Historical Method" },
+  { label: "Nicaea Reformation History" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

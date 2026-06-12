@@ -1269,6 +1269,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Hospitality Guide": "christian-hospitality-guide",
   "Open Table Ministry": "christian-hospitality-guide",
   "Strangers Welcome Scripture": "christian-hospitality-guide",
+  "Anxiety Prayer Philippians": "christian-anxiety-prayer",
+  "Praying Through Anxiety": "christian-anxiety-prayer",
+  "Cast Your Cares Prayer": "christian-anxiety-prayer",
+  "Christian Healing Guide": "christian-healing-guide",
+  "Rapha God Heals": "christian-healing-guide",
+  "James 5 Healing Oil": "christian-healing-guide",
+  "Christian Lament Guide": "christian-lament",
+  "Lament Psalm 13 Structure": "christian-lament",
+  "Brueggemann Lament": "christian-lament",
+  "Christian Joy Deep Guide": "christian-joy-guide",
+  "Chara Joy Fruit": "christian-joy-guide",
+  "Surprised by Joy Lewis": "christian-joy-guide",
 };
 
 
@@ -1956,6 +1968,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Discipline Guide" },
   { label: "Christian Surrender Guide" },
   { label: "Christian Hospitality Guide" },
+  { label: "Praying Through Anxiety" },
+  { label: "Christian Healing Guide" },
+  { label: "Christian Lament Guide" },
+  { label: "Christian Joy Deep Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

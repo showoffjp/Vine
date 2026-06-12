@@ -1374,6 +1374,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Joy vs Happiness Christian": "christian-joy-guide",
   "Philippians Joy Epistle": "christian-joy-guide",
   "Joy as Resistance Guide": "christian-joy-guide",
+  "NT Wright Heaven Guide": "christian-theology-of-heaven",
+  "Beatific Vision Guide": "christian-theology-of-heaven",
+  "Hell Final Judgment Views": "christian-theology-of-heaven",
+  "Four Millennial Views": "christian-end-times-guide",
+  "Rapture History Debate": "christian-end-times-guide",
+  "Olivet Discourse Guide": "christian-end-times-guide",
 };
 
 
@@ -2096,6 +2102,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "ACTS Prayer Model Guide" },
   { label: "Job Suffering Theology" },
   { label: "Philippians Joy Epistle" },
+  { label: "NT Wright Heaven Guide" },
+  { label: "Four Millennial Views" },
+  { label: "Rapture History Debate" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

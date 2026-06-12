@@ -1,9 +1,9 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Community and the Church: A Comprehensive Guide | Vine",
+  title: "Christian Community: Koinonia, One-Another Commands, and the Body of Christ | The Vine",
   description:
-    "A comprehensive guide to Christian community — the theology of the church, one another commands, small groups and accountability, church discipline, spiritual friendship, community in suffering, and the church as foretaste of the kingdom.",
+    "A comprehensive guide to Christian community &mdash; koinonia fellowship, the one-another commands of the New Testament, the church as body of Christ, individualism vs. communal faith, intentional communities like Taiz&eacute; and L&rsquo;Arche, and why community is both hard and essential.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

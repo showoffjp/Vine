@@ -1332,6 +1332,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Exomologeomai Guide": "christian-confession-guide",
   "James 5 16 Confession": "christian-confession-guide",
   "Shame Guilt Freedom": "christian-confession-guide",
+  "Gift Singleness Deep": "christian-singleness-guide",
+  "Paul Celibacy 1 Cor 7": "christian-singleness-guide",
+  "Single Christian Guide": "christian-singleness-guide",
+  "Spiritual Warfare Deep Guide": "christian-spiritual-warfare-guide",
+  "Screwtape Letters Guide": "christian-spiritual-warfare-guide",
+  "Armor of God Deep": "christian-spiritual-warfare-guide",
 };
 
 
@@ -2040,6 +2046,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jubilee Justice Guide" },
   { label: "When You Fast Guide" },
   { label: "Exomologeomai Guide" },
+  { label: "Single Christian Guide" },
+  { label: "Spiritual Warfare Deep Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

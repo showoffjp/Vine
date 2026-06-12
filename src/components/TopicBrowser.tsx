@@ -1112,6 +1112,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Silence": "silence-and-solitude",
   "Christian Solitude": "silence-and-solitude",
   "Be Still": "silence-and-solitude",
+  "Christian Gentleness": "christian-gentleness",
+  "Gentle and Lowly": "christian-gentleness",
+  "Prautes": "christian-gentleness",
+  "Meekness": "christian-gentleness",
+  "Christian Kindness": "christian-kindness",
+  "Kindness Fruit": "christian-kindness",
+  "Hesed Kindness": "christian-kindness",
+  "Christian Faithfulness": "christian-faithfulness",
+  "Faithful in Little": "christian-faithfulness",
+  "Pistis Faithfulness": "christian-faithfulness",
 };
 
 
@@ -1749,6 +1759,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Perseverance" },
   { label: "Christian Self-Control" },
   { label: "Silence and Solitude" },
+  { label: "Christian Gentleness" },
+  { label: "Christian Kindness" },
+  { label: "Christian Faithfulness" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

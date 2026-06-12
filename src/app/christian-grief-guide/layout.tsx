@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Grief Guide",
-  description: "Grief is not the opposite of faith. It is the cry of faith in the dark. Jesus wept. The Psalter is one-third lament. The cross is God's entry into human suffering. The church that knows how to grie…",
-  openGraph: {
-    title: "Christian Grief Guide — Vine",
-    description: "Grief is not the opposite of faith. It is the cry of faith in the dark. Jesus wept. The Psalter is one-third lament. The cross is God's entry into human suffering. The church that knows how to grie…",
-    images: ["/api/og?title=Christian+Grief+Guide"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Christian Grief Guide — Vine",
-    description: "Grief is not the opposite of faith. It is the cry of faith in the dark. Jesus wept. The Psalter is one-third lament. The cross is God's entry into human suffering. The church that knows how to grie…",
-    images: ["/api/og?title=Christian+Grief+Guide"],
-  },
+  title: "Blessed Are Those Who Mourn: Christian Grief | The Vine",
+  description: "A guide to Christian grief — the psalms of lament, mourning with hope, the God who weeps with us, and why honest sorrow is a spiritual discipline, not a failure of faith.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

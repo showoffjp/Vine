@@ -1250,6 +1250,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Testimony Guide": "christian-testimony",
   "Write Your Testimony": "christian-testimony",
   "Before After Christ Story": "christian-testimony",
+  "Waiting on God Patience": "christian-patience",
+  "Christian Generosity Practical": "christian-generosity-guide",
+  "Cheerful Giver Theology": "christian-generosity-guide",
+  "Tithing Grace Giving": "christian-generosity-guide",
+  "Prayer Journal Christian": "christian-prayer-journal",
+  "George Muller Prayer Journal": "christian-prayer-journal",
+  "ACTS Prayer Method": "christian-prayer-journal",
+  "Christian Listening Prayer": "christian-listening",
+  "Still Small Voice Hearing God": "christian-listening",
+  "Lectio Divina Listening": "christian-listening",
 };
 
 
@@ -1931,6 +1941,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Trust Guide" },
   { label: "Christian Obedience Guide" },
   { label: "Christian Testimony Guide" },
+  { label: "Christian Generosity Practical" },
+  { label: "Prayer Journal Christian" },
+  { label: "Christian Listening Prayer" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

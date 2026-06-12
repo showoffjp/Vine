@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cast Your Cares: Christian Anxiety Guide | The Vine",
+  title: "Christian Guide to Anxiety",
   description:
-    "A guide to anxiety, worry, and trusting God — from Philippians 4 and 1 Peter 5 to the birds of the air, the peace that surpasses understanding, and the distinction between clinical anxiety and spiritual worry.",
+    "Anxiety and the Christian faith — what the Bible says about worry (Matthew 6, Philippians 4), the theology of anxiety vs. clinical anxiety disorder, the role of prayer in reducing anxiety, lament as a spiritual practice, trusting God in uncertainty, and when to seek professional help.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

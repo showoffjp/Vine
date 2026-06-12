@@ -1451,6 +1451,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Abortion Pastoral Guide": "christian-bioethics-guide",
   "End of Life Euthanasia": "christian-bioethics-guide",
   "Genetic Engineering CRISPR": "christian-bioethics-guide",
+  "Depression Scripture Guide": "christian-depression-guide",
+  "Lament Psalms Depression": "christian-depression-guide",
+  "Dark Night Soul Christian": "christian-depression-guide",
+  "Clinical Depression Faith Guide": "christian-depression-guide",
 };
 
 
@@ -2203,6 +2207,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Nationalism Critique" },
   { label: "Sanctity Life Imago Dei" },
   { label: "Genetic Engineering CRISPR" },
+  { label: "Depression Scripture Guide" },
+  { label: "Dark Night Soul Christian" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

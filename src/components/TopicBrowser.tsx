@@ -1260,6 +1260,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Listening Prayer": "christian-listening",
   "Still Small Voice Hearing God": "christian-listening",
   "Lectio Divina Listening": "christian-listening",
+  "Christian Discipline Guide": "christian-discipline",
+  "Spiritual Discipline Practice": "christian-discipline",
+  "Self Control Discipleship": "christian-discipline",
+  "Christian Surrender Guide": "christian-surrender",
+  "Total Surrender God": "christian-surrender",
+  "Not My Will But Thine": "christian-surrender",
+  "Christian Hospitality Guide": "christian-hospitality-guide",
+  "Open Table Ministry": "christian-hospitality-guide",
+  "Strangers Welcome Scripture": "christian-hospitality-guide",
 };
 
 
@@ -1944,6 +1953,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Generosity Practical" },
   { label: "Prayer Journal Christian" },
   { label: "Christian Listening Prayer" },
+  { label: "Christian Discipline Guide" },
+  { label: "Christian Surrender Guide" },
+  { label: "Christian Hospitality Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

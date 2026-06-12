@@ -1,785 +1,988 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Link from "next/link";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
+const INDIGO = "#6366F1";
 
-type Tab = "theology" | "practices" | "voices" | "scripture" | "journal" | "videos";
+const STORAGE_KEY = "vine_christianidentity_entries";
 
 interface IDNEntry {
   id: string;
   date: string;
-  lie: string;
-  truth: string;
-  declaration: string;
+  identityTruth: string;
+  theOldVoice: string;
+  whyItMatters: string;
 }
 
-const THEOLOGY_CARDS = [
+interface TheologySection {
+  badge: string;
+  title: string;
+  paragraphs: string[];
+  callout?: { label: string; text: string };
+}
+
+interface PracticeCard {
+  number: string;
+  title: string;
+  summary: string;
+  steps: string[];
+  anchor: string;
+}
+
+interface VoiceCard {
+  name: string;
+  role: string;
+  quote: string;
+  bio: string;
+}
+
+interface ScriptureCard {
+  reference: string;
+  text: string;
+  reflection: string;
+}
+
+interface VideoItem {
+  videoId: string;
+  title: string;
+}
+
+const theologySections: TheologySection[] = [
   {
-    title: "The &ldquo;In Christ&rdquo; Language: Union, Not Just Association",
-    verse: "2 Cor 5:17",
-    body: `The phrase &ldquo;in Christ&rdquo; (en Christō) appears more than 80 times in Paul&rsquo;s letters and is the single most important identity descriptor in the New Testament. It is not merely a metaphor for membership or affiliation — it describes a real ontological union. To be &ldquo;in Christ&rdquo; is to be joined to him such that his history becomes your history: his death is your death to the old self, his resurrection is your new life, his righteousness is the basis of your standing before God. Theologians call this &ldquo;union with Christ&rdquo; (unio cum Christo) and it is the ground of every other benefit the gospel offers. You are not forgiven and then separately adopted and then separately given the Spirit — all of it flows from the single reality that you are in him. This means that your identity is not something you build, earn, or perform into. It is something you are received into. The most important question is not &ldquo;Who am I?&rdquo; but &ldquo;Whose am I?&rdquo; — and the answer is: you are Christ&rsquo;s, and Christ is God&rsquo;s (1 Cor 3:23).`,
+    badge: "Pauline Theology — &ldquo;In Christ&rdquo;",
+    title: "164 Times &ldquo;In Christ&rdquo; — Paul&rsquo;s Foundational Identity Language",
+    paragraphs: [
+      "The phrase &ldquo;in Christ&rdquo; (en Christō) and its equivalents appear approximately 164 times in the Pauline letters — making it the single most repeated identity descriptor in the New Testament. Paul uses it with stunning breadth: you are blessed in Christ (Eph 1:3), chosen in Christ (Eph 1:4), redeemed in Christ (Eph 1:7), a new creation in Christ (2 Cor 5:17), alive in Christ (1 Cor 15:22), justified in Christ (Gal 2:17), and hidden with Christ in God (Col 3:3). The phrase is not decorative or metaphorical; it names a real ontological location — the union with Christ in which every other gospel benefit finds its basis.",
+      "Theologians call this &ldquo;union with Christ&rdquo; (unio cum Christo) and describe it as the ground of the Christian life: you are not forgiven and then separately adopted and then separately given the Spirit as a sequence of independent gifts. All of it flows from the single reality that you are in him. His history has become your history: his death is your death to the old self (Rom 6:6), his resurrection is your new life (Col 3:1), his righteousness is the basis of your standing (2 Cor 5:21). This means that Christian identity is not something you build, earn, or perform into. It is something you are received into.",
+      "The practical implication is disorienting for those raised in performance-based religious culture: the most important question is not &ldquo;Who am I?&rdquo; — evaluated by achievement, behavior, or relationship status — but &ldquo;Whose am I?&rdquo; And the New Testament&rsquo;s answer, repeated 164 times, is: you are Christ&rsquo;s, and Christ is God&rsquo;s (1 Cor 3:23). All subsequent identity questions — your calling, your character, your relationships, your work — are answered from within that primary location, not prior to it.",
+    ],
+    callout: {
+      label: "The foundation",
+      text: "&ldquo;In Christ&rdquo; (en Christō): the single most repeated identity phrase in Paul. Not a metaphor for membership but a description of real ontological union — his death your death, his life your life.",
+    },
   },
   {
-    title: "Old Self vs. New Self: The Radical Discontinuity",
-    verse: "Romans 6; Eph 4; Col 3",
-    body: `Scripture speaks of a definitive break between the &ldquo;old self&rdquo; (palaios anthrōpos — old human) and the &ldquo;new self&rdquo; (kainos anthrōpos — new human). Romans 6:6 states: &ldquo;We know that our old self was crucified with him in order that the body of sin might be brought to nothing, so that we would no longer be enslaved to sin.&rdquo; The old self is not reformed or improved — it is crucified. Ephesians 4:22-24 instructs believers to &ldquo;put off your old self, which belongs to your former manner of life and is corrupt through deceitful desires, and to be renewed in the spirit of your minds, and to put on the new self, created after the likeness of God in true righteousness and holiness.&rdquo; The &ldquo;put off / put on&rdquo; language is not about trying harder but about living out a new reality. Colossians 3:3 grounds this in ontology: &ldquo;For you have died, and your life is hidden with Christ in God.&rdquo; Your true life is not visible to external measurement — it is secured in an invisible reality, the risen life of Christ himself. This means that neither moral failure nor social rejection can touch the deepest truth about who you are.`,
+    badge: "2 Corinthians 5:17 — New Creation",
+    title: "The New Creation — Old Things Passed Away, New Things Have Come",
+    paragraphs: [
+      "&ldquo;Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come&rdquo; (2 Cor 5:17). The Greek kainē ktisis echoes the language of Genesis 1: this is not improvement or reform but re-genesis. Paul borrows creation language deliberately — the same God who spoke light into existence over the void has spoken new existence into the believer in Christ. The old self is not upgraded; it is superseded. Something genuinely new exists that did not exist before.",
+      "The verb tenses are precise and important. &ldquo;Has passed away&rdquo; (parēlthen) is aorist — indicating a completed, definitive past action. The old is gone. &ldquo;Has come&rdquo; (gegonen) is perfect — indicating a past event with present, ongoing consequences. The new is here and continues to be here. Paul is making an ontological claim about present reality: the person in Christ is, right now, a new creation. This is not a description of what they are becoming or what they will be — it is what they are.",
+      "Practically, this creates a tension that every honest Christian recognizes: the objective declaration of new creation and the subjective experience of the old patterns still active. Paul&rsquo;s resolution is not to deny the subjective experience but to insist that the objective reality outweighs it and must be the governing truth. Colossians 3:1-3 gives the instruction: &ldquo;seek the things that are above&rdquo; and &ldquo;set your minds on things that are above&rdquo; — the imperative to orient toward the objective truth of who you are in Christ rather than deriving identity from the subjective experience of ongoing struggle.",
+    ],
   },
   {
-    title: "Identity Theft: How Shame, Trauma, and Sin Distort Identity",
-    verse: "Gen 3; Rom 1:21-23",
-    body: `The fall narrative in Genesis 3 is at its core an identity crisis. Before the fall, Adam and Eve were &ldquo;naked and not ashamed&rdquo; (Gen 2:25) — their identity was constituted by their relationship with God and they had nothing to hide, perform, or protect. After the fall, shame immediately appears: they hide, they cover themselves, and when confronted, they deflect blame. This is the pattern of identity confusion ever since: shame drives us to hide the true self, to perform a false self, or to project inadequacy onto others. Romans 1:21-23 describes idolatry as a failure of right knowing and glorifying God that leads to futile thinking and a &ldquo;darkened heart&rdquo; — hearts that have become confused about what is ultimate and therefore confused about themselves. Trauma can compound this: when something deeply wrong is done to a person, the lie whispered by the event is &ldquo;this is what you are worth; this is what you deserve; this is who you are.&rdquo; The gospel enters this space not with a self-help program but with a counter-declaration: what was done to you does not define you. What God has spoken over you in his Son does.`,
+    badge: "Romans 8:14-17 — Adoption",
+    title: "Adopted as Sons and Daughters — The Spirit of Adoption, Not Slavery",
+    paragraphs: [
+      "&ldquo;For you did not receive the spirit of slavery to fall back into fear, but you have received the Spirit of adoption as sons, by whom we cry, &lsquo;Abba! Father!&rsquo; The Spirit himself bears witness with our spirit that we are children of God, and if children, then heirs — heirs of God and fellow heirs with Christ&rdquo; (Rom 8:15-17). The contrast between the &ldquo;spirit of slavery&rdquo; and the &ldquo;Spirit of adoption&rdquo; is the contrast between two entirely different identity postures: the slave works under constant threat of rejection; the child works from a foundation of secure belonging.",
+      "In the Greco-Roman world, adoption (huiothesia) was a formal legal act with irreversible consequences: the adopted child became fully and permanently a member of the new family, with complete inheritance rights, the family name, and legal standing. Previous debts and prior identity markers were cancelled. The old life was replaced by the new. Paul uses this image deliberately: you are not tolerated guests or probationary servants whose standing depends on continued performance — you are full heirs. The adoption cannot be revoked.",
+      "The intimacy of &ldquo;Abba&rdquo; — the Aramaic term of familial address, closer to &ldquo;Papa&rdquo; or &ldquo;Dad&rdquo; than the formal &ldquo;Father&rdquo; — signals the relational quality of the identity. This is not the relationship of a subject to a distant sovereign or a servant to a master; it is the relationship of a child to a near, safe, loving parent. The Spirit&rsquo;s &ldquo;bearing witness with our spirit&rdquo; is the experiential confirmation of this objective legal reality: there is something in the believer that knows, deeper than mere doctrinal assent, that they belong to God.",
+    ],
+    callout: {
+      label: "Adoption in Greco-Roman law",
+      text: "Huiothesia: irrevocable membership, full inheritance rights, previous debts cancelled, old identity replaced. Paul chose this image deliberately — you cannot be unadopted.",
+    },
   },
   {
-    title: "Performance-Based Identity vs. Grace-Based Identity",
-    verse: "Gal 2:20; Eph 2:8-10",
-    body: `Performance-based identity is organized around a central question: &ldquo;Am I enough?&rdquo; It answers that question through moral achievement, career success, relational approval, religious performance, or comparison with others. The defining feature of performance-based identity is that the verdict is always provisional — never fully secure, always subject to revision by the next failure or the next comparison. Grace-based identity begins from a different premise: the verdict has already been rendered in Christ. Ephesians 1:3-14 catalogs what is true of every believer before a single behavioral instruction is given: chosen, holy, blameless, adopted, redeemed, forgiven, lavished with grace, sealed. These are declarative statements about present reality, not aspirational goals. The ethical imperatives of Ephesians 4-6 flow from this foundation — they do not create it. You do not obey in order to be accepted; you obey because you are accepted. This is the difference between a slave and a son: both may do similar work, but one does it from fear of rejection and one does it from security of love. Galatians 2:20 locates the source of this new life not in self-effort but in &ldquo;the Son of God, who loved me and gave himself for me.&rdquo;`,
+    badge: "Mark 1:11 — The Beloved",
+    title: "Beloved — The Voice at the Baptism Spoken Over Every Believer",
+    paragraphs: [
+      "&ldquo;You are my beloved Son; with you I am well pleased&rdquo; (Mark 1:11). The Father speaks this over Jesus at his baptism, before he has preached a sermon, healed a sick person, or performed a single act of public ministry. The pleasure precedes the performance. The belovedness is not earned by what follows; it is declared over what already is. Henri Nouwen spent the last decade of his life exploring the implications of this verse for Christian identity: if Jesus&rsquo;s belovedness was declared before his ministry rather than because of it, then the identity &ldquo;beloved&rdquo; is prior to achievement, not dependent on it.",
+      "Nouwen argued that the entire spiritual life is, at its core, the battle to hear the voice of the Father — &ldquo;you are my beloved&rdquo; — above the competing voices that define identity by performance, comparison, or approval. These competing voices are loud and constant: &ldquo;you are what you do,&rdquo; &ldquo;you are what you have,&rdquo; &ldquo;you are what others think of you.&rdquo; They are not merely external pressures; they are the voices of a fallen world that has lost the knowledge of what human beings actually are. The spiritual discipline is the repeated, deliberate return to the voice of the Father: you are beloved, before and apart from what you achieve.",
+      "The voice at the baptism is not addressed only to Jesus in his uniqueness; it is the shape of the Father&rsquo;s address to every person made in the image of God and restored in Christ. The believer who is &ldquo;in Christ&rdquo; shares in Christ&rsquo;s sonship (Gal 4:4-7): the same &ldquo;Abba&rdquo; cry, the same Spirit of adoption, the same inheritance. To be in Christ is to be in the Beloved (Eph 1:6 — &ldquo;accepted in the beloved,&rdquo; KJV) — to have the Father&rsquo;s pleasure, declared over his Son, extended to all who are found in him.",
+    ],
   },
   {
-    title: "Imago Dei: We Bear God&rsquo;s Image",
-    verse: "Gen 1:26-27; Col 3:10",
-    body: `&ldquo;So God created man in his own image, in the image of God he created him; male and female he created them&rdquo; (Gen 1:26-27). The imago Dei is the most fundamental statement about human identity in Scripture, and it precedes all achievement, morality, or performance. Every human being — regardless of ability, status, ethnicity, age, or moral record — bears the image of God. The fall distorted the image but did not destroy it (Gen 9:6; James 3:9 both appeal to the image after the fall). In Christ, this image is being restored: Colossians 3:10 speaks of &ldquo;the new self, which is being renewed in knowledge after the image of its creator.&rdquo; This creates a double foundation for human dignity: the imago Dei grounds the dignity of all humans, and the new creation in Christ deepens and perfects it for believers. Practically, this means: you cannot lose worth through failure, you cannot be stripped of dignity by what is done to you, and you cannot earn more value through achievement. The image is a gift, not an achievement.`,
+    badge: "The Three Deadly Lies",
+    title: "The Three Deadly Lies — What I Do, What I Have, What Others Think",
+    paragraphs: [
+      "Henri Nouwen identified three lies that the world perpetually speaks over the self, each one offering a counterfeit answer to the question &ldquo;Who am I?&rdquo; The first lie: &ldquo;You are what you do.&rdquo; Identity derived from achievement, productivity, role, or moral performance. The problem is not that doing matters — it does — but that making it constitutive of identity means that failure, incompetence, or the loss of role threatens the self&rsquo;s existence. The achiever who loses their achievement has lost themselves.",
+      "The second lie: &ldquo;You are what you have.&rdquo; Identity derived from possessions, relationships owned, status accumulated. The problem is not that having matters but that basing identity on possession makes the self perpetually anxious: what is owned can be lost, stolen, or devalued. The third lie: &ldquo;You are what others think of you.&rdquo; Identity derived from the opinions, approval, or recognition of others. The problem is not that relationship matters but that making the other&rsquo;s verdict constitutive of identity means that rejection, criticism, or indifference is existentially threatening.",
+      "All three lies share a common structure: they place the source of identity outside the self, in something contingent, achievable, and therefore loseable. The gospel&rsquo;s answer to all three is the same: your identity is constituted not by what you do or have or how you are regarded, but by who God has declared you to be in Christ. The declaration is unconditional — not &ldquo;you are beloved because you achieve,&rdquo; but &ldquo;you are beloved.&rdquo; Not &ldquo;you are a new creation when you perform like one,&rdquo; but &ldquo;you are a new creation.&rdquo; The identity is given, not earned; declared, not constructed.",
+    ],
+    callout: {
+      label: "Nouwen&rsquo;s three lies",
+      text: "I am what I do. I am what I have. I am what others think of me. Each is a counterfeit identity that must be surrendered to receive the one the Father has already declared.",
+    },
   },
   {
-    title: "Adoption: Children of God, Not Merely Servants",
-    verse: "Romans 8:14-17; Gal 4:4-7",
-    body: `Romans 8 contains one of the most radical identity declarations in Scripture: &ldquo;For you did not receive the spirit of slavery to fall back into fear, but you have received the Spirit of adoption as sons, by whom we cry, &lsquo;Abba! Father!&rsquo; The Spirit himself bears witness with our spirit that we are children of God&rdquo; (Rom 8:15-16). The word &ldquo;adoption&rdquo; (huiothesia) in the Greco-Roman world was a legal act with profound consequences: the adopted child became fully and irrevocably a member of the new family, with complete inheritance rights and the family name. Previous debts were cancelled. The old identity was replaced. Paul uses this image deliberately: you are not tolerated guests or probationary servants — you are full heirs. Galatians 4:6-7 intensifies it: &ldquo;Because you are sons, God has sent the Spirit of his Son into our hearts, crying, &lsquo;Abba! Father!&rsquo; So you are no longer a slave, but a son, and if a son, then an heir through God.&rdquo; The intimacy of &ldquo;Abba&rdquo; (the Aramaic term of familial address to a father — closer to &ldquo;Papa&rdquo; than the formal &ldquo;Father&rdquo;) indicates the relational quality of this identity: not formal, not distant, but near, safe, and beloved.`,
+    badge: "Neil Anderson — Bondage Breaker",
+    title: "Neil Anderson&rsquo;s Bondage-Breaker Framework — Identity Confusion as Spiritual Warfare",
+    paragraphs: [
+      "Neil Anderson&rsquo;s Freedom in Christ Ministries and his books Victory Over the Darkness and The Bondage Breaker introduced millions of evangelicals to a framework for understanding spiritual warfare that begins with identity rather than behavior. Anderson&rsquo;s central insight — influenced by his work in counseling and pastoral ministry — is that the enemy&rsquo;s primary strategy is not behavior modification but identity confusion. If Satan can convince a believer that their fundamental identity is still defined by their sin patterns, their past failures, or their worst fears about themselves, he does not need to attack from outside; the person will defeat themselves.",
+      "Anderson&rsquo;s response is not primarily therapeutic or psychological; it is theological and declarative. His famous &ldquo;Who I Am in Christ&rdquo; list — drawn directly from New Testament texts — names fifty or more specific, Scripture-grounded identity declarations: I am a child of God (John 1:12), I am a new creation in Christ (2 Cor 5:17), I am God&rsquo;s workmanship (Eph 2:10), I am more than a conqueror (Rom 8:37). The discipline he recommends is the regular, aloud reading of these declarations — not as a positive-thinking technique but as the deliberate replacement of the enemy&rsquo;s identity whispers with the vocabulary the Bible uses to describe the believer.",
+      "Anderson&rsquo;s framework has been criticized by some for oversimplification and by others for under-emphasizing the sovereignty of God in spiritual warfare. But his central pastoral contribution remains important: the believer who does not know who they are in Christ will fight spiritual battles from a defensive posture, always reactive to the enemy&rsquo;s accusations. The believer who has internalized their identity in Christ — whose self-understanding is shaped by Scripture&rsquo;s vocabulary rather than the enemy&rsquo;s — stands on different ground entirely.",
+    ],
+  },
+  {
+    badge: "Identity and Calling",
+    title: "Identity Rooted in Calling vs. Performance — Being Before Doing",
+    paragraphs: [
+      "One of the most important distinctions in the theology of Christian identity is between identity rooted in calling and identity rooted in performance. Performance-based identity asks: &ldquo;Am I doing enough? Am I achieving the standard? Am I succeeding at the role?&rdquo; Calling-based identity asks a prior question: &ldquo;Who has God made me to be, and what is the work that flows from that being?&rdquo; The order matters enormously. Performance-based identity produces the Doing → Being direction: I do well, therefore I am valuable. Calling-based identity produces the Being → Doing direction: I am loved and called, therefore I do what I am made for.",
+      "This distinction maps onto the structure of Paul&rsquo;s letter to the Ephesians with unusual clarity. Chapters 1-3 are entirely indicative: what is already true of the believer in Christ. Chapter 4 begins the imperatives: &ldquo;I therefore urge you to walk in a manner worthy of the calling to which you have been called&rdquo; (4:1). The calling precedes the walking; the identity is established before the ethics are addressed. The imperatives of chapters 4-6 do not create the identity they presuppose; they are the outworking of an identity already given.",
+      "Practically, this means that the Christian who is experiencing moral failure, spiritual drought, or the loss of role or reputation has not lost their identity. The new creation they are in Christ is not contingent on their performance of it. They may be walking poorly; they are still the person described in Ephesians 1:3-14. The discipline is to bring that disconnect — between the objective identity and the subjective experience — to God in honest prayer, and to let the objective truth, rather than the subjective experience, be the governing reality.",
+    ],
+  },
+  {
+    badge: "John 10:10 — The Identity Thief",
+    title: "The Identity Thief — The Enemy&rsquo;s Strategy Against Your Sense of Self",
+    paragraphs: [
+      "&ldquo;The thief comes only to steal and kill and destroy. I came that they may have life and have it abundantly&rdquo; (John 10:10). Jesus places the two movements in explicit contrast: the thief&rsquo;s agenda is destruction; his own agenda is life in its fullest form. The &ldquo;abundant life&rdquo; (zōēn perisson — overflowing life, life in excess of what is merely necessary) is the specific target of the thief&rsquo;s theft. What is stolen is not merely health or property or relationship; it is the very sense of who one is — the knowledge of being beloved, chosen, and called.",
+      "The enemy&rsquo;s strategy in the garden (Gen 3) is identity-shaped from the start: &ldquo;Did God actually say?&rdquo; — the introduction of doubt about whether God&rsquo;s word can be trusted, whether God&rsquo;s provision is sufficient, whether God&rsquo;s definition of who you are is the real one. The lie that follows is an identity offer: &ldquo;You will be like God&rdquo; — not as a gift but as an achievement. The fall is not primarily a moral failure but an identity crisis: the attempt to constitute the self on different grounds than the ones God had already provided.",
+      "The recovery of identity in Christ is, from this angle, the undoing of the fall&rsquo;s identity theft: the restoration of the knowledge that one is already beloved, already chosen, already adequate in Christ, without needing to grasp equality with God or constitute the self through achievement. Philippians 2:6-8 presents Jesus as the second Adam who makes precisely the opposite choice: &ldquo;though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself.&rdquo; The secure identity — already in God — requires no grasping.",
+    ],
+    callout: {
+      label: "John 10:10",
+      text: "The thief steals life; Christ gives it abundantly. What the enemy most wants to steal is not what you have but who you know yourself to be — the beloved, chosen, called identity that is the basis of everything else.",
+    },
   },
 ];
 
-interface PracticeEntry {
-  lie: string;
-  truth: string;
-  declaration: string;
-}
-
-const PRACTICE_ENTRIES: PracticeEntry[] = [
+const practiceCards: PracticeCard[] = [
   {
-    lie: "I am defined by my past sins",
-    truth: "I am a new creation in Christ (2 Cor 5:17)",
-    declaration: "My past does not define me — Christ&rsquo;s redemption does.",
+    number: "01",
+    title: "The Identity Declaration — Speaking Who You Are in Christ Aloud",
+    summary:
+      "A daily practice of reading or speaking specific New Testament identity statements aloud, building the habit of orienting toward the objective truth of who you are in Christ before the day&rsquo;s performance pressures begin.",
+    steps: [
+      "Select five to seven specific New Testament identity statements that address your particular areas of vulnerability: the statements that feel least true, most contested by experience or memory, most in need of reinforcement. Anderson&rsquo;s &ldquo;Who I Am in Christ&rdquo; list is a useful starting point; find the ones that meet the specific shape of your identity confusion.",
+      "Read them aloud each morning — before the phone, before the news, before the email. The aloud part matters: hearing your own voice speak the truth creates a different neural and spiritual engagement than silent reading. You are not performing positivity; you are orienting yourself toward what is already objectively true.",
+      "When the old voice contradicts a declaration — when &ldquo;I am God&rsquo;s beloved child&rdquo; is immediately followed by the internal voice citing last week&rsquo;s failure — do not argue with the old voice. Simply re-read the declaration. The practice is not suppression of the old voice but the consistent, patient return to the new one. Over time, the new voice becomes louder.",
+      "At the end of the week, note which declarations produced the most resistance. Resistance is information: it marks the specific frontier where the identity transformation is most needed and most contested. Let the places of greatest resistance become the agenda for the Journal tab.",
+    ],
+    anchor: "2 Corinthians 5:17 — &ldquo;If anyone is in Christ, he is a new creation.&rdquo;",
   },
   {
-    lie: "I am not enough",
-    truth: "I am complete in Him (Col 2:10)",
-    declaration: "In Christ I lack nothing He has called me to.",
+    number: "02",
+    title: "The Voice Inventory — Naming the Competing Voices",
+    summary:
+      "A reflective exercise for identifying which of the three deadly lies is most operative in your sense of self, tracing its specific vocabulary, and mapping it to the specific New Testament truth that addresses it.",
+    steps: [
+      "Ask honestly: which of Nouwen&rsquo;s three lies has the most hold in your life right now? &ldquo;I am what I do&rdquo; (identity through achievement), &ldquo;I am what I have&rdquo; (identity through possession or relationship), or &ldquo;I am what others think of me&rdquo; (identity through approval and recognition)? Most people have all three, but one tends to dominate.",
+      "For the dominant lie: what is its specific vocabulary? What does it say, specifically, in your internal monologue? &ldquo;You are only valuable when you are productive.&rdquo; &ldquo;If they knew the real you, they would leave.&rdquo; &ldquo;You have never been enough.&rdquo; Name it as specifically as possible — general lies cannot be specifically refuted.",
+      "Find the specific New Testament counter. Not a generic &ldquo;God loves you&rdquo; — too broad to grip — but the targeted declaration: for the achiever, &ldquo;God&rsquo;s workmanship&rdquo; (Eph 2:10) names your worth as a product of the Artist, not your productivity; for the approval-seeker, &ldquo;accepted in the beloved&rdquo; (Eph 1:6, KJV) names a verdict already rendered.",
+      "Write the lie and its counter on an index card or in your journal. When the lie surfaces — and it will, daily — reach for the counter. The practice is not the elimination of the lie (which may take years) but the increasingly fast deployment of the truth that meets it.",
+    ],
+    anchor: "Romans 8:16 — &ldquo;The Spirit himself bears witness with our spirit that we are children of God.&rdquo;",
   },
   {
-    lie: "I am unloved and alone",
-    truth: "I am God&rsquo;s beloved child (1 John 3:1)",
-    declaration: "I am deeply loved with an everlasting love.",
+    number: "03",
+    title: "The Belovedness Practice — Lectio Divina on Mark 1:11",
+    summary:
+      "A contemplative prayer practice using the baptism narrative as a vehicle for receiving the Father&rsquo;s declaration of love — hearing it directed, personally and specifically, to you.",
+    steps: [
+      "Read Mark 1:9-11 slowly, twice. Imagine the scene: the river, the dove, the voice. Now allow the scene to become personal. You are the one coming up out of the water. The heavens open. The voice speaks.",
+      "Hear the words directed to you, with your name: &ldquo;You are my beloved child; with you I am well pleased.&rdquo; Do not immediately evaluate whether you feel this to be true. Simply sit with the words as a fact being declared, not a feeling being generated. The declaration precedes the feeling; let it.",
+      "When the old voice intrudes — citing your failures, your inadequacies, the gap between this declaration and your recent behavior — note it without engaging it. Return to the words of the Father. Henri Nouwen called this &ldquo;the discipline of coming home to the voice of the Beloved.&rdquo; It is a discipline precisely because the return takes effort.",
+      "Close by speaking the words back to the Father as a prayer of reception: &ldquo;I receive this. I am your beloved. Not because I have earned it. Because you have declared it. I choose to live from this place today.&rdquo; The reception is itself an act of faith.",
+    ],
+    anchor: "Mark 1:11 — &ldquo;You are my beloved Son; with you I am well pleased.&rdquo;",
   },
   {
-    lie: "I am what I do",
-    truth: "I am who God says I am, not what I achieve",
-    declaration: "My worth is not earned — it is given.",
+    number: "04",
+    title: "The &ldquo;In Christ&rdquo; Study — Building Your Personal Identity Catalog",
+    summary:
+      "A Bible study practice for building a personalized catalog of &ldquo;in Christ&rdquo; identity statements — the 164 Pauline occurrences filtered through your specific identity wounds.",
+    steps: [
+      "Over four weeks, read through Ephesians, Colossians, Romans 6-8, and Galatians 2-4, marking every &ldquo;in Christ,&rdquo; &ldquo;in him,&rdquo; &ldquo;through him,&rdquo; and &ldquo;with Christ&rdquo; statement. You will find them dense — Paul uses them in nearly every verse of Ephesians 1-3.",
+      "For each statement, write a one-sentence paraphrase in first person: &ldquo;I am chosen in him before the foundation of the world&rdquo; (Eph 1:4), &ldquo;I am God&rsquo;s workmanship, created in Christ Jesus for good works&rdquo; (Eph 2:10), &ldquo;I am alive to God in Christ Jesus&rdquo; (Rom 6:11). The personal form makes the truth more specific and therefore more grippable.",
+      "Identify the ten statements that feel most foreign to your current self-experience — the ones that produce the most internal contradiction. These are the frontier statements: the declarations that most need to become real. Post them where you will see them daily.",
+      "Return to the catalog in six months. Note which statements have moved from &ldquo;foreign&rdquo; to &ldquo;possible,&rdquo; or from &ldquo;possible&rdquo; to &ldquo;mine.&rdquo; Identity transformation is slow; the catalog makes it measurable.",
+    ],
+    anchor: "Colossians 3:3 — &ldquo;Your life is hidden with Christ in God.&rdquo;",
   },
   {
-    lie: "I don&rsquo;t belong",
-    truth: "I am a member of God&rsquo;s household (Eph 2:19)",
-    declaration: "I belong to the family of God.",
+    number: "05",
+    title: "The Shame Audit — Naming the Wounds That Shaped a False Identity",
+    summary:
+      "A guided reflective exercise for identifying the specific experiences — shame, trauma, significant relationships — that formed the most entrenched false identity narratives, and bringing them into the light of the gospel.",
+    steps: [
+      "Ask: what is the earliest memory of believing something negative and definitive about yourself? Not just a moment of embarrassment but a moment when a verdict seemed to be rendered: &ldquo;I am the kind of person who...&rdquo; or &ldquo;People like me don&rsquo;t...&rdquo; These foundational shame narratives often run invisibly beneath subsequent behavior and identity confusion.",
+      "For each significant shame narrative you can identify: who first gave it to you? Was it a parent, a teacher, a peer, a religious authority, an abuser? Is the voice still active? What would it take for this verdict to be overturned?",
+      "The gospel&rsquo;s answer to shame narratives is not denial (&ldquo;it didn&rsquo;t really affect you&rdquo;) or minimization (&ldquo;get over it&rdquo;) but counter-declaration: what was done to you or said over you does not constitute your identity. The Father&rsquo;s declaration in Christ supersedes every human verdict. This is true even when it does not feel true; the practice is bringing the specific shame narrative into the specific light of the specific gospel declaration that addresses it.",
+      "Consider whether this work needs a trusted counselor or spiritual director. Identity wounds that run deep often need relational context for healing — not just intellectual reframing but the experience of being known and loved in the specific place of shame. The Journal tab is a starting point; deeper work may require deeper support.",
+    ],
+    anchor: "1 John 3:1 — &ldquo;See what kind of love the Father has given to us, that we should be called children of God; and so we are.&rdquo;",
   },
   {
-    lie: "I am a failure",
-    truth: "I am more than a conqueror (Romans 8:37)",
-    declaration: "Christ&rsquo;s victory is my victory.",
+    number: "06",
+    title: "The Weekly Identity Check-In — Diagnosing Which Voice Is Governing",
+    summary:
+      "A brief weekly practice for checking which voice — the Father&rsquo;s declaration or the world&rsquo;s lies — has been governing the week&rsquo;s decisions, relationships, and emotional weather.",
+    steps: [
+      "At the end of each week, ask three diagnostic questions. First: what drove most of my decisions this week — the desire to perform well enough, the need for approval, or a secure sense of being already loved and called? The answer reveals which identity is governing in practice, regardless of what is believed in theory.",
+      "Second: where did shame, comparison, or the fear of rejection most show up this week? These are the markers of performance-based identity in operation. They are not evidence of failure; they are information about where the identity transformation most needs to go.",
+      "Third: when was the identity in Christ most real, most operative, most actually governing? This may have been a single moment — a conversation where you spoke from security rather than fear, a decision made from calling rather than approval-seeking. Name it and thank God for it as evidence of ongoing transformation.",
+      "Close the check-in with the Ephesians 1 catalog: read through the opening verses slowly and let them be the governing word that ends the week. &ldquo;Blessed in Christ with every spiritual blessing... chosen... adopted... redeemed... forgiven... lavished with grace... sealed.&rdquo; This is who you are. This is what governs.",
+    ],
+    anchor: "Ephesians 1:3 — &ldquo;Blessed be the God and Father of our Lord Jesus Christ, who has blessed us in Christ with every spiritual blessing.&rdquo;",
   },
 ];
 
-const VOICES = [
+const voiceCards: VoiceCard[] = [
   {
-    id: "anderson",
-    name: "Neil T. Anderson",
-    era: "1942&ndash;present",
-    work: "The Bondage Breaker; Victory Over the Darkness",
-    quote: "You are not the great sinner that Satan wants you to believe you are. You are a saint who sins. That distinction is everything. Your identity is not your behavior — it is your position in Christ. The enemy&rsquo;s primary strategy is identity confusion, and the believer&rsquo;s primary need is to know who they are in Christ.",
-    bio: "Neil T. Anderson is the founder of Freedom in Christ Ministries and one of the most influential writers on Christian identity in the evangelical world. His book Victory Over the Darkness has helped millions of Christians understand that their fundamental identity is not constituted by their sin patterns or their struggles but by their position in Christ. Anderson&rsquo;s framework of &ldquo;who I am in Christ&rdquo; declarations — grounded in specific New Testament texts — has been widely used in pastoral counseling, small groups, and personal discipleship. His insight that the enemy&rsquo;s primary strategy is identity confusion (rather than behavior modification) has been deeply clarifying for Christians trapped in cycles of shame and self-condemnation. His work bridges systematic theology and pastoral care with unusual effectiveness.",
-    contribution: "Anderson gave the evangelical church a practical, Scripture-grounded vocabulary for identity in Christ. His list of &ldquo;Who I Am in Christ&rdquo; statements, drawn directly from New Testament texts, has become a standard discipleship resource. He helped Christians move beyond guilt-management to identity transformation.",
+    name: "Neil Anderson",
+    role: "The Bondage Breaker; Victory Over the Darkness — Identity in Christ as the Ground of Freedom",
+    quote:
+      "You are not the great sinner that Satan wants you to believe you are. You are a saint who sins. Your identity is not your behavior — it is your position in Christ. The enemy&rsquo;s primary strategy is identity confusion, and the believer&rsquo;s primary need is to know who they are in Christ.",
+    bio: "Neil T. Anderson (b. 1942) is the founder of Freedom in Christ Ministries and one of the most influential writers on Christian identity in the late-twentieth-century evangelical world. A former aerospace engineer turned theologian and pastor, Anderson developed his approach to identity and spiritual warfare through years of counseling Christians trapped in cycles of shame, fear, and bondage to old patterns. His book Victory Over the Darkness (1990) and its companion The Bondage Breaker (1990) have collectively sold millions of copies and are used in discipleship contexts across denominational lines. Anderson&rsquo;s central contribution is the identification of identity confusion as the primary mechanism of spiritual bondage: the enemy does not need external force if the believer has accepted a false identity — defined by past sin, by shame narratives, by performance anxiety — that keeps the self in perpetual defeat. His &ldquo;Who I Am in Christ&rdquo; declarations, drawn directly from New Testament texts, have become a standard pastoral resource for identity renewal. He helped the evangelical church understand that genuine freedom begins not with behavior management but with the renovation of the self&rsquo;s understanding of who it is.",
   },
   {
-    id: "nouwen",
     name: "Henri Nouwen",
-    era: "1932&ndash;1996",
-    work: "Life of the Beloved; The Return of the Prodigal Son",
-    quote: "You are the Beloved. That is the voice you need to listen to — not the many other voices that speak to you loudly and demandingly. The greatest spiritual work of your life is to claim your belovedness and to receive it as the deepest truth about who you are.",
-    bio: "Henri Nouwen was a Dutch Catholic priest, professor at Harvard and Yale divinity schools, and spiritual writer who spent the last decade of his life in community at L&rsquo;Arche Daybreak in Toronto, caring for people with intellectual disabilities. His book Life of the Beloved, written as a letter to a secular Jewish friend, is a sustained reflection on the meaning of being beloved by God — chosen, blessed, broken, and given. Nouwen&rsquo;s spiritual autobiography was marked by profound vulnerability: his own struggles with loneliness, self-rejection, and the need for affirmation make his writing on belovedness compelling and credible rather than merely theoretical. His treatment of the Prodigal Son parable in The Return of the Prodigal Son has shaped generations of readers toward a deeper understanding of the Father&rsquo;s love.",
-    contribution: "Nouwen gave the church a contemplative, psychologically honest account of identity formation. His distinction between &ldquo;the voice of the world&rdquo; (telling us we are what we do, what we have, and what others think of us) and &ldquo;the voice of the Beloved&rdquo; has become a touchstone for spiritual direction and retreat work across traditions.",
+    role: "Life of the Beloved; The Return of the Prodigal Son — Belovedness as the Deepest Truth",
+    quote:
+      "You are the Beloved. That is the voice you need to listen to — not the many other voices that speak to you loudly and demandingly. The greatest spiritual work of your life is to claim your belovedness and to receive it as the deepest truth about who you are.",
+    bio: "Henri Nouwen (1932&ndash;1996) was a Dutch Catholic priest and prolific spiritual writer who taught at Notre Dame, Yale, and Harvard before leaving the academy to live in community at L&rsquo;Arche Daybreak in Toronto, caring for people with intellectual disabilities. He wrote over forty books, many of which have become classics of spiritual direction. His book Life of the Beloved (1992), written as a letter to a secular Jewish friend who asked him to explain his faith, is a sustained meditation on the meaning of being chosen, blessed, broken, and given — the four movements of the Eucharist applied to human identity. Nouwen&rsquo;s spiritual autobiography was marked by unusual vulnerability: his own chronic loneliness, his struggle with the need for affirmation and approval, and his depression make his writing on belovedness credible rather than merely theoretical. He knew the three deadly lies from the inside. His treatment of the Prodigal Son parable in The Return of the Prodigal Son (1992) has become one of the most influential books on identity and grace in the modern Christian tradition, shaped in part by his sustained meditation on Rembrandt&rsquo;s painting of the same scene.",
   },
   {
-    id: "manning",
     name: "Brennan Manning",
-    era: "1934&ndash;2013",
-    work: "The Ragamuffin Gospel; Abba&rsquo;s Child",
-    quote: "Define yourself radically as one beloved by God. This is the true self. Every other identity is illusion. The Abba of Jesus loves you tenderly, unconditionally, and forever. The real you — not the performing you, not the pretending you — is the one the Father runs toward.",
-    bio: "Brennan Manning was a former Franciscan priest who left the priesthood, struggled with alcoholism throughout his life, and became one of the most beloved spiritual writers of the late 20th century. His book The Ragamuffin Gospel made a passionate case that the gospel is for broken, struggling, failing people — not for those who have got their act together. Manning&rsquo;s own repeated failures gave his writing a tenderness and authenticity that spoke directly to people whose identity had been shattered by shame, addiction, or religious performance. Abba&rsquo;s Child, his most focused treatment of identity, develops the concept of the &ldquo;impostor self&rdquo; — the false persona we construct to protect ourselves from vulnerability — and calls Christians to live from the true self that is defined only by the Father&rsquo;s love.",
-    contribution: "Manning gave the church permission to be honest about failure and to receive grace rather than perform religiosity. His concept of the &ldquo;impostor&rdquo; (the false self that performs for approval) and the &ldquo;beloved child&rdquo; (the true self defined by God&rsquo;s love) has been deeply formative for those recovering from shame, religious perfectionism, and addiction.",
+    role: "The Ragamuffin Gospel; Abba&rsquo;s Child — Identity for the Broken and Failing",
+    quote:
+      "Define yourself radically as one beloved by God. This is the true self. Every other identity is illusion. The Abba of Jesus loves you tenderly, unconditionally, and forever. The real you — not the performing you, not the pretending you — is the one the Father runs toward.",
+    bio: "Brennan Manning (1934&ndash;2013) was a former Franciscan priest who left the priesthood, struggled with alcoholism throughout his life and into his later ministry years, and became one of the most beloved — and most controversial — spiritual writers of the late twentieth century. The Ragamuffin Gospel (1990) made a passionate, theologically grounded case that the gospel is good news specifically for the broken, the failing, and the ragamuffin — not for those who have their act together. Manning&rsquo;s own repeated failures gave his writing a tenderness and credibility that spoke directly to people whose shame had convinced them they were disqualified from grace. Abba&rsquo;s Child (1994) is his most focused treatment of identity: it develops the concept of the &ldquo;impostor self&rdquo; — the false persona constructed to protect the self from vulnerability and rejection — and contrasts it with the &ldquo;beloved child,&rdquo; the true self that is defined only by the Father&rsquo;s unconditional love. Manning&rsquo;s theology of identity is both his most important contribution and the thing that made his life most painful: he knew, better than most, the gap between the identity he proclaimed and the identity he felt on his worst days.",
   },
   {
-    id: "perry",
-    name: "Jackie Hill Perry",
-    era: "1989&ndash;present",
-    work: "Gay Girl, Good God; Holier Than Thou",
-    quote: "Shame says that what you&rsquo;ve done or what&rsquo;s been done to you is who you are. The gospel says that who you are is determined by what Christ has done. These two stories cannot coexist. One must die, and in Christ, it already has.",
-    bio: "Jackie Hill Perry is a poet, author, Bible teacher, and hip-hop artist whose work addresses identity, sexuality, shame, and the holiness of God with unusual depth and personal courage. Her memoir Gay Girl, Good God tells the story of her own journey out of homosexuality and into faith, addressing the complex intersection of sexual identity, shame, and the gospel. Perry&rsquo;s distinctive contribution is her ability to speak to the experience of those whose identity has been shaped by experiences of shame, trauma, or sexuality that the church has often handled poorly — and to articulate the gospel&rsquo;s power to constitute a new identity without minimizing the real struggle of transformation. Her teaching on holiness insists that God&rsquo;s call to holiness is not a burden but a declaration of identity: you are holy, therefore live holy.",
-    contribution: "Perry gave the contemporary church a voice that addresses the intersection of identity, sexuality, and shame with theological rigor, poetic beauty, and personal vulnerability. Her work has been particularly important for younger evangelicals navigating questions of sexual identity and for those whose shame has made them feel disqualified from the gospel.",
+    name: "John Stott",
+    role: "The Cross of Christ; Basic Christianity — Identity Grounded in the Atonement",
+    quote:
+      "Before we can begin to see the cross as something done for us, we have to see it as something done by us. It is not only that we need the cross — we deserve it. And it is the measure of our sinfulness, and therefore of our need, that God himself had to die to meet it.",
+    bio: "John Stott (1921&ndash;2011) was a Church of England clergyman, theologian, and one of the most significant evangelical leaders of the twentieth century, whose ministry at All Souls Langham Place in London, his prolific writing, and his work through the Lausanne Movement shaped evangelical Christianity worldwide. His approach to Christian identity is grounded not in psychological frameworks but in the objective realities of the atonement and the new creation. In The Cross of Christ (1986) — widely regarded as his masterwork — Stott argues that the cross is the ground of every other Christian doctrine and every dimension of Christian identity: who we are is inseparable from what Christ has done for us on the cross, and the identity &ldquo;forgiven, reconciled, redeemed&rdquo; is not a feeling but a fact established by the historical event of the crucifixion and resurrection. Stott&rsquo;s complementary conviction — that this objective identity must be received, internalized, and allowed to reshape the whole of life — connects his doctrinal rigor to the pastoral concern for genuine transformation that marks all his best writing.",
   },
   {
-    id: "tripp",
-    name: "Paul David Tripp",
-    era: "1950&ndash;present",
-    work: "Dangerous Calling; New Morning Mercies",
-    quote: "The most dangerous thing you can do is look to your own performance to define yourself. You will always find reasons to be proud or reasons to despair. Your identity must be anchored in something more stable than your track record — and that something is the grace of the Lord Jesus Christ.",
-    bio: "Paul David Tripp is a pastor, counselor, and author whose work sits at the intersection of Reformed theology and biblical counseling. His book Dangerous Calling is addressed to pastors but applies broadly to all Christians: it is an analysis of how identity confusion &mdash; deriving your sense of self from role, reputation, competency, or comparison &mdash; is spiritually and relationally destructive. Tripp&rsquo;s framework of &ldquo;heart change&rdquo; insists that behavior change without identity transformation is moralism, not gospel. His daily devotional New Morning Mercies applies the gospel to the rhythms of daily life with unusual specificity and pastoral warmth. Tripp consistently draws the line between the &ldquo;grace narrative&rdquo; (I am who God declares me to be) and the &ldquo;performance narrative&rdquo; (I am who my track record says I am).",
-    contribution: "Tripp has helped the church understand that identity confusion is not merely a psychological problem but a theological and pastoral one. His emphasis that the gospel must address not just behavior but the identity-shaping narratives of the heart has been important for biblical counseling and discipleship.",
+    name: "Paul Tripp",
+    role: "Dangerous Calling; New Morning Mercies — Identity Confusion as the Root of Ministry Failure",
+    quote:
+      "The most dangerous thing you can do is look to your own performance to define yourself. You will always find reasons to be proud or reasons to despair. Your identity must be anchored in something more stable than your track record — and that something is the grace of the Lord Jesus Christ.",
+    bio: "Paul David Tripp (b. 1950) is a pastor, counselor, and author whose work sits at the intersection of Reformed theology and biblical counseling. His book Dangerous Calling (2012) is addressed primarily to pastors but applies to all Christians: it is an analysis of how identity confusion — deriving the self&rsquo;s sense of worth and security from role, reputation, theological competency, or comparison with others — is spiritually and relationally corrosive. Tripp&rsquo;s framework of &ldquo;heart idolatry&rdquo; identifies the specific false gods to which the self turns for identity when the gospel&rsquo;s provision is not being received: competence as an idol produces the imposter syndrome of the performing pastor; approval as an idol produces the people-pleaser who cannot exercise genuine spiritual authority; success as an idol produces the minister who measures self-worth by church growth metrics. His daily devotional New Morning Mercies (2014) applies the gospel to the rhythms of ordinary life with unusual pastoral warmth and specificity. Tripp consistently draws the line between the &ldquo;grace narrative&rdquo; — I am who God declares me to be in Christ — and the &ldquo;performance narrative&rdquo; — I am who my track record says I am.",
   },
   {
-    id: "keller",
-    name: "Tim Keller",
-    era: "1950&ndash;2023",
-    work: "Counterfeit Gods; The Prodigal God",
-    quote: "If your identity is built on anything other than God&rsquo;s love for you in Christ, it is a counterfeit god. And counterfeit gods will always fail you — not because they are always bad things, but because they were never designed to carry the weight of identity. Only the love of God can do that.",
-    bio: "Tim Keller was the founding pastor of Redeemer Presbyterian Church in New York City and one of the most significant Reformed thinkers and preachers of the late 20th and early 21st centuries. His book Counterfeit Gods is the most influential contemporary treatment of idolatry as identity-formation: Keller argues that an idol is anything that functions as a &ldquo;functional savior&rdquo; — the thing we believe will give us significance, security, or approval if we can achieve it. These counterfeit identities (career, family, romance, reputation, moral performance) are not always bad things, but they are structurally incapable of bearing the weight of identity that only God can carry. His book The Prodigal God is a meditation on Luke 15 that shows two forms of identity confusion: the younger son who defines himself by rebellion, and the older son who defines himself by moral achievement. Both are lost; the Father&rsquo;s love addresses both.",
-    contribution: "Keller gave the contemporary evangelical world a sophisticated, culturally intelligent account of idolatry and identity. His analysis of &ldquo;the good things that become ultimate things&rdquo; has helped countless people identify the hidden sources of their identity anxiety and understand why only the gospel can provide genuine security.",
+    name: "Dane Ortlund",
+    role: "Gentle and Lowly; Deeper — The Heart of Christ as the Ground of Identity",
+    quote:
+      "Jesus Christ is the most tender, gentle, welcoming, forgiving, and patient person in the universe. Not despite his holiness but because of it. And it is precisely this Christ — in his tender welcome — who is the basis of your identity as beloved. You are not loved in spite of who you are. You are loved as you are, into who you are becoming.",
+    bio: "Dane Ortlund (b. 1982) is an editor, author, and pastor whose book Gentle and Lowly: The Heart of Christ for Sinners and Sufferers (2020) became a widely read meditation on the emotional and relational character of Jesus as the ground of the Christian&rsquo;s approach to God. Working through Matthew 11:29 (&ldquo;I am gentle and lowly in heart&rdquo;) and related passages in the Puritans — particularly John Owen, Thomas Goodwin, and Richard Sibbes — Ortlund argues that the deepest truth about Jesus is not his power or his demands but his welcoming tenderness toward the very people who feel most disqualified from approaching him. His contribution to identity theology is indirect but important: if identity begins with the question &ldquo;What does God think of me?&rdquo;, the answer that Ortlund traces from the Gospels and the Puritans is more tender and welcoming than many Christians have allowed themselves to believe. His follow-up Deeper (2021) extends this into a theology of spiritual growth that begins not with effort but with the reception of who Christ is and what he has done — the identity given before the transformation required.",
   },
 ];
 
-const SCRIPTURE_PASSAGES = [
+const scriptureCards: ScriptureCard[] = [
   {
-    ref: "2 Corinthians 5:17",
-    text: "&ldquo;Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come.&rdquo;",
-    exposition: "The Greek kain&ecirc; ktisis echoes the language of Genesis 1 — this is not improvement but re-genesis. The verb &ldquo;has passed away&rdquo; (parēlthen) is aorist, indicating a completed past action: the old is definitively gone. The &ldquo;new has come&rdquo; (gegonen) is perfect, indicating present consequences of a past event. Paul is making an ontological claim: something genuinely new exists in the believer that did not exist before. This is the foundation of all identity transformation — not moral improvement but new creation.",
+    reference: "2 Corinthians 5:17",
+    text: "Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come.",
+    reflection:
+      "Kainē ktisis — new creation, with Genesis overtones. The aorist &ldquo;has passed away&rdquo; indicates completed past action; the perfect &ldquo;has come&rdquo; indicates present consequences of a past event. This is a declarative statement about present ontological reality, not an aspiration or a future promise. The new creation is what you are, right now, in Christ — not what you will be when you finally behave like it.",
   },
   {
-    ref: "Romans 8:14-17",
-    text: "&ldquo;For you did not receive the spirit of slavery to fall back into fear, but you have received the Spirit of adoption as sons, by whom we cry, &lsquo;Abba! Father!&rsquo; The Spirit himself bears witness with our spirit that we are children of God, and if children, then heirs &mdash; heirs of God and fellow heirs with Christ.&rdquo;",
-    exposition: "The contrast between the &ldquo;spirit of slavery&rdquo; and the &ldquo;Spirit of adoption&rdquo; is the contrast between performance-based and grace-based identity. Slavery produces fear — the constant anxiety of not doing enough. Adoption produces intimacy — the &ldquo;Abba&rdquo; cry that signals safety and nearness. In Greco-Roman law, adoption was irrevocable and conferred full inheritance rights. Paul is saying: you cannot be unadopted. The Spirit&rsquo;s inner witness is the experiential confirmation of an objective legal reality — you are a child, not a servant.",
+    reference: "Romans 8:14-17",
+    text: "For you did not receive the spirit of slavery to fall back into fear, but you have received the Spirit of adoption as sons, by whom we cry, &ldquo;Abba! Father!&rdquo; The Spirit himself bears witness with our spirit that we are children of God.",
+    reflection:
+      "Two spirits, two identities: the spirit of slavery produces fear — the constant performance anxiety of the servant who may be dismissed. The Spirit of adoption produces intimacy — the &ldquo;Abba&rdquo; cry that signals safety, nearness, and unconditional belonging. The adoption is irrevocable; in Greco-Roman law, the adopted child could not be unadopted. You cannot be unadopted. The Spirit&rsquo;s inner witness is the experiential confirmation of that legal reality.",
   },
   {
-    ref: "Ephesians 1:3-14",
-    text: "&ldquo;Blessed be the God and Father of our Lord Jesus Christ, who has blessed us in Christ with every spiritual blessing in the heavenly places, even as he chose us in him before the foundation of the world, that we should be holy and blameless before him. In love he predestined us for adoption to himself as sons through Jesus Christ.&rdquo;",
-    exposition: "This passage is the most comprehensive catalog of the believer&rsquo;s identity in Christ in the New Testament. Before a single command is given in Ephesians, Paul establishes what is already true: chosen, holy, blameless, predestined for adoption, redeemed, forgiven, lavished with grace, united in Christ, sealed with the Spirit, guaranteed inheritance. These are declarative statements about present reality. The ethical imperatives of chapters 4-6 flow from this foundation — they do not create it. Identity precedes obedience; who you are determines what you do.",
+    reference: "Ephesians 1:3-6",
+    text: "Blessed be the God and Father of our Lord Jesus Christ, who has blessed us in Christ with every spiritual blessing in the heavenly places, even as he chose us in him before the foundation of the world, that we should be holy and blameless before him. In love he predestined us for adoption to himself as sons through Jesus Christ.",
+    reflection:
+      "Before the first imperative is given in Ephesians, Paul establishes what is already true: chosen, holy, blameless, predestined for adoption, accepted in the beloved. These declarations precede the ethical instructions by three full chapters. The order is the theology: identity precedes obedience; who you are determines what you do; the gospel gives before it requires.",
   },
   {
-    ref: "Colossians 3:1-4",
-    text: "&ldquo;If then you have been raised with Christ, seek the things that are above, where Christ is, seated at the right hand of God. Set your minds on things that are above, not on things that are on earth. For you have died, and your life is hidden with Christ in God. When Christ who is your life appears, then you also will appear with him in glory.&rdquo;",
-    exposition: "The phrase &ldquo;your life is hidden with Christ in God&rdquo; is one of the most profound identity statements in Scripture. Your true life — the life that constitutes who you ultimately are — is not visible to any external measurement. It cannot be found in your performance record, your reputation, your achievements, or your failures. It is hidden in the safest possible location: in Christ, who is in God. This means that neither success nor failure, neither praise nor condemnation from others, touches the deepest truth about who you are.",
+    reference: "Colossians 3:3",
+    text: "For you have died, and your life is hidden with Christ in God.",
+    reflection:
+      "Your true life — the life that constitutes who you ultimately are — is not visible to external measurement. It is hidden in the safest possible location: in Christ, who is in God. Neither your performance record nor your reputation nor your failures touches this hidden life. It is secured in an invisible reality that no circumstance can reach. This is the ontological basis for Christian security: your identity is stored in a location immune to loss.",
   },
   {
-    ref: "1 John 3:1",
-    text: "&ldquo;See what kind of love the Father has given to us, that we should be called children of God; and so we are. The reason why the world does not know us is that it did not know him.&rdquo;",
-    exposition: "The phrase &ldquo;see what kind of love&rdquo; (idete potapēn agapēn) expresses astonishment — this is love of a kind that defies category. John is marveling at the sheer improbability of the identity declaration: that creatures like us should be called, and should actually be, children of God. The phrase &ldquo;and so we are&rdquo; is John&rsquo;s insistence that this is not merely a legal fiction or a theological metaphor — it is ontological reality. The world does not recognize this identity because it did not recognize the One from whom the identity comes. Our true identity is invisible to the categories of this world.",
+    reference: "1 John 3:1",
+    text: "See what kind of love the Father has given to us, that we should be called children of God; and so we are.",
+    reflection:
+      "&ldquo;See what kind of love&rdquo; (idete potapēn agapēn) — John is marveling at the sheer improbability of the declaration. This is love of a category that defies normal classification. And &ldquo;so we are&rdquo; — not merely called, but actually are. John insists on the ontological weight: this is not legal fiction or spiritual metaphor but reality. The world does not recognize this identity because it does not recognize the One from whom it comes.",
   },
   {
-    ref: "Galatians 2:20",
-    text: "&ldquo;I have been crucified with Christ. It is no longer I who live, but Christ who lives in me. And the life I now live in the flesh I live by faith in the Son of God, who loved me and gave himself for me.&rdquo;",
-    exposition: "Paul speaks of a new &ldquo;I&rdquo; — a self that has been reconstituted by union with Christ. The old self-defining ego — organized around self-justification, self-protection, and performance — has died. A new self, defined by &ldquo;Christ lives in me,&rdquo; has taken its place. The present life Paul lives is lived &ldquo;by faith in the Son of God&rdquo; — meaning it draws its energy and direction from trust in Christ rather than from self-assertion. The final phrase is personal and specific: &ldquo;who loved me and gave himself for me.&rdquo; Paul&rsquo;s identity is anchored not in a theological abstraction but in the particular love of the Son for him — a love demonstrated on the cross.",
-  },
-];
-
-const VIDEOS = [
-  {
-    videoId: "FbFKhigG1D0",
-    title: "Who You Are in Christ - Neil Anderson",
-    desc: "Neil T. Anderson presents his landmark teaching on the believer&rsquo;s identity in Christ, drawing from his ministry work helping thousands of Christians overcome identity confusion and live from their true self in God.",
-  },
-  {
-    videoId: "WlfVMYHHmOk",
-    title: "Knowing Your Identity in Christ",
-    desc: "A rich biblical overview of what it means to be &ldquo;in Christ&rdquo; — exploring the New Testament&rsquo;s declarations about the believer&rsquo;s new nature, adoption, and security in God&rsquo;s love.",
-  },
-  {
-    videoId: "KFSzT9Mb_gQ",
-    title: "Henri Nouwen: You Are the Beloved",
-    desc: "Henri Nouwen&rsquo;s landmark talk on the believer&rsquo;s fundamental identity as &ldquo;the Beloved&rdquo; of God — the core message he proclaimed in his final years at L&rsquo;Arche Daybreak.",
-  },
-  {
-    videoId: "1eP3DvFQqVk",
-    title: "Breaking Free from Shame - Jackie Hill Perry",
-    desc: "Jackie Hill Perry addresses the relationship between shame, identity, and the gospel — speaking from her own experience of finding freedom in Christ from shame-based identity.",
-  },
-  {
-    videoId: "RwEVPAKiHp4",
-    title: "Tim Keller: Finding Your True Identity",
-    desc: "Tim Keller teaches on why counterfeit identities — career, romance, moral performance, approval — always collapse, and why only the identity given in Christ can sustain a human life.",
-  },
-  {
-    videoId: "5TxNEfMIijE",
-    title: "Ephesians 1: All Your Blessings in Christ",
-    desc: "An exposition of Ephesians 1:3-14 — the most comprehensive catalog of the believer&rsquo;s identity in the New Testament. Every spiritual blessing, already given, already yours, in Christ.",
+    reference: "Galatians 2:20",
+    text: "I have been crucified with Christ. It is no longer I who live, but Christ who lives in me. And the life I now live in the flesh I live by faith in the Son of God, who loved me and gave himself for me.",
+    reflection:
+      "A new &ldquo;I&rdquo; — a self reconstituted by union with Christ. The old self-defining ego, organized around self-justification and performance, has been crucified. &ldquo;Christ lives in me&rdquo; is the new center of gravity. And the specificity of the closing phrase — &ldquo;who loved me and gave himself for me&rdquo; — is decisive: the identity is not grounded in theological abstraction but in the particular love of the Son for this person, demonstrated at Calvary.",
   },
 ];
 
-function PracticeCard({ entry, index }: { entry: PracticeEntry; index: number }) {
-  const [flipped, setFlipped] = useState(false);
+const videoItems: VideoItem[] = [
+  { videoId: "4X5UdEwbBBs", title: "Who You Are in Christ — Identity in the New Testament" },
+  { videoId: "_Qzp_gIF6Dc", title: "Henri Nouwen: You Are the Beloved" },
+  { videoId: "1xVH8i8IaGI", title: "Neil Anderson — Breaking Free from Identity Confusion" },
+  { videoId: "wbNnGQdDxuA", title: "The Three Deadly Lies About Identity" },
+  { videoId: "kGBUq0VbSXc", title: "Brennan Manning: The Ragamuffin Gospel and True Identity" },
+  { videoId: "fJDEOr8mJCU", title: "Ephesians 1 — Every Spiritual Blessing in Christ" },
+];
 
-  return (
-    <div
-      style={{
-        background: CARD,
-        border: `1px solid ${flipped ? PURPLE + "60" : BORDER}`,
-        borderRadius: 14,
-        padding: "1.5rem",
-        cursor: "pointer",
-        transition: "border-color 0.25s",
-      }}
-      onClick={() => setFlipped(f => !f)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={e => e.key === "Enter" && setFlipped(f => !f)}
-      aria-expanded={flipped}
-    >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: "50%",
-            background: `${PURPLE}22`, color: PURPLE,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontWeight: 800, fontSize: "0.85rem", flexShrink: 0,
-          }}>
-            {index + 1}
-          </div>
-          <span style={{ color: MUTED, fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>
-            {flipped ? "Truth + Declaration" : "The Lie"}
-          </span>
-        </div>
-        <span style={{ color: PURPLE, fontSize: "0.75rem", fontWeight: 600 }}>
-          {flipped ? "tap to flip back" : "tap to reveal truth"}
-        </span>
-      </div>
-
-      {!flipped ? (
-        <div>
-          <p style={{ color: "#EF8888", fontStyle: "italic", fontSize: "1rem", lineHeight: 1.6, margin: 0 }}
-            dangerouslySetInnerHTML={{ __html: `&ldquo;${entry.lie}&rdquo;` }} />
-        </div>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          <div style={{ background: `${PURPLE}12`, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 8px 8px 0", padding: "0.75rem 1rem" }}>
-            <div style={{ color: PURPLE, fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: "0.3rem" }}>Biblical Truth</div>
-            <p style={{ color: TEXT, fontSize: "0.95rem", lineHeight: 1.65, margin: 0, fontStyle: "italic" }}
-              dangerouslySetInnerHTML={{ __html: entry.truth }} />
-          </div>
-          <div style={{ background: "rgba(100,200,120,0.06)", borderLeft: "3px solid #5CB87A", borderRadius: "0 8px 8px 0", padding: "0.75rem 1rem" }}>
-            <div style={{ color: "#5CB87A", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: "0.3rem" }}>Declaration</div>
-            <p style={{ color: TEXT, fontSize: "0.95rem", lineHeight: 1.65, margin: 0 }}
-              dangerouslySetInnerHTML={{ __html: entry.declaration }} />
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+const TABS = ["Theology", "Practices", "Voices", "Scripture", "Journal", "Videos"] as const;
+type Tab = (typeof TABS)[number];
 
 export default function ChristianIdentityPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
-  const [selectedVoice, setSelectedVoice] = useState<string>("anderson");
-  const [entries, setEntries] = useState<IDNEntry[]>(() => {
-    try {
-      const stored = localStorage.getItem("vine_christianidentity_entries");
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
-  const [formLie, setFormLie] = useState("");
-  const [formTruth, setFormTruth] = useState("");
-  const [formDeclaration, setFormDeclaration] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [tab, setTab] = useState<Tab>("Theology");
+  const [entries, setEntries] = useState<IDNEntry[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  const [identityTruth, setIdentityTruth] = useState("");
+  const [theOldVoice, setTheOldVoice] = useState("");
+  const [whyItMatters, setWhyItMatters] = useState("");
 
   useEffect(() => {
     try {
-      localStorage.setItem("vine_christianidentity_entries", JSON.stringify(entries));
-    } catch {}
-  }, [entries]);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) setEntries(parsed as IDNEntry[]);
+      }
+    } catch {
+      // corrupted storage — start fresh
+    }
+    setLoaded(true);
+  }, []);
 
-  const saveEntry = () => {
-    if (!formLie.trim()) return;
-    const newEntry: IDNEntry = {
-      id: Date.now().toString(),
-      date: new Date().toISOString().split("T")[0],
-      lie: formLie,
-      truth: formTruth,
-      declaration: formDeclaration,
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    } catch {
+      // storage unavailable — entries remain in memory only
+    }
+  }, [entries, loaded]);
+
+  function addEntry() {
+    if (!identityTruth.trim() || !theOldVoice.trim()) return;
+    const entry: IDNEntry = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+      identityTruth: identityTruth.trim(),
+      theOldVoice: theOldVoice.trim(),
+      whyItMatters: whyItMatters.trim(),
     };
-    setEntries(prev => [newEntry, ...prev].slice(0, 50));
-    setFormLie("");
-    setFormTruth("");
-    setFormDeclaration("");
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2200);
+    setEntries((prev) => [entry, ...prev]);
+    setIdentityTruth("");
+    setTheOldVoice("");
+    setWhyItMatters("");
+  }
+
+  function deleteEntry(id: string) {
+    setEntries((prev) => prev.filter((e) => e.id !== id));
+  }
+
+  const tabButtonStyle = (active: boolean): React.CSSProperties => ({
+    padding: "0.5rem 1.1rem",
+    borderRadius: 8,
+    border: `1px solid ${active ? INDIGO : BORDER}`,
+    background: active ? "rgba(99, 102, 241, 0.12)" : "transparent",
+    color: active ? INDIGO : MUTED,
+    cursor: "pointer",
+    fontSize: "0.88rem",
+    fontWeight: active ? 600 : 400,
+    transition: "all 0.15s ease",
+  });
+
+  const cardStyle: React.CSSProperties = {
+    background: CARD,
+    border: `1px solid ${BORDER}`,
+    borderRadius: 12,
+    padding: "1.5rem",
   };
 
-  const deleteEntry = (id: string) => {
-    setEntries(prev => prev.filter(e => e.id !== id));
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "0.7rem 0.9rem",
+    borderRadius: 8,
+    border: `1px solid ${BORDER}`,
+    background: BG,
+    color: TEXT,
+    fontSize: "0.92rem",
+    outline: "none",
+    boxSizing: "border-box",
   };
 
-  const voice = VOICES.find(v => v.id === selectedVoice) ?? VOICES[0];
-
-  const TABS: { id: Tab; label: string }[] = [
-    { id: "theology", label: "Theology" },
-    { id: "practices", label: "Practices" },
-    { id: "voices", label: "Voices" },
-    { id: "scripture", label: "Scripture" },
-    { id: "journal", label: "Journal" },
-    { id: "videos", label: "Videos" },
-  ];
+  const labelStyle: React.CSSProperties = {
+    display: "block",
+    fontSize: "0.78rem",
+    fontWeight: 600,
+    letterSpacing: "0.06em",
+    textTransform: "uppercase",
+    color: INDIGO,
+    marginBottom: 6,
+  };
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: "var(--header-height, 80px)" }}>
-      <Navbar />
-      <main id="main-content">
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
-
-          {/* Hero */}
-          <div style={{ textAlign: "center", padding: "56px 0 48px" }}>
-            <div style={{
-              display: "inline-block",
-              background: `${PURPLE}22`,
-              color: PURPLE,
-              fontSize: "0.75rem",
-              fontWeight: 700,
-              letterSpacing: 1.5,
-              textTransform: "uppercase",
-              padding: "4px 14px",
-              borderRadius: 20,
-              marginBottom: 18,
-            }}>
+    <div style={{ paddingTop: "var(--header-height, 80px)" }}>
+      <div style={{ background: BG, minHeight: "100vh", color: TEXT }}>
+        <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+          {/* ---------- Hero ---------- */}
+          <header style={{ marginBottom: "2.5rem" }}>
+            <div
+              style={{
+                fontSize: "0.78rem",
+                color: INDIGO,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                marginBottom: "0.6rem",
+              }}
+            >
               Identity &amp; Formation
             </div>
-            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 900, lineHeight: 1.18, margin: "0 0 18px", color: TEXT }}>
-              Who You Are in Christ:<br />Discovering Your True Identity
+            <h1
+              style={{
+                fontSize: "clamp(1.8rem, 4.5vw, 2.6rem)",
+                fontWeight: 800,
+                lineHeight: 1.15,
+                marginBottom: "1rem",
+              }}
+            >
+              Christian Identity: Who You Are in Christ
             </h1>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.75, maxWidth: 600, margin: "0 auto 0" }}>
-              Your identity is not something you perform into or achieve. It is a reality declared over you in Christ before you earned it, before you failed it, and before you understood it. You are chosen, adopted, beloved, and hidden with Christ in God.
+            <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "1.02rem", maxWidth: 700 }}>
+              Your identity is not constructed by what you achieve, accumulated by what you possess, or determined by what others think of you. It is declared over you in Christ — chosen, beloved, adopted, and hidden with Christ in God — before you earned it, before you failed it, and before you fully understood it. This guide traces the New Testament&rsquo;s identity language from Paul&rsquo;s 164 &ldquo;in Christ&rdquo; uses through the theology of adoption, new creation, and belovedness, and builds the practices that form a Christ-grounded identity in daily life.
             </p>
-          </div>
 
-          {/* Tab Bar */}
-          <div style={{
-            display: "flex",
-            gap: 6,
-            background: CARD,
-            borderRadius: 14,
-            padding: 6,
-            border: `1px solid ${BORDER}`,
-            marginBottom: 36,
-            flexWrap: "wrap",
-          }}>
-            {TABS.map(t => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setActiveTab(t.id)}
-                style={{
-                  flex: "1 1 auto",
-                  padding: "10px 12px",
-                  borderRadius: 10,
-                  border: "none",
-                  background: activeTab === t.id ? PURPLE : "transparent",
-                  color: activeTab === t.id ? "#fff" : MUTED,
-                  fontWeight: 700,
-                  fontSize: "0.875rem",
-                  cursor: "pointer",
-                  transition: "background 0.18s, color 0.18s",
-                }}
-              >
-                {t.label}
+            <div
+              style={{
+                marginTop: "1.75rem",
+                background: CARD,
+                border: `1px solid ${BORDER}`,
+                borderLeft: `3px solid ${INDIGO}`,
+                borderRadius: 12,
+                padding: "1.25rem 1.5rem",
+              }}
+            >
+              <p style={{ fontStyle: "italic", lineHeight: 1.7, marginBottom: 8 }}>
+                &ldquo;See what kind of love the Father has given to us, that we should be called children of God; and so we are.&rdquo;
+              </p>
+              <p style={{ color: INDIGO, fontSize: "0.85rem", fontWeight: 600 }}>1 John 3:1</p>
+            </div>
+          </header>
+
+          {/* ---------- Tabs ---------- */}
+          <nav
+            aria-label="Page sections"
+            style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: "2.25rem" }}
+          >
+            {TABS.map((t) => (
+              <button key={t} type="button" onClick={() => setTab(t)} style={tabButtonStyle(tab === t)}>
+                {t}
               </button>
             ))}
-          </div>
+          </nav>
 
-          {/* THEOLOGY TAB */}
-          {activeTab === "theology" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: "20px 24px" }}>
-                <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.8, margin: 0 }}>
-                  The New Testament&rsquo;s answer to the question &ldquo;Who am I?&rdquo; is not a list of virtues or achievements but a single phrase: you are <em>in Christ</em>. Everything else flows from that union — adoption, forgiveness, inheritance, new creation. These six foundations explore the theological depth of Christian identity.
-                </p>
-              </div>
+          {/* ---------- Theology ---------- */}
+          {tab === "Theology" && (
+            <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.95rem" }}>
+                Eight studies tracing the theology of Christian identity from Paul&rsquo;s 164 &ldquo;in Christ&rdquo; uses through new creation, adoption, belovedness, the three deadly lies, Neil Anderson&rsquo;s framework, identity rooted in calling, and the enemy&rsquo;s strategy of identity theft.
+              </p>
 
-              {THEOLOGY_CARDS.map((card, i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${BORDER}`,
-                    borderRadius: 14,
-                    padding: "22px 26px",
-                    borderLeft: `4px solid ${PURPLE}`,
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
-                    <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.05rem", margin: 0, lineHeight: 1.35 }}
-                      dangerouslySetInnerHTML={{ __html: card.title }} />
-                    <span style={{
-                      background: `${PURPLE}18`,
-                      color: PURPLE,
-                      padding: "3px 12px",
-                      borderRadius: 20,
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      flexShrink: 0,
-                    }}>
-                      {card.verse}
-                    </span>
-                  </div>
-                  <p style={{ color: TEXT, lineHeight: 1.82, margin: 0, fontSize: "0.95rem" }}
-                    dangerouslySetInnerHTML={{ __html: card.body }} />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* PRACTICES TAB */}
-          {activeTab === "practices" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: "20px 24px", marginBottom: 6 }}>
-                <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 8px" }}>Lie &rarr; Truth &rarr; Declaration</h2>
-                <p style={{ color: MUTED, fontSize: "0.93rem", lineHeight: 1.7, margin: 0 }}>
-                  Each card below names a false identity that many Christians unconsciously believe. Tap a card to reveal the biblical truth that counters it, and a personal declaration to speak aloud. These are not mere affirmations — they are grounded in specific New Testament texts.
-                </p>
-              </div>
-
-              {PRACTICE_ENTRIES.map((entry, i) => (
-                <PracticeCard key={i} entry={entry} index={i} />
-              ))}
-
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginTop: 8 }}>
-                <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: "1rem", margin: "0 0 12px" }}>Daily Practice: Identity Declaration</h3>
-                <p style={{ color: TEXT, fontSize: "0.95rem", lineHeight: 1.75, margin: "0 0 14px" }}>
-                  Choose one of the declarations above and speak it aloud each morning this week — before checking your phone, before reviewing your to-do list, before engaging any performance pressure. Say it as a prayer: not to convince yourself but to orient yourself toward what is already true. The practice of declaration is not magical; it is the discipline of letting what God has said become more real than what your feelings, fears, or memories are saying.
-                </p>
-                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
-                  &ldquo;Let us hold fast the confession of our hope without wavering, for he who promised is faithful.&rdquo; — Hebrews 10:23
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* VOICES TAB */}
-          {activeTab === "voices" && (
-            <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-              {/* Sidebar */}
-              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
-                {VOICES.map(v => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    onClick={() => setSelectedVoice(v.id)}
+              {theologySections.map((section) => (
+                <article key={section.title} style={cardStyle}>
+                  <div
                     style={{
-                      background: selectedVoice === v.id ? `${PURPLE}18` : "transparent",
-                      border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`,
-                      borderRadius: 10,
-                      padding: "12px 14px",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      width: "100%",
+                      fontSize: "0.75rem",
+                      color: INDIGO,
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      marginBottom: 8,
                     }}
                   >
-                    <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: "0.88rem", marginBottom: 2 }}
-                      dangerouslySetInnerHTML={{ __html: v.name }} />
-                    <div style={{ color: MUTED, fontSize: "0.75rem" }}
-                      dangerouslySetInnerHTML={{ __html: v.era }} />
-                  </button>
-                ))}
-              </div>
-
-              {/* Content */}
-              <div style={{ flex: 1, minWidth: 260 }}>
-                <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: "26px 28px" }}>
-                  <div style={{ marginBottom: 18 }}>
-                    <div style={{ color: MUTED, fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}
-                      dangerouslySetInnerHTML={{ __html: voice.era }} />
-                    <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: "1.5rem", margin: "0 0 4px" }}
-                      dangerouslySetInnerHTML={{ __html: voice.name }} />
-                    <div style={{ color: MUTED, fontSize: "0.87rem", fontStyle: "italic" }}
-                      dangerouslySetInnerHTML={{ __html: voice.work }} />
+                    {section.badge}
                   </div>
+                  <h2
+                    style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: 14, lineHeight: 1.35 }}
+                    dangerouslySetInnerHTML={{ __html: section.title }}
+                  />
+                  {section.paragraphs.map((p, i) => (
+                    <p
+                      key={i}
+                      style={{
+                        color: MUTED,
+                        lineHeight: 1.78,
+                        fontSize: "0.93rem",
+                        marginBottom: i === section.paragraphs.length - 1 ? 0 : 14,
+                      }}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))}
+                  {section.callout && (
+                    <div
+                      style={{
+                        marginTop: 16,
+                        background: "rgba(99, 102, 241, 0.07)",
+                        border: "1px solid rgba(99, 102, 241, 0.25)",
+                        borderRadius: 8,
+                        padding: "0.9rem 1.1rem",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: INDIGO,
+                          fontWeight: 700,
+                          fontSize: "0.8rem",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {section.callout.label}:
+                      </span>{" "}
+                      <span
+                        style={{ color: TEXT, fontSize: "0.88rem", lineHeight: 1.6 }}
+                        dangerouslySetInnerHTML={{ __html: section.callout.text }}
+                      />
+                    </div>
+                  )}
+                </article>
+              ))}
 
-                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: "16px 18px", marginBottom: 18 }}>
-                    <div style={{ color: PURPLE, fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>In Their Own Words</div>
-                    <p style={{ color: TEXT, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>
-                      &ldquo;<span dangerouslySetInnerHTML={{ __html: voice.quote }} />&rdquo;
-                    </p>
-                  </div>
-
-                  <p style={{ color: TEXT, fontSize: "0.93rem", lineHeight: 1.82, marginBottom: 18 }}
-                    dangerouslySetInnerHTML={{ __html: voice.bio }} />
-
-                  <div style={{ background: BG, borderRadius: 10, padding: "14px 16px" }}>
-                    <div style={{ color: PURPLE, fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Key Contribution</div>
-                    <p style={{ color: TEXT, fontSize: "0.9rem", lineHeight: 1.75, margin: 0 }}
-                      dangerouslySetInnerHTML={{ __html: voice.contribution }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* SCRIPTURE TAB */}
-          {activeTab === "scripture" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: "20px 24px", marginBottom: 6 }}>
-                <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 8px" }}>Key Passages on Identity in Christ</h2>
-                <p style={{ color: MUTED, fontSize: "0.93rem", lineHeight: 1.7, margin: 0 }}>
-                  These six passages form the backbone of the New Testament&rsquo;s teaching on Christian identity. Each includes an exposition drawing out the theological and pastoral significance of the text.
+              <div style={{ ...cardStyle, borderLeft: `3px solid ${INDIGO}` }}>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>
+                  Where the threads meet
+                </h3>
+                <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
+                  &ldquo;In Christ,&rdquo; new creation, adoption, belovedness, the three deadly lies — these are not independent topics but different angles on the same truth: your identity is declared by the Father, constituted by union with Christ, and sustained by the Spirit. It cannot be earned, lost, or stolen by any verdict other than his. Explore how identity shapes surrender in{" "}
+                  <Link href="/christian-surrender" style={{ color: INDIGO, textDecoration: "underline" }}>
+                    Christian Surrender
+                  </Link>{" "}
+                  or how it grounds spiritual warfare in{" "}
+                  <Link href="/christian-spiritual-warfare" style={{ color: INDIGO, textDecoration: "underline" }}>
+                    Christian Spiritual Warfare
+                  </Link>
+                  .
                 </p>
               </div>
+            </section>
+          )}
 
-              {SCRIPTURE_PASSAGES.map((passage, i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${BORDER}`,
-                    borderRadius: 14,
-                    padding: "22px 26px",
-                  }}
-                >
-                  <div style={{ color: PURPLE, fontWeight: 800, fontSize: "0.95rem", marginBottom: 12 }}>
-                    {passage.ref}
+          {/* ---------- Practices ---------- */}
+          {tab === "Practices" && (
+            <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.95rem" }}>
+                Six practices for forming a Christ-grounded identity in the specific texture of daily life — from daily identity declarations to the voice inventory, the belovedness practice, the &ldquo;in Christ&rdquo; study, the shame audit, and the weekly identity check-in.
+              </p>
+
+              {practiceCards.map((practice) => (
+                <article key={practice.number} style={cardStyle}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 10 }}>
+                    <span
+                      style={{
+                        color: INDIGO,
+                        fontWeight: 800,
+                        fontSize: "1.4rem",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {practice.number}
+                    </span>
+                    <h2 style={{ fontSize: "1.12rem", fontWeight: 700, lineHeight: 1.35 }}>
+                      {practice.title}
+                    </h2>
                   </div>
                   <p
-                    style={{
-                      color: TEXT,
-                      fontSize: "1rem",
-                      lineHeight: 1.75,
-                      fontStyle: "italic",
-                      margin: "0 0 14px",
-                      borderLeft: `3px solid ${PURPLE}40`,
-                      paddingLeft: 16,
-                    }}
-                    dangerouslySetInnerHTML={{ __html: passage.text }}
+                    style={{ color: TEXT, lineHeight: 1.7, fontSize: "0.93rem", marginBottom: 14 }}
+                    dangerouslySetInnerHTML={{ __html: practice.summary }}
                   />
-                  <p style={{ color: MUTED, fontSize: "0.9rem", lineHeight: 1.78, margin: 0 }}
-                    dangerouslySetInnerHTML={{ __html: passage.exposition }} />
-                </div>
+                  <ul
+                    style={{
+                      margin: 0,
+                      paddingLeft: "1.2rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 10,
+                    }}
+                  >
+                    {practice.steps.map((step, i) => (
+                      <li
+                        key={i}
+                        style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.9rem" }}
+                        dangerouslySetInnerHTML={{ __html: step }}
+                      />
+                    ))}
+                  </ul>
+                  <div
+                    style={{
+                      marginTop: 16,
+                      paddingTop: 14,
+                      borderTop: `1px solid ${BORDER}`,
+                      color: INDIGO,
+                      fontSize: "0.85rem",
+                      fontStyle: "italic",
+                      lineHeight: 1.6,
+                    }}
+                    dangerouslySetInnerHTML={{ __html: practice.anchor }}
+                  />
+                </article>
               ))}
-            </div>
-          )}
 
-          {/* JOURNAL TAB */}
-          {activeTab === "journal" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: "20px 24px" }}>
-                <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 8px" }}>Identity Renewal Journal</h2>
-                <p style={{ color: MUTED, fontSize: "0.9rem", lineHeight: 1.7, margin: 0 }}>
-                  This journal helps you practice the discipline of replacing false identities with scriptural truth. Name the lie you have been believing, write the truth from Scripture that counters it, then compose a personal declaration to speak over yourself. All entries are stored privately on this device only.
+              <div style={{ ...cardStyle, borderLeft: `3px solid ${INDIGO}` }}>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>
+                  Identity transformation is slow work
+                </h3>
+                <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
+                  The renovation of identity does not happen through a single breakthrough experience; it happens through the patient, daily, specific practice of returning to who God has declared you to be. The person who is most secure in their identity in Christ has not had fewer attacks on that identity — they have developed the habit of returning, faster and more automatically, to the Father&rsquo;s voice. The Journal tab supports that slow work: name the truth you are learning to stand on, name the old voice that contradicts it, and note why the truth changes how you live. Over time, the journal becomes a record of the renovation in progress.
                 </p>
               </div>
+            </section>
+          )}
 
-              {/* Form */}
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 26px" }}>
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                  <div>
-                    <label style={{ display: "block", color: MUTED, fontSize: "0.8rem", fontWeight: 700, letterSpacing: 0.8, textTransform: "uppercase", marginBottom: 6 }}>
-                      The Lie — What false identity are you believing?
-                    </label>
-                    <textarea
-                      value={formLie}
-                      onChange={e => setFormLie(e.target.value)}
-                      placeholder="e.g. I am defined by my failures. I am not enough. I am unlovable."
-                      rows={3}
-                      style={{
-                        width: "100%",
-                        background: BG,
-                        border: `1px solid ${BORDER}`,
-                        borderRadius: 8,
-                        padding: "10px 14px",
-                        color: TEXT,
-                        fontSize: "0.93rem",
-                        lineHeight: 1.65,
-                        resize: "vertical",
-                        boxSizing: "border-box",
-                        fontFamily: "inherit",
-                      }}
-                    />
+          {/* ---------- Voices ---------- */}
+          {tab === "Voices" && (
+            <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.95rem" }}>
+                Six teachers who have most deeply shaped the theology and practice of Christian identity — Neil Anderson&rsquo;s bondage-breaker framework, Henri Nouwen&rsquo;s belovedness, Brennan Manning&rsquo;s ragamuffin grace, John Stott&rsquo;s atonement-grounded identity, Paul Tripp&rsquo;s pastoral analysis of performance, and Dane Ortlund&rsquo;s recovery of Christ&rsquo;s gentle welcome.
+              </p>
+
+              {voiceCards.map((voice) => (
+                <article key={voice.name} style={cardStyle}>
+                  <h2 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: 4 }}>
+                    {voice.name}
+                  </h2>
+                  <div
+                    style={{
+                      color: INDIGO,
+                      fontSize: "0.82rem",
+                      fontWeight: 600,
+                      marginBottom: 14,
+                      letterSpacing: "0.03em",
+                    }}
+                    dangerouslySetInnerHTML={{ __html: voice.role }}
+                  />
+                  <blockquote
+                    style={{
+                      margin: "0 0 14px 0",
+                      padding: "0.9rem 1.1rem",
+                      background: "rgba(99, 102, 241, 0.06)",
+                      borderLeft: `3px solid ${INDIGO}`,
+                      borderRadius: 6,
+                      fontStyle: "italic",
+                      color: TEXT,
+                      lineHeight: 1.7,
+                      fontSize: "0.92rem",
+                    }}
+                  >
+                    &ldquo;{voice.quote}&rdquo;
+                  </blockquote>
+                  <p
+                    style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.9rem" }}
+                    dangerouslySetInnerHTML={{ __html: voice.bio }}
+                  />
+                </article>
+              ))}
+            </section>
+          )}
+
+          {/* ---------- Scripture ---------- */}
+          {tab === "Scripture" && (
+            <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.95rem" }}>
+                Six passages that form the biblical theology of Christian identity — from 2 Corinthians 5:17 through Romans 8, Ephesians 1, Colossians 3, 1 John 3, and Galatians 2. Read them alongside the Journal practice. Let each text both describe and produce the identity it names.
+              </p>
+
+              {scriptureCards.map((scripture) => (
+                <article key={scripture.reference} style={cardStyle}>
+                  <div
+                    style={{
+                      color: INDIGO,
+                      fontWeight: 700,
+                      fontSize: "0.95rem",
+                      marginBottom: 12,
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {scripture.reference}
                   </div>
-                  <div>
-                    <label style={{ display: "block", color: MUTED, fontSize: "0.8rem", fontWeight: 700, letterSpacing: 0.8, textTransform: "uppercase", marginBottom: 6 }}>
-                      The Truth — What does Scripture say about who you are in Christ?
-                    </label>
-                    <textarea
-                      value={formTruth}
-                      onChange={e => setFormTruth(e.target.value)}
-                      placeholder="e.g. I am a new creation (2 Cor 5:17). I am chosen and beloved before the foundation of the world (Eph 1:4)."
-                      rows={3}
-                      style={{
-                        width: "100%",
-                        background: BG,
-                        border: `1px solid ${BORDER}`,
-                        borderRadius: 8,
-                        padding: "10px 14px",
-                        color: TEXT,
-                        fontSize: "0.93rem",
-                        lineHeight: 1.65,
-                        resize: "vertical",
-                        boxSizing: "border-box",
-                        fontFamily: "inherit",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ display: "block", color: MUTED, fontSize: "0.8rem", fontWeight: 700, letterSpacing: 0.8, textTransform: "uppercase", marginBottom: 6 }}>
-                      Your Declaration — Speak who you are in Christ in first person
-                    </label>
-                    <textarea
-                      value={formDeclaration}
-                      onChange={e => setFormDeclaration(e.target.value)}
-                      placeholder="e.g. I am chosen, redeemed, and beloved. My worth is not earned — it is given. I am hidden with Christ in God."
-                      rows={3}
-                      style={{
-                        width: "100%",
-                        background: BG,
-                        border: `1px solid ${BORDER}`,
-                        borderRadius: 8,
-                        padding: "10px 14px",
-                        color: TEXT,
-                        fontSize: "0.93rem",
-                        lineHeight: 1.65,
-                        resize: "vertical",
-                        boxSizing: "border-box",
-                        fontFamily: "inherit",
-                      }}
-                    />
-                  </div>
+                  <blockquote
+                    style={{
+                      margin: "0 0 14px 0",
+                      fontStyle: "italic",
+                      color: TEXT,
+                      lineHeight: 1.75,
+                      fontSize: "0.97rem",
+                    }}
+                    dangerouslySetInnerHTML={{ __html: `&ldquo;${scripture.text}&rdquo;` }}
+                  />
+                  <p
+                    style={{ color: MUTED, lineHeight: 1.75, fontSize: "0.9rem" }}
+                    dangerouslySetInnerHTML={{ __html: scripture.reflection }}
+                  />
+                </article>
+              ))}
+
+              <div style={{ ...cardStyle, borderLeft: `3px solid ${INDIGO}` }}>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>
+                  How to pray these
+                </h3>
+                <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
+                  Take each passage and use it as an identity exercise: read it slowly, name the specific false identity narrative in your life that this text counters, and make a deliberate act of reception — allowing the declaration to be true of you, not just true in general. End with the acknowledgment: &ldquo;I do not fully feel this to be true. I choose to receive it as true. I am the person this text describes, in Christ.&rdquo; Identity in the Bible is not primarily an experience to be generated but a reality to be received and lived from.
+                </p>
+              </div>
+            </section>
+          )}
+
+          {/* ---------- Journal ---------- */}
+          {tab === "Journal" && (
+            <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.95rem" }}>
+                Three questions that build the record of identity renovation over time: an identity truth you are learning to stand on, the old voice or lie that contradicts it, and why this truth changes how you live. Entries are stored privately in your browser. No account needed.
+              </p>
+
+              <div style={cardStyle}>
+                <h2 style={{ fontSize: "1.12rem", fontWeight: 700, marginBottom: 18 }}>
+                  New identity entry
+                </h2>
+
+                <div style={{ marginBottom: 16 }}>
+                  <label htmlFor="idn-truth" style={labelStyle}>
+                    An identity truth I&rsquo;m learning to stand on
+                  </label>
+                  <textarea
+                    id="idn-truth"
+                    value={identityTruth}
+                    onChange={(e) => setIdentityTruth(e.target.value)}
+                    placeholder="Name the specific New Testament declaration you are working to receive — chosen, beloved, new creation, adopted, hidden with Christ..."
+                    rows={3}
+                    style={{ ...inputStyle, resize: "vertical", fontFamily: "inherit" }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 16 }}>
+                  <label htmlFor="idn-old-voice" style={labelStyle}>
+                    The old voice or lie that contradicts it
+                  </label>
+                  <textarea
+                    id="idn-old-voice"
+                    value={theOldVoice}
+                    onChange={(e) => setTheOldVoice(e.target.value)}
+                    placeholder="What does the old voice say? What specific lie, memory, or pattern contradicts the identity truth you named?"
+                    rows={3}
+                    style={{ ...inputStyle, resize: "vertical", fontFamily: "inherit" }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 20 }}>
+                  <label htmlFor="idn-why" style={labelStyle}>
+                    Why this truth changes how I live
+                  </label>
+                  <textarea
+                    id="idn-why"
+                    value={whyItMatters}
+                    onChange={(e) => setWhyItMatters(e.target.value)}
+                    placeholder="If this identity truth is actually true and governing, what changes? How do you relate to yourself, to others, to failure differently?"
+                    rows={2}
+                    style={{ ...inputStyle, resize: "vertical", fontFamily: "inherit" }}
+                  />
                 </div>
 
                 <button
                   type="button"
-                  onClick={saveEntry}
+                  onClick={addEntry}
+                  disabled={!identityTruth.trim() || !theOldVoice.trim()}
                   style={{
-                    marginTop: 16,
-                    width: "100%",
-                    padding: "12px",
-                    background: saved ? "#3E8C5A" : PURPLE,
-                    border: "none",
+                    padding: "0.7rem 1.6rem",
                     borderRadius: 8,
-                    color: "#fff",
-                    fontWeight: 800,
-                    fontSize: "0.95rem",
-                    cursor: "pointer",
-                    transition: "background 0.2s",
+                    border: "none",
+                    background: !identityTruth.trim() || !theOldVoice.trim() ? BORDER : INDIGO,
+                    color: !identityTruth.trim() || !theOldVoice.trim() ? MUTED : "#FFFFFF",
+                    fontWeight: 700,
+                    fontSize: "0.92rem",
+                    cursor: !identityTruth.trim() || !theOldVoice.trim() ? "not-allowed" : "pointer",
                   }}
                 >
-                  {saved ? "Entry Saved" : "Save Entry"}
+                  Save entry
                 </button>
               </div>
 
-              {/* Past Entries */}
-              {entries.length > 0 && (
-                <div>
-                  <h3 style={{ color: MUTED, fontSize: "0.88rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>
-                    Past Entries ({entries.length})
-                  </h3>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    {entries.map(e => (
-                      <div
-                        key={e.id}
-                        style={{
-                          background: CARD,
-                          border: `1px solid ${BORDER}`,
-                          borderRadius: 14,
-                          padding: "18px 20px",
-                        }}
-                      >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-                          <span style={{ color: MUTED, fontSize: "0.8rem" }}>
-                            {new Date(e.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                          </span>
+              <div>
+                <h2 style={{ fontSize: "1.05rem", fontWeight: 700, marginBottom: 14 }}>
+                  Your entries{" "}
+                  <span style={{ color: MUTED, fontWeight: 400, fontSize: "0.88rem" }}>
+                    ({entries.length})
+                  </span>
+                </h2>
+
+                {!loaded && (
+                  <p style={{ color: MUTED, fontSize: "0.9rem" }}>Loading your journal&hellip;</p>
+                )}
+
+                {loaded && entries.length === 0 && (
+                  <div style={{ ...cardStyle, textAlign: "center", padding: "2.25rem 1.5rem" }}>
+                    <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem", marginBottom: 6 }}>
+                      No entries yet.
+                    </p>
+                    <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem" }}>
+                      Name the identity truth you are learning to stand on, name the old voice that contradicts it, and note why it matters. Over time this becomes a record of the renovation — the Father&rsquo;s voice growing louder than the lies.
+                    </p>
+                  </div>
+                )}
+
+                {loaded && entries.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    {entries.map((entry) => (
+                      <article key={entry.id} style={cardStyle}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "flex-start",
+                            gap: 12,
+                            marginBottom: 10,
+                          }}
+                        >
+                          <div>
+                            <h3 style={{ fontSize: "1rem", fontWeight: 700, color: INDIGO }}>
+                              {entry.identityTruth}
+                            </h3>
+                            <span style={{ color: MUTED, fontSize: "0.78rem" }}>{entry.date}</span>
+                          </div>
                           <button
                             type="button"
-                            onClick={() => deleteEntry(e.id)}
-                            aria-label="Delete entry"
+                            onClick={() => deleteEntry(entry.id)}
+                            aria-label={`Delete entry: ${entry.identityTruth}`}
                             style={{
-                              background: "none",
-                              border: "none",
-                              color: "#3A3A58",
+                              background: "transparent",
+                              border: `1px solid ${BORDER}`,
+                              color: MUTED,
+                              borderRadius: 6,
+                              padding: "0.3rem 0.75rem",
+                              fontSize: "0.78rem",
                               cursor: "pointer",
-                              fontSize: "1rem",
-                              lineHeight: 1,
-                              padding: "0 4px",
+                              flexShrink: 0,
                             }}
-                            onMouseEnter={ev => (ev.currentTarget as HTMLButtonElement).style.color = "#EF4444"}
-                            onMouseLeave={ev => (ev.currentTarget as HTMLButtonElement).style.color = "#3A3A58"}
                           >
-                            &times;
+                            Delete
                           </button>
                         </div>
 
-                        {e.lie && (
-                          <div style={{ marginBottom: 10 }}>
-                            <div style={{ color: "#EF8888", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>The Lie</div>
-                            <p style={{ color: TEXT, fontSize: "0.92rem", lineHeight: 1.65, margin: 0, fontStyle: "italic" }}>&ldquo;{e.lie}&rdquo;</p>
-                          </div>
-                        )}
-                        {e.truth && (
-                          <div style={{ marginBottom: 10 }}>
-                            <div style={{ color: PURPLE, fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>The Truth</div>
-                            <p style={{ color: TEXT, fontSize: "0.92rem", lineHeight: 1.65, margin: 0 }}>{e.truth}</p>
-                          </div>
-                        )}
-                        {e.declaration && (
+                        <div style={{ marginBottom: 10 }}>
+                          <span
+                            style={{
+                              color: MUTED,
+                              fontSize: "0.72rem",
+                              fontWeight: 700,
+                              letterSpacing: "0.07em",
+                              textTransform: "uppercase",
+                              display: "block",
+                              marginBottom: 3,
+                            }}
+                          >
+                            The old voice
+                          </span>
+                          <p style={{ color: TEXT, lineHeight: 1.65, fontSize: "0.92rem" }}>
+                            {entry.theOldVoice}
+                          </p>
+                        </div>
+
+                        {entry.whyItMatters && (
                           <div>
-                            <div style={{ color: "#5CB87A", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>My Declaration</div>
-                            <p style={{ color: TEXT, fontSize: "0.95rem", lineHeight: 1.65, margin: 0, fontWeight: 600 }}>{e.declaration}</p>
+                            <span
+                              style={{
+                                color: MUTED,
+                                fontSize: "0.72rem",
+                                fontWeight: 700,
+                                letterSpacing: "0.07em",
+                                textTransform: "uppercase",
+                                display: "block",
+                                marginBottom: 3,
+                              }}
+                            >
+                              Why it changes how I live
+                            </span>
+                            <p
+                              style={{
+                                color: MUTED,
+                                lineHeight: 1.65,
+                                fontSize: "0.9rem",
+                                fontStyle: "italic",
+                              }}
+                            >
+                              {entry.whyItMatters}
+                            </p>
                           </div>
                         )}
-                      </div>
+                      </article>
                     ))}
                   </div>
-                </div>
-              )}
-
-              {entries.length === 0 && (
-                <div style={{ textAlign: "center", padding: "32px 0", color: MUTED, fontSize: "0.9rem" }}>
-                  No entries yet. Use the form above to begin your identity journal.
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* VIDEOS TAB */}
-          {activeTab === "videos" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-              <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: "20px 24px" }}>
-                <h2 style={{ color: PURPLE, fontWeight: 800, fontSize: "1.1rem", margin: "0 0 8px" }}>Teaching Videos on Identity in Christ</h2>
-                <p style={{ color: MUTED, fontSize: "0.93rem", lineHeight: 1.7, margin: 0 }}>
-                  Sermons, lectures, and teachings from trusted Christian pastors and teachers on who you are in Christ, breaking free from shame, and living from your true identity.
-                </p>
+                )}
               </div>
-
-              {VIDEOS.map(v => (
-                <div
-                  key={v.videoId}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${BORDER}`,
-                    borderRadius: 14,
-                    overflow: "hidden",
-                  }}
-                >
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <div style={{ padding: "16px 20px" }}>
-                    <h3 style={{ color: TEXT, fontWeight: 700, fontSize: "1rem", margin: "0 0 8px" }}>{v.title}</h3>
-                    <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.65, margin: 0 }}
-                      dangerouslySetInnerHTML={{ __html: v.desc }} />
-                  </div>
-                </div>
-              ))}
-            </div>
+            </section>
           )}
 
-        </div>
-      </main>
-      <Footer />
+          {/* ---------- Videos ---------- */}
+          {tab === "Videos" && (
+            <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.95rem" }}>
+                Teaching on Christian identity, &ldquo;in Christ&rdquo; language, Henri Nouwen&rsquo;s belovedness, Neil Anderson&rsquo;s freedom in Christ, and the three deadly lies. Good companions to the Theology and Practices tabs.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: 20,
+                }}
+              >
+                {videoItems.map((video) => (
+                  <div
+                    key={video.videoId}
+                    style={{
+                      background: CARD,
+                      border: `1px solid ${BORDER}`,
+                      borderRadius: 12,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <VideoEmbed videoId={video.videoId} title={video.title} />
+                    <div style={{ padding: "0.9rem 1.1rem" }}>
+                      <h3 style={{ fontSize: "0.92rem", fontWeight: 600, lineHeight: 1.45 }}>
+                        {video.title}
+                      </h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* ---------- Closing ---------- */}
+          <section
+            style={{
+              marginTop: "3rem",
+              background: CARD,
+              border: `1px solid ${BORDER}`,
+              borderRadius: 12,
+              padding: "1.75rem",
+            }}
+          >
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 12 }}>
+              Identity as the foundation of everything else
+            </h2>
+            <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem", marginBottom: 12 }}>
+              The renovation of identity is not completed in a weekend; it is the work of a lifetime of receiving what God has declared, against the daily pressure of what the world, the flesh, and the enemy insist is more true. The person most secure in their identity in Christ is not the person with the fewest doubts — it is the person who has developed the habit of returning, again and again, to the Father&rsquo;s voice. Use the Journal tab to track that return: name the truth, name the old voice, name what changes when the truth governs.
+            </p>
+            <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
+              Keep growing: explore how identity shapes surrender in{" "}
+              <Link href="/christian-surrender" style={{ color: INDIGO, textDecoration: "underline" }}>
+                Christian Surrender
+              </Link>
+              , see how identity grounds freedom from shame in{" "}
+              <Link href="/christian-forgiveness" style={{ color: INDIGO, textDecoration: "underline" }}>
+                Christian Forgiveness
+              </Link>
+              , or trace the connection between identity and calling in{" "}
+              <Link href="/christian-calling" style={{ color: INDIGO, textDecoration: "underline" }}>
+                Christian Calling
+              </Link>
+              .
+            </p>
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

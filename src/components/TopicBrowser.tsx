@@ -1432,6 +1432,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Creation Ex Nihilo Guide": "christian-creation-theology",
   "Theistic Evolution BioLogos": "christian-creation-theology",
   "New Creation Stewardship": "christian-creation-theology",
+  "Beit Av Family OT Guide": "christian-family-theology",
+  "Household Codes Ephesians 5": "christian-family-theology",
+  "Church Primary Family Guide": "christian-family-theology",
+  "Ezer Helper Gender Guide": "christian-gender-theology",
+  "Authentein 1 Timothy 2": "christian-gender-theology",
+  "Comp Egal Debate Guide": "christian-gender-theology",
+  "Mammon Cheerful Giver": "christian-money-theology",
+  "Tithe NT Giving Guide": "christian-money-theology",
+  "Contentment Financial Guide": "christian-money-theology",
+  "AI Imago Dei Guide": "christian-technology-faith",
+  "Digital Sabbath Screen Guide": "christian-technology-faith",
+  "Social Media Soul Guide": "christian-technology-faith",
 };
 
 
@@ -2176,6 +2188,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Prosperity Gospel Critique" },
   { label: "Genesis Genre Walton" },
   { label: "Theistic Evolution BioLogos" },
+  { label: "Household Codes Ephesians 5" },
+  { label: "Comp Egal Debate Guide" },
+  { label: "Mammon Cheerful Giver" },
+  { label: "AI Imago Dei Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1293,6 +1293,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Perseverance Guide": "christian-perseverance-guide",
   "Hupomone Endurance Race": "christian-perseverance-guide",
   "Long Obedience Same Direction": "christian-perseverance-guide",
+  "Loneliness Deep Guide": "christian-loneliness-guide",
+  "Abandoned Alone Christian": "christian-loneliness-guide",
+  "Solitude Loneliness Faith": "christian-loneliness-guide",
+  "Christian Aging Guide": "christian-aging-guide",
+  "Aging Gracefully Faith": "christian-aging-guide",
+  "Elder Years Christian": "christian-aging-guide",
+  "Christian Peace Guide": "christian-peace-guide",
+  "Shalom Wholeness Peace": "christian-peace-guide",
+  "Eirene Peace New Testament": "christian-peace-guide",
+  "Christian Self Control Guide": "christian-self-control-guide",
+  "Egkrateia Fruit Spirit": "christian-self-control-guide",
+  "Mastery Impulse Christian": "christian-self-control-guide",
 };
 
 
@@ -1988,6 +2000,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Silence Guide" },
   { label: "Christian Encouragement Guide" },
   { label: "Christian Perseverance Guide" },
+  { label: "Loneliness Deep Guide" },
+  { label: "Christian Aging Guide" },
+  { label: "Christian Peace Guide" },
+  { label: "Christian Self Control Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

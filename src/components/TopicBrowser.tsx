@@ -1347,6 +1347,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Shabbat Deep Guide": "christian-sabbath-guide",
   "Sabbath Modern Living": "christian-sabbath-guide",
   "Lord Day Sabbath Guide": "christian-sabbath-guide",
+  "Colossians Work Lord": "christian-work-guide",
+  "Luther Masks God Work": "christian-work-guide",
+  "Vocation Calling Work": "christian-work-guide",
 };
 
 
@@ -2060,6 +2063,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Ecology Worship Guide" },
   { label: "Missio Dei Guide" },
   { label: "Shabbat Deep Guide" },
+  { label: "Vocation Calling Work" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

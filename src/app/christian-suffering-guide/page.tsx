@@ -409,6 +409,8 @@ export default function ChristianSufferingGuidePage() {
     marginBottom: 6,
   };
 
+  if (!loaded) return null;
+
   return (
     <div style={{ paddingTop: "var(--header-height, 80px)" }}>
       <div style={{ background: BG, minHeight: "100vh", color: TEXT }}>

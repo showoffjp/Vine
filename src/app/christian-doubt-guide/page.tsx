@@ -270,6 +270,8 @@ export default function ChristianDoubtGuidePage() {
     margin: "0.3rem 0 0",
   };
 
+  if (!loaded) return null;
+
   return (
     <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT }}>
       <main id="main-content" style={{ maxWidth: 820, margin: "0 auto", padding: "2rem 1rem 4rem" }}>

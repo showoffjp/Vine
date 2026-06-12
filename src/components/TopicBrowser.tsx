@@ -1122,6 +1122,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Faithfulness": "christian-faithfulness",
   "Faithful in Little": "christian-faithfulness",
   "Pistis Faithfulness": "christian-faithfulness",
+  "Christian Goodness": "christian-goodness",
+  "Goodness Fruit": "christian-goodness",
+  "Agathos Goodness": "christian-goodness",
+  "Christian Renewal": "christian-renewal",
+  "Spiritual Renewal": "christian-renewal",
+  "Renewed in Spirit": "christian-renewal",
+  "Prayer Life Deep Guide": "prayer-life-deep-guide",
+  "Deep Prayer Life": "prayer-life-deep-guide",
+  "Prayer and Communion": "prayer-life-deep-guide",
+  "Christian Love Guide": "christian-love-guide",
+  "Love Your Enemies": "christian-love-guide",
+  "New Commandment Love": "christian-love-guide",
 };
 
 
@@ -1762,6 +1774,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Gentleness" },
   { label: "Christian Kindness" },
   { label: "Christian Faithfulness" },
+  { label: "Christian Goodness" },
+  { label: "Christian Renewal" },
+  { label: "Prayer Life Deep Guide" },
+  { label: "Christian Love Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

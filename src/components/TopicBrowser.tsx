@@ -1191,6 +1191,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Spiritual Gifts Christian": "christian-spiritual-gifts",
   "Charismata Gifts": "christian-spiritual-gifts",
   "Gift Discovery Christian": "christian-spiritual-gifts",
+  "Christian Evangelism Guide": "christian-evangelism",
+  "Share Your Faith Guide": "christian-evangelism",
+  "Gospel Good News Guide": "christian-evangelism",
+  "Christian Apologetics Deep": "christian-apologetics",
+  "Defend the Faith Guide": "christian-apologetics",
+  "Resurrection Evidence Guide": "christian-apologetics",
 };
 
 
@@ -1853,6 +1859,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Types of Christian Prayer" },
   { label: "Christian Bible Study Deep" },
   { label: "Spiritual Gifts Christian" },
+  { label: "Christian Evangelism Guide" },
+  { label: "Christian Apologetics Deep" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

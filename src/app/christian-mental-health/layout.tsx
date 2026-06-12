@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Mental Health — Vine",
-  description: "Mental illness is not a spiritual failure — it is a sign of being human in a broken world. A theological and pastoral guide to faith and mental health for sufferers, caregivers, and the church.",
-  openGraph: {
-    title: "Christian Mental Health — Vine",
-    description: "Mental illness is not a spiritual failure — it is a sign of being human in a broken world. A theological and pastoral guide to faith and mental health for sufferers, caregivers, and the church.",
-    images: ["/api/og?title=Christian+Mental+Health"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Christian Mental Health — Vine",
-    description: "Mental illness is not a spiritual failure — it is a sign of being human in a broken world. A theological and pastoral guide to faith and mental health for sufferers, caregivers, and the church.",
-    images: ["/api/og?title=Christian+Mental+Health"],
-  },
+  title: "Your Body Is a Temple: Christian Mental Health | The Vine",
+  description:
+    "Explore the integration of faith and psychology, the biblical roots of mental health care, why the church has stigmatized mental illness, and the hope Scripture offers — from Elijah's depression to the holistic healing of Jesus.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

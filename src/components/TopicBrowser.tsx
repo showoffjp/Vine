@@ -1092,6 +1092,14 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Waiting on God": "waiting-on-god",
   "Christian Waiting": "waiting-on-god",
   "Waiting in Faith": "waiting-on-god",
+  "Christian Healing": "christian-healing",
+  "Divine Healing": "christian-healing",
+  "Faith Healing": "christian-healing",
+  "Healing Theology": "christian-healing",
+  "Lord's Prayer Guide": "lord-prayer-guide",
+  "Our Father Prayer": "lord-prayer-guide",
+  "Praying the Lord's Prayer": "lord-prayer-guide",
+  "Matthew 6 Prayer": "lord-prayer-guide",
 };
 
 
@@ -1724,6 +1732,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Technology" },
   { label: "Christian Persecution" },
   { label: "Waiting on God" },
+  { label: "Christian Healing" },
+  { label: "Lord's Prayer Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

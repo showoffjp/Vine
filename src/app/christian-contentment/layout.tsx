@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "The Secret of Contentment — Vine",
-  description: "Paul learned contentment — it is not a temperament but a discipline. Explore Philippians 4:11-13, Jeremiah Burroughs, godliness with contentment, and how to find sufficiency in Christ amid consumerism and want.",
-  openGraph: {
-    title: "The Secret of Contentment — Vine",
-    description: "Paul learned contentment — it is not a temperament but a discipline. Explore Philippians 4:11-13, Jeremiah Burroughs, godliness with contentment, and how to find sufficiency in Christ amid consumerism and want.",
-    images: ["/api/og?title=The+Secret+of+Contentment"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "The Secret of Contentment — Vine",
-    description: "Paul learned contentment — it is not a temperament but a discipline. Explore Philippians 4:11-13, Jeremiah Burroughs, godliness with contentment, and how to find sufficiency in Christ amid consumerism and want.",
-    images: ["/api/og?title=The+Secret+of+Contentment"],
-  },
+  title: "Godliness with Contentment: Christian Contentment | The Vine",
+  description:
+    "Contentment is a learned discipline, not a feeling — freedom from coveting, rooted in the sufficiency of Christ. Explore Philippians 4:11, 1 Timothy 6:6, Jeremiah Burroughs, and the manna principle.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -1,9 +1,9 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Suffering: A Comprehensive Theology Guide | Vine",
+  title: "Through the Fire: A Christian Guide to Suffering | The Vine",
   description:
-    "A comprehensive guide to Christian suffering — the theology of the cross, suffering in the Psalms, Paul's theology of suffering, Job and theodicy, the gift of lament, suffering with Christ, and how grief and hope coexist.",
+    "A Christian guide to suffering — the theology of the cross, the fellowship of Christ's sufferings, lament as the biblical response to pain, and finding God in the fire.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

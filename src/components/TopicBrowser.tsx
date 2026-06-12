@@ -1100,6 +1100,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Our Father Prayer": "lord-prayer-guide",
   "Praying the Lord's Prayer": "lord-prayer-guide",
   "Matthew 6 Prayer": "lord-prayer-guide",
+  "Christian Perseverance": "christian-perseverance",
+  "Endurance in Faith": "christian-perseverance",
+  "Finishing Well": "christian-perseverance",
+  "Run with Endurance": "christian-perseverance",
+  "Christian Self-Control": "christian-self-control",
+  "Self-Control": "christian-self-control",
+  "Egkrateia": "christian-self-control",
+  "Mastering Impulses": "christian-self-control",
+  "Silence and Solitude": "silence-and-solitude",
+  "Christian Silence": "silence-and-solitude",
+  "Christian Solitude": "silence-and-solitude",
+  "Be Still": "silence-and-solitude",
 };
 
 
@@ -1734,6 +1746,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Waiting on God" },
   { label: "Christian Healing" },
   { label: "Lord's Prayer Guide" },
+  { label: "Christian Perseverance" },
+  { label: "Christian Self-Control" },
+  { label: "Silence and Solitude" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1425,6 +1425,13 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Believers Baptism Credobaptism": "christian-baptism-theology",
   "Paedobaptism Infant Baptism": "christian-baptism-theology",
   "Baptism Mode Immersion": "christian-baptism-theology",
+  "Gleaning Laws Jubilee Poor": "christian-poverty-theology",
+  "Liberation Theology Guide": "christian-poverty-theology",
+  "Prosperity Gospel Critique": "christian-poverty-theology",
+  "Genesis Genre Walton": "christian-creation-theology",
+  "Creation Ex Nihilo Guide": "christian-creation-theology",
+  "Theistic Evolution BioLogos": "christian-creation-theology",
+  "New Creation Stewardship": "christian-creation-theology",
 };
 
 
@@ -2165,6 +2172,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Transubstantiation Zwingli" },
   { label: "Regulative Normative Worship" },
   { label: "Believers Baptism Credobaptism" },
+  { label: "Liberation Theology Guide" },
+  { label: "Prosperity Gospel Critique" },
+  { label: "Genesis Genre Walton" },
+  { label: "Theistic Evolution BioLogos" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

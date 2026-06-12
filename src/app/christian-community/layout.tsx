@@ -1,9 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Community: Theology, Practice, and the One Anothers | Vine",
-  description:
-    "A guide to Christian community — the Trinity as model, the one another commands, the danger of pseudo-community, the church as visible witness, and practical steps toward genuine depth.",
+  title: "One Body: Christian Community | The Vine",
+  description: "A guide to the church as community — koinonia fellowship, bearing one another's burdens, the one-another commands, and why Christians cannot flourish in isolation.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

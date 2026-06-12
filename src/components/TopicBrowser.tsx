@@ -1146,6 +1146,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Vocation": "christian-vocation",
   "Luther Vocation": "christian-vocation",
   "Secular Calling": "christian-vocation",
+  "Joy of Salvation": "christian-joy-of-salvation",
+  "Salvation Joy": "christian-joy-of-salvation",
+  "Joy in Suffering Christian": "christian-joy-of-salvation",
+  "Gospel Witness": "christian-witness",
+  "Bearing Witness Christ": "christian-witness",
+  "Evangelism Witness": "christian-witness",
 };
 
 
@@ -1793,6 +1799,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Simplicity" },
   { label: "Christian Stewardship" },
   { label: "Christian Vocation" },
+  { label: "Joy of Salvation" },
+  { label: "Gospel Witness" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

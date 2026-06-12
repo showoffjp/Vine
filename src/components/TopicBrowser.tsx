@@ -1158,6 +1158,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Forgiveness Deep Guide": "christian-forgiveness-guide",
   "Seventy Times Seven": "christian-forgiveness-guide",
   "Releasing Debts Forgiveness": "christian-forgiveness-guide",
+  "Christian Hope Guide": "christian-hope-guide",
+  "Resurrection Hope": "christian-hope-guide",
+  "Anchor for the Soul": "christian-hope-guide",
 };
 
 
@@ -1809,6 +1812,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Gospel Witness" },
   { label: "Grief Lament Deep Guide" },
   { label: "Forgiveness Deep Guide" },
+  { label: "Christian Hope Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

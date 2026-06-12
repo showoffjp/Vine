@@ -1314,6 +1314,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Courage Deep Guide": "christian-courage-guide",
   "Andreia Virtue Faith": "christian-courage-guide",
   "Be Strong Courageous": "christian-courage-guide",
+  "Euangelion Good News": "christian-evangelism-guide",
+  "Paul Areopagus Witness": "christian-evangelism-guide",
+  "Christian Witness Guide": "christian-evangelism-guide",
+  "Mathetes Learner Follow": "christian-discipleship-guide",
+  "Bonhoeffer Costly Grace": "christian-discipleship-guide",
+  "Christian Disciple Guide": "christian-discipleship-guide",
 };
 
 
@@ -2016,6 +2022,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Contentment Deep Dive" },
   { label: "Humility Deep Guide" },
   { label: "Courage Deep Guide" },
+  { label: "Christian Witness Guide" },
+  { label: "Christian Disciple Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1182,6 +1182,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Work Theology": "christian-work-theology",
   "Monday Morning Discipleship": "christian-work-theology",
   "Work as Worship Theology": "christian-work-theology",
+  "Types of Christian Prayer": "christian-prayer-types",
+  "ACTS Prayer Model": "christian-prayer-types",
+  "Lament Prayer Type": "christian-prayer-types",
+  "Christian Bible Study Deep": "christian-bible-study",
+  "Hermeneutics Basics": "christian-bible-study",
+  "Exegesis Eisegesis": "christian-bible-study",
+  "Spiritual Gifts Christian": "christian-spiritual-gifts",
+  "Charismata Gifts": "christian-spiritual-gifts",
+  "Gift Discovery Christian": "christian-spiritual-gifts",
 };
 
 
@@ -1841,6 +1850,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Compassion Guide" },
   { label: "Christian Money Guide" },
   { label: "Christian Work Theology" },
+  { label: "Types of Christian Prayer" },
+  { label: "Christian Bible Study Deep" },
+  { label: "Spiritual Gifts Christian" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

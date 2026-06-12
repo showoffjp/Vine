@@ -1350,6 +1350,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Colossians Work Lord": "christian-work-guide",
   "Luther Masks God Work": "christian-work-guide",
   "Vocation Calling Work": "christian-work-guide",
+  "Mental Health Faith Guide": "christian-mental-health-guide",
+  "Church Stigma Mental Health": "christian-mental-health-guide",
+  "Elijah Depression Guide": "christian-mental-health-guide",
+  "Addiction Recovery Romans 7": "christian-addiction-recovery",
+  "Celebrate Recovery Steps": "christian-addiction-recovery",
+  "Sobriety Spiritual Warfare": "christian-addiction-recovery",
+  "Body Theology Sexual Ethics": "christian-sexual-ethics-guide",
+  "Chastity Virtue Guide": "christian-sexual-ethics-guide",
+  "Celibacy Spiritual Gift": "christian-sexual-ethics-guide",
+  "Ephesians 2 Reconciliation": "christian-race-reconciliation",
+  "Imago Dei Race Guide": "christian-race-reconciliation",
+  "Racial Lament Church": "christian-race-reconciliation",
 };
 
 
@@ -2064,6 +2076,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Missio Dei Guide" },
   { label: "Shabbat Deep Guide" },
   { label: "Vocation Calling Work" },
+  { label: "Mental Health Faith Guide" },
+  { label: "Celebrate Recovery Steps" },
+  { label: "Chastity Virtue Guide" },
+  { label: "Ephesians 2 Reconciliation" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

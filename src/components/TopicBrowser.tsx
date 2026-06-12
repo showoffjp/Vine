@@ -1401,6 +1401,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Nicaea Reformation History": "christian-church-history-guide",
   "Great Schism 1054 Guide": "christian-church-history-guide",
   "Global Church Today Guide": "christian-church-history-guide",
+  "TULIP Five Points Grace": "christian-theology-of-grace",
+  "Prevenient Grace Arminian": "christian-theology-of-grace",
+  "Means of Grace Wesley": "christian-theology-of-grace",
+  "Mortification Vivification Guide": "christian-sanctification-guide",
+  "Owen Killing Sin Guide": "christian-sanctification-guide",
+  "Entire Sanctification Wesley": "christian-sanctification-guide",
+  "Adamic Abrahamic Covenant": "christian-covenant-theology-guide",
+  "Dispensationalism Covenant": "christian-covenant-theology-guide",
+  "New Covenant Jeremiah 31": "christian-covenant-theology-guide",
+  "Already Not Yet Kingdom": "christian-kingdom-of-god-guide",
+  "Parables Kingdom Matthew 13": "christian-kingdom-of-god-guide",
+  "Kingdom Ethics Sermon Mount": "christian-kingdom-of-god-guide",
 };
 
 
@@ -2133,6 +2145,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Inductive Bible Study Guide" },
   { label: "Grammatical Historical Method" },
   { label: "Nicaea Reformation History" },
+  { label: "TULIP Five Points Grace" },
+  { label: "Mortification Vivification Guide" },
+  { label: "Adamic Abrahamic Covenant" },
+  { label: "Already Not Yet Kingdom" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

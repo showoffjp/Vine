@@ -497,33 +497,36 @@ export default function SilenceAndSolitudePage() {
 
   // Journal state ------------------------------------------------------------
   const [entries, setEntries] = useState<SSEntry[]>([]);
-  const [loaded, setLoaded] = useState(false);
   const [duration, setDuration] = useState("");
   const [noise, setNoise] = useState("");
   const [whisper, setWhisper] = useState("");
   const [savedFlash, setSavedFlash] = useState(false);
 
+  // Hydrate once from localStorage after mount. localStorage is unavailable
+  // during prerendering, so this cannot live in the useState initializer.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) setEntries(parsed as SSEntry[]);
+        if (Array.isArray(parsed)) {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time hydration from an external store
+          setEntries(parsed as SSEntry[]);
+        }
       }
     } catch {
       // Corrupted storage — start fresh rather than crash the page.
     }
-    setLoaded(true);
   }, []);
 
-  useEffect(() => {
-    if (!loaded) return;
+  function persist(next: SSEntry[]) {
+    setEntries(next);
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
       // Storage may be unavailable (private mode, quota) — fail silently.
     }
-  }, [entries, loaded]);
+  }
 
   function addEntry(e: React.FormEvent) {
     e.preventDefault();
@@ -533,7 +536,7 @@ export default function SilenceAndSolitudePage() {
       noise: noise.trim(),
       whisper: whisper.trim(),
     };
-    setEntries((prev) => [entry, ...prev]);
+    persist([entry, ...entries]);
     setDuration("");
     setNoise("");
     setWhisper("");
@@ -542,7 +545,7 @@ export default function SilenceAndSolitudePage() {
   }
 
   function deleteEntry(index: number) {
-    setEntries((prev) => prev.filter((_, i) => i !== index));
+    persist(entries.filter((_, i) => i !== index));
   }
 
   // Shared styles -------------------------------------------------------------
@@ -864,11 +867,9 @@ export default function SilenceAndSolitudePage() {
                     </div>
                     <ol style={{ margin: 0, padding: "0 0 0 1.2rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                       {practice.steps.map((step, i) => (
-                        <li
-                          key={i}
-                          style={{ color: MUTED, fontSize: "0.87rem", lineHeight: 1.65 }}
-                          dangerouslySetInnerHTML={{ __html: step }}
-                        />
+                        <li key={i} style={{ color: MUTED, fontSize: "0.87rem", lineHeight: 1.65 }}>
+                          {step}
+                        </li>
                       ))}
                     </ol>
                   </div>
@@ -1008,10 +1009,9 @@ export default function SilenceAndSolitudePage() {
                     <span style={{ color: ACCENT, fontWeight: 800, fontSize: "0.78rem", letterSpacing: "0.08em" }}>
                       INTO PRACTICE:{" "}
                     </span>
-                    <span
-                      style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.65 }}
-                      dangerouslySetInnerHTML={{ __html: passage.practice }}
-                    />
+                    <span style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.65 }}>
+                      {passage.practice}
+                    </span>
                   </div>
                 </article>
               ))}

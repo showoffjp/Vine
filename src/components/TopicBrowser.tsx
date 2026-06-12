@@ -1305,6 +1305,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Self Control Guide": "christian-self-control-guide",
   "Egkrateia Fruit Spirit": "christian-self-control-guide",
   "Mastery Impulse Christian": "christian-self-control-guide",
+  "Contentment Deep Dive": "christian-contentment-guide",
+  "Phil 4 11 Contentment": "christian-contentment-guide",
+  "Learned Contentment Paul": "christian-contentment-guide",
+  "Humility Deep Guide": "christian-humility-guide",
+  "Tapeinophrosyne Lowliness": "christian-humility-guide",
+  "Kenosis Humility Christ": "christian-humility-guide",
+  "Courage Deep Guide": "christian-courage-guide",
+  "Andreia Virtue Faith": "christian-courage-guide",
+  "Be Strong Courageous": "christian-courage-guide",
 };
 
 
@@ -2004,6 +2013,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Aging Guide" },
   { label: "Christian Peace Guide" },
   { label: "Christian Self Control Guide" },
+  { label: "Contentment Deep Dive" },
+  { label: "Humility Deep Guide" },
+  { label: "Courage Deep Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

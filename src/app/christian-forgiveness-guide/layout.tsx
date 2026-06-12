@@ -1,9 +1,19 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Seventy Times Seven: Christian Forgiveness | The Vine",
-  description:
-    "A guide to forgiveness as a spiritual discipline — releasing debts, the parable of the unforgiving servant, C.S. Lewis on forgiving the inexcusable, and the freedom forgiveness brings.",
+  title: "Christian Forgiveness Guide",
+  description: "Forgive as the Lord has forgiven you. This guide explores the biblical theology of forgiveness — aphiemi, Joseph's story, the unforgiving servant, forgiveness vs. reconciliation, forgiving yourself, and forgiveness as healing.",
+  openGraph: {
+    title: "Christian Forgiveness Guide — Vine",
+    description: "Forgive as the Lord has forgiven you. This guide explores the biblical theology of forgiveness — aphiemi, Joseph's story, the unforgiving servant, forgiveness vs. reconciliation, forgiving yourself, and forgiveness as healing.",
+    images: ["/api/og?title=Christian+Forgiveness+Guide"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Christian Forgiveness Guide — Vine",
+    description: "Forgive as the Lord has forgiven you. This guide explores the biblical theology of forgiveness — aphiemi, Joseph's story, the unforgiving servant, forgiveness vs. reconciliation, forgiving yourself, and forgiveness as healing.",
+    images: ["/api/og?title=Christian+Forgiveness+Guide"],
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

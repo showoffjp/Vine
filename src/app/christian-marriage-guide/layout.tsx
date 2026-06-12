@@ -1,9 +1,9 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Marriage: A Comprehensive Biblical Guide | Vine",
+  title: "As Christ Loved the Church: Christian Marriage | The Vine",
   description:
-    "A comprehensive biblical guide to Christian marriage — the theology of covenant marriage, headship and submission debates, communication, conflict, intimacy, parenting together, and marriage in crisis.",
+    "A deep guide to covenant marriage — mutual submission, sacrificial love, the two becoming one flesh, and how marriage becomes an instrument of sanctification and an icon of Christ and the church.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

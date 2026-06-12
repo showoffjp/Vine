@@ -1,9 +1,9 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christian Parenting: A Comprehensive Biblical Guide | Vine",
+  title: "Train Up a Child: Christian Parenting | The Vine",
   description:
-    "A comprehensive guide to Christian parenting — a biblical theology of children, discipleship in the home, discipline and grace, raising children through faith, navigating technology and culture, and shepherding teenagers.",
+    "A deep guide to raising children in faith — gospel-centered parenting, the Shema and walking discipleship, grace vs. law, children as image-bearers, and the parent as a picture of God's grace.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

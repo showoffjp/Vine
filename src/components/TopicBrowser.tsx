@@ -1227,6 +1227,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Spiritual Warfare Guide": "christian-spiritual-warfare",
   "Armor of God Guide": "christian-spiritual-warfare",
   "Screwtape Warfare": "christian-spiritual-warfare",
+  "Christian Holiness Guide": "christian-holiness",
+  "Sanctification Holiness": "christian-holiness",
+  "Progressive Entire Sanctification": "christian-holiness",
+  "Christian Diligence Guide": "christian-diligence",
+  "Overcoming Sloth Acedia": "christian-diligence",
+  "Whatever Your Hand Finds": "christian-diligence",
+  "Christian Pilgrimage Guide": "christian-pilgrimage",
+  "Psalms of Ascent Pilgrimage": "christian-pilgrimage",
+  "Sojourners Strangers World": "christian-pilgrimage",
+  "Christian Sabbatical Guide": "christian-sabbatical",
+  "Selah Rest Ministry": "christian-sabbatical",
+  "Pastoral Burnout Sabbatical": "christian-sabbatical",
 };
 
 
@@ -1901,6 +1913,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Technology Ethics" },
   { label: "Prayer for Healing Guide" },
   { label: "Spiritual Warfare Guide" },
+  { label: "Christian Holiness Guide" },
+  { label: "Christian Diligence Guide" },
+  { label: "Christian Pilgrimage Guide" },
+  { label: "Christian Sabbatical Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

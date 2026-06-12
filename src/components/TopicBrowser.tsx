@@ -1444,6 +1444,13 @@ const TOPIC_SLUGS: Record<string, string> = {
   "AI Imago Dei Guide": "christian-technology-faith",
   "Digital Sabbath Screen Guide": "christian-technology-faith",
   "Social Media Soul Guide": "christian-technology-faith",
+  "Two Kingdoms Niebuhr Guide": "christian-political-theology",
+  "Christian Nationalism Critique": "christian-political-theology",
+  "Common Good Romans 13": "christian-political-theology",
+  "Sanctity Life Imago Dei": "christian-bioethics-guide",
+  "Abortion Pastoral Guide": "christian-bioethics-guide",
+  "End of Life Euthanasia": "christian-bioethics-guide",
+  "Genetic Engineering CRISPR": "christian-bioethics-guide",
 };
 
 
@@ -2192,6 +2199,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Comp Egal Debate Guide" },
   { label: "Mammon Cheerful Giver" },
   { label: "AI Imago Dei Guide" },
+  { label: "Two Kingdoms Niebuhr Guide" },
+  { label: "Christian Nationalism Critique" },
+  { label: "Sanctity Life Imago Dei" },
+  { label: "Genetic Engineering CRISPR" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1152,6 +1152,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Gospel Witness": "christian-witness",
   "Bearing Witness Christ": "christian-witness",
   "Evangelism Witness": "christian-witness",
+  "Grief Lament Deep Guide": "christian-grief-guide",
+  "Mourning With Hope": "christian-grief-guide",
+  "Christian Grief Deep": "christian-grief-guide",
+  "Forgiveness Deep Guide": "christian-forgiveness-guide",
+  "Seventy Times Seven": "christian-forgiveness-guide",
+  "Releasing Debts Forgiveness": "christian-forgiveness-guide",
 };
 
 
@@ -1801,6 +1807,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Vocation" },
   { label: "Joy of Salvation" },
   { label: "Gospel Witness" },
+  { label: "Grief Lament Deep Guide" },
+  { label: "Forgiveness Deep Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

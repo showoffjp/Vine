@@ -1413,6 +1413,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Already Not Yet Kingdom": "christian-kingdom-of-god-guide",
   "Parables Kingdom Matthew 13": "christian-kingdom-of-god-guide",
   "Kingdom Ethics Sermon Mount": "christian-kingdom-of-god-guide",
+  "One Another Commands NT": "christian-community-life-guide",
+  "Koinonia Community Guide": "christian-community-life-guide",
+  "Hospitality Spiritual Guide": "christian-community-life-guide",
+  "Transubstantiation Zwingli": "christian-lords-supper-guide",
+  "Marburg Colloquy Calvin": "christian-lords-supper-guide",
+  "Lords Supper Community": "christian-lords-supper-guide",
+  "Regulative Normative Worship": "christian-worship-theology",
+  "Liturgy Church Calendar": "christian-worship-theology",
+  "Word Sacrament Worship": "christian-worship-theology",
+  "Believers Baptism Credobaptism": "christian-baptism-theology",
+  "Paedobaptism Infant Baptism": "christian-baptism-theology",
+  "Baptism Mode Immersion": "christian-baptism-theology",
 };
 
 
@@ -2149,6 +2161,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Mortification Vivification Guide" },
   { label: "Adamic Abrahamic Covenant" },
   { label: "Already Not Yet Kingdom" },
+  { label: "Koinonia Community Guide" },
+  { label: "Transubstantiation Zwingli" },
+  { label: "Regulative Normative Worship" },
+  { label: "Believers Baptism Credobaptism" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

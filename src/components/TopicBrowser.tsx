@@ -1281,6 +1281,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Joy Deep Guide": "christian-joy-guide",
   "Chara Joy Fruit": "christian-joy-guide",
   "Surprised by Joy Lewis": "christian-joy-guide",
+  "Christian Wisdom Guide": "christian-wisdom-guide",
+  "Chokmah Skill for Living": "christian-wisdom-guide",
+  "Fear of the Lord Wisdom": "christian-wisdom-guide",
+  "Christian Silence Guide": "christian-silence",
+  "Sheer Silence Elijah": "christian-silence",
+  "Hesychia Desert Stillness": "christian-silence",
+  "Christian Encouragement Guide": "christian-encouragement",
+  "Barnabas Son of Encouragement": "christian-encouragement",
+  "Paraklesis Encourage Daily": "christian-encouragement",
+  "Christian Perseverance Guide": "christian-perseverance-guide",
+  "Hupomone Endurance Race": "christian-perseverance-guide",
+  "Long Obedience Same Direction": "christian-perseverance-guide",
 };
 
 
@@ -1972,6 +1984,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Healing Guide" },
   { label: "Christian Lament Guide" },
   { label: "Christian Joy Deep Guide" },
+  { label: "Christian Wisdom Guide" },
+  { label: "Christian Silence Guide" },
+  { label: "Christian Encouragement Guide" },
+  { label: "Christian Perseverance Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

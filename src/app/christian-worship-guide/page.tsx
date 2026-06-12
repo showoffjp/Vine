@@ -1,7 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", ACCENT = "#F59E0B", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -9,15 +7,19 @@ const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", ACCENT = "#F59E0B", 
 type WPEntry = { id: string; date: string; element: string; meaning: string; practice: string };
 
 export default function ChristianWorshipGuidePage() {
+  const [loaded, setLoaded] = useState(false);
   const [tab, setTab] = useState("theology");
-  const [entries, setEntries] = useState<WPEntry[]>(() => {
-    try { const s = localStorage.getItem("vine_christianworship_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
-  });
+  const [entries, setEntries] = useState<WPEntry[]>([]);
+
+  useEffect(() => {
+    setLoaded(true);
+    try { const s = localStorage.getItem("vine_christianworship_entries"); if (s) setEntries(JSON.parse(s)); } catch { /* ignore */ }
+  }, []);
   const [jElement, setJElement] = useState("");
   const [jMeaning, setJMeaning] = useState("");
   const [jPractice, setJPractice] = useState("");
 
-  useEffect(() => { localStorage.setItem("vine_christianworship_entries", JSON.stringify(entries)); }, [entries]);
+  useEffect(() => { if (loaded) localStorage.setItem("vine_christianworship_entries", JSON.stringify(entries)); }, [entries, loaded]);
 
   const saveEntry = () => {
     if (!jElement.trim()) return;
@@ -33,9 +35,10 @@ export default function ChristianWorshipGuidePage() {
     { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
   ];
 
+  if (!loaded) return null;
+
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
-      <Navbar />
+    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT }}>
       <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
 
         <div style={{ marginBottom: "0.5rem" }}>
@@ -255,7 +258,6 @@ export default function ChristianWorshipGuidePage() {
         )}
 
       </main>
-      <Footer />
     </div>
   );
 }

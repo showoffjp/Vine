@@ -1338,6 +1338,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Spiritual Warfare Deep Guide": "christian-spiritual-warfare-guide",
   "Screwtape Letters Guide": "christian-spiritual-warfare-guide",
   "Armor of God Deep": "christian-spiritual-warfare-guide",
+  "Genesis Mandate Ecology": "christian-creation-care-guide",
+  "New Creation Romans 8": "christian-creation-care-guide",
+  "Ecology Worship Guide": "christian-creation-care-guide",
+  "Missio Dei Guide": "christian-missions-guide",
+  "Unreached Peoples Guide": "christian-missions-guide",
+  "Tentmaking BAM Guide": "christian-missions-guide",
+  "Shabbat Deep Guide": "christian-sabbath-guide",
+  "Sabbath Modern Living": "christian-sabbath-guide",
+  "Lord Day Sabbath Guide": "christian-sabbath-guide",
 };
 
 
@@ -2048,6 +2057,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Exomologeomai Guide" },
   { label: "Single Christian Guide" },
   { label: "Spiritual Warfare Deep Guide" },
+  { label: "Ecology Worship Guide" },
+  { label: "Missio Dei Guide" },
+  { label: "Shabbat Deep Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1203,6 +1203,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Eternity Guide": "christian-eternity",
   "New Creation Heaven": "christian-eternity",
   "Resurrection Body Hope": "christian-eternity",
+  "Christian Politics Guide": "christian-politics",
+  "Faith and Politics": "christian-politics",
+  "Two Kingdoms Theology": "christian-politics",
+  "Christians and Culture Guide": "christian-culture",
+  "Faithful Presence Culture": "christian-culture",
+  "Niebuhr Christ Culture": "christian-culture",
+  "Christian Racism Guide": "christian-racism",
+  "One Blood Racism": "christian-racism",
+  "Racial Reconciliation Christian": "christian-racism",
+  "Christian Poverty Guide": "christian-poverty",
+  "Good News Poor": "christian-poverty",
+  "Poverty Theology": "christian-poverty",
 };
 
 
@@ -1869,6 +1881,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Apologetics Deep" },
   { label: "Christian Death Dying Guide" },
   { label: "Christian Eternity Guide" },
+  { label: "Christian Politics Guide" },
+  { label: "Christians and Culture Guide" },
+  { label: "Christian Racism Guide" },
+  { label: "Christian Poverty Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

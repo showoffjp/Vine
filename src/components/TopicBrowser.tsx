@@ -1197,6 +1197,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Apologetics Deep": "christian-apologetics",
   "Defend the Faith Guide": "christian-apologetics",
   "Resurrection Evidence Guide": "christian-apologetics",
+  "Christian Death Dying Guide": "christian-death-dying",
+  "Ars Moriendi Christian": "christian-death-dying",
+  "Death and Dying Christian": "christian-death-dying",
+  "Christian Eternity Guide": "christian-eternity",
+  "New Creation Heaven": "christian-eternity",
+  "Resurrection Body Hope": "christian-eternity",
 };
 
 
@@ -1861,6 +1867,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Spiritual Gifts Christian" },
   { label: "Christian Evangelism Guide" },
   { label: "Christian Apologetics Deep" },
+  { label: "Christian Death Dying Guide" },
+  { label: "Christian Eternity Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

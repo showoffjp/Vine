@@ -1161,6 +1161,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Hope Guide": "christian-hope-guide",
   "Resurrection Hope": "christian-hope-guide",
   "Anchor for the Soul": "christian-hope-guide",
+  "Christian Meditation": "christian-meditation",
+  "Biblical Meditation": "christian-meditation",
+  "Lectio Divina Guide": "christian-meditation",
+  "Christian Confession Practice": "christian-confession",
+  "Confession as Grace": "christian-confession",
+  "Confessing to One Another": "christian-confession",
+  "Christian Worship Deep": "christian-worship",
+  "Worship in Spirit Truth": "christian-worship",
+  "Whole Life Worship": "christian-worship",
 };
 
 
@@ -1813,6 +1822,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Grief Lament Deep Guide" },
   { label: "Forgiveness Deep Guide" },
   { label: "Christian Hope Guide" },
+  { label: "Christian Meditation" },
+  { label: "Christian Confession Practice" },
+  { label: "Christian Worship Deep" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

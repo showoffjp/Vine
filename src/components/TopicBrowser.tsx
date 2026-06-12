@@ -1380,6 +1380,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Four Millennial Views": "christian-end-times-guide",
   "Rapture History Debate": "christian-end-times-guide",
   "Olivet Discourse Guide": "christian-end-times-guide",
+  "Gifts of Spirit Debate": "christian-holy-spirit-guide",
+  "Cessationism Continuationism": "christian-holy-spirit-guide",
+  "Spirit Baptism Views": "christian-holy-spirit-guide",
+  "Nicaea Arianism Guide": "christian-trinity-guide",
+  "Perichoresis Divine Dance": "christian-trinity-guide",
+  "Trinity Heresies Guide": "christian-trinity-guide",
+  "Penal Sub Christus Victor": "christian-atonement-guide",
+  "Girard Scapegoat Atonement": "christian-atonement-guide",
+  "Cross Atonement Theories": "christian-atonement-guide",
+  "Chalcedon Two Natures": "christian-incarnation-guide",
+  "Kenosis Philippians 2": "christian-incarnation-guide",
+  "Virgin Birth Theology": "christian-incarnation-guide",
 };
 
 
@@ -2105,6 +2117,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "NT Wright Heaven Guide" },
   { label: "Four Millennial Views" },
   { label: "Rapture History Debate" },
+  { label: "Gifts of Spirit Debate" },
+  { label: "Nicaea Arianism Guide" },
+  { label: "Penal Sub Christus Victor" },
+  { label: "Chalcedon Two Natures" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

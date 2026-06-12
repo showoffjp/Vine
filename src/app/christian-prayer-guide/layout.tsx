@@ -1,0 +1,24 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Christian Prayer Guide",
+  description:
+    "A deep theology of prayer — the Lord's Prayer unpacked phrase by phrase, intercessory prayer and how it works, unanswered prayer, ACTS and other models, prayer and the Holy Spirit, and learning to pray when you don't know how.",
+  openGraph: {
+    title: "Christian Prayer Guide — Vine",
+    description:
+      "A deep theology of prayer — the Lord's Prayer unpacked phrase by phrase, intercessory prayer and how it works, unanswered prayer, ACTS and other models, prayer and the Holy Spirit, and learning to pray when you don't know how.",
+    images: ["/api/og?title=Christian+Prayer+Guide"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Christian Prayer Guide — Vine",
+    description:
+      "A deep theology of prayer — the Lord's Prayer unpacked phrase by phrase, intercessory prayer and how it works, unanswered prayer, ACTS and other models, prayer and the Holy Spirit, and learning to pray when you don't know how.",
+    images: ["/api/og?title=Christian+Prayer+Guide"],
+  },
+};
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}

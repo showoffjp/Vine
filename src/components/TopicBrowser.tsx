@@ -1362,6 +1362,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ephesians 2 Reconciliation": "christian-race-reconciliation",
   "Imago Dei Race Guide": "christian-race-reconciliation",
   "Racial Lament Church": "christian-race-reconciliation",
+  "Foster Willard Disciplines": "christian-spiritual-disciplines-guide",
+  "Lectio Divina Examen Guide": "christian-spiritual-disciplines-guide",
+  "Corporate Discipline Guide": "christian-spiritual-disciplines-guide",
+  "ACTS Prayer Model Guide": "christian-prayer-guide",
+  "Intercessory Prayer Deep": "christian-prayer-guide",
+  "When God Seems Silent Prayer": "christian-prayer-guide",
+  "Job Suffering Theology": "christian-theology-of-suffering",
+  "Romans 8 Suffering Guide": "christian-theology-of-suffering",
+  "Crucified God Moltmann": "christian-theology-of-suffering",
+  "Joy vs Happiness Christian": "christian-joy-guide",
+  "Philippians Joy Epistle": "christian-joy-guide",
+  "Joy as Resistance Guide": "christian-joy-guide",
 };
 
 
@@ -2080,6 +2092,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Celebrate Recovery Steps" },
   { label: "Chastity Virtue Guide" },
   { label: "Ephesians 2 Reconciliation" },
+  { label: "Foster Willard Disciplines" },
+  { label: "ACTS Prayer Model Guide" },
+  { label: "Job Suffering Theology" },
+  { label: "Philippians Joy Epistle" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

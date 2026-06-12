@@ -1320,6 +1320,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Mathetes Learner Follow": "christian-discipleship-guide",
   "Bonhoeffer Costly Grace": "christian-discipleship-guide",
   "Christian Disciple Guide": "christian-discipleship-guide",
+  "Oikonomia Stewardship": "christian-stewardship-guide",
+  "Parable Talents Deep": "christian-stewardship-guide",
+  "Generous Living Guide": "christian-stewardship-guide",
+  "Mishpat Biblical Justice": "christian-justice-guide",
+  "Prophets Poor Deep": "christian-justice-guide",
+  "Jubilee Justice Guide": "christian-justice-guide",
+  "When You Fast Guide": "christian-fasting-guide",
+  "Daniel Fast Method": "christian-fasting-guide",
+  "Biblical Fast Types": "christian-fasting-guide",
+  "Exomologeomai Guide": "christian-confession-guide",
+  "James 5 16 Confession": "christian-confession-guide",
+  "Shame Guilt Freedom": "christian-confession-guide",
 };
 
 
@@ -2024,6 +2036,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Courage Deep Guide" },
   { label: "Christian Witness Guide" },
   { label: "Christian Disciple Guide" },
+  { label: "Generous Living Guide" },
+  { label: "Jubilee Justice Guide" },
+  { label: "When You Fast Guide" },
+  { label: "Exomologeomai Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

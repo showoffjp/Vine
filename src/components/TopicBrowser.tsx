@@ -1239,6 +1239,17 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Sabbatical Guide": "christian-sabbatical",
   "Selah Rest Ministry": "christian-sabbatical",
   "Pastoral Burnout Sabbatical": "christian-sabbatical",
+  "Eucharisteo Thanksgiving": "christian-gratitude",
+  "Ann Voskamp 1000 Gifts": "christian-gratitude",
+  "Christian Trust Guide": "christian-trust",
+  "Trusting God Dark Times": "christian-trust",
+  "Proverbs 3 Trust": "christian-trust",
+  "Christian Obedience Guide": "christian-obedience",
+  "Obedience Not Legalism": "christian-obedience",
+  "Love Keep Commandments": "christian-obedience",
+  "Christian Testimony Guide": "christian-testimony",
+  "Write Your Testimony": "christian-testimony",
+  "Before After Christ Story": "christian-testimony",
 };
 
 
@@ -1917,6 +1928,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Diligence Guide" },
   { label: "Christian Pilgrimage Guide" },
   { label: "Christian Sabbatical Guide" },
+  { label: "Christian Trust Guide" },
+  { label: "Christian Obedience Guide" },
+  { label: "Christian Testimony Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

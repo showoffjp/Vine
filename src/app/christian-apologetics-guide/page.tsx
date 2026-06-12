@@ -1,180 +1,320 @@
 "use client";
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32", BLUE = "#3B82F6", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const GREEN = "#3a7d56";
+const PURPLE = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+const GOLD = "#D97706";
+const TEAL = "#0D9488";
 
-const theology = [
-  { title: "1 Peter 3:15 — the Apologetics Commission", verse: "1 Pet 3:15", text: "Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have — with gentleness and respect. Three elements structure the apologetic enterprise here: readiness (always prepared, not only when convenient), content (the reason for the hope, not merely an argument for religion in general), and manner (gentleness and respect, not condescension or combativeness). Notice that the apologetic is rooted in hope, not in argument — the apologist is first a witness to a living experience and only secondarily a logician. The manner requirement is not optional: apologetics that is technically correct but relationally contemptuous fails the 1 Peter standard. The person who wins the argument and loses the relationship has not done apologetics — they have done something else." },
-  { title: "Does God Exist? — the Three Classical Arguments and Their Current State", verse: "Acts 17:22-23", text: "The cosmological argument asks why there is something rather than nothing: William Lane Craig's Kalam version argues that whatever begins to exist has a cause, the universe began to exist, therefore the universe has a cause that itself is uncaused, timeless, and immensely powerful. The teleological argument points to the fine-tuning of the physical constants of the universe: Robin Collins has shown that even tiny variations in the constants would make life impossible, and the best explanation is intentional design. The moral argument, as C.S. Lewis framed it, notes that objective moral values and duties exist and that they require a transcendent moral lawgiver. Each argument establishes something different and less than the full Christian God, but together they function as a cumulative case. The reasonable faith position is not that any one argument is a knockdown proof, but that the cumulative weight shifts the rational burden significantly toward theism." },
-  { title: "The Resurrection — the Historical Argument for Christianity's Core Claim", verse: "1 Cor 15:14", text: "If Christ has not been raised, your faith is futile. The resurrection is not a peripheral doctrine — it is the center of the entire Christian claim. Gary Habermas's minimal facts argument draws only on data that the vast majority of critical scholars, including skeptics, accept: the crucifixion is among the best-attested facts of ancient history; the tomb was found empty (even opponents of Christianity in the first century did not deny this, but argued the body had been stolen); post-resurrection appearances were reported by multiple independent sources including a group of five hundred; and the disciples were willing to die for their testimony, which is strong evidence they were not fabricating it. The four major hypotheses — theft, hallucination, swoon, and resurrection — have all been examined by historians, and the resurrection remains the best explanation of the full body of evidence. Mike Licona's The Resurrection of Jesus provides the most comprehensive historical treatment." },
-  { title: "The Problem of Evil — the Hardest Objection", verse: "Ps 46:10", text: "The intellectual problem of evil asks: if God is all-powerful, all-knowing, and all-good, evil and suffering would not exist; they do exist; therefore such a God does not exist. Alvin Plantinga's free will defense shows that God and evil are logically compatible: a world with free creatures who sometimes choose evil may be better than a world of non-free automatons who always do right, and God cannot create free creatures and simultaneously guarantee that they will always choose good. The skeptical theist response to the evidential version of the problem argues that we have no reliable basis for claiming that God lacks sufficient reasons for permitting the suffering we observe. But the harder problem is the emotional one: the person in the middle of profound loss is not asking for a philosophical rebuttal — they are asking to be heard. Apologists must learn to sit with the emotional problem before offering any intellectual response. The book of Job is the model: God's presence in the storm, not an explanation of the storm, is what Job finally receives and what ultimately satisfies." },
-  { title: "Can We Trust the Bible? — Historical and Textual Reliability", verse: "2 Cor 10:5", text: "The manuscript tradition of the New Testament is extraordinary: there are more than 5,800 Greek manuscripts of the NT, compared to fewer than 20 for most classical authors, and the earliest fragments date to within decades of the originals. The eyewitness criterion examines whether the Gospels reflect the perspective of those who were present. The criterion of embarrassment — why would authors include details that are embarrassing or counterproductive to their case unless they were committed to recording accurately? — supports the authenticity of material like Peter's denial, the women as first witnesses to the resurrection, and Jesus's baptism by John. The canon formation process was not arbitrary: books were recognized, not invented, by the early church based on apostolic origin, widespread use, and doctrinal consistency. The telephone-game objection misunderstands textual transmission, which is not oral but written, with manuscripts that can be cross-checked. Craig Blomberg and F.F. Bruce provide the best accessible treatments of these questions." },
+const tabs = [
+  { id: "what", label: "What Is Apologetics" },
+  { id: "arguments", label: "Arguments for God" },
+  { id: "resurrection", label: "The Resurrection" },
+  { id: "evil", label: "The Problem of Evil" },
+  { id: "presup", label: "Presuppositionalism" },
+  { id: "videos", label: "Videos" },
 ];
 
-const voices = [
-  { name: "C.S. Lewis", role: "Mere Christianity", quote: "I am trying here to prevent anyone saying the really foolish thing that people often say about Him: I am ready to accept Jesus as a great moral teacher, but I do not accept his claim to be God. That is the one thing we must not say. A man who was merely a man and said the sort of things Jesus said would not be a great moral teacher. He would either be a lunatic — on the level with the man who says he is a poached egg — or else he would be the Devil of Hell. You must make your choice. Either this man was, and is, the Son of God, or else a madman or something worse.", bio: "Lewis's trilemma is the most widely quoted argument in popular apologetics. Its force lies in collapsing the comfortable middle position — Jesus as merely a great teacher — by pointing out that the content of his teaching, especially his claims about himself, makes that option logically unavailable. The argument does not prove the resurrection, but it eliminates a common evasion and forces the honest inquirer to a decision." },
-  { name: "William Lane Craig", role: "Reasonable Faith", quote: "The cumulative case for Christian theism — cosmological, teleological, moral, ontological, and historical arguments converging on a single hypothesis — does not require that any one argument be a proof. It requires only that the hypothesis of a personal, all-powerful, all-knowing, morally perfect God who raised Jesus from the dead is a better explanation of the full range of evidence than any naturalistic alternative. When the arguments are assessed together, the burden of proof shifts decisively.", bio: "Craig is the most influential academic Christian apologist of the last half-century. His work on the Kalam cosmological argument and the historical case for the resurrection has defined the field. His Reasonable Faith is the standard graduate-level introduction to Christian apologetics and the best single resource for engaging with the strongest contemporary objections to theism." },
-  { name: "Timothy Keller", role: "The Reason for God", quote: "A significant number of the most common objections to Christianity — if you push on them seriously rather than accepting them at face value — turn out, on examination, to provide surprisingly strong support for the Christian worldview. The person who says they cannot believe in a God who sends people to hell is already assuming that some things are genuinely wrong, which is itself a theistic assumption. The best objections deserve the best answers, and the best answers often require the objector to examine the assumptions embedded in the question.", bio: "Keller's The Reason for God is the most pastorally effective work of apologetics written for a general audience in the last twenty-five years. Keller spent decades in conversation with skeptical New Yorkers and developed an approach to objections that is deeply respectful of the genuine intellectual and existential weight behind them. His contribution is the recognition that dismissing objections without examining their hidden assumptions is as intellectually dishonest as ignoring them." },
+const whatItems = [
+  {
+    title: "The Word Itself: Apologia",
+    text: "The Greek word behind &ldquo;apologetics&rdquo; is <em>apologia</em> &mdash; a legal defense given before a court. 1 Peter 3:15 commands every believer to &ldquo;always be ready to give an apologia to everyone who asks you a reason for the hope that is in you.&rdquo; This is not the defensive apology of embarrassment; it is the reasoned, courageous defense of an accused party who knows the truth is on their side. Apologetics is the discipline of giving that defense with care, precision, and love.",
+  },
+  {
+    title: "Apologetics as an Act of Love",
+    text: "The apologist who takes an honest doubter&rsquo;s questions seriously is performing an act of love. Dismissing intellectual objections with &ldquo;just have faith&rdquo; leaves the struggling person alone with their doubts. Engaging their objections with rigor and respect communicates that their mind matters, that the questions are real, and that the faith has nothing to fear from scrutiny. The manner of apologetics &mdash; gentleness and respect (1 Pet 3:15) &mdash; is not optional. The apologist who wins the argument while losing the person has failed.",
+  },
+  {
+    title: "Classical Apologetics: Reason First, Then Evidence",
+    text: "Classical apologetics (Thomas Aquinas, William Lane Craig) proceeds in two steps. First, establish theism through reason and nature &mdash; the cosmological, teleological, and moral arguments show that God exists. Second, argue from evidence specifically for Christianity &mdash; the resurrection, the reliability of Scripture, fulfilled prophecy. This approach assumes some common rational ground between believer and unbeliever: both can examine arguments and evidence. It is philosophically rigorous and particularly effective with those who respect logical argument as an authority.",
+  },
+  {
+    title: "Evidential Apologetics: Evidence Directly for Christianity",
+    text: "Evidential apologetics (Gary Habermas, Josh McDowell) does not first argue for bare theism but goes directly to the historical evidence for Christianity &mdash; particularly the resurrection. McDowell&rsquo;s <em>Evidence That Demands a Verdict</em> is the classic example: archaeology, manuscript evidence, fulfilled prophecy, and the historical case for the resurrection are marshaled as a cumulative case. This approach is accessible to non-philosophers and keeps the conversation focused on specific, historically falsifiable claims.",
+  },
+  {
+    title: "Presuppositionalism: Challenge the Unbeliever&rsquo;s Worldview",
+    text: "Presuppositional apologetics (Cornelius Van Til, Greg Bahnsen) denies that there is any neutral ground from which to evaluate evidence. Every person reasons from prior commitments &mdash; presuppositions &mdash; that shape what counts as evidence and what conclusions are permissible. The unbeliever&rsquo;s worldview cannot account for the preconditions of intelligibility: logic, mathematics, science, and morality all presuppose a rational, personal God. The apologist&rsquo;s task is to expose the incoherence of the non-Christian worldview by arguing on its own terms.",
+  },
+  {
+    title: "Apologetics Is Not Winning Arguments",
+    text: "The goal of Christian apologetics is not a debate trophy. It is the removal of intellectual obstacles so that the honest seeker can hear and receive the gospel. Many stated intellectual objections are not the real barrier &mdash; they are defenses protecting a prior decision. The wise apologist asks questions before giving answers, listens before speaking, and remembers that only the Holy Spirit converts. We clear the ground; God plants the seed. A person humbled by honest engagement is closer to the kingdom than a person who has been beaten in an argument.",
+  },
 ];
 
-const practices = [
-  "Reading one apologetics book per year that engages with real objections seriously rather than strawmen versions of them",
-  "Developing genuine friendships with skeptics rather than treating them as apologetics targets or conversion projects",
-  "Asking better questions than providing better answers in early conversations — understanding the real concern before offering a response",
-  "Learning to distinguish intellectual objections from relational barriers to faith — many stated objections are not the real issue",
-  "Practicing the response-before-retreat: engaging seriously with hard objections rather than deflecting or changing the subject",
+const argumentItems = [
+  {
+    title: "Cosmological Argument: The Kalam",
+    thinker: "William Lane Craig",
+    text: "The Kalam cosmological argument runs: (1) Everything that begins to exist has a cause. (2) The universe began to exist. (3) Therefore, the universe has a cause. The second premise is supported both philosophically (an actual infinite regress of events is impossible) and scientifically (Big Bang cosmology confirms the universe had an absolute beginning). The cause of the universe must be itself uncaused, timeless, spaceless, and immensely powerful &mdash; a description that converges remarkably on the God of classical theism. Craig has developed and defended this argument in decades of academic debate.",
+  },
+  {
+    title: "Ontological Argument: Anselm and Plantinga",
+    thinker: "Anselm, Alvin Plantinga",
+    text: "Anselm&rsquo;s classic argument: God is &ldquo;that than which nothing greater can be conceived.&rdquo; A being who exists in reality is greater than one who exists only in the mind. Therefore, if God exists only in the mind, a greater being &mdash; one who exists in reality &mdash; can be conceived. But that contradicts the definition. Therefore God must exist in reality. Plantinga&rsquo;s modal version uses possible-worlds semantics: if it is even <em>possible</em> that a maximally great being exists, then such a being exists in all possible worlds, including the actual world. The key premise &mdash; that such a being is possible &mdash; is highly intuitive.",
+  },
+  {
+    title: "Teleological Argument: Fine-Tuning",
+    thinker: "Robin Collins, Luke Barnes",
+    text: "The universe contains at least 26 fundamental physical constants (the gravitational constant, the cosmological constant, the strong nuclear force, etc.). Each must fall within extraordinarily narrow ranges for matter, chemistry, and life to be possible at all. Robin Collins has shown that even tiny variations &mdash; by fractions of a fraction &mdash; would produce a universe incapable of supporting any complexity. The probability of this occurring by chance is so small as to be practically zero. The most elegant explanation is intentional design. Even secular physicists acknowledge the phenomenon &mdash; they call it &ldquo;the fine-tuning problem.&rdquo;",
+  },
+  {
+    title: "Moral Argument: Objective Morality Requires a Lawgiver",
+    thinker: "C.S. Lewis, William Lane Craig",
+    text: "The moral argument runs: (1) If God does not exist, objective moral values and duties do not exist. (2) Objective moral values and duties do exist. (3) Therefore, God exists. C.S. Lewis begins <em>Mere Christianity</em> with this argument: every person, in every culture, acts as if there is a real moral law &mdash; they argue about fairness, accuse each other of wrong, and feel genuine guilt. This universal experience of moral obligation requires a transcendent moral lawgiver. The atheist who sincerely says &ldquo;the Holocaust was objectively wrong&rdquo; has already committed themselves to a premise that theism explains far better than naturalism.",
+  },
+  {
+    title: "Argument from Consciousness",
+    thinker: "David Chalmers, J.P. Moreland",
+    text: "The &ldquo;hard problem of consciousness&rdquo; (Chalmers): why does physical brain activity give rise to subjective experience &mdash; the &ldquo;what it is like&rdquo; of seeing red, feeling pain, or having a thought? Physicalism has no answer. If the universe is only matter and energy governed by impersonal forces, there is no reason to expect conscious experience to arise &mdash; yet here we are, inescapably aware. Theism provides a natural explanation: consciousness exists because the ground of reality is itself a conscious, personal God who made us in his image (Genesis 1:27). Thomas Nagel, an atheist philosopher, conceded in <em>Mind and Cosmos</em> that materialism cannot explain consciousness.",
+  },
+  {
+    title: "These Are a Cumulative Case, Not Knockdown Proofs",
+    thinker: "C.S. Lewis, Timothy McGrew",
+    text: "No single argument above proves Christianity with mathematical certainty. Each establishes something partial: that the universe had a cause, that a maximally great being is possible, that the physical constants are suspiciously precise, that objective morality requires a ground, that consciousness points beyond the physical. Together, they form a cumulative case. The question is not whether any one argument is airtight but whether the Christian hypothesis &mdash; a personal, powerful, morally perfect God who created and sustains all things &mdash; is the best explanation of the full range of evidence. The honest inquirer who examines the convergence finds a very strong case.",
+  },
 ];
 
-const scriptures = [
-  { verse: "1 Pet 3:15", text: "Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have. But do this with gentleness and respect." },
-  { verse: "1 Cor 15:14", text: "And if Christ has not been raised, our preaching is useless and so is your faith." },
-  { verse: "Acts 17:22-23", text: "Paul then stood up in the meeting of the Areopagus and said: People of Athens! I see that in every way you are very religious. For as I walked around and looked carefully at your objects of worship, I even found an altar with this inscription: TO AN UNKNOWN GOD." },
-  { verse: "Jude 1:3", text: "Dear friends, although I was very eager to write to you about the salvation we share, I felt compelled to write and urge you to contend for the faith that was once for all entrusted to God's holy people." },
-  { verse: "Col 4:6", text: "Let your conversation be always full of grace, seasoned with salt, so that you may know how to answer everyone." },
-  { verse: "2 Cor 10:5", text: "We demolish arguments and every pretension that sets itself up against the knowledge of God, and we take captive every thought to make it obedient to Christ." },
+const resurrectionItems = [
+  {
+    title: "The Minimal Facts Approach",
+    thinker: "Gary Habermas",
+    text: "Gary Habermas developed the minimal facts approach: rather than arguing from the Bible&rsquo;s inspiration, he argues from facts that virtually all critical scholars &mdash; including skeptics &mdash; accept on standard historical grounds. This approach is powerful precisely because it does not require the unbeliever to accept any theological premise in advance. The argument stands on historical methodology alone.",
+  },
+  {
+    title: "Fact 1: Jesus Died by Crucifixion",
+    thinker: "Roman historical record",
+    text: "The crucifixion of Jesus is among the best-attested facts of ancient history. It is confirmed by Tacitus (<em>Annals</em> 15.44), Josephus (<em>Antiquities</em> 18.3), the Talmud, and all four Gospels. No serious historian, regardless of worldview, disputes it. Roman crucifixion was designed to be lethal and was carried out by professionals trained in execution. The &ldquo;swoon theory&rdquo; &mdash; that Jesus merely fainted and later recovered in the tomb &mdash; cannot survive scrutiny of what crucifixion actually involved.",
+  },
+  {
+    title: "Fact 2: The Disciples Believed He Rose and Appeared to Them",
+    thinker: "Multiple independent sources",
+    text: "The disciples underwent a dramatic transformation from frightened, scattered men hiding in Jerusalem to bold proclaimers of the resurrection willing to die for their testimony. This transformation is historically inexplicable without a real cause. The appearances are reported by multiple independent sources: Paul, Luke, John, and Matthew independently attest to post-resurrection appearances. The disciples were not dying for a theological doctrine; they were dying for what they personally claimed to have seen.",
+  },
+  {
+    title: "Fact 3 &amp; 4: Paul and James Were Converted",
+    thinker: "Paul&rsquo;s own testimony",
+    text: "Paul was a violent persecutor of the early church (Acts 9, Galatians 1). His conversion is one of the most dramatic reversals in ancient history. He attributes it to a personal appearance of the risen Christ (1 Cor 15:8, Galatians 1:12). James, the brother of Jesus, was a skeptic during Jesus&rsquo;s ministry (John 7:5). He became a leader of the Jerusalem church and died a martyr. Both men had powerful personal motives to <em>deny</em> the resurrection; neither did. Their conversions are most naturally explained by the resurrection appearances they claimed to have received.",
+  },
+  {
+    title: "Fact 5: The Tomb Was Empty",
+    thinker: "N.T. Wright",
+    text: "The emptiness of the tomb is supported by the Jerusalem factor: the disciples began preaching the resurrection in the very city where Jesus had been buried. If the tomb were not empty, the authorities could have ended the movement immediately by producing the body. Instead, Matthew 28:13 records that the Jewish authorities themselves admitted the tomb was empty &mdash; they only disputed the explanation (claiming the disciples stole the body). An empty tomb is conceded by all parties; only the explanation is disputed.",
+  },
+  {
+    title: "The Four Explanations &mdash; and Why Resurrection Wins",
+    thinker: "Habermas, Licona, Wright",
+    text: "The four major hypotheses are: (1) <strong>Fraud</strong> &mdash; the disciples fabricated the resurrection. But they died for this testimony, which is powerful evidence they were not lying. (2) <strong>Hallucination</strong> &mdash; the appearances were psychological. But hallucinations are private, not group experiences; they do not explain the empty tomb; and Paul&rsquo;s conversion is not explicable this way. (3) <strong>Wrong tomb</strong> &mdash; the women went to the wrong tomb. But Joseph of Arimathea&rsquo;s tomb was known; the authorities would have corrected the error. (4) <strong>Resurrection</strong> &mdash; Jesus actually rose bodily. This explains all the evidence: the empty tomb, the appearances, the conversions, the transformation of the disciples, and the explosive growth of the early church in Jerusalem.",
+  },
+  {
+    title: "1 Corinthians 15:3-8: The Earliest Creed",
+    thinker: "Gordon Fee, N.T. Wright",
+    text: "1 Corinthians 15:3-8 contains a pre-Pauline creed that most scholars date to within 3-5 years of the crucifixion &mdash; Paul says he &ldquo;received&rdquo; it (from Peter and James, Galatians 1:18-19) before passing it on. The creed lists resurrection appearances to Peter, to the Twelve, to more than 500 people at one time (most of whom &ldquo;are still alive,&rdquo; Paul notes &mdash; an implicit invitation to check), to James, to all the apostles, and finally to Paul. This is not legend; it is eyewitness testimony in creedal form, circulating within the lifetime of the witnesses. It is the strongest single piece of historical evidence for the resurrection.",
+  },
 ];
 
-const videos = [
-  { id: "6CulBuMyleY", title: "William Lane Craig — Does God Exist? The Cumulative Case" },
-  { id: "5C_HOCPkiSc", title: "The Minimal Facts Argument for the Resurrection" },
-  { id: "c_R12e6MZXQ", title: "C.S. Lewis and the Trilemma" },
-  { id: "8dBGpxXaRYU", title: "Tim Keller — Answering the Problem of Evil" },
+const evilItems = [
+  {
+    title: "The Intellectual Problem of Evil",
+    text: "The classic argument runs: (1) If God is all-good, he would want to prevent evil. (2) If God is all-knowing, he knows about all evil. (3) If God is all-powerful, he can prevent all evil. (4) Evil exists. (5) Therefore, an all-good, all-knowing, all-powerful God does not exist. This is called the logical problem of evil (J.L. Mackie). It is the strongest single objection to theism and deserves a serious, careful answer.",
+  },
+  {
+    title: "The Logical vs. Evidential Problem",
+    text: "The logical problem of evil claims that God and evil are <em>logically incompatible</em> &mdash; their coexistence is a flat contradiction. The evidential problem (William Rowe) is weaker: it claims that while God and evil may be logically compatible, the sheer amount and apparent gratuitousness of suffering makes God&rsquo;s existence <em>improbable</em>. These are distinct arguments requiring distinct responses. Most philosophers now concede that the logical problem has been answered; the evidential problem remains the more serious challenge.",
+  },
+  {
+    title: "Plantinga&rsquo;s Free Will Defense",
+    text: "Alvin Plantinga&rsquo;s free will defense shows that God and evil are <em>logically compatible</em>. The key premise: it is possible that God, for good reason, created free creatures who sometimes choose evil, and that a world with free creatures who sometimes choose evil is better than a world of non-free automatons who always do right. God cannot both create genuinely free creatures and simultaneously guarantee that they will always choose good &mdash; that is a logical impossibility, not a limitation of God&rsquo;s power. Plantinga&rsquo;s argument is widely regarded among philosophers as a successful refutation of the logical problem of evil.",
+  },
+  {
+    title: "The Evidential Problem: Why THIS MUCH Suffering?",
+    text: "Even granting that free will explains some evil, the evidential problem presses harder: why does God permit natural disasters, childhood cancer, the suffering of innocent animals? These cannot be explained by human free will. The &ldquo;skeptical theist&rdquo; response (Stephen Wykstra, Michael Bergmann) argues that we are not in a position to know that these evils are genuinely gratuitous &mdash; we cannot see God&rsquo;s reasons from where we stand, any more than a child can understand a physician&rsquo;s painful treatment. Soul-making theodicy (John Hick) proposes that a world capable of producing the highest human goods &mdash; courage, compassion, faith under fire &mdash; requires the possibility of suffering. These are partial responses; no complete theodicy exists.",
+  },
+  {
+    title: "The Cross: God Entered Suffering",
+    text: "The most distinctively Christian response to the problem of evil is not a philosophical argument but a historical fact: God did not stay distant from suffering. In Jesus Christ, God entered the worst that suffering can do &mdash; betrayal, torture, abandonment, death. The cross does not explain why suffering exists; it shows that God is not indifferent to it. The resurrection announces that suffering will not have the final word. The God of the Bible is not the unmoved mover of philosophy; he is the crucified and risen Lord who has been through the worst and come out the other side. This does not silence every philosophical objection, but it transforms the existential question.",
+  },
+  {
+    title: "The Eschatological Answer: Romans 8:18",
+    text: "&ldquo;I consider that the sufferings of this present time are not worth comparing with the glory that is to be revealed to us&rdquo; (Romans 8:18). This is not an evasion; it is an eschatological reframing. If the Christian vision is true &mdash; if there is an eternal weight of glory awaiting God&rsquo;s people &mdash; then the present suffering, however real and terrible, is not the final frame of the story. C.S. Lewis wrote that the pain of life, seen from inside the story, is inescapable; but the author of a story can redeem its darkest chapters in the final pages. The Christian bet is that God is a good enough author to do exactly that.",
+  },
 ];
 
-type APEntry = { id: string; date: string; objection: string; response: string; conversation: string };
+const presupItems = [
+  {
+    title: "Van Til&rsquo;s Starting Point",
+    thinker: "Cornelius Van Til",
+    text: "Cornelius Van Til argued that there is no such thing as neutral ground between the Christian and the unbeliever. Every person reasons from prior commitments &mdash; presuppositions &mdash; about the nature of reality, knowledge, and ethics. The unbeliever does not approach evidence as a blank slate; their worldview shapes what counts as evidence and what conclusions are permissible before the investigation begins. Romans 1:18-21 teaches that every person already knows God exists (through creation and conscience) but suppresses that knowledge in unrighteousness. The apologist&rsquo;s task is not to help the unbeliever find God from a neutral starting point but to expose the suppression.",
+  },
+  {
+    title: "The Preconditions of Intelligibility",
+    thinker: "Greg Bahnsen",
+    text: "Van Til&rsquo;s central argument: the unbeliever&rsquo;s worldview cannot account for the preconditions of intelligibility &mdash; the very things that make rational thought, science, and morality possible. Logic requires that the laws of thought (non-contradiction, identity, excluded middle) are universally and necessarily valid &mdash; but on what basis, in a purely material universe of chance and flux? Mathematics requires that abstract objects (numbers, sets) have real existence &mdash; but materialism allows only physical objects. Science requires that the future will resemble the past (the uniformity of nature) &mdash; but this cannot be proven scientifically without circular reasoning. Morality requires that some things are genuinely wrong &mdash; but impersonal matter cannot generate binding moral obligations. Only the Christian worldview, with a rational, personal, self-consistent God who created an orderly universe in his image, can provide the foundation for any of these.",
+  },
+  {
+    title: "Bahnsen&rsquo;s Transcendental Argument for God (TAG)",
+    thinker: "Greg Bahnsen",
+    text: "Greg Bahnsen formalized Van Til&rsquo;s approach in the Transcendental Argument for God&rsquo;s existence (TAG): the existence of God is the necessary precondition for the possibility of knowledge itself. The argument does not say &ldquo;God probably exists because of these evidences&rdquo; but &ldquo;God necessarily exists because without him you could not know anything at all.&rdquo; Bahnsen famously debated atheist philosopher Gordon Stein in 1985 (the &ldquo;Great Debate&rdquo;), demonstrating that Stein could not account for the laws of logic on his own worldview. The transcript remains one of the most studied apologetics exchanges in recent history.",
+  },
+  {
+    title: "How to Use Transcendental Arguments in Conversation",
+    thinker: "Practical application",
+    text: "In conversation, the presuppositional approach involves &ldquo;borrowing capital&rdquo; from the Christian worldview &mdash; exposing what the unbeliever is assuming that their worldview cannot justify. Ask: &ldquo;When you use logic to argue against God, where do the laws of logic come from in your worldview?&rdquo; &ldquo;When you say something is morally wrong, on what basis is it wrong and not merely something you dislike?&rdquo; &ldquo;When you trust your own reasoning, why do you think an unguided brain that evolved for survival rather than truth-seeking can reliably produce true beliefs?&rdquo; The goal is not to win a debate but to create the intellectual discomfort that makes the person willing to examine their own assumptions.",
+  },
+  {
+    title: "The Presuppositional Challenge to Evidentialism",
+    thinker: "Van Til vs. Craig",
+    text: "The presuppositionalist challenges the evidentialist: &ldquo;Whose standards of evidence are we using?&rdquo; When Craig presents the Kalam cosmological argument, the unbeliever is evaluating it using the laws of logic, which they cannot justify on their own worldview. When Habermas presents the minimal facts argument, the unbeliever is evaluating historical evidence using criteria of reliability that presuppose a stable, comprehensible world &mdash; a theistic assumption. Presuppositionalists argue that evidentialists inadvertently concede too much by agreeing to play on supposedly neutral ground. Many apologists draw from both traditions: Van Til for epistemological foundations, Craig for specific arguments.",
+  },
+  {
+    title: "The Strength and Limits of Presuppositionalism",
+    thinker: "Bahnsen, Frame",
+    text: "Presuppositionalism&rsquo;s great strength is its consistency: it refuses to treat the most fundamental questions &mdash; the nature of knowledge, logic, science, and morality &mdash; as if they were settled neutral territory. Its risk is that it can appear circular to the unbeliever (&ldquo;you&rsquo;re assuming Christianity to prove Christianity&rdquo;) and can sometimes close off genuine dialogue. John Frame has argued that all worldviews are circular at some level &mdash; the question is which circle is largest and most coherent. The presuppositionalist who has also studied the classical arguments is more effective than one who has only the transcendental argument; and the evidentialist who has internalized Van Til&rsquo;s epistemological critique is more careful than one who has not.",
+  },
+];
+
+const videoItems = [
+  { videoId: "6CulBuMCLg0", title: "William Lane Craig &mdash; Kalam Cosmological Argument" },
+  { videoId: "HEMmVFPCmeo", title: "Gary Habermas on the Resurrection" },
+  { videoId: "ydaA4AUj7v0", title: "Tim Keller &mdash; Making Sense of God" },
+];
 
 export default function ChristianApologeticsGuidePage() {
-  const [tab, setTab] = useState("theology");
-  const [entries, setEntries] = useState<APEntry[]>(() => {
-    try { return JSON.parse(localStorage.getItem("vine_apologetics_entries") ?? "[]"); } catch { return []; }
-  });
-  const [jObjection, setJObjection] = useState("");
-  const [jResponse, setJResponse] = useState("");
-  const [jConversation, setJConversation] = useState("");
+  const [activeTab, setActiveTab] = useState("what");
+  const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => { localStorage.setItem("vine_apologetics_entries", JSON.stringify(entries)); }, [entries]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
 
-  const saveEntry = () => {
-    if (!jObjection.trim()) return;
-    setEntries(prev => [{ id: Date.now().toString(), date: new Date().toLocaleDateString(), objection: jObjection, response: jResponse, conversation: jConversation }, ...prev]);
-    setJObjection(""); setJResponse(""); setJConversation("");
-  };
-
-  const tabs = [
-    { id: "theology", label: "Theology" }, { id: "practices", label: "Practices" },
-    { id: "voices", label: "Voices" }, { id: "scripture", label: "Scripture" },
-    { id: "journal", label: "Journal" }, { id: "videos", label: "Videos" },
-  ];
+  if (!loaded) return null;
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: "var(--header-height, 80px)" }}>
-      <Navbar />
-      <main id="main-content" style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
-        <div style={{ marginBottom: "0.4rem", fontSize: "0.78rem", color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase" }}>Faith &amp; Culture</div>
-        <h1 style={{ fontSize: "clamp(1.6rem,4vw,2.2rem)", fontWeight: 700, marginBottom: "0.5rem" }}>Christian Apologetics</h1>
-        <p style={{ color: MUTED, marginBottom: "2rem", lineHeight: 1.6 }}>Defending the faith with gentleness and respect — the theology behind apologetics, the strongest arguments for Christianity, and how to engage honestly with the hardest objections.</p>
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2rem 1rem 5rem" }}>
+        <div style={{ marginBottom: "0.4rem", fontSize: "0.78rem", color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase" }}>Theology &amp; Defense</div>
+        <h1 style={{ fontSize: "clamp(1.7rem,4vw,2.4rem)", fontWeight: 800, marginBottom: "0.5rem", lineHeight: 1.2 }}>Christian Apologetics Guide</h1>
+        <p style={{ color: MUTED, marginBottom: "2rem", lineHeight: 1.7, maxWidth: 640 }}>
+          Defending the faith with gentleness and respect &mdash; the three methods, the strongest arguments for God, the resurrection evidence, the problem of evil, and the presuppositional challenge.
+        </p>
 
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2rem" }}>
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: "2rem" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${tab === t.id ? BLUE : BORDER}`, background: tab === t.id ? BLUE + "22" : "transparent", color: tab === t.id ? BLUE : MUTED, cursor: "pointer", fontSize: "0.85rem", fontWeight: tab === t.id ? 600 : 400 }}>{t.label}</button>
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setActiveTab(t.id)}
+              style={{
+                padding: "7px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t.id ? PURPLE : BORDER}`,
+                background: activeTab === t.id ? PURPLE + "28" : "transparent",
+                color: activeTab === t.id ? "#c4b5fd" : MUTED,
+                cursor: "pointer",
+                fontSize: "0.85rem",
+                fontWeight: activeTab === t.id ? 700 : 400,
+                transition: "all 0.15s",
+              }}
+            >
+              {t.label}
+            </button>
           ))}
         </div>
 
-        {tab === "theology" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {theology.map((item, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
-                <div style={{ fontSize: "0.78rem", color: BLUE, fontWeight: 600, marginBottom: 6, letterSpacing: "0.04em" }}>{item.verse}</div>
-                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>{item.title}</h3>
-                <p style={{ color: MUTED, lineHeight: 1.7, fontSize: "0.92rem" }}>{item.text}</p>
+        {/* TAB: What Is Apologetics */}
+        {activeTab === "what" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {whatItems.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.4rem" }}>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10, color: TEXT }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "0.92rem", margin: 0 }} dangerouslySetInnerHTML={{ __html: item.text }} />
               </div>
             ))}
           </div>
         )}
 
-        {tab === "practices" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {practices.map((p, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.1rem 1.4rem", display: "flex", gap: 12, alignItems: "flex-start" }}>
-                <span style={{ color: BLUE, fontWeight: 700, fontSize: "1rem", marginTop: 2 }}>{i + 1}.</span>
-                <p style={{ color: MUTED, fontSize: "0.92rem", lineHeight: 1.65, margin: 0 }}>{p}</p>
+        {/* TAB: Arguments for God */}
+        {activeTab === "arguments" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {argumentItems.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.4rem" }}>
+                <div style={{ fontSize: "0.75rem", color: GOLD, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>{item.thinker}</div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10, color: TEXT }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "0.92rem", margin: 0 }} dangerouslySetInnerHTML={{ __html: item.text }} />
               </div>
             ))}
           </div>
         )}
 
-        {tab === "voices" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {voices.map((v, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.4rem" }}>
-                <div style={{ fontWeight: 700, marginBottom: 4 }}>{v.name}</div>
-                <div style={{ fontSize: "0.8rem", color: BLUE, marginBottom: 12 }}>{v.role}</div>
-                <blockquote style={{ borderLeft: `3px solid ${BLUE}`, paddingLeft: 14, color: TEXT, fontStyle: "italic", marginBottom: 12, lineHeight: 1.6 }}>&ldquo;{v.quote}&rdquo;</blockquote>
-                <p style={{ color: MUTED, fontSize: "0.88rem", lineHeight: 1.6 }}>{v.bio}</p>
+        {/* TAB: The Resurrection */}
+        {activeTab === "resurrection" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: TEAL + "18", border: `1px solid ${TEAL}40`, borderRadius: 10, padding: "1rem 1.3rem", marginBottom: 4 }}>
+              <p style={{ color: TEAL, fontSize: "0.88rem", lineHeight: 1.65, margin: 0 }}>
+                The minimal facts approach argues only from data that virtually all critical scholars &mdash; including skeptics &mdash; accept on standard historical grounds.
+              </p>
+            </div>
+            {resurrectionItems.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.4rem" }}>
+                <div style={{ fontSize: "0.75rem", color: TEAL, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>{item.thinker}</div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10, color: TEXT }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "0.92rem", margin: 0 }} dangerouslySetInnerHTML={{ __html: item.text }} />
               </div>
             ))}
           </div>
         )}
 
-        {tab === "scripture" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {scriptures.map((s, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "1.1rem 1.3rem" }}>
-                <div style={{ fontWeight: 700, color: BLUE, marginBottom: 6 }}>{s.verse}</div>
-                <p style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.65 }}>&ldquo;{s.text}&rdquo;</p>
+        {/* TAB: The Problem of Evil */}
+        {activeTab === "evil" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {evilItems.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.4rem" }}>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10, color: TEXT }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "0.92rem", margin: 0 }} dangerouslySetInnerHTML={{ __html: item.text }} />
               </div>
             ))}
           </div>
         )}
 
-        {tab === "journal" && (
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.5rem" }}>
-            <h3 style={{ marginBottom: "0.5rem", fontWeight: 700 }}>Apologetics Journal</h3>
-            <p style={{ color: MUTED, fontSize: "0.88rem", marginBottom: "1.2rem" }}>Record the objections you are encountering, how you are responding, and the conversations you are praying about.</p>
-            {[
-              { label: "Objection — an objection to Christianity you have encountered", val: jObjection, set: setJObjection },
-              { label: "Response — how you responded or want to respond", val: jResponse, set: setJResponse },
-              { label: "Conversation — a specific conversation you are praying about", val: jConversation, set: setJConversation },
-            ].map((f, i) => (
-              <div key={i} style={{ marginBottom: "1rem" }}>
-                <label style={{ display: "block", marginBottom: 6, fontSize: "0.88rem", color: MUTED }}>{f.label}</label>
-                <textarea value={f.val} onChange={e => f.set(e.target.value)} rows={2} style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 6, padding: "0.7rem", color: TEXT, fontSize: "0.9rem", resize: "vertical" }} />
+        {/* TAB: Presuppositionalism */}
+        {activeTab === "presup" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: PURPLE + "15", border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: "1rem 1.3rem", marginBottom: 4 }}>
+              <p style={{ color: "#c4b5fd", fontSize: "0.88rem", lineHeight: 1.65, margin: 0 }}>
+                Presuppositionalism does not argue from evidence to God but exposes that all reasoning already presupposes God. The existence of God is the necessary precondition for knowledge itself.
+              </p>
+            </div>
+            {presupItems.map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.4rem" }}>
+                <div style={{ fontSize: "0.75rem", color: PURPLE, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>{item.thinker}</div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10, color: TEXT }}>{item.title}</h3>
+                <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "0.92rem", margin: 0 }} dangerouslySetInnerHTML={{ __html: item.text }} />
               </div>
             ))}
-            <button onClick={saveEntry} style={{ background: BLUE, color: "#fff", border: "none", borderRadius: 6, padding: "0.6rem 1.4rem", cursor: "pointer", fontWeight: 600 }}>Save Entry</button>
-            {entries.length > 0 && (
-              <div style={{ marginTop: "1.5rem" }}>
-                <h4 style={{ marginBottom: "1rem", fontWeight: 600, color: BLUE }}>My Entries ({entries.length})</h4>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {entries.map(e => (
-                    <div key={e.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "0.9rem 1rem" }}>
-                      <div style={{ fontSize: "0.78rem", color: MUTED, marginBottom: 6 }}>{e.date}</div>
-                      <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: BLUE, fontWeight: 600 }}>Objection:</span> {e.objection}</p>
-                      {e.response && <p style={{ fontSize: "0.88rem", color: TEXT, marginBottom: 4 }}><span style={{ color: BLUE, fontWeight: 600 }}>Response:</span> {e.response}</p>}
-                      {e.conversation && <p style={{ fontSize: "0.88rem", color: TEXT }}><span style={{ color: BLUE, fontWeight: 600 }}>Conversation:</span> {e.conversation}</p>}
-                    </div>
-                  ))}
+          </div>
+        )}
+
+        {/* TAB: Videos */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+            {videoItems.map((v, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <div style={{ padding: "1rem 1.2rem" }}>
+                  <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: PURPLE, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.title }} />
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {tab === "videos" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {videos.map((v, i) => (
-              <div key={i}>
-                <h3 style={{ marginBottom: 10, fontWeight: 600, fontSize: "0.95rem", color: BLUE }}>{v.title}</h3>
-                <VideoEmbed videoId={v.id} title={v.title} />
               </div>
             ))}
           </div>
         )}
       </main>
-      <Footer />
     </div>
   );
 }

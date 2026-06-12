@@ -1134,6 +1134,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Love Guide": "christian-love-guide",
   "Love Your Enemies": "christian-love-guide",
   "New Commandment Love": "christian-love-guide",
+  "Deep Sabbath Rest": "christian-rest-guide",
+  "Entering God's Rest": "christian-rest-guide",
+  "Rest in Christ Deep": "christian-rest-guide",
+  "Christian Simplicity": "christian-simplicity",
+  "Simplicity Discipline": "christian-simplicity",
+  "Enough Christian": "christian-simplicity",
+  "Christian Stewardship": "christian-stewardship",
+  "Faithful Steward": "christian-stewardship",
+  "Parable of Talents": "christian-stewardship",
+  "Christian Vocation": "christian-vocation",
+  "Luther Vocation": "christian-vocation",
+  "Secular Calling": "christian-vocation",
 };
 
 
@@ -1778,6 +1790,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Renewal" },
   { label: "Prayer Life Deep Guide" },
   { label: "Christian Love Guide" },
+  { label: "Christian Simplicity" },
+  { label: "Christian Stewardship" },
+  { label: "Christian Vocation" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

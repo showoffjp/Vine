@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "The Christian Practice of Simplicity",
-  description: "Simplicity is not poverty. It is the freedom that comes from ordering your life around what matters most. Richard Foster called it “an inward reality that results in an outward lifestyle.”",
-  openGraph: {
-    title: "The Christian Practice of Simplicity — Vine",
-    description: "Simplicity is not poverty. It is the freedom that comes from ordering your life around what matters most. Richard Foster called it “an inward reality that results in an outward lifestyle.”",
-    images: ["/api/og?title=The+Christian+Practice+of+Simplicity"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "The Christian Practice of Simplicity — Vine",
-    description: "Simplicity is not poverty. It is the freedom that comes from ordering your life around what matters most. Richard Foster called it “an inward reality that results in an outward lifestyle.”",
-    images: ["/api/og?title=The+Christian+Practice+of+Simplicity"],
-  },
+  title: "Enough: The Discipline of Christian Simplicity | The Vine",
+  description: "A guide to simplicity as spiritual discipline — contentment, freedom from materialism, and the liberation that comes from loosening our grip on possessions, status, and the accumulation that crowds out God.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

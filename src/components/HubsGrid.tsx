@@ -156,6 +156,28 @@ const HUBS: Hub[] = [
     ),
   },
   {
+    id: "altar",
+    name: "The Altar",
+    tagline:
+      "A sacred space for prayer — guided intercession, community prayer walls, daily prayer prompts, and tools for building a consistent prayer life.",
+    meta: "Prayer · Intercession · Prayer Wall",
+    color: "#e05585",
+    bg: "rgba(224,85,133,0.09)",
+    href: "/prayer",
+    seeAllHref: "/prayer",
+    icon: (
+      <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
+        <path
+          d="M11 3c-2.5 2-4 4.5-4 7a4 4 0 008 0c0-2.5-1.5-5-4-7z"
+          stroke="#e05585"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        <path d="M11 13v6M8 19h6" stroke="#e05585" strokeWidth="1.3" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
     id: "flock",
     name: "The Flock",
     tagline:
@@ -199,6 +221,34 @@ const HUBS: Hub[] = [
           strokeWidth="1.3"
           strokeLinejoin="round"
         />
+      </svg>
+    ),
+  },
+  {
+    id: "path",
+    name: "The Path",
+    tagline:
+      "Discipleship tracks, spiritual growth plans, missions resources, and step-by-step guides for going deeper in your faith at every season of life.",
+    meta: "Discipleship · Growth · Missions",
+    color: "#5b8dd9",
+    bg: "rgba(91,141,217,0.09)",
+    href: "/discipleship",
+    seeAllHref: "/discipleship",
+    icon: (
+      <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
+        <path
+          d="M3 19c2-4 4-7 8-9"
+          stroke="#5b8dd9"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M19 19c-2-4-4-7-8-9"
+          stroke="#5b8dd9"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <circle cx="11" cy="7" r="3" stroke="#5b8dd9" strokeWidth="1.5" />
       </svg>
     ),
   },
@@ -471,7 +521,7 @@ export default function HubsGrid() {
                 margin: 0,
               }}
             >
-              Eight hubs.
+              Ten hubs.
               <br />
               <em style={{ fontStyle: "italic", color: "#e8c162" }}>
                 Infinite depth.

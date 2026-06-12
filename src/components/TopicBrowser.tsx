@@ -1081,6 +1081,17 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Friendship in Christ": "christian-friendship",
   "Aging with Grace": "christian-aging",
   "Aging Faithfully": "christian-aging",
+  "Christian Creation Care": "christian-creation-care",
+  "Caring for Creation": "christian-creation-care",
+  "Christian Technology": "christian-technology",
+  "Faith and Technology": "christian-technology",
+  "Digital Discipleship": "christian-technology",
+  "Christian Persecution": "persecution-guide",
+  "Persecution for Faith": "persecution-guide",
+  "Suffering for Christ": "persecution-guide",
+  "Waiting on God": "waiting-on-god",
+  "Christian Waiting": "waiting-on-god",
+  "Waiting in Faith": "waiting-on-god",
 };
 
 
@@ -1709,6 +1720,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Decision Making" },
   { label: "Christian Friendship" },
   { label: "Aging with Grace" },
+  { label: "Christian Creation Care" },
+  { label: "Christian Technology" },
+  { label: "Christian Persecution" },
+  { label: "Waiting on God" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

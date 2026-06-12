@@ -1170,6 +1170,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Worship Deep": "christian-worship",
   "Worship in Spirit Truth": "christian-worship",
   "Whole Life Worship": "christian-worship",
+  "Christian Justice Guide": "christian-justice",
+  "Biblical Justice": "christian-justice",
+  "Mishpat Hesed": "christian-justice",
+  "Christian Compassion Guide": "christian-compassion",
+  "Splagchnizomai": "christian-compassion",
+  "Good Samaritan Guide": "christian-compassion",
+  "Christian Money Guide": "christian-money-guide",
+  "Mammon Money God": "christian-money-guide",
+  "Financial Discipleship": "christian-money-guide",
+  "Christian Work Theology": "christian-work-theology",
+  "Monday Morning Discipleship": "christian-work-theology",
+  "Work as Worship Theology": "christian-work-theology",
 };
 
 
@@ -1825,6 +1837,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Meditation" },
   { label: "Christian Confession Practice" },
   { label: "Christian Worship Deep" },
+  { label: "Christian Justice Guide" },
+  { label: "Christian Compassion Guide" },
+  { label: "Christian Money Guide" },
+  { label: "Christian Work Theology" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

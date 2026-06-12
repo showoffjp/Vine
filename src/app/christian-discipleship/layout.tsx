@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Christian Discipleship — Vine",
-  description: "What does it mean to follow Jesus? Explore the theology of discipleship, spiritual disciplines, dying to self, bearing fruit, and making disciples.",
+  title: "Follow Me: The Way of Christian Discipleship | The Vine",
+  description:
+    "A guide to Christian discipleship — following Jesus as apprentice-companions, being formed into his likeness through relationship and practice, and making disciples who make disciples in the pattern of 2 Timothy 2:2.",
 };
-export default function Layout({ children }: { children: React.ReactNode }) { return <>{children}</>; }
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}

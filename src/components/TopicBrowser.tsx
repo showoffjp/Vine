@@ -1506,6 +1506,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Exodus Deep Dive Guide": "christian-book-of-exodus-guide",
   "Moses Plagues Passover Guide": "christian-book-of-exodus-guide",
   "Ten Commandments Sinai Guide": "christian-book-of-exodus-guide",
+  "Christian Denominations Explained": "christian-denominations-guide",
+  "Catholic Orthodox Protestant": "christian-denominations-guide",
+  "Protestant Families Guide": "christian-denominations-guide",
+  "Reformed Theology Introduction": "christian-reformed-theology-guide",
+  "TULIP Five Points Calvinism": "christian-reformed-theology-guide",
+  "Calvinism Arminianism Debate": "christian-reformed-theology-guide",
 };
 
 
@@ -2277,6 +2283,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Retirement Faith" },
   { label: "Revelation Deep Dive Guide" },
   { label: "Exodus Deep Dive Guide" },
+  { label: "Christian Denominations Explained" },
+  { label: "Reformed Theology Introduction" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

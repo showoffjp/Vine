@@ -1518,6 +1518,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Eastern Orthodoxy Explained": "christian-eastern-orthodoxy-explained",
   "Orthodox Christianity Guide": "christian-eastern-orthodoxy-explained",
   "Theosis Icons Divine Liturgy": "christian-eastern-orthodoxy-explained",
+  "Acts Deep Dive Guide": "christian-book-of-acts-guide",
+  "Pentecost Early Church Guide": "christian-book-of-acts-guide",
+  "Paul Missionary Journeys": "christian-book-of-acts-guide",
+  "Galatians Deep Dive Guide": "christian-book-of-galatians-guide",
+  "Freedom in Christ Galatians": "christian-book-of-galatians-guide",
+  "Fruit of the Spirit Guide": "christian-book-of-galatians-guide",
 };
 
 
@@ -2293,6 +2299,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Reformed Theology Introduction" },
   { label: "Catholicism Explained Guide" },
   { label: "Eastern Orthodoxy Explained" },
+  { label: "Acts Deep Dive Guide" },
+  { label: "Galatians Deep Dive Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1500,6 +1500,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Christian Retirement Faith": "christian-retirement-faith-guide",
   "Finishing Well Christian Age": "christian-retirement-faith-guide",
   "Theology Aging Elderhood": "christian-retirement-faith-guide",
+  "Revelation Deep Dive Guide": "christian-book-of-revelation-guide",
+  "Apocalypse Interpretation Guide": "christian-book-of-revelation-guide",
+  "Seven Churches Revelation": "christian-book-of-revelation-guide",
+  "Exodus Deep Dive Guide": "christian-book-of-exodus-guide",
+  "Moses Plagues Passover Guide": "christian-book-of-exodus-guide",
+  "Ten Commandments Sinai Guide": "christian-book-of-exodus-guide",
 };
 
 
@@ -2269,6 +2275,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "New Marriage Christian Guide" },
   { label: "Midlife Faith Crisis Christian" },
   { label: "Christian Retirement Faith" },
+  { label: "Revelation Deep Dive Guide" },
+  { label: "Exodus Deep Dive Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

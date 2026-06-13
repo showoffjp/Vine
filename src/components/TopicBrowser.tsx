@@ -1615,6 +1615,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Timothy Deep Dive Guide": "christian-book-of-2-timothy-guide",
   "All Scripture God Breathed": "christian-book-of-2-timothy-guide",
   "Finishing the Race Paul": "christian-book-of-2-timothy-guide",
+  "Kindness and Goodness Guide": "christian-kindness-goodness-guide",
+  "Kindness Fruit of Spirit": "christian-kindness-goodness-guide",
+  "Doing Good Christian": "christian-kindness-goodness-guide",
   "Empty Nest Christian Guide": "christian-empty-nest-guide",
   "Marriage After Kids Leave": "christian-empty-nest-guide",
   "Releasing Adult Children Faith": "christian-empty-nest-guide",
@@ -2428,6 +2431,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Faith Guide Deep" },
   { label: "Jeremiah Deep Dive Guide" },
   { label: "2 Timothy Deep Dive Guide" },
+  { label: "Kindness and Goodness Guide" },
   { label: "Empty Nest Christian Guide" },
   { label: "Blended Family Christian Guide" },
 ];

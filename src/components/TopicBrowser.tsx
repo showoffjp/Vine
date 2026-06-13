@@ -1530,6 +1530,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "James Deep Dive Guide": "christian-book-of-james-guide",
   "Faith and Works James": "christian-book-of-james-guide",
   "Taming the Tongue James": "christian-book-of-james-guide",
+  "Christian Caregiver Guide": "christian-caregiver-guide",
+  "Caring for Aging Parents": "christian-caregiver-guide",
+  "Caregiver Burnout Faith": "christian-caregiver-guide",
+  "Chronic Illness Christian Guide": "christian-chronic-illness-guide",
+  "Pauls Thorn Chronic Illness": "christian-chronic-illness-guide",
+  "When God Doesnt Heal": "christian-chronic-illness-guide",
 };
 
 
@@ -2309,6 +2315,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Galatians Deep Dive Guide" },
   { label: "Hebrews Deep Dive Guide" },
   { label: "James Deep Dive Guide" },
+  { label: "Christian Caregiver Guide" },
+  { label: "Chronic Illness Christian Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

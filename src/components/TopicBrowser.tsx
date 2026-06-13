@@ -1488,6 +1488,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Job Loss Christian Guide": "christian-job-loss-guide",
   "Vocation Work Theology Guide": "christian-job-loss-guide",
   "Trusting God Unemployment": "christian-job-loss-guide",
+  "College Faith Crisis Guide": "christian-college-faith-guide",
+  "Keeping Faith In College": "christian-college-faith-guide",
+  "Campus Christianity Guide": "christian-college-faith-guide",
+  "New Marriage Christian Guide": "christian-new-marriage-guide",
+  "Ephesians 5 Marriage Theology": "christian-new-marriage-guide",
+  "Newlywed Spiritual Intimacy": "christian-new-marriage-guide",
+  "Midlife Faith Crisis Christian": "christian-midlife-faith-guide",
+  "Dark Night Soul Midlife": "christian-midlife-faith-guide",
+  "Second Half Life Christianity": "christian-midlife-faith-guide",
+  "Christian Retirement Faith": "christian-retirement-faith-guide",
+  "Finishing Well Christian Age": "christian-retirement-faith-guide",
+  "Theology Aging Elderhood": "christian-retirement-faith-guide",
 };
 
 
@@ -2253,6 +2265,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis Deep Dive Guide" },
   { label: "Prodigal Child Christian Parent" },
   { label: "Job Loss Christian Guide" },
+  { label: "College Faith Crisis Guide" },
+  { label: "New Marriage Christian Guide" },
+  { label: "Midlife Faith Crisis Christian" },
+  { label: "Christian Retirement Faith" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

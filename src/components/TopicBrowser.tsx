@@ -1591,6 +1591,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Corinthians Deep Dive Guide": "christian-book-of-2-corinthians-guide",
   "Treasure Jars of Clay": "christian-book-of-2-corinthians-guide",
   "Ministry of Reconciliation Paul": "christian-book-of-2-corinthians-guide",
+  "Rest and Sabbath Guide": "christian-rest-sabbath-guide",
+  "Sabbath Rest Christian": "christian-rest-sabbath-guide",
+  "Eliminating Hurry Rest": "christian-rest-sabbath-guide",
   "Empty Nest Christian Guide": "christian-empty-nest-guide",
   "Marriage After Kids Leave": "christian-empty-nest-guide",
   "Releasing Adult Children Faith": "christian-empty-nest-guide",
@@ -2396,6 +2399,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Gratitude Guide" },
   { label: "1 Peter Deep Dive Guide" },
   { label: "2 Corinthians Deep Dive Guide" },
+  { label: "Rest and Sabbath Guide" },
   { label: "Empty Nest Christian Guide" },
   { label: "Blended Family Christian Guide" },
 ];

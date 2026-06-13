@@ -1,8 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import VideoEmbed from "@/components/VideoEmbed";
 
 const BG = "#07070F";
@@ -12,1022 +9,166 @@ const ACCENT = "#E11D48";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-const STORAGE_KEY = "vine_christianlove_entries";
+const TABS = ["The Four Loves", "God Is Love", "The Great Commandment", "The Love Chapter", "Loving Your Enemies", "Videos"] as const;
+type Tab = (typeof TABS)[number];
 
-interface LVGEntry {
-  relationship: string;
-  loveAction: string;
-  cost: string;
+interface Section {
+  id: Tab;
+  heading: string;
+  paragraphs: string[];
 }
 
-const TABS = [
-  { id: "theology", label: "Theology" },
-  { id: "practices", label: "Practices" },
-  { id: "voices", label: "Voices" },
-  { id: "scripture", label: "Scripture" },
-  { id: "journal", label: "Journal" },
-  { id: "videos", label: "Videos" },
+const sections: Section[] = [
+  {
+    id: "The Four Loves",
+    heading: "The Four Loves",
+    paragraphs: [
+      "The English word &ldquo;love&rdquo; is a single overworked syllable forced to carry an enormous range of meaning. We say we love our spouse, love our friends, love our country, love a good meal, and love God, using the same word for realities that are profoundly different. The ancient Greeks were wiser. They had a richer vocabulary, distinguishing several kinds of love, and the New Testament was written in their language. C.S. Lewis, in his classic study <em>The Four Loves</em>, drew on this vocabulary to map the varieties of human affection and to show how each finds its place &mdash; and its transformation &mdash; within the Christian vision of love.",
+      "The first love is <em>storge</em>, affection &mdash; the quiet, comfortable bond of familiarity. It is the love of a parent for a child, of old companions, of the familiar and the homely. <em>Storge</em> asks for nothing remarkable in its object; it grows simply through nearness and shared life, the warm contentment we feel toward what is ours and well-known. Lewis called it the humblest and most widely diffused of loves, the affection that can exist alongside the others and that needs no qualifications, no merit, no admiration &mdash; only the deep, unspectacular comfort of belonging to one another.",
+      "The second is <em>philia</em>, friendship &mdash; the love of those who stand side by side, bound by a common interest, a shared truth, a journey traveled together. Lewis lamented that the modern world had nearly forgotten how to value friendship, treating it as a lesser thing than romantic love. But the ancients prized it highly, and Scripture honors it &mdash; in the covenant of David and Jonathan, in the band of disciples, in the friends who carry one another&rsquo;s burdens. <em>Philia</em> is the least biological and least necessary of the loves, and for that very reason among the most freely chosen and most fully human.",
+      "The third is <em>eros</em>, romantic love &mdash; the state of &ldquo;being in love,&rdquo; the desire for the beloved as a particular person rather than merely an object of appetite. Lewis distinguished <em>eros</em> from raw sexuality, seeing in it a longing that reaches beyond pleasure toward union with another whole self. Within marriage, hallowed by God, <em>eros</em> becomes a sign of something greater &mdash; the union of Christ and his church. Yet Lewis also warned that <em>eros</em>, left to itself, can become a tyrant, demanding total devotion and promising more than it can give. Like all the natural loves, it needs to be taken up into something higher to remain good.",
+      "The fourth and highest love is <em>agape</em> &mdash; the self-giving, unconditional love that the New Testament makes the distinctively Christian love. Unlike the other three, <em>agape</em> does not arise from natural affinity, attraction, or shared interest. It is not a feeling at all in the first place but an act of the will: the deliberate seeking of another&rsquo;s good, regardless of whether they are lovable, regardless of what they offer in return. It is the love that loves the unlovely, that gives without expecting repayment, that wills the good of the enemy as well as the friend. This is the love the Bible commands, because it is the love that originates not in us but in God.",
+      "Lewis&rsquo;s great insight was that the natural loves &mdash; <em>storge</em>, <em>philia</em>, <em>eros</em> &mdash; are genuinely good, gifts of God woven into creation, but they are not self-sufficient. Left to themselves they grow possessive, jealous, and corrupt; the love that begins as a blessing can curdle into an idol. They need to be taken up, purified, and crowned by <em>agape</em>, the love that comes down from God. Only when the natural loves are subordinated to divine love do they become fully themselves. Affection, friendship, and romance are perfected, not abolished, when <em>agape</em> reigns over them.",
+      "The New Testament therefore elevates <em>agape</em> above all the rest, making it the mark and measure of the Christian life. It is a love of the will and of action rather than mere feeling, modeled on the love of God himself and made possible only by his Spirit poured into our hearts. We cannot manufacture <em>agape</em> by trying harder to feel warmly; it is the fruit of the Spirit, the overflow of having first been loved by God. To love this way is to love as God loves &mdash; freely, sacrificially, and without condition &mdash; and it is into this love that the whole Christian life is meant to grow.",
+    ],
+  },
+  {
+    id: "God Is Love",
+    heading: "God Is Love",
+    paragraphs: [
+      "At the very heart of the Christian understanding of love stands one of the most staggering statements in all of Scripture: &ldquo;Anyone who does not love does not know God, because God is love&rdquo; (1 John 4:8), repeated for emphasis a few verses later: &ldquo;God is love, and whoever abides in love abides in God, and God abides in him&rdquo; (4:16). This is not merely the claim that God is loving, that love is one of his attributes among others. It is the far more radical claim that love is what God most essentially is &mdash; that love defines his very being. To understand love rightly, then, we must begin not with our own experience but with God himself.",
+      "The statement &ldquo;God is love&rdquo; raises a profound question that the Christian doctrine of the Trinity uniquely answers. If God is love from all eternity, then before there was any creation to love, whom did he love? Love requires an object; a solitary, single-person deity could not have been love in himself but would have needed to create in order to have someone to love. The Christian answer is that God is not solitary. He is one God in three persons, and from all eternity the Father has loved the Son, the Son has loved the Father, and the Spirit is the bond of their love. God did not become loving when he made the world; he is love within his own triune life, eternally and necessarily.",
+      "This means that love is not merely something God does but who God is in his very being. The eternal, mutual, self-giving love among Father, Son, and Spirit is the original from which all other love derives. When we love, we are dimly reflecting the inner life of God. Creation itself is an overflow of this love &mdash; not something God needed in order to be complete, for he was already perfect in the fellowship of the Trinity, but the free outpouring of a love so full that it gives life to others. We exist because God is love, and his love spilled over into the act of creation.",
+      "The supreme proof of this love is not found in abstractions but in an event. &ldquo;In this is love, not that we have loved God but that he loved us and sent his Son to be the propitiation for our sins&rdquo; (1 John 4:10). The initiative is entirely God&rsquo;s. We did not first love him and so win his affection; he loved us while we were still turned away from him, and he proved it by sending his Son to bear the penalty our sins deserved. Love, in the Christian account, is not first of all a feeling we have toward God but a fact about what God has done toward us. It is defined by the cross.",
+      "Paul makes the same point with unforgettable force: &ldquo;God shows his love for us in that while we were still sinners, Christ died for us&rdquo; (Romans 5:8). The timing is everything. God did not wait until we had cleaned ourselves up, until we were lovely or deserving; he gave his Son for us at our worst, while we were still in rebellion against him. This is <em>agape</em> in its purest form &mdash; love poured out on the undeserving, love that creates worth in its object rather than responding to worth it finds there. The cross is the measuring rod of love, the place where we learn what the word actually means.",
+      "The cross thus stands as the supreme demonstration of love, the point at which God&rsquo;s eternal nature became visible in history. &ldquo;Greater love has no one than this, that someone lay down his life for his friends&rdquo; (John 15:13) &mdash; and Christ went further still, laying down his life not for friends only but for enemies. In the suffering and death of Jesus we see the invisible God made visible, the eternal love of the Trinity breaking into time and bleeding upon a Roman cross. Here the statement &ldquo;God is love&rdquo; ceases to be a comforting abstraction and becomes a wound, a gift, a debt of gratitude we can never repay.",
+      "Because God is love, the whole Christian life takes on a particular shape: it is a response to having first been loved. &ldquo;We love because he first loved us&rdquo; (1 John 4:19). Our love is never the origin of the story but always the echo; we can love only because love has been poured into us. To know God is therefore inseparable from learning to love, for the God who is love cannot be known by those who refuse to love. The doctrine that God is love is not a sentimental decoration on Christian faith but its very center &mdash; the truth that the ground of all reality is a self-giving, triune, eternal love that reached down to us in Christ.",
+    ],
+  },
+  {
+    id: "The Great Commandment",
+    heading: "The Great Commandment",
+    paragraphs: [
+      "When a lawyer, testing Jesus, asked him which commandment in the Law was the greatest, Jesus answered by gathering the whole of God&rsquo;s revealed will into two inseparable demands: &ldquo;You shall love the Lord your God with all your heart and with all your soul and with all your mind. This is the great and first commandment. And a second is like it: You shall love your neighbor as yourself. On these two commandments depend all the Law and the Prophets&rdquo; (Matthew 22:37-40). In a single stroke he reduced the hundreds of commandments of the Torah to their essence and revealed that the entire moral universe hangs upon love.",
+      "The first and great commandment calls for love of God that is total &mdash; with all the heart, all the soul, all the mind, all the strength. Nothing is held back; no compartment of life is exempt. This is not merely an emotion but the orientation of the whole person toward God as the supreme good, the ordering of every faculty and affection around him. To love God in this way is the first duty of every creature and the source of all genuine goodness, for when God is loved supremely, everything else falls into its proper place. Disordered love &mdash; loving lesser things more than God &mdash; is the root of all sin.",
+      "The second commandment is &ldquo;like&rdquo; the first, Jesus says, and the likeness is crucial. Love of neighbor is not a separate, lower duty tacked on after love of God; it flows from it and is bound up with it. We are to love our neighbor &ldquo;as ourselves&rdquo; &mdash; with the same earnest concern for their good that we instinctively have for our own. This is a searching standard, for we are tireless in seeking our own welfare and quick to excuse our own faults. To extend that same energy of care to another is to love as God commands, and it leaves no room for the indifference and self-preference that come so naturally to us.",
+      "Paul confirms that love is the fulfillment of the whole Law: &ldquo;The commandments&hellip;are summed up in this word: You shall love your neighbor as yourself. Love does no wrong to a neighbor; therefore love is the fulfilling of the law&rdquo; (Romans 13:9-10). Every prohibition &mdash; against stealing, lying, killing, coveting &mdash; is simply a description of what love would never do. The person who truly loves needs no list of rules to restrain him from harming his neighbor, for love is already the fountain from which all right action flows. The Law tells us what love looks like; love supplies the power and the desire to do it.",
+      "When the lawyer pressed further &mdash; &ldquo;And who is my neighbor?&rdquo; &mdash; seeking to limit the scope of his obligation, Jesus answered with the parable of the Good Samaritan. A man lay beaten on the roadside; the religious professionals passed him by; but a Samaritan, a member of a despised foreign people, stopped, bound his wounds, and paid for his care. The point overturned the question entirely. The neighbor is not a narrow category of those near and like us; the neighbor is anyone in need whom we have the power to help, even &mdash; especially &mdash; the stranger and the outsider. Love refuses to draw a circle around itself and call everyone outside it not my concern.",
+      "Crucially, Scripture insists that love for God and love for neighbor cannot be separated, that the one is the test of the other. &ldquo;If anyone says, &lsquo;I love God,&rsquo; and hates his brother, he is a liar; for he who does not love his brother whom he has seen cannot love God whom he has not seen&rdquo; (1 John 4:20). It is impossible to love the invisible God while despising the visible person made in his image. Our treatment of the neighbor is the proof of our love for God; there is no private, vertical piety that bypasses the horizontal demand of love. The two commandments are finally one commandment with two faces.",
+      "On these two commandments, Jesus said, depend all the Law and the Prophets &mdash; the entire weight of God&rsquo;s revelation rests here. This means that love is not one virtue among many but the goal and summary of the whole moral life, the thread on which every other duty is strung. To grow in the Christian life is simply to grow in this twofold love: upward toward God with the whole self, and outward toward the neighbor as toward oneself. Everything else &mdash; doctrine, worship, obedience, mission &mdash; exists to serve and express this love, for love is the fulfilling of the law and the very heartbeat of the kingdom of God.",
+    ],
+  },
+  {
+    id: "The Love Chapter",
+    heading: "The Love Chapter",
+    paragraphs: [
+      "First Corinthians 13 is the most profound description of love ever written, a passage so luminous that it is read at weddings and funerals, by believers and unbelievers alike, wherever human beings reach for words equal to the greatness of love. Yet its original setting was not romance but conflict. Paul wrote it to a fractured, gifted, quarrelsome church that prized spiritual abilities while neglecting the one thing that mattered most. Into that strife he set this hymn to love, not as a sentimental interlude but as a rebuke and a remedy &mdash; the &ldquo;more excellent way&rdquo; that alone gives meaning to everything else.",
+      "He begins by stripping every other glory of its value apart from love: &ldquo;If I speak in the tongues of men and of angels, but have not love, I am a noisy gong or a clanging cymbal. And if I have prophetic powers, and understand all mysteries and all knowledge, and if I have all faith, so as to remove mountains, but have not love, I am nothing&rdquo; (1 Corinthians 13:1-3). Eloquence, knowledge, faith, even the sacrifice of one&rsquo;s own body &mdash; all of it counts for nothing without love. The most impressive gifts are mere noise, the most heroic deeds mere emptiness, unless love is the animating soul within them. Love is not one excellence among many; it is the thing that makes the others worth anything at all.",
+      "Then Paul turns to anatomy, dissecting love into its living parts: &ldquo;Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful; it does not rejoice at wrongdoing, but rejoices with the truth&rdquo; (13:4-6). Notice that these are not feelings but actions and dispositions &mdash; things love does and refuses to do. Love here is intensely practical, almost unromantic: it waits, it serves, it refuses to envy, it lets go of grievances. This is love as a way of treating people, a discipline of the will, the very opposite of the self-seeking spirit that was tearing the Corinthian church apart.",
+      "The portrait rises to a sweeping climax: &ldquo;Love bears all things, believes all things, hopes all things, endures all things&rdquo; (13:7). There is no limit set to love&rsquo;s endurance, no condition on which it quits. It bears what is hard, believes the best, hopes against discouragement, and endures to the end. This is no fragile, fair-weather affection but a love that holds fast through disappointment and pain &mdash; the very love God has shown to us, who bore all things for our sake and endured the cross. To read this verse is to see a description of Christ himself, for he is love made flesh, and every line of the chapter is a portrait of his heart.",
+      "Paul then lifts our eyes from the present to the eternal: &ldquo;Love never ends. As for prophecies, they will pass away; as for tongues, they will cease; as for knowledge, it will pass away&rdquo; (13:8). The spiritual gifts the Corinthians prized so highly are temporary, scaffolding for this present age, destined to become unnecessary when we see God face to face. But love belongs to eternity. It will not be outgrown or set aside; it will be perfected. When all the partial things have vanished into the fullness of the world to come, love will remain, for love is the very life of God in which the redeemed will share forever.",
+      "And so the chapter ends with its famous verdict: &ldquo;So now faith, hope, and love abide, these three; but the greatest of these is love&rdquo; (13:13). Faith and hope are glorious, but they are oriented toward what is not yet seen and not yet possessed; in heaven, faith will give way to sight and hope to fulfillment. Love alone passes unchanged into eternity, the one of the three that &ldquo;never ends&rdquo; and abides forever. It is therefore the greatest &mdash; greater than the faith that lays hold of salvation, greater than the hope that sustains us, because it is the eternal substance of which the others are temporary servants.",
+      "The chapter stands, then, as both a mirror and a summons. It is a mirror in which we measure ourselves and find how far we fall short, for who among us is always patient, never envious, never resentful, bearing and enduring all things? And it is a summons to pursue the more excellent way, to let love govern every gift and word and deed. Above all it points us to Christ, whose name can be substituted for &ldquo;love&rdquo; in every line without strain. He is the patient and kind one; he bore all things and endured all things; his love never ends. To grow in love is simply to grow into his likeness.",
+    ],
+  },
+  {
+    id: "Loving Your Enemies",
+    heading: "Loving Your Enemies",
+    paragraphs: [
+      "Of all the commands Jesus gave, none is more radical, more startling, or more contrary to natural human instinct than this: &ldquo;You have heard that it was said, &lsquo;You shall love your neighbor and hate your enemy.&rsquo; But I say to you, Love your enemies and pray for those who persecute you&rdquo; (Matthew 5:43-44). Every culture has prized love for friends and kin; that is the common decency of the human race. But love for enemies &mdash; active goodwill toward those who hate, harm, and persecute us &mdash; was something new, a demand so extreme that it can only have come from the heart of God himself.",
+      "Jesus exposes the poverty of merely reciprocal love: &ldquo;For if you love those who love you, what reward do you have? Do not even the tax collectors do the same? And if you greet only your brothers, what more are you doing than others?&rdquo; (Matthew 5:46-47). To love those who love us back is no great achievement; even the worst of people manage that. It costs nothing and proves nothing. The love Jesus commands is of an altogether different order &mdash; a love that does not wait to be deserved, that gives without the prospect of return, that breaks the natural cycle of repaying hatred with hatred and answers evil with good. This is <em>agape</em> at its purest and most demanding.",
+      "The supreme example of this love is Christ himself, who did not merely teach enemy-love but enacted it in his death. From the cross, suffering the cruelty of those who had condemned and crucified him, he prayed: &ldquo;Father, forgive them, for they know not what they do&rdquo; (Luke 23:34). He returned blessing for cursing, intercession for murder, love for hatred. And Paul reminds us that this is precisely how God loved us: &ldquo;while we were enemies we were reconciled to God by the death of his Son&rdquo; (Romans 5:10). We did not earn his love by ceasing to be his enemies; he loved us as enemies and so made us his friends. Enemy-love is not an impossible ideal but the very love that saved us.",
+      "Jesus grounds the command in the character of God the Father: &ldquo;so that you may be sons of your Father who is in heaven. For he makes his sun rise on the evil and on the good, and sends rain on the just and on the unjust&rdquo; (Matthew 5:45). God does not ration his common kindness only to those who deserve it; he pours out sun and rain on the righteous and the wicked alike. To love our enemies is therefore to reflect the family likeness, to act as true children of a generous Father. The motive is not that our enemies have earned our love but that we have a Father whose love overflows to the undeserving, and we are called to be like him.",
+      "This enemy-love is what most sharply distinguishes Christian ethics from every merely human morality. The world&rsquo;s justice is built on reciprocity &mdash; reward the friend, punish the foe, give each what they deserve. The gospel introduces something that shatters this calculus: a love that does not keep score, that absorbs wrong rather than avenging it, that overcomes evil with good. This is not weakness or passivity but a fierce and costly strength, the strength to refuse the satisfaction of retaliation and to seek instead the good of the one who has wronged us. It is the most countercultural thing a Christian can do, and the most Christlike.",
+      "It is essential to see that this love is an act of the will, not a warm feeling. We are not commanded to manufacture affection for those who hurt us, nor to pretend that evil is not evil. To love the enemy is to will their good, to pray for them, to refuse to repay harm with harm, and to seek their redemption even while we grieve their wrongdoing. Jesus pairs the command to love with the command to pray: &ldquo;pray for those who persecute you.&rdquo; It is difficult to go on hating someone you are genuinely praying for, and in that prayer the heart is slowly changed, conformed to the mercy of God.",
+      "Finally, Jesus makes love the very badge of his disciples, the unmistakable mark by which the world will know to whom we belong: &ldquo;By this all people will know that you are my disciples, if you have love for one another&rdquo; (John 13:35). Not by our knowledge, our success, our power, or our religious performance, but by our love &mdash; and supremely by a love that extends even to enemies &mdash; the world is meant to recognize the followers of Christ. Love is the definitive mark of the Christian, the evidence that the love of God has truly taken root in us. Where this love is found, there the kingdom of God is breaking in; and where it is absent, no profession of faith can take its place.",
+    ],
+  },
 ];
 
-const VIDEOS = [
-  { videoId: "BgIxbFxvkUk", title: "1 Corinthians 13: The Love Chapter Explained" },
-  { videoId: "z9z5gGgJwFY", title: "C.S. Lewis: The Four Loves" },
-  { videoId: "GJOiAaJQkFo", title: "What Is Agape Love?" },
-  { videoId: "wh3YT1YLMVM", title: "Francis Chan: Crazy Love" },
-  { videoId: "bL3uBdJhOVE", title: "Love Your Enemies - Luke 6 Deep Dive" },
-  { videoId: "GOZ-iFGPlXo", title: "God Is Love - 1 John 4" },
+const videoItems = [
+  { videoId: "yChdw2yzWS8", title: "C.S. Lewis - The Four Loves" },
+  { videoId: "Sf2bnH3Ls-Q", title: "The Love Chapter - 1 Corinthians 13" },
+  { videoId: "8wYRYg6cl9w", title: "Loving Your Enemies - The Radical Command of Jesus" },
 ];
-
-const cardStyle: React.CSSProperties = {
-  background: CARD,
-  border: `1px solid ${BORDER}`,
-  borderRadius: 14,
-  padding: "1.5rem 1.75rem",
-};
-
-const h3Style: React.CSSProperties = {
-  color: ACCENT,
-  fontWeight: 700,
-  fontSize: "1.05rem",
-  margin: "0 0 0.75rem",
-};
-
-const pStyle: React.CSSProperties = {
-  color: MUTED,
-  lineHeight: 1.8,
-  margin: "0 0 0.9rem",
-  fontSize: "0.95rem",
-};
-
-const pLast: React.CSSProperties = { ...pStyle, margin: 0 };
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  background: BG,
-  border: `1px solid ${BORDER}`,
-  borderRadius: 10,
-  color: TEXT,
-  padding: "0.75rem 0.9rem",
-  fontSize: "0.95rem",
-  lineHeight: 1.6,
-  fontFamily: "inherit",
-  resize: "vertical",
-  boxSizing: "border-box",
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  color: TEXT,
-  fontWeight: 600,
-  fontSize: "0.88rem",
-  margin: "0 0 0.4rem",
-};
 
 export default function ChristianLoveGuidePage() {
-  const [tab, setTab] = useState("theology");
-  const [entries, setEntries] = useState<LVGEntry[]>([]);
+  const [tab, setTab] = useState<Tab>(TABS[0]);
   const [loaded, setLoaded] = useState(false);
+  useEffect(() => { setLoaded(true); }, []);
+  if (!loaded) return null;
 
-  const [relationship, setRelationship] = useState("");
-  const [loveAction, setLoveAction] = useState("");
-  const [cost, setCost] = useState("");
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) setEntries(parsed);
-      }
-    } catch {
-      // ignore corrupted storage
-    }
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-    } catch {
-      // storage may be unavailable
-    }
-  }, [entries, loaded]);
-
-  const saveEntry = () => {
-    if (!relationship.trim() && !loveAction.trim() && !cost.trim()) return;
-    setEntries(prev => [
-      { relationship: relationship.trim(), loveAction: loveAction.trim(), cost: cost.trim() },
-      ...prev,
-    ]);
-    setRelationship("");
-    setLoveAction("");
-    setCost("");
-  };
-
-  const deleteEntry = (index: number) => {
-    setEntries(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const accentLight = "#f87093";
+  const currentSection = sections.find((s) => s.id === tab);
 
   return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT }}>
-      <Navbar />
-      <main id="main-content" style={{ maxWidth: 820, margin: "0 auto", padding: "2rem 1rem 4rem" }}>
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        {/* Hero */}
+        <header style={{ marginBottom: "2.5rem" }}>
+          <div style={{ fontSize: "0.78rem", color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600, marginBottom: "0.6rem" }}>
+            Faith &amp; Love
+          </div>
+          <h1 style={{ fontSize: "clamp(1.8rem, 4.5vw, 2.6rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: "1rem" }}>
+            Christian Guide to Love
+          </h1>
+          <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "1.02rem", maxWidth: 700 }}>
+            Love through a Christian lens &mdash; the four loves of the Greek tradition, agape as self-giving love, the truth that God is love, the great commandment, the love chapter of 1 Corinthians 13, and the radical call to love your enemies.
+          </p>
+          <div style={{ marginTop: "1.75rem", background: CARD, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${ACCENT}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+            <p style={{ fontStyle: "italic", lineHeight: 1.7, marginBottom: 8 }}>&ldquo;So now faith, hope, and love abide, these three; but the greatest of these is love.&rdquo;</p>
+            <p style={{ color: ACCENT, fontSize: "0.85rem", fontWeight: 600 }}>1 Corinthians 13:13</p>
+          </div>
+        </header>
 
-        {/* HEADER */}
-        <div style={{ marginBottom: "0.5rem" }}>
-          <span style={{ background: ACCENT + "22", color: accentLight, padding: "0.2rem 0.8rem", borderRadius: 20, fontSize: "0.78rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>
-            Christian Love
-          </span>
-        </div>
-        <h1 style={{ fontSize: "clamp(1.7rem,4vw,2.6rem)", fontWeight: 900, lineHeight: 1.2, margin: "0.75rem 0 0.75rem" }}>
-          The Greatest of These: A Guide to Christian Love
-        </h1>
-        <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.7, maxWidth: 660, margin: "0 0 1rem" }}>
-          &ldquo;And now these three remain: faith, hope, and love. But the greatest of these is love.&rdquo; Paul
-          ends the most searching analysis of love ever written with that verdict. Not faith &mdash; though by faith
-          we stand. Not hope &mdash; though by hope we endure. Love, because love alone outlasts the age to come.
-          It is the nature of God himself. And it is the one thing the world, in every generation, most desperately
-          needs to see embodied.
-        </p>
-        <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.7, maxWidth: 660, margin: "0 0 2rem" }}>
-          This guide explores the four Greek loves and the distinctiveness of <em>agape</em>, the anatomy of love
-          in 1 Corinthians 13, practices for developing costly love, voices from church history who illuminated
-          it, key Scriptures, a private journal, and teaching videos. Related guides:{" "}
-          <Link href="/christian-marriage" style={{ color: accentLight, textDecoration: "underline" }}>Christian marriage</Link>,{" "}
-          <Link href="/christian-friendship" style={{ color: accentLight, textDecoration: "underline" }}>Christian friendship</Link>, and{" "}
-          <Link href="/christian-forgiveness" style={{ color: accentLight, textDecoration: "underline" }}>forgiveness</Link>.
-        </p>
-
-        {/* TAB BAR */}
-        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "2rem" }}>
-          {TABS.map(t => (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              style={{
-                padding: "0.45rem 1.1rem",
-                borderRadius: 20,
-                border: "1px solid",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                cursor: "pointer",
-                borderColor: tab === t.id ? ACCENT : BORDER,
-                background: tab === t.id ? ACCENT + "22" : "transparent",
-                color: tab === t.id ? accentLight : MUTED,
-              }}
-            >
-              {t.label}
+        {/* Tab navigation */}
+        <nav aria-label="Page sections" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2.25rem" }}>
+          {TABS.map((t) => (
+            <button key={t} type="button" onClick={() => setTab(t)} style={{
+              padding: "0.5rem 1.1rem", borderRadius: 8,
+              border: `1px solid ${tab === t ? ACCENT : BORDER}`,
+              background: tab === t ? `rgba(225, 29, 72, 0.12)` : "transparent",
+              color: tab === t ? ACCENT : MUTED,
+              cursor: "pointer", fontSize: "0.88rem", fontWeight: tab === t ? 600 : 400,
+              transition: "all 0.15s ease", whiteSpace: "nowrap" as const,
+            }}>
+              {t}
             </button>
           ))}
-        </div>
+        </nav>
 
-        {/* ============ THEOLOGY ============ */}
-        {tab === "theology" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <div style={cardStyle}>
-              <h3 style={h3Style}>The Four Greek Loves &mdash; and Why Agape Is Different</h3>
-              <p style={pStyle}>
-                C.S. Lewis popularized the four Greek words for love in his book <em>The Four Loves</em> (1960),
-                and the taxonomy remains the most useful starting point for any serious exploration of the
-                subject. <em>Storge</em> is the love of familiarity and belonging &mdash; the affection of
-                parent and child, of old friends, of the warmth that grows from shared life. It is the most
-                common love, the one that barely notices itself. <em>Philia</em> is the love of friendship
-                &mdash; the delight in another person&rsquo;s inner world, the &ldquo;what, you too?&rdquo;
-                that Lewis describes as the moment friendship is born. <em>Eros</em> is the love of
-                in-love-ness &mdash; not merely sexual desire but the consuming fascination with another
-                person that reaches for union. And then there is <em>agape</em>.
-              </p>
-              <p style={pStyle}>
-                <em>Agape</em> is not the natural love that arises from what is lovely in its object. It is
-                the love that gives itself to its object regardless of whether the object is lovely,
-                reciprocating, or even pleasant. It is the love &ldquo;shed abroad in our hearts by the Holy
-                Spirit&rdquo; (Romans 5:5) &mdash; love as gift rather than response, love as decision and
-                action rather than feeling and attraction. This is the distinctively Christian contribution to
-                the history of human love: a love that is not earned, not dependent on merit, and not
-                extinguished by the unworthiness of its recipient. God&rsquo;s love for sinners is the
-                prototype; our love for enemies is its most demanding expression.
-              </p>
-              <p style={pLast}>
-                The four loves are not in competition, and Lewis was careful to honor the natural loves rather
-                than depreciate them in favor of agape. Storge, philia, and eros are good gifts of God,
-                capable of being hallowed by agape working through them. The error is not in having the
-                natural loves but in treating them as self-sufficient &mdash; as if they could bear alone the
-                weight that only divine love can carry. A marriage built on eros alone collapses when the
-                in-love-ness fades; a marriage in which eros is also carrying agape can survive the
-                exhaustion, the failure, and the long years that test every covenant.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>The Anatomy of Love &mdash; 1 Corinthians 13</h3>
-              <p style={pStyle}>
-                Paul writes 1 Corinthians 13 not as a standalone poem but as an argument planted in the middle
-                of a dispute about spiritual gifts. The Corinthians were competing over gifts &mdash; which
-                were more impressive, who had more, whose use was more spectacular. Paul&rsquo;s response is
-                to name the one gift that trumps them all, and then to dissect it. The chapter is not sentiment;
-                it is surgery. He does not say love is a warm feeling. He gives love fifteen verbs, and every
-                one of them names something that can be chosen when the feeling is absent.
-              </p>
-              <p style={pStyle}>
-                The positive verbs &mdash; love is patient, love is kind, love rejoices with truth, love bears,
-                believes, hopes, endures all things &mdash; describe a love that keeps choosing its object
-                across the entire span of a relationship, even through disappointment and betrayal. The
-                negative verbs &mdash; love does not envy or boast, is not arrogant or rude, does not insist
-                on its own way, is not irritable or resentful, does not rejoice at wrongdoing &mdash; describe
-                a love that has been emptied of the self-protective instincts that make us difficult to live
-                with. Put together, the chapter describes a person who has been so thoroughly loved by God
-                that love has replaced the self as the operating center of their life.
-              </p>
-              <p style={pLast}>
-                The most searching part of the chapter is its framing: &ldquo;If I speak in the tongues of men
-                and of angels, but have not love, I am a noisy gong or a clanging cymbal.&rdquo; The list of
-                things that count for nothing without love &mdash; tongues, prophecy, knowledge, faith, giving,
-                even martyrdom &mdash; is designed to demolish every substitute. You can die for a cause and
-                lack love. You can give everything you own and lack love. The thing that makes a life Christian
-                is not its impressive resume but whether love &mdash; God&rsquo;s love worked through a
-                person &mdash; was at the center. Everything else is noise.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Love as the Summary of the Law &mdash; Matthew 22:36&ndash;40</h3>
-              <p style={pStyle}>
-                When a lawyer tests Jesus with the question &ldquo;which is the great commandment?&rdquo; Jesus
-                answers with two and then adds: &ldquo;On these two commandments depend all the Law and the
-                Prophets.&rdquo; Love God with all you have; love your neighbor as yourself. The word
-                &ldquo;depend&rdquo; is revealing: he does not say the rest of the law is contained in these
-                two, or replaced by them. He says the rest of the law hangs from them &mdash; as a door hangs
-                from its hinges, or a body hangs from its skeleton. Remove the hinges and the door collapses;
-                remove love and the law becomes a collection of arbitrary rules rather than an expression of
-                a coherent divine character.
-              </p>
-              <p style={pStyle}>
-                This means that every specific command in Scripture is, when properly understood, a
-                specification of love. The prohibition on murder is a specification of love for image-bearers
-                of God. The prohibition on theft is a specification of love for the neighbor whose property
-                supports their life and dignity. The command to honor parents is a specification of love for
-                those through whom God gave life. Reading the law through the lens of love does not empty it
-                of content; it fills it with the personal character of the God who gave it.
-              </p>
-              <p style={pLast}>
-                The &ldquo;as yourself&rdquo; of the neighbor commandment has been much discussed. It is not
-                a command to love yourself first and then, from that foundation, love others. It assumes that
-                self-care is already instinctive &mdash; &ldquo;no one ever hated his own flesh&rdquo; (Eph.
-                5:29) &mdash; and uses it as a benchmark. You know what it is to be hungry, frightened,
-                lonely, wronged. Extend that knowledge with action toward the one beside you. The command
-                is not a psychology lesson; it is a demand for empathy in action.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>&ldquo;God Is Love&rdquo; vs. &ldquo;Love Is God&rdquo; &mdash; 1 John 4:8</h3>
-              <p style={pStyle}>
-                John&rsquo;s statement &ldquo;God is love&rdquo; (1 John 4:8) is perhaps the most quoted
-                sentence in the New Testament and one of the most regularly misread. It does not say love is
-                God &mdash; that is the cultural inversion that makes romantic love or parental love or
-                humanitarian feeling into the highest reality, the thing that justifies and validates whatever
-                it is applied to. When love becomes God, it loses its content and simply sanctifies whatever
-                we feel most strongly. Two people &ldquo;in love&rdquo; who leave their families, or a
-                movement animated by love for its own that destroys anyone who opposes it &mdash; on the
-                &ldquo;love is God&rdquo; reading, these are valid expressions of ultimate reality.
-              </p>
-              <p style={pStyle}>
-                &ldquo;God is love&rdquo; means something different and more demanding. It means that the
-                character of the personal God who created the world, called Israel, became flesh in Jesus,
-                and raised him from the dead is love &mdash; that love is not a human projection onto the
-                universe but a disclosure of what is most real about it. And because God is personal, not
-                abstract, love is defined by its Object: we know what love is by looking at what God does.
-                &ldquo;In this is love, not that we have loved God but that he loved us and sent his Son to
-                be the propitiation for our sins&rdquo; (1 John 4:10). The cross is the definition.
-              </p>
-              <p style={pLast}>
-                The practical implication is that love is not what we feel most deeply; it is what God has
-                revealed most clearly. This means love has a shape, a content, a structure that can be
-                examined and tested. It can be got wrong. It can be counterfeited. The cults that have
-                abused people &ldquo;in the name of love,&rdquo; the relationships that have destroyed
-                people &ldquo;out of love,&rdquo; the ideologies that have killed millions &ldquo;for
-                love of humanity&rdquo; &mdash; these are indictments of the counterfeit, not the real
-                thing. Real love looks like a cross.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Loving Enemies &mdash; The Radical Command &mdash; Luke 6:27&ndash;36</h3>
-              <p style={pStyle}>
-                &ldquo;But I say to you who hear, Love your enemies, do good to those who hate you, bless
-                those who curse you, pray for those who abuse you.&rdquo; This is the most countercultural
-                thing Jesus ever said, and he said it in the Sermon on the Plain to a crowd that included
-                people under Roman occupation, people whose loved ones had been killed by the same enemies
-                Jesus was asking them to love. The command is not hypothetical. It costs something real.
-              </p>
-              <p style={pStyle}>
-                Jesus then dismantles every natural defense against the command one by one. &ldquo;If you
-                love those who love you, what benefit is that to you?&rdquo; &mdash; even sinners do that.
-                &ldquo;If you do good to those who do good to you&rdquo; &mdash; no credit there either.
-                &ldquo;If you lend to those from whom you expect to receive&rdquo; &mdash; pagans manage
-                that. The distinguishing mark of the kingdom citizen is love that operates outside the
-                economy of reciprocity. It gives without expectation of return because it has been given
-                to without any desert at all.
-              </p>
-              <p style={pLast}>
-                The ground given in verses 35&ndash;36 is theological, not strategic: &ldquo;for he is kind
-                to the ungrateful and the evil. Be merciful, even as your Father is merciful.&rdquo; The
-                rain falls on the just and the unjust. The sun rises on both. The indiscriminate generosity
-                of God&rsquo;s creation is the template. We love enemies not because they deserve it but
-                because God loves us though we did not deserve it, and his love is now our operating system.
-                This command is only livable for people who have genuinely received it; for everyone else
-                it is merely admirable and impossible.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>The New Commandment &mdash; John 13:34&ndash;35</h3>
-              <p style={pStyle}>
-                At the Last Supper, hours before the cross, Jesus gives his disciples what he calls a new
-                commandment: &ldquo;Love one another as I have loved you.&rdquo; The novelty is not that
-                love is commanded &mdash; Leviticus 19:18 already commanded love for the neighbor. The
-                novelty is the standard: <em>as I have loved you</em>. Not as you love yourself (Matthew
-                22). Not as your Father loved you in the past (Deuteronomy). But as I, in the next twelve
-                hours, am going to love you &mdash; washing feet, going to a cross, dying for people who
-                will scatter and deny me.
-              </p>
-              <p style={pStyle}>
-                The sign value Jesus attaches to this love is striking: &ldquo;By this all people will know
-                that you are my disciples, if you have love for one another.&rdquo; Not if you have the
-                correct doctrine (though doctrine matters). Not if you perform signs and wonders (though
-                gifts are real). The identifying mark of the community of Jesus in the world is its love
-                &mdash; the kind of love that is visible enough for outsiders to observe and particular enough
-                that it requires an explanation beyond social cohesion or shared interest.
-              </p>
-              <p style={pLast}>
-                The early church took this seriously enough to become famous for it. Tertullian, writing
-                about AD 200, reports that pagans said of Christians: &ldquo;See how they love one
-                another.&rdquo; The emperor Julian (the Apostate), trying to revive paganism in the fourth
-                century, acknowledged that the Christians&rsquo; love for their own &mdash; and even for
-                strangers &mdash; was the practical argument he could not answer. He tried to replicate it
-                with pagan institutions and failed. The love of the new commandment is not a feeling; it is
-                an observable pattern of behavior that leaves a mark in the world.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Love That Lays Down Its Life &mdash; John 15:12&ndash;13</h3>
-              <p style={pStyle}>
-                &ldquo;This is my commandment, that you love one another as I have loved you. Greater love
-                has no one than this, that someone lay down his life for his friends.&rdquo; Jesus says this
-                on his way to do it. The definition of greatest love is not a piece of philosophy; it is a
-                description of what he is about to perform. And he names the recipients &ldquo;friends&rdquo;
-                &mdash; a word that, in the ancient world, implied equality, mutual obligation, and chosen
-                relationship rather than mere acquaintance.
-              </p>
-              <p style={pStyle}>
-                What does it mean to lay down your life for someone in the ordinary run of Christian
-                existence, when you are not literally dying? John answers this in 1 John 3:16&ndash;18:
-                &ldquo;By this we know love, that he laid down his life for us, and we ought to lay down
-                our lives for the brothers. But if anyone has the world&rsquo;s goods and sees his brother
-                in need, yet closes his heart against him, how does God&rsquo;s love abide in him?&rdquo;
-                The translation from cross to daily life is: when you see need, respond with what you have.
-                Laying down your life looks, on most days, like laying down your time, your money, your
-                comfort, your preference.
-              </p>
-              <p style={pLast}>
-                John&rsquo;s conclusion is disquieting: &ldquo;Little children, let us not love in word or
-                talk but in deed and in truth.&rdquo; The vocabulary of love &mdash; the sentiment, the
-                affirmation, the saying of &ldquo;I love you&rdquo; &mdash; is cheap. The currency of real
-                love is action. And action costs. The person who says they love but never incurs any cost
-                for the sake of another has not yet learned what the word means in the light of the cross.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ============ PRACTICES ============ */}
-        {tab === "practices" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <p style={{ ...pStyle, maxWidth: 660 }}>
-              Christian love is not a feeling to be cultivated but a practice to be formed. These six
-              disciplines target specific dimensions of the love described in 1 Corinthians 13 and lived
-              by Jesus. They are demanding because real love is demanding; they are possible because the
-              Spirit supplies what we cannot manufacture.
-            </p>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>1. The 1 Corinthians 13 Self-Exam</h3>
-              <p style={pStyle}>
-                Augustine preached that 1 Corinthians 13 should be read as a description of Christ himself
-                &mdash; that every line fits him and therefore every line indicts us. The self-exam practice
-                takes this seriously. Take one attribute per week &mdash; &ldquo;love is patient&rdquo; in
-                week one, &ldquo;love is kind&rdquo; in week two, and so on through all fifteen &mdash;
-                and live with it as an X-ray of one relationship each day.
-              </p>
-              <p style={pStyle}>
-                The method: name the relationship (spouse, coworker, difficult neighbor, estranged friend).
-                Then ask whether, in the past week, your love toward them was patient, or whether impatience
-                got there first. Was it kind, or merely polite when it had to be? Did it keep no record of
-                wrong, or have you been building a case? The questions are not designed to produce guilt but
-                diagnosis. A bone-setter must know where the fracture is before they can set it.
-              </p>
-              <p style={pLast}>
-                The self-exam is not complete until it reaches repentance and petition: confession of
-                specific failures, and a specific request for the Spirit&rsquo;s supply of what you lack.
-                &ldquo;Love bears all things&rdquo; &mdash; and I have refused to bear this particular
-                thing this week. Forgive me, and give me what I cannot generate. The exam is the
-                diagnosis; the cross is the cure; the Spirit is the treatment. All three together, repeated
-                fifteen times, can renovate a life.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>2. Enemy Prayer &mdash; Praying for Those Who Hurt You</h3>
-              <p style={pStyle}>
-                Jesus commands it in Luke 6:28: &ldquo;pray for those who abuse you.&rdquo; The practice is
-                as simple as it is costly: name the person who has wronged you &mdash; specifically, the
-                one you are most reluctant to name &mdash; and pray for their actual flourishing. Not a
-                thin prayer of formal compliance, but a genuine petition that God bless them, prosper them,
-                forgive them their sins, give them the relationships and circumstances and knowledge of God
-                that would make their life good.
-              </p>
-              <p style={pStyle}>
-                This practice works on the heart in a way that nothing else quite does. You cannot
-                simultaneously wish harm to someone and genuinely pray for their good; the acts are
-                mutually exclusive. What almost always happens when the prayer is genuine is that the
-                person&rsquo;s humanity gradually reasserts itself against the caricature that resentment
-                builds. They become a person again rather than a grievance. God can work with that. He
-                cannot easily work with a heart that has declared a person beyond the reach of his mercy.
-              </p>
-              <p style={pLast}>
-                A caution: this practice does not require reconciliation with someone who is abusive or
-                unsafe. Praying for someone is not the same as exposing yourself to their harm. The command
-                is about the inner posture of the one praying, not the external structure of the relationship.
-                You can pray for an abuser from a safe distance, wish them genuine good, and maintain firm
-                boundaries simultaneously. Enemy prayer is the practice that keeps bitterness from
-                colonizing your soul while you grieve and heal.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>3. The Love Language Practice &mdash; Loving in the Other&rsquo;s Dialect</h3>
-              <p style={pStyle}>
-                Gary Chapman&rsquo;s observation that people give and receive love in different primary
-                languages &mdash; words of affirmation, quality time, receiving gifts, acts of service,
-                physical touch &mdash; has become nearly universal in marriage and family literature, and
-                for good reason: it names something real. The person who expresses love through acts of
-                service and receives nothing but words of affirmation will eventually feel unloved, not
-                because love is absent but because it is being communicated in an untranslated language.
-              </p>
-              <p style={pStyle}>
-                The practice: identify your own primary love language and your partner&rsquo;s (or the
-                significant person you want to love more effectively). Then deliberately practice expressing
-                love in their dialect, not yours. If your natural language is acts of service but your
-                spouse&rsquo;s is quality time, the practice is to set aside the to-do list and be fully
-                present &mdash; not to add one more item to your service list but to give the presence that
-                actually lands as love in their heart.
-              </p>
-              <p style={pLast}>
-                The theological dimension here is important. Loving in the other&rsquo;s dialect is a form
-                of the incarnation principle: God expressed love not in the idiom that was most natural to
-                him (infinite holiness expressing infinite love in infinite terms) but in the idiom that
-                could be received by the ones he loved (a human life, human words, a human death). The
-                love language practice is a small participation in that logic: love chooses the form that
-                reaches its recipient, not the form most convenient to its giver.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>4. Sacrificial Love &mdash; Love That Costs Something</h3>
-              <p style={pStyle}>
-                David refused the threshing floor of Araunah as a gift: &ldquo;I will not offer burnt
-                offerings to the Lord my God that cost me nothing&rdquo; (2 Samuel 24:24). The principle
-                extends beyond worship. Love that has never cost the lover anything has not yet become
-                what the New Testament means by the word. The practice is to identify one act of love
-                per week that involves genuine sacrifice &mdash; not inconvenience but cost: time you
-                wanted, money that would have gone elsewhere, comfort or preference surrendered for
-                another person&rsquo;s sake.
-              </p>
-              <p style={pStyle}>
-                The specific form matters less than the quality. Staying up through the night with a sick
-                child when you desperately need sleep. Giving money at a level that changes your own
-                spending. Spending time with the lonely person who is difficult to be with. Giving credit
-                for work that was partly yours. Making the phone call to the estranged relative even
-                though you know it will cost emotional energy you do not have to spare. The test of each
-                is: would a reasonable person in your position have found a way to avoid this? If yes,
-                and you did it anyway, it was sacrificial love.
-              </p>
-              <p style={pLast}>
-                John&rsquo;s arithmetic is sobering: &ldquo;If anyone has the world&rsquo;s goods and
-                sees his brother in need, yet closes his heart against him, how does God&rsquo;s love
-                abide in him?&rdquo; (1 John 3:17). The question is not rhetorical; it is diagnostic.
-                A love that consistently finds reasons to avoid cost is not the love of the cross but a
-                comfortable facsimile of it. The practice of deliberate, weekly sacrifice is the training
-                that forms the instinct of costly love before the crises that demand it.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>5. Love in Marriage &mdash; The Covenant Commitment</h3>
-              <p style={pStyle}>
-                Ephesians 5:25 asks husbands to love their wives &ldquo;as Christ loved the church and gave
-                himself up for her&rdquo; &mdash; and sets the standard at the highest possible point. Not
-                the love of attraction (though that matters), not the love of a good mood (though moods are
-                real), but the covenantal love that holds on when holding on costs everything. The same
-                principle, read through the whole of 1 Corinthians 13, describes a love that two married
-                people grow into across decades rather than arrive with on their wedding day.
-              </p>
-              <p style={pStyle}>
-                Practical covenant love in marriage looks like: choosing to act kindly when the feeling of
-                kindness is absent; refusing to build the case against your spouse in your own mind, because
-                love &ldquo;keeps no record of wrongs&rdquo;; telling the truth even when it would be
-                easier to keep peace; staying in difficult conversations rather than stonewalling or
-                deflecting; pursuing reconciliation before the sun goes down; protecting your spouse&rsquo;s
-                reputation in public when it would be easier to signal your own virtue by distancing from
-                them.
-              </p>
-              <p style={pLast}>
-                The theological ground is the covenant itself &mdash; the public promise made before God
-                and witnesses, which creates an obligation independent of emotional weather. &ldquo;I will&rdquo;
-                rather than &ldquo;I do&rdquo; &mdash; the future tense of the vow names love as a
-                commitment about tomorrow, not merely an account of today. Covenant love is not the
-                suppression of eros and storge but their completion: when the natural loves are gathered
-                into the structure of covenant, they find a stability they cannot create for themselves.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>6. Community Love &mdash; Staying When the Church Is Imperfect</h3>
-              <p style={pStyle}>
-                The most demanding arena of Christian love may not be loving enemies but loving the people
-                you see every Sunday who have repeatedly disappointed you, who hold positions you disagree
-                with, who hurt you and did not apologize, who are at different life stages and seem
-                incompatible with your own. The command is not to love an abstract &ldquo;community&rdquo;
-                but to love these particular people, together, as a body, with the love that &ldquo;bears
-                all things&rdquo; and &ldquo;endures all things&rdquo; (1 Cor. 13:7).
-              </p>
-              <p style={pStyle}>
-                The practice of staying &mdash; not as passive tolerance but as active, costly commitment
-                &mdash; is itself a form of love. It requires learning the names and stories of people
-                unlike yourself. It requires repenting and reconciling rather than relocating. It requires
-                choosing the harder work of forgiveness over the easier exit of finding a better-fitting
-                congregation. It requires &ldquo;bearing with one another in love&rdquo; (Eph. 4:2) in the
-                specific, embodied form of the community you are actually in.
-              </p>
-              <p style={pLast}>
-                Dietrich Bonhoeffer&rsquo;s warning in <em>Life Together</em> is worth keeping: the person
-                who loves their dream of community destroys real community, but the person who loves actual
-                community creates something real. The dream is of people who are exactly right for you,
-                who grow at your pace, who understand your gifts. The reality is messier, needier, and
-                more demanding &mdash; and the love that persists through the reality is the most convincing
-                evidence of the new commandment&rsquo;s power.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ============ VOICES ============ */}
-        {tab === "voices" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <p style={{ ...pStyle, maxWidth: 660 }}>
-              Six writers who have illuminated Christian love across the centuries &mdash; from a medieval
-              theologian&rsquo;s exposition of 1 Corinthians 13 to a novelist&rsquo;s portrait of active
-              love in a Russian monastery.
-            </p>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>C.S. Lewis &mdash; The Four Loves</h3>
-              <p style={pStyle}>
-                Lewis published <em>The Four Loves</em> in 1960, near the end of his life and not long
-                before his own entry into the experience of sacrificial love through the illness and death
-                of his wife Joy. The book is his most personal work of theology, and its treatment of love
-                is remarkable for its refusal to sentimentalize. He insists that the natural loves &mdash;
-                affection, friendship, eros &mdash; are genuinely good but genuinely dangerous, capable of
-                becoming &ldquo;demonic&rdquo; when they are elevated to the position only God should
-                occupy.
-              </p>
-              <p style={pStyle}>
-                His treatment of eros is particularly countercultural and remains so: he distinguishes
-                sharply between Venus (sexual desire) and eros (the in-love state that is obsessed with
-                a particular person), and he argues that eros, in its very nature, makes extravagant
-                promises about permanence that it cannot keep by its own power. The promise requires
-                something eros cannot supply: the covenantal, volitional love of agape to honor it when
-                the feeling fails.
-              </p>
-              <p style={pLast}>
-                His most memorable observation on agape is that it is the love that &ldquo;is not simply
-                a feeling but a policy&rdquo; &mdash; a decision made and remade across time, often without
-                the support of corresponding emotion. He notes that &ldquo;the rule for all of us is
-                perfectly simple. Do not waste time bothering whether you &lsquo;love&rsquo; your neighbor;
-                act as if you did.&rdquo; The action often produces the feeling; the feeling, if waited
-                for first, may never arrive. This is the practical wisdom of 1 Corinthians 13 rendered in
-                Lewis&rsquo;s characteristic idiom.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Brennan Manning &mdash; The Relentless Tenderness of Jesus</h3>
-              <p style={pStyle}>
-                Manning&rsquo;s life was a long, broken, beautiful argument that God&rsquo;s love is
-                unconditional &mdash; not in the sense of being indifferent to sin but in the sense of
-                being indifferent to the question of whether its recipient deserves it. A former Franciscan
-                priest whose alcoholism cost him his marriage and much else, Manning wrote from the inside
-                of failure about a love that met him there. His most famous book, <em>The Ragamuffin
-                Gospel</em>, gave a generation of exhausted, shame-soaked Christians permission to believe
-                that God&rsquo;s love was bigger than their worst day.
-              </p>
-              <p style={pLast}>
-                Manning&rsquo;s contribution to the understanding of Christian love is his insistence that
-                the love we give is downstream of the love we receive. People who have not genuinely
-                received the love of God &mdash; who know it doctrinally but have not been encountered by
-                it personally, in their failure and weakness &mdash; will find it impossible to love others
-                with more than human warmth. The love of the ragamuffin is the love of the person who has
-                been picked up from the ditch, and who cannot encounter another human ditch without
-                recognizing it. The tenderness of Jesus toward the broken, Manning argued, is the source
-                and the shape of all Christian love.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Gary Chapman &mdash; The Five Love Languages</h3>
-              <p style={pStyle}>
-                Chapman&rsquo;s 1992 book emerged from years of marriage counseling and introduced a simple
-                but remarkably durable insight: people experience love being communicated in different
-                primary forms, and if partners are speaking different love languages, each may feel unloved
-                despite both genuinely trying. The five languages &mdash; words of affirmation, quality
-                time, receiving gifts, acts of service, and physical touch &mdash; are not exhaustive, but
-                they describe real differences in how people are hardwired to receive care.
-              </p>
-              <p style={pLast}>
-                Chapman&rsquo;s theological contribution is modest but important: he demonstrates concretely
-                what it means to love in the other&rsquo;s terms rather than your own. This is the
-                incarnation principle applied to ordinary relationships. God did not express love in the
-                form most natural to divine being; he expressed it in flesh, in limitation, in language
-                that human creatures could receive. Every person who deliberately learns their partner&rsquo;s
-                love language and speaks it, at cost to themselves, is practicing a form of that same
-                condescension &mdash; love that empties itself to reach its recipient. Chapman&rsquo;s
-                framework has helped millions of marriages not because it is profound theology but because
-                it is true observation, and true observation serves love.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Francis Chan &mdash; Crazy Love</h3>
-              <p style={pStyle}>
-                Chan&rsquo;s 2008 book opened with an extended meditation on the scale of the universe
-                and ended with the question: what does a life look like that is shaped by a love that made
-                all this? His argument was that the typical American evangelical Christian had made an
-                accommodation between faith and comfort so thorough that love had become largely theoretical
-                &mdash; believed, sung, and occasionally performed in ways that carried no real cost.
-              </p>
-              <p style={pLast}>
-                Chan called his readers to what he called &ldquo;lukewarm-proof&rdquo; love &mdash; love
-                that cannot be explained by natural affection or social benefit, love that involves genuine
-                sacrifice for people who cannot repay it, love that looks enough like Jesus&rsquo;s love
-                to require explanation. His practical chapters on giving, serving, and radical simplicity
-                of life were controversial precisely because they made the cost visible. The book&rsquo;s
-                enduring value is its refusal to let love be a sentiment; it insisted that love has an
-                economic form, a time form, a risk form, and that without those concrete expressions it
-                is merely the word. Crazy love looks crazy because love that costs nothing is not love
-                in the New Testament sense.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Jonathan Edwards &mdash; Charity and Its Fruits</h3>
-              <p style={pStyle}>
-                Edwards preached fifteen sermons on 1 Corinthians 13 in the winter of 1738, and they were
-                collected posthumously under the title <em>Charity and Its Fruits</em>. They constitute
-                the most thorough theological exposition of the love chapter ever produced, and they
-                repay close reading nearly three centuries later. Edwards argued that charity (agape) is
-                the sum of all true religion &mdash; that every genuine spiritual affection, every real
-                work of grace, is a form of love, and that anything that lacks love, however impressive,
-                is not spiritually alive.
-              </p>
-              <p style={pLast}>
-                His final sermon in the series, &ldquo;Heaven is a World of Love,&rdquo; is one of the
-                great pieces of Christian prose. Edwards describes heaven not primarily as a place of
-                reward but as the environment in which love reaches its final, unobstructed form &mdash;
-                where the obstacles of sin, selfishness, and mortality are removed and love flows freely
-                between God and his people and among all the redeemed. His insight for daily life is that
-                heaven&rsquo;s love is not different in kind from the love the Spirit produces now; it
-                is the same love, perfected. Every act of genuine agape on earth is a preview of eternity,
-                a small piece of the world to come invading the present.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Dostoevsky &mdash; Father Zosima on Active Love</h3>
-              <p style={pStyle}>
-                In <em>The Brothers Karamazov</em>, the elder Zosima delivers some of the most searching
-                words on Christian love in all of literature. The most famous: &ldquo;Love in action is a
-                harsh and dreadful thing compared with love in dreams. Love in dreams is greedy for
-                immediate action, rapidly performed and in the sight of all, with everyone watching and
-                admiring. But active love is labor and fortitude, and for some people too, perhaps, a
-                complete science.&rdquo; Zosima is addressing a woman who loves humanity in the abstract
-                but finds it impossible to endure individual people for more than a few days.
-              </p>
-              <p style={pLast}>
-                Dostoevsky&rsquo;s genius is to make this diagnosis feel inevitable rather than cruel. We
-                recognize the woman. We have been her. The love that imagines great sacrifices &mdash; that
-                would give all it has for the poor, that would lay down its life for the cause &mdash; but
-                finds it impossible to be patient with a specific annoying person for four consecutive
-                hours is the love 1 Corinthians 13 is not describing. The great contribution of Zosima is
-                his insistence that love is proved and grown not in its dramatic moments but in the
-                unromantic, unrewarded, repeated labor of caring for the actual person in front of you,
-                today, again.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ============ SCRIPTURE ============ */}
-        {tab === "scripture" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <p style={{ ...pStyle, maxWidth: 660 }}>
-              Six texts that define the shape, source, and demands of Christian love &mdash; from the full
-              anatomy of 1 Corinthians 13 to the enemy-love of Luke 6, from the declaration of God&rsquo;s
-              nature in 1 John to the new commandment of John 13. Let each one do its specific diagnostic work.
-            </p>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>1 Corinthians 13:1&ndash;13</h3>
-              <p style={{ ...pStyle, color: TEXT, fontStyle: "italic" }}>
-                &ldquo;If I speak in the tongues of men and of angels, but have not love, I am a noisy gong
-                or a clanging cymbal&hellip; Love is patient and kind; love does not envy or boast; it is
-                not arrogant or rude. It does not insist on its own way; it is not irritable or resentful;
-                it does not rejoice at wrongdoing, but rejoices with the truth. Love bears all things,
-                believes all things, hopes all things, endures all things. Love never ends&hellip; So now
-                faith, hope, and love abide, these three; but the greatest of these is love.&rdquo;
-              </p>
-              <p style={pLast}>
-                The most searching definition of love in any language. Fifteen descriptions, not of a
-                feeling but of a character: patience, kindness, freedom from envy, humility, courtesy,
-                selflessness, equanimity, refusal of resentment, joy in truth, bearing, believing, hoping,
-                enduring. The opening is the most devastating sentence in the New Testament: everything
-                &mdash; eloquence, prophecy, knowledge, faith, giving, even martyrdom &mdash; counts for
-                nothing if love is absent. The chapter is Augustine&rsquo;s portrait of Christ and Paul&rsquo;s
-                indictment of the rest of us.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>John 13:34&ndash;35</h3>
-              <p style={{ ...pStyle, color: TEXT, fontStyle: "italic" }}>
-                &ldquo;A new commandment I give to you, that you love one another: just as I have loved you,
-                you also are to love one another. By this all people will know that you are my disciples,
-                if you have love for one another.&rdquo;
-              </p>
-              <p style={pLast}>
-                The new commandment&rsquo;s novelty is its standard: <em>as I have loved you</em>. Twelve
-                hours before the crucifixion, Jesus offers his own death as the measure of the love he is
-                commanding. The external sign of his disciples is not a symbol, a building, or a doctrinal
-                statement but a visible pattern of love that outsiders observe and require explanation for.
-                Tertullian recorded that pagans noted this in the second century; Julian tried to replicate
-                it in the fourth. The command has been the church&rsquo;s greatest challenge and most
-                compelling testimony ever since.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Romans 5:8</h3>
-              <p style={{ ...pStyle, color: TEXT, fontStyle: "italic" }}>
-                &ldquo;But God shows his love for us in that while we were still sinners, Christ died
-                for us.&rdquo;
-              </p>
-              <p style={pLast}>
-                The timing is the theology. Not &ldquo;when we had improved,&rdquo; not &ldquo;because we
-                deserved it,&rdquo; but &ldquo;while we were still sinners.&rdquo; The love of God is not
-                a response to our goodness; it is a gift to our badness. This single verse demolishes every
-                version of Christianity that locates God&rsquo;s love as a reward for performance, and it
-                is the foundation of all Christian love for difficult and unlovely people: we received
-                ours while we were not loveable, which means we cannot withhold ours from those who are
-                not yet loveable either.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>1 John 4:7&ndash;12</h3>
-              <p style={{ ...pStyle, color: TEXT, fontStyle: "italic" }}>
-                &ldquo;Beloved, let us love one another, for love is from God, and whoever loves has been
-                born of God and knows God. Anyone who does not love does not know God, because God is love.
-                In this is love, not that we have loved God but that he loved us and sent his Son to be
-                the propitiation for our sins. Beloved, if God so loved us, we also ought to love one
-                another.&rdquo;
-              </p>
-              <p style={pLast}>
-                John&rsquo;s logic is airtight: love originates in God, not in us. The direction runs
-                from him to us first, and our love is always responsive. &ldquo;Not that we have loved
-                God but that he loved us&rdquo; &mdash; this sequence is the ground of all Christian
-                confidence about love: we are not generating it but conducting it. And the claim that
-                &ldquo;whoever loves has been born of God and knows God&rdquo; gives love the same
-                diagnostic value it has in 3 John 1:11: the habitual presence of love is evidence of
-                divine origin; its habitual absence is a sign that something fundamental is missing.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>Luke 6:27&ndash;35</h3>
-              <p style={{ ...pStyle, color: TEXT, fontStyle: "italic" }}>
-                &ldquo;But I say to you who hear, Love your enemies, do good to those who hate you, bless
-                those who curse you, pray for those who abuse you&hellip; But love your enemies, and do
-                good, and lend, expecting nothing in return, and your reward will be great, and you will
-                be sons of the Most High, for he is kind to the ungrateful and the evil.&rdquo;
-              </p>
-              <p style={pLast}>
-                The most countercultural command in the Gospels, grounded in the most countercultural
-                theology: God is kind to the ungrateful and the evil. His rain is not rationed to the
-                deserving; his sun does not discriminate. The love of enemies is not a spiritual
-                superheroics for the advanced but the basic logic of grace applied outward: we received
-                it without deserving it, and so we extend it without requiring desert. The reward named
-                &mdash; sonship, becoming &ldquo;sons of the Most High&rdquo; &mdash; is not a moral
-                incentive but a description: the people who love like this are showing whose children
-                they are.
-              </p>
-            </div>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>John 15:12&ndash;13</h3>
-              <p style={{ ...pStyle, color: TEXT, fontStyle: "italic" }}>
-                &ldquo;This is my commandment, that you love one another as I have loved you. Greater love
-                has no one than this, that someone lay down his life for his friends.&rdquo;
-              </p>
-              <p style={pLast}>
-                Jesus does not say this in the abstract; he says it hours before doing it. The definition
-                of greatest love is a prophecy about his own actions the following morning. And then, in
-                1 John 3:16&ndash;17, the apostle translates it into daily life: we know love because he
-                laid down his life, and we ought to lay down ours for one another &mdash; which means,
-                concretely, not closing our hearts when we see a brother in need. Laying down your life
-                looks, on most days, like laying down your time, your comfort, your money, your preference.
-                The cross is the scale; the daily sacrifice is the practice.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ============ JOURNAL ============ */}
-        {tab === "journal" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <p style={{ ...pStyle, maxWidth: 660 }}>
-              Love grows more specific as it grows more mature. Use this journal to name the specific
-              relationship you are practicing love in, the concrete action of love you are choosing, and
-              what that love is costing you. Costly love is not suffering; it is the evidence that love
-              is real. Entries are stored privately in your browser.
-            </p>
-
-            <div style={cardStyle}>
-              <h3 style={h3Style}>New Entry</h3>
-              <div style={{ marginBottom: "1rem" }}>
-                <label htmlFor="lvg-relationship" style={labelStyle}>Who this love practice is for</label>
-                <textarea
-                  id="lvg-relationship"
-                  value={relationship}
-                  onChange={e => setRelationship(e.target.value)}
-                  placeholder="Name the relationship: spouse, child, parent, estranged friend, difficult coworker, enemy, the stranger you avoid..."
-                  rows={3}
-                  style={inputStyle}
-                />
-              </div>
-              <div style={{ marginBottom: "1rem" }}>
-                <label htmlFor="lvg-loveaction" style={labelStyle}>Specific action of love</label>
-                <textarea
-                  id="lvg-loveaction"
-                  value={loveAction}
-                  onChange={e => setLoveAction(e.target.value)}
-                  placeholder="Not vague intention but a specific, concrete act: the apology, the time given, the prayer prayed, the need met, the reconciling conversation..."
-                  rows={3}
-                  style={inputStyle}
-                />
-              </div>
-              <div style={{ marginBottom: "1.25rem" }}>
-                <label htmlFor="lvg-cost" style={labelStyle}>What this love costs</label>
-                <textarea
-                  id="lvg-cost"
-                  value={cost}
-                  onChange={e => setCost(e.target.value)}
-                  placeholder="Love that costs nothing is not yet the love of the cross. What are you surrendering — time, comfort, pride, money, preference, safety?"
-                  rows={3}
-                  style={inputStyle}
-                />
-              </div>
-              <button
-                onClick={saveEntry}
-                style={{
-                  background: ACCENT,
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 10,
-                  padding: "0.7rem 1.6rem",
-                  fontSize: "0.92rem",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
-              >
-                Save Entry
-              </button>
-            </div>
-
-            <h3 style={{ ...h3Style, margin: "0.5rem 0 0" }}>
-              Your Entries {loaded && entries.length > 0 ? `(${entries.length})` : ""}
-            </h3>
-
-            {loaded && entries.length === 0 && (
-              <div style={{ ...cardStyle, textAlign: "center", padding: "2.5rem 1.75rem" }}>
-                <p style={{ ...pLast, fontStyle: "italic" }}>
-                  No entries yet. Love in dreams is easy; love in action is labor. When you choose costly
-                  love for a specific person, come back and record it. The record itself is a form of
-                  commitment.
-                </p>
-              </div>
-            )}
-
-            {loaded && entries.map((entry, index) => (
-              <div key={index} style={cardStyle}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
-                  <div style={{ flex: 1 }}>
-                    {entry.relationship && (
-                      <div style={{ marginBottom: "0.85rem" }}>
-                        <div style={{ color: accentLight, fontSize: "0.75rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "0.25rem" }}>
-                          Relationship
-                        </div>
-                        <p style={{ ...pLast, color: TEXT }}>{entry.relationship}</p>
-                      </div>
-                    )}
-                    {entry.loveAction && (
-                      <div style={{ marginBottom: "0.85rem" }}>
-                        <div style={{ color: accentLight, fontSize: "0.75rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "0.25rem" }}>
-                          Love Action
-                        </div>
-                        <p style={pLast}>{entry.loveAction}</p>
-                      </div>
-                    )}
-                    {entry.cost && (
-                      <div>
-                        <div style={{ color: accentLight, fontSize: "0.75rem", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "0.25rem" }}>
-                          Cost
-                        </div>
-                        <p style={pLast}>{entry.cost}</p>
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => deleteEntry(index)}
-                    aria-label="Delete entry"
-                    style={{
-                      background: "transparent",
-                      border: `1px solid ${BORDER}`,
-                      color: MUTED,
-                      borderRadius: 8,
-                      padding: "0.35rem 0.8rem",
-                      fontSize: "0.8rem",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      flexShrink: 0,
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+        {/* Text tab content */}
+        {currentSection && (
+          <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: 4 }}>{currentSection.heading}</h2>
+            {currentSection.paragraphs.map((para, i) => (
+              <p key={i} style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: para }} />
             ))}
-          </div>
+          </section>
         )}
 
-        {/* ============ VIDEOS ============ */}
-        {tab === "videos" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <p style={{ ...pStyle, maxWidth: 660 }}>
-              Teaching on 1 Corinthians 13, the four loves, agape, enemy love, and the love that lays
-              down its life.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.25rem" }}>
-              {VIDEOS.map(v => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
+        {/* Videos tab */}
+        {tab === "Videos" && (
+          <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: 4 }}>Videos</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
+              {videoItems.map((video) => (
+                <div key={video.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={video.videoId} title={video.title} />
                   <div style={{ padding: "0.9rem 1.1rem" }}>
-                    <h3 style={{ color: TEXT, fontSize: "0.95rem", fontWeight: 700, margin: 0, lineHeight: 1.4 }}>
-                      {v.title}
-                    </h3>
+                    <h3 style={{ fontSize: "0.92rem", fontWeight: 600, lineHeight: 1.45 }}>{video.title}</h3>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* CLOSING */}
-        <div style={{ marginTop: "3rem", padding: "1.75rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, borderLeft: `4px solid ${ACCENT}` }}>
-          <p style={{ ...pStyle, fontStyle: "italic", color: TEXT }}>
-            &ldquo;And now these three remain: faith, hope, and love. But the greatest of these is love.&rdquo;
-          </p>
-          <p style={{ ...pLast, fontSize: "0.85rem" }}>
-            &mdash; 1 Corinthians 13:13. Keep exploring:{" "}
-            <Link href="/christian-marriage" style={{ color: accentLight, textDecoration: "underline" }}>Christian marriage</Link>,{" "}
-            <Link href="/christian-friendship" style={{ color: accentLight, textDecoration: "underline" }}>friendship</Link>, and{" "}
-            <Link href="/christian-forgiveness" style={{ color: accentLight, textDecoration: "underline" }}>forgiveness</Link>.
-          </p>
+        {/* Closing callout */}
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${ACCENT}`, borderRadius: 12, padding: "1.5rem" }}>
+          <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>The Greatest of These</h3>
+          <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>God is love, and he loved us first &mdash; while we were still enemies, Christ died for us. The whole law hangs on loving God and neighbor; the most excellent way is the love that bears, believes, hopes, and endures all things. By this love &mdash; reaching even to our enemies &mdash; the world will know that we are his disciples.</p>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

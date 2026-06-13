@@ -1606,6 +1606,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Timothy Deep Dive Guide": "christian-book-of-1-timothy-guide",
   "Church Leadership Elders Deacons": "christian-book-of-1-timothy-guide",
   "Fight the Good Fight 1 Timothy": "christian-book-of-1-timothy-guide",
+  "Christian Faith Guide Deep": "christian-faith-guide",
+  "What Is Biblical Faith": "christian-faith-guide",
+  "Faith and Works Guide": "christian-faith-guide",
   "Empty Nest Christian Guide": "christian-empty-nest-guide",
   "Marriage After Kids Leave": "christian-empty-nest-guide",
   "Releasing Adult Children Faith": "christian-empty-nest-guide",
@@ -2416,6 +2419,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jonah Deep Dive Guide" },
   { label: "Colossians Deep Dive Guide" },
   { label: "1 Timothy Deep Dive Guide" },
+  { label: "Christian Faith Guide Deep" },
   { label: "Empty Nest Christian Guide" },
   { label: "Blended Family Christian Guide" },
 ];

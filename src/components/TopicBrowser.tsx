@@ -1548,6 +1548,10 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah Deep Dive Guide": "christian-book-of-isaiah-guide",
   "Suffering Servant Isaiah 53": "christian-book-of-isaiah-guide",
   "Immanuel Prince of Peace": "christian-book-of-isaiah-guide",
+  "Purpose and Calling Guide": "christian-purpose-calling-guide",
+  "Discovering Your Calling": "christian-purpose-calling-guide",
+  "Vocation Christian Guide": "christian-purpose-calling-guide",
+  "Finding Gods Will Life": "christian-purpose-calling-guide",
   "Empty Nest Christian Guide": "christian-empty-nest-guide",
   "Marriage After Kids Leave": "christian-empty-nest-guide",
   "Releasing Adult Children Faith": "christian-empty-nest-guide",
@@ -2339,6 +2343,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Philippians Deep Dive Guide" },
   { label: "Ephesians Deep Dive Guide" },
   { label: "Isaiah Deep Dive Guide" },
+  { label: "Purpose and Calling Guide" },
   { label: "Empty Nest Christian Guide" },
   { label: "Blended Family Christian Guide" },
 ];

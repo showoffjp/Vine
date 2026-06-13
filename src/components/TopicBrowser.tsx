@@ -1549,7 +1549,7 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Suffering Servant Isaiah 53": "christian-book-of-isaiah-guide",
   "Immanuel Prince of Peace": "christian-book-of-isaiah-guide",
   "Purpose and Calling Guide": "christian-purpose-calling-guide",
-  "Discovering Your Calling": "christian-purpose-calling-guide",
+  "Discovering Your Calling Deep": "christian-purpose-calling-guide",
   "Vocation Christian Guide": "christian-purpose-calling-guide",
   "Finding Gods Will Life": "christian-purpose-calling-guide",
   "Empty Nest Christian Guide": "christian-empty-nest-guide",

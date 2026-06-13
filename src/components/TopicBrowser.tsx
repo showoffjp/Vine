@@ -1570,6 +1570,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Luke Deep Dive Guide": "christian-book-of-luke-guide",
   "Gospel of Luke Study": "christian-book-of-luke-guide",
   "Parables of Grace Luke": "christian-book-of-luke-guide",
+  "Pride and Humility Guide": "christian-pride-humility-guide",
+  "The Great Sin Pride": "christian-pride-humility-guide",
+  "Gospel Humility Guide": "christian-pride-humility-guide",
   "Empty Nest Christian Guide": "christian-empty-nest-guide",
   "Marriage After Kids Leave": "christian-empty-nest-guide",
   "Releasing Adult Children Faith": "christian-empty-nest-guide",
@@ -2368,6 +2371,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Shame and the Gospel Guide" },
   { label: "Mark Deep Dive Guide" },
   { label: "Luke Deep Dive Guide" },
+  { label: "Pride and Humility Guide" },
   { label: "Empty Nest Christian Guide" },
   { label: "Blended Family Christian Guide" },
 ];

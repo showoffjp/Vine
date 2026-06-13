@@ -5,550 +5,170 @@ import VideoEmbed from "@/components/VideoEmbed";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB";
+const ACCENT = "#3a7d56";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
-const GOLD = "#D97706";
-const BLUE = "#3B82F6";
-const TEAL = "#0D9488";
 
-type Tab = "theology" | "sufficiency" | "vs-complacency" | "suffering" | "practices" | "videos";
+const TABS = ["The Secret of Contentment", "The Danger of Covetousness", "Comparison and the Modern World", "Gratitude as a Discipline", "Satisfaction in God Alone", "Videos"] as const;
+type Tab = (typeof TABS)[number];
 
-const TAB_LABELS: Record<Tab, string> = {
-  theology:       "Biblical Theology",
-  sufficiency:    "The Hebrew Concept",
-  "vs-complacency": "Contentment vs. Complacency",
-  suffering:      "Contentment in Suffering",
-  practices:      "Gratitude Practices",
-  videos:         "Videos",
-};
+interface Section {
+  id: Tab;
+  heading: string;
+  paragraphs: string[];
+}
 
-const VIDEOS = [
+const sections: Section[] = [
   {
-    videoId: "5RoFuNZKptI",
-    title: "The Secret of Contentment — John Piper",
-    channel: "Desiring God",
-    description:
-      "Piper unpacks Philippians 4:11 — why contentment is not a personality trait but a learned discipline rooted in Christ as the all-sufficient treasure.",
-  },
-  {
-    videoId: "4ZdmNMuIYMs",
-    title: "Christian Contentment — Jeremiah Burroughs",
-    channel: "Ligonier Ministries",
-    description:
-      "A walk through Burroughs&rsquo;s classic The Rare Jewel of Christian Contentment — what the Puritans understood about the soul&rsquo;s rest that modern culture has forgotten.",
-  },
-  {
-    videoId: "nIoiXKEKFXk",
-    title: "Contentment in a Culture of Comparison",
-    channel: "The Gospel Coalition",
-    description:
-      "How social media and consumer culture weaponize discontentment — and how the gospel reshapes desire toward sufficiency and gratitude.",
-  },
-];
-
-const THEOLOGY_POINTS = [
-  {
-    title: "I Have Learned — The Grammar of Contentment",
-    color: GREEN,
-    ref: "Philippians 4:11",
-    body: "Paul&rsquo;s statement is grammatically precise and theologically explosive: &ldquo;I have learned, in whatever state I am, to be content.&rdquo; The verb is memathaeka — perfect tense, indicating a completed learning that continues to shape the present. Contentment is not a gift Paul was born with. It was not a temperamental default. It was a discipline acquired through experience — through being humiliated and through abounding, through imprisonment and shipwreck and stoning and betrayal. The man who wrote this letter was in chains. He had been beaten with rods five times, flogged thirty-nine times, stoned once and left for dead, shipwrecked three times. His contentment is not the contentment of the man with no problems. It is the contentment of the man who has been through everything and found Christ sufficient through all of it.",
-  },
-  {
-    title: "The Secret: Strength Through Christ",
-    color: PURPLE,
-    ref: "Philippians 4:12-13",
-    body: "The famous verse — &ldquo;I can do all things through Christ who strengthens me&rdquo; — is not about athletic achievement or business success. It is the secret of contentment. The word &ldquo;secret&rdquo; (memuemai) means to be initiated — as into a mystery cult. Paul has been initiated into a secret knowledge that the world does not possess: that Christ is sufficient for every state. He strengthens (endunamounti — present participle, continual ongoing strengthening) both the humbling and the abounding. The secret of contentment is not a technique; it is a Person. The soul that finds its satisfaction in Christ is free from the tyranny of circumstances, because circumstances do not determine whether Christ is sufficient — he always is.",
-  },
-  {
-    title: "The God Who Is Enough",
-    color: GOLD,
-    ref: "Genesis 17:1; 2 Corinthians 12:9",
-    body: "El Shaddai — one of the oldest names of God in Scripture — is most often translated &ldquo;God Almighty,&rdquo; but many scholars connect it to the Hebrew root shadad (to be sufficient, to be enough). God introduces himself to Abraham as the God who is enough. This is not a name about power alone — it is a name about sufficiency. When Paul pleads for the removal of his thorn in the flesh and is answered, &ldquo;My grace is sufficient for you,&rdquo; the Greek word is arkei — it is enough. God does not promise to remove every trial. He promises himself as sufficient for every trial. This is the foundation of contentment: the character of God himself as the always-enough one.",
-  },
-  {
-    title: "Godliness With Contentment Is Great Gain",
-    color: TEAL,
-    ref: "1 Timothy 6:6-8",
-    body: "Paul writes to Timothy that &ldquo;godliness with contentment is great gain,&rdquo; then immediately locates the logic: &ldquo;We brought nothing into the world, and we cannot take anything out of the world. But if we have food and clothing, with these we will be content.&rdquo; This is not an ascetic denial of material goods — it is a theological recalibration of desire. The word for &ldquo;gain&rdquo; (porismos) is the language of commerce: a profitable enterprise. Paul is making an economic argument. The person who compounds godliness with contentment has found the only investment that actually pays. The competitor — the drive for more, for status, for financial security beyond sufficiency — is not neutral. Paul says it is a trap, a snare, and a root that produces all manner of evil (6:9-10). Contentment is not poverty. It is freedom.",
-  },
-  {
-    title: "The Rare Jewel — Burroughs on Contentment",
-    color: BLUE,
-    ref: "The Rare Jewel of Christian Contentment (1648) — Jeremiah Burroughs",
-    body: "Burroughs defines Christian contentment as &ldquo;that sweet, inward, quiet, gracious frame of spirit, which freely submits to and delights in God&rsquo;s wise and fatherly disposal in every condition.&rdquo; Several elements are worth unpacking. First: it is inward — not a performance of happiness for others but a genuine orientation of soul. Second: it is quiet — not the loud resignation of stoicism, but the peace of a child in its father&rsquo;s arms. Third: it freely submits — not coerced by circumstances but freely given, because the contented Christian has understood that God&rsquo;s disposal is wise and fatherly. Fourth: it delights — not merely tolerates. Burroughs says the contented Christian does not merely endure his circumstances but learns to find God in them, and finding God in them, finds them sufficient. The Rare Jewel remains the greatest extended treatment of contentment ever written. It is four centuries old and has never been superseded.",
-  },
-];
-
-const SUFFICIENCY_POINTS = [
-  {
-    title: "Dayenu — It Would Have Been Enough",
-    color: GOLD,
-    ref: "Exodus Passover Liturgy",
-    body: "The Hebrew Passover hymn Dayenu is a sustained meditation on sufficiency. Each stanza recounts one act of God&rsquo;s deliverance and declares: Dayenu — &ldquo;It would have been enough.&rdquo; If God had only brought us out of Egypt, dayenu. If he had only given us the Sabbath, dayenu. If he had only brought us to the Land, dayenu. The liturgy is training in a particular posture of soul: the recognition that each gift was already sufficient, that God was not obligated to give the next one, and that the accumulation of gifts is an act of superabundant grace. This is the antithesis of the entitlement that fuels discontentment. The contented soul has learned dayenu — to stop at each gift and say: this was enough. Everything after this is more than I deserved.",
-  },
-  {
-    title: "Shalom — Wholeness, Not Merely Peace",
-    color: GREEN,
-    ref: "Numbers 6:24-26; Jeremiah 29:11",
-    body: "The Hebrew word shalom is inadequately translated &ldquo;peace.&rdquo; It means comprehensive wholeness — the flourishing of every dimension of life in right relationship. The Aaronic blessing (&ldquo;The LORD bless you and keep you; the LORD make his face shine upon you and be gracious to you; the LORD lift up his countenance upon you and give you shalom&rdquo;) is not a wish for the absence of trouble. It is a declaration of comprehensive well-being. When Jeremiah writes to the exiles in Babylon, he tells them God knows the plans he has for them — plans for shalom and not for evil. This was written to people in exile, who had lost their land, their temple, and their king. Shalom was not the promise of restored circumstances. It was the promise of God&rsquo;s comprehensive care within those circumstances. Contentment is the human posture that corresponds to divine shalom.",
-  },
-  {
-    title: "The Manna Principle — Daily Bread",
-    color: TEAL,
-    ref: "Exodus 16:14-20; Matthew 6:11",
-    body: "The manna in the wilderness came every morning. It could not be stored; what was kept overnight bred worms and stank (Exodus 16:20). The provision was deliberately structured to prevent accumulation and to train a daily trust. This is why Jesus teaches us to pray for today&rsquo;s bread — not this week&rsquo;s bread, not a month&rsquo;s supply. The prayer is a practice of dependence, a daily reorientation of the soul toward God as provider. The anxiety that drives discontentment is usually anxiety about tomorrow: what if this is not enough? The manna principle answers: it was enough today. God gave enough today. Tomorrow you will rise and find enough again. The contented soul has internalized this pattern: daily sufficiency is the design, not a defect.",
-  },
-  {
-    title: "Enough Is a Theological Word",
-    color: PURPLE,
-    ref: "Proverbs 30:7-9; Hebrews 13:5",
-    body: "Agur&rsquo;s prayer in Proverbs 30 is one of the most theologically profound passages in Wisdom literature: &ldquo;Give me neither poverty nor riches; feed me with the food that is needful for me, lest I be full and deny you and say, &lsquo;Who is the LORD?&rsquo; or lest I be poor and steal and profane the name of my God.&rdquo; This is the prayer of a man who understands himself — he knows what abundance does to him, and he knows what poverty does to him. He asks for the middle: enough. The writer to the Hebrews grounds contentment explicitly in God&rsquo;s character: &ldquo;Keep your life free from love of money, and be content with what you have, for he has said, &lsquo;I will never leave you nor forsake you.&rsquo;&rdquo; (Heb 13:5). Contentment is possible because of the promise. Enough is a theological word — it describes what God has given, not just what circumstances provide.",
-  },
-];
-
-const VS_COMPLACENCY = [
-  {
-    color: GREEN,
-    title: "What Contentment Is",
-    desc: "Contentment is the settled peace of a soul that has found its rest in God and is not dependent on circumstances to supply what only God can give. It is compatible with grief, with longing for change, with ambitious labor, and with honest acknowledgment that things are not as they should be. Paul was content in prison while simultaneously praying for release and working to plant churches. The contented person is not passive — he acts, labors, and pursues legitimate goods. But his peace does not depend on obtaining them.",
-    points: [
-      "Contentment is active — it pursues change where change is right",
-      "Contentment grieves loss — it does not deny that suffering is real",
-      "Contentment is rooted in God&rsquo;s character, not in circumstances",
-      "Contentment longs for a better world while trusting God in this one",
-      "Contentment is learned — it grows through trial and through grace",
+    id: "The Secret of Contentment",
+    heading: "The Secret Paul Learned",
+    paragraphs: [
+      "Near the end of his letter to the Philippians, the apostle Paul makes one of the most remarkable claims in all of Scripture about the inner life: &ldquo;I have learned in whatever situation I am to be content. I know how to be brought low, and I know how to abound. In any and every circumstance, I have learned the secret of facing plenty and hunger, abundance and need. I can do all things through him who strengthens me&rdquo; (Philippians 4:11&ndash;13). What makes this astonishing is not the sentiment but the setting. Paul wrote these words from prison, his future uncertain, his body worn by beatings and shipwrecks and hunger. This is not the serene reflection of a comfortable man; it is hard-won testimony from the depths.",
+      "The first thing to notice is that Paul says he &ldquo;learned&rdquo; contentment. Twice in these few verses he uses that word. Contentment, then, is not a personality trait that some lucky people are born with and others lack. It is not the same as an easygoing temperament. It is a learned secret &mdash; an acquired competence, a skill developed over time through discipline and experience. This is enormously hopeful for those of us who are restless and discontented by nature. If contentment were a matter of inborn disposition, the anxious and the striving would be shut out of it. But because it is learned, it is available to anyone willing to enter Paul&rsquo;s school.",
+      "Notice, too, where Paul learned it: in both directions. He knows &ldquo;how to be brought low&rdquo; and he knows &ldquo;how to abound.&rdquo; We readily assume that contentment is the challenge of poverty &mdash; that the poor must learn to be satisfied with little. But Paul insists that abundance is its own school, and arguably the harder one. Prosperity carries hidden dangers: the soul grows soft, forgets its dependence on God, mistakes its blessings for its birthright. Many a person who kept faith through hardship has had it quietly eroded by success. Paul had to learn contentment in plenty as deliberately as he learned it in want. The discipline runs in both directions.",
+      "Crucially, Paul&rsquo;s contentment is not stoic self-sufficiency. The ancient Stoics also prized contentment, but theirs was an achievement of the autonomous will &mdash; a hardening of the self against the blows of fortune, a determination to need nothing and feel nothing. Paul&rsquo;s contentment is the opposite. It is not self-sufficiency but Christ-sufficiency. &ldquo;I can do all things through him who strengthens me.&rdquo; The strength is borrowed, not generated. Paul is not content because he has steeled himself to need nothing; he is content because he has found in Christ the one thing that he truly needs, and that one thing cannot be taken from him by any circumstance.",
+      "This reframes the famous verse that ends the passage. &ldquo;I can do all things through him who strengthens me&rdquo; (Philippians 4:13) is often quoted as a promise of unlimited achievement &mdash; printed on the gear of athletes and the walls of ambitious offices, as if it guaranteed success in any endeavor. But in context it means something both humbler and deeper. The &ldquo;all things&rdquo; Paul has in view are the heights of plenty and the depths of want, abundance and hunger, freedom and prison. The strength of Christ is what enables him to remain content through any of them. It is not a promise that we will win, but a promise that, win or lose, full or empty, Christ will be enough to carry us.",
+      "There is also a quiet realism in Paul&rsquo;s language that guards against a false picture of contentment as constant cheerfulness. Paul does not claim that hunger felt like plenty, or that being brought low felt the same as abounding. He felt the difference; the low places were genuinely low. Contentment is not the denial of hardship or the numbing of feeling. It is the deep settledness of a soul that, even while feeling the full weight of its circumstances, is anchored to something the circumstances cannot reach. Paul could weep and want and still be content, because his peace did not depend on the things he lacked.",
+      "Finally, the very fact that contentment must be learned tells us something about the road to it. We do not arrive at it by accident or by waiting for circumstances to improve. We learn it the way Paul did &mdash; in the actual classroom of plenty and want, by repeatedly returning to Christ as our sufficiency when life is hard and when life is easy, until the lesson sinks from our heads into our hearts. The chapters that follow trace the obstacles that block this lesson and the practices that drive it home: the covetousness that whispers we need more, the comparison that poisons our joy, the gratitude that reorients the heart, and finally the satisfaction in God himself that is the secret&rsquo;s deepest root.",
     ],
   },
   {
-    color: "#EF4444",
-    title: "What Contentment Is Not",
-    desc: "Contentment is not complacency. Complacency is the refusal to labor for what is right — the passive acceptance of injustice, sin, suffering, or mediocrity because fighting would be uncomfortable. Complacency is the slave master&rsquo;s favorite theology: &lsquo;Be content.&rsquo; It is the abuser&rsquo;s tool and the oppressor&rsquo;s friend. Biblical contentment is never an excuse for inaction. The prophets were not content with Israel&rsquo;s idolatry. Paul was not content with the Corinthians&rsquo; divisions. Nehemiah was not content with Jerusalem&rsquo;s broken walls. Holy discontent — the refusal to accept what God refuses to accept — is not the opposite of contentment. It is its companion.",
-    points: [
-      "Contentment does not mean accepting injustice as God&rsquo;s will",
-      "Contentment does not mean suppressing grief or longing",
-      "Contentment does not mean refusing to pray for change",
-      "Contentment does not mean complacency about sin — yours or others&rsquo;",
-      "Contentment does not mean the world is fine as it is",
+    id: "The Danger of Covetousness",
+    heading: "The Danger of Covetousness and the Love of Money",
+    paragraphs: [
+      "If contentment is the secret to be learned, covetousness is the lie that keeps us from learning it. Covetousness is the restless craving for what we do not have &mdash; the conviction, lodged deep in the heart, that satisfaction lies just beyond our current reach, in the thing we have not yet acquired. Scripture treats it not as a minor flaw but as a serious spiritual danger, grave enough to be named in the very heart of the moral law. The tenth commandment forbids it directly: &ldquo;You shall not covet your neighbor&rsquo;s house&hellip; or anything that is your neighbor&rsquo;s&rdquo; (Exodus 20:17). It is striking that the Ten Commandments end not with an outward act but with an inward desire. Murder, theft, and adultery are deeds; coveting is a disposition of the heart. God&rsquo;s law reaches all the way down to what we want.",
+      "The New Testament intensifies the warning, especially regarding the love of money. &ldquo;The love of money is a root of all kinds of evils,&rdquo; Paul writes to Timothy. &ldquo;It is through this craving that some have wandered away from the faith and pierced themselves with many pangs&rdquo; (1 Timothy 6:10). The phrasing is careful and often misquoted. It is not money itself that is the root of evil, but the love of it &mdash; the craving, the inordinate desire. And money serves as the prime example precisely because it promises to be the universal solution, the master key that can purchase security, status, pleasure, and freedom all at once. The love of money is dangerous because it sets up a rival god, a counterfeit source of the very satisfaction that belongs to God alone.",
+      "The writer to the Hebrews ties the cure directly to contentment: &ldquo;Keep your life free from love of money, and be content with what you have, for he has said, &lsquo;I will never leave you nor forsake you&rsquo;&rdquo; (Hebrews 13:5). The logic is profound. The antidote to greed is not merely willpower but a settled trust in the presence of God. Why grasp after money as a hedge against an uncertain future when the God who holds the future has promised never to abandon you? Discontent and covetousness are, at root, a failure to believe that promise. The grasping hand is the hand that has forgotten it is already held.",
+      "What makes covetousness so insidious is its deceptive nature: the desire for more never actually satisfies. Each acquisition that was supposed to bring contentment instead resets the baseline, and the craving simply attaches itself to the next thing. The Preacher of Ecclesiastes observed this ancient futility: &ldquo;He who loves money will not be satisfied with money, nor he who loves wealth with his income&rdquo; (Ecclesiastes 5:10). The richest man may be the most discontented, because his wealth has only enlarged his appetite. Covetousness is a thirst that drinking salt water cannot quench; the more we feed it, the more it demands. This is why no level of acquisition ever delivers the peace it promises.",
+      "The Puritans understood this with particular depth, and no one explored it more memorably than Jeremiah Burroughs in his classic work &ldquo;The Rare Jewel of Christian Contentment.&rdquo; Burroughs defined Christian contentment as &ldquo;that sweet, inward, quiet, gracious frame of spirit, which freely submits to and delights in God&rsquo;s wise and fatherly disposal in every condition.&rdquo; Every word repays attention. Contentment is inward, a frame of the spirit, not a matter of outward circumstance. It is gracious, a fruit of grace rather than natural temperament. It freely submits, without grumbling. And remarkably, it delights &mdash; it does not merely endure God&rsquo;s providence but learns to take pleasure in it, trusting that the hand arranging our circumstances is both wise and fatherly.",
+      "Burroughs made a crucial observation that overturns the world&rsquo;s logic: a Christian comes to contentment, he said, not by adding to what he has, but by subtracting from his desires. The world tries to achieve contentment by increasing possessions to meet its cravings &mdash; a race that can never be won, since the cravings always outrun the supply. The Christian works in the opposite direction, learning through grace to want less, to bring desire into submission, until what one already has is recognized as enough. &ldquo;The way of contentment,&rdquo; in this view, &ldquo;is not by adding to a man&rsquo;s estate, but by subtracting from his desires.&rdquo; This is the great reversal that covetousness can never grasp.",
+      "Diagnosing covetousness in our own hearts is difficult, because it disguises itself so well. It rarely announces itself as greed; it presents as prudence, ambition, the reasonable desire to provide, the natural wish for nice things. Jesus warned, &ldquo;Take care, and be on your guard against all covetousness, for one&rsquo;s life does not consist in the abundance of his possessions&rdquo; (Luke 12:15). The warning to &ldquo;be on your guard&rdquo; implies that covetousness slips past undetected unless we are watching for it. The discipline of contentment, then, begins with honest self-examination: noticing the cravings, naming them, and refusing to let them masquerade as needs. Only the heart that has seen through covetousness can begin to be free of it.",
     ],
   },
   {
-    color: GOLD,
-    title: "Holy Discontent",
-    desc: "C.S. Lewis wrote that if we find in ourselves a desire that nothing in this world can satisfy, the most probable explanation is that we were made for another world. The longing that drives us — the sense that things are not as they should be, that we were made for something more — is not a failure of contentment. It is the ache of a world that is not yet fully redeemed. The contented Christian holds two things at once: deep peace in God&rsquo;s present sufficiency, and fierce longing for the world as it will be. These are not contradictions. They are the twin marks of a soul that is simultaneously at rest in God and straining toward the coming Kingdom.",
-    points: [
-      "Longing for heaven is not discontentment — it is eschatological hope",
-      "Mourning over sin is not discontentment — it is righteousness",
-      "Working for justice is not discontentment — it is obedience",
-      "Praying for healing is not discontentment — it is faith",
-      "The Kingdom is not yet — and the Christian lives in that tension with peace",
+    id: "Comparison and the Modern World",
+    heading: "Comparison and the Manufactured Discontent of the Modern World",
+    paragraphs: [
+      "Every age has struggled with discontent, but our own age has engineered it on an industrial scale. The challenge of contentment in the era of social media and consumer advertising is unlike anything previous generations faced. For most of human history, a person compared themselves to the few dozen people in their village. Today, through the glowing screen in every pocket, we compare ourselves to a curated parade of the most attractive, successful, wealthy, and seemingly happy people on the planet, scrolling past hundreds of them before breakfast. The scale of comparison has exploded, and with it the scale of our manufactured dissatisfaction.",
+      "Social media in particular operates on a cruel asymmetry: we compare our unedited inner lives to other people&rsquo;s carefully edited outer lives. What we see is the highlight reel &mdash; the vacation photos, the engagement announcements, the career triumphs, the beautifully plated meals &mdash; while what we feel is the full, unfiltered reality of our own ordinary days, with their boredom, anxiety, and disappointment. No one posts their loneliness, their failures, their quiet despair at two in the morning. So we measure our blooper reel against everyone else&rsquo;s highlight reel and conclude, inevitably, that we are falling behind. The comparison is rigged from the start.",
+      "There is wisdom in the often-repeated saying that &ldquo;comparison is the thief of joy.&rdquo; The mechanism is precise: comparison steals joy by relocating the source of our happiness from what we have to where we rank. A person can possess a perfectly good life &mdash; meaningful work, loving relationships, daily bread, genuine blessings &mdash; and have all of it drained of joy in an instant by the discovery that someone else has more. The good thing in hand has not changed; only the comparison has changed. This is why comparison is so spiritually corrosive: it can poison even genuine abundance, turning gifts into grievances the moment we see someone with a larger gift.",
+      "Behind much of this lies a deliberate engine: the manufactured discontent of a consumer economy. Advertising, by its very design, exists to create dissatisfaction. An advertisement that left you content with what you already own would be a failed advertisement. The entire multi-billion-dollar apparatus is engineered to make you feel that your current possessions, your current appearance, your current life are inadequate &mdash; and that the product on offer will close the gap. We are immersed, from childhood, in a sea of messages whose unified purpose is to keep us perpetually unsatisfied. Contentment is not merely a private struggle; it is countercultural resistance against a system financially invested in our discontent.",
+      "The biblical writers could not have imagined our technology, yet their diagnosis cuts straight to its heart. The tenth commandment against coveting, the warnings against the love of money, the call to be content with what we have &mdash; all of these speak directly to a heart constantly inflamed by comparison. When Scripture tells us, &ldquo;Do not covet your neighbor&rsquo;s house,&rdquo; it names the exact reflex that social media weaponizes. The ancient remedy is also the modern one: a heart so anchored in God&rsquo;s sufficiency that the endless parade of other people&rsquo;s lives loses its power to unsettle us. The problem is old; only its scale and speed are new.",
+      "Resisting this requires real spiritual discipline, because the comparison trap is not something we drift out of by accident; the entire environment is designed to keep us in it. Practical wisdom has emerged for this fight: setting boundaries on screen time, curating or pruning the feeds that most reliably trigger envy, practicing deliberate gratitude as a counterweight, and periodically stepping away from the comparison machine altogether through seasons of fasting from social media. These are not legalistic rules but acts of self-protection, ways of refusing to keep handing our joy over to the thief. The goal is not to despise technology but to refuse to let it dictate the condition of our souls.",
+      "Ultimately, the discipline is one of returning our gaze to the right place. Comparison forces our eyes sideways, fixed forever on what others have. Contentment lifts our eyes upward, to the God who is the giver of every good gift, and inward, to honest gratitude for what we have actually received. The cure for a heart distorted by ten thousand highlight reels is not a better filter but a different center of gravity. When our sense of worth and well-being is settled in being known and loved by God, the curated lives of strangers lose their grip, and we are free to receive our own life &mdash; ordinary, unfiltered, and genuinely blessed &mdash; as enough.",
+    ],
+  },
+  {
+    id: "Gratitude as a Discipline",
+    heading: "Gratitude as the Discipline That Cultivates Contentment",
+    paragraphs: [
+      "If covetousness and comparison are the diseases that destroy contentment, gratitude is the daily medicine that restores it. Gratitude is the practical discipline through which contentment is actually cultivated &mdash; the concrete habit that, over time, retrains a restless heart. Scripture commands it without qualification: &ldquo;Give thanks in all circumstances; for this is the will of God in Christ Jesus for you&rdquo; (1 Thessalonians 5:18). The phrase &ldquo;in all circumstances&rdquo; is bracing. We are not told to give thanks only when things go well, but in every condition, including hardship. This is not a denial of pain but a deliberate reorientation, a refusal to let difficulty be the only thing the heart can see.",
+      "Notice that gratitude is commanded, which means it is not merely a spontaneous feeling but a chosen practice. We tend to think of thankfulness as a mood that arrives when life is good and departs when life is hard. But Scripture treats it as a discipline we take up regardless of mood. We can choose to give thanks, to direct our attention to what is given, even on days when we feel nothing of the sort. And as with any discipline, the practice gradually shapes the feeling. The act of giving thanks, repeated faithfully, slowly cultivates a genuinely grateful heart, which in turn becomes the soil in which contentment grows.",
+      "Even outside the framework of faith, the evidence for gratitude&rsquo;s power is substantial. A large body of research in psychology has consistently linked the regular practice of gratitude to greater wellbeing, stronger relationships, better sleep, reduced anxiety, and increased resilience in the face of adversity. Studies repeatedly find that people who deliberately cultivate thankfulness report higher levels of life satisfaction and lower levels of depression. The Christian is not surprised by this; Scripture has always presented gratitude as the will of God for our flourishing. What modern research describes, the wisdom of faith long affirmed: that the thankful heart is a healthier and happier heart.",
+      "This research has given rise to concrete practices that anyone can adopt, the most well-known being gratitude journaling &mdash; the simple discipline of regularly writing down a handful of specific things for which one is thankful. The specificity matters. Vague gratitude (&ldquo;I&rsquo;m thankful for my life&rdquo;) does less than particular gratitude (&ldquo;I&rsquo;m thankful for the unexpected phone call from an old friend this afternoon&rdquo;). Other practices include offering thanks before meals, keeping a running record of answered prayers, beginning the day by naming blessings, or pausing in the evening to recount the gifts of the past hours. These small habits act as deliberate counterweights to the heart&rsquo;s natural drift toward complaint.",
+      "What gives gratitude its transforming power is the way thankfulness reorients the heart from what is lacking to what is given. The discontented heart operates by a kind of selective attention, fixating on the one thing it does not have while remaining blind to the hundred things it does. Gratitude reverses the focus. It directs the eyes to the gifts already received, the blessings already in hand, the goodness already present. It does not deny that something is missing; it simply refuses to let the missing thing eclipse everything else. In this way gratitude does not change our circumstances, but it changes what we see when we look at them &mdash; and that shift in seeing is the beginning of contentment.",
+      "Gratitude is also, at its core, the precise opposite of entitlement, and this contrast exposes the deep root of discontent. Entitlement is the assumption that we are owed &mdash; that the good things in our lives are no more than our due, and that anything less than what we expected is a grievance. The entitled heart cannot be content, because it experiences blessings merely as the payment of a debt and disappointments as injustices. Gratitude dismantles this by recognizing that everything we have is gift, not wage. The grateful person receives each good thing with surprise and thankfulness rather than expecting it as a right, and a heart that expects nothing and receives everything as gift is a heart on the very threshold of contentment.",
+      "There is a theological depth here that goes beyond technique. For the Christian, gratitude is not merely a positive mental habit but a true perception of reality: that we are creatures who have received our very existence, our breath, our daily bread, our relationships, and above all our salvation as unearned gifts from the hand of a generous God. To give thanks is therefore to see the world rightly &mdash; to acknowledge the Giver behind every gift. This is why gratitude and contentment are so deeply joined. The person who genuinely sees that all is grace can hardly remain discontented, for they have understood that they stand at every moment as the recipient of a generosity they did nothing to deserve.",
+    ],
+  },
+  {
+    id: "Satisfaction in God Alone",
+    heading: "Satisfaction in God Alone: The Deepest Ground of Contentment",
+    paragraphs: [
+      "Beneath every practice and every discipline lies the deepest ground of contentment, the root from which all the rest grows: that God himself, and not his gifts, is the soul&rsquo;s true satisfaction. This is the great secret that Paul had learned and that the whole biblical witness presses toward. We are restless and discontented because we keep seeking in created things a satisfaction that only the Creator can give. We pursue contentment in money, status, relationships, achievement, and comfort &mdash; all genuine goods &mdash; and find that none of them, even when attained, finally fills the void. They were never meant to. The void is God-shaped, and only God fits it.",
+      "Paul makes the connection explicit in his letter to Timothy: &ldquo;Godliness with contentment is great gain&rdquo; (1 Timothy 6:6). The world believes that gain produces contentment &mdash; that if we accumulate enough, we will at last be satisfied. Paul reverses it: contentment, joined to godliness, is itself the great gain. The person who has learned to find their sufficiency in God has already obtained the treasure that all the world&rsquo;s acquiring is vainly chasing. This is wealth that no market can touch and no loss can diminish. To possess God and to be content in him is to be richer than the richest discontented person on earth.",
+      "The Psalms give voice to this satisfaction in its purest form. The psalmist of Psalm 73, after wrestling bitterly with envy at the prosperity of the wicked, arrives at a breakthrough that reframes everything: &ldquo;Whom have I in heaven but you? And there is nothing on earth that I desire besides you. My flesh and my heart may fail, but God is the strength of my heart and my portion forever&rdquo; (Psalm 73:25&ndash;26). Here is the summit of contentment. Once God himself becomes the heart&rsquo;s supreme desire, the envy that had nearly undone the psalmist simply dissolves. He no longer needs what the wicked have, because he has discovered that he possesses the one thing worth having, and it can never be taken from him.",
+      "This was precisely Augustine&rsquo;s great discovery, distilled into one of the most quoted sentences in Christian history. At the opening of his &ldquo;Confessions,&rdquo; reflecting on a lifetime of restless searching for satisfaction in ambition, pleasure, and worldly success, he addresses God: &ldquo;You have made us for yourself, and our heart is restless until it rests in you.&rdquo; In a single line he diagnoses the whole human condition. Our chronic discontent is not a flaw to be fixed by acquiring more; it is a homing signal, the soul&rsquo;s restlessness reaching out for the God it was made to rest in. Every lesser satisfaction leaves us restless precisely because it is lesser. Only in God does the restlessness finally cease.",
+      "Understanding this transforms how we relate to all the legitimate good things in life. The point is not that money, relationships, work, and comfort are bad, or that we must despise them to be content. The point is that they make terrible gods and wonderful gifts. When we ask created things to be our ultimate satisfaction &mdash; to do for us what only God can do &mdash; we crush them under a weight they cannot bear, and we end in disappointment and idolatry. But when God is our satisfaction, the gifts can be received and enjoyed freely for what they are: good things from a good Father, neither clung to in desperation nor required to fill the infinite ache that only their Giver can fill.",
+      "This is why contentment is ultimately the fruit of finding in God the satisfaction we wrongly seek in circumstances and things. The whole journey of these pages converges here. We learn the secret as Paul did, in plenty and want; we resist the lie of covetousness and the trap of comparison; we cultivate the discipline of gratitude &mdash; but all of it is finally grounded in the discovery that God himself is enough. The contented person is not the one whose circumstances are best arranged, but the one whose heart has come to rest in God, so that, like Paul in prison, they can face any and every circumstance with a peace that the circumstances did not give and cannot take away.",
+      "There is profound freedom in this. The person who has found their satisfaction in God is liberated from the exhausting tyranny of needing life to go a certain way. They can hold their possessions loosely, because their treasure is secure elsewhere. They can endure loss without being destroyed, because the one thing they cannot lose is the one thing that matters most. They can rejoice in abundance without idolizing it and accept scarcity without despairing. This is the rare jewel of Christian contentment in its full brilliance: a soul so anchored in the love and sufficiency of God that, whatever the weather of its circumstances, it has already come home and is at rest.",
     ],
   },
 ];
 
-const SUFFERING_POINTS = [
-  {
-    color: PURPLE,
-    title: "The Thorn in the Flesh",
-    ref: "2 Corinthians 12:7-10",
-    body: "Three times Paul pleaded with God to remove the thorn. Three times God answered: &ldquo;My grace is sufficient for you, for my power is made perfect in weakness.&rdquo; Paul does not explain what the thorn was — and the ambiguity is instructive. Whatever your thorn — chronic pain, depression, a broken relationship, a disability, a fear that never quite goes away — the answer is the same. Not removal, but sufficiency. Paul&rsquo;s response is extraordinary: &ldquo;Therefore I will boast all the more gladly of my weaknesses, so that the power of Christ may rest upon me.&rdquo; The contented sufferer does not pretend the thorn is not there. He has discovered that the thorn is the site of the most intense experience of Christ&rsquo;s power. The weakness that he once prayed away has become the ground of his deepest contentment.",
-  },
-  {
-    color: TEAL,
-    title: "The Peace That Passes Understanding",
-    ref: "Philippians 4:6-7",
-    body: "Immediately before his statement about contentment, Paul writes: &ldquo;Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus.&rdquo; This peace is not the peace of good circumstances. It &lsquo;surpasses understanding&rsquo; — it cannot be explained by reference to one&rsquo;s situation. It is a peace that does not make sense from the outside. It was Paul&rsquo;s peace in prison. It was Stephen&rsquo;s peace at his stoning. It was the peace of the early martyrs who sang as they died. This is the most verifiable supernatural phenomenon in church history: the peace of the dying Christian who has found Christ sufficient. It passes understanding because it transcends circumstances entirely.",
-  },
-  {
-    color: GREEN,
-    title: "Suffering as School",
-    ref: "Romans 5:3-5; James 1:2-4",
-    body: "Paul says we rejoice in suffering, because suffering produces endurance, endurance produces character, character produces hope, and hope does not put us to shame. James says to count it all joy when trials come, because the testing of faith produces steadfastness. The grammar matters: James does not say if you fall into trials but when. Trials are not anomalies in the Christian life. They are the curriculum. Contentment is not a virtue you develop in comfort — it is a virtue you develop through the school of suffering. The same suffering that tempts you to believe God is insufficient is, in God&rsquo;s strange economy, the very means by which you discover that he is not. Every suffering endured in faith becomes evidence. The man who has been through the worst and found God faithful there is the man who has earned the right to say he is content.",
-  },
-  {
-    color: GOLD,
-    title: "Lament and Contentment Together",
-    ref: "Psalm 88; Lamentations 3:21-26",
-    body: "Psalm 88 is the darkest psalm in the psalter. It ends with &ldquo;darkness is my closest friend.&rdquo; There is no resolution, no uplift, no turn to praise. It is raw, honest, desolate. And it is Scripture. Biblical contentment does not require the suppression of lament. Jeremiah lamented. Job lamented. Jesus lamented (&ldquo;My God, my God, why have you forsaken me?&rdquo;). Lament is not the opposite of contentment — it is faith in the form of honest pain directed toward a God who hears. Lamentations 3 moves from the depths of &ldquo;he has driven me into darkness&rdquo; to the anchor of &ldquo;The steadfast love of the LORD never ceases.&rdquo; The contented soul in suffering does not perform peace. It brings the real pain to the real God, and finds — sometimes slowly — that he is still enough.",
-  },
+const videoItems = [
+  { videoId: "1KCgwxF1Wf0", title: "The Secret of Contentment - Philippians 4" },
+  { videoId: "Fm0Nv0_8nLw", title: "Finding Contentment in a Discontented World" },
+  { videoId: "lYpO_zbHbf0", title: "Gratitude and Christian Contentment" },
 ];
 
-const PRACTICES = [
-  {
-    color: GREEN,
-    title: "The Daily Examen of Gratitude",
-    desc: "Ignatius of Loyola&rsquo;s daily Examen traditionally closes with a review of consolations — moments of grace, gifts received, evidence of God&rsquo;s presence in the ordinary. This practice is not positive thinking — it is attentional training. The discontented soul scans for what is lacking. The grateful soul scans for what has been given. Over time, the practice rewires what you notice first.",
-    steps: [
-      "Set aside 10 minutes at day&rsquo;s end",
-      "Ask: where did I experience grace today — even in small things?",
-      "Name three specific gifts, not categories: not &lsquo;health&rsquo; but &lsquo;the conversation with my daughter at breakfast&rsquo;",
-      "Offer each gift back to God with a word of thanks",
-      "Practice this for 30 consecutive days and observe what changes",
-    ],
-  },
-  {
-    color: PURPLE,
-    title: "Scripture Saturation",
-    desc: "Paul&rsquo;s contentment was not a technique — it was the fruit of a mind saturated with the truth about God. &ldquo;Whatever is true, whatever is honorable, whatever is just, whatever is pure, whatever is lovely, whatever is commendable — think about these things&rdquo; (Phil 4:8). The anxious, discontented mind will default to whatever it has been fed most. Feed it Scripture, and over time the defaults change.",
-    steps: [
-      "Memorize Philippians 4:6-13 as a single unit — not individual verses",
-      "When anxiety rises, speak the text aloud, not silently",
-      "Keep a card with Hebrews 13:5 and 2 Cor 12:9 in your wallet or phone case",
-      "Read Psalm 23 slowly, once per day, for a week",
-      "Journal what each phrase of &lsquo;The LORD is my shepherd&rsquo; means for your actual circumstances",
-    ],
-  },
-  {
-    color: GOLD,
-    title: "The Sufficiency Audit",
-    desc: "Discontentment thrives in vagueness — the generalised sense that things are not enough, that you are falling short, that life should be different. The Sufficiency Audit is a practice of specificity: writing down exactly what you have, and measuring it against what you actually need.",
-    steps: [
-      "List everything you have today that is genuinely sufficient: shelter, food, health, relationships, faith",
-      "List what you are anxious you do not have",
-      "For each item in the second list, ask: is this a genuine need or a manufactured desire?",
-      "Ask: if this were removed, would I still have God, and is he enough?",
-      "Read Agur&rsquo;s prayer (Proverbs 30:7-9) as a closing prayer",
-    ],
-  },
-  {
-    color: TEAL,
-    title: "Fasting as Contentment Training",
-    desc: "Fasting is voluntary practice in want. It is the deliberate choice to experience a legitimate lack — food, social media, entertainment — in order to train the soul to find God sufficient in the absence. Dallas Willard wrote that fasting reveals what controls us. The thing you cannot fast from without anxiety is the thing that owns you. Regular fasting trains the appetite to submit to the will, and the will to submit to God.",
-    steps: [
-      "Begin with a 24-hour food fast once per month",
-      "During the fast, every hunger pang becomes a moment to pray &lsquo;Lord, you are my bread&rsquo;",
-      "Try a technology fast — 24 hours without screens — and observe the anxiety it produces",
-      "Journal what you discovered about what you were relying on for contentment",
-      "Break the fast with deliberate gratitude, not relief",
-    ],
-  },
-  {
-    color: BLUE,
-    title: "Practising Generosity",
-    desc: "The most powerful antidote to the scarcity mindset that drives discontentment is giving. Every act of genuine generosity is a declaration: I have enough to give away. I trust the God who gave this to provide again. Generosity is contentment made visible in action. It is the behavior of a person who has stopped believing the lie that accumulation equals security.",
-    steps: [
-      "Give something away this week that you have been holding &lsquo;just in case&rsquo;",
-      "Tithe before you feel ready — readiness is usually a form of fear",
-      "When you feel most anxious about money, make a gift — small or large — as an act of faith",
-      "Practise anonymous giving, which removes the social reward and leaves only the spiritual one",
-      "Notice whether your anxiety level changes in the week after a significant act of generosity",
-    ],
-  },
-];
-
-export default function ChristianContentmentGuide() {
+export default function ChristianContentmentGuidePage() {
+  const [tab, setTab] = useState<Tab>(TABS[0]);
   const [loaded, setLoaded] = useState(false);
-  const [tab, setTab] = useState<Tab>("theology");
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
   useEffect(() => { setLoaded(true); }, []);
   if (!loaded) return null;
 
-  const toggleExpanded = (key: string) => {
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  const currentSection = sections.find((s) => s.id === tab);
 
   return (
     <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-
-      {/* Hero */}
-      <div style={{ background: `linear-gradient(160deg, #0d1a12 0%, ${BG} 60%)`, borderBottom: `1px solid ${BORDER}`, padding: "60px 20px 48px" }}>
-        <div style={{ maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ display: "inline-block", background: `${GREEN}22`, border: `1px solid ${GREEN}44`, borderRadius: 20, padding: "4px 14px", fontSize: 12, color: GREEN, fontWeight: 700, letterSpacing: "0.08em", marginBottom: 18, textTransform: "uppercase" }}>
-            Philippians 4:11
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        {/* Hero */}
+        <header style={{ marginBottom: "2.5rem" }}>
+          <div style={{ fontSize: "0.78rem", color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600, marginBottom: "0.6rem" }}>
+            Faith &amp; Contentment
           </div>
-          <h1 style={{ fontSize: "clamp(28px, 5vw, 46px)", fontWeight: 900, lineHeight: 1.15, marginBottom: 18 }}>
-            The Christian Guide to Contentment
+          <h1 style={{ fontSize: "clamp(1.8rem, 4.5vw, 2.6rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: "1rem" }}>
+            Christian Guide to Contentment
           </h1>
-          <p style={{ color: MUTED, fontSize: 17, lineHeight: 1.75, maxWidth: 640, margin: "0 auto 28px" }}>
-            &ldquo;I have learned, in whatever state I am, to be content.&rdquo; Paul wrote those words from a Roman prison. Contentment is not a temperament &mdash; it is a learned discipline, and the school is real life.
+          <p style={{ color: MUTED, lineHeight: 1.75, fontSize: "1.02rem", maxWidth: 700 }}>
+            Contentment through a Christian lens &mdash; the secret Paul learned in plenty and want, the danger of covetousness and the love of money, the comparison trap of the modern world, gratitude as a daily discipline, and the deepest ground of all: finding satisfaction in God alone.
           </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            {(["theology", "sufficiency", "vs-complacency", "suffering", "practices", "videos"] as Tab[]).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTab(t)}
-                style={{
-                  padding: "8px 18px",
-                  borderRadius: 8,
-                  border: `1px solid ${tab === t ? GREEN : BORDER}`,
-                  background: tab === t ? GREEN : "transparent",
-                  color: tab === t ? "#fff" : MUTED,
-                  fontWeight: 700,
-                  fontSize: 12,
-                  cursor: "pointer",
-                  letterSpacing: "0.04em",
-                  transition: "all 0.15s",
-                }}
-              >
-                {TAB_LABELS[t]}
-              </button>
+          <div style={{ marginTop: "1.75rem", background: CARD, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${ACCENT}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+            <p style={{ fontStyle: "italic", lineHeight: 1.7, marginBottom: 8 }}>&ldquo;I have learned in whatever situation I am to be content.&rdquo;</p>
+            <p style={{ color: ACCENT, fontSize: "0.85rem", fontWeight: 600 }}>Philippians 4:11</p>
+          </div>
+        </header>
+
+        {/* Tab navigation */}
+        <nav aria-label="Page sections" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: "2.25rem" }}>
+          {TABS.map((t) => (
+            <button key={t} type="button" onClick={() => setTab(t)} style={{
+              padding: "0.5rem 1.1rem", borderRadius: 8,
+              border: `1px solid ${tab === t ? ACCENT : BORDER}`,
+              background: tab === t ? `rgba(58, 125, 86, 0.12)` : "transparent",
+              color: tab === t ? ACCENT : MUTED,
+              cursor: "pointer", fontSize: "0.88rem", fontWeight: tab === t ? 600 : 400,
+              transition: "all 0.15s ease", whiteSpace: "nowrap" as const,
+            }}>
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {/* Text tab content */}
+        {currentSection && (
+          <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: 4 }}>{currentSection.heading}</h2>
+            {currentSection.paragraphs.map((para, i) => (
+              <p key={i} style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: para }} />
             ))}
-          </div>
+          </section>
+        )}
+
+        {/* Videos tab */}
+        {tab === "Videos" && (
+          <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: 4 }}>Videos</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
+              {videoItems.map((video) => (
+                <div key={video.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={video.videoId} title={video.title} />
+                  <div style={{ padding: "0.9rem 1.1rem" }}>
+                    <h3 style={{ fontSize: "0.92rem", fontWeight: 600, lineHeight: 1.45 }}>{video.title}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Closing callout */}
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${ACCENT}`, borderRadius: 12, padding: "1.5rem" }}>
+          <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>The Rare Jewel of Contentment</h3>
+          <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>Contentment is not the absence of desire or the denial of hardship &mdash; it is the deep settledness of a soul that has found its sufficiency in God. Paul learned it in prison; the psalmist found it when God became his portion; Augustine discovered that the restless heart rests only in its Maker. Whatever your circumstances &mdash; plenty or want, abundance or need &mdash; the secret remains the same: a heart anchored in the love of God is a heart that has already come home.</p>
         </div>
-      </div>
-
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "48px 20px 80px" }}>
-
-        {/* ── Tab 1: Biblical Theology ── */}
-        {tab === "theology" && (
-          <div>
-            <div style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>The Biblical Theology of Contentment</h2>
-              <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, maxWidth: 680 }}>
-                Paul&rsquo;s contentment was not a disposition &mdash; it was a discovery. Here is what he discovered, and how Scripture frames it.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {THEOLOGY_POINTS.map((point) => (
-                <div
-                  key={point.title}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${expanded[point.title] ? point.color + "50" : BORDER}`,
-                    borderRadius: 14,
-                    overflow: "hidden",
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleExpanded(point.title)}
-                    style={{
-                      width: "100%",
-                      padding: "20px 22px",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      background: "transparent",
-                      border: "none",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      gap: 16,
-                    }}
-                  >
-                    <div>
-                      <div style={{ color: point.color, fontWeight: 800, fontSize: 15, marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: point.title }} />
-                      <div style={{ color: MUTED, fontSize: 11 }}>{point.ref}</div>
-                    </div>
-                    <span style={{ color: MUTED, fontSize: 24, flexShrink: 0 }}>
-                      {expanded[point.title] ? "−" : "+"}
-                    </span>
-                  </button>
-                  {expanded[point.title] && (
-                    <div style={{ padding: "0 22px 24px", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, margin: "20px 0 0" }} dangerouslySetInnerHTML={{ __html: point.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Pull-quote */}
-            <div style={{ background: `${GREEN}12`, border: `1px solid ${GREEN}30`, borderRadius: 16, padding: "28px 32px", marginTop: 40, textAlign: "center" }}>
-              <p style={{ color: GREEN, fontSize: 20, fontWeight: 700, fontStyle: "italic", lineHeight: 1.5, marginBottom: 10 }}>
-                &ldquo;Christian contentment is that sweet, inward, quiet, gracious frame of spirit, which freely submits to and delights in God&rsquo;s wise and fatherly disposal in every condition.&rdquo;
-              </p>
-              <div style={{ color: MUTED, fontSize: 12, fontWeight: 700, letterSpacing: "0.06em" }}>
-                JEREMIAH BURROUGHS &mdash; THE RARE JEWEL OF CHRISTIAN CONTENTMENT (1648)
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Tab 2: Hebrew Concept of Sufficiency ── */}
-        {tab === "sufficiency" && (
-          <div>
-            <div style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>The Hebrew Concept of Sufficiency</h2>
-              <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, maxWidth: 680 }}>
-                Long before Paul wrote from prison, the Hebrew Scriptures were training Israel in the posture of &ldquo;enough.&rdquo; Dayenu. Shalom. The manna principle. Agur&rsquo;s prayer.
-              </p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 18 }}>
-              {SUFFICIENCY_POINTS.map((point) => (
-                <div
-                  key={point.title}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${point.color}30`,
-                    borderRadius: 14,
-                    padding: 24,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 12,
-                  }}
-                >
-                  <div>
-                    <div style={{ width: 32, height: 3, background: point.color, borderRadius: 2, marginBottom: 12 }} />
-                    <div style={{ color: point.color, fontWeight: 900, fontSize: 15, marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: point.title }} />
-                    <div style={{ color: MUTED, fontSize: 11 }}>{point.ref}</div>
-                  </div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: point.body }} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── Tab 3: Contentment vs. Complacency ── */}
-        {tab === "vs-complacency" && (
-          <div>
-            <div style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Contentment vs. Complacency</h2>
-              <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, maxWidth: 680 }}>
-                Contentment is not passivity. It is not the theological cover for injustice or indifference. Understanding what contentment is &mdash; and is not &mdash; is essential to living it rightly.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {VS_COMPLACENCY.map((item) => (
-                <div
-                  key={item.title}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${item.color}30`,
-                    borderRadius: 14,
-                    padding: 26,
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                    <div style={{ width: 12, height: 12, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                    <div style={{ color: item.color, fontWeight: 900, fontSize: 17 }}>{item.title}</div>
-                  </div>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: "0 0 16px" }} dangerouslySetInnerHTML={{ __html: item.desc }} />
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                    {item.points.map((point, i) => (
-                      <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                        <div style={{ width: 6, height: 6, borderRadius: "50%", background: item.color, flexShrink: 0, marginTop: 6 }} />
-                        <div style={{ color: MUTED, fontSize: 13, lineHeight: 1.65 }} dangerouslySetInnerHTML={{ __html: point }} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── Tab 4: Contentment in Suffering ── */}
-        {tab === "suffering" && (
-          <div>
-            <div style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Contentment in Suffering</h2>
-              <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, maxWidth: 680 }}>
-                The hardest test of contentment is not abundance but adversity. These are the passages and principles that have sustained Christians through the worst seasons of their lives.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {SUFFERING_POINTS.map((point) => (
-                <div
-                  key={point.title}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${point.color}30`,
-                    borderLeft: `4px solid ${point.color}`,
-                    borderRadius: 14,
-                    padding: 26,
-                  }}
-                >
-                  <div style={{ color: point.color, fontWeight: 900, fontSize: 15, marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: point.title }} />
-                  <div style={{ color: MUTED, fontSize: 11, marginBottom: 14 }}>{point.ref}</div>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, margin: 0 }} dangerouslySetInnerHTML={{ __html: point.body }} />
-                </div>
-              ))}
-            </div>
-
-            {/* Closing encouragement */}
-            <div style={{ background: `${PURPLE}14`, border: `1px solid ${PURPLE}30`, borderRadius: 16, padding: "30px 28px", marginTop: 40 }}>
-              <h3 style={{ color: PURPLE, fontWeight: 900, fontSize: 18, marginBottom: 12 }}>A Word to the Suffering Reader</h3>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, margin: 0 }}>
-                If you are in the deepest part of your suffering right now, these truths may feel theoretical &mdash; even cruel. That is honest, and it is allowed. Contentment in suffering is not found in a moment of understanding. It is found, slowly and painfully, through bringing the real pain to the real God and discovering &mdash; again and again, over years &mdash; that he is still there, and still enough. The thorn may not be removed. The peace that passes understanding is not the peace of answered prayer in every form we specified. It is the peace of the God who says: I am here. And that, in the end, is more than enough.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ── Tab 5: Gratitude Practices ── */}
-        {tab === "practices" && (
-          <div>
-            <div style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Gratitude Practices for the Discontented Soul</h2>
-              <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, maxWidth: 680 }}>
-                Paul said he &ldquo;learned&rdquo; contentment. Learning requires practice. These are tried disciplines for training the soul toward sufficiency.
-              </p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 18 }}>
-              {PRACTICES.map((practice) => (
-                <div
-                  key={practice.title}
-                  style={{
-                    background: CARD,
-                    border: `1px solid ${practice.color}30`,
-                    borderRadius: 14,
-                    padding: 24,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 14,
-                  }}
-                >
-                  <div>
-                    <div style={{ color: practice.color, fontWeight: 900, fontSize: 15, marginBottom: 6 }} dangerouslySetInnerHTML={{ __html: practice.title }} />
-                  </div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: practice.desc }} />
-                  <div style={{ background: `${practice.color}0f`, border: `1px solid ${practice.color}20`, borderRadius: 10, padding: "12px 16px" }}>
-                    <div style={{ color: practice.color, fontSize: 10, fontWeight: 800, letterSpacing: "0.08em", marginBottom: 8 }}>HOW TO START</div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                      {practice.steps.map((step, i) => (
-                        <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                          <div style={{ color: practice.color, fontSize: 11, fontWeight: 800, flexShrink: 0, marginTop: 1 }}>{i + 1}.</div>
-                          <div style={{ color: MUTED, fontSize: 12, lineHeight: 1.65 }} dangerouslySetInnerHTML={{ __html: step }} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Closing call */}
-            <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}30`, borderRadius: 16, padding: "32px 28px", marginTop: 40, textAlign: "center" }}>
-              <h3 style={{ color: GREEN, fontSize: 20, fontWeight: 900, marginBottom: 12 }}>Begin Today</h3>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, maxWidth: 600, margin: "0 auto" }}>
-                Contentment is not a destination you arrive at &mdash; it is a practice you maintain. Paul wrote from prison. You can begin from wherever you are. Pick one practice above, start today, and give it thirty days. The God who was enough for Paul in chains is enough for you today.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ── Tab 6: Videos ── */}
-        {tab === "videos" && (
-          <div>
-            <div style={{ marginBottom: 32 }}>
-              <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Video Teaching on Contentment</h2>
-              <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, maxWidth: 680 }}>
-                Trusted teachers on the biblical theology and practical discipline of Christian contentment.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-              {VIDEOS.map((v) => (
-                <div
-                  key={v.videoId}
-                  style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}
-                >
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <div style={{ padding: "18px 20px" }}>
-                    <h4 style={{ color: GREEN, fontWeight: 800, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                    <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.description }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-      </div>
+      </main>
     </div>
   );
 }

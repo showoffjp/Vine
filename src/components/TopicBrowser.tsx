@@ -1476,6 +1476,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Infertility Christian Guide": "christian-infertility-guide",
   "Hannah Barrenness Prayer": "christian-infertility-guide",
   "IVF Christian Ethics": "christian-infertility-guide",
+  "Gospel of John Deep Dive": "christian-book-of-john-guide",
+  "John Prologue Word Made Flesh": "christian-book-of-john-guide",
+  "I AM Sayings Jesus John": "christian-book-of-john-guide",
+  "Genesis Deep Dive Guide": "christian-book-of-genesis-guide",
+  "Imago Dei Genesis Guide": "christian-book-of-genesis-guide",
+  "Genesis Genre Interpretation": "christian-book-of-genesis-guide",
+  "Prodigal Child Christian Parent": "christian-prodigal-child-guide",
+  "Praying for Prodigal Child": "christian-prodigal-child-guide",
+  "Child Left Faith Guide": "christian-prodigal-child-guide",
+  "Job Loss Christian Guide": "christian-job-loss-guide",
+  "Vocation Work Theology Guide": "christian-job-loss-guide",
+  "Trusting God Unemployment": "christian-job-loss-guide",
 };
 
 
@@ -2237,6 +2249,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalms Deep Dive Guide" },
   { label: "Divorce Recovery Christian Guide" },
   { label: "Infertility Christian Guide" },
+  { label: "Gospel of John Deep Dive" },
+  { label: "Genesis Deep Dive Guide" },
+  { label: "Prodigal Child Christian Parent" },
+  { label: "Job Loss Christian Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

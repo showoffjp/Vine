@@ -1524,6 +1524,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Galatians Deep Dive Guide": "christian-book-of-galatians-guide",
   "Freedom in Christ Galatians": "christian-book-of-galatians-guide",
   "Fruit of the Spirit Guide": "christian-book-of-galatians-guide",
+  "Hebrews Deep Dive Guide": "christian-book-of-hebrews-guide",
+  "Great High Priest Hebrews": "christian-book-of-hebrews-guide",
+  "Hall of Faith Hebrews 11": "christian-book-of-hebrews-guide",
+  "James Deep Dive Guide": "christian-book-of-james-guide",
+  "Faith and Works James": "christian-book-of-james-guide",
+  "Taming the Tongue James": "christian-book-of-james-guide",
 };
 
 
@@ -2301,6 +2307,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Eastern Orthodoxy Explained" },
   { label: "Acts Deep Dive Guide" },
   { label: "Galatians Deep Dive Guide" },
+  { label: "Hebrews Deep Dive Guide" },
+  { label: "James Deep Dive Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

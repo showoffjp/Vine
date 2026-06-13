@@ -1542,6 +1542,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Philippians Deep Dive Guide": "christian-book-of-philippians-guide",
   "Christ Hymn Philippians 2": "christian-book-of-philippians-guide",
   "Rejoice Always Philippians": "christian-book-of-philippians-guide",
+  "Empty Nest Christian Guide": "christian-empty-nest-guide",
+  "Marriage After Kids Leave": "christian-empty-nest-guide",
+  "Releasing Adult Children Faith": "christian-empty-nest-guide",
+  "Blended Family Christian Guide": "christian-blended-family-guide",
+  "Step Parenting Christian": "christian-blended-family-guide",
+  "Stepfamily Faith Guide": "christian-blended-family-guide",
 };
 
 
@@ -2325,6 +2331,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Chronic Illness Christian Guide" },
   { label: "1 Corinthians Deep Dive" },
   { label: "Philippians Deep Dive Guide" },
+  { label: "Empty Nest Christian Guide" },
+  { label: "Blended Family Christian Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1455,6 +1455,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Lament Psalms Depression": "christian-depression-guide",
   "Dark Night Soul Christian": "christian-depression-guide",
   "Clinical Depression Faith Guide": "christian-depression-guide",
+  "Christian Trauma Healing Guide": "christian-trauma-healing",
+  "Trauma Scripture Biblical": "christian-trauma-healing",
+  "Body Keeps Score Christian": "christian-trauma-healing",
+  "Forgiveness Theology Biblical": "christian-forgiveness-theology",
+  "Forgiving the Unrepentant": "christian-forgiveness-theology",
+  "Forgiveness vs Reconciliation": "christian-forgiveness-theology",
+  "Anger Scripture Ephesians": "christian-anger-guide",
+  "Righteous Anger Christian": "christian-anger-guide",
+  "Sinful Anger Biblical": "christian-anger-guide",
 };
 
 
@@ -2209,6 +2218,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genetic Engineering CRISPR" },
   { label: "Depression Scripture Guide" },
   { label: "Dark Night Soul Christian" },
+  { label: "Christian Trauma Healing Guide" },
+  { label: "Forgiveness Theology Biblical" },
+  { label: "Righteous Anger Christian" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

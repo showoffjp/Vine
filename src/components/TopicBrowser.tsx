@@ -1512,6 +1512,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Reformed Theology Introduction": "christian-reformed-theology-guide",
   "TULIP Five Points Calvinism": "christian-reformed-theology-guide",
   "Calvinism Arminianism Debate": "christian-reformed-theology-guide",
+  "Catholicism Explained Guide": "christian-catholicism-explained",
+  "Roman Catholic Beliefs": "christian-catholicism-explained",
+  "Papacy Sacraments Mary": "christian-catholicism-explained",
+  "Eastern Orthodoxy Explained": "christian-eastern-orthodoxy-explained",
+  "Orthodox Christianity Guide": "christian-eastern-orthodoxy-explained",
+  "Theosis Icons Divine Liturgy": "christian-eastern-orthodoxy-explained",
 };
 
 
@@ -2285,6 +2291,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Exodus Deep Dive Guide" },
   { label: "Christian Denominations Explained" },
   { label: "Reformed Theology Introduction" },
+  { label: "Catholicism Explained Guide" },
+  { label: "Eastern Orthodoxy Explained" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

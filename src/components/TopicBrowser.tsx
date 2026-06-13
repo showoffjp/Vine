@@ -1464,6 +1464,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Anger Scripture Ephesians": "christian-anger-guide",
   "Righteous Anger Christian": "christian-anger-guide",
   "Sinful Anger Biblical": "christian-anger-guide",
+  "Romans Deep Dive Guide": "christian-book-of-romans-guide",
+  "Justified By Faith Romans": "christian-book-of-romans-guide",
+  "Romans 8 No Condemnation": "christian-book-of-romans-guide",
+  "Psalms Deep Dive Guide": "christian-book-of-psalms-guide",
+  "Lament Psalms Study": "christian-book-of-psalms-guide",
+  "Imprecatory Psalms Explained": "christian-book-of-psalms-guide",
+  "Divorce Recovery Christian Guide": "christian-divorce-recovery",
+  "Shame After Divorce Gospel": "christian-divorce-recovery",
+  "Parenting Through Divorce Christian": "christian-divorce-recovery",
+  "Infertility Christian Guide": "christian-infertility-guide",
+  "Hannah Barrenness Prayer": "christian-infertility-guide",
+  "IVF Christian Ethics": "christian-infertility-guide",
 };
 
 
@@ -2221,6 +2233,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Trauma Healing Guide" },
   { label: "Forgiveness Theology Biblical" },
   { label: "Righteous Anger Christian" },
+  { label: "Romans Deep Dive Guide" },
+  { label: "Psalms Deep Dive Guide" },
+  { label: "Divorce Recovery Christian Guide" },
+  { label: "Infertility Christian Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

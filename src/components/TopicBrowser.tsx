@@ -1708,6 +1708,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Malachi Deep Dive": "christian-book-of-malachi-guide",
   "Malachi Sun of Righteousness": "christian-book-of-malachi-guide",
   "Messenger of the Covenant": "christian-book-of-malachi-guide",
+  "Obadiah Deep Dive": "christian-book-of-obadiah-guide",
+  "Pride of Edom": "christian-book-of-obadiah-guide",
+  "Esau and Jacob Grudge": "christian-book-of-obadiah-guide",
+  "Nahum Deep Dive": "christian-book-of-nahum-guide",
+  "Nahum Fall of Nineveh": "christian-book-of-nahum-guide",
+  "Bloody City Nineveh": "christian-book-of-nahum-guide",
+  "Zephaniah Deep Dive": "christian-book-of-zephaniah-guide",
+  "Rejoice Over You Singing": "christian-book-of-zephaniah-guide",
+  "Seek the Lord Humility": "christian-book-of-zephaniah-guide",
+  "Haggai Deep Dive": "christian-book-of-haggai-guide",
+  "Haggai Consider Your Ways": "christian-book-of-haggai-guide",
+  "Rebuild the Temple Haggai": "christian-book-of-haggai-guide",
 };
 
 
@@ -2546,6 +2558,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Habakkuk Deep Dive" },
   { label: "Zechariah Deep Dive" },
   { label: "Malachi Deep Dive" },
+  { label: "Obadiah Deep Dive" },
+  { label: "Nahum Deep Dive" },
+  { label: "Zephaniah Deep Dive" },
+  { label: "Haggai Deep Dive" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

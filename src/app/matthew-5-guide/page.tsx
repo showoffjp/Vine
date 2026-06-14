@@ -1,0 +1,202 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "The Beatitudes",
+  "Salt and Light",
+  "Fulfilling the Law",
+  "Anger Lust and Oaths",
+  "Love Your Enemies",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "The Beatitudes",
+    heading: "The Beatitudes",
+    reference: "Matthew 5:1&ndash;12",
+    paragraphs: [
+      "Matthew 5 opens with one of the most famous scenes in the Gospels: Jesus, seeing the crowds, goes up on a mountain, sits down, and begins to teach his disciples. The setting is charged with meaning. The mountain evokes Sinai, where Moses received the Law, and Jesus now takes his seat as the authoritative interpreter of that Law &mdash; not to abolish it, but to bring it to its fullest expression. What follows is the Sermon on the Mount, the longest and most concentrated block of Jesus&rsquo;s ethical teaching in the New Testament.",
+      "The sermon begins with eight declarations known as the Beatitudes, each introduced by the word &ldquo;Blessed&rdquo; &mdash; in Greek, <em>makarios</em>, meaning happy or fortunate, but with a depth that exceeds mere cheerfulness. To be blessed in this sense is to be in a state of genuine well-being before God, a condition that the world often fails to recognize. The Beatitudes turn the expectations of the age upside down, pronouncing blessedness on precisely those the world would regard as unfortunate.",
+      "The first Beatitude sets the tone for all the rest: &ldquo;Blessed are the poor in spirit, for theirs is the kingdom of heaven&rdquo; (5:3). To be poor in spirit is not to be weak or timid, but to recognize one&rsquo;s utter dependence on God, to come before him as a beggar rather than as one who has anything to offer. Such a person is open to receive all that the kingdom holds. The kingdom of heaven &mdash; the reign of God breaking into human history through Jesus &mdash; belongs to those who know they cannot earn it.",
+      "The second Beatitude declares: &ldquo;Blessed are those who mourn, for they shall be comforted&rdquo; (5:4). This mourning is not mere grief over personal loss, but the deep sorrow of those who see the world as God sees it &mdash; who grieve over sin, over broken creation, over human suffering and the distance between what the world is and what it was made to be. Such mourning is not despairing; it is the sorrow of those who wait for God&rsquo;s comfort, who long for the consolation of Israel (cf. Luke 2:25), who will one day be comforted by the One who wipes every tear away.",
+      "The third Beatitude names the meek as heirs of the earth: &ldquo;Blessed are the meek, for they shall inherit the earth&rdquo; (5:5). Meekness is not weakness but power under control, the disposition of those who do not assert themselves at others&rsquo; expense, who do not grasp or force their way forward. The word echoes Psalm 37:11, where the meek inherit the land while the wicked are cut off. In the kingdom, the one who humbles himself is exalted; the servant is greater than the one who lords it over others.",
+      "The fourth and fifth Beatitudes concern the interior life: &ldquo;Blessed are those who hunger and thirst for righteousness, for they shall be satisfied&rdquo; (5:6), and &ldquo;Blessed are the merciful, for they shall receive mercy&rdquo; (5:7). Hunger and thirst are among the most elemental human drives; to apply them to righteousness is to say that the longing for justice and covenant faithfulness should be as urgent and as constant as the body&rsquo;s need for food and water. Those who ache for the world to be set right shall find that ache satisfied. And the merciful &mdash; those who deal with others not only according to strict justice but with compassion and forgiveness &mdash; will themselves receive the mercy they so freely give.",
+      "The sixth Beatitude promises the vision of God to the pure in heart: &ldquo;Blessed are the pure in heart, for they shall see God&rdquo; (5:8). Purity of heart in the biblical sense is not mere moral cleanliness; it is singleness of purpose, the undivided allegiance that directs every thought and desire toward God. To see God &mdash; to stand in his presence and behold his glory &mdash; is the summit of human existence, and the promise is made not to those who have performed the right rituals but to those whose inner life is directed toward him without division.",
+      "The seventh and eighth Beatitudes turn outward: &ldquo;Blessed are the peacemakers, for they shall be called sons of God&rdquo; (5:9), and &ldquo;Blessed are those who are persecuted for righteousness&rsquo; sake, for theirs is the kingdom of heaven&rdquo; (5:10). Peacemakers are those who actively work to restore broken relationships &mdash; between people and God, between people and one another &mdash; and in doing so they reflect the character of God himself, who in Christ was reconciling the world to himself. And those who are persecuted for righteousness occupy the same position as the prophets before them; the kingdom belongs to them just as it belongs to the poor in spirit, forming a bracket around the whole set of Beatitudes.",
+    ],
+  },
+  {
+    id: "Salt and Light",
+    heading: "Salt and Light",
+    reference: "Matthew 5:13&ndash;16",
+    paragraphs: [
+      "After declaring the character of those who belong to the kingdom, Jesus turns to their vocation in the world. In two brief but vivid metaphors &mdash; salt and light &mdash; he describes what his disciples are meant to be and to do in the age in which they live. These images are not abstract; they are drawn from the most ordinary realities of daily life, and their force is precisely in how familiar and yet how arresting they are.",
+      "&ldquo;You are the salt of the earth&rdquo; (5:13). Salt in the ancient world was not merely a seasoning; it was essential for preservation, for preventing decay, for making food edible and lasting. Salt that has lost its saltiness &mdash; become bland, tasteless, inert &mdash; is good for nothing, fit only to be thrown out and trampled on. Jesus&rsquo;s disciples are to be that which prevents corruption, that which brings flavor and preservation wherever they go. The image carries a quiet urgency: salt that fails to function as salt is worthless. The calling to be salt is not optional or decorative but constitutive of what a disciple is.",
+      "&ldquo;You are the light of the world&rdquo; (5:14). The image shifts from preservation to illumination. A city set on a hill cannot be hidden; a lamp is not put under a basket but on a stand where it gives light to all in the house. The purpose of light is to make things visible, to drive away darkness, to enable people to find their way. Jesus&rsquo;s disciples are not to be hidden, not to keep their faith a private matter tucked away from the world&rsquo;s view.",
+      "The purpose of the light, however, is carefully specified: &ldquo;let your light shine before others, so that they may see your good works and give glory to your Father who is in heaven&rdquo; (5:16). The goal is not self-promotion or religious display, but the glorification of God. The good works of the disciples are meant to be windows through which others can see the beauty and goodness of God himself. This is a remarkably high calling: to live in such a way that one&rsquo;s very manner of life points those watching toward the Father in heaven.",
+      "These two metaphors stand together as a single statement about the nature of Christian witness. Salt works from within; light works by shining outward. Together they describe a community whose internal character &mdash; mercy, purity, peacemaking &mdash; radiates outward into the world, working against corruption and driving away darkness. The Beatitudes describe what disciples are; the salt-and-light sayings describe what they are therefore called to be in the world. The shape of the kingdom life is not retreat from the world but transformative presence within it.",
+      "There is also a warning embedded in these images. Salt can lose its saltiness; lamps can be placed under baskets. The possibility of failure is real. Disciples who conform to the patterns of the world around them rather than to the character of the kingdom lose the very thing that makes them useful. The calling to be salt and light is a calling to genuine distinctiveness &mdash; a distinctiveness not of dress or external performance but of the moral and spiritual character that the Beatitudes have just described.",
+    ],
+  },
+  {
+    id: "Fulfilling the Law",
+    heading: "Fulfilling the Law",
+    reference: "Matthew 5:17&ndash;20",
+    paragraphs: [
+      "At the heart of Jesus&rsquo;s teaching in Matthew 5 stands a foundational statement about his relationship to the Jewish Scriptures &mdash; the Law and the Prophets. Anticipating the objection that his radical ethical teaching amounts to a departure from or a replacement of the Mosaic covenant, Jesus states with great emphasis: &ldquo;Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them&rdquo; (5:17). The word &ldquo;fulfill&rdquo; here is dense with meaning and has generated enormous discussion in the history of interpretation.",
+      "To fulfill the Law is not simply to keep it perfectly, though Jesus certainly does that. Nor is it merely to enforce it or extend it. The Greek word <em>plero&#333;</em> means to bring to fullness, to complete, to bring to its intended goal. Jesus is saying that the whole of the Old Testament &mdash; its commandments, its narratives, its prophetic expectations &mdash; was pointing toward him and reaches its intended destination in him. He is the one the Law was always about. The righteousness the Law called Israel to embody, the new creation the Prophets promised, the servant who would suffer and be vindicated &mdash; all of these find their fulfillment in the person and work of Jesus.",
+      "This claim is reinforced with a solemn affirmation: &ldquo;For truly, I say to you, until heaven and earth pass away, not an iota, not a dot, will pass from the Law until all is accomplished&rdquo; (5:18). The iota is the smallest letter of the Greek alphabet (corresponding to the Hebrew yod, the smallest Hebrew letter); the dot is a tiny stroke that distinguishes one letter from another. Jesus is saying that the Scripture is so authoritative and so enduring that not even its smallest details will pass away before everything it was written to accomplish has come to pass. This is a high doctrine of Scripture placed in direct connection with the person of Jesus.",
+      "The practical consequence follows immediately: &ldquo;Therefore whoever relaxes one of the least of these commandments and teaches others to do the same will be called least in the kingdom of heaven, but whoever does them and teaches them will be called great in the kingdom of heaven&rdquo; (5:19). The disciples are not to be antinomian &mdash; they are not to treat the commandments of God as optional or as abolished. The Law still speaks, even if it now speaks through its fulfillment in Christ.",
+      "Then comes the most startling statement in this section: &ldquo;For I tell you, unless your righteousness exceeds that of the scribes and Pharisees, you will never enter the kingdom of heaven&rdquo; (5:20). The scribes and Pharisees were the recognized experts in the Law, men who devoted their lives to its study and its observance. To say that one&rsquo;s righteousness must exceed theirs would have seemed nearly impossible to Jesus&rsquo;s hearers. The rest of chapter 5 proceeds to explain what this exceeding righteousness looks like &mdash; not a more meticulous performance of the same external acts, but a transformation that goes to the level of the heart, the motive, the interior life.",
+      "This passage establishes the framework for the antitheses that follow. Jesus is not setting his teaching against the Law; he is bringing the Law to its fullest expression. Where the scribes interpreted the Law primarily in terms of external behavior and catalogued boundaries that must not be crossed, Jesus directs attention to the interior dispositions that the Law was always meant to address. The higher righteousness of the kingdom is not harder law-keeping but a transformed heart that no longer needs to be restrained by external commands because it has been renewed from within.",
+      "This sets up a profound question for every reader: what does it mean to be righteous in the way Jesus envisions? It cannot mean accumulating more external religious acts. It means something closer to what Jeremiah prophesied when he described the new covenant: the Law written not on stone tablets but on the heart, so that the people know the Lord from the inside out (Jer. 31:33). The sermon that follows is a sustained exploration of what that inward transformation looks like in practice, in specific areas of human life where the pull toward sin is most powerful.",
+    ],
+  },
+  {
+    id: "Anger Lust and Oaths",
+    heading: "Anger, Lust, and Oaths",
+    reference: "Matthew 5:21&ndash;37",
+    paragraphs: [
+      "With the framework of fulfillment established, Jesus proceeds to a series of six antitheses &mdash; contrasts between &ldquo;you have heard that it was said&rdquo; and &ldquo;but I say to you&rdquo; &mdash; that illuminate the higher righteousness of the kingdom. These are not contradictions of the Law but its deepest exposition, tracing each commandment back to the interior condition of the heart from which the prohibited act springs. The first three antitheses address anger and murder, lust and adultery, and divorce and oaths.",
+      "The first antithesis takes up the sixth commandment: &ldquo;You have heard that it was said to those of old, &lsquo;You shall not murder; and whoever murders will be liable to judgment.&rsquo; But I say to you that everyone who is angry with his brother will be liable to judgment&rdquo; (5:21&ndash;22). The commandment prohibited the act of murder, but Jesus traces murder back to its root: unrighteous anger, contempt for another person, the willingness to diminish or destroy them in one&rsquo;s heart. The one who calls his brother a fool &mdash; who treats another image-bearer with contemptuous dismissal &mdash; stands in danger of the fire of hell.",
+      "The practical implications Jesus draws are startling. If you are bringing your gift to the altar and there remember that your brother has something against you, leave the gift there, go and be reconciled to your brother, and then come and offer the gift (5:23&ndash;24). Worship offered while one is at odds with a fellow human being is not acceptable to God. Reconciliation with others is not a secondary matter to be deferred until after religious duties are completed; it takes priority over the offering itself. The community of the kingdom is to be marked by reconciliation rather than by the nursing of grievances.",
+      "The second antithesis extends this logic to the seventh commandment: &ldquo;You have heard that it was said, &lsquo;You shall not commit adultery.&rsquo; But I say to you that everyone who looks at a woman with lustful intent has already committed adultery with her in his heart&rdquo; (5:27&ndash;28). The commandment prohibited the physical act; Jesus locates the root in the desiring gaze. This is not a prohibition of attraction or of acknowledging beauty; it is a prohibition of the cultivated, entertained, deliberate desire to possess another person sexually. The kingdom calls for purity of desire, not merely of action.",
+      "The remedy Jesus prescribes is famously radical: &ldquo;If your right eye causes you to sin, tear it out and throw it away. For it is better that you lose one of your members than that your whole body be thrown into hell&rdquo; (5:29). The language is hyperbolic &mdash; Jesus is not calling for literal self-mutilation &mdash; but the hyperbole is the point. Whatever the cost of dealing drastically with the sources of sin in our lives, it is infinitely less than the cost of failing to deal with them. The pursuit of purity of heart requires decisive, even painful, action against the habits and inputs that feed lustful desire.",
+      "On divorce, Jesus acknowledges the Mosaic permission (Deut. 24:1) but ties divorce &mdash; except on grounds of sexual immorality &mdash; to the creation of adultery for anyone who subsequently remarries (5:31&ndash;32). The point is not primarily legal but relational: the casual dissolution of marriage treats the covenant bond between persons as though it were merely a contractual arrangement to be dissolved when inconvenient. The kingdom calls for a seriousness about covenant that reflects the seriousness with which God keeps his own covenant.",
+      "The third antithesis in this section concerns oaths: &ldquo;You have heard that it was said to those of old, &lsquo;You shall not swear falsely, but shall perform to the Lord what you have sworn.&rsquo; But I say to you, Do not take an oath at all&rdquo; (5:33&ndash;34). The point is not that vows are inherently evil but that a disciple&rsquo;s ordinary speech should be so reliably truthful that no oath is needed to guarantee it. &ldquo;Let what you say be simply &lsquo;Yes&rsquo; or &lsquo;No&rsquo;&rdquo; (5:37). The kingdom person is characterized by a simple, transparent integrity in which their yes means yes and their no means no, because they are people of the truth.",
+      "Taken together, these three antitheses reveal the pattern of the higher righteousness: it is not satisfied with avoiding the prohibited act. It pursues the character from which right acts flow &mdash; the heart that does not harbor contempt, the desire that does not entertain what it has no right to possess, the speech that is so consistently truthful it needs no legal guarantee. The kingdom calls its members to an integrity that reaches all the way down, transforming not merely what they do but who they are.",
+    ],
+  },
+  {
+    id: "Love Your Enemies",
+    heading: "Love Your Enemies",
+    reference: "Matthew 5:38&ndash;48",
+    paragraphs: [
+      "The final two antitheses in Matthew 5 address retaliation and love, and together they form the climax of the chapter&rsquo;s ethical teaching. They push the logic of the kingdom to its most demanding and most distinctive expression: not merely the avoidance of wrong but the active pursuit of good toward those who have done wrong to us.",
+      "The fifth antithesis takes up the lex talionis &mdash; the law of proportionate retaliation: &ldquo;You have heard that it was said, &lsquo;An eye for an eye and a tooth for a tooth.&rsquo; But I say to you, Do not resist the one who is evil&rdquo; (5:38&ndash;39). The lex talionis in its original context was a principle of judicial equity, preventing excessive punishment; it said that penalties must fit the crime. But in everyday life it had become a justification for a cycle of personal retaliation &mdash; the insistence on &ldquo;getting even.&rdquo;",
+      "Jesus does not simply limit retaliation; he calls for something that goes entirely beyond the framework of retaliation altogether. &ldquo;If anyone slaps you on the right cheek, turn to him the other also. And if anyone would sue you and take your tunic, let him have your cloak as well. And if anyone forces you to go one mile, go with him two miles&rdquo; (5:39&ndash;41). These three illustrations have particular historical contexts: the back-handed slap on the right cheek was an insult among social equals; the legal action over clothing pointed to economic vulnerability; the forced mile referred to the Roman soldier&rsquo;s legal right to compel a subject to carry his pack for one mile.",
+      "In each case, Jesus&rsquo;s response is not passive submission but creative, active, dignified resistance to the cycle of retaliation &mdash; a refusal to play by the rules that the oppressor or the aggressor has set, and instead to respond in a way that transforms the dynamic of the encounter. The one who turns the other cheek is not cowering; they are refusing to be defined by the logic of insult and counter-insult. The one who gives the cloak as well as the tunic strips the transaction of its power to humiliate. The one who goes two miles instead of one takes back initiative and agency. These are not the responses of the defeated but of those who inhabit a different order altogether.",
+      "The sixth antithesis is the most sweeping: &ldquo;You have heard that it was said, &lsquo;You shall love your neighbor and hate your enemy.&rsquo; But I say to you, Love your enemies and pray for those who persecute you&rdquo; (5:43&ndash;44). The command to love neighbors is found in Leviticus 19:18; the addition &ldquo;hate your enemy&rdquo; is not explicitly in the Torah but reflects a certain popular reading that drew a sharp line between those who belonged to the covenant community and those who did not. Jesus refuses this distinction.",
+      "The grounds for loving enemies are explicitly theological: &ldquo;so that you may be sons of your Father who is in heaven. For he makes his sun rise on the evil and on the good, and sends rain on the just and on the unjust&rdquo; (5:45). God himself does not restrict his providential goodness to those who deserve it; he showers his gifts on the evil and the good alike. To love only those who love you back is to do nothing distinctive &mdash; even the tax collectors and Gentiles do that. The followers of Jesus are called to a love that transcends the boundary between friend and enemy, that mirrors the indiscriminate generosity of God.",
+      "The command to pray for those who persecute you is not a passive exercise but a radical one. To pray for someone is to bring them before God, to desire their good, to refuse to reduce them to their worst act against you. It is the practical expression of treating them as a person made in God&rsquo;s image rather than as an obstacle or a threat. In the theology of Matthew 5, enemy-love is not merely an ethical ideal but a participation in the very character of the Father.",
+      "The chapter closes with a summary that gathers all of these threads: &ldquo;You therefore must be perfect, as your heavenly Father is perfect&rdquo; (5:48). The word &ldquo;perfect&rdquo; here &mdash; <em>teleios</em> in Greek &mdash; carries the sense of completeness, wholeness, reaching one&rsquo;s intended end. It is not a demand for flawless moral performance but a call to the completeness of love that God himself displays &mdash; a love that is whole, undivided, extending to all without discrimination. The standard is God himself. The calling of the kingdom is nothing less than to reflect, however imperfectly and by grace, the character of the God who is love.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "K9Z3PJxs0Yk", title: "BibleProject - Overview of the Sermon on the Mount" },
+  { videoId: "6k_o_Ug7Jj0", title: "The Beatitudes Explained - Matthew 5:1-12" },
+  { videoId: "1QpG0E-LVIY", title: "Love Your Enemies - The Radical Ethics of Jesus" },
+  { videoId: "H0NzRPv5e3Y", title: "Matthew 5 - Fulfilling the Law and Higher Righteousness" },
+];
+
+export default function Matthew5GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 5 &mdash; The Sermon on the Mount
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The Beatitudes and the higher righteousness of the kingdom &mdash; the character of those who belong to God&rsquo;s reign, their calling as salt and light, and the radical demands of love that fulfill and surpass the Law.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Matthew 5 through visual teaching on the Beatitudes, salt and light, the fulfillment of the Law, and the radical call to love your enemies.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Be Perfect as Your Father is Perfect</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 5 is a summons to a life shaped from the inside out &mdash; not the performance of religious duties but the transformation of the heart that the kingdom brings. The Beatitudes describe who the blessed are; the antitheses show what their transformed life looks like; and the call to love even enemies reveals the character of the God they are being remade to resemble.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

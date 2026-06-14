@@ -236,6 +236,7 @@ const navLinks: NavLink[] = [
         title: "Daily Practice",
         items: [
           { label: "Today's Devotional", href: "/daily" },
+          { label: "Daily Bread", href: "/daily-bread" },
           { label: "Verse of the Day", href: "/verse-of-the-day" },
           { label: "Daily Office", href: "/daily-office" },
           { label: "Quiet Time Guide", href: "/quiet-time-guide" },
@@ -310,6 +311,7 @@ const navLinks: NavLink[] = [
           { label: "Habit Tracker", href: "/habits" },
           { label: "Verse Memory", href: "/verse-memory" },
           { label: "Reading Plans", href: "/reading-plan" },
+          { label: "Bible Reading Plans", href: "/reading-plans" },
           { label: "AI Companion", href: "/ai-companion" },
         ],
       },

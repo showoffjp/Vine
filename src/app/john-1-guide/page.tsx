@@ -1,0 +1,197 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "In the Beginning Was the Word",
+  "The True Light Coming into the World",
+  "The Word Became Flesh",
+  "Behold the Lamb of God",
+  "Come and See",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "In the Beginning Was the Word",
+    heading: "In the Beginning Was the Word",
+    reference: "John 1:1&ndash;5",
+    paragraphs: [
+      "John&rsquo;s Gospel opens with one of the most arresting sentences in all of Scripture: &ldquo;In the beginning was the Word, and the Word was with God, and the Word was God&rdquo; (1:1). The first three words &mdash; &ldquo;In the beginning&rdquo; &mdash; deliberately echo the opening of Genesis, where God speaks creation into existence. John is signaling from the very outset that what he is about to narrate is not merely another chapter in the story of Israel but a new creation, a new beginning, a second Genesis.",
+      "The Greek word translated &ldquo;Word&rdquo; is <em>Logos</em>, a term with a rich history in both Jewish and Greek thought. In the Greek philosophical tradition, the <em>Logos</em> was the rational principle underlying the cosmos, the ordering intelligence that gave the universe coherence. In Jewish thought, the Word of God was the powerful agent through which God created and governed the world; wisdom, too, was personified as present with God before creation began (Prov. 8:22&ndash;31). John takes this dense background and applies it with staggering directness to the person of Jesus Christ.",
+      "The threefold structure of 1:1 is carefully crafted. &ldquo;In the beginning was the Word&rdquo; asserts the pre-existence of the Logos: before creation began, the Word already was. This is not a being who came into existence at some point; the imperfect tense of &ldquo;was&rdquo; conveys continuous existence, existence without beginning. &ldquo;The Word was with God&rdquo; asserts distinction: the Logos is not simply a way of speaking about God&rsquo;s activity but is a person who exists in relationship with God, face to face with the Father. &ldquo;The Word was God&rdquo; asserts full divine identity: the Logos is not a lesser divine being or a created intermediary but shares in the very being of God.",
+      "The prologue immediately moves to the role of the Logos in creation: &ldquo;All things were made through him, and without him was not any thing made that was made&rdquo; (1:3). This is an absolute claim. The entire created order &mdash; everything that falls into the category of &ldquo;made&rdquo; &mdash; was made through the Logos. There is no secondary creator, no demiurge, no portion of creation that came into being apart from him. The one who will enter human history as a Galilean carpenter is the one through whom every galaxy, every molecule, every living creature came to exist.",
+      "Then, with a turn of remarkable beauty, John locates two of the most fundamental realities of existence in the Logos: &ldquo;In him was life, and the life was the light of men&rdquo; (1:4). Life and light &mdash; again echoes of Genesis, where God&rsquo;s first creative word was &ldquo;Let there be light.&rdquo; The Logos is not merely the agent of creation but the source of the life that animates it and the light that illuminates it. And this light &ldquo;shines in the darkness, and the darkness has not overcome it&rdquo; (1:5). The verb for &ldquo;overcome&rdquo; can also be translated &ldquo;comprehended&rdquo; or &ldquo;extinguished.&rdquo; The darkness has neither understood the light nor succeeded in putting it out. From the very first verses, John frames his Gospel as a conflict between light and darkness, a conflict whose outcome is already decided.",
+      "This opening is not merely philosophical prologue; it is the interpretive key to everything that follows. Every healing, every &ldquo;I am&rdquo; saying, every confrontation with the religious authorities, every moment of compassion or power &mdash; all of it is the <em>Logos</em> acting in human history, the one who was in the beginning with God and who is God, making himself known in time. To read John&rsquo;s Gospel is to watch God act in human form, and to understand that act rightly one must begin where John begins: in the beginning.",
+    ],
+  },
+  {
+    id: "The True Light Coming into the World",
+    heading: "The True Light Coming into the World",
+    reference: "John 1:6&ndash;13",
+    paragraphs: [
+      "Into the cosmic sweep of the prologue John introduces a very human figure: &ldquo;There was a man sent from God, whose name was John&rdquo; (1:6). The abrupt shift from the eternal Logos to a historical human being is itself significant. The story John tells is not only a story about divine realities; it is a story that enters fully into human history, into the specific lives of specific people. John the Baptist is the first of these historical figures, and his role is carefully defined: he &ldquo;came as a witness, to bear witness about the light, that all might believe through him&rdquo; (1:7).",
+      "The prologue is emphatic that John the Baptist is not himself the light: &ldquo;He was not the light, but came to bear witness about the light&rdquo; (1:8). This clarification may reflect debates in John&rsquo;s community about the status of John the Baptist, whose disciples remained a distinct movement for some time after his death (cf. Acts 19:1&ndash;7). John the evangelist is at pains to subordinate the Baptist to Jesus, to show that his entire function is to point away from himself and toward the one who comes after him.",
+      "The true light is then described in a series of expanding statements: &ldquo;The true light, which gives light to everyone, was coming into the world&rdquo; (1:9). The light is &ldquo;true&rdquo; &mdash; <em>alethinos</em> in Greek &mdash; meaning genuine, the real thing as opposed to shadows or copies. John the Baptist was a lamp (5:35), shining and burning for a time; the Logos is the true light from which all other lights derive whatever illumination they possess.",
+      "The world was made through him, yet &ldquo;the world did not know him&rdquo; (1:10). This is one of the most poignant statements in the Gospel: the creation does not recognize its creator. The one through whom all things came to be enters his own world as a stranger, unrecognized and unwelcome. Then John sharpens the tragedy: &ldquo;He came to his own, and his own people did not receive him&rdquo; (1:11). &ldquo;His own people&rdquo; refers specifically to Israel, the covenant people to whom God had sent his prophets and revealed his name and given his Law &mdash; the very people who had been shaped by centuries of preparation to receive the Messiah.",
+      "Yet the rejection is not the end of the story: &ldquo;But to all who did receive him, who believed in his name, he gave the right to become children of God, who were born, not of blood nor of the will of the flesh nor of the will of man, but of God&rdquo; (1:12&ndash;13). This is one of the most extraordinary promises in the New Testament. To receive the Logos &mdash; to welcome him, to entrust oneself to him, to believe in his name &mdash; is to receive from him the right to be called a child of God. This status is not inherited through physical descent (&ldquo;not of blood&rdquo;), not achieved through human striving (&ldquo;not of the will of the flesh&rdquo;), not granted by any human authority (&ldquo;nor of the will of man&rdquo;). It is a birth &mdash; a new creation &mdash; that comes entirely from God.",
+      "This passage establishes one of the central theological movements of John&rsquo;s Gospel: the contrast between those who receive and those who reject the Logos. The world is divided not by ethnicity or social status or religious pedigree but by the single question of whether one receives or rejects the one whom God has sent. Those who receive him are given a new identity, a new origin, a new family. The language of new birth here anticipates the extended conversation with Nicodemus in chapter 3, where Jesus speaks of being born again, or born from above, as the entry point into the kingdom of God.",
+    ],
+  },
+  {
+    id: "The Word Became Flesh",
+    heading: "The Word Became Flesh",
+    reference: "John 1:14&ndash;18",
+    paragraphs: [
+      "The climax of the Johannine prologue comes in verse 14, one of the most theologically dense sentences ever written: &ldquo;And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth&rdquo; (1:14). Three words carry enormous weight: became, flesh, and dwelt. Each is a carefully chosen affirmation of the reality and the depth of the incarnation.",
+      "&ldquo;Became&rdquo; &mdash; not &ldquo;appeared as&rdquo; or &ldquo;seemed to be,&rdquo; but genuinely became. The eternal Logos entered into a mode of existence that was not his own, took on what had not previously characterized him, became what he was not. This is not a visitation or a theophany or a mere human-like appearance; it is a real and permanent addition to the identity of the Logos. The one who was purely divine takes on full humanity &mdash; not as a costume or a temporary disguise, but as a genuine new way of existing.",
+      "&ldquo;Flesh&rdquo; &mdash; not simply &ldquo;body&rdquo; or &ldquo;human form,&rdquo; but <em>sarx</em>, the word that in the Jewish tradition carries connotations of creatureliness, vulnerability, mortality, the frailty of human existence. John does not choose a noble word for his description of the incarnation. He chooses the word that underlines how far down the Logos came &mdash; into the realm of the weak and dying, the realm that groans under the weight of sin and mortality. The incarnation was not a gentle dip into human experience; it was a plunge into the full depth of what it means to be human and mortal.",
+      "&ldquo;Dwelt among us&rdquo; &mdash; the Greek verb here is <em>eskenosen</em>, from the word for tent or tabernacle. John is saying that the Logos pitched his tent in the midst of humanity, establishing his dwelling among his people as God had once done in the wilderness tabernacle (Exod. 40:34). The glory that had once filled the tabernacle and then Solomon&rsquo;s Temple now took up residence in a human person. The whole history of God&rsquo;s dwelling with Israel &mdash; the tent of meeting, the ark of the covenant, the shekinah glory &mdash; reaches its fulfillment in the incarnate Logos.",
+      "The &ldquo;we&rdquo; who have seen his glory introduces an eyewitness dimension. The prologue is not pure abstract theology; it is the confession of those who were present, who looked upon this person and recognized in him the glory of God. The glory they saw was &ldquo;as of the only Son from the Father&rdquo; &mdash; <em>monogenes</em> in Greek, meaning unique, one-of-a-kind, the beloved and only Son. This is a relational term as well as an ontological one: the Son stands in a unique relationship to the Father, a relationship of intimacy, love, and shared life that existed before the world began.",
+      "John the Baptist&rsquo;s witness is again invoked to confirm the priority of the Logos: &ldquo;He who comes after me ranks before me, because he was before me&rdquo; (1:15). The Baptist came first chronologically but is subordinate in rank, because the one who came after him in time pre-existed him in eternity. This paradox &mdash; the later one is the earlier one &mdash; is John&rsquo;s way of marking the cosmic significance of Jesus: his temporal appearance does not define his true origin.",
+      "The prologue closes with a statement of boundless generosity: &ldquo;For from his fullness we have all received, grace upon grace&rdquo; (1:16). The <em>Logos</em> is full of grace and truth, and from that inexhaustible fullness his people receive wave upon wave of grace &mdash; one grace replacing another, gift upon gift. This is the logic of the new covenant exceeding the old: &ldquo;For the law was given through Moses; grace and truth came through Jesus Christ&rdquo; (1:17). And then the final statement, gathering the whole prologue into a single declaration: &ldquo;No one has ever seen God; the only God, who is at the Father&rsquo;s side, he has made him known&rdquo; (1:18). The incarnation is the definitive self-disclosure of God. To see Jesus is to see the Father.",
+    ],
+  },
+  {
+    id: "Behold the Lamb of God",
+    heading: "Behold the Lamb of God",
+    reference: "John 1:19&ndash;34",
+    paragraphs: [
+      "The narrative proper of John&rsquo;s Gospel begins with an interrogation. The Jewish authorities in Jerusalem send priests and Levites to ask John the Baptist who he is. The Baptist&rsquo;s answers are structured as a series of negations before the positive identification: he is not the Christ, not Elijah, not the Prophet. He identifies himself instead as &ldquo;the voice of one crying out in the wilderness, &lsquo;Make straight the way of the Lord&rsquo;&rdquo; (1:23), quoting Isaiah 40:3. He is the herald, the preparatory voice, not the one who is being heralded.",
+      "The interrogators press him: if he is none of these figures, why is he baptizing? John&rsquo;s answer reframes the conversation entirely: &ldquo;I baptize with water, but among you stands one you do not know, even he who comes after me, the strap of whose sandal I am not worthy to untie&rdquo; (1:26&ndash;27). The contrast is between John&rsquo;s water baptism and the one who comes after him. The Baptist is a servant too lowly even to perform the task of a servant; the loosing of sandals was considered so menial that a rabbinic tradition said a disciple should not do it for his teacher. The one who comes after John infinitely exceeds him.",
+      "The following day brings the central declaration of this passage: John sees Jesus coming toward him and says, &ldquo;Behold, the Lamb of God, who takes away the sin of the world&rdquo; (1:29). This is one of the most theologically loaded titles in the New Testament. The image of the lamb draws on multiple layers of Old Testament background. It evokes the Passover lamb whose blood marked the doorposts of Israel on the night of the exodus; it evokes the daily temple sacrifices; and perhaps most powerfully, it evokes the Suffering Servant of Isaiah 53, who &ldquo;like a lamb that is led to the slaughter&rdquo; bore the sins of many.",
+      "What is new in John&rsquo;s formulation is the scope: the Lamb takes away &ldquo;the sin of the world,&rdquo; not merely the sin of Israel or of the covenant community. From the very beginning of the Gospel, Jesus&rsquo;s saving work is cast in universal terms. He comes not as the national deliverer of Israel alone but as the one whose atoning work reaches to the ends of the earth, whose sacrifice is sufficient for the whole human family.",
+      "John then explains the basis of his testimony: he saw the Spirit descend as a dove and remain on Jesus at his baptism. This visible sign was the confirmation of the divine testimony: &ldquo;He who sent me to baptize with water said to me, &lsquo;He on whom you see the Spirit descend and remain, this is he who baptizes with the Holy Spirit.&rsquo;&rdquo; (1:33). The Baptist&rsquo;s role is to baptize with water, a preparatory washing; Jesus&rsquo;s role is to baptize with the Holy Spirit, the transforming, life-giving gift of the new covenant. In John&rsquo;s theology, the gift of the Spirit is inseparable from the work of the Son; the Spirit given at Pentecost flows from the death, resurrection, and glorification of Jesus.",
+      "The Baptist&rsquo;s testimony culminates in the declaration: &ldquo;And I have seen and have borne witness that this is the Son of God&rdquo; (1:34). This is the formal confessional statement toward which the whole interrogation has been building. John the Baptist is presented not as a rival to Jesus but as the ideal witness &mdash; the one who points entirely away from himself and toward the one who is greater, saying in effect: everything I am and everything I do is in service of this one testimony, that he is the Son of God.",
+    ],
+  },
+  {
+    id: "Come and See",
+    heading: "Come and See",
+    reference: "John 1:35&ndash;51",
+    paragraphs: [
+      "The final section of John 1 narrates the calling of the first disciples, a passage that differs significantly from the synoptic accounts. Where Matthew, Mark, and Luke depict Jesus walking beside the Sea of Galilee and summoning fishermen with a direct command (&ldquo;Follow me&rdquo;), John presents the calling as mediated through testimony and exploration. The disciples come to Jesus not because he commands them but because they follow a chain of witness that leads them to seek him out and discover for themselves who he is.",
+      "The sequence begins the day after the Lamb of God declaration, when John the Baptist again sees Jesus passing and declares, &ldquo;Behold, the Lamb of God&rdquo; (1:36). Two of John&rsquo;s disciples hear this and follow Jesus. Jesus turns, sees them following, and asks one of the Gospel&rsquo;s most profound questions: &ldquo;What are you seeking?&rdquo; (1:38). The question is not merely practical; it is the question that hangs over every person who approaches Jesus. What do you want? What is the deepest longing that has brought you here?",
+      "The two disciples &mdash; one of whom is identified as Andrew &mdash; respond with their own question: &ldquo;Rabbi, where are you staying?&rdquo; (1:38). The word for &ldquo;staying&rdquo; is the same verb that will later become one of the great themes of John&rsquo;s Gospel: &ldquo;abide,&rdquo; <em>meno</em> &mdash; to remain, to dwell, to stay. In their question is the first stirring of what will later be articulated as abiding in Christ, dwelling in him as the vine and bearing fruit. Jesus&rsquo;s answer is an invitation: &ldquo;Come and you will see&rdquo; (1:39). They came, they saw, and they remained with him that day.",
+      "This phrase &mdash; &ldquo;come and see&rdquo; &mdash; becomes a refrain in this passage and in the Gospel as a whole. It is not a theological argument but an invitation to personal encounter. The knowledge of Jesus that John commends is not primarily propositional but relational: you come, you see, you remain. Andrew&rsquo;s immediate response to his day with Jesus is to find his brother Peter and say, &ldquo;We have found the Messiah&rdquo; (1:41). The experience of encounter with Jesus produces testimony that draws others in. This is the pattern of the Kingdom: each person who meets Jesus becomes a witness who draws another person toward the same meeting.",
+      "The calling of Philip follows the same pattern with a variation: here Jesus does issue a direct summons, &ldquo;Follow me&rdquo; (1:43). Philip in turn finds Nathanael and offers testimony: &ldquo;We have found him of whom Moses in the Law and also the prophets wrote, Jesus of Nazareth, the son of Joseph&rdquo; (1:45). Nathanael&rsquo;s response is the cynicism that would come naturally to anyone from a rival village: &ldquo;Can anything good come out of Nazareth?&rdquo; (1:46). Philip does not argue; he simply repeats the invitation: &ldquo;Come and see.&rdquo;",
+      "The encounter between Jesus and Nathanael is one of the most extraordinary brief exchanges in the Gospels. Jesus sees Nathanael coming and says, &ldquo;Behold, an Israelite indeed, in whom there is no deceit&rdquo; (1:47). Nathanael is astonished: &ldquo;How do you know me?&rdquo; Jesus replies, &ldquo;Before Philip called you, when you were under the fig tree, I saw you&rdquo; (1:48). This demonstration of supernatural knowledge &mdash; knowing Nathanael before meeting him, seeing him in a private moment &mdash; produces immediate confession: &ldquo;Rabbi, you are the Son of God! You are the King of Israel!&rdquo; (1:49).",
+      "Jesus responds with a promise that opens toward the whole of the Gospel and beyond: &ldquo;You will see greater things than these&rdquo; (1:50). And then comes the climactic statement of the chapter: &ldquo;Truly, truly, I say to you, you will see heaven opened, and the angels of God ascending and descending on the Son of Man&rdquo; (1:51). The allusion is to Jacob&rsquo;s dream at Bethel, where a ladder stood between earth and heaven and the angels of God ascended and descended on it (Gen. 28:12). Jesus himself is the ladder, the meeting point between heaven and earth, the place where God and humanity come together. The one who was in the beginning with God, who became flesh and tabernacled among his people, who is the Lamb of God and the Son of God and the King of Israel, is also the Son of Man in whom heaven and earth are joined. John 1 ends not with a conclusion but with an opening &mdash; an invitation to see greater things, to discover in this person the axis of all reality.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "G-2e9mMf7E8", title: "BibleProject - Overview of the Gospel of John" },
+  { videoId: "RUfh_wOsauk", title: "The Logos - John 1 and the Word of God" },
+  { videoId: "x6LtL9Bk2RQ", title: "Behold the Lamb of God - John the Baptist and Jesus" },
+  { videoId: "2wYtnSMoMU0", title: "The Word Became Flesh - Incarnation in John 1" },
+];
+
+export default function John1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 1 &mdash; The Word Became Flesh
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The eternal Logos who was with God and was God, through whom all things were made, became flesh and dwelt among us &mdash; the true light entering the world, the Lamb of God taking away its sin, and the one who calls the first disciples to come and see.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of John 1 through visual teaching on the Logos prologue, the incarnation, the witness of John the Baptist, and the calling of the first disciples.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>You Will See Greater Things</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 1 is an invitation to behold the most astonishing reality in the universe: that the Word through whom all things were made became flesh and pitched his tent among us. Those who receive him are given the right to become children of God, and those who follow him are promised a vision of heaven opened &mdash; of the Son of Man as the meeting point of all things.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

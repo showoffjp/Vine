@@ -1852,6 +1852,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Thessalonians 4 Chapter": "1-thessalonians-4-guide",
   "Comfort One Another": "1-thessalonians-4-guide",
   "The Lord Himself Will Descend": "1-thessalonians-4-guide",
+  "Matthew 5 Chapter": "matthew-5-guide",
+  "The Beatitudes": "matthew-5-guide",
+  "Salt of the Earth": "matthew-5-guide",
+  "John 1 Chapter": "john-1-guide",
+  "In the Beginning Was the Word": "john-1-guide",
+  "Behold the Lamb of God": "john-1-guide",
+  "Acts 16 Chapter": "acts-16-guide",
+  "The Philippian Jailer": "acts-16-guide",
+  "Silas and Paul in Prison": "acts-16-guide",
+  "Genesis 22 Chapter": "genesis-22-guide",
+  "The Binding of Isaac": "genesis-22-guide",
+  "God Will Provide": "genesis-22-guide",
 };
 
 
@@ -2738,6 +2750,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Acts 2 Chapter" },
   { label: "Colossians 3 Chapter" },
   { label: "1 Thessalonians 4 Chapter" },
+  { label: "Matthew 5 Chapter" },
+  { label: "John 1 Chapter" },
+  { label: "Acts 16 Chapter" },
+  { label: "Genesis 22 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

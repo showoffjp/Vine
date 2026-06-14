@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Child Is Born unto Us",
+  "Wonderful Counselor King",
+  "Prince of Peace Kingdom",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Isaiah 9",
+    reference: "Isaiah 9:1&ndash;7",
+    paragraphs: [
+      "Isaiah 9 contains one of the most luminous and celebrated prophecies in all of Scripture &mdash; a burst of prophetic light breaking into a context of deep national darkness. The chapter opens by naming the territories of Zebulun and Naphtali, the northern regions of Israel that would be among the first to fall under Assyrian invasion and into the shadow of exile and despair. Yet the prophet declares that these very regions &ldquo;will not be gloomy for her who was in anguish&rdquo; (v. 1), because &ldquo;the people who walked in darkness have seen a great light; those who dwelt in a land of deep darkness, on them has light shone&rdquo; (v. 2). The light that Isaiah sees is not a natural phenomenon but the arrival of the promised Messiah.",
+      "The historical context matters profoundly for understanding the prophecy&rsquo;s force. Isaiah was ministering during the reigns of Uzziah, Jotham, Ahaz, and Hezekiah, a period of intense political pressure and military threat from the expanding Assyrian empire. The nation of Israel was fracturing, its northern tribes were being carried into exile, and even Judah in the south was trembling before the threat of invasion. The prophet Ahaz in particular was a king who trusted in political alliances rather than in the Lord, rejecting the sign of Immanuel that God offered him through Isaiah (ch. 7). Into this atmosphere of fear and political calculation, chapter 9 arrives as a thunderclap of divine promise.",
+      "The structure of Isaiah 9:1&ndash;7 moves in a characteristic prophetic pattern: from darkness to light (vv. 1&ndash;2), from mourning to joy (vv. 3&ndash;5), and from military chaos to the peace of the coming king (vv. 6&ndash;7). Each movement deepens the preceding one. The light that shines on the people in darkness becomes the joy of harvest and the exultation of victory; the yoke of the oppressor that is shattered becomes the final burning of the warrior&rsquo;s garments; and the peace that ends war is not a temporary armistice but the everlasting kingdom of the child who will bear the government upon his shoulder.",
+      "The prophecy reaches its pinnacle in the extraordinary names bestowed upon the coming child in verse 6: Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace. These four names are not four separate titles but four paired declarations about the character and identity of the promised king. Together they describe someone who transcends every merely human sovereign &mdash; a king whose wisdom is supernatural, whose power is divine, whose relationship to his people is fatherly and everlasting, and whose reign produces not merely the cessation of hostilities but a deep, comprehensive peace rooted in justice and righteousness.",
+      "Isaiah 9 has shaped the worship and expectation of the church in every century. The New Testament explicitly applies the light-darkness imagery of verses 1&ndash;2 to the ministry of Jesus in Galilee (Matthew 4:14&ndash;16). The names of verse 6 have been set to music in Handel&rsquo;s <em>Messiah</em> and have rung through the worship of countless congregations on every Christmas Eve. Yet the prophecy is not merely a Christmas text; it is a comprehensive statement about the nature and scope of God&rsquo;s redemptive plan, pointing to a kingdom that will endure forever because it is founded not on human achievement but on &ldquo;the zeal of the Lord of hosts&rdquo; (v. 7).",
+      "The final verse of the prophecy (v. 7) is particularly important for grasping the full scope of what Isaiah promises. The increase of the Messiah&rsquo;s government and peace will know no end; he will reign on the throne of David, establishing and upholding the kingdom with justice and righteousness &ldquo;from this time forth and forevermore.&rdquo; The guarantee of this promise is not the political strength of any earthly power but &ldquo;the zeal of the Lord of hosts&rdquo; &mdash; the passionate, covenant-keeping commitment of the God of Israel to fulfill every word he has spoken. What kings and armies cannot accomplish, God&rsquo;s own consuming zeal will bring to pass.",
+    ],
+  },
+  {
+    id: "Child Is Born unto Us",
+    heading: "For Unto Us a Child Is Born",
+    reference: "Isaiah 9:2&ndash;6a",
+    paragraphs: [
+      "The announcement in verse 6 begins with two parallel declarations: &ldquo;For to us a child is born, to us a son is given.&rdquo; The simplicity of these words is deceptive. In their context, they are revolutionary. Isaiah is writing to a people threatened by the greatest military power of the ancient world, watching their northern kinsmen be carried off into exile, governed by a king who has refused to trust in God. Into that darkness the prophet speaks of a child &mdash; a single birth that will change everything. The emphasis on &ldquo;to us&rdquo; is personal and covenant-laden: this child does not arrive as a stranger or an outside deliverer but as one who belongs to the people, born of their flesh, given for their sake.",
+      "The distinction between &ldquo;a child is born&rdquo; and &ldquo;a son is given&rdquo; has been noted by theologians throughout the history of interpretation. &ldquo;Born&rdquo; speaks of the humanity of the promised one &mdash; his entry into the world through normal human birth, his participation in the creatureliness of those he comes to save. &ldquo;Given&rdquo; speaks of his origin from above &mdash; he is not self-generated or merely the product of human history but is a gift, bestowed from God upon a needy people. Together these two phrases anticipate what John would later express in the prologue to his Gospel: &ldquo;the Word became flesh and dwelt among us&rdquo; (John 1:14) &mdash; a being who was both genuinely human (born) and genuinely divine (given, sent from the Father).",
+      "The preceding verses (vv. 2&ndash;5) paint in vivid strokes the world into which this child is born and the world he transforms by his coming. The people who walked in darkness have seen a great light &mdash; a light not of their own making or deserving but shining upon them from outside themselves. The joy that follows the light is compared to the joy of harvest, when a year of labor yields its abundance, and to the joy of soldiers dividing plunder after a great victory. The yoke, the rod of the oppressor, the boot of the trampling warrior &mdash; all these symbols of conquest and subjugation are overthrown. And the burning of the warrior&rsquo;s garments signals not merely the end of this particular battle but the end of war itself.",
+      "The Evangelist Matthew makes the connection to Jesus explicit when he recounts the beginning of Jesus&rsquo; public ministry in Galilee: &ldquo;Land of Zebulun and land of Naphtali, the way of the sea, beyond the Jordan, Galilee of the Gentiles &mdash; the people dwelling in darkness have seen a great light, and for those dwelling in the region and shadow of death, on them a light has dawned&rdquo; (Matthew 4:15&ndash;16). Jesus&rsquo; choosing to center his ministry in the very regions Isaiah named was not accidental; it was the deliberate fulfillment of a prophecy spoken seven centuries earlier. The child born to the people in darkness had come, and the light was shining precisely where the shadow had been deepest.",
+      "The theme of birth is also woven into the fabric of the Advent and Christmas narratives in profound ways. The shepherd&rsquo;s announcement in Luke 2 &mdash; &ldquo;unto you is born this day in the city of David a Savior, who is Christ the Lord&rdquo; (v. 11) &mdash; echoes the Isaianic &ldquo;to us a child is born.&rdquo; The angel&rsquo;s announcement to Mary that she would conceive and bear a son, and that &ldquo;the Lord God will give to him the throne of his father David&rdquo; (Luke 1:32), places the birth of Jesus explicitly within the context of the Davidic covenant that Isaiah 9:7 invokes. The New Testament writers read Isaiah 9 as a description not of a distant ideal but of a specific person: the baby in the manger at Bethlehem, the carpenter from Nazareth, the One crucified under Pontius Pilate and raised on the third day.",
+      "Theologically, the declaration &ldquo;to us a child is born, to us a son is given&rdquo; establishes the incarnation as a gift. God does not merely make a promise and then demand that human beings work their way toward its fulfillment; he acts unilaterally, in sovereign grace, to give what fallen humanity could never generate on its own. The child who is born and the son who is given are the same person viewed from two angles: from below, as one who enters human life through a human birth; and from above, as one who is bestowed upon humanity by God. Both dimensions are essential, and Isaiah captures them both in the space of a single verse.",
+    ],
+  },
+  {
+    id: "Wonderful Counselor King",
+    heading: "Wonderful Counselor, Mighty God, Everlasting Father",
+    reference: "Isaiah 9:6b",
+    paragraphs: [
+      "The four names or titles given to the promised child in verse 6b are the theological heart of the prophecy and have rightly been celebrated as among the most majestic descriptions of the Messiah in all of Scripture. The first name is &ldquo;Wonderful Counselor.&rdquo; In Hebrew, &ldquo;wonderful&rdquo; (<em>pele</em>) is not merely a superlative adjective meaning very good; it is the word used in Scripture for the supernatural works of God &mdash; the wonders that transcend ordinary human capacity. The counsel this king gives is not the wisdom of a merely brilliant human statesman; it is the wisdom of the divine mind made available to his people. Where King Ahaz had refused the counsel of God and sought political alliances instead, the coming king embodies a wisdom that is itself divine.",
+      "The title &ldquo;Wonderful Counselor&rdquo; carries particular weight in its contrast to the failed kings of Isaiah&rsquo;s day. Solomon had been given wisdom surpassing all others, yet it had ultimately failed him when he turned to foreign wives and foreign gods. Ahaz was conspicuously devoid of wisdom, terrified by the Syro-Ephraimite coalition and grasping at Assyrian power to save him. The Wonderful Counselor is the king Israel had always needed but never had: one whose counsel is not corrupted by fear, self-interest, or moral compromise, because his wisdom is rooted in the very nature of God himself. Those who come to him for guidance are not disappointed, because he not only advises but actually gives the wisdom needed to walk rightly.",
+      "The second name, &ldquo;Mighty God,&rdquo; is the most theologically arresting of the four. The Hebrew is <em>El Gibbor</em> &mdash; a designation used elsewhere in Isaiah only for the God of Israel himself (10:21). Isaiah is not merely saying that this child will be a great and powerful king; he is saying that this child will be, in some sense, the Mighty God &mdash; the divine warrior who fights for his people. This is the point at which the prophecy most explicitly breaks the bounds of what any merely human fulfillment could satisfy. No king of Judah, however gifted, could receive the name &ldquo;Mighty God.&rdquo; The prophecy points beyond the merely human to the divine, anticipating the mystery that John would later express in the words &ldquo;the Word was God&rdquo; (John 1:1).",
+      "The third name, &ldquo;Everlasting Father,&rdquo; has sometimes caused confusion because Christians confess that Jesus is the Son, not the Father, in the Trinity. But Isaiah&rsquo;s language is not meant to flatten the distinctions within the divine nature; it is describing the character of the Messiah&rsquo;s kingship toward his people. He is an &ldquo;Everlasting Father&rdquo; in the sense that he exercises a paternal care, protection, and provision for his people that will never end. Unlike earthly kings whose reign is cut short by death and whose people are left vulnerable at succession, this king&rsquo;s fatherly care endures from everlasting to everlasting. He does not merely rule his people; he nurtures, sustains, and protects them with a love that is both parental and eternal.",
+      "This dimension of the prophecy is fulfilled in the language Jesus himself uses to describe his relationship to his disciples. &ldquo;I give them eternal life, and they will never perish, and no one will snatch them out of my hand&rdquo; (John 10:28). The everlasting quality of his care for those who belong to him is not a theoretical promise but a lived reality &mdash; he intercedes for them, sustains them through suffering, and will finally receive them into his presence for eternity. The &ldquo;Everlasting Father&rdquo; of Isaiah 9 is not merely a title to be celebrated in worship but a description of an ongoing relationship between the king and his people that will never be interrupted.",
+      "Taken together, the three names &ldquo;Wonderful Counselor, Mighty God, Everlasting Father&rdquo; paint a picture of a king who is categorically different from every other ruler in human history. He possesses supernatural wisdom, divine power, and eternal fatherly love. He is not a human leader elevated to quasi-divine status through legend or flattery; he is, Isaiah insists, something entirely new in human experience &mdash; a king who is also God, a ruler who is also Father, a wonder-worker whose counsel and might and love operate on a plane that transcends the merely natural. The Christian church has confessed from its earliest days that this king is Jesus of Nazareth, the Son of God incarnate.",
+    ],
+  },
+  {
+    id: "Prince of Peace Kingdom",
+    heading: "Prince of Peace and the Everlasting Kingdom",
+    reference: "Isaiah 9:6c&ndash;7",
+    paragraphs: [
+      "The fourth and final name given to the promised child is &ldquo;Prince of Peace&rdquo; &mdash; in Hebrew, <em>Sar Shalom</em>. This title is the culminating description, the one toward which the entire prophecy has been building, and it carries layers of meaning that the single English word &ldquo;peace&rdquo; does not fully convey. The Hebrew <em>shalom</em> encompasses not merely the absence of conflict but the positive presence of wholeness, flourishing, right relationships, and the comprehensive well-being of a community living as God intended. The Prince of Peace does not merely end wars; he establishes the conditions in which human life can unfold as God designed it &mdash; in justice, righteousness, and the enjoyment of God&rsquo;s abundant provision.",
+      "The context makes the significance of this title acute. Isaiah was writing in a time of war &mdash; real, devastating war, with armies marching, cities burning, and populations being dragged into exile. The memory of the Syro-Ephraimite war was fresh; the threat of Assyrian invasion loomed over the entire horizon. The people needed peace, desperately and concretely. The Prince of Peace Isaiah promises is not a spiritual abstraction who addresses only the inner life of individuals; he is a ruler whose reign produces actual, historical transformation &mdash; a world in which the warrior&rsquo;s boot and the blood-stained garment are burned because they are no longer needed (v. 5).",
+      "Verse 7 unfolds the nature of this peace in its political and historical dimensions. &ldquo;Of the increase of his government and of peace there will be no end.&rdquo; This king&rsquo;s realm is not static but growing &mdash; a kingdom that expands not through the typical mechanisms of conquest and intimidation but through the spread of justice and righteousness. He will reign on the throne of David, fulfilling the covenant God made with David in 2 Samuel 7 that one of his descendants would rule forever. The throne of David was, in Isaiah&rsquo;s day, occupied by a succession of increasingly faithless kings; the prophecy promises that the legitimate heir of that throne will finally arrive and that his reign will bring what no Davidic king had yet managed to achieve.",
+      "The phrase &ldquo;to establish it and to uphold it with justice and with righteousness from this time forth and forevermore&rdquo; is crucial for understanding the character of this kingdom. Justice (<em>mishpat</em>) and righteousness (<em>tsedaqah</em>) are not merely ethical qualities that the king happens to possess; they are the structural foundations of his reign. They are what makes the increase of his government genuinely good rather than merely extensive. A kingdom that grows without justice produces subjugation; a kingdom built on justice and righteousness produces the shalom that Isaiah has been describing throughout the prophecy &mdash; genuine flourishing for all who live under it.",
+      "The New Testament traces the fulfillment of this promise through the birth, life, death, and resurrection of Jesus, but it insists that the fulfillment is not yet complete in its visible historical dimensions. The angel Gabriel tells Mary that her son will be &ldquo;great and will be called the Son of the Most High. And the Lord God will give to him the throne of his father David, and he will reign over the house of Jacob forever, and of his kingdom there will be no end&rdquo; (Luke 1:32&ndash;33) &mdash; language that directly echoes Isaiah 9:7. The kingdom has been inaugurated in the person and work of Jesus, but it awaits its consummation at his return, when every enemy will be finally defeated and his reign of peace will be fully and visibly established over all creation.",
+      "The guarantee of the entire prophecy is given in the final phrase of verse 7: &ldquo;The zeal of the Lord of hosts will do this.&rdquo; The fulfillment of the promise does not depend on human political arrangements, the faithfulness of any particular king, the strength of any army, or the wisdom of any human counselor. It depends entirely on the passionate, covenant-keeping commitment of God himself &mdash; the God who declared his purpose and whose zeal is the engine that drives all of history toward the goal he has set. For a people living in fear and darkness, this is the ultimate word of assurance: the promised Prince of Peace will come and his kingdom will endure, not because humanity deserves it or can build it, but because &ldquo;the zeal of the Lord of hosts will do this.&rdquo;",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Living in the Light of Isaiah 9",
+    reference: "Isaiah 9:1&ndash;7",
+    paragraphs: [
+      "The first and most fundamental application of Isaiah 9 is the call to recognize the light. The prophecy begins with a declaration about people who were walking in darkness and who have seen a great light. The darkness is not merely metaphorical; it is the lived experience of a people under military threat, under political failure, and under the spiritual darkness of a generation that had turned from its God. Yet the darkness is not the final word. The light that shines on them does not arise from within their situation &mdash; it breaks in from outside, from the God who refuses to abandon his people even in their worst moments. The first application for the contemporary believer is to look up from the darkness of the present age and recognize that the light has come.",
+      "That light has a name: Jesus of Nazareth, the one whom Matthew identified as the fulfillment of Isaiah&rsquo;s vision when he began his ministry in the regions of Zebulun and Naphtali. The Christian who meditates on Isaiah 9 is not reading a beautiful ancient poem but encountering a promise that has been personally and historically fulfilled in Jesus Christ. The child has been born; the son has been given. Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace &mdash; all four names are now names that belong to the one who rose from the dead and is enthroned at the right hand of the Father. Applying this passage begins with believing that the promise has been kept.",
+      "Second, Isaiah 9 calls believers to a profound reorientation of their fears. The people to whom Isaiah wrote were afraid of Aram, Ephraim, and Assyria &mdash; the great powers of their day that seemed capable of determining the outcome of history. The prophecy reframes history entirely: the power that ultimately governs events is not the might of human empires but the zeal of the Lord of hosts. Contemporary believers live in the midst of geopolitical instabilities, cultural upheavals, economic uncertainties, and personal threats that can seem as overwhelming as Assyria once seemed to eighth-century Judah. Isaiah 9 does not promise the absence of those threats; it promises that behind and above and through them, the zeal of the Lord is at work to accomplish his purpose.",
+      "Third, the title &ldquo;Wonderful Counselor&rdquo; invites believers into a particular posture of dependence on the wisdom of Christ. The kings of Israel and Judah so often failed because they sought wisdom from human sources &mdash; political allies, foreign gods, their own calculations &mdash; rather than from the Lord. The church has available to it the wisdom of the one whose counsel is himself &ldquo;wonderful,&rdquo; supernatural, and unfailing. This means that the practice of bringing decisions, relationships, vocational choices, and ethical dilemmas to the Lord in prayer and to the Scriptures in study is not merely a religious discipline; it is the act of turning to the one who is qualified beyond all others to counsel his people. The believer who consults only human advisors and secular frameworks for wisdom has forgotten that the Wonderful Counselor is accessible.",
+      "Fourth, the promise of the Prince of Peace shapes the way Christians engage with suffering and conflict in the present age. The peace that Isaiah promises is not yet fully visible; the world still contains wars, broken relationships, injustice, and personal suffering on a massive scale. Yet the believer who trusts in the Prince of Peace has a resource unavailable to those who have no such promise: the peace of God, which surpasses all understanding, that Paul describes in Philippians 4:7. This peace is not the same as the cessation of conflict; it is the shalom of a person whose relationship with the Prince of Peace is unbroken, and who therefore possesses in the present a foretaste of the comprehensive peace that his kingdom will bring at its consummation.",
+      "Finally, Isaiah 9 calls the church to a posture of confident, joyful expectation. The prophecy does not describe a situation that is improving incrementally through human effort; it describes a dramatic, divine intervention &mdash; a child born, a son given, a kingdom established on justice and righteousness that will increase without end. The church does not build the kingdom of God; it bears witness to the kingdom that God is building, and that his zeal guarantees. This posture of expectation is not passivity; it is the most active possible engagement with the world, because it is engagement that trusts in the outcome. The people who walked in darkness have seen a great light &mdash; and those who have seen that light are called to carry it into every dark corner of the world, in the confidence that &ldquo;the zeal of the Lord of hosts will do this.&rdquo;",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "ACHoJHOkFI0", title: "Isaiah 9:6 - Unto Us a Child Is Born (Expository Sermon)" },
+  { videoId: "9i3XKoKHMhI", title: "Isaiah 9 - The Wonderful Counselor and Prince of Peace" },
+  { videoId: "4H-FhFXVPOI", title: "Messianic Prophecy in Isaiah 9 - Fulfilled in Jesus" },
+  { videoId: "UqcSuA6ORIE", title: "For Unto Us a Child Is Born - Isaiah 9 Bible Study" },
+];
+
+export default function Isaiah9GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Isaiah 9 &mdash; For Unto Us a Child Is Born
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Into the darkness of Assyrian threat and political failure, the prophet Isaiah sees a great light &mdash; a child born, a son given, who bears the names Wonderful Counselor, Mighty God, Everlasting Father, and Prince of Peace, and whose kingdom of justice and righteousness will increase without end.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Zeal of the Lord of Hosts Will Do This</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Isaiah 9 stands as one of Scripture&rsquo;s most magnificent windows into the heart of God&rsquo;s redemptive purpose. The child who was born and the son who was given is Jesus Christ, the Wonderful Counselor and Prince of Peace, whose kingdom of justice and righteousness will increase without end &mdash; guaranteed not by human effort but by the zeal of the Lord of hosts.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

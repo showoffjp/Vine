@@ -1,0 +1,191 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Law and Sin Chapter",
+  "Wretched Man Romans",
+  "The Inner Conflict",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Romans 7",
+    reference: "Romans 7:1&ndash;25",
+    paragraphs: [
+      "Romans 7 stands at the very center of Paul&rsquo;s great letter to the church in Rome, and it is one of the most searching, honest, and theologically dense chapters in the entire New Testament. Paul has already laid out in Romans 1&ndash;3 the universal guilt of humanity before a holy God, argued in chapters 4&ndash;5 that righteousness comes through faith in Christ rather than works, and explained in chapter 6 that believers have died to sin and been raised to newness of life in Christ. Now in chapter 7 he turns to a question that inevitably arises from all of this: what, then, is the role of the Law? If sin is the problem and grace is the answer, does that mean the Law of Moses is itself sinful, even evil?",
+      "Paul&rsquo;s answer is an emphatic no &mdash; the Law is holy, righteous, and good. Yet something has gone terribly wrong, and Paul traces the fault not to the Law but to sin operating through the Law in the weak flesh of fallen humanity. The chapter opens with a legal illustration about the binding force of law over a person only while they live, which Paul uses to argue that believers have died to the Law through Christ and are now joined to him rather than to the old legal covenant. This is not license to sin but liberation for fruitful living in the Spirit.",
+      "The heart of the chapter &mdash; and its most contested passage &mdash; is the first-person narrative in verses 14&ndash;25, where Paul describes a person who knows the good, delights in God&rsquo;s law, and yet finds himself doing what he hates, unable to do what he wills. &ldquo;For I do not do what I want, but I do the very thing I hate&rdquo; (7:15). This portrait of radical inner conflict culminates in the anguished cry, &ldquo;Wretched man that I am! Who will deliver me from this body of death?&rdquo; (7:24), immediately followed by the triumphant answer: &ldquo;Thanks be to God through Jesus Christ our Lord!&rdquo;",
+      "Interpreters have long debated whether Paul is describing his pre-conversion experience under the Law, his experience as a believer wrestling with the flesh, or a stylized portrait of unregenerate humanity. Whatever conclusion one reaches, the chapter performs a crucial theological function: it diagnoses the deep problem of the human condition under the Law, exposes the powerlessness of even sincere moral striving apart from the Spirit, and drives the reader into the arms of Christ who alone can deliver. Romans 7 is not meant to be a comfortable resting place but a doorway that opens into the glorious freedom of Romans 8.",
+      "Reading Romans 7 carefully teaches us that the problem of sin is not superficial. It is not simply that people make wrong choices when they know the right ones. Something deeper is at work &mdash; what Paul calls the flesh, a principle of inward resistance to God that reasserts itself even when the mind affirms God&rsquo;s law as good and true. This is why external law, however holy and right, cannot ultimately produce righteousness in fallen people. Only a new power working from within &mdash; the Holy Spirit &mdash; can accomplish what the Law, weakened by the flesh, could never do. Chapter 7 sets the stage for the liberating declaration of chapter 8 that there is now no condemnation for those who are in Christ Jesus.",
+    ],
+  },
+  {
+    id: "Law and Sin Chapter",
+    heading: "The Law and Sin",
+    reference: "Romans 7:1&ndash;13",
+    paragraphs: [
+      "Paul opens the chapter with a brief legal analogy to establish an important principle: a law has authority over a person only as long as that person lives. He illustrates with the example of a married woman, who is bound by law to her husband while he lives but is free from that law if he dies. Apply this to the believer&rsquo;s relationship to the Mosaic Law: through the death of Christ &mdash; and the believer&rsquo;s union with Christ in that death &mdash; the binding legal claim of the old covenant has been broken. The believer has &ldquo;died to the law through the body of Christ&rdquo; (7:4) and is now joined to the risen Christ instead. This is a transfer of allegiances, a change of marriage, so to speak.",
+      "But what was wrong with the old arrangement? Was the Law itself sinful? Paul is horrified at the implication and insists otherwise. The Law was not sinful; it was the instrument by which sin was identified, named, and understood. &ldquo;I would not have known sin except through the law. For I would not have known what it is to covet if the law had not said, &lsquo;You shall not covet&rsquo;&rdquo; (7:7). The Law functioned as a mirror that showed clearly what was already there &mdash; sinful desires in the human heart. Before the commandment came, sin was present but not yet fully visible. The Law brought it into sharp relief.",
+      "Then Paul describes something startling: when the commandment came, sin seized the opportunity and used the commandment itself to produce covetousness. This is the perverse dynamic at the heart of human experience &mdash; prohibition arouses desire. The Law said &ldquo;You shall not covet,&rdquo; and sin, using that very prohibition as a beachhead, produced in Paul&rsquo;s heart a flowering of the very desire that was forbidden. The commandment that was meant for life proved to be &ldquo;death to me&rdquo; (7:10) &mdash; not because it was bad, but because sin used it as a weapon against the one who was commanded.",
+      "This leads Paul to the crucial distinction: the Law is holy, and the commandment is holy and righteous and good (7:12). The problem is not the standard but the heart that cannot meet it. Sin is revealed as the true villain of the story &mdash; it exploited what was good and used it to produce death, so that sin might be shown in its true character. The Law exposed sin&rsquo;s radical corruption; it did not create it. A thermometer does not cause a fever; it reveals one. The Law&rsquo;s role in producing condemnation was not a flaw in the Law but an exposure of the flaw in us.",
+      "This first section of Romans 7 also reveals something about the pastoral context in which Paul is writing. Some in Rome apparently worried that freedom from the Law amounted to antinomianism &mdash; a license to sin. Paul&rsquo;s argument is subtler and more careful. Believers are not under the Law as a legal covenant, but they are not therefore freed to live lawlessly. They are freed to bear fruit for God, joined to the living Christ by the Spirit. The old written code was an external standard; the new life in Christ involves the Spirit writing God&rsquo;s law on the heart. The goal is not less holiness but more &mdash; holiness that flows from within rather than being merely imposed from without.",
+      "The passage also helps Christians understand why moral effort alone is so often frustrating. It is not that the moral law is wrong or that God&rsquo;s standards are too demanding. The problem is what Paul will go on to describe in greater detail in the following verses: the flesh, which Paul names as the medium through which sin operates, resists the Law&rsquo;s demands even in people who know and affirm those demands. The Law reveals the depth of the problem; the Spirit alone supplies the solution. Understanding this distinction frees the believer from the treadmill of self-justification and drives them toward reliance on divine grace.",
+    ],
+  },
+  {
+    id: "Wretched Man Romans",
+    heading: "Wretched Man That I Am",
+    reference: "Romans 7:14&ndash;25",
+    paragraphs: [
+      "The second half of Romans 7 is one of the most personally anguished passages in all of Paul&rsquo;s letters. Writing in the present tense and using the first-person singular throughout, Paul describes a person who stands in a position of deep and painful contradiction. &ldquo;We know that the law is spiritual, but I am of the flesh, sold under sin&rdquo; (7:14). The Law belongs to the realm of the Spirit, to God&rsquo;s own holy character. But the person Paul describes is &ldquo;of the flesh&rdquo; &mdash; belonging to, shaped by, and held captive by a principle that is hostile to God.",
+      "The contradiction unfolds in painful detail. This person does not understand his own actions &mdash; he does not do what he wants, and he does the very thing he hates (7:15). At the very moment that he hates what he does, he is actually agreeing with the Law that the Law is good, because he recognizes his behavior as wrong. There is a real alignment of his mind and the Law, yet there is a disastrous misalignment between his will and his actions. He wills the good but does the evil. He wills not to do evil but does it anyway. The problem, Paul says, is not really &ldquo;I&rdquo; in the deepest sense but rather sin dwelling in me (7:17, 20).",
+      "Paul&rsquo;s diagnosis is precise and anatomical in its language: &ldquo;For I know that nothing good dwells in me, that is, in my flesh&rdquo; (7:18). The flesh &mdash; the old self, the fallen nature inherited from Adam &mdash; is the residence of this warring principle called sin. This does not mean the physical body is evil in itself, as the Gnostics would later claim. Paul uses &ldquo;flesh&rdquo; to describe the whole self as organized around the self rather than around God. In the flesh, the desire to do good is present, but the power to carry it out is absent. Wanting good is there; performing it is not (7:18).",
+      "The diagnosis intensifies in verses 21&ndash;23 as Paul describes what he calls a &ldquo;law&rdquo; operating in his members. He delights in the law of God in his inner being &mdash; in his deepest self, the core of who he is, he loves God&rsquo;s law. But there is another law, a law of sin, waging war against the law of his mind and taking him captive. This is not occasional struggle; it is captivity. The language of warfare and imprisonment captures the experience of the person who knows the good, wants the good, and yet finds themselves repeatedly doing the very opposite. The inner delight in God&rsquo;s law coexists with an outward captivity to sin.",
+      "The chapter reaches its emotional and rhetorical climax in the famous cry of verse 24: &ldquo;Wretched man that I am! Who will deliver me from this body of death?&rdquo; This is not theatrical despair but the honest confession of a soul that has seen the depth of its own bondage and knows that no effort of the will can break it. The phrase &ldquo;body of death&rdquo; may evoke an ancient punishment in which a condemned person was tied to a corpse &mdash; an image of unremitting, inescapable burden. Whatever its origin, the image communicates the horror of being bound to something that only produces death and separation from God.",
+      "Yet the cry of verse 24 is immediately answered in verse 25: &ldquo;Thanks be to God through Jesus Christ our Lord!&rdquo; The answer to the question &ldquo;Who will deliver?&rdquo; is not a program, a principle, or a practice &mdash; it is a person. Jesus Christ our Lord is the deliverer. Paul then offers a brief summary statement: with the mind he himself serves the law of God, but with the flesh the law of sin. This sobering note suggests that even the liberated believer does not experience perfect victory in this life. The battle continues. But deliverance is certain, and its source is Christ alone. The cry of wretchedness opens into the triumphant declaration that launches chapter 8: &ldquo;There is therefore now no condemnation for those who are in Christ Jesus&rdquo; (8:1).",
+    ],
+  },
+  {
+    id: "The Inner Conflict",
+    heading: "The Inner Conflict Explained",
+    reference: "Romans 7:14&ndash;25",
+    paragraphs: [
+      "The inner conflict Paul describes in Romans 7 is one of the most discussed and debated passages in Christian theology. Three main interpretive positions have been advanced over the centuries. The first holds that Paul is describing his pre-conversion experience as a Pharisee zealous for the Law, looking back from his converted perspective and applying Christian categories to his former life. The second holds that Paul is describing the experience of a regenerate believer, the ongoing tension between the old nature and the new that characterizes life this side of the resurrection. The third, closely related to the first, reads the passage not primarily as autobiography but as a dramatic representation of Adam, or of Israel under the Law, or of unregenerate humanity generally.",
+      "Each reading captures something true. The reading that sees Paul&rsquo;s pre-Christian experience has the advantage of explaining why Romans 8, with its Spirit-empowered victory, stands in such stark contrast to Romans 7, which never mentions the Holy Spirit. If Romans 7 described the normal Christian life, it would seem to undercut Paul&rsquo;s glowing account in chapter 8 of life in the Spirit. On the other hand, the reading that sees a regenerate believer can appeal to the phrase &ldquo;I delight in the law of God in my inner being&rdquo; (7:22) as language that describes genuine spiritual renewal, not merely the natural conscience.",
+      "What is perhaps most important is that Paul&rsquo;s description resonates deeply with Christian experience. Believers do not, upon conversion, instantly arrive at perfect holiness. They find that the flesh &mdash; the pattern of living according to self rather than God &mdash; remains as a fighting force within them even while the Spirit is also present and active. The Reformers, particularly Luther and Calvin, were deeply drawn to the reading that Paul is describing Christian experience, because it matched so exactly what they and their congregations knew from the inside: the very real and ongoing battle between what the renewed mind affirms and what the sinful flesh produces.",
+      "Theologically, the passage guards against two opposite errors. On one side is the error of perfectionism &mdash; the claim that the Christian can reach a state in this life where sin is fully eradicated and inner conflict ceases. Romans 7 presses back against this claim by taking with full seriousness the ongoing reality of the flesh. On the other side is the error of despair &mdash; the sense that because one continues to struggle and fail, one must not be a true believer. Romans 7 guards against this error too, because the very anguish Paul describes is accompanied by a real delight in God&rsquo;s law, a real longing for deliverance, and a real gratitude toward God.",
+      "The conflict itself is diagnostic. A person who feels no inner conflict about sin, who sins without remorse and with full contentment, is not experiencing the war of Romans 7 &mdash; they are simply living in the flesh without resistance. The conflict Paul describes presupposes that there is something in the person that loves God&rsquo;s law and longs for holiness, and that this longing comes into violent friction with the flesh. In a strange way, therefore, experiencing the conflict of Romans 7 can be taken as evidence of life in the Spirit, not evidence of its absence. The struggle is real, painful, and humbling &mdash; but it is also the struggle of someone who belongs to God.",
+      "The resolution Paul points to in the chapter is not a technique or a spiritual discipline, though those have their place elsewhere in Scripture. The resolution is a person: Jesus Christ our Lord, who delivers from this body of death. And the full outworking of that deliverance is reserved for the glorification of the body at the resurrection. Paul will argue in Romans 8 that the Spirit is the firstfruits of that future redemption, and that the whole creation groans as the Spirit groans within believers, longing for the final liberation that is certain because of what Christ has already done. Until then, the inner conflict is real &mdash; and the deliverer is real, and greater.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Romans 7 Today",
+    reference: "Romans 7 &mdash; For the Life of the Believer",
+    paragraphs: [
+      "Romans 7 has a strikingly practical address for contemporary Christian life. In a culture that prizes self-improvement, personal development, and the power of the will, Paul&rsquo;s candid diagnosis of the human condition under the Law is deeply countercultural. The message of the chapter is not that people who try hard enough will eventually overcome their sinful tendencies. It is that the flesh, by its very nature, cannot produce righteousness, however sincerely it desires it. The application of this truth is, first of all, humility &mdash; a humility about what we are capable of through effort alone, and an openness to the grace that alone can do what the Law could not.",
+      "For believers struggling with persistent sin, Romans 7 offers a remarkable gift: honest, inspired, apostolic company in the struggle. Paul does not describe the wretched man&rsquo;s experience as a failure of faith or a mark of spiritual immaturity that mature believers eventually leave behind. He describes it with an identification that has rung true across centuries of Christian experience. To read Romans 7 in the midst of struggling with a repeated failure is to discover that the Bible does not gloss over the difficulty, that the greatest apostle of grace knew something from the inside of this battle, and that the cry &ldquo;Wretched man that I am!&rdquo; is a biblical and honest response to the experience of fallen human nature.",
+      "At the same time, Romans 7 must always be read in its context &mdash; as a chapter that opens directly into the liberating declaration of Romans 8. If a believer takes up residence in Romans 7 as a permanent address, using Paul&rsquo;s description of inner conflict as a permission slip for continued sin, they have misread the passage. Paul&rsquo;s anguish is not comfortable; it leads to a cry for deliverance. And the answer he gives &mdash; &ldquo;Thanks be to God through Jesus Christ our Lord!&rdquo; &mdash; is not a mere acknowledgment that Christ has done something but a shout of gratitude for an ongoing, living deliverance. The believer is not merely pardoned; they are transferred into a new realm of existence governed by the Spirit.",
+      "The passage also speaks to the way Christians engage with the moral law. Paul insists that the believer is not under the Law as a covenant &mdash; the old marital bond has been broken by death and they are now joined to Christ. This does not mean the moral content of the Law is irrelevant. Paul himself &ldquo;delights in the law of God in his inner being&rdquo; (7:22). But the believer&rsquo;s relationship to God&rsquo;s moral standards is now driven by love and the Spirit rather than by legal obligation. They obey not to be accepted but because they are accepted; not to earn righteousness but because righteousness has been credited to them. This transforms the entire emotional and relational texture of Christian obedience.",
+      "Romans 7 also has important things to say about the nature of pastoral care. When a fellow believer is caught in a pattern of sin, the temptation is to respond with moral pressure &mdash; more exhortation, stronger commands, fiercer accountability. Those tools have their place. But Romans 7 suggests that the deeper issue may be a person&rsquo;s grasp of grace, their understanding of the gospel, and their confidence in the delivering power of Christ. The law can identify the problem but cannot solve it. What the struggling soul ultimately needs is a deeper encounter with the deliverer himself &mdash; not just information about Christ, but a living relationship with the one who breaks the power of sin by the indwelling Spirit.",
+      "Finally, Romans 7 cultivates compassion toward the non-Christian world. Paul&rsquo;s portrait of a person sold under sin, unable to do the good they will, wanting to do right and failing, is in part a portrait of the human condition outside of Christ. The person who has not been freed by the Spirit of Christ is not in a neutral moral state &mdash; they are in bondage. This is not a counsel of despair about non-believers, but it is a sober reminder of why the gospel matters so deeply. The cry &ldquo;Who will deliver me?&rdquo; is the cry of every human heart, whether or not the person knows it. Christians who have heard the answer &mdash; Jesus Christ our Lord &mdash; carry that answer as the most urgent and compassionate message they could ever share.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "0yvuJOzYC1g", title: "Romans 7 Explained - The Law, Sin, and the Wretched Man" },
+  { videoId: "PpUYHN4mh4I", title: "Who Is the Wretched Man of Romans 7? - John Piper" },
+  { videoId: "5BWEEqJ-g1s", title: "Romans 7 - Struggle with Sin and the Power of the Gospel" },
+  { videoId: "dV1F5mCXjeM", title: "Romans 7 and 8 - The Inner Conflict and Life in the Spirit" },
+];
+
+export default function Romans7GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Romans 7 &mdash; The Wretched Man
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The Law, sin, and the agonizing inner conflict between the flesh and the spirit &mdash; Paul&rsquo;s most personally searching chapter, culminating in the desperate cry &ldquo;Who will deliver me?&rdquo; and the triumphant answer: Jesus Christ our Lord.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3.5rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Explore Romans 7 through these video teachings on the wretched man, the role of the Law, the inner conflict between flesh and Spirit, and the hope found only in Jesus Christ.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Who Will Deliver Me?</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Romans 7 does not leave us in the pit of wretchedness but drives us toward the only deliverer. The anguish of verse 24 is the dark doorway into the blazing light of Romans 8 &mdash; &ldquo;There is therefore now no condemnation for those who are in Christ Jesus.&rdquo; The law could expose our bondage; only Christ can break it. The Spirit who now indwells every believer is the down payment of a freedom that will one day be complete.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

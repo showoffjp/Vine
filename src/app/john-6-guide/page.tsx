@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Feeding the Five Thousand",
+  "Bread of Life Discourse",
+  "Hard Saying Who Can Accept",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of John 6",
+    reference: "John 6:1&ndash;71",
+    paragraphs: [
+      "John 6 stands as one of the most theologically dense and pastorally searching chapters in the entire New Testament. In a single sweeping narrative arc, the apostle John moves from a grassy hillside beside the Sea of Galilee &mdash; where Jesus feeds more than five thousand people with five barley loaves and two small fish &mdash; to the synagogue at Capernaum, where he delivers the most startling sermon recorded in any of the Gospels. By the chapter&rsquo;s end, many who had eagerly followed him have turned away and walked with him no more.",
+      "The chapter opens with the Passover near (6:4), a detail John inserts deliberately. The bread that Jesus will provide and the body he will give are being woven together even before the discourse begins. The crowd seeks Jesus because of the signs he has performed on the sick (6:2), and after the feeding miracle they want to &ldquo;take him by force to make him king&rdquo; (6:15). They have seen extraordinary power and they want it harnessed to their own political hopes &mdash; a misunderstanding that Jesus refuses to accommodate.",
+      "The night crossing of the Sea of Galilee (6:16&ndash;21) separates the miracle from the discourse. Jesus walks on the water and speaks the great &ldquo;I am he&rdquo; (6:20) &mdash; an echo of the divine self-disclosure of the Old Testament. When the disciples receive him into the boat, they immediately reach the shore: the divine presence compresses and transforms the journey. The following day the crowd finds him at Capernaum and demands more bread.",
+      "What follows is the Bread of Life Discourse, a sustained meditation on Jesus as the true bread from heaven who gives life to the world. Jesus draws a contrast between the manna Moses gave in the wilderness &mdash; which the fathers ate and still died &mdash; and the living bread he himself is, which if anyone eats of it, they will live forever. The discourse moves through several registers: first Jesus as the one who gives bread (6:27&ndash;34), then Jesus as himself the bread (6:35&ndash;51), and finally the startling claim that his flesh and blood must be eaten and drunk (6:52&ndash;58).",
+      "The chapter closes with a crisis of discipleship. Many of his followers say, &ldquo;This is a hard saying; who can listen to it?&rdquo; (6:60). Jesus does not soften the claim; he intensifies it by speaking of the Son of Man ascending to where he was before and affirming that it is the Spirit who gives life, not the flesh. When Jesus asks the Twelve whether they too will go away, Peter speaks for them all: &ldquo;Lord, to whom shall we go? You have the words of eternal life&rdquo; (6:68). John 6 thus serves as a sifting moment in the Gospel &mdash; separating those who follow for bread from those who receive the living Word.",
+      "Throughout the chapter John&rsquo;s concern is with the nature of true faith and true life. The crowds want signs, bread, and a king after their own imagining. Jesus offers himself &mdash; his flesh, his blood, his very person &mdash; as the only food that satisfies the deepest hunger of the human soul. The scandal is total, and that is precisely John&rsquo;s point: the life of the age to come is not obtained by human achievement or political maneuvering but only by receiving the crucified and risen Son of God.",
+    ],
+  },
+  {
+    id: "Feeding the Five Thousand",
+    heading: "Feeding the Five Thousand",
+    reference: "John 6:1&ndash;21",
+    paragraphs: [
+      "The feeding of the five thousand is the only miracle of Jesus recorded in all four Gospels, and John&rsquo;s account carries its own distinctive theological weight. Jesus sees the great crowd coming toward him and asks Philip, &ldquo;Where are we to buy bread, so that these people may eat?&rdquo; (6:5). John immediately tells us that Jesus said this &ldquo;to test him, for he himself knew what he would do&rdquo; (6:6). The question is not a request for information; it is an invitation for faith.",
+      "Philip&rsquo;s answer is entirely reasonable: two hundred denarii worth of bread &mdash; nearly eight months&rsquo; wages for a laborer &mdash; would not be enough for each person to receive even a little. Andrew, Peter&rsquo;s brother, finds a boy with five barley loaves and two small fish, and then adds, helplessly, &ldquo;but what are they for so many?&rdquo; (6:9). Both disciples are calculating with the resources of the visible world. Jesus is operating from a different economy entirely.",
+      "Jesus tells the disciples to have the people sit down. John notes there was much grass there &mdash; a detail that evokes the green pastures of Psalm 23, where the Lord shepherd makes his people lie down in green pastures. There are about five thousand men, not counting women and children (Matthew 14:21 gives the fuller number). Jesus then takes the loaves, gives thanks &mdash; the Greek word is &ldquo;eucharistesas,&rdquo; from which we get &ldquo;Eucharist&rdquo; &mdash; and distributes them to the people, and likewise the fish, &ldquo;as much as they wanted&rdquo; (6:11).",
+      "When everyone has had their fill, Jesus instructs the disciples: &ldquo;Gather up the leftover fragments, that nothing may be lost&rdquo; (6:12). They gather twelve baskets full &mdash; one for each tribe of Israel, a sign of abundance spilling over into the fullness of God&rsquo;s people. The phrase &ldquo;that nothing may be lost&rdquo; resonates through the rest of the chapter and the Gospel: in 6:39 Jesus declares that it is the Father&rsquo;s will that he should &ldquo;lose nothing of all that he has given me, but raise it up on the last day.&rdquo; The miracle of bread anticipates the miracle of resurrection.",
+      "The crowd&rsquo;s response reveals the misunderstanding at the heart of their pursuit: &ldquo;This is indeed the Prophet who is to come into the world!&rdquo; (6:14), and they intend to seize him by force to make him king. They are reading the sign in purely political and material terms &mdash; a prophet-king like Moses who can provide bread in the wilderness and lead a national liberation. Jesus withdraws to the mountain alone, refusing the role they are trying to assign him. He has not come to be a bread-king but to give himself as the bread of life.",
+      "The night crossing that follows (6:16&ndash;21) deepens the portrait of Jesus&rsquo; identity. The disciples are rowing against a strong wind; they are three or four miles out on the dark sea when they see Jesus walking on the water and are frightened. He says, &ldquo;It is I; do not be afraid&rdquo; &mdash; the &ldquo;I am&rdquo; (ego eimi) that echoes the divine name. John adds the compressed wonder: &ldquo;they were glad to take him into the boat, and immediately the boat was at the land to which they were going&rdquo; (6:21). The one who multiplied bread on the hillside is the Lord of creation who walks on water and brings his people safely home.",
+    ],
+  },
+  {
+    id: "Bread of Life Discourse",
+    heading: "The Bread of Life Discourse",
+    reference: "John 6:22&ndash;58",
+    paragraphs: [
+      "When the crowd finds Jesus at Capernaum the following morning, he cuts straight to the heart of their pursuit: &ldquo;Truly, truly, I say to you, you are seeking me, not because you saw signs, but because you ate your fill of the loaves&rdquo; (6:26). They followed him across the lake not because they understood the miracle as a revelatory sign pointing to his identity, but because they wanted more bread. Jesus does not condemn the physical hunger; he redirects it toward its proper object: &ldquo;Do not work for the food that perishes, but for the food that endures to eternal life, which the Son of Man will give to you&rdquo; (6:27).",
+      "The crowd asks what they must do to perform the works of God. Jesus&rsquo; answer is disarming in its simplicity: &ldquo;This is the work of God, that you believe in him whom he has sent&rdquo; (6:29). The singular &ldquo;work&rdquo; of God is faith in his Son. But the crowd immediately requests a sign &mdash; as if the previous day&rsquo;s feeding were not sufficient &mdash; and invokes the memory of Moses and the manna: &ldquo;He gave them bread from heaven to eat&rdquo; (6:31). Jesus corrects them on two counts: it was not Moses who gave the bread but his Father, and the true bread from heaven is not the manna of the wilderness.",
+      "&ldquo;For the bread of God is he who comes down from heaven and gives life to the world&rdquo; (6:33). The shift from &ldquo;the bread of God&rdquo; to the one who comes down from heaven is deliberate. The crowd misses it and says, &ldquo;Sir, give us this bread always&rdquo; &mdash; as if Jesus were speaking of a perpetual supply of miraculous food. Jesus then makes the identification explicit and unambiguous: &ldquo;I am the bread of life; whoever comes to me shall not hunger, and whoever believes in me shall never thirst&rdquo; (6:35). The &ldquo;I am&rdquo; statement is the first of the seven great &ldquo;I am&rdquo; sayings in John&rsquo;s Gospel.",
+      "The discourse moves into deeply theological territory about the relationship between the Father&rsquo;s drawing and the believer&rsquo;s coming. Jesus declares that all whom the Father gives him will come to him, and that he will never cast out anyone who comes (6:37). He has come down from heaven not to do his own will but the will of the one who sent him (6:38), and the Father&rsquo;s will is &ldquo;that I should lose nothing of all that he has given me, but raise it up on the last day&rdquo; (6:39). The security of those who come to Jesus is rooted in the will of God the Father and the resurrection power of the Son.",
+      "The crowd murmurs (the word recalls Israel murmuring in the wilderness) because Jesus says he is the bread that came down from heaven. They know his father and mother &mdash; Joseph and Mary &mdash; and cannot reconcile this with a heavenly origin (6:41&ndash;42). Jesus does not explain away the paradox of his incarnation; instead he deepens the claim by speaking of the Father&rsquo;s drawing: &ldquo;No one can come to me unless the Father who sent me draws him&rdquo; (6:44). To hear and learn from the Father is to come to the Son.",
+      "The discourse reaches its most startling formulation in 6:51&ndash;58. Jesus declares: &ldquo;I am the living bread that came down from heaven. If anyone eats of this bread, he will live forever. And the bread that I will give for the life of the world is my flesh&rdquo; (6:51). The Jews dispute among themselves &mdash; &ldquo;How can this man give us his flesh to eat?&rdquo; (6:52) &mdash; and Jesus does not retreat but intensifies: &ldquo;Truly, truly, I say to you, unless you eat the flesh of the Son of Man and drink his blood, you have no life in you. Whoever feeds on my flesh and drinks my blood has eternal life, and I will raise him up on the last day&rdquo; (6:53&ndash;54). The language is visceral and unmistakable, pointing toward both the cross and the Lord&rsquo;s Supper that the early church would celebrate in his memory.",
+    ],
+  },
+  {
+    id: "Hard Saying Who Can Accept",
+    heading: "This Is a Hard Saying: Who Can Accept It?",
+    reference: "John 6:59&ndash;71",
+    paragraphs: [
+      "When many of his disciples hear the Bread of Life Discourse in the synagogue at Capernaum, their response is blunt: &ldquo;This is a hard saying; who can listen to it?&rdquo; (6:60). The Greek word translated &ldquo;hard&rdquo; (skleros) means harsh, rough, offensive &mdash; not merely difficult to understand but difficult to accept. The problem is not intellectual but moral and spiritual. Jesus has claimed to be the bread that came down from heaven, to give his flesh for the life of the world, to offer his blood as drink. This offends their sensibilities deeply.",
+      "Jesus, knowing in himself that his disciples are grumbling about this, does not call them back from the edge of offense. Instead he intensifies the challenge: &ldquo;Do you take offense at this? Then what if you were to see the Son of Man ascending to where he was before?&rdquo; (6:61&ndash;62). The implication is clear: if his present earthly words about flesh and blood are a stumbling block, the reality of his crucifixion, resurrection, and ascension will be even more scandalous. The cross, the ultimate giving of his flesh, will be the ultimate test.",
+      "He then provides the key to understanding the discourse: &ldquo;It is the Spirit who gives life; the flesh is no help at all. The words that I have spoken to you are spirit and life&rdquo; (6:63). This verse guards against a crudely literal interpretation of the eating and drinking language. He is not instituting cannibalism; he is calling people to a spiritual reception of his person through faith &mdash; a reception that his Spirit enables. Yet he does not thereby dissolve the offense; the claim that he is the life-giving bread from heaven remains.",
+      "John then adds a dark and searching sentence: &ldquo;But there are some of you who do not believe&rdquo; (6:64). The narrator notes that Jesus knew from the beginning who those were who did not believe, and who it was who would betray him. Judas Iscariot is in the room, hearing the Bread of Life Discourse, and John wants us to feel the terrible irony: the one who would deliver Jesus to death is listening to him speak about the bread he would give for the life of the world. The betrayal is not a surprise to Jesus; it is part of what the Father has permitted.",
+      "&ldquo;After this many of his disciples turned back and no longer walked with him&rdquo; (6:66). This is the great sifting. The crowd that wanted to make him king the day before, the crowd that sought him across the lake for more bread &mdash; they depart. Only the Twelve remain in the immediate circle, and even among them Jesus says, &ldquo;Did I not choose you, the twelve? And yet one of you is a devil&rdquo; (6:70). The word &ldquo;devil&rdquo; (diabolos) means slanderer or adversary &mdash; the one who will become an instrument of the enemy who opposes God&rsquo;s redemptive purpose.",
+      "Against this backdrop of desertion and betrayal, Peter&rsquo;s confession shines with particular brilliance. When Jesus asks, &ldquo;Do you want to go away as well?&rdquo; (6:67), Peter answers for the Twelve: &ldquo;Lord, to whom shall we go? You have the words of eternal life, and we have believed, and have come to know, that you are the Holy One of God&rdquo; (6:68&ndash;69). Peter does not claim to have understood every word of the discourse. He does not resolve the theological tensions. What he declares is that there is nowhere else to go &mdash; that having heard Jesus, having seen what he has done, there is no alternative that holds life. This is the confession that all true disciples must eventually make when the way becomes hard.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying John 6 Today",
+    reference: "John 6 for the Believer",
+    paragraphs: [
+      "John 6 confronts every generation of believers with the same searching question Jesus put to the Twelve: &ldquo;Do you want to go away as well?&rdquo; The chapter refuses to let us follow Jesus for the wrong reasons. It exposes the crowd in each of us &mdash; the part that comes to God for what we can get from him, the part that reads miracles as signs of impending earthly prosperity or national deliverance, the part that turns away when the teaching grows hard. Before we can apply John 6, we must sit under its searchlight.",
+      "The distinction Jesus draws between bread that perishes and bread that endures to eternal life (6:27) speaks directly to the idols of our age. We live in a culture of urgent, insistent physical needs &mdash; economic security, health, comfort, belonging, achievement. None of these are evil in themselves. But when they become the primary reason we seek God, we are in the position of the crowd: following Jesus across the lake not because we have understood the sign but because our stomachs were filled. The invitation of John 6 is to reorder desire &mdash; to hunger and thirst for the one who alone can satisfy.",
+      "The sovereignty of God in salvation comes into clear view in this chapter. Jesus speaks of all whom the Father has given him coming to him (6:37), of no one being able to come to him unless the Father draws him (6:44), and of it being the Father&rsquo;s will that he lose none (6:39). This is not meant to produce fatalism or passivity but to produce rest and confidence. The believer&rsquo;s security is not rooted in their grip on Christ but in the Father&rsquo;s gift of them to the Son and the Son&rsquo;s promise to raise them up on the last day. Grace is the foundation.",
+      "John 6 has deep implications for the Lord&rsquo;s Supper and Christian worship. While Jesus says in 6:63 that the Spirit gives life and that his words are spirit and life &mdash; guarding against a purely material reading &mdash; the language of eating his flesh and drinking his blood points toward the sacramental life of the church. When the church breaks bread and shares the cup in obedience to Christ&rsquo;s command, it is proclaiming and receiving his death, feeding on him by faith, and anticipating the resurrection that he has promised. The Eucharist is not mere memory; it is a Spirit-enabled encounter with the living bread.",
+      "The crisis of discipleship in 6:60&ndash;66 should neither surprise nor discourage the church. Jesus himself anticipated and permitted it. Not everyone who hears the full claim of the gospel will receive it. Some will find it too costly, too strange, too all-encompassing. The church&rsquo;s calling is not to make the gospel easier or to file away its hard edges so that more people will stay. It is to keep proclaiming the whole Christ &mdash; the one who came down from heaven, gave his flesh for the life of the world, and calls us to eat and drink of him &mdash; and to trust the Spirit to give life where and when he will.",
+      "Finally, John 6 calls every believer back to Peter&rsquo;s confession as a personal resting place. When the way is hard &mdash; when theology feels too demanding, when suffering makes God seem distant, when the church disappoints, when faith flickers &mdash; the question returns: &ldquo;Do you want to go away as well?&rdquo; And the answer, grounded not in feeling but in the accumulated knowledge of who Jesus is, is still: &ldquo;Lord, to whom shall we go? You have the words of eternal life.&rdquo; There is no other source of eternal life, no other mediator, no other bread. He is enough &mdash; and he promises that all who come to him he will never cast out.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "NGLF9BM7GkY", title: "John 6 - The Bread of Life Explained" },
+  { videoId: "9HaFBgDTa5I", title: "Feeding the Five Thousand - John 6 Bible Study" },
+  { videoId: "7fCpFDjdB-A", title: "The Bread of Life Discourse - What Did Jesus Mean?" },
+  { videoId: "7GBvPGpbDFk", title: "This Is a Hard Saying - Who Can Accept It? John 6:60" },
+];
+
+export default function John6GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 6 &mdash; I Am the Bread of Life
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The feeding of the five thousand, the miracle on the sea, and the Bread of Life Discourse in the synagogue at Capernaum &mdash; where Jesus offers himself as the true bread from heaven and the crowd must choose whether to stay or walk away.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Lord, to Whom Shall We Go?</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 6 is a chapter of crisis and confession. The crowds depart, the disciples grumble, and even among the Twelve one is a devil &mdash; yet Peter&rsquo;s answer stands as the confession of every true believer across the centuries: &ldquo;You have the words of eternal life.&rdquo; Jesus is the bread the world cannot provide, the life that death cannot extinguish, the one to whom there is simply nowhere else to go.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

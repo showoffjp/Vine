@@ -2056,6 +2056,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hebrews 10 Chapter": "hebrews-10-guide",
   "Hold Fast Our Confession": "hebrews-10-guide",
   "Do Not Forsake Assembling": "hebrews-10-guide",
+  "John 6 Chapter": "john-6-guide",
+  "Bread of Life Discourse": "john-6-guide",
+  "Feeding the Five Thousand": "john-6-guide",
+  "Matthew 13 Chapter": "matthew-13-guide",
+  "Parable of the Sower": "matthew-13-guide",
+  "Kingdom Parables Matthew": "matthew-13-guide",
+  "Romans 7 Chapter": "romans-7-guide",
+  "Law and Sin Chapter": "romans-7-guide",
+  "Wretched Man Romans": "romans-7-guide",
+  "Acts 8 Chapter": "acts-8-guide",
+  "Philip and the Ethiopian": "acts-8-guide",
+  "Samaritans Receive Spirit": "acts-8-guide",
 };
 
 
@@ -3010,6 +3022,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Galatians 2 Chapter" },
   { label: "1 Peter 3 Chapter" },
   { label: "Hebrews 10 Chapter" },
+  { label: "John 6 Chapter" },
+  { label: "Matthew 13 Chapter" },
+  { label: "Romans 7 Chapter" },
+  { label: "Acts 8 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

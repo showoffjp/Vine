@@ -1660,6 +1660,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Blended Family Christian Guide": "christian-blended-family-guide",
   "Step Parenting Christian": "christian-blended-family-guide",
   "Stepfamily Faith Guide": "christian-blended-family-guide",
+  "1 Kings Deep Dive Guide": "christian-book-of-1-kings-guide",
+  "Solomon Wisdom Guide": "christian-book-of-1-kings-guide",
+  "Prophets of Baal Carmel": "christian-book-of-1-kings-guide",
+  "2 Kings Deep Dive Guide": "christian-book-of-2-kings-guide",
+  "Elisha Miracles Guide": "christian-book-of-2-kings-guide",
+  "Fall of Jerusalem Exile": "christian-book-of-2-kings-guide",
+  "Nehemiah Deep Dive Guide": "christian-book-of-nehemiah-guide",
+  "Rebuilding the Walls": "christian-book-of-nehemiah-guide",
+  "Sanballat Opposition": "christian-book-of-nehemiah-guide",
+  "Hosea Deep Dive Guide": "christian-book-of-hosea-guide",
+  "Prophet Hosea Marriage": "christian-book-of-hosea-guide",
+  "Relentless Love of God": "christian-book-of-hosea-guide",
 };
 
 
@@ -2482,6 +2494,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Christian Faithfulness Guide" },
   { label: "Empty Nest Christian Guide" },
   { label: "Blended Family Christian Guide" },
+  { label: "1 Kings Deep Dive Guide" },
+  { label: "2 Kings Deep Dive Guide" },
+  { label: "Nehemiah Deep Dive Guide" },
+  { label: "Hosea Deep Dive Guide" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1672,6 +1672,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hosea Deep Dive Guide": "christian-book-of-hosea-guide",
   "Prophet Hosea Marriage": "christian-book-of-hosea-guide",
   "Relentless Love of God": "christian-book-of-hosea-guide",
+  "Leviticus Deep Dive": "christian-book-of-leviticus-guide",
+  "Holiness Code Guide": "christian-book-of-leviticus-guide",
+  "Scapegoat Atonement": "christian-book-of-leviticus-guide",
+  "Numbers Deep Dive": "christian-book-of-numbers-guide",
+  "Wilderness Wandering": "christian-book-of-numbers-guide",
+  "Twelve Spies Kadesh": "christian-book-of-numbers-guide",
+  "Judges Deep Dive": "christian-book-of-judges-guide",
+  "Gideon Fleece": "christian-book-of-judges-guide",
+  "Samson Delilah Story": "christian-book-of-judges-guide",
+  "Philemon Deep Dive": "christian-book-of-philemon-guide",
+  "Onesimus Runaway": "christian-book-of-philemon-guide",
+  "Reconciliation in Christ Philemon": "christian-book-of-philemon-guide",
 };
 
 
@@ -2498,6 +2510,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Kings Deep Dive Guide" },
   { label: "Nehemiah Deep Dive Guide" },
   { label: "Hosea Deep Dive Guide" },
+  { label: "Leviticus Deep Dive" },
+  { label: "Numbers Deep Dive" },
+  { label: "Judges Deep Dive" },
+  { label: "Philemon Deep Dive" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

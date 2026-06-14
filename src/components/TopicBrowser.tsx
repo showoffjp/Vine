@@ -2140,6 +2140,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Mark 9 Chapter": "mark-9-guide",
   "Transfiguration Mark": "mark-9-guide",
   "If You Can Believe": "mark-9-guide",
+  "Luke 22 Chapter": "luke-22-guide",
+  "Last Supper Luke": "luke-22-guide",
+  "Garden of Gethsemane Luke": "luke-22-guide",
+  "2 Samuel 11 Chapter": "2-samuel-11-guide",
+  "David and Bathsheba Chapter": "2-samuel-11-guide",
+  "Uriah the Hittite Story": "2-samuel-11-guide",
+  "Acts 13 Chapter": "acts-13-guide",
+  "Paul First Missionary Journey": "acts-13-guide",
+  "Antioch Church Sends Paul": "acts-13-guide",
+  "Judges 6 Chapter": "judges-6-guide",
+  "Gideon and the Fleece": "judges-6-guide",
+  "Mighty Warrior Gideon": "judges-6-guide",
 };
 
 
@@ -3122,6 +3134,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 18 Chapter" },
   { label: "Isaiah 58 Chapter" },
   { label: "Mark 9 Chapter" },
+  { label: "Luke 22 Chapter" },
+  { label: "2 Samuel 11 Chapter" },
+  { label: "Acts 13 Chapter" },
+  { label: "Judges 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

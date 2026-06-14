@@ -1804,6 +1804,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 3 Chapter": "proverbs-3-guide",
   "Trust in the Lord": "proverbs-3-guide",
   "Lean Not on Your Own": "proverbs-3-guide",
+  "John 11 Chapter": "john-11-guide",
+  "Resurrection and the Life": "john-11-guide",
+  "Raising of Lazarus": "john-11-guide",
+  "Matthew 11 Chapter": "matthew-11-guide",
+  "Come to Me": "matthew-11-guide",
+  "Rest for Your Souls": "matthew-11-guide",
+  "Psalm 46 Chapter": "psalm-46-guide",
+  "God Is Our Refuge": "psalm-46-guide",
+  "Be Still and Know": "psalm-46-guide",
+  "Psalm 103 Chapter": "psalm-103-guide",
+  "Bless the Lord O My Soul": "psalm-103-guide",
+  "Who Forgives All": "psalm-103-guide",
 };
 
 
@@ -2674,6 +2686,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 15 Chapter" },
   { label: "Psalm 27 Chapter" },
   { label: "Proverbs 3 Chapter" },
+  { label: "John 11 Chapter" },
+  { label: "Matthew 11 Chapter" },
+  { label: "Psalm 46 Chapter" },
+  { label: "Psalm 103 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1,0 +1,195 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Wisdom of a Mother",
+  "The Capable Wife",
+  "Her Character and Works",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Proverbs 31",
+    reference: "Proverbs 31:1&ndash;31",
+    paragraphs: [
+      "Proverbs 31 is the grand finale of one of the Bible&rsquo;s most remarkable books &mdash; a chapter that gathers two distinct compositions and places them side by side to form the capstone of Israel&rsquo;s wisdom tradition. The first nine verses preserve the &ldquo;words of King Lemuel, the oracle that his mother taught him&rdquo; (31:1) &mdash; a mother&rsquo;s urgent, practical instruction to her son about the dangers of women and wine and the duty of a king to advocate for the poor and voiceless. The remaining twenty-two verses (vv. 10&ndash;31) constitute one of the most celebrated poems in all of Scripture: an acrostic portrait of the &ldquo;eshet chayil,&rdquo; the woman of valor or noble character.",
+      "The acrostic structure of verses 10&ndash;31 is itself a clue to how the poem should be read. In the Hebrew original, each verse begins with a successive letter of the alphabet, from aleph to taw &mdash; the full span of the Hebrew alphabet. This is a literary device that signals completeness: the poem is describing a woman whose excellence is, in a sense, from A to Z. Every dimension of human character and activity is touched &mdash; domestic management, economic enterprise, physical strength, social generosity, spiritual wisdom, public honor. The poem is making the claim that genuine wisdom and godly character find comprehensive, whole-life expression in this woman.",
+      "The relationship between Proverbs 31 and the rest of the book is theologically significant. Proverbs opens with an extended personification of Wisdom as a woman calling out in the streets (chs. 1&ndash;9), inviting the simple to her feast and promising life to all who find her. At the book&rsquo;s center stands the famous declaration of 31:10 &mdash; &ldquo;An excellent wife who can find? She is far more precious than jewels&rdquo; &mdash; which echoes the opening chapters&rsquo; portrait of wisdom as more valuable than silver, gold, or rubies (3:14&ndash;15; 8:11). The woman of Proverbs 31 is not just a model wife; she is the embodiment of Wisdom herself, made flesh and dwelling in the ordinary routines of household life.",
+      "The chapter has generated enormous discussion in contemporary Christian communities, where it is sometimes read as a demanding checklist of domestic perfection that leaves women feeling exhausted and condemned. This reading misses the literary nature of the text. The poem is not a prescriptive job description but a laudatory portrait &mdash; the kind of praise a husband or community might offer to a woman of remarkable character. It is closer to a love poem than a performance review. Its purpose is not to crush women under impossible expectations but to honor and celebrate the wisdom that shows up in faithful, whole-hearted engagement with the life God has given.",
+      "Both sections of Proverbs 31 &mdash; the mother&rsquo;s advice and the acrostic poem &mdash; are united by their focus on the centrality of wisdom in human life. The mother who advises her king-son warns him against the enemies of wisdom: sexual distraction, alcoholic indulgence, and the neglect of justice. The acrostic poem celebrates the woman who has internalized wisdom so thoroughly that it shapes every hour of her day and every relationship in her life. Together they frame wisdom not as an abstract philosophical virtue but as a practical, relational, bodily reality &mdash; the kind of thing that shows up in what you buy and sell, how you treat the poor, what you say when you open your mouth, and whether you fear the LORD.",
+      "Proverbs 31 concludes with the book&rsquo;s final word: &ldquo;Charm is deceitful, and beauty is vain, but a woman who fears the LORD is to be praised. Give her of the fruit of her hands, and let her works praise her in the gates&rdquo; (31:30&ndash;31). The fear of the LORD &mdash; introduced as the &ldquo;beginning of wisdom&rdquo; in Proverbs 1:7 &mdash; turns out to be the secret of the virtuous woman as well. The book ends where it began: wisdom is not primarily a matter of intelligence or skill but of orientation, of being rightly related to the God who is the source of all that is good, true, and beautiful. The woman who fears the LORD is the book&rsquo;s final, definitive illustration of what that looks like in a human life.",
+    ],
+  },
+  {
+    id: "Wisdom of a Mother",
+    heading: "The Wisdom of a Mother: Advice to a King",
+    reference: "Proverbs 31:1&ndash;9",
+    paragraphs: [
+      "The first nine verses of Proverbs 31 are introduced as &ldquo;the words of King Lemuel, the oracle that his mother taught him&rdquo; (31:1). Lemuel is not identified with any known king of Israel or Judah, and the name may be a symbolic or literary designation &mdash; possibly meaning &ldquo;belonging to God&rdquo; or &ldquo;dedicated to God.&rdquo; Some ancient interpreters identified him with Solomon, but the text itself gives us no warrant for that identification. What we do know is that these words came to a king from his mother, and the text takes that origin with full seriousness: a mother&rsquo;s wisdom about how to reign well is presented as an &ldquo;oracle,&rdquo; a word used elsewhere in the prophetic literature for a divine utterance.",
+      "The mother&rsquo;s opening cry is one of the most tender in all of Scripture: &ldquo;What are you doing, my son? What are you doing, son of my womb? What are you doing, son of my vows?&rdquo; (31:2). Three times she calls him &ldquo;my son,&rdquo; each phrase adding a layer of intimacy and weight. He is the child of her body and the child of her prayers. The repetition conveys urgency &mdash; a mother who has dedicated her son to God cannot remain silent when she sees the forces that threaten to destroy him. Her love for her son is the motive behind every word that follows.",
+      "The first warning is about women &mdash; specifically, about the distraction of romantic or sexual entanglement that dissipates the energy and judgment a king needs to govern well. &ldquo;Do not give your strength to women, your ways to those who destroy kings&rdquo; (31:3). This is not a misogynistic warning against women in general but a counsel against the particular vulnerability of powerful men who allow sexual desire to compromise their integrity and their ability to govern justly. The history of Israel&rsquo;s kings &mdash; from Solomon&rsquo;s foreign wives to the moral failures of many who followed him &mdash; gives this warning sobering historical weight.",
+      "The second warning is about wine. &ldquo;It is not for kings, O Lemuel, it is not for kings to drink wine, or for rulers to take strong drink, lest they drink and forget what has been decreed and pervert the rights of all the afflicted&rdquo; (31:4&ndash;5). The concern is not merely about personal vice but about the social consequences of leadership impaired by alcohol. A king who drinks too much forgets the laws he is supposed to uphold and, crucially, pervert the justice that protects the most vulnerable members of society. The mother&rsquo;s concern for the poor and afflicted is already present in her warning against drink.",
+      "Having warned against women and wine, the mother turns to the positive calling of the king: the defense of those who cannot defend themselves. &ldquo;Open your mouth for the mute, for the rights of all who are destitute. Open your mouth, judge righteously, defend the rights of the poor and needy&rdquo; (31:8&ndash;9). This is the ancient Near Eastern ideal of kingship as advocacy for the marginalized. The king&rsquo;s strength is not to be squandered on pleasure but invested in the protection of those whom the powerful routinely ignore or exploit. The voice of the king is powerful precisely because it can speak for those who have no voice &mdash; and the mother insists that this is what it must be used for.",
+      "The passage as a whole is a remarkable piece of parental instruction. A mother who loves her son enough to confront him directly, who is not awed into silence by his power or position, who sees his vulnerabilities clearly and names them without flinching &mdash; this is wisdom in action. She teaches him not theory but practice: avoid these dangers, discharge these duties, remember who you are and why God has given you power. The oracle of Lemuel&rsquo;s mother deserves far more attention in Christian communities than it typically receives. It models the kind of bold, loving, practical wisdom that shapes kings &mdash; and fathers, and sons, and leaders of every kind.",
+    ],
+  },
+  {
+    id: "The Capable Wife",
+    heading: "The Capable Wife: An Acrostic Portrait",
+    reference: "Proverbs 31:10&ndash;31",
+    paragraphs: [
+      "The great acrostic poem of Proverbs 31:10&ndash;31 opens with a rhetorical question that sets the whole tone: &ldquo;An excellent wife who can find? She is far more precious than jewels&rdquo; (31:10). The Hebrew word translated &ldquo;excellent&rdquo; or &ldquo;capable&rdquo; is &ldquo;chayil&rdquo; &mdash; the same word used of military heroes and men of great valor. It is a word of strength, of power, of proven ability. The woman being described is not primarily characterized by gentleness or passivity, though she is certainly kind and generous. She is a person of formidable competence, energy, and character. The community that truly understood this poem would never reduce womanhood to mere domesticity.",
+      "The poem presents her first in relation to her husband. &ldquo;The heart of her husband trusts in her, and he will have no lack of gain&rdquo; (31:11). His confidence in her is complete and well-founded. She does him good, not harm, all the days of her life (31:12). This is not a picture of a passive wife who waits to be told what to do; it is a picture of a partner whose judgment and competence her husband relies on absolutely. He can trust her with real responsibility because she has earned that trust through demonstrated faithfulness over time.",
+      "The poem then traces her activity across the full range of her life. She rises while it is still night to provide food for her household (31:15). She considers a field and buys it with her earnings (31:16) &mdash; she is a real estate investor acting on her own judgment. She girds herself with strength and makes her arms strong (31:17). She perceives that her merchandise is profitable (31:18). She opens her hand to the poor and reaches out her hands to the needy (31:20). She makes linen garments and sells them; she delivers sashes to the merchant (31:24). The sheer range of her activity is astonishing: agriculture, commerce, manufacturing, charity, household management, and the instruction of others all fall within her sphere.",
+      "The portrait resists every attempt to confine the virtuous woman to a single role or a narrow set of activities. She works with her hands and her mind. She manages a household and runs a business. She is generous to the poor and wise in commerce. She teaches with kindness and strength. She is not anxious about the future because she has prepared for it: &ldquo;She is not afraid of snow for her household, for all her household are clothed in scarlet&rdquo; (31:21). The famous verse that &ldquo;strength and dignity are her clothing, and she laughs at the time to come&rdquo; (31:25) is one of the most striking descriptions of human confidence in all of Scripture &mdash; a confidence rooted not in naivety but in preparation, wisdom, and trust in God.",
+      "The poem&rsquo;s portrait of her speech is equally striking. &ldquo;She opens her mouth with wisdom, and the teaching of kindness is on her tongue&rdquo; (31:26). She is not merely industrious; she is wise and kind in her communication. The &ldquo;teaching of kindness&rdquo; &mdash; or literally, &ldquo;the law of chesed&rdquo; &mdash; is one of the most beautiful phrases in the book: her speech is governed by the same covenant love (chesed) that characterizes God&rsquo;s own dealings with his people. Her words are not harsh, critical, or self-promoting; they are an overflow of the wisdom and love that have formed her character.",
+      "The poem ends with a double celebration: the praise of her husband at the city gates (31:28&ndash;29), the praise of her children who rise and call her blessed (31:28), and the poet&rsquo;s own climactic declaration: &ldquo;Charm is deceitful, and beauty is vain, but a woman who fears the LORD is to be praised&rdquo; (31:30). The fear of the LORD is named as the root from which all this excellence grows. Every act of industry, every gesture of generosity, every wise word, every faithful relationship described in the poem is the fruit of a life oriented around God. The acrostic has moved through the full alphabet of human virtue to arrive at its source: the reverent, trusting, loving relationship with the God who is the beginning and the end of all wisdom.",
+    ],
+  },
+  {
+    id: "Her Character and Works",
+    heading: "Her Character, Her Works, and Her Honor",
+    reference: "Proverbs 31:10&ndash;31 &mdash; A Deeper Look",
+    paragraphs: [
+      "One of the most striking features of the Proverbs 31 woman is her evident economic agency and entrepreneurial initiative. She is not simply managing a household on a budget provided by her husband; she is generating wealth in her own right. She considers a field and buys it; with the fruit of her hands she plants a vineyard (31:16). She makes linen garments and sells them; she delivers sashes to the merchant (31:24). This is not a peripheral detail; it is central to who she is. The poem presents a woman of significant economic competence and independence operating within a structure of mutual trust and service rather than competition or domination.",
+      "Her relationship with the poor is a consistent thread throughout the poem. &ldquo;She opens her hand to the poor and reaches out her hands to the needy&rdquo; (31:20). The double imagery of opened and outstretched hands suggests active, eager giving &mdash; not reluctant charity dispensed from a position of superiority but a natural overflow of generosity. The woman who rises before dawn to feed her household does not forget the hungry beyond her walls. Her industry and her generosity are of a piece: she works hard so that she has something to give, and she gives because that is who she is.",
+      "The physical language used of the woman of Proverbs 31 is remarkable in the context of ancient literature. She girds her loins with strength; she makes her arms strong (31:17). She is like the merchant ships, bringing her food from afar (31:14). She is not physically fragile or decoratively passive. Her strength is real, bodily, earned through labor. The same word for strength (&ldquo;oz&rdquo;) used of God in the Psalms is used of her clothing in 31:25 &mdash; &ldquo;strength and dignity are her clothing.&rdquo; The poem is deliberately using the language of divine attributes to describe the character of a godly woman. She bears, in her sphere, the image of the God who is strong and majestic.",
+      "The community&rsquo;s recognition of her excellence is not private or domestic but thoroughly public. &ldquo;Her husband is known in the gates when he sits among the elders of the land&rdquo; (31:23). His prominence is partly a reflection of her excellence; the man who is well-served by such a partner is freed to engage fully in the public life of his community. And in verse 31, the poem calls for the community to &ldquo;give her the fruit of her hands, and let her works praise her in the gates.&rdquo; The gates were the public space of the ancient city &mdash; the marketplace, the courthouse, the forum. Her excellence deserves public acknowledgment, not just private appreciation. She is to be honored where honor is given.",
+      "Her children&rsquo;s praise &mdash; &ldquo;Many women have done excellently, but you surpass them all&rdquo; (31:29) &mdash; is the most personal and perhaps the most moving commendation in the poem. It comes not from critics or strangers but from those who know her best, who have lived in her household, eaten her food, been clothed by her hands, taught by her tongue, and formed by her character. The children who rise and call their mother blessed are the most credible witnesses to what she really is. The public honor at the gates and the private honor in the home are both aspects of the full recognition she has earned.",
+      "The portrait of the Proverbs 31 woman resists being reduced to either a purely domestic or a purely public ideal. She is both. She is deeply engaged with the immediate particularity of her household &mdash; its food, its clothing, its warmth in winter &mdash; and with the wider community of the poor, the merchant, the city gate. The integration of all these spheres is itself the mark of wisdom. She does not compartmentalize; she does not sacrifice the close for the distant or the distant for the close. Her wisdom is comprehensive, and it is that comprehensiveness, rooted in the fear of the LORD, that makes her the ideal with which Proverbs chooses to close.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Proverbs 31 Today",
+    reference: "Proverbs 31 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Proverbs 31 is one of the most frequently cited and most frequently misread passages in the Bible. Many women encounter it as a source of guilt rather than inspiration &mdash; a list of impossible achievements that no real person could accomplish, leaving the reader feeling perpetually inadequate. This reading, however, fundamentally misunderstands the literary genre of the text. The poem is not a daily task list or a performance evaluation; it is a celebration, a poem of praise composed to honor a woman whose life has been marked by wisdom, faithfulness, and the fear of the LORD. The appropriate response to a praise poem is not anxiety but aspiration and gratitude.",
+      "The mother&rsquo;s advice to Lemuel in verses 1&ndash;9 carries a direct application for every person in a position of power or responsibility. The twin warnings against women and wine are ultimately about the misuse of strength &mdash; allowing personal appetite and pleasure to erode the capacity for just and attentive leadership. And the positive call to &ldquo;open your mouth for the mute&rdquo; and &ldquo;defend the rights of the poor and needy&rdquo; (31:8&ndash;9) is one of the clearest statements of prophetic social ethics in the wisdom literature. Every leader &mdash; political, corporate, ecclesiastical &mdash; is called to ask: whose voice am I giving my platform to? Whose rights am I protecting? Who is voiceless in my sphere of influence, and am I speaking for them?",
+      "For contemporary Christian women, the portrait of the eshet chayil is best received as a vision of flourishing rather than a standard of perfection. The woman of Proverbs 31 is not superhuman; she is human in the fullest sense, deploying every gift and capacity she has been given in the service of God, family, and community. The poem honors physical labor and intellectual judgment equally. It honors the domestic and the economic equally. It honors generosity and prudence equally. The implicit message is that there is no dimension of a woman&rsquo;s life &mdash; her body, her mind, her relationships, her work, her speech &mdash; that falls outside the scope of wisdom&rsquo;s reach.",
+      "The fear of the LORD as the secret of the Proverbs 31 woman (v. 30) connects this chapter to the whole architecture of the book. Proverbs 1:7 declares that &ldquo;the fear of the LORD is the beginning of wisdom.&rdquo; Everything in between &mdash; all the practical instruction about speech and relationships and money and diligence &mdash; is an unpacking of what that foundational orientation looks like when it is actually lived. The Proverbs 31 woman is not someone who has achieved perfect technique; she is someone whose whole life is organized around God. The practical wisdom flows from the relational foundation. Christians who want to embody the qualities celebrated in Proverbs 31 should begin not with the practical details but with the theological root: the fear and love and trust of the LORD.",
+      "The public honor given to the woman of Proverbs 31 in the gates &mdash; &ldquo;let her works praise her in the gates&rdquo; (31:31) &mdash; offers a challenge to Christian communities that sometimes discount or overlook the contributions of women. The ancient city of the poem made her excellence publicly visible and publicly celebrated. The contemporary church that takes Proverbs 31 seriously will not merely appreciate women privately while ignoring their contributions in the larger community. It will create structures and cultures in which the wisdom, industry, generosity, and teaching of godly women are publicly recognized and honored, because that is what their works deserve.",
+      "The poem&rsquo;s declaration that &ldquo;charm is deceitful and beauty is vain&rdquo; (31:30) cuts against some of the most powerful cultural forces in contemporary life. In a world that obsessively commodifies and evaluates female appearance, Proverbs 31 insists on a different metric entirely: character, wisdom, faithfulness, and the fear of God. This does not mean that beauty is bad or that charm is always deceptive; it means that these things are unreliable foundations for a life and for a reputation. What endures, what earns the lasting praise of children and husband and community, is not the surface but the substance &mdash; the &ldquo;eshet chayil&rdquo; whose works speak for themselves long after youth and beauty have faded.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "qNGcWzXfhxA", title: "Proverbs 31 - The Woman of Noble Character Explained" },
+  { videoId: "AJ_Hhbkq3VQ", title: "BibleProject - Overview of Proverbs" },
+  { videoId: "2m3JQbR4ALU", title: "The Eshet Chayil - Woman of Valor in Proverbs 31" },
+  { videoId: "IvBUmZnTY3g", title: "Proverbs 31 - Wisdom, Strength, and the Fear of the LORD" },
+];
+
+export default function Proverbs31GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Proverbs 31 &mdash; The Woman of Valor
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            King Lemuel&rsquo;s mother counsels him to avoid women and wine and to speak up for the poor &mdash; then the famous acrostic poem celebrates the eshet chayil, the woman of noble character whose industrious, generous, God-fearing life is the embodiment of Proverbs&rsquo; vision of wisdom.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Go deeper into Proverbs 31 through these video teachings on the woman of noble character, the wisdom of Lemuel&rsquo;s mother, and the relationship between Proverbs 31 and the whole book&rsquo;s vision of wisdom.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Charm Is Deceitful, Beauty Is Vain</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Proverbs 31 ends where the whole book began: &ldquo;the fear of the LORD is the beginning of wisdom.&rdquo; The eshet chayil &mdash; the woman of valor &mdash; is not a superhuman ideal to make ordinary women feel inadequate. She is a vision of what wisdom looks like when it is lived out in full, from the kitchen to the marketplace, from the household to the city gate, from early morning to late evening, in word and in deed and in the fear of the God who is the source of all that is truly excellent.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

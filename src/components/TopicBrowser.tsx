@@ -2068,6 +2068,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 8 Chapter": "acts-8-guide",
   "Philip and the Ethiopian": "acts-8-guide",
   "Samaritans Receive Spirit": "acts-8-guide",
+  "Nehemiah 8 Chapter": "nehemiah-8-guide",
+  "Ezra Reads the Law": "nehemiah-8-guide",
+  "Joy of the Lord Strength": "nehemiah-8-guide",
+  "Proverbs 31 Chapter": "proverbs-31-guide",
+  "Virtuous Woman Proverbs": "proverbs-31-guide",
+  "Woman of Noble Character": "proverbs-31-guide",
+  "2 Kings 4 Chapter": "2-kings-4-guide",
+  "Elisha Shunammite Woman": "2-kings-4-guide",
+  "Oil and Resurrection Elisha": "2-kings-4-guide",
+  "Titus 3 Chapter": "titus-3-guide",
+  "Saved by Washing Renewing": "titus-3-guide",
+  "Not by Works Titus": "titus-3-guide",
 };
 
 
@@ -3026,6 +3038,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 13 Chapter" },
   { label: "Romans 7 Chapter" },
   { label: "Acts 8 Chapter" },
+  { label: "Nehemiah 8 Chapter" },
+  { label: "Proverbs 31 Chapter" },
+  { label: "2 Kings 4 Chapter" },
+  { label: "Titus 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

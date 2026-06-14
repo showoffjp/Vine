@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Image of Invisible God",
+  "Christ Above All",
+  "Reconciling All Things",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Colossians 1",
+    reference: "Colossians 1:1&ndash;29",
+    paragraphs: [
+      "Colossians 1 is one of the supreme Christological texts of the New Testament. Paul writes to a community he has not personally visited &mdash; the church at Colossae in the Lycus Valley of Asia Minor &mdash; a community founded through the ministry of Epaphras (1:7) and apparently facing pressure from a teaching that threatened to displace Christ from the center. Whatever this &ldquo;Colossian heresy&rdquo; was in precise detail, Paul&rsquo;s response is to erect the highest Christology in his letters: a portrait of Jesus as the one in whom all things were created, in whom all things consist, and in whom God was pleased to dwell in all his fullness.",
+      "The chapter opens with a thanksgiving (1:3&ndash;8) that is notable for what Paul thanks God for: not the Colossians&rsquo; achievements or their zeal, but the triad of faith, love, and hope that characterize genuine Christian existence. Their faith is directed toward Christ Jesus; their love extends to all the saints; their hope is laid up in heaven &mdash; and it is this hope that was announced to them in the gospel, which has been bearing fruit and growing throughout the whole world since the day they heard it.",
+      "The prayer that follows (1:9&ndash;14) is one of the most instructive in Paul&rsquo;s letters for understanding what Christian maturity looks like. Paul prays that they may be &ldquo;filled with the knowledge of his will in all spiritual wisdom and understanding&rdquo; (1:9). The purpose of this knowledge is entirely practical: &ldquo;so as to walk in a manner worthy of the Lord, fully pleasing to him, bearing fruit in every good work and increasing in the knowledge of God&rdquo; (1:10). Christian knowledge is never an end in itself; it is meant to issue in a life that honors Christ.",
+      "Then Paul transitions to the majestic Christ hymn of 1:15&ndash;20 &mdash; arguably the single most exalted description of Jesus in all of Scripture. Whether Paul is quoting an early Christian hymn and adapting it, or composing it himself, the result is a carefully structured celebration of Christ&rsquo;s supremacy in two domains: creation (1:15&ndash;17) and redemption (1:18&ndash;20). In both spheres, Christ is &ldquo;firstborn&rdquo; &mdash; the one who holds the position of pre-eminence and rights of inheritance over everything that exists.",
+      "The rest of the chapter (1:21&ndash;29) applies the cosmic theology of the hymn to the personal experience of the Colossians themselves. They who were once alienated and hostile in their minds have been reconciled by Christ&rsquo;s physical death. Paul then introduces his own apostolic role as the servant of this gospel &mdash; a mystery hidden for ages but now revealed, which is summarized in the astonishing phrase &ldquo;Christ in you, the hope of glory&rdquo; (1:27). The chapter closes with Paul&rsquo;s description of his own ministry of proclamation, warning, and teaching, all aimed at presenting every person &ldquo;mature in Christ&rdquo; (1:28).",
+      "To read Colossians 1 carefully is to be confronted with a Jesus who cannot be fitted into any supporting role, any category among other spiritual beings, or any position below the absolute summit of reality. Paul is not offering one Christology among several; he is making exclusive, total, and unqualified claims about the cosmic lordship of Jesus Christ, and insisting that this lordship is the foundation and measure of everything in the Christian life.",
+    ],
+  },
+  {
+    id: "Image of Invisible God",
+    heading: "The Image of the Invisible God",
+    reference: "Colossians 1:15&ndash;17",
+    paragraphs: [
+      "The Christ hymn begins with one of the most luminous titles in the New Testament: &ldquo;He is the image of the invisible God, the firstborn of all creation&rdquo; (1:15). The word &ldquo;image&rdquo; (Greek: eikon) carries a meaning far stronger than &ldquo;picture&rdquo; or &ldquo;representation.&rdquo; In Greek usage, an eikon participates in the reality it images. To say that Christ is the eikon of the invisible God is to say that in him the invisible God becomes visible &mdash; not as a photograph of God but as God himself made manifest in a form that can be seen, heard, and touched.",
+      "The phrase &ldquo;the invisible God&rdquo; is itself loaded with meaning. God in his essential nature transcends the created order; no creature can see him as he is in himself and survive (Exodus 33:20). Yet the consistent testimony of Scripture is that God has made himself known &mdash; in creation, in word, in the acts of covenant history, and supremely in the Incarnation. Paul is claiming that in Jesus of Nazareth, the invisible One became visible in the fullest possible way: not a symbol or a revelation of select attributes, but the one &ldquo;in whom the whole fullness of deity dwells bodily&rdquo; (2:9).",
+      "The title &ldquo;firstborn of all creation&rdquo; has been perhaps the most contested phrase in Colossians 1, partly because the Arian movement in the fourth century cited it to argue that Christ was a creature &mdash; the first and greatest creature, but a creature nonetheless. But Paul&rsquo;s meaning is clarified immediately by verse 16: &ldquo;for by him all things were created.&rdquo; The Creator cannot be a creature. &ldquo;Firstborn&rdquo; in Paul&rsquo;s usage refers not to temporal priority within creation but to positional pre-eminence over it &mdash; the firstborn holds the inheritance rights and the place of honor over everything.",
+      "Verse 16 extends the scope of Christ&rsquo;s creative agency to an extent that leaves nothing outside it: &ldquo;all things were created, in heaven and on earth, visible and invisible, whether thrones or dominions or rulers or authorities &mdash; all things were created through him and for him.&rdquo; The four-fold category (thrones, dominions, rulers, authorities) refers to the hierarchy of spiritual powers &mdash; precisely the kind of beings that the Colossian teachers apparently believed needed to be placated alongside Christ. Paul&rsquo;s answer is categorical: every one of those powers was created by Christ and for Christ. They owe their very existence to the one who is being displaced from his proper position.",
+      "Verse 17 delivers two of the most sweeping theological assertions in the New Testament, each in half a sentence: &ldquo;And he is before all things&rdquo; &mdash; an assertion of eternal pre-existence, echoing John 1:1&rsquo;s &ldquo;in the beginning was the Word&rdquo; &mdash; &ldquo;and in him all things hold together.&rdquo; This second assertion is remarkable. Paul is not only saying that Christ created the universe in the past; he is saying that Christ sustains it in the present. The coherence of reality, the regular operation of what we call natural law, the fact that atoms bond and galaxies orbit and biological systems function &mdash; all of this is, in Paul&rsquo;s understanding, a moment-by-moment expression of Christ&rsquo;s sustaining power.",
+      "The practical force of this passage is immense. If Jesus is the image of the invisible God and the one by whom and for whom all things exist, then to see Jesus is to see what God is truly like, and to know Jesus is to know the ground of all reality. Every question about the character of God &mdash; Is he loving? Is he just? Does he care? &mdash; finds its answer in the one who is the image of the invisible God. And every question about the meaning of the created order &mdash; why does anything exist? what holds it together? what is it for? &mdash; finds its answer in the one for whom all things were made.",
+    ],
+  },
+  {
+    id: "Christ Above All",
+    heading: "Christ Above All: Lord of Creation and Church",
+    reference: "Colossians 1:17&ndash;18",
+    paragraphs: [
+      "After establishing Christ&rsquo;s supremacy over all creation, the hymn pivots in verse 18 to his supremacy over the church: &ldquo;And he is the head of the body, the church. He is the beginning, the firstborn from the dead, that in everything he might be preeminent.&rdquo; The move from &ldquo;all creation&rdquo; to &ldquo;the church&rdquo; is deliberate. Paul is insisting that the same Christ who lords over the cosmos also lords over his people &mdash; and that the church is not a department within a larger enterprise but the particular community where the lordship of Christ is consciously acknowledged and bodily expressed.",
+      "The title &ldquo;head of the body, the church&rdquo; in Colossians carries a different emphasis than in Ephesians, where &ldquo;head&rdquo; stresses Christ as the source of the body&rsquo;s growth and nourishment. Here the emphasis is on sovereignty and authority. Christ is the head of the church in the sense that he is its ruler, its supreme directive authority, the one to whom every member is ultimately accountable. No church council, no tradition, no human leader, and no theological system can occupy the position that belongs to Christ alone as head.",
+      "The phrase &ldquo;the firstborn from the dead&rdquo; is the hinge on which the entire hymn turns. Christ is the &ldquo;firstborn of all creation&rdquo; (1:15) &mdash; the one who holds pre-eminence in the created order. Now he is &ldquo;the firstborn from the dead&rdquo; &mdash; the one who holds pre-eminence in the new creation that began with his resurrection. The resurrection of Jesus is not merely a miraculous event in the past; it is the opening movement of a new age, the beginning of the restoration of all things, and Christ&rsquo;s resurrection is what establishes his right to the title &ldquo;firstborn&rdquo; in this new domain.",
+      "The ultimate purpose of all this is stated with breathtaking simplicity: &ldquo;that in everything he might be preeminent&rdquo; (1:18). Paul does not say &ldquo;preeminent in spiritual matters&rdquo; or &ldquo;preeminent in the church&rdquo; or &ldquo;preeminent in salvation history.&rdquo; He says &ldquo;in everything.&rdquo; There is no sphere of existence, no realm of human life, no area of created reality over which Christ does not hold supreme authority. Politics, economics, art, family life, intellectual inquiry, the natural world &mdash; all of it falls under the &ldquo;everything&rdquo; of verse 18.",
+      "The theological tradition has often spoken of the &ldquo;two natures&rdquo; of Christ &mdash; truly God and truly human &mdash; and Colossians 1 is one of the key texts for understanding the divine side of that teaching. But Paul&rsquo;s interest here is not primarily speculative or metaphysical; it is doxological and ethical. He is establishing Christ&rsquo;s pre-eminence so that the Colossians will not add anything to him, diminish him in any way, or look to any other being or practice to supplement what they have in him. If Christ is truly above all &mdash; above every power and principality, above every spiritual intermediary, above every religious system &mdash; then to supplement Christ is to dethrone him.",
+      "The church that takes Colossians 1:17&ndash;18 seriously will be marked by an unembarrassed, exclusive, all-encompassing confession of Christ. It will resist every cultural pressure to make him one option among many or one guru among the spiritual teachers of the age. It will insist that in Christ &ldquo;are hidden all the treasures of wisdom and knowledge&rdquo; (2:3) and that this means he is sufficient for every human need and every human question. The pre-eminence of Christ is not a boast to be smugly recited; it is a reality to be humbly inhabited and joyfully proclaimed.",
+    ],
+  },
+  {
+    id: "Reconciling All Things",
+    heading: "Reconciling All Things Through the Blood of His Cross",
+    reference: "Colossians 1:19&ndash;23",
+    paragraphs: [
+      "Verses 19&ndash;20 form the climax of the Christ hymn and contain two of its most important theological affirmations: &ldquo;For in him all the fullness of God was pleased to dwell, and through him to reconcile to himself all things, whether on earth or in heaven, making peace by the blood of his cross.&rdquo; The first affirmation is ontological: in Christ dwells the &ldquo;fullness&rdquo; (Greek: pleroma) of God. In the world of Hellenistic religious thought, the &ldquo;fullness&rdquo; referred to the total divine power and reality. Paul is claiming that this totality resides not in a hierarchy of spiritual beings but in one person &mdash; Jesus Christ.",
+      "The second affirmation is soteriological: through Christ, God reconciles to himself &ldquo;all things, whether on earth or in heaven.&rdquo; This is one of the most contested phrases in Colossians because it seems to suggest a universal reconciliation of all persons, which would contradict the rest of Paul&rsquo;s teaching about judgment and condemnation. The key is that Paul is describing the scope of the reconciliation that Christ&rsquo;s cross has achieved in principle and in cosmic reach, not the ultimate destiny of every individual soul. The cross has dealt with the fundamental rupture between God and his creation; it has defeated the powers that held the cosmos in bondage; it has laid the foundation for the ultimate restoration of all things.",
+      "The instrument of this cosmic reconciliation is specified precisely: &ldquo;making peace by the blood of his cross.&rdquo; In a passage that could have remained at the level of cosmic abstraction, Paul brings everything down to the cross &mdash; to a specific moment in history, to a physical event, to blood. The reconciliation of the cosmos is not achieved by cosmic principles or spiritual emanations or the gradual evolution of consciousness; it is achieved by the death of the Son of God on a Roman cross outside Jerusalem. This is the scandal of Christian particularity: the largest claim Paul makes about the scope of salvation runs through the narrowest of historical events.",
+      "Paul then applies this cosmic theology to the personal situation of the Colossians in verses 21&ndash;22: &ldquo;And you, who once were alienated and hostile in mind, doing evil deeds, he has now reconciled in his body of flesh by his death, in order to present you holy and blameless and above reproach before him.&rdquo; The &ldquo;all things&rdquo; of verse 20 includes these specific people in their specific alienation. The cosmic becomes personal; the universal becomes particular. What God accomplished on the scale of all creation, he also accomplished for the Colossians in their estrangement from him.",
+      "The goal of this personal reconciliation is stated in the most elevated terms: to be presented before God as &ldquo;holy and blameless and above reproach.&rdquo; These are not merely moral categories &mdash; they are cultic and legal terms drawn from the vocabulary of sacrifice and judicial acquittal. To be &ldquo;holy&rdquo; is to be set apart for God; to be &ldquo;blameless&rdquo; is to be without defect, like a sacrificial animal without spot; to be &ldquo;above reproach&rdquo; is to be legally unimpeachable. This is the standing that Christ&rsquo;s death secures for those who are in him &mdash; not a standing to be earned by future performance, but one given freely through grace and to be maintained by continued faith.",
+      "Verse 23 introduces the necessary note of perseverance: &ldquo;if indeed you continue in the faith, stable and steadfast, not shifting from the hope of the gospel.&rdquo; Paul is not suggesting that reconciliation can be lost through a single act of sin; he is insisting that genuine reconciliation produces a genuine and continuing faith. The person who has truly encountered the cosmic Christ of Colossians 1 is not the person who makes a momentary decision and then drifts into practical indifference; they are the person whose life is increasingly shaped by the hope, the faith, and the love that flow from the gospel of the supremacy of Christ.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Living Under the Supremacy of Christ",
+    reference: "Colossians 1 Applied",
+    paragraphs: [
+      "The most immediate and fundamental application of Colossians 1 is a radical re-centering of all of life on the person of Jesus Christ. Paul&rsquo;s concern was that the Colossian believers were allowing other things &mdash; spiritual powers, religious practices, philosophical systems &mdash; to occupy a place alongside Christ that belonged to Christ alone. The equivalent temptations in the contemporary world are equally varied: pragmatic success, therapeutic self-fulfillment, political ideology, cultural belonging, or a vague spirituality that takes a little from many sources. Colossians 1 confronts all of these with the same answer: Christ is enough. He is the image of the invisible God, the one in whom all things consist, the one in whom all the fullness of God was pleased to dwell. He is sufficient.",
+      "Second, the cosmic scope of Christ&rsquo;s lordship (1:16&ndash;17) demands what the Reformed tradition has called the &ldquo;Lordship of Christ over all of life.&rdquo; If Christ is preeminent &ldquo;in everything,&rdquo; then no area of human life is religiously neutral. The Christian accountant, parent, artist, scientist, politician, or tradesperson is not doing secular work that happens to belong to a religious person; they are doing the work of a creature whose Lord is the one through whom and for whom all things exist. The categories of &ldquo;sacred&rdquo; and &ldquo;secular&rdquo; dissolve under the pressure of Colossians 1:16: all of life is to be lived under the lordship of the one who made it, sustains it, and is reconciling it to himself.",
+      "Third, the prayer of Colossians 1:9&ndash;12 offers a model for Christian intercession that is often neglected. Paul does not primarily pray for the Colossians&rsquo; health, comfort, or material prosperity. He prays that they may be &ldquo;filled with the knowledge of his will in all spiritual wisdom and understanding&rdquo; so that they may &ldquo;walk in a manner worthy of the Lord, fully pleasing to him, bearing fruit in every good work.&rdquo; This is a prayer for spiritual maturity, theological clarity, and practical fruitfulness. Christians who adopt this pattern for their own intercession will find their prayer life transformed from a wish list into a participation in God&rsquo;s purposes for his people.",
+      "Fourth, the description of Christ as &ldquo;the head of the body, the church&rdquo; (1:18) has urgent implications for how Christians relate to the local church. In a culture of radical individualism that values personal spiritual experience above communal belonging, Colossians 1 insists that the body Christ heads is a body &mdash; a community with members, each of whom is joined to the others. To be under the headship of Christ is not a private arrangement between the individual soul and its Lord; it is a communal reality lived out in the assembly of believers. Detachment from the church is, in Pauline terms, a form of detachment from the body whose head is Christ.",
+      "Fifth, the personal application in verses 21&ndash;23 calls for a response of steadfast, unhurried faithfulness. The Colossians are urged to &ldquo;continue in the faith, stable and steadfast, not shifting from the hope of the gospel.&rdquo; The Christian life is not a sprint but a marathon &mdash; not a single dramatic moment of commitment but a lifelong pattern of trusting, hoping, and following. The temptation to shift from the gospel is perennial: every generation faces its own sophisticated alternatives. The answer is not to add to the gospel or to modernize it but to know it more deeply, to return to it more regularly, and to be &ldquo;increasing in the knowledge of God&rdquo; (1:10) through patient, disciplined engagement with it.",
+      "Finally, the chapter closes with Paul&rsquo;s description of his own ministry as one of &ldquo;warning everyone and teaching everyone with all wisdom, that we may present everyone mature in Christ&rdquo; (1:28). This is the goal that shapes every aspect of genuine Christian ministry: not impressive organizations, not growing institutions, not celebrated programs &mdash; but mature people who know Christ, are conformed to Christ, and live all of life under the supreme lordship of the one who is the image of the invisible God, the firstborn of all creation, and the one in whom all things consist. This is the measure and the goal of all Christian work.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "pXTXlDxQsvc", title: "Colossians 1 - The Supremacy of Christ Explained" },
+  { videoId: "Oaj1WJzlPNQ", title: "Image of the Invisible God - Colossians 1:15 Study" },
+  { videoId: "1FbUOHfJPt4", title: "The Christ Hymn in Colossians - Bible Teaching" },
+  { videoId: "aMGGkIiyGUw", title: "Christ Above All - Colossians Overview and Study" },
+];
+
+export default function Colossians1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Colossians 1 &mdash; Christ Above All
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The image of the invisible God, the firstborn of all creation &mdash; Colossians 1 presents the supreme lordship of Jesus Christ over every created thing, the fullness of God dwelling in him, and the cosmic reconciliation achieved through the blood of his cross.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of Colossians 1 through these video teachings on the supremacy of Christ, the Christ hymn, and the reconciliation of all things through the cross.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>That in Everything He Might Be Preeminent</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Colossians 1 will not allow Christ to be reduced, supplemented, or repositioned. He is the image of the invisible God, the one through whom and for whom all things were created, the firstborn from the dead, and the one in whom all the fullness of God was pleased to dwell. The cross that looks like defeat is the very instrument by which he reconciles all things to himself. In everything &mdash; creation, redemption, the church, the cosmos &mdash; he is preeminent. This is the Christ whom Colossians 1 invites us to know, to trust, and to proclaim.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

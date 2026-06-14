@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Dead in Trespasses",
+  "By Grace Through Faith",
+  "His Workmanship",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Ephesians 2",
+    reference: "Ephesians 2:1&ndash;22",
+    paragraphs: [
+      "Ephesians 2 stands as one of the most concentrated and theologically rich chapters in all of Paul&rsquo;s letters. It falls within his great letter to the Ephesians &mdash; a circular letter most likely intended for a cluster of churches in Asia Minor &mdash; and it forms the doctrinal heart of the entire epistle. Chapter 1 has already dazzled the reader with the electing love of God the Father, the redeeming work of God the Son, and the sealing of God the Spirit. Chapter 2 now lands those truths at ground level, showing what they mean for the actual human beings who have been caught up in them.",
+      "The chapter divides naturally into two equal movements. The first (verses 1&ndash;10) is the most personal and individual: it describes what every Christian was before Christ, what God did for them in Christ, and what they now are and are called to do in Christ. The second movement (verses 11&ndash;22) broadens the lens dramatically to the cosmic and corporate: it shows how the saving work of Christ has demolished the ancient wall of hostility between Jew and Gentile and created from the two a single new humanity, the church, which is being built together into nothing less than a dwelling place for God himself.",
+      "The two movements are intimately connected. The grace that rescues dead individuals is the same grace that reconciles divided peoples. Paul will not allow a privatized gospel that rescues souls but leaves social and ethnic divisions intact. He insists that the cross that atones for sin is also the cross that abolishes the hostility between human groups, and that any preaching of grace which fails to produce a reconciled, unified community has missed something essential about what the gospel achieves.",
+      "Ephesians 2 has been a battleground of theological controversy for centuries, and rightly so, because it touches the most fundamental questions: What is wrong with human beings at the deepest level? What can they contribute to their own salvation? What is the basis of God&rsquo;s acceptance? What is the purpose of the saved life? Paul&rsquo;s answers are uncompromising in their clarity and breathtaking in their scope. To study Ephesians 2 carefully is to be confronted with the full weight of human need and the full sufficiency of divine grace.",
+      "The chapter also plays a crucial role in the ongoing story of Paul&rsquo;s own life and ministry. He is writing as a prisoner (3:1), and the very community he is writing to &mdash; primarily Gentile believers (2:11) &mdash; represents the fruit of his apostolic calling. The mystery that was hidden for ages (3:4&ndash;6) is now being made plain: that Gentiles are co-heirs, co-members, and co-partakers of the promise in Christ Jesus. Ephesians 2 is thus not just doctrine in the abstract; it is the explanation of why Paul is in chains and why he considers his chains an honor.",
+      "A careful reading rewards the student who pays attention to the logical flow of Paul&rsquo;s Greek. The famous declaration of grace in verses 8&ndash;9 is not an isolated proof text; it is the climactic conclusion of a carefully constructed argument that begins at verse 1. Understanding that argument in full &mdash; the diagnosis, the divine action, the basis, and the purpose &mdash; is the key to rightly interpreting and applying this matchless chapter.",
+    ],
+  },
+  {
+    id: "Dead in Trespasses",
+    heading: "Dead in Trespasses and Sins",
+    reference: "Ephesians 2:1&ndash;3",
+    paragraphs: [
+      "Paul opens with a diagnosis that could hardly be more severe: &ldquo;And you were dead in the trespasses and sins in which you once walked&rdquo; (2:1&ndash;2). The word &ldquo;dead&rdquo; is not a metaphor for weakness, sickness, or moral difficulty. Paul means something far more radical: a genuine spiritual death, an incapacity to respond to God, to seek God, or to please God. Just as a physically dead person cannot respond to stimuli, the spiritually dead person cannot respond to the things of the Spirit of God (1 Corinthians 2:14).",
+      "The Ephesians were not only dead; they were actively walking in their death. This is one of the striking paradoxes of Paul&rsquo;s language: dead people who are nonetheless walking, moving, acting &mdash; but all of their activity is the frantic motion of those who have no real life in them, like a severed branch that still shows green for a season. Their walking was shaped by three powerful forces: the age of this world (the prevailing moral atmosphere of a fallen age), the prince of the power of the air (a personal spiritual being who energizes the sons of disobedience), and their own cravings of the flesh.",
+      "The reference to &ldquo;the prince of the power of the air&rdquo; (2:2) reminds us that Paul&rsquo;s worldview is robustly supernatural. The rebellion against God that characterizes human culture is not simply the product of bad social conditions or inadequate education; it is the work of a malevolent spiritual power who has his own designs on humanity. This does not remove human responsibility &mdash; people are still called &ldquo;sons of disobedience&rdquo; &mdash; but it shows that the human situation is embedded in a larger spiritual conflict.",
+      "Perhaps the most devastating phrase comes in verse 3: &ldquo;and were by nature children of wrath, like the rest of mankind.&rdquo; The phrase &ldquo;by nature&rdquo; points to a condition that is not merely habitual or learned but constitutional &mdash; something that belongs to human beings as they actually exist in the fallen world, not as they were created in the beginning. To be &ldquo;children of wrath&rdquo; is to be, by one&rsquo;s very constitution and standing, the objects of God&rsquo;s just and holy anger against sin.",
+      "Crucially, Paul includes himself in this indictment: &ldquo;among whom we all once lived in the passions of our flesh, carrying out the desires of the body and the mind&rdquo; (2:3). This is not something Paul says about the Ephesian Gentiles while exempting himself and his Jewish compatriots. The &ldquo;we all&rdquo; is absolute &mdash; it sweeps in the religious and the irreligious, the morally disciplined and the openly dissolute, the covenant Jew and the pagan Gentile. All are dead. All are under wrath. This universal diagnosis is what makes the universal offer of grace in verses 4&ndash;9 so staggering.",
+      "The three-fold bondage of Ephesians 2:1&ndash;3 &mdash; the world, the devil, and the flesh &mdash; corresponds to what the Christian tradition has long called the threefold enemy of the human soul. Paul&rsquo;s point is that before divine grace intervenes, the human being is not just inclined toward sin but is structurally enslaved to it from without (the world and the devil) and from within (the flesh). This bondage is not a peripheral problem that can be solved by moral effort or religious observance; it is the core problem that requires nothing less than an act of divine creation to resolve.",
+    ],
+  },
+  {
+    id: "By Grace Through Faith",
+    heading: "By Grace Through Faith",
+    reference: "Ephesians 2:4&ndash;10",
+    paragraphs: [
+      "If verses 1&ndash;3 are the darkest passage in Paul, verses 4&ndash;6 are among the brightest. The transition is signaled by two of the most important words in the New Testament: &ldquo;But God&rdquo; (2:4). Into the situation of universal death and divine wrath, God himself intervenes. And the ground of that intervention is immediately specified: &ldquo;But God, being rich in mercy, because of the great love with which he loved us, even when we were dead in our trespasses, made us alive together with Christ.&rdquo;",
+      "Paul heaps up the language of divine abundance: God is not merely merciful, but &ldquo;rich in mercy.&rdquo; He does not merely tolerate us, but loves us with a &ldquo;great love.&rdquo; The timing is essential: &ldquo;even when we were dead.&rdquo; God&rsquo;s love is not a response to any goodness, potential, or movement in us. It is not that we were spiritually sick and God came to help us get better; we were dead, and God came to give us life. This is the key distinction between grace and all other religious systems: grace flows entirely from the character of God toward objects that have nothing to commend them.",
+      "The verbs Paul uses in verses 5&ndash;6 are stunning in their scope. God has &ldquo;made us alive together with Christ,&rdquo; &ldquo;raised us up with him,&rdquo; and &ldquo;seated us with him in the heavenly places in Christ Jesus.&rdquo; Three compound verbs, all prefixed with &ldquo;with&rdquo; (Greek: syn-), all describing a union with Christ so complete that the believer&rsquo;s spiritual position is defined entirely by where Christ is. If Christ was made alive, we were made alive with him. If Christ was raised, we were raised with him. If Christ is seated at the right hand of the Father, we are already seated with him in that exalted place &mdash; positionally, in Christ, even while we still live and suffer in this fallen world.",
+      "Then come the most famous verses of the chapter: &ldquo;For by grace you have been saved through faith. And this is not your own doing; it is the gift of God, not a result of works, so that no one may boast&rdquo; (2:8&ndash;9). Paul has been building to this statement for eight verses. &ldquo;Grace&rdquo; is God&rsquo;s free, unmerited favor toward the undeserving. &ldquo;Faith&rdquo; is the empty hand that receives what grace offers. The whole package &mdash; the grace, the faith, the salvation &mdash; is described as &ldquo;the gift of God,&rdquo; not originating in the human will or human effort. The purpose Paul explicitly states: &ldquo;so that no one may boast.&rdquo; A salvation that rested even in part on human contribution would produce pride; a salvation that is entirely of grace produces only gratitude and worship.",
+      "The phrase &ldquo;not a result of works&rdquo; has sometimes been misread as Paul opposing the Jewish law specifically. But his language is more universal than that. Any works-based system, whether Jewish, Roman, Greek, or modern self-improvement, is ruled out by this verse. God does not save us because we have kept a code, performed rituals, accumulated merit, or turned over a new leaf. He saves us because he is &ldquo;rich in mercy&rdquo; and because his &ldquo;great love&rdquo; could not leave the dead in their death.",
+      "Verse 10 then provides the most important corrective to any antinomian misreading of grace: &ldquo;For we are his workmanship, created in Christ Jesus for good works, which God prepared beforehand, that we should walk in them.&rdquo; Works do not produce salvation; but salvation always produces works. The person who has been raised from the dead is not left in a spiritual chair to contemplate their rescue; they are created &mdash; re-created &mdash; for a life of purposeful, divinely designed good works. Grace that does not transform is not the grace Paul is describing.",
+    ],
+  },
+  {
+    id: "His Workmanship",
+    heading: "We Are His Workmanship",
+    reference: "Ephesians 2:10&ndash;22",
+    paragraphs: [
+      "Verse 10 pivots on the word &ldquo;workmanship&rdquo; (Greek: poiema, from which we get the English word &ldquo;poem&rdquo;). Paul is saying that the Christian is not a self-made person who has pulled themselves up by their own spiritual bootstraps. The Christian is a divine artifact &mdash; something made, crafted, composed by God himself. Just as a poem bears the mind and skill of the poet who wrote it, the regenerated believer bears the mark of the divine Creator who re-created them. The saved life is not a human achievement; it is a divine masterpiece.",
+      "The phrase &ldquo;created in Christ Jesus for good works&rdquo; connects the individual theology of verses 1&ndash;10 to the cosmic scope of verses 11&ndash;22. The same creative power that raised dead individuals is also at work creating a new social reality &mdash; the unified body of Christ. The &ldquo;good works&rdquo; Christians are created for are not merely private virtues; they include the astonishing work of being living demonstrations that the dividing walls between human beings have been broken down.",
+      "Paul turns to address his Gentile readers directly in verse 11: &ldquo;Therefore remember that at one time you Gentiles in the flesh &hellip; were at that time separated from Christ, alienated from the commonwealth of Israel, and strangers to the covenants of promise, having no hope and without God in the world&rdquo; (2:11&ndash;12). He is asking them to remember their pre-Christian status &mdash; not in terms of personal morality but in terms of covenant standing. They were outsiders to everything God had been doing in the world through Israel: the promises to Abraham, the covenants at Sinai and Zion, the hope of the Messiah.",
+      "But now, in Christ Jesus, those &ldquo;who once were far off have been brought near by the blood of Christ&rdquo; (2:13). The &ldquo;blood of Christ&rdquo; is the means by which the Gentile outsider is brought into the covenant community. And the one who accomplishes this is described in terms that no New Testament passage exceeds for Christological richness: &ldquo;For he himself is our peace, who has made us both one and has broken down in his flesh the dividing wall of hostility&rdquo; (2:14). Christ is not just the one who makes peace available; he is himself the peace.",
+      "The &ldquo;dividing wall of hostility&rdquo; likely alludes to the barrier in the Jerusalem Temple that separated the Court of the Gentiles from the inner courts where Jews could enter &mdash; a wall inscribed with the death penalty for any Gentile who crossed it. Paul declares that in his flesh, through his death, Christ has demolished this wall. He has abolished &ldquo;the law of commandments expressed in ordinances&rdquo; (2:15) &mdash; not the moral demand of the law, but its function as a dividing marker between covenant insiders and outsiders. In its place he has created &ldquo;one new man in place of the two, so making peace&rdquo; (2:15).",
+      "The chapter closes with the image of a building &mdash; one of Paul&rsquo;s most sustained metaphors. The new, reconciled community is being &ldquo;built together into a dwelling place for God by the Spirit&rdquo; (2:22). The apostles and prophets are the foundation; Christ Jesus himself is the cornerstone. Every believer, Jew and Gentile alike, is a living stone being fitted into this structure. The Temple in Jerusalem has been superseded: God no longer dwells primarily in a building of stone in the city of David, but in the community of people who have been made alive, raised, and seated with Christ &mdash; his workmanship, his poem, his dwelling place.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Living as God's Workmanship",
+    reference: "Ephesians 2 Applied",
+    paragraphs: [
+      "The first and most foundational application of Ephesians 2 is a thorough reckoning with what we were before grace found us. Paul insists that we &ldquo;remember&rdquo; our former state (2:11). There is a pastoral wisdom in this command. Christians who forget that they were dead, enslaved, and under wrath tend to become proud, self-sufficient, and hard toward those who are still outside grace. Regular meditation on what we were &mdash; &ldquo;children of wrath, like the rest of mankind&rdquo; &mdash; is the greenhouse in which genuine humility, gratitude, and compassion grow.",
+      "Second, Ephesians 2 calls us to a robust, scripturally grounded confidence in our salvation. The person who is genuinely &ldquo;in Christ&rdquo; is not described as hoping to be eventually saved, or as working hard enough to maintain their standing. Paul uses the past tense: &ldquo;you have been saved&rdquo; (2:8). The completed action is the foundation of a present assurance. Christians often struggle with assurance not because they lack evidence of grace in their lives, but because they are unconsciously looking to themselves as the basis rather than looking to Christ &mdash; to what he did, who he is, and where we are seated in him.",
+      "Third, the chapter re-calibrates the relationship between faith and works in the Christian life. Many Christians fall into one of two ditches: either they treat good works as the currency with which they buy God&rsquo;s favor (forgetting verse 9), or they treat grace as a license to moral passivity (forgetting verse 10). Paul holds both together without tension: we are saved entirely by grace through faith (not works), and we are saved for a life of good works (not passivity). The grace that saves is also the grace that transforms, and a transformation-free life is evidence that something has gone wrong with the root.",
+      "Fourth, Ephesians 2:11&ndash;22 has radical implications for the life of the local church. If Christ has demolished the wall of hostility between Jew and Gentile &mdash; the most fundamental ethnic and religious division in the ancient world &mdash; then local churches should be the most radically reconciled communities on earth. The gospel compels us to pursue unity across every line that divides human beings: racial, economic, generational, cultural. A church that is homogeneous by design or preference is, to that extent, advertising something less than the full gospel of Ephesians 2.",
+      "Fifth, verse 10 invites every Christian to think of their life as a work of art. &ldquo;We are his workmanship, created in Christ Jesus for good works, which God prepared beforehand, that we should walk in them.&rdquo; The good works are not random; they were prepared beforehand. This means the Christian life has a shape, a design, a divine intentionality. The question to ask is not only &ldquo;What should Christians in general do?&rdquo; but &ldquo;What specific good works has God prepared for me, in my place, at this time, with these gifts and this history?&rdquo; Prayer, attentiveness, and obedience are the means by which we discover and walk in them.",
+      "Finally, Ephesians 2 reminds us that the church is not a human institution or a social club organized around shared interests. It is a building being constructed by God himself, a dwelling place for the Holy Spirit, a new temple not made with hands. When we gather with other believers &mdash; especially those very different from us &mdash; we are participating in something of cosmic significance. The stones that seem most ill-fitting to human eyes are often the ones that most clearly display the sovereign artistry of the divine Builder who is making all things new in Christ.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Y71r-T98E2Q", title: "Ephesians 2 - Bible Study: Dead in Sin, Alive in Christ" },
+  { videoId: "oNNZO9i1Gjc", title: "By Grace Through Faith - Ephesians 2:8-10 Explained" },
+  { videoId: "PqrZMpkkZCo", title: "We Are His Workmanship - Ephesians 2:10 Teaching" },
+  { videoId: "vGH0prFLMdk", title: "The Dividing Wall Broken Down - Ephesians 2:11-22" },
+];
+
+export default function Ephesians2GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Ephesians 2 &mdash; Saved by Grace Through Faith
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Dead in trespasses, made alive in Christ &mdash; Ephesians 2 declares that salvation is entirely the gift of God, that we are his workmanship created for good works, and that the cross has demolished every dividing wall between human beings to build one new people as God&rsquo;s dwelling place.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of Ephesians 2 through these video teachings on grace, faith, salvation, and the new humanity Christ has created in himself.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>But God, Being Rich in Mercy</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Ephesians 2 sets the human condition and the divine remedy side by side with unsparing clarity. Dead in trespasses, we were powerless to save ourselves. But God &mdash; rich in mercy, acting from great love &mdash; made us alive with Christ, raised us with Christ, and seated us with Christ. We are his workmanship, his poem, his new temple. This is the gospel in its fullest depth: salvation by grace alone, through faith alone, in Christ alone, for the glory of God alone.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

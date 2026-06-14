@@ -2008,6 +2008,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Corinthians 1 Chapter": "2-corinthians-1-guide",
   "God of All Comfort": "2-corinthians-1-guide",
   "Father of Mercies": "2-corinthians-1-guide",
+  "Ephesians 2 Chapter": "ephesians-2-guide",
+  "Dead in Trespasses": "ephesians-2-guide",
+  "By Grace Through Faith": "ephesians-2-guide",
+  "Colossians 1 Chapter": "colossians-1-guide",
+  "Image of Invisible God": "colossians-1-guide",
+  "Christ Above All": "colossians-1-guide",
+  "1 John 1 Chapter": "1-john-1-guide",
+  "God Is Light": "1-john-1-guide",
+  "Walking in the Light": "1-john-1-guide",
+  "Mark 16 Chapter": "mark-16-guide",
+  "Go Into All the World": "mark-16-guide",
+  "Resurrection Morning Mark": "mark-16-guide",
 };
 
 
@@ -2946,6 +2958,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 18 Chapter" },
   { label: "Acts 4 Chapter" },
   { label: "2 Corinthians 1 Chapter" },
+  { label: "Ephesians 2 Chapter" },
+  { label: "Colossians 1 Chapter" },
+  { label: "1 John 1 Chapter" },
+  { label: "Mark 16 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

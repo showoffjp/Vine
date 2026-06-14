@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Remember Your Creator",
+  "The Allegory of Old Age",
+  "The Spirit Returns to God",
+  "Fear God and Keep Commandments",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Ecclesiastes 12",
+    reference: "Ecclesiastes 12:1&ndash;14",
+    paragraphs: [
+      "Ecclesiastes 12 is the grand conclusion of one of the most searching and disquieting books in the Old Testament. The Teacher &mdash; Qohelet in Hebrew, often rendered &ldquo;the Preacher&rdquo; or &ldquo;the Convener&rdquo; &mdash; has spent eleven chapters conducting a relentless inquiry into the meaning of human life &ldquo;under the sun.&rdquo; He has investigated wisdom and folly, labor and rest, pleasure and asceticism, justice and injustice, life and death. His verdict on each pursuit in turn has been the same haunting word: &lsquo;hebel&rsquo; &mdash; breath, vapor, vanity. Everything that can be grasped and held and counted upon in this life ultimately slips through the fingers like morning mist.",
+      "The final chapter does not reverse that verdict; it crowns and completes it. It opens with what may be the most urgent single imperative in the book: &ldquo;Remember your Creator in the days of your youth, before the evil days come and the years draw near of which you will say, &lsquo;I have no pleasure in them&rsquo;&rdquo; (12:1). The whole book has been building toward this. If everything under the sun is vapor, then the one thing that is not vapor &mdash; the Creator who stands above the sun, who gave the spirit and will one day receive it back &mdash; is the only solid ground on which a human life can be built.",
+      "The chapter unfolds in three distinct movements. First, the poetic description of old age and death (vv. 1&ndash;7): a sustained and hauntingly beautiful allegory in which the decline of the human body is described through images of a great house falling into disrepair, the sun and stars going dark, the grinding coming to a halt, and the spirit returning like a homecoming to the God who gave it. Second, a coda on Qohelet himself (vv. 8&ndash;12): the narrator steps back to describe the Teacher&rsquo;s work and to warn that the writing of books is endless and much study wearies the body. Third, the epilogue (vv. 13&ndash;14): the book&rsquo;s final word, its summary verdict on the whole human question.",
+      "That final verdict, delivered in the last two verses, is one of the most concentrated and profound summaries in all of Scripture: &ldquo;Fear God and keep his commandments, for this is the whole duty of man. For God will bring every deed into judgment, with every secret thing, whether good or evil&rdquo; (12:13&ndash;14). These two verses do not undo the preceding eleven chapters. They do not declare that life under the sun is actually full of reliable pleasures and lasting achievements. Instead, they locate human existence within a framework that transcends the sun &mdash; a framework in which the Creator sees, remembers, and will judge every hidden thing, and in which the only adequate human response is reverence and obedience.",
+      "Ecclesiastes 12 is a chapter for all of human life, but it speaks with particular urgency to the young. The exhortation to &ldquo;remember your Creator in the days of your youth&rdquo; is not a piece of practical advice about getting religion before things get hard; it is a theological claim about the shape of a good human life. Youth is the season of capacity and energy, when the sun and light and moon and stars are not yet darkened, when the keepers of the house still stand firm. To remember the Creator in that season is to order the whole of one&rsquo;s life &mdash; its ambitions, its loves, its habits of heart and mind &mdash; around the only reference point that will not prove to be vapor.",
+      "The book of Ecclesiastes has always posed an interpretive challenge because it seems to say things that are difficult to square with the rest of Scripture&rsquo;s confidence about God and meaning. But Ecclesiastes 12 suggests that the discomfort is intentional and productive. Qohelet&rsquo;s relentless critique of every substitute for God is itself a form of wisdom. To be disillusioned with everything that is not God is not despair; it is the beginning of the only life that makes ultimate sense. The chapter that begins with &ldquo;Remember your Creator&rdquo; and ends with &ldquo;Fear God and keep his commandments&rdquo; is the capstone of a wisdom meditation that has cleared the ground of every false hope so that the one true hope might stand alone.",
+    ],
+  },
+  {
+    id: "Remember Your Creator",
+    heading: "Remember Your Creator",
+    reference: "Ecclesiastes 12:1",
+    paragraphs: [
+      "The opening verse of Ecclesiastes 12 is one of the most direct and emotionally urgent imperatives in the entire book: &ldquo;Remember also your Creator in the days of your youth, before the evil days come and the years draw near of which you will say, &lsquo;I have no pleasure in them&rsquo;&rdquo; (12:1). After eleven chapters of carefully argued disillusionment with every form of human striving, the Teacher arrives at his positive counsel, and it turns out to be breathtakingly simple: remember God.",
+      "The Hebrew word translated &ldquo;remember&rdquo; (&lsquo;zakar&rsquo;) carries more weight than the English word suggests. In the Old Testament, to remember is not merely to think about something; it is to act in accordance with that thought, to orient one&rsquo;s life toward the thing remembered. When God &ldquo;remembers&rdquo; his covenant, he acts to fulfill it. When Israel is commanded to &ldquo;remember&rdquo; the Sabbath, the remembering includes the keeping. So to &ldquo;remember your Creator&rdquo; is to live in active, sustained awareness of the One who made you &mdash; to structure your choices, your priorities, and your affections around that awareness.",
+      "The specification of &ldquo;your Creator&rdquo; rather than simply &ldquo;the LORD&rdquo; is significant. It connects the command to the most fundamental fact about human existence: that you are made, not self-originating, not self-sustaining. The one who forgets the Creator inevitably falls into the delusion of self-sufficiency &mdash; the illusion that he is the author of his own life, the master of his own fate. All the vanity that Qohelet has been describing flows ultimately from this forgetfulness: the person who does not remember that he is a creature grasps at meaning and permanence in created things that cannot bear that weight.",
+      "The urgency is temporal: &ldquo;in the days of your youth.&rdquo; This is not to say that it is impossible to remember the Creator in old age; the whole chapter will make clear that old age and death are the context in which the Creator&rsquo;s claim on the human person becomes most undeniable. But there is something irreplaceable about the remembering that happens in youth, when the patterns of the heart are still being formed, when the capacities of body and mind are at their fullest, when the habits of devotion and obedience can shape the whole trajectory of a life. To give the years of strength and vitality to the Creator is a different thing from turning to him only in the extremity of decline.",
+      "The &ldquo;evil days&rdquo; that are coming are the days of old age and diminishment that the following verses will describe so vividly. They are &ldquo;evil&rdquo; not in a moral sense but in the sense of being hard and burdensome &mdash; the days when the pleasures that youth takes for granted are no longer available, when the body that once felt unlimited begins to announce its limits with increasing insistence. Qohelet is not being cynical about old age; he is being honest. And his point is precisely that it is better to build one&rsquo;s life on the Creator before those days come, so that when the days of diminishment arrive, one has a foundation that does not depend on the vitality or the pleasures that are now gone.",
+      "There is a profound pastoral gentleness in this verse that is easy to miss amid the urgency. Qohelet does not say &ldquo;obey God in the days of your youth&rdquo; or &ldquo;serve God&rdquo; or &ldquo;fear God.&rdquo; He says &ldquo;remember.&rdquo; The beginning of the whole duty of humanity &mdash; the whole of which will be summarized in the final verses &mdash; is not first an act of moral exertion but an act of mind and heart: the turning of attention toward the One who made you. Get the Creator in your field of vision, and everything else will follow. Forget him, and no amount of striving or achieving or accumulating will produce anything but more vapor.",
+    ],
+  },
+  {
+    id: "The Allegory of Old Age",
+    heading: "The Allegory of Old Age",
+    reference: "Ecclesiastes 12:2&ndash;7",
+    paragraphs: [
+      "Verses 2 through 7 of Ecclesiastes 12 constitute one of the most beautiful and haunting passages in the wisdom literature of the Old Testament &mdash; an extended, layered allegory in which the approach of old age and death is described through a series of interlocking images drawn from nature, from the household, and from the cosmos. The passage is deliberately ambiguous, its images working simultaneously on multiple levels, and interpreters have debated its details for centuries. But the cumulative effect is unmistakable: this is a meditation on the inevitable approach of mortality, rendered with the precision of a poet and the solemnity of a priest.",
+      "The passage begins with celestial images: &ldquo;before the sun and the light and the moon and the stars are darkened, and the clouds return after the rain&rdquo; (12:2). The darkening of the heavenly lights is a classic Old Testament image of catastrophe and loss &mdash; the same imagery appears in the prophets to describe days of divine judgment. Here it is applied to the inner experience of old age: the dimming of the light of life, the withdrawal of the energies and joys that once shone as brightly as the sun. The clouds that return after the rain suggest a gloom that does not clear &mdash; not the passing storm of a single sorrow but the settled overcast of declining years.",
+      "Then the allegory shifts to the household: &ldquo;in the day when the keepers of the house tremble, and the strong men are bent, and the grinders cease because they are few, and those who look through the windows are dimmed&rdquo; (12:3). Most interpreters read &ldquo;the keepers of the house&rdquo; as the arms and hands, which shake in old age. &ldquo;The strong men&rdquo; are the legs, once powerful and now bent and uncertain. &ldquo;The grinders&rdquo; are the teeth, growing few as they fall away. &ldquo;Those who look through the windows&rdquo; are the eyes, once bright and clear, now dimmed by age. The great house of the human body, once bustling and well-maintained, is falling into a silence that presages its dissolution.",
+      "The image continues: &ldquo;and the doors on the street are shut &mdash; when the sound of the grinding is low, and one rises up at the sound of a bird, and all the daughters of song are brought low&rdquo; (12:4). The shutting of the street doors may suggest the withdrawal of old age from the public life of the marketplace. The rising at the sound of a bird captures the light, fractured sleep of the elderly. &ldquo;The daughters of song brought low&rdquo; may point to the weakening of the voice, or to the inability to hear music as once one did. The world of perception and sensation that youth takes for granted is narrowing, retreating, growing fainter.",
+      "The allegory of the silver cord and the golden bowl brings the passage to its climax: &ldquo;before the silver cord is snapped, or the golden bowl is broken, or the pitcher is shattered at the fountain, or the wheel broken at the cistern&rdquo; (12:6). These four images all describe the sudden, irreversible cessation of life. The silver cord may be the spinal cord or the thread that binds the soul to the body; the golden bowl may be the skull or the seat of consciousness. The pitcher at the fountain and the wheel at the cistern are images of the vital functions that draw life up from its source. When these break, there is no repair. Death is not a gradual fading but a final fracture.",
+      "The culminating verse gathers the allegory into its theological point: &ldquo;and the dust returns to the earth as it was, and the spirit returns to God who gave it&rdquo; (12:7). This is a deliberate echo of Genesis 2&ndash;3: the dust from which Adam was formed returns to the earth, and the breath of life that God breathed into him returns to its source. The body is dissolved into the material world; the spirit is received back by the God who gave it. Death is not annihilation; it is a separation, a returning. And the spirit returns to God who gave it &mdash; not to a void, not to oblivion, but to the one from whom it came. The allegory of darkening and dissolving ends in the presence of God.",
+    ],
+  },
+  {
+    id: "The Spirit Returns to God",
+    heading: "The Spirit Returns to God",
+    reference: "Ecclesiastes 12:7 &amp; 12:8&ndash;12",
+    paragraphs: [
+      "The statement at the end of Ecclesiastes 12:7 &mdash; &ldquo;and the spirit returns to God who gave it&rdquo; &mdash; is one of the most theologically rich lines in the entire book, and its brevity is part of its power. Throughout Ecclesiastes, Qohelet has been scrupulously honest about the limits of what he can know. He has refused to make confident claims about what lies on the other side of death, repeatedly noting that the fate of humanity and the fate of animals seems, under the sun, to be the same. But here, at the climax of his great allegory, he makes a quiet, momentous affirmation: the spirit does not dissolve into nothing. It returns.",
+      "The word &ldquo;returns&rdquo; carries weight in Hebrew (&lsquo;shuv&rsquo;) &mdash; it is the same word used for repentance, for turning back to God. There is a kind of homecoming in it. The spirit that came from God, that was breathed into the first human at creation, finds its way back to the source from which it came. This is not a detailed eschatology; Ecclesiastes does not resolve all the questions about judgment and resurrection and eternal life that the rest of Scripture will develop. But it establishes the framework: the Creator who gave the spirit is the God to whom it returns, and that return is under his sovereign care.",
+      "The coda that follows (vv. 9&ndash;12) steps back from the voice of Qohelet himself to describe his work in the third person. A narrator commends the Teacher: he sought, arranged, and set in order many proverbs. He taught the people knowledge; he weighed and studied and arranged. He tried to write upright words of truth. The description &ldquo;words of truth&rdquo; is significant: the Teacher&rsquo;s unflinching honesty about the vanity of life is not presented as pessimism or despair but as the faithful reporting of what careful observation and hard thought produce. Truth that is uncomfortable is still truth.",
+      "The famous warning of verse 12 belongs here: &ldquo;Of making many books there is no end, and much study is a weariness of the flesh.&rdquo; This has sometimes been read as anti-intellectual, but that misses the point entirely. Qohelet is not dismissing scholarship or learning; he has just commended the Teacher&rsquo;s own diligent study and writing. The warning is about the endless proliferation of human wisdom that circles the same questions without arriving at the same still point. There is a limit to what human inquiry can achieve on its own. The study that does not come to rest in the fear of God will ultimately be another form of vapor &mdash; impressive in volume, exhausting in the effort, but unable to answer the question that matters most.",
+      "Taken together, the statement about the returning spirit and the warning about the limits of scholarly inquiry point in the same direction: the human person and the human mind are not self-sufficient. The spirit comes from God and returns to God; the knowledge that the mind can accumulate has real value but cannot by itself provide what it most needs to know. Both the life of the body and the life of the mind find their beginning and their end in the Creator &mdash; and it is to this Creator that the whole book has been trying to direct its reader&rsquo;s attention.",
+      "The New Testament fills out what Ecclesiastes 12:7 glimpsed from a distance. The spirit that returns to God does not return to anonymity; it returns to the God and Father of our Lord Jesus Christ, who has through the resurrection of his Son demonstrated that the returning spirit will not be abandoned. What Ecclesiastes held in tension &mdash; the certainty of death, the return of the spirit to God, the coming judgment of all hidden things &mdash; the gospel resolves in the person of the one who died, descended, and rose, and who now gives his Spirit to those who trust in him as a guarantee of their own resurrection to life.",
+    ],
+  },
+  {
+    id: "Fear God and Keep Commandments",
+    heading: "Fear God and Keep Commandments",
+    reference: "Ecclesiastes 12:13&ndash;14",
+    paragraphs: [
+      "The last two verses of Ecclesiastes are among the most concentrated and important in all of wisdom literature: &ldquo;The end of the matter; all has been heard. Fear God and keep his commandments, for this is the whole duty of man. For God will bring every deed into judgment, with every secret thing, whether good or evil&rdquo; (12:13&ndash;14). After fourteen chapters of sustained meditation, with all its restlessness and questioning and honest confession of what cannot be known, these two verses arrive as a destination rather than an escape from the journey.",
+      "The phrase &ldquo;the end of the matter&rdquo; announces that what follows is the conclusion, the bottom line, the answer that the entire book has been approaching. And the answer, when it comes, is not a philosophical proposition or a piece of practical advice. It is a call to a way of being: &ldquo;Fear God and keep his commandments.&rdquo; The fear of God in Wisdom literature is not cringing terror; it is the orientation of the whole person &mdash; intellect, will, affections, conduct &mdash; toward the reality of God. It is what happens when a human being truly grasps what it means to stand before the living Creator, and allows that grasp to reorder everything else.",
+      "The claim that this is &ldquo;the whole duty of man&rdquo; is staggering in its comprehensiveness. The Hebrew phrase &lsquo;kol ha-adam&rsquo; can also be translated &ldquo;the whole of man&rdquo; or &ldquo;the whole person&rdquo; &mdash; not just the whole duty but the whole of what it means to be human. In other words, fearing God and keeping his commandments is not one item among many on the list of human obligations; it is the definition of what a human being is for. Strip away the fear of God and the obedience that flows from it, and what remains is a creature going through the motions of human life without the animating center that makes those motions meaningful.",
+      "The command to &ldquo;keep his commandments&rdquo; alongside the &ldquo;fear&rdquo; is crucial. Fear of God that does not issue in obedience is sentimentality; it is the feeling of reverence without the substance. And obedience to commandments without the fear of God underneath it is moralism &mdash; the attempt to achieve righteousness through rule-keeping without the transformed heart that makes genuine righteousness possible. The two are inseparable: fear is the inward orientation from which obedience flows, and obedience is the outward evidence that the fear is real.",
+      "The rationale that follows in verse 14 is not an afterthought: &ldquo;For God will bring every deed into judgment, with every secret thing, whether good or evil.&rdquo; Throughout Ecclesiastes, one of Qohelet&rsquo;s recurring perplexities has been the apparent absence of justice in the world &mdash; the wicked who prosper, the righteous who suffer, the evil deeds that go unpunished, the good deeds that go unrewarded. He has refused to pretend that these anomalies do not exist. But now, at the end, he resolves them: God will bring every deed into judgment, including every secret thing. The apparent injustices of life under the sun are not the final word, because the sun is not the final judge. There is One who sees in the dark.",
+      "This epilogue has sometimes been read as a later pious addition by a scribe who was uncomfortable with Qohelet&rsquo;s radical honesty. But such a reading misunderstands the structure of the book. The conclusion is the point toward which the whole argument has been moving. The relentless dismantling of every false source of meaning &mdash; wisdom, pleasure, labor, wealth, reputation &mdash; has cleared the ground for this final claim: that the one thing which is not vapor, the one orientation that can give a human life ultimate coherence and meaning, is the fear of the God who made you and who will judge you. Ecclesiastes is not the book of despair; it is the book of radical realism that ends in the only hope that is not vapor.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Ecclesiastes 12 Today",
+    reference: "Ecclesiastes 12 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Ecclesiastes 12 speaks with remarkable immediacy to people who live in a culture that is desperately trying to solve the problem of mortality without reference to the Creator. The modern West has, in many ways, produced the most elaborate system ever devised for forgetting old age and death: youth culture, cosmetic surgery, technological utopianism, the fantasy of life extension through biotechnology. Qohelet would not be surprised. He has watched every generation find its own version of the same project, and his verdict is unchanged: the attempt to evade or outlast mortality by human ingenuity is vapor. The silver cord will snap. The golden bowl will break. The only adequate response to the certainty of death is to remember the Creator before it arrives.",
+      "The specific address to youth in verse 1 has a directness that the church often hesitates to match. The culture forms young people in a thousand ways, shaping their desires and imaginations and habits of attention &mdash; usually away from the Creator and toward the created things that Qohelet has spent eleven chapters demonstrating to be vapor. The church&rsquo;s calling is not to be alarmist or morbid about this, but to be honest: the years of youth are not simply years to be enjoyed; they are years in which the whole orientation of a life is being formed. What young people remember &mdash; what they turn their attention toward, what they build their habits of heart around &mdash; will shape everything that follows.",
+      "The allegory of old age in verses 2 through 7 is a piece of pastoral wisdom that the church needs to recover. Modern Western culture tends to segregate the elderly from the young, to hide the evidence of bodily decline behind institutional walls, and to treat aging as an unfortunate technical problem rather than a fundamental dimension of human existence. Ecclesiastes 12 insists on bringing the reality of old age and death into the center of the community&rsquo;s wisdom. The trembling hands, the dimming eyes, the failing hearing, the fractured sleep &mdash; these are not embarrassments to be managed but teachers to be heard. They announce the approach of the return to God who gave the spirit.",
+      "The conclusion that &ldquo;Fear God and keep his commandments&rdquo; is the whole of humanity speaks directly to the contemporary church&rsquo;s temptation to reduce the Christian life to one of its parts. There is a version of Christianity that emphasizes spiritual experience (the feeling of reverence) while neglecting concrete obedience. There is another version that emphasizes moral uprightness (keeping commandments) while the living fear of God has gone cold beneath the external compliance. Ecclesiastes 12:13 will not allow either reduction. The whole person, oriented toward the living God in genuine reverence and concrete obedience &mdash; this is what a human being is for.",
+      "The announcement of judgment in verse 14 &mdash; that God will bring every secret thing into judgment, whether good or evil &mdash; is both a warning and a comfort, depending on where one stands. For those who are living in secret what they could not live in public, it is a solemn word: there is no corner of human existence where the Creator is not watching. But for those who have suffered injustice that was never publicly acknowledged, who have done good that was never recognized, who have been hurt by deeds that the world called trivial &mdash; for them, verse 14 is one of the most consoling sentences in Scripture. Nothing is hidden from the God who will judge. The account will be full, and it will be settled by One whose vision is not limited by the sun.",
+      "Ultimately, Ecclesiastes 12 invites Christians into a more honest and more hopeful relationship with the fact of their own mortality than the surrounding culture offers. The gospel does not deny the return of dust to earth that verse 7 describes; it declares that the God to whom the spirit returns has, in the resurrection of Jesus, shown what that return leads to. Fear God and keep his commandments &mdash; not as a desperate attempt to earn a favorable verdict in the judgment to come, but as the natural response of those who have met the Creator in Christ and found him to be not a consuming fire of condemnation but a Father who raises the dead.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "XCDQ_hDSAr4", title: "BibleProject - Overview of Ecclesiastes" },
+  { videoId: "lrsQ3GcBFz0", title: "Ecclesiastes 12 - Remember Your Creator" },
+  { videoId: "MFAzZhCRKhE", title: "The Meaning of Vanity in Ecclesiastes" },
+  { videoId: "Ii8wFaFp0rA", title: "Fear God and Keep His Commandments - Ecclesiastes Conclusion" },
+];
+
+export default function Ecclesiastes12GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Ecclesiastes 12 &mdash; Remember Your Creator
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The grand conclusion of Qohelet&rsquo;s wisdom meditation &mdash; a call to remember the Creator in youth before the evil days come, a haunting allegory of old age and death, the spirit returning to God who gave it, and the book&rsquo;s final verdict: &ldquo;Fear God and keep his commandments, for this is the whole duty of man.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Ecclesiastes 12 through these video teachings on the meaning of vanity, the call to remember the Creator, the allegory of old age, and the book&rsquo;s final conclusion.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Fear God and Keep His Commandments</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Ecclesiastes 12 does not offer comfort by denying reality &mdash; it looks steadily at the darkening of the sun, the trembling of the keepers of the house, the breaking of the golden bowl, and then declares that the spirit returns to God who gave it. Every hidden deed will come into judgment. The only life that is not vapor is the life built on the Creator, ordered by fear of him and shaped by obedience to his commandments. In Jesus Christ, the one to whom the spirit returns has been revealed as the God who raises the dead.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

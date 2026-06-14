@@ -2092,6 +2092,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Malachi 3 Chapter": "malachi-3-guide",
   "Tithing and Testing God": "malachi-3-guide",
   "Messenger Prepare the Way": "malachi-3-guide",
+  "Ecclesiastes 12 Chapter": "ecclesiastes-12-guide",
+  "Fear God and Keep Commands": "ecclesiastes-12-guide",
+  "Remember Your Creator Youth": "ecclesiastes-12-guide",
+  "Leviticus 19 Chapter": "leviticus-19-guide",
+  "Love Your Neighbor Leviticus": "leviticus-19-guide",
+  "Holiness Code Leviticus": "leviticus-19-guide",
+  "Joel 2 Chapter": "joel-2-guide",
+  "Pour Out My Spirit Joel": "joel-2-guide",
+  "Locust Army Day of the Lord": "joel-2-guide",
+  "Zephaniah 3 Chapter": "zephaniah-3-guide",
+  "Mighty Warrior in Your Midst": "zephaniah-3-guide",
+  "Sing Aloud Zephaniah": "zephaniah-3-guide",
 };
 
 
@@ -3058,6 +3070,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jeremiah 31 Chapter" },
   { label: "Haggai 2 Chapter" },
   { label: "Malachi 3 Chapter" },
+  { label: "Ecclesiastes 12 Chapter" },
+  { label: "Leviticus 19 Chapter" },
+  { label: "Joel 2 Chapter" },
+  { label: "Zephaniah 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

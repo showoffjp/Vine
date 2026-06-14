@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Locust Army",
+  "Return to the LORD",
+  "The Promise of Rain and Restoration",
+  "Pour Out My Spirit",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Joel 2",
+    reference: "Joel 2:1&ndash;32",
+    paragraphs: [
+      "Joel 2 is one of the most dramatic chapters in the entire Old Testament prophetic canon. It opens with a war trumpet blasted from Zion, a city-wide alarm that summons every inhabitant to terror and trembling, and it closes with the promise that &ldquo;everyone who calls on the name of the LORD shall be saved&rdquo; (2:32) &mdash; words that Peter quotes in his Pentecost sermon in Acts 2 to explain the outpouring of the Holy Spirit on the church. Between these two moments lie one of the most viscerally powerful descriptions of invading destruction in biblical literature and one of the most tender and urgent calls to repentance anywhere in Scripture.",
+      "The historical setting of Joel is debated. Unlike most prophetic books, Joel contains no reference to the reigning king, making precise dating difficult. What is clear is that a devastating locust plague has already struck the land, stripping it of grain, wine, and oil and leaving the people in a state of communal mourning. Joel 1 describes this agricultural catastrophe in harrowing detail. Joel 2 takes this historical disaster and uses it as a lens through which to see something far greater: the coming Day of the LORD, the moment when God himself acts decisively in history, which the locust army both typifies and anticipates.",
+      "The chapter moves through four major movements. The first (verses 1&ndash;11) describes the advancing army &mdash; whether a literal locust swarm, a human invading force, or a supernatural army at the vanguard of the Day of the LORD &mdash; in language so vivid and terrifying that the reader almost hears the drumbeat of their advance. The second movement (verses 12&ndash;17) contains the urgent divine summons to communal repentance, the call to &ldquo;rend your hearts and not your garments&rdquo; that has become one of the great texts of Christian devotion. The third movement (verses 18&ndash;27) announces the LORD&rsquo;s relenting and his promises of material restoration and vindication. The fourth movement (verses 28&ndash;32) soars into eschatological promise: the outpouring of the Spirit on all flesh, signs in the heavens, and salvation for all who call on the LORD&rsquo;s name.",
+      "What makes Joel 2 theologically rich is its interweaving of the historical, the typological, and the eschatological. The locust plague is real, but it points beyond itself. The Day of the LORD is both near &mdash; already being experienced in the devastation of the harvest &mdash; and not yet, its full terror still to come. The outpouring of the Spirit is announced as future, but Acts 2 declares that it has now arrived in the person and ministry of Jesus Christ and through the gift of the Holy Spirit at Pentecost. Joel 2 holds past, present, and future in a single prophetic vision and in doing so becomes one of the most important chapters for understanding the relationship between the Old Testament and the New.",
+      "The chapter also demonstrates Joel&rsquo;s extraordinary gift as a poet. His descriptions are dense with imagery: the army runs like warriors, they climb walls like soldiers, they march in formation, they leap on the city, they run on the wall, they enter through the windows like a thief. The locust swarm becomes a world-historical event. And then, in a moment of stunning tenderness, the warrior God who commands this terrifying host turns and says, &ldquo;Yet even now&hellip; return to me with all your heart.&rdquo; The chapter is a study in how holiness and mercy, justice and grace, terror and tenderness coexist in the character of the LORD.",
+    ],
+  },
+  {
+    id: "The Locust Army",
+    heading: "The Locust Army &mdash; Darkness over the Mountains",
+    reference: "Joel 2:1&ndash;11",
+    paragraphs: [
+      "Joel 2 opens with one of the most arresting imperatives in the Old Testament: &ldquo;Blow a trumpet in Zion; sound an alarm on my holy mountain! Let all the inhabitants of the land tremble, for the day of the LORD is coming; it is near&rdquo; (2:1). The shofar, blown from Jerusalem&rsquo;s heights, was the ancient equivalent of a national emergency alert. It meant invasion, imminent danger, the need for every person to drop what they were doing and prepare. The prophet deploys this image not to describe a military threat from a human enemy but to announce the Day of the LORD &mdash; a phrase that appears five times in the Book of Joel and that names the decisive moment when God acts in history to judge what is evil and vindicate what is right.",
+      "The visual language that follows is extraordinary: &ldquo;a day of darkness and gloom, a day of clouds and thick darkness! Like blackness there is spread upon the mountains a great and powerful people&rdquo; (2:2). The darkness is not metaphorical decoration; it describes the literal phenomenon of a locust swarm so massive that it blots out the sun, casting a shadow over the landscape like an advancing storm front. Travelers in the ancient Near East described precisely this experience when vast swarms of locusts, sometimes stretching for miles, moved overhead in numbers that darkened the sky. Joel is drawing on a physical reality to paint a picture of something that exceeds the physical.",
+      "The description of the army&rsquo;s advance is relentless and technically precise: &ldquo;Fire devours before them, and behind them a flame burns. The land is like the garden of Eden before them, but behind them a desolate wilderness, and nothing escapes them&rdquo; (2:3). The image of fire devouring before and behind was a standard description of the destruction locusts left in their wake &mdash; every green thing consumed, the land reduced from paradise to wasteland as if scorched. Yet the framing of this devastation in terms of the garden of Eden invokes the deepest possible biblical narrative of loss: the reversal of creation&rsquo;s abundance into desolation.",
+      "The martial language intensifies as the passage continues: &ldquo;Their appearance is like the appearance of horses, and like war horses they run. As with the sound of chariots, they leap on the tops of the mountains, like the crackling of a flame of fire devouring the stubble, like a powerful army drawn up for battle&rdquo; (2:4&ndash;5). The comparison to horses was not invented by Joel; ancient Egyptian records describe locusts as &ldquo;the horses of God.&rdquo; The crackling sound of millions of insects consuming dry vegetation actually does resemble the roar of a spreading fire or the rumble of approaching cavalry. Joel draws on these natural observations to create a picture of irresistible advance.",
+      "The psychological effect on the city&rsquo;s population is described with equal vividness: &ldquo;Before them peoples are in anguish; all faces grow pale&rdquo; (2:6). The word translated &ldquo;grow pale&rdquo; can also mean to turn ashen or to gather darkness &mdash; the face draining of color as fear takes hold. The army does not break ranks, does not push one another, each marches in his path. They burst through windows like thieves, climb walls, enter the city. Nothing stops them and nothing diverts them. The picture is of an inexorable, coordinated, unstoppable force.",
+      "The passage concludes with the theological key that unlocks the whole description: &ldquo;The LORD utters his voice before his army, for his camp is exceedingly great; he who executes his word is powerful. For the day of the LORD is great and very awesome; who can endure it?&rdquo; (2:11). The locust army &mdash; or the human invaders it typifies &mdash; is the LORD&rsquo;s army. He commands them. He utters his voice before them. The terrifying advance is not random natural disaster or the blind force of geopolitical history; it is the voice of the LORD calling his instruments to execute his word. This is what makes the Day of the LORD terrible: not merely its power, but its moral purposefulness.",
+    ],
+  },
+  {
+    id: "Return to the LORD",
+    heading: "Return to the LORD &mdash; Rend Your Hearts",
+    reference: "Joel 2:12&ndash;17",
+    paragraphs: [
+      "The pivot from the terrifying description of the advancing army to the call to repentance in verse 12 is one of the most dramatic reversals in prophetic literature. After eleven verses of unrelenting darkness, the LORD himself speaks in the first person: &ldquo;Yet even now &mdash; declares the LORD &mdash; return to me with all your heart, with fasting, with weeping, and with mourning&rdquo; (2:12). The phrase &ldquo;yet even now&rdquo; is doing enormous theological work. It acknowledges the full gravity of the situation &mdash; the army is advancing, the day is near, the destruction is real &mdash; and yet it refuses to declare the situation beyond recovery. There is still time. The door is not yet shut.",
+      "The most famous line of this passage, and perhaps of the entire book, comes in verse 13: &ldquo;Rend your hearts and not your garments.&rdquo; In ancient Israelite and Near Eastern practice, tearing one&rsquo;s clothing was the standard outward expression of grief, mourning, and repentance. From Jacob tearing his garments at the supposed death of Joseph to the High Priest tearing his robes at Jesus&rsquo; trial, the gesture was a recognized public signal of extreme distress. The prophet does not forbid the gesture, but he insists that it is meaningless without the corresponding interior reality. It is possible to perform every outward act of mourning while the heart remains untouched &mdash; and that kind of repentance is worthless. God is not impressed by torn garments; he looks at torn hearts.",
+      "The theological basis for the call to return is stated immediately after in language of extraordinary beauty: &ldquo;Return to the LORD your God, for he is gracious and merciful, slow to anger, and abounding in steadfast love; and he relents over disaster&rdquo; (2:13). This is the great description of God&rsquo;s character first given to Moses at Sinai (Exodus 34:6&ndash;7) and echoed throughout the Psalms and prophets. Joel invokes it here not as new information but as the grounds for hope: the reason the call to return makes any sense is that the one calling them back is not a God who delights in destruction, but a God whose fundamental character is grace, mercy, patience, and steadfast love. Repentance is possible because of who God is.",
+      "The call is then broadened from the individual to the entire community. Joel summons an assembly &mdash; not just the adults, but the elders, the children, even infants still nursing at the breast, even the newly married couple who would ordinarily be exempt from public duties. Everyone is called. The priests, the ministers of the LORD, are to weep between the vestibule and the altar and to intercede: &ldquo;Spare your people, O LORD, and make not your heritage a reproach, a byword among the nations. Why should they say among the peoples, &lsquo;Where is their God?&rsquo;&rdquo; (2:17). The community&rsquo;s crisis is also a crisis of the LORD&rsquo;s reputation among the nations. The glory of God and the welfare of his people are bound together.",
+      "The specific bodily disciplines called for &mdash; fasting, weeping, mourning, assembly &mdash; are not techniques for manipulating God into mercy but the appropriate external expressions of an internal reality. The heart that genuinely grasps the gravity of its departure from God, the weight of what the locust plague represents, the terror of standing before the holy One who commands armies &mdash; that heart will naturally express itself in fasting and weeping. Joel is not instituting a ritual; he is describing what genuine repentance looks like when it is more than a performance.",
+      "The passage models something the church has often needed to rediscover: the importance of corporate, communal repentance. American Christianity in particular has tended to reduce repentance to a private transaction between an individual soul and God. Joel envisions something larger &mdash; a whole people, from oldest to youngest, gathering before God to acknowledge their shared failure and plead for his shared mercy. The New Testament echoes this when James calls the church to mourn and weep (James 4:9) and when Paul urges the Corinthian church to deal corporately with sin in their midst. The health of the community depends on whether the community can together rend their hearts.",
+    ],
+  },
+  {
+    id: "The Promise of Rain and Restoration",
+    heading: "The Promise of Rain and Restoration",
+    reference: "Joel 2:18&ndash;27",
+    paragraphs: [
+      "The LORD&rsquo;s response to the community&rsquo;s repentance is announced in verse 18 with a beautiful shift in verb tense and divine posture: &ldquo;Then the LORD became jealous for his land and had pity on his people&rdquo; (2:18). The word &ldquo;jealous&rdquo; here carries its full biblical weight &mdash; the Lord is zealous, fiercely protective, passionately committed to the honor of his name and the welfare of his people. The pity he shows is not mere sentiment; it is the active compassion of a God who will now reverse the catastrophe and restore what has been taken. The pivot from judgment to restoration is not reluctant; it is wholehearted.",
+      "The LORD&rsquo;s reply to the people begins with a series of extravagant promises about material restoration: &ldquo;I will send you grain, wine, and oil, and you will be satisfied; and I will no more make you a reproach among the nations&rdquo; (2:19). The three items &mdash; grain, wine, oil &mdash; were the staples of Israelite agricultural life and the primary things the locust plague had destroyed. Their restoration signals not just an end to famine but a return to the fullness of covenant blessing. And crucially, alongside the material restoration comes the end of shame: Israel will no longer be a reproach, a source of contempt, among the surrounding peoples.",
+      "The enemy army is then addressed directly by the LORD: &ldquo;I will remove the northerner far from you, and drive him into a parched and desolate land&rdquo; (2:20). Whether this refers to the locust swarm being driven by the east wind into the sea, or to a human enemy army from the north, the point is clear: the same LORD who commanded the army will now dismiss it. The force that seemed irresistible when it advanced becomes powerless when the one who sent it turns it away. The people are told &ldquo;Fear not, O land; be glad and rejoice, for the LORD has done great things!&rdquo; (2:21).",
+      "The restoration promises cascade through the natural world. The pastures put forth, the tree bears fruit, the fig tree and vine give their full yield (2:22). Then the great promise of the autumn and spring rains: &ldquo;He has poured down for you abundant rain, the early and the latter rain, as before&rdquo; (2:23). In the agricultural calendar of ancient Israel, the early rain in October/November and the latter rain in March/April were the two critical seasons of precipitation that determined whether the crops would grow and mature. Both had apparently been withheld during the disaster; both are now promised in abundance. The threshing floors will be full of grain, the vats will overflow with wine and oil (2:24).",
+      "The climax of this restoration section comes in verse 25 with one of the most striking promises in all of Scripture: &ldquo;I will restore to you the years that the swarming locust has eaten, the hopper, the destroyer, and the cutter, my great army, which I sent among you.&rdquo; The LORD takes direct ownership of the disaster &mdash; he sent the army, he is the one who drove the locusts &mdash; and he promises to repay the years of loss. This verse has become enormously important in pastoral theology and preaching about God&rsquo;s ability to redeem wasted time and devastating seasons. The LORD does not merely give new blessings going forward; he &ldquo;restores the years&rdquo; that were consumed.",
+      "The section closes with an emphasis on knowledge: &ldquo;You shall know that I am in the midst of Israel, and that I am the LORD your God and there is none else. And my people shall never again be put to shame&rdquo; (2:27). The purpose of both the judgment and the restoration is the same: that Israel may know who the LORD is. The locust army was not senseless destruction; the restoration is not random blessing. Both serve the LORD&rsquo;s great purpose of being known as the living God who is truly present among his people, truly Lord, truly God and none other.",
+    ],
+  },
+  {
+    id: "Pour Out My Spirit",
+    heading: "Pour Out My Spirit &mdash; The Great Pentecost Promise",
+    reference: "Joel 2:28&ndash;32",
+    paragraphs: [
+      "The final section of Joel 2 shifts from material restoration to eschatological promise in a move that takes the reader from the wheat and wine of the threshing floor to a vision of cosmic transformation. The transition is signaled by the phrase &ldquo;And it shall come to pass afterward&rdquo; (2:28) &mdash; or in the Septuagint&rsquo;s rendering, &ldquo;in the last days&rdquo; &mdash; which Peter quotes in Acts 2:17 when he interprets what is happening at Pentecost. The &ldquo;afterward&rdquo; is not just after the locust plague; it is after, in the sense of beyond, in a new age that the restoration anticipates but does not fully contain.",
+      "The promise itself is staggering in its scope: &ldquo;I will pour out my Spirit on all flesh; your sons and your daughters shall prophesy, your old men shall dream dreams, and your young men shall see visions. Even on the male and female servants in those days I will pour out my Spirit&rdquo; (2:28&ndash;29). Every boundary that had previously restricted the gift of the Spirit is here dissolved. The Spirit had rested on particular individuals &mdash; prophets, judges, anointed kings &mdash; in the Old Testament economy. Moses had expressed his longing that all the LORD&rsquo;s people might prophesy (Numbers 11:29). Joel announces that this longing will be fulfilled: the Spirit will be poured out without discrimination of age, gender, or social status.",
+      "The fourfold description &mdash; sons and daughters, old men and young men &mdash; crosses the boundaries of generation and gender simultaneously. The explicit inclusion of &ldquo;male and female servants&rdquo; crosses the boundary of social class and legal status. In the ancient world, slaves occupied the lowest rung of the social hierarchy; yet in the age of the Spirit&rsquo;s outpouring, even they would prophesy, dream, and see visions. The new age Joel envisions is not a refined version of the old order with more spiritual experience; it is a radical democratization of access to God that reaches every category of human person.",
+      "The signs in the heavens and on earth that accompany the great Day of the LORD are described in verse 30&ndash;31: &ldquo;And I will show wonders in the heavens and on the earth, blood and fire and columns of smoke. The sun shall be turned to darkness, and the moon to blood, before the great and awesome day of the LORD comes.&rdquo; These cosmic signs have been interpreted variously &mdash; as literal astronomical phenomena, as metaphors for political and military upheaval (the standard apocalyptic use of such imagery), or as a combination of both. What is clear is that the Day of the LORD is not an invisible spiritual transaction; it is an event of such world-historical magnitude that the fabric of the created order registers it.",
+      "The passage closes with one of the most universally quoted and preached promises in all of Scripture: &ldquo;And it shall come to pass that everyone who calls on the name of the LORD shall be saved. For in Mount Zion and in Jerusalem there shall be those who escape, as the LORD has said, and among the survivors shall be those whom the LORD calls&rdquo; (2:32). The promise is simultaneously universal in scope &mdash; &ldquo;everyone who calls&rdquo; &mdash; and particular in its grounding: salvation comes through calling on the name of the LORD, and it comes to those whom the LORD himself calls. Salvation is both responsive and initiated by God.",
+      "Peter&rsquo;s use of this text in Acts 2 is the authoritative interpretive key for the church&rsquo;s reading of Joel 2. When the Spirit fell at Pentecost and the disciples began speaking in other languages, some in the crowd mocked, suggesting they were drunk. Peter stands up and says, &ldquo;This is what was uttered through the prophet Joel&rdquo; &mdash; and then quotes Joel 2:28&ndash;32 in full. The outpouring of the Spirit at Pentecost is the beginning of the fulfillment of Joel&rsquo;s promise. The &ldquo;afterward&rdquo; has arrived. The &ldquo;last days&rdquo; have been inaugurated by the resurrection and ascension of Jesus and the descent of the Spirit. The church now lives in the age Joel announced, called to prophesy, dream, and see visions, and to proclaim that everyone who calls on the name of the Lord &mdash; Jesus Christ, the LORD himself come in the flesh &mdash; shall be saved.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Joel 2 Today",
+    reference: "Joel 2 &mdash; For the Life of the Believer",
+    paragraphs: [
+      "Joel 2 speaks directly into situations where God&rsquo;s people are experiencing something that feels like loss, devastation, or the stripping away of what they depended on. The locust metaphor &mdash; something coming through your life and consuming what you had carefully cultivated &mdash; resonates with anyone who has experienced job loss, health crises, broken relationships, financial ruin, or the slow erosion of things they thought were secure. The chapter does not minimize the devastation; it takes it with full seriousness. But it insists that the same God who permitted the locusts &mdash; or who commands the armies of history &mdash; is the God who can restore what has been eaten.",
+      "The call to &ldquo;rend your hearts and not your garments&rdquo; is a perennial corrective to the human tendency toward religious performance. Every generation of the church has its version of torn garments &mdash; the external religious behaviors that are performed precisely because they are visible, that substitute for the interior transformation they are meant to express. The specific form changes: in one era it might be elaborate public prayer, in another conspicuous charitable giving, in another the right social-media declarations of faith. The call of Joel 2:13 cuts through all of it and asks the only question that matters: is your heart genuinely before God, or are you performing for an audience?",
+      "The promise that &ldquo;he relents over disaster&rdquo; (2:13) is one of the most practically important truths in the chapter for people who have lived with the fear that they have gone too far, that the judgment they are experiencing is final, that the door of return is closed. Joel&rsquo;s word is &ldquo;yet even now&rdquo; &mdash; the same word that stood over a community looking at an advancing locust army. The character of God as &ldquo;gracious and merciful, slow to anger, and abounding in steadfast love&rdquo; is not a description that applies only when the situation is mild. It is precisely the character that makes return possible when the situation is worst. The God who is rich in mercy meets people at their lowest.",
+      "The promise of the Spirit poured out on all flesh has already begun its fulfillment and continues in the life of the church. Every believer, regardless of age, gender, background, or social position, has received the Spirit of God. The prophetic community that Joel announced is the community of the Spirit-filled church, called to speak the word of God, dream God&rsquo;s dreams for the world, and see visions of what his kingdom makes possible. The diversity of gift and calling in the church &mdash; which sometimes creates friction and confusion &mdash; is precisely the fulfillment of Joel&rsquo;s vision: it is not one kind of person who receives the Spirit, but all flesh.",
+      "The restoration of the years that the locusts have eaten is a promise with both a present and a future dimension. In the present, it speaks to the pastoral reality that God is able to redeem even wasted or devastating seasons of life &mdash; that the years of addiction, depression, abuse, or wandering from God are not simply lost but can become, under his redemptive hand, the very material from which the most powerful testimonies are built. In the eschatological future, it points to the final restoration of all things in Christ, when every loss is not merely compensated but transformed, every tear wiped away, every consumed year restored in the abundance of the new creation.",
+      "The chapter ends with the assurance that &ldquo;everyone who calls on the name of the LORD shall be saved.&rdquo; For the New Testament community, this promise is inseparable from the name of Jesus, the LORD who has come in the flesh, died, and risen. Paul quotes Joel 2:32 in Romans 10:13 as the climax of his great argument about the universality of the gospel: &ldquo;Everyone who calls on the name of the Lord will be saved.&rdquo; The call of Joel to return to the LORD with all your heart finds its New Testament fulfillment in the call to trust Jesus Christ &mdash; and the promise attached to that call is the same promise Joel made to a devastated community looking at a stripped landscape: you will not be put to shame.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "QdFt04yoFkI", title: "BibleProject Overview - Joel" },
+  { videoId: "s2QLRM5IQVI", title: "Joel 2 - The Day of the LORD and the Locust Army" },
+  { videoId: "8GxHbVHAnas", title: "Rend Your Hearts - The Call to Repentance in Joel 2" },
+  { videoId: "zjLpVhNOC6g", title: "Pour Out My Spirit - Joel 2 and Pentecost in Acts 2" },
+];
+
+export default function Joel2GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Joel 2 &mdash; The Day of the LORD and the Promise of the Spirit
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            A terrifying locust army, a trumpet blast from Zion, and an urgent call: &ldquo;Rend your hearts and not your garments.&rdquo; God relents, promises rain and restoration, and then soars into the great Pentecost promise &mdash; &ldquo;I will pour out my Spirit on all flesh&rdquo; &mdash; fulfilled in Acts 2.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Joel 2 through these video teachings on the locust army, the call to repentance, the restoration promises, and the outpouring of the Spirit fulfilled at Pentecost.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Everyone Who Calls Shall Be Saved</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Joel 2 moves from the trumpet blast of alarm to the promise that cannot fail: everyone who calls on the name of the LORD shall be saved. The locust army that stripped the land and the Spirit poured out on all flesh are both the work of the same God &mdash; the one who judges in order to restore, who calls to repentance because he is &ldquo;gracious and merciful, slow to anger, and abounding in steadfast love.&rdquo; The Day of the LORD that Joel announced has been inaugurated in Jesus Christ, and the Spirit he poured out at Pentecost is still being poured out today.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

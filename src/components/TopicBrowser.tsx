@@ -1876,6 +1876,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 6 Chapter": "daniel-6-guide",
   "The Lions Den": "daniel-6-guide",
   "My God Sent His Angel": "daniel-6-guide",
+  "1 Samuel 17 Chapter": "1-samuel-17-guide",
+  "David and Goliath": "1-samuel-17-guide",
+  "The Name of the Lord": "1-samuel-17-guide",
+  "Nehemiah 1 Chapter": "nehemiah-1-guide",
+  "The Prayer of Nehemiah": "nehemiah-1-guide",
+  "Prayer and Work Together": "nehemiah-1-guide",
+  "Micah 6 Chapter": "micah-6-guide",
+  "Act Justly Love Mercy": "micah-6-guide",
+  "Walk Humbly with God": "micah-6-guide",
+  "Habakkuk 3 Chapter": "habakkuk-3-guide",
+  "The Lord Is My Strength": "habakkuk-3-guide",
+  "Yet I Will Rejoice": "habakkuk-3-guide",
 };
 
 
@@ -2770,6 +2782,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Exodus 20 Chapter" },
   { label: "Daniel 3 Chapter" },
   { label: "Daniel 6 Chapter" },
+  { label: "1 Samuel 17 Chapter" },
+  { label: "Nehemiah 1 Chapter" },
+  { label: "Micah 6 Chapter" },
+  { label: "Habakkuk 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -1,0 +1,197 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Lord I Have Heard the Report",
+  "God Comes in Theophany",
+  "The Earth Trembles Before Him",
+  "Yet I Will Rejoice in the Lord",
+  "The Lord Is My Strength",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Lord I Have Heard the Report",
+    heading: "Lord, I Have Heard the Report",
+    reference: "Habakkuk 3:1&ndash;2",
+    paragraphs: [
+      "Habakkuk 3 opens with a heading that situates it in a musical and liturgical context: &ldquo;A prayer of Habakkuk the prophet, according to Shigionoth&rdquo; (3:1). The word <em>Shigionoth</em> appears only here and possibly in Psalm 7, and its precise meaning is uncertain, but it seems to indicate a particular musical mode &mdash; perhaps something wild, passionate, or rhapsodic. The chapter ends with a direction to the choirmaster, suggesting that this intensely personal prayer was also intended for communal worship. The prophet&rsquo;s private anguish becomes the congregation&rsquo;s song; that is the nature of lament in the biblical tradition.",
+      "The background to this prayer is the entire preceding dialogue of Habakkuk 1 and 2. The prophet had cried out in anguish about the violence and injustice within Judah: &ldquo;O Lord, how long shall I cry for help, and you will not hear?&rdquo; (1:2). God answered with shocking news: he was raising up the Babylonians, the most brutal military machine of the ancient world, to sweep through the land as his instrument of judgment. Habakkuk was horrified and pressed back: how could a holy God use a nation even more wicked than Judah to punish Judah? God answered from the watchtower with the famous declaration that &ldquo;the righteous shall live by his faith&rdquo; (2:4) and a series of woes against Babylon. Habakkuk 3 is the prophet&rsquo;s response &mdash; a response of prayer after hearing God&rsquo;s word.",
+      "The opening petition is striking in its compression: &ldquo;O Lord, I have heard the report of you, and your work, O Lord, do I fear. In the midst of the years revive it; in the midst of the years make it known; in wrath remember mercy&rdquo; (3:2). Every line of this prayer rewards careful attention. &ldquo;I have heard the report of you&rdquo; &mdash; the prophet has received God&rsquo;s answer and has taken it in. He is not dismissing what God has said or pretending not to have heard it. But the hearing has produced fear: &ldquo;your work, O Lord, do I fear.&rdquo; This is not the fear of an enemy but the awe of a worshiper &mdash; the recognition that God is doing something so large and so terrible that the only appropriate response is a kind of trembling reverence.",
+      "The petition &ldquo;revive it in the midst of the years&rdquo; is the heart of the prayer. The word &ldquo;revive&rdquo; or &ldquo;renew&rdquo; is a request for God to make his work known and active in the present moment, not merely in the distant past. Habakkuk has been thinking about what God did in the Exodus &mdash; as the theophanic vision of verses 3 through 15 will show &mdash; and he is asking God to do that kind of thing again, now, in the midst of the crisis. The phrase &ldquo;in the midst of the years&rdquo; is poignant: we are in the middle of history, in the thick of things, and we need you to move.",
+      "The final plea of verse 2 is perhaps the most tender: &ldquo;in wrath remember mercy.&rdquo; Habakkuk is not asking God to abandon his judgment; he has accepted that the Babylonian invasion is coming and that it is God&rsquo;s doing. But he is asking that in the execution of judgment, God would not forget the quality that defines him most essentially &mdash; <em>rahamim</em>, compassion, the warm parental love that suffers with those it loves. The request assumes that judgment and mercy are not mutually exclusive in God; they are the two sides of the same faithful character. God can be wrathful against sin and tender toward sinners simultaneously, and Habakkuk is clinging to that truth as the darkness gathers.",
+      "This opening section establishes the prayer of Habakkuk 3 as a model of what faithful response to hard news looks like. The prophet does not collapse into denial, pretending the Babylonian threat is not real. He does not collapse into despair, concluding that God has abandoned his people. He does not rage against God with accusations of unfaithfulness. Instead he takes the terrible news to God in prayer, acknowledges his own trembling, and asks God to act &mdash; specifically, to act in a way that is true to his own nature. This is the grammar of faith under pressure: honest about the darkness, but oriented toward the God who is sovereign over the darkness.",
+    ],
+  },
+  {
+    id: "God Comes in Theophany",
+    heading: "God Comes in Theophany",
+    reference: "Habakkuk 3:3&ndash;7",
+    paragraphs: [
+      "Beginning in verse 3, Habakkuk describes a theophanic vision &mdash; an appearance of God in power and glory. The language draws heavily on the tradition of Israel&rsquo;s wilderness wandering and conquest, presenting God as a divine warrior marching from the south. &ldquo;God came from Teman, and the Holy One from Mount Paran. His splendor covered the heavens, and the earth was full of his praise. His brightness was like the light; rays flashed from his hand; and there he veiled his power&rdquo; (3:3&ndash;4). Teman was in the region of Edom; Mount Paran was associated with Sinai. God is coming from the direction he came from when he led Israel out of Egypt, and the imagery is deliberately evocative of those great acts of deliverance.",
+      "The phrase &ldquo;his splendor covered the heavens&rdquo; conveys a divine presence so vast and luminous that it cannot be contained by the created order. The same God who made the heavens now fills them with his glory. The earth responds with praise &mdash; or perhaps with &ldquo;his praise,&rdquo; suggesting that the glory radiating from God fills creation the way light fills a room, and creation&rsquo;s only possible response is worship. This is the God whose approach Habakkuk is describing: a God who does not arrive quietly but whose very presence transforms the landscape around him.",
+      "The &ldquo;rays from his hand&rdquo; in verse 4 is a vivid image. The Hebrew word can mean rays of light or lightning bolts; some interpreters have noted a wordplay with the word for &ldquo;horns&rdquo; or &ldquo;power,&rdquo; suggesting rays that are simultaneously beautiful and terrifying. The additional phrase &ldquo;there he veiled his power&rdquo; is theologically suggestive: the rays of light visible to the prophet are not the full disclosure of God&rsquo;s power but a veiling of it. What the prophet sees is already overwhelming; what is hidden is greater still. God reveals himself, but in his self-revelation he simultaneously reveals how much more there is that cannot be revealed.",
+      "Verses 5 through 7 intensify the picture. &ldquo;Before him went pestilence, and plague followed at his heels&rdquo; (3:5). The terrifying forces that in the ancient world were associated with divine wrath &mdash; disease, plague, destruction &mdash; attend this divine warrior the way armor-bearers attend a king. God&rsquo;s march toward his enemies is preceded by powers that clear the way. The nations that had oppressed Israel tremble: Cushan and Midian, associated with the wilderness south of Israel, are in anguish. The arrival of God in power produces exactly the kind of cosmic disruption that the Exodus narratives describe.",
+      "The theophanic vision in Habakkuk 3 is doing specific theological work. Habakkuk has been told that God is about to use Babylon to discipline Judah &mdash; news that raises the question of whether God is still in control, still the sovereign master of history, still capable of acting on behalf of his people. The vision answers the question not with an argument but with an image: here is what God looks like when he comes. Here is the scale of his power and the vastness of his splendor. The God who is about to allow the Babylonians into Judah is not a weak or defeated deity; he is the one whose coming shakes the mountains and causes nations to tremble.",
+      "The theological tradition has always recognized that theophanies in Scripture serve a comfort function even when &mdash; especially when &mdash; the immediate circumstances are frightening. To see God as he is, even partially, is to be reoriented. The mountains may quake and the nations may rage, but they quake and rage in the presence of One infinitely greater than they are. The prophet&rsquo;s vision is given not to answer all his questions but to put him and his questions in their proper proportion. When you have seen something of what God is, the question &ldquo;is he in control?&rdquo; answers itself.",
+    ],
+  },
+  {
+    id: "The Earth Trembles Before Him",
+    heading: "The Earth Trembles Before Him",
+    reference: "Habakkuk 3:8&ndash;15",
+    paragraphs: [
+      "The second half of the theophany (verses 8 through 15) is even more dramatic and explicitly martial. The divine warrior is now depicted in full battle array, engaged against the forces that threaten his people. &ldquo;Was your wrath against the rivers, O Lord? Was your anger against the rivers, or your indignation against the sea, when you rode on your horses, on your chariot of salvation?&rdquo; (3:8). The rhetorical questions are magnificent: they evoke the crossing of the Red Sea and the Jordan, where God demonstrated mastery over the waters that stood between his people and their redemption. The answer implied is that God&rsquo;s wrath was never against the rivers themselves but against the enemies of his people; the waters were simply instruments in his hands.",
+      "The bow and arrows of verse 9 continue the warrior imagery: &ldquo;You stripped the sheath from your bow, calling for many arrows. You split the earth with rivers&rdquo; (3:9). The divine bow is unsheathed, ready for battle. The earth itself splits open at God&rsquo;s advance &mdash; not merely an earthquake but a deliberate opening of the earth, perhaps recalling the parting of the Red Sea or the swallowing of Korah&rsquo;s company in the wilderness. The creation is not merely the stage on which God acts; it is an instrument that he uses and that responds to his commands.",
+      "Verses 10 and 11 bring the natural world into the scene as terrified witnesses: &ldquo;The mountains saw you and writhed; the raging waters swept on; the deep gave forth its voice; it lifted its hands on high. The sun and moon stood still in their place at the light of your arrows as they sped, at the flash of your glittering spear&rdquo; (3:10&ndash;11). The stopping of the sun and moon recalls the famous miracle of Joshua 10 at the battle of Gibeon, where God gave Israel a prolonged day to defeat their enemies. But here the solar miracle is embedded in a larger pattern: all creation responds to the presence and action of God. Mountains writhe, deep waters lift their voice, sun and moon stand at attention.",
+      "Verse 13 reveals the purpose behind all this cosmic activity: &ldquo;You went out for the salvation of your people, for the salvation of your anointed. You crushed the head of the house of the wicked, laying him bare from thigh to neck&rdquo; (3:13). Everything &mdash; the theophany, the shaking of the earth, the arresting of sun and moon &mdash; is in service of salvation. God is a warrior, but he is a warrior for his people. His power is directed toward rescue, not random destruction. The &ldquo;anointed&rdquo; here is likely Israel as a nation, God&rsquo;s chosen people; in the New Testament the term finds its ultimate referent in the Anointed One, the Messiah, whose salvation accomplishes what the Exodus only foreshadowed.",
+      "The climax of the theophanic vision in verses 14 and 15 depicts the utter defeat of the enemy: &ldquo;You pierced with his own arrows the heads of his warriors, who came like a whirlwind to scatter me, rejoicing as if to devour the poor in secret. You trampled the sea with your horses, the surging of mighty waters&rdquo; (3:14&ndash;15). The enemy &mdash; whether Pharaoh&rsquo;s army at the Red Sea, the Canaanite kings, or by extension Babylon &mdash; is defeated by the very weapons he brought against God&rsquo;s people. The sea that the enemy thought he controlled becomes the instrument of his undoing. The God who rides on his chariot of salvation cannot be outmaneuved by any human power.",
+      "For Habakkuk, living on the edge of the Babylonian catastrophe, this vision of God as divine warrior coming to save his people had immediate pastoral application. The Babylonians would come &mdash; God had said so. They would be terrible &mdash; God had described them as such. But they were not the ultimate power in history; they were instruments in the hands of the One who shakes mountains and stops the sun. The theophanic vision does not explain how God will use Babylon&rsquo;s evil for redemptive purposes; it simply shows who God is, and trusts that the sight of him will be sufficient to sustain faith through the darkness.",
+    ],
+  },
+  {
+    id: "Yet I Will Rejoice in the Lord",
+    heading: "Yet I Will Rejoice in the Lord",
+    reference: "Habakkuk 3:16&ndash;18",
+    paragraphs: [
+      "After the magnificent theophany of verses 3 through 15, the prophet returns to his own trembling body and spirit. &ldquo;I hear, and my body trembles; my lips quiver at the sound; rottenness enters into my bones; my legs tremble beneath me&rdquo; (3:16). The description is physiological and visceral &mdash; the kind of physical response that comes not from intellectual understanding but from genuine encounter with something overwhelming. Habakkuk has seen something of what God is, and the seeing has undone him. This is not weakness; it is the appropriate human response to the holy.",
+      "The verse continues: &ldquo;Yet I will quietly wait for the day of trouble to come upon people who invade us&rdquo; (3:16). The word &ldquo;quietly&rdquo; translates a Hebrew word that suggests stillness, rest, or repose &mdash; the settling of agitation into calm trust. Having trembled at the vision of God, Habakkuk now finds a strange peace. He does not know when the day of trouble will come; he does not know how it will unfold; he does not know what will happen to him personally during the Babylonian invasion. But he knows who God is, and that knowledge enables him to wait.",
+      "Then come two of the most celebrated verses in all of Scripture: &ldquo;Though the fig tree should not blossom, nor fruit be on the vines, the produce of the olive fail and the fields yield no food, the flock be cut off from the fold and there be no herd in the stalls, yet I will rejoice in the Lord; I will take joy in the God of my salvation&rdquo; (3:17&ndash;18). The catalogue of losses in verse 17 is comprehensive: it covers the entire agricultural economy of ancient Judah. Figs, grapes, olives, grain, sheep, cattle &mdash; these were not abstract financial instruments but the literal sources of food, income, and livelihood for a farming people. To lose all of them would be total material catastrophe.",
+      "The word &ldquo;yet&rdquo; in verse 18 is one of the most powerful words in the Bible. It is a word that looks full in the face at everything named in verse 17 &mdash; the fig tree that does not blossom, the vines without fruit, the empty fields, the empty stalls &mdash; and refuses to let those realities be the final word. &ldquo;Yet I will rejoice in the Lord.&rdquo; This is not denial; the prophet is not pretending the losses are not real. It is not stoic indifference; he is not claiming not to care about the flock and the herd. It is something altogether more difficult and more glorious: a choice to locate joy in a place that the Babylonians cannot reach.",
+      "The grammar of &ldquo;yet-faith&rdquo; is one of the distinctive contributions of the Bible to human spirituality. It appears in Psalm 73, where Asaph, after cataloguing his near-fatal envy of the wicked and his own spiritual desolation, arrives at the sanctuary and declares, &ldquo;Nevertheless, I am continually with you&rdquo; (Psalm 73:23). It appears in Job, who, stripped of everything, declares, &ldquo;Though he slay me, yet will I trust in him&rdquo; (Job 13:15). It appears in Paul, who describes himself as &ldquo;sorrowful, yet always rejoicing&rdquo; (2 Corinthians 6:10). In each case, the &ldquo;yet&rdquo; does not erase what came before; it holds the grief and the faith in the same sentence, refusing to resolve the tension by abandoning either one.",
+      "Verse 18 makes a crucial distinction that is easy to miss: &ldquo;I will rejoice in the Lord; I will take joy in the God of my salvation.&rdquo; The joy is specifically located &ldquo;in the Lord&rdquo; &mdash; not in the Lord&rsquo;s gifts, not in the Lord&rsquo;s blessings, not in circumstances improved by the Lord&rsquo;s intervention. The prophet is not saying, &ldquo;I will rejoice once God makes things better.&rdquo; He is saying, &ldquo;I will rejoice in God himself, right now, in the middle of the catastrophe.&rdquo; This is the difference between circumstantial faith &mdash; faith that functions when things are going well &mdash; and unconditional faith, faith that is rooted in the character of God rather than in the circumstances he sends.",
+      "The phrase &ldquo;the God of my salvation&rdquo; anchors the rejoicing in something specific. Habakkuk is not simply affirming a general religious optimism; he is clinging to a particular identity of the God he worships. This God has a track record of salvation &mdash; of the Exodus, the wilderness, the conquest, the covenant. The prophet has just rehearsed that track record in the theophanic vision. The God who saved before is the God who will save again, even through the catastrophe, even through the Babylonian invasion. The &ldquo;yet&rdquo; of verse 18 is possible because of the &ldquo;God of my salvation&rdquo; who is the same yesterday, today, and forever.",
+    ],
+  },
+  {
+    id: "The Lord Is My Strength",
+    heading: "The Lord Is My Strength",
+    reference: "Habakkuk 3:19",
+    paragraphs: [
+      "The final verse of Habakkuk is one of the most exquisite conclusions in all of Scripture: &ldquo;God, the Lord, is my strength; he makes my feet like the deer&rsquo;s; he makes me tread on my high places. To the choirmaster: with stringed instruments&rdquo; (3:19). After the trembling of verse 16 and the yet-faith of verses 17 through 18, this is the arrival point &mdash; a declaration not of what the prophet feels but of what he knows to be true. &ldquo;God, the Lord, is my strength&rdquo; is not a statement about current emotional resources; it is a confession of the source from which all resilience flows.",
+      "The image of feet like a deer is drawn from Psalm 18:33 (also 2 Samuel 22:34), where the same phrase appears in a context of God delivering his servant from overwhelming enemies. The deer in the ancient Near East was associated with speed, surefootedness, and the ability to traverse difficult terrain. A deer on rocky mountain paths does not slip; it finds footing where a larger, heavier animal would stumble. To have feet like a deer is to be given supernatural agility and sureness in precisely the conditions that would bring one down. This is the promise Habakkuk is claiming: that the God who sustains him will enable him to move through the coming catastrophe without being destroyed by it.",
+      "The phrase &ldquo;he makes me tread on my high places&rdquo; carries a double resonance. In the ancient world, high places (hills and mountain tops) were both strategic military positions &mdash; the place of advantage from which one surveys the battlefield &mdash; and sacred places of worship. To tread on the high places suggests both victory over enemies and access to the presence of God. The prophet who began Habakkuk 1 in desperation, crying that God was not listening, ends here standing on high ground, with strong feet, looking out over the landscape from a position of God-given advantage.",
+      "The direction to the choirmaster at the end of verse 19 &mdash; &ldquo;with stringed instruments&rdquo; &mdash; confirms what was suggested by the heading in verse 1: this prayer was meant to be sung. The community of faith was to take up Habakkuk&rsquo;s trembling and his yet-faith and his deer-feet confession and make it their own. This is the function of lament psalms and prayers in the liturgical tradition: they give corporate voice to the experience of individuals who have gone before, enabling later worshipers to trace the same arc from anguish to trust, from trembling to tread, from &ldquo;O Lord, how long?&rdquo; to &ldquo;yet I will rejoice.&rdquo;",
+      "The arc of the whole book of Habakkuk is a model for the life of faith in hard times. The prophet begins with a complaint (why is God not answering?), receives a disturbing answer (God is working, but not in the way the prophet expected), presses back with a second complaint (how can a holy God use wicked Babylon?), receives an answer that is more a call to trust than a full explanation, and ends in prayer that moves from trembling to rejoicing. There is no easy resolution. The questions are not fully answered. The Babylonians are still coming. But the prophet has seen something of what God is, and the seeing has been enough to transform his posture from anxious demand to quiet trust.",
+      "The New Testament makes explicit what is implicit in Habakkuk 3: that the &ldquo;yet-faith&rdquo; the prophet models finds its ultimate ground in the resurrection of Jesus Christ. Paul, citing Habakkuk 2:4 (&ldquo;the righteous shall live by his faith&rdquo;), argues that this faith is not a vague spiritual attitude but trust in the specific God who raises the dead (Romans 1:17; Galatians 3:11). The God of Habakkuk&rsquo;s salvation is the Father who raised Jesus from the dead &mdash; and if he can do that, then no Babylonian army, no famine, no empty fig tree, no failed harvest can be the last word. The joy of verse 18 and the strength of verse 19 are available not because circumstances improve but because the God of salvation has proven, in the resurrection, that he can bring life from death and joy from desolation.",
+      "Habakkuk 3:17&ndash;19 has been a resource for believers in every generation who have faced the kind of total loss the prophet describes. Missionaries who have buried children in the field. Believers imprisoned for their faith who had nothing left but the God in whom they trusted. Families who lost everything in war or famine. The great saints of the tradition &mdash; Amy Carmichael, Jim Elliot, Corrie ten Boom, Richard Wurmbrand &mdash; knew these verses by heart because they needed them. The &ldquo;yet&rdquo; of Habakkuk is not a theoretical proposition; it is a lifeline, a word that has held people up in the darkness and enabled them to tread on high places when every earthly support had fallen away.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "OPMaRqGJPUU", title: "BibleProject - Book of Habakkuk Overview" },
+  { videoId: "N7ztjRzFSik", title: "Habakkuk 3 - The Prayer of Faith in Darkness" },
+  { videoId: "H2pqtm4IYtY", title: "Yet I Will Rejoice - Habakkuk 3:17-19 Explained" },
+  { videoId: "eXSCvmqJKrg", title: "Theophany in the Old Testament - God Comes in Power" },
+];
+
+export default function Habakkuk3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Habakkuk 3
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The prophet&rsquo;s prayer after receiving God&rsquo;s answer &mdash; a theophanic vision of the Lord coming in glory, the earth trembling before him, and the magnificent declaration of yet-faith: &ldquo;Yet I will rejoice in the Lord; I will take joy in the God of my salvation.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Habakkuk 3 through visual teaching on the prophet&rsquo;s prayer, the theophanic vision, and the meaning of yet-faith when everything fails.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Yet I Will Rejoice</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Habakkuk ends not with answered questions but with strong feet &mdash; feet like the deer&rsquo;s, made for the high places. The God who shook the earth in theophany is the same God who strengthens the trembling prophet to walk through darkness without slipping. The &ldquo;yet&rdquo; of Habakkuk 3:18 is still available to every believer who stands in an empty field, trusting the God of salvation.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

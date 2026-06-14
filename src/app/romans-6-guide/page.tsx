@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Baptized into His Death",
+  "Dead to Sin Alive to Christ",
+  "Freed from Sin",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Romans 6",
+    reference: "Romans 6:1&ndash;23",
+    paragraphs: [
+      "Romans 6 arrives at one of the most urgent questions the gospel generates: if grace abounds where sin increases, should we sin so that grace may abound all the more? The question is not hypothetical; it is the natural reaction of anyone who has truly heard Paul&rsquo;s thunderous announcement in Romans 5 that where sin increased, grace overflowed all the more. Paul opens chapter 6 with an expression of horror at the very thought: &ldquo;By no means!&rdquo; he cries &mdash; the Greek is &ldquo;me genoito,&rdquo; perhaps best rendered &ldquo;God forbid!&rdquo; or &ldquo;Absolutely not!&rdquo; &mdash; and then proceeds to explain why the logic of grace-through-sin is not merely mistaken but incoherent.",
+      "The key to Paul&rsquo;s answer lies in the nature of what has happened to the believer in baptism and in union with Christ. The problem with the question &ldquo;shall we go on sinning?&rdquo; is that it assumes the believer is still the same person who was enslaved to sin, now given a license to continue. But Paul insists that something definitively and irreversibly has occurred. The Christian is not a sinner with a grace-dispensation; the Christian is a person who has died to sin and been raised to new life. You cannot &ldquo;go on sinning&rdquo; as a way of life when sin is the very domain you have died out of.",
+      "Romans 6 divides naturally into two main movements. The first (vv. 1&ndash;14) addresses the question of sin and grace by appealing to the believer&rsquo;s union with Christ in his death and resurrection. The second (vv. 15&ndash;23) addresses the related question of freedom and slavery, arguing that true freedom is not the absence of all authority but the liberation from one master (sin, death, and the law) into the service of another (righteousness and God). Both movements arrive at the same destination: the Christian life is a life of transformation, not permission.",
+      "The chapter is dense with Paul&rsquo;s characteristic logic &mdash; a relentless pressing of theological realities into practical imperatives. He does not simply exhort believers to try harder to stop sinning; he explains what has become true of them so that they can live from those truths. The indicative &mdash; what God has done and what is now true of the believer &mdash; always precedes and grounds the imperative &mdash; what the believer is therefore to do. This is the distinctive shape of Pauline ethics: &ldquo;count yourselves dead to sin and alive to God,&rdquo; &ldquo;offer yourselves to God,&rdquo; &ldquo;do not let sin reign in your mortal body.&rdquo;",
+      "The chapter is held together by the concept of &ldquo;reign.&rdquo; Sin reigned in death (5:21); now, through Jesus Christ, grace reigns through righteousness to eternal life. Romans 6 unpacks what it means to have been transferred from the kingdom of sin&rsquo;s reign to the reign of grace. It is not that sin has no more power at all in the believer&rsquo;s experience &mdash; Paul will address that painful reality in chapter 7 &mdash; but that sin&rsquo;s dominion, its legal right to rule and its enslaving grip on the soul, has been broken. The slave has been freed; the freed person is now called to live as free.",
+      "Few chapters in all of Paul&rsquo;s letters carry greater practical weight for the daily experience of the Christian life. Believers who understand Romans 6 have a fundamentally different relationship to temptation, to failure, to the body, and to the future than those who do not. The chapter provides the theological architecture for understanding what it means to be a new creation in Christ &mdash; not merely a forgiven sinner, but a person who has been buried with Jesus and raised to walk in newness of life.",
+    ],
+  },
+  {
+    id: "Baptized into His Death",
+    heading: "Baptized into His Death",
+    reference: "Romans 6:1&ndash;7",
+    paragraphs: [
+      "Paul&rsquo;s first move in answering the question about sin and grace is to point to baptism. &ldquo;Do you not know that all of us who have been baptized into Christ Jesus were baptized into his death?&rdquo; (6:3). The question implies that this is something his readers already know and should be drawing their conclusions from. Baptism is not merely a ritual of initiation; it is a participation in the death of Jesus Christ. To be baptized into Christ is to be baptized into his death &mdash; to pass, in him, through the same dying that he underwent on the cross.",
+      "Paul then unpacks what this means with a remarkable parallel: &ldquo;We were buried therefore with him by baptism into death, in order that, just as Christ was raised from the dead by the glory of the Father, we too might walk in newness of life&rdquo; (6:4). The structure is precise: burial corresponds to baptism, and resurrection corresponds to newness of life. The going-down into the water images the burial of the old self with Christ; the coming-up out of the water images the resurrection life that is now ours in him. Baptism enacts and signs the death-and-resurrection pattern that lies at the heart of the gospel.",
+      "The language of &ldquo;union with Christ&rdquo; runs through these verses in a way that is easy to miss but is theologically foundational. Paul does not say that the Christian merely believes in Christ&rsquo;s death as an event that benefits them from a distance. He says they were &ldquo;baptized into his death,&rdquo; that they were &ldquo;united with him in a death like his,&rdquo; that they were &ldquo;buried with him.&rdquo; The prepositions matter enormously. What happened to Christ happened to us, because in faith and baptism we have been incorporated into him. His death is our death; his resurrection will be our resurrection.",
+      "The practical implication follows immediately: &ldquo;knowing this, that our old self was crucified with him in order that the body of sin might be brought to nothing, so that we would no longer be enslaved to sin&rdquo; (6:6). The &ldquo;old self&rdquo; &mdash; the self as it was in Adam, shaped by sin and subject to death &mdash; was crucified with Christ. This is not a process still underway; it is a completed event that defines the identity of the believer. The purpose of this crucifixion was that &ldquo;the body of sin&rdquo; might be rendered powerless, and that we might no longer be enslaved.",
+      "The logic of freedom from slavery turns on a legal and theological principle: &ldquo;For one who has died has been set free from sin&rdquo; (6:7). Death is the ultimate freedom from obligation; it cancels all legal claims. A person who is dead cannot be prosecuted, indicted, or enslaved. Sin&rsquo;s power to reign is a power over the living. When the believer died with Christ, sin&rsquo;s legal grip was broken. The slave-owner no longer has any rightful claim over the one who has died, even if the freed person, not yet fully understanding their freedom, still responds to the old master&rsquo;s commands out of long habit.",
+      "The pastoral significance of this passage is immense. Christians who are locked in shame-cycles, who feel as though they can never escape the pull of their old patterns of sin, are not wrong to sense that the pull is real. But they are wrong if they conclude that they are still slaves. Romans 6 insists that the legal, theological, and spiritual reality is this: the old self has been crucified with Christ; the body of sin has been rendered powerless; the slave has been freed. The calling of the Christian life is not to achieve this freedom but to live in the freedom that has already been won.",
+    ],
+  },
+  {
+    id: "Dead to Sin Alive to Christ",
+    heading: "Dead to Sin, Alive to God in Christ",
+    reference: "Romans 6:8&ndash;14",
+    paragraphs: [
+      "Having established the reality of the believer&rsquo;s death with Christ, Paul now turns to the corresponding reality of resurrection. &ldquo;Now if we have died with Christ, we believe that we will also live with him&rdquo; (6:8). The death is past; the resurrection life is both present and future. Believers already share in the life of the risen Christ, and they will share in the fullness of that resurrection when their own bodies are raised on the last day. But the emphasis in this paragraph falls on the present: the resurrection life that Christ possesses after his death is a life that flows into the believer now.",
+      "Paul makes a crucial point about the nature of Christ&rsquo;s resurrection: &ldquo;We know that Christ, being raised from the dead, will never die again; death no longer has dominion over him&rdquo; (6:9). The resurrection of Jesus was not a resuscitation &mdash; a return to ordinary mortal life that would eventually end again in death. It was a passage into a new, indestructible mode of life in which death has no more purchase. The resurrection body of Jesus is permanently beyond death&rsquo;s reach. &ldquo;For the death he died, he died to sin, once for all, but the life he lives, he lives to God&rdquo; (6:10).",
+      "This is the theological ground for the great imperative that follows: &ldquo;So you also must consider yourselves dead to sin and alive to God in Christ Jesus&rdquo; (6:11). The word &ldquo;consider&rdquo; or &ldquo;reckon&rdquo; &mdash; Greek &ldquo;logizomai&rdquo; &mdash; is an accounting term. It means to calculate, to take stock of, to assess correctly what is actually true. Paul is not asking believers to pretend or to imagine something that is not real. He is asking them to align their self-understanding with the spiritual reality that actually exists: they are genuinely, truly, theologically dead to sin and genuinely, truly, theologically alive to God in Christ Jesus.",
+      "The practical commands flow from this theological reckoning: &ldquo;Let not sin therefore reign in your mortal body, to make you obey its passions. Do not present your members to sin as instruments for unrighteousness, but present yourselves to God as those who have been brought from death to life, and your members to God as instruments for righteousness&rdquo; (6:12&ndash;13). The shift from the indicative to the imperative is significant. The indicative is what God has done; the imperative is what we are therefore to do. We are not to let sin reign &mdash; and this implies that sin will try to reign, that the old habits and desires do not simply vanish after conversion. But we are no longer obligated to obey them.",
+      "The paragraph closes with a word of assurance that grounds the imperative in grace: &ldquo;For sin will have no dominion over you, since you are not under law but under grace&rdquo; (6:14). This is not a prediction about the subjective experience of temptation &mdash; believers will still feel the pull of sin. It is a declaration about the ruling power. The word &ldquo;dominion&rdquo; is the same family as the word for &ldquo;lord&rdquo; or &ldquo;master.&rdquo; Sin is no longer the lord of the person who is in Christ. The law &mdash; which arouses and exposes sin but cannot provide the power to overcome it &mdash; is no longer the governing principle. Grace is. And where grace reigns, sin does not.",
+      "The phrase &ldquo;alive to God in Christ Jesus&rdquo; deserves extended meditation. To be alive to God is to be awake to God &mdash; responsive to him, oriented toward him, in relationship with him. Sin is a kind of deadness to God; it is the turning of the self away from the source of life and toward things that cannot satisfy. In Christ, this fundamental orientation has been reversed. The believer who reckons themselves alive to God is a person for whom God is real, present, and the supreme reference point of life. This is what the resurrection life of Jesus, flowing into the believer, actually looks like in practice.",
+    ],
+  },
+  {
+    id: "Freed from Sin",
+    heading: "Freed from Sin, Servants of Righteousness",
+    reference: "Romans 6:15&ndash;23",
+    paragraphs: [
+      "The second half of Romans 6 addresses a second question that the gospel of grace provokes: &ldquo;Are we to sin because we are not under law but under grace?&rdquo; (6:15). Again Paul answers with his characteristic &ldquo;By no means!&rdquo; and proceeds to argue through a new analogy &mdash; the analogy of slavery. The argument rests on a simple but profound observation: everyone is a slave to someone or something. The question is not whether you will serve a master, but which master you will serve.",
+      "Paul develops the argument carefully: &ldquo;Do you not know that if you present yourselves to anyone as obedient slaves, you are slaves of the one whom you obey, either of sin, which leads to death, or of obedience, which leads to righteousness?&rdquo; (6:16). The act of obedience itself reveals and constitutes the master-slave relationship. Every time a person gives themselves over to sin, they are re-enacting the old submission to sin&rsquo;s authority. Every time a person gives themselves over to righteousness, they are expressing and deepening the new submission to God. There is no neutral territory; every act of moral obedience or moral surrender is simultaneously an act of allegiance.",
+      "Paul then expresses gratitude that his readers have made the decisive shift: &ldquo;But thanks be to God, that you who were once slaves of sin have become obedient from the heart to the standard of teaching to which you were committed&rdquo; (6:17). The phrase &ldquo;obedient from the heart&rdquo; is crucial. This is not the grudging, external compliance of a person who obeys because they must; it is the willing, joyful obedience of a person who has been genuinely transformed in their deepest affections. The &ldquo;standard of teaching&rdquo; to which they were entrusted is the apostolic gospel, and obedience to it from the heart is the mark of genuine conversion.",
+      "The logic of freedom and slavery reaches a climax in the observation that freedom from sin always means slavery to righteousness, and vice versa: &ldquo;Having been set free from sin, you have become slaves of righteousness&rdquo; (6:18). Paul acknowledges that this language sounds strange &mdash; &ldquo;I am speaking in human terms, because of your natural limitations&rdquo; (6:19) &mdash; because slavery is not normally a positive image. But his point is that the human will is always submitted to something, always serving something. The question is not freedom versus submission; it is which submission, which master, which lord will shape the direction and the end of your life.",
+      "The two paths are contrasted starkly in terms of their fruit and their end: &ldquo;For when you were slaves of sin, you were free in regard to righteousness. But what fruit were you getting at that time from the things of which you are now ashamed? For the end of those things is death&rdquo; (6:20&ndash;21). Sin&rsquo;s slavery produces fruit that, on honest reflection, produces shame &mdash; and its ultimate wage is death. Righteousness&rsquo;s slavery, by contrast, produces sanctification, and its end is eternal life. One slavery kills; the other gives life. The contrast could not be more absolute.",
+      "The chapter concludes with one of the most famous verses in all of Paul&rsquo;s letters: &ldquo;For the wages of sin is death, but the free gift of God is eternal life in Christ Jesus our Lord&rdquo; (6:23). The contrast between wages and gift is intentional and important. Death is what sin earns &mdash; it is the just payment for a life lived in rebellion against God. Eternal life, by contrast, is not a wage; it is a gift, free and unearned, given by God through union with Jesus Christ. This is the final summary of everything Romans 6 has argued: in Christ, the reign of sin and death has been broken, and the gift of life has been given to all who are in him.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Romans 6 Today",
+    reference: "Reflection and Practice",
+    paragraphs: [
+      "The foundational application of Romans 6 is what Paul calls &ldquo;reckoning&rdquo; &mdash; the daily, moment-by-moment practice of counting yourself dead to sin and alive to God in Christ Jesus. This is not a mystical exercise but a deliberate act of theological self-awareness. When temptation presents itself and sin offers to reign again, the believer who has internalized Romans 6 says, in effect: &ldquo;I am not who you say I am. I am not a slave to you. I died with Christ; I belong to God; I have been raised to walk in newness of life.&rdquo; This reckoning does not make the temptation disappear, but it changes the framework in which the believer meets it.",
+      "The pattern of death and resurrection that Romans 6 describes is not only a theological reality but a pattern that the Christian is called to enact repeatedly in practical life. Colossians 3 describes it as &ldquo;putting off the old self with its practices&rdquo; and &ldquo;putting on the new self, which is being renewed in knowledge after the image of its creator.&rdquo; There is a daily dying involved in Christian discipleship &mdash; a putting to death of the old patterns, habits, desires, and allegiances &mdash; and a daily rising into the new identity and the new obedience. Romans 6 provides the theological grounding for understanding why this daily discipline is not legalism but freedom.",
+      "The two-master framing of the second half of Romans 6 has significant pastoral application for people who feel trapped in addictive or compulsive patterns of sin. Paul&rsquo;s diagnosis is precise: the experience of compulsion, of being unable to stop a behavior even when you hate yourself for doing it, is exactly what slavery to sin looks like. His answer is equally precise: you have been freed from that master. But freedom from one master does not mean no master; it means a new master. The practical implication is that lasting freedom from addictive patterns comes not through willpower alone but through an active transfer of allegiance &mdash; a presenting of oneself to God, a daily act of offering the whole self to the new Lord.",
+      "Romans 6 also reshapes the way Christians think about their bodies. The commands to &ldquo;not let sin reign in your mortal body&rdquo; and to &ldquo;present your members to God as instruments of righteousness&rdquo; treat the body as the site of moral life &mdash; not as an obstacle to spirituality or as an irrelevant container for the soul, but as the very arena in which the battle between the old and new self is played out. The body matters. What the eyes look at matters. What the hands do matters. What the tongue says matters. Christian spirituality in the tradition of Romans 6 is thoroughly embodied; it is lived out in the physical particulars of daily existence.",
+      "The phrase &ldquo;newness of life&rdquo; in Romans 6:4 invites sustained reflection on what resurrection existence looks like in ordinary days. Newness of life is not the same as a trouble-free life, or a life from which all the old desires have completely disappeared, or a life of unbroken moral success. It is a life that has been given a new direction, a new identity, a new source of power, and a new destination. Christians in whom the resurrection life of Christ is at work will find old patterns losing their grip and new patterns of love, patience, honesty, and service becoming more natural &mdash; not all at once, and not without setbacks, but genuinely and progressively.",
+      "A practical spiritual discipline rooted in Romans 6 might include a daily &ldquo;reckoning prayer&rdquo; &mdash; a brief act of deliberate alignment with the theological realities of the chapter. This might involve naming a specific area of temptation, declaring one&rsquo;s death to that thing in Christ, offering that area of life to God as an instrument of righteousness, and asking for the power of the risen Christ to be active in it that day. Paul&rsquo;s language of &ldquo;presenting&rdquo; oneself to God (6:13) suggests that this is not a passive experience but an active, volitional one. We bring ourselves to God; we offer what is ours to offer; and we trust that the life of the one who was raised from the dead is at work in us as we do.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "eKCG5prwT5E", title: "Romans 6 - Dead to Sin Alive to God - BibleProject" },
+  { videoId: "zViQDKqn_PM", title: "Romans 6 Explained - Baptized into Christ's Death and Resurrection" },
+  { videoId: "OzBHGJpHOuI", title: "Dead to Sin, Alive to Christ - Romans 6 Bible Study" },
+  { videoId: "ICSI0OJz2Rg", title: "Union with Christ in Romans 6 - What Does It Mean to Be Freed from Sin?" },
+];
+
+export default function Romans6GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Romans 6 &mdash; Dead to Sin, Alive to Christ
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Buried with Christ in baptism and raised to walk in newness of life &mdash; Romans 6 unfolds the breathtaking reality of union with Christ in his death and resurrection, and explains what it means to be freed from sin&rsquo;s dominion and alive to God forever.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3.5rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your understanding of Romans 6 through these video teachings on baptism into Christ, union with Christ in death and resurrection, freedom from sin, and new life in God.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Wages of Sin is Death &mdash; The Gift of God is Eternal Life</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Romans 6 does not merely call Christians to try harder to avoid sin; it reveals who they now are. Those who are in Christ have died to sin and been raised to new life. This is not a goal to achieve but a reality to inhabit &mdash; to reckon, to believe, to live from. The slave has been freed; the question now is whether the freed person will walk in their freedom.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

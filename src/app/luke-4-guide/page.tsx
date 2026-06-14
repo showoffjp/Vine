@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Jesus Tempted in Wilderness",
+  "Spirit of the Lord Upon Me",
+  "Rejected at Nazareth",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Luke 4",
+    reference: "Luke 4:1&ndash;44",
+    paragraphs: [
+      "Luke 4 is one of the most theologically dense chapters in the New Testament. In a single chapter the reader witnesses Jesus tested to his core by Satan in the Judean wilderness, publicly declaring the nature and purpose of his entire ministry in a Nazareth synagogue, and then demonstrating his authority over demonic forces and disease in Capernaum. Each episode illuminates the others, and together they form the opening act of a ministry that will reshape history.",
+      "The chapter begins at the Jordan River, where Jesus has just been baptized and the Holy Spirit has descended upon him like a dove while the Father&rsquo;s voice declared, &ldquo;You are my beloved Son; with you I am well pleased&rdquo; (3:22). Luke 4 opens with that same Spirit driving Jesus into the wilderness &mdash; not away from God&rsquo;s purposes but deeper into them. The anointing that came at the Jordan was immediately tested in the desert.",
+      "The wilderness temptations in verses 1&ndash;13 establish that Jesus is the true Israel and the true Son of God. Where Israel wandered and failed forty years, Jesus stands firm forty days. Where Adam yielded to the serpent&rsquo;s temptation, the last Adam conquers. The three temptations target bread, power, and providence &mdash; the very areas where human flesh is most vulnerable &mdash; and Jesus meets each one not with miraculous displays of power but with the living word of God drawn from Deuteronomy.",
+      "The synagogue scene at Nazareth in verses 14&ndash;30 is Luke&rsquo;s programmatic statement of Jesus&rsquo; mission. When Jesus reads from Isaiah 61, declaring that &ldquo;the Spirit of the Lord is upon me,&rdquo; he is not selecting a random passage &mdash; he is announcing the arrival of the long-awaited Jubilee of God, the age of the Messiah. And when he says &ldquo;Today this Scripture has been fulfilled in your hearing,&rdquo; he is making the most audacious claim any Jew in that room had ever heard.",
+      "The Capernaum episodes in verses 31&ndash;44 demonstrate what that claim looks like in practice. Jesus teaches with authority that astonishes the crowd; he silences and expels unclean spirits with a word; he heals Simon&rsquo;s mother-in-law and a multitude of sick and demon-oppressed people at sunset. When the crowd tries to keep him from leaving, he explains: &ldquo;I must preach the good news of the kingdom of God to the other towns as well, for I was sent for this purpose&rdquo; (4:43). Mission &mdash; deliberate, expansive, Spirit-empowered mission &mdash; defines everything he does.",
+      "Taken as a whole, Luke 4 answers the question that has hung over the story since the angel&rsquo;s announcement to Mary: Who is this child, and what has he come to do? He is the anointed Son of God who cannot be broken by temptation, who has come to proclaim liberty to captives and recovery of sight to the blind, and whose authority extends over every power that holds human beings in bondage. Every healing, every exorcism, every word of teaching in the rest of Luke&rsquo;s Gospel flows from the foundations laid in this chapter.",
+    ],
+  },
+  {
+    id: "Jesus Tempted in Wilderness",
+    heading: "Jesus Tempted in the Wilderness",
+    reference: "Luke 4:1&ndash;13",
+    paragraphs: [
+      "The account of Jesus&rsquo; temptation in the wilderness is not an incidental episode but a defining theological statement. Luke tells us that Jesus, &ldquo;full of the Holy Spirit, returned from the Jordan and was led by the Spirit in the wilderness for forty days, being tempted by the devil&rdquo; (4:1&ndash;2). The Holy Spirit who descended at the baptism is the same Spirit who leads into the desert. The trial is not an accident or an ambush &mdash; it is part of God&rsquo;s sovereign design for the Son&rsquo;s public ministry.",
+      "The number forty is unmistakably typological. Israel spent forty years in the wilderness between Egypt and Canaan, tested and found wanting again and again. Elijah spent forty days and nights journeying to Horeb, the mountain of God. Moses spent forty days on Sinai in the presence of God. Jesus spends forty days in the desert without food, the wilderness now becoming the arena for the decisive battle that Israel&rsquo;s history had been pointing toward. He is the true Israel, facing the trials his people failed to endure.",
+      "The first temptation targets the most elemental human need: food. &ldquo;If you are the Son of God, command this stone to become bread&rdquo; (4:3). It seems a reasonable request after forty days of fasting, and the word &ldquo;if&rdquo; carries a subtle insinuation &mdash; prove your identity by using your power for yourself. But Jesus answers with Deuteronomy 8:3: &ldquo;Man shall not live by bread alone.&rdquo; The full verse from Deuteronomy adds that Israel was humbled and hungry &ldquo;that he might make you know that man does not live by bread alone, but man lives by every word that comes from the mouth of the Lord.&rdquo; Jesus will not use divine power for personal comfort; he will trust the Father to provide.",
+      "The second temptation shows the devil revealing all the kingdoms of the world in a moment of time, offering them to Jesus in exchange for a single act of worship: &ldquo;If you, then, will worship me, it will all be yours&rdquo; (4:7). This is a counterfeit version of what the Father had already promised &mdash; the nations as the Son&rsquo;s inheritance (Psalm 2:8). Satan offers a shortcut to global dominion that bypasses the cross. Jesus quotes Deuteronomy 6:13: &ldquo;You shall worship the Lord your God, and him only shall you serve.&rdquo; The kingdoms of the world are not worth the cost of a moment&rsquo;s defection from the living God.",
+      "The third temptation moves to Jerusalem and the pinnacle of the Temple. Satan now quotes Scripture &mdash; Psalm 91:11&ndash;12, God&rsquo;s promise to command his angels to guard the righteous man. &ldquo;If you are the Son of God, throw yourself down from here&rdquo; (4:9). This is the most sophisticated temptation: use your confidence in God&rsquo;s promises as grounds for testing those promises. But testing the Lord &mdash; forcing God to prove himself on demand &mdash; is precisely what Israel did at Massah when they demanded water and doubted God&rsquo;s presence among them. Jesus quotes Deuteronomy 6:16: &ldquo;You shall not put the Lord your God to the test.&rdquo;",
+      "When every temptation had run its course, &ldquo;the devil departed from him until an opportune time&rdquo; (4:13). The phrase &ldquo;until an opportune time&rdquo; casts a long shadow over the rest of Luke&rsquo;s Gospel, pointing toward Gethsemane and the passion, when the hour of darkness will come again. But for now, Jesus has prevailed. He has shown himself to be what Adam was not and Israel was not: the fully obedient Son who lives by every word from the Father&rsquo;s mouth. The wilderness victory means that his subsequent ministry will be conducted in the power of a tested and proven holiness.",
+    ],
+  },
+  {
+    id: "Spirit of the Lord Upon Me",
+    heading: "The Spirit of the Lord Is Upon Me",
+    reference: "Luke 4:14&ndash;21",
+    paragraphs: [
+      "After the wilderness, Jesus returns to Galilee &ldquo;in the power of the Spirit&rdquo; (4:14), and his fame spreads through the whole region. He teaches in their synagogues and is glorified by all. Then comes the synagogue scene at Nazareth, his hometown &mdash; an episode that Luke has deliberately placed at the beginning of Jesus&rsquo; ministry even though Matthew and Mark place it later, because Luke understands it as the programmatic announcement that defines everything that follows.",
+      "Jesus enters the synagogue on the Sabbath &mdash; &ldquo;as was his custom&rdquo; (4:16). He is handed the scroll of the prophet Isaiah. He unrolls it and finds the place that we know as Isaiah 61:1&ndash;2, and he reads: &ldquo;The Spirit of the Lord is upon me, because he has anointed me to proclaim good news to the poor. He has sent me to proclaim liberty to the captives and recovering of sight to the blind, to set at liberty those who are oppressed, to proclaim the year of the Lord&rsquo;s favor&rdquo; (4:18&ndash;19).",
+      "Every word of that Isaiah passage carried enormous weight in first-century Jewish hearing. &ldquo;The Spirit of the Lord is upon me&rdquo; echoes the great servant songs and the prophetic tradition. &ldquo;Anointed&rdquo; is the Hebrew word that gives us &ldquo;Messiah&rdquo; and the Greek word that gives us &ldquo;Christ.&rdquo; The text is a job description for the anointed deliverer whom Israel had been expecting for centuries. &ldquo;Good news to the poor,&rdquo; &ldquo;liberty to captives,&rdquo; &ldquo;recovering of sight to the blind,&rdquo; &ldquo;the year of the Lord&rsquo;s favor&rdquo; &mdash; the last phrase is a reference to the Year of Jubilee (Leviticus 25), the great divine reset when debts were cancelled, slaves freed, and land returned to its original owners.",
+      "Jesus rolls up the scroll, gives it back to the attendant, and sits down &mdash; the posture of the teacher in the Jewish tradition. Every eye in the synagogue is fixed on him. The tension is electric. Then he speaks perhaps the most consequential sentence in human history: &ldquo;Today this Scripture has been fulfilled in your hearing&rdquo; (4:21). Not &ldquo;soon,&rdquo; not &ldquo;when the Messiah comes,&rdquo; but &ldquo;today.&rdquo; In his person, in his voice, in his presence, the long-awaited age of salvation had arrived.",
+      "The claim is staggering. Jesus is not merely saying that he admires Isaiah&rsquo;s vision, or that this passage describes what he hopes to do someday. He is saying that the text is about him, that its fulfillment is happening right now, that the anointed liberator Isaiah wrote about is standing in front of them. The poor, the captive, the blind, the oppressed &mdash; these are not merely metaphors for spiritual conditions. Luke&rsquo;s Gospel will show again and again that Jesus&rsquo; ministry touches actual poor people, actual sick people, actual social outcasts, actual individuals trapped by demonic power.",
+      "Notice too what Jesus omits. Isaiah 61:2 continues: &ldquo;and the day of vengeance of our God.&rdquo; Jesus stops reading before that phrase. He is not here for the day of vengeance; that awaits the consummation of all things. This first coming is for the year of the Lord&rsquo;s favor &mdash; grace, healing, liberation, good news. The scroll closes, the sentence rings out, and the entire Gospel of Luke is the extended unpacking of what it means that &ldquo;today this Scripture has been fulfilled in your hearing.&rdquo;",
+    ],
+  },
+  {
+    id: "Rejected at Nazareth",
+    heading: "Rejected at Nazareth",
+    reference: "Luke 4:22&ndash;44",
+    paragraphs: [
+      "The initial response in the Nazareth synagogue is astonishment and approval: &ldquo;all spoke well of him and marveled at the gracious words that were coming from his mouth&rdquo; (4:22). But this initial warmth is already shadowed by a question that reveals its limits: &ldquo;Is not this Joseph&rsquo;s son?&rdquo; They appreciate the performance, but they are not ready to accept the claim. They want a hometown hero who will do for them what they have heard he did in Capernaum, not an anointed Son of God with a mission that extends beyond their village.",
+      "Jesus reads their hearts and responds with a prophetic provocation. He cites two episodes from Israel&rsquo;s history to make a devastating point: &ldquo;there were many widows in Israel in the days of Elijah when the heavens were shut up three years and six months, and a great famine came over all the land, and Elijah was sent to none of them but only to Zarephath, a city of Sidon, to a woman who was a widow. And there were many lepers in Israel in the time of the prophet Elisha, and none of them was cleansed, but only Naaman the Syrian&rdquo; (4:25&ndash;27).",
+      "The point is unmistakable and deliberate: God has historically bypassed the insiders who should have welcomed his grace and extended it instead to outsiders &mdash; Gentiles, foreigners, people outside the covenant community. If the people of Nazareth presume upon their proximity to Jesus, if they think hometown status gives them a claim on his power, they are as mistaken as the Israelites who watched Elijah go to a Sidonian widow and Elisha cleanse a Syrian general. The grace of God does not flow according to ethnic or geographic entitlement.",
+      "The response is explosive. &ldquo;When they heard these things, all in the synagogue were filled with wrath&rdquo; (4:28). They rose up, drove him out of the town, and brought him to the brow of the hill on which Nazareth was built, intending to throw him off the cliff. The gracious words of moments ago had become a death threat. This pattern &mdash; proclamation, initial wonder, then violent rejection when the full implications sink in &mdash; will recur throughout Jesus&rsquo; ministry and culminate in Jerusalem.",
+      "But &ldquo;passing through their midst, he went away&rdquo; (4:30). Luke gives no explanation of how this happened; no angelic intervention is described, no miracle is narrated. Jesus simply passes through them and departs. His hour has not yet come. The rejection at Nazareth does not derail the mission; it confirms its character. He goes down to Capernaum, where the response is entirely different: the people are astonished at his teaching and amazed at his authority over unclean spirits. The demon cries out, &ldquo;I know who you are &mdash; the Holy One of God!&rdquo; (4:34). The hometown crowd will not receive him; the demons are compelled to confess him.",
+      "The chapter closes with Jesus healing Simon&rsquo;s mother-in-law of a high fever and then, at sunset when the Sabbath restrictions ended, healing all who were sick and casting out demons throughout the night. The people want to keep him in Capernaum, but he will not be confined. His mission is not to become a local healer for one favorable town. &ldquo;I must preach the good news of the kingdom of God to the other towns as well, for I was sent for this purpose&rdquo; (4:43). The word &ldquo;must&rdquo; &mdash; dei in Greek &mdash; signals divine necessity, the irresistible drive of God&rsquo;s purposes moving through him.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Luke 4 Today",
+    reference: "Luke 4:1&ndash;44",
+    paragraphs: [
+      "The temptations of Jesus in the wilderness are not merely historical curiosities; they map the terrain of spiritual warfare that every follower of Christ navigates. The three areas targeted &mdash; provision, power, and presumption &mdash; are precisely the areas where believers are most vulnerable. When financial pressure mounts, the temptation is to seize provision by whatever means are available rather than trust the Father&rsquo;s word. When opportunity for influence presents itself, the temptation is to cut corners morally in order to gain power. When the promises of God seem to require action, the temptation is to manufacture a crisis to force his hand. Jesus shows that the answer in every case is the same: return to the written word of God and stand on it, even when standing feels costly.",
+      "The pattern of Jesus answering every temptation with &ldquo;It is written&rdquo; is not merely a reminder that the Bible is useful. It reveals something about the nature of the Son of God himself: he lived by the Father&rsquo;s word the way a human being lives by bread. His Scripture was not a reference tool but the very substance of his inner life. For the believer, this means that serious engagement with the word of God is not optional spiritual decoration &mdash; it is the ammunition of spiritual survival. The devil can quote Scripture, but he cannot stand against someone who has Scripture embedded in their heart and wielded with the Spirit&rsquo;s illumination.",
+      "The declaration &ldquo;Today this Scripture has been fulfilled in your hearing&rdquo; is one of the most important theological landmarks in the entire New Testament. It means that the age of fulfillment has arrived &mdash; that the good news Jesus preaches is not preparatory but consummating, not a down-payment on something greater but the real thing breaking into the present. For the church, this means that ministry conducted in Jesus&rsquo; name participates in the same mission: proclaiming good news to the poor, announcing liberty, witnessing to the reality that the kingdom of God has come near.",
+      "The Nazareth rejection carries a perennial warning. The crowd that first spoke well of Jesus turned violent when they realized his grace was not reserved for them. Entitlement is one of the most dangerous postures a religious person can assume &mdash; the sense that because one belongs to the right community, attends the right gatherings, or has the right heritage, God&rsquo;s blessing is owed. Jesus&rsquo; reference to Elijah and Elisha is a standing rebuke to any form of spiritual entitlement. The sovereign grace of God moves where it will, and it has historically shown a pronounced tendency to flow toward the outsider, the foreigner, the one whom the insiders had written off.",
+      "The exorcisms and healings at Capernaum demonstrate what &ldquo;the year of the Lord&rsquo;s favor&rdquo; actually looks like on the ground. It is not an abstraction but the tangible liberation of real human beings from the powers that bind them. The church that takes Luke 4 seriously will be oriented not toward self-preservation but toward the people Jesus described in Isaiah 61 &mdash; the poor, the captive, the broken, the oppressed. Ministry shaped by this chapter will resist the pull toward comfortable insularity and press outward, compelled by the same divine necessity that drove Jesus through Capernaum and on to the other towns.",
+      "Finally, Luke 4 calls every reader to answer for themselves the question the Nazareth synagogue refused to answer: Who is this? Is he merely Joseph&rsquo;s son, a hometown boy whose claims can be managed and domesticated? Or is he the anointed Son of God, the fulfiller of Isaiah&rsquo;s great vision, the one who has authority over every power in creation? If the latter, then the response he deserves is not cautious appreciation followed by indignation when the implications become inconvenient, but the wholehearted surrender of a life that has encountered the Holy One of God.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "26z_KhwNdD8", title: "BibleProject: Luke 1-9 Overview" },
+  { videoId: "XIb_dCIxzr0", title: "Temptation of Jesus in the Wilderness - Luke 4 Study" },
+  { videoId: "SJ_YMoct_5U", title: "The Spirit of the Lord Is Upon Me - Isaiah 61 and Luke 4" },
+  { videoId: "UBJmeoKBrRg", title: "Jesus Rejected at Nazareth - Luke 4:16-30 Explained" },
+];
+
+export default function Luke4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Luke 4 &mdash; The Spirit of the Lord Is Upon Me
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Temptation and mission &mdash; Jesus overcomes Satan in the wilderness, announces his anointed purpose in the Nazareth synagogue, and demonstrates his authority over every power that holds human beings captive.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "2.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Today This Scripture Has Been Fulfilled</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Luke 4 establishes that Jesus is the Spirit-anointed Son of God who cannot be tempted away from his Father&rsquo;s word, and whose mission is to bring the long-awaited Jubilee of God to every person held captive by sin, sickness, and the powers of darkness. His mandate &mdash; good news to the poor, liberty to captives, sight to the blind &mdash; is the heartbeat of everything he does, and everything his church is called to continue.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

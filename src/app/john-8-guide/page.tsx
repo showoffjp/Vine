@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Woman Caught in Adultery",
+  "I Am the Light of the World",
+  "The Truth Will Free You",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of John 8",
+    reference: "John 8:1&ndash;59",
+    paragraphs: [
+      "John 8 stands as one of the most dramatic and theologically dense chapters in the entire Gospel of John. Set in Jerusalem during the Feast of Tabernacles, this chapter records a series of intense confrontations between Jesus and the religious leaders of Israel &mdash; confrontations that escalate from the case of a woman dragged into the Temple courts to an explosive declaration by Jesus that before Abraham was, &ldquo;I am.&rdquo; The chapter moves from mercy and light, to truth and freedom, to a claim of divine identity that drives his opponents to take up stones.",
+      "The Feast of Tabernacles, also called Sukkoth, was one of Israel&rsquo;s three great pilgrimage feasts. During this festival, four huge golden menorahs were lit in the Temple courts, flooding Jerusalem with light and commemorating the pillar of fire that guided Israel through the wilderness. It is against this backdrop of blazing torches and the memory of God&rsquo;s guiding light that Jesus declares, &ldquo;I am the light of the world. Whoever follows me will not walk in darkness, but will have the light of life&rdquo; (8:12). Every word would have landed with force on ears attuned to the imagery of the feast.",
+      "Running through the entire chapter is the theme of testimony and witness. The Pharisees challenge Jesus that he is testifying about himself, and that his testimony is not valid (8:13). Jesus replies that even in their own law, the testimony of two witnesses is considered true, and that he has both his own witness and the witness of the Father who sent him. The question of who Jesus is &mdash; and whose Son he is &mdash; drives the dialogue forward at every turn.",
+      "The conflict sharpens around the question of Abraham. The Jewish leaders claim Abraham as their father and boast in their descent from him. Jesus acknowledges their physical lineage but denies their spiritual kinship: &ldquo;If you were Abraham&rsquo;s children, you would be doing the works Abraham did&rdquo; (8:39). They are instead, he charges, doing the works of their real father, who is the devil &mdash; a murderer from the beginning and a liar. The chapter climaxes when Jesus declares his eternal pre-existence with the divine name, and the leaders, understanding exactly what he has claimed, reach for stones.",
+      "John 8 is not merely a record of controversy. It is a revelation of who Jesus is and what he offers. To those crushed under condemnation, he offers the possibility of not being condemned. To those walking in spiritual darkness, he offers to be their light. To those enslaved to sin, he offers freedom through the truth. And to those looking for God in the heritage of the past, he reveals himself as the eternal &ldquo;I AM&rdquo; who has always been present. Every encounter in this chapter is an invitation as much as it is a revelation.",
+      "Scholars have long noted that the passage about the woman caught in adultery (7:53&ndash;8:11) does not appear in the earliest Greek manuscripts, and many modern translations mark it with brackets or a footnote. Whatever its textual history, the story has been received as authentic to the character and ministry of Jesus since at least the fourth century, and the scene it depicts &mdash; Jesus refusing to condemn the woman whom the law condemned and calling her to a new life &mdash; fits perfectly within the theology of the entire Gospel. Whether original or not, it will be studied here as a window into the grace and moral seriousness that characterize Jesus throughout John.",
+    ],
+  },
+  {
+    id: "Woman Caught in Adultery",
+    heading: "The Woman Caught in Adultery",
+    reference: "John 7:53&ndash;8:11",
+    paragraphs: [
+      "The scene opens abruptly: Jesus has been teaching in the Temple courts when the scribes and Pharisees drag a woman before him. She has been caught, they say, in the act of adultery &mdash; a sin that, under the Law of Moses, was punishable by stoning. They set her in the midst of the crowd and pose their question: &ldquo;Now in the Law Moses commanded us to stone such women. So what do you say?&rdquo; (8:5). John notes immediately that they were saying this to test him, hoping to trap him.",
+      "The trap is elegant and, on its face, inescapable. If Jesus says to stone her, he will appear to contradict the mercy and grace that have characterized his ministry, and he may also run into conflict with Roman law, which reserved the right of capital punishment for Rome alone. If he says to release her, he will appear to abandon the Torah and give license to sin. Either answer seems to cost him something. The teachers of the law believe they have him cornered.",
+      "But Jesus does not answer immediately. He bends down and writes with his finger on the ground. This gesture has fascinated interpreters for centuries &mdash; what was he writing? The text does not say. Some have suggested he was writing the sins of the accusers; others that he was writing the passage from Jeremiah about those who forsake the Lord; still others that he was simply creating space, pausing the momentum of the scene and refusing to be rushed into a judgment on their terms. Whatever the content, the gesture signals that Jesus will answer in his own time and on his own terms.",
+      "When they continue pressing him, he straightens up and delivers one of the most disarming sentences ever spoken: &ldquo;Let him who is without sin among you be the first to throw a stone at her&rdquo; (8:7). Then he bends down again and continues writing. The crowd disperses, one by one, beginning with the eldest &mdash; who had lived long enough to know the weight of their own failures. When Jesus looks up again, the woman stands alone. &ldquo;Where are they? Has no one condemned you?&rdquo; She replies, &ldquo;No one, Lord.&rdquo; And Jesus says: &ldquo;Neither do I condemn you; go, and from now on sin no more.&rdquo;",
+      "There is a profound balance in Jesus&rsquo; response that must not be missed. He does not say the woman&rsquo;s sin was not sin; he tells her to sin no more, which confirms that what she did was indeed wrong. He does not minimize the law, but he refuses to let the law become a weapon in the hands of those who are themselves guilty. He grants her mercy and a fresh start, but the mercy is accompanied by a moral imperative. She is not simply acquitted; she is given back her life and called to live it differently.",
+      "The contrast between the accusers and Jesus is the theological center of the passage. The accusers claim to represent the law; they present themselves as righteous guardians of the covenant. But they have used this woman as a prop in their argument &mdash; she is not a person to them, but a piece of evidence. Jesus, who alone truly had the right to condemn, chose not to. He will bear her condemnation himself on the cross. His mercy here is not soft on sin; it is bought at the price of his own blood, a mercy that will cost him everything even as it costs her nothing. This is the scandal and the glory of grace.",
+    ],
+  },
+  {
+    id: "I Am the Light of the World",
+    heading: "I Am the Light of the World",
+    reference: "John 8:12&ndash;30",
+    paragraphs: [
+      "Following the encounter with the woman, Jesus addresses the crowd in the Temple with one of the most celebrated declarations in the Gospel of John: &ldquo;I am the light of the world. Whoever follows me will not walk in darkness, but will have the light of life&rdquo; (8:12). The setting could not be more charged. The Feast of Tabernacles included a ceremony called the Illumination of the Temple, in which four massive golden lamp-stands, each seventy-five feet high, were lit in the Court of the Women, filling the Temple mount with radiance and commemorating the pillar of fire that led Israel through the wilderness. Jesus&rsquo; claim would have been heard as an identification of himself with that divine light.",
+      "The claim also echoes the language of the Old Testament. The Lord is described repeatedly as light and salvation (Psalm 27:1). The servant of the Lord is appointed to be &ldquo;a light for the nations&rdquo; (Isaiah 49:6). In Wisdom literature, divine wisdom is identified with the light that enlightens all of creation. By declaring himself the light of the world, Jesus is placing himself within this entire stream of biblical testimony and claiming that in him all of that imagery finds its fulfillment. He is not merely a teacher who sheds light on the truth; he is the truth, and to follow him is to walk in that light.",
+      "The Pharisees immediately challenge him: &ldquo;You are bearing witness about yourself; your testimony is not true&rdquo; (8:13). Under Jewish legal standards, self-testimony alone was insufficient &mdash; at least two witnesses were required for a valid claim. Jesus does not dismiss the legal concern; he engages it. He argues that in his unique case, even his self-testimony is true because he knows where he came from and where he is going, while they do not. They judge by outward appearances and earthly standards; he judges rightly because he is not alone but accompanied by the Father who sent him.",
+      "The dialogue deepens as Jesus presses the question of where he is going: &ldquo;Where I am going, you cannot come&rdquo; (8:21). The leaders misunderstand &mdash; some wonder if he means to kill himself. Jesus clarifies the reason for the unbridgeable gulf: &ldquo;You are from below; I am from above. You are of this world; I am not of this world&rdquo; (8:23). The problem is not geography but nature and origin. They belong to a world that is passing away; he belongs to the eternal realm of the Father. Unless they believe that &ldquo;I am he,&rdquo; they will die in their sins.",
+      "Even amid the controversy, John records that many believed in him (8:30). The light that exposes the darkness also draws those whose hearts are open. Jesus&rsquo; words are not merely polemic; they are invitation. The light does not shine in order to blind, but in order to illuminate the path. Every confrontation Jesus has in this passage is also an opportunity &mdash; an opportunity to stop walking in the darkness of self-sufficiency, self-righteousness, and spiritual blindness, and to step into the light that only he can provide.",
+      "The &ldquo;I am&rdquo; declarations in John&rsquo;s Gospel &mdash; of which this is the first spoken publicly in the Temple &mdash; are among the most important christological statements in the New Testament. The Greek phrase &ldquo;ego eimi,&rdquo; &ldquo;I am,&rdquo; resonates with the divine name revealed to Moses at the burning bush (Exodus 3:14). John uses this phrase with great care throughout his Gospel, and when it appears on the lips of Jesus it carries the weight of a divine claim. Light, as the first thing God created and as the mode of his self-revelation, was a particularly appropriate image for Jesus to choose when identifying himself with the eternal &ldquo;I AM.&rdquo;",
+    ],
+  },
+  {
+    id: "The Truth Will Free You",
+    heading: "The Truth Will Free You",
+    reference: "John 8:31&ndash;59",
+    paragraphs: [
+      "Turning to the Jews who had believed him, Jesus speaks one of the most often-quoted sentences of his ministry: &ldquo;If you abide in my word, you are truly my disciples, and you will know the truth, and the truth will set you free&rdquo; (8:31&ndash;32). The promise is magnificent &mdash; the truth, received through abiding in the word of Jesus, brings freedom. But the response of his hearers reveals how difficult this offer is to receive.",
+      "The crowd bristles at the word &ldquo;free.&rdquo; They are Abraham&rsquo;s offspring, they declare; they have never been enslaved to anyone. How can he speak of freedom as if they needed it? The objection is historically puzzling &mdash; Israel&rsquo;s history is a long story of slavery in Egypt, captivity in Babylon, and subjugation to Rome at that very moment. But the statement reveals something deeper: a spiritual blindness to their own bondage. Those who cannot see their chains cannot reach for the key.",
+      "Jesus clarifies precisely what slavery he means: &ldquo;Truly, truly, I say to you, everyone who practices sin is a slave to sin&rdquo; (8:34). The slavery Jesus describes is not political; it is moral and spiritual. It is the bondage of a will that has been captured by its own appetites, a conscience that has been seared by repeated compromise, a soul that keeps returning to the very behaviors it hates. The slave has no permanent place in the household; but the Son &mdash; Jesus himself &mdash; remains forever, and if the Son sets you free, &ldquo;you will be free indeed&rdquo; (8:36).",
+      "The argument then pivots to the question of spiritual fatherhood. Jesus does not deny that his opponents are biological descendants of Abraham. But he insists that their actions reveal a different spiritual father. Abraham believed God and obeyed him; these men are seeking to kill Jesus even after they have heard the truth &mdash; something Abraham would never have done. &ldquo;You are doing the works your father did,&rdquo; he says (8:41), and when they insist that God is their Father, Jesus delivers one of the most sobering declarations in the Gospels: their father is the devil, &ldquo;a murderer from the beginning,&rdquo; &ldquo;a liar and the father of lies&rdquo; (8:44). Rejecting truth is not a neutral act; it aligns the soul with the one who is truth&rsquo;s great enemy.",
+      "The chapter reaches its climax in a remarkable exchange about Abraham and time. Jesus says, &ldquo;Your father Abraham rejoiced that he would see my day. He saw it and was glad&rdquo; (8:56). His opponents are outraged: Jesus is not yet fifty years old &mdash; how could he have seen Abraham? And then Jesus speaks the words that end all discussion: &ldquo;Truly, truly, I say to you, before Abraham was, I am&rdquo; (8:58). Not &ldquo;I was&rdquo; &mdash; which would simply assert long existence &mdash; but &ldquo;I am,&rdquo; the present-tense divine name, the name spoken to Moses at the bush. The leaders understand exactly what has been claimed, and they take up stones to throw at him.",
+      "The truth that sets free is not an abstract principle or a philosophical proposition. It is a person &mdash; a person who existed before time, who entered history, who confronted sin without condemning the sinner, who shone his light into the darkest corners of human shame and religious hypocrisy, and who offered the possibility of a freedom so profound that not even death could end it. To abide in his word is to be brought into contact with this truth, and to be brought into contact with this truth is to find oneself, slowly and irreversibly, becoming free.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying John 8 Today",
+    reference: "Reflection and Practice",
+    paragraphs: [
+      "The opening scene of John 8 invites every reader to see themselves in both the accusers and the accused. There is a part of each of us that has stood in the position of the woman &mdash; caught, exposed, ashamed, and dragged before a judgment we cannot escape. And there is a part of each of us that has stood with the stones in our hands, ready to condemn someone else for a failure that, had we been honest, we could have found in our own hearts. Jesus&rsquo; question &mdash; &ldquo;Let him who is without sin cast the first stone&rdquo; &mdash; is addressed not only to the Pharisees in the Temple courts but to every human being who has ever been tempted to use another person&rsquo;s failure as a way of feeling righteous about their own.",
+      "His words to the woman &mdash; &ldquo;Neither do I condemn you; go, and sin no more&rdquo; &mdash; offer a template for healthy Christian living. The absence of condemnation is not an excuse for continuing in sin; it is the very foundation of the motivation to stop. Shame and condemnation are poor motivators for lasting change; they tend to drive behavior underground rather than transforming it. Grace, received fully and honestly, creates a new kind of desire. The woman who has experienced real forgiveness has a reason to live differently that a person motivated only by fear of punishment does not have. Christian obedience flows from gratitude, not terror.",
+      "Jesus&rsquo; declaration that he is the light of the world has immediate practical implications for how we engage with doubt, confusion, and moral complexity. In any situation where we genuinely cannot see the right path &mdash; a difficult relationship, a hard decision, an ethical dilemma at work or in the family &mdash; the promise of John 8:12 is that following Jesus, staying close to his word and his Spirit, brings clarity. Not always immediately, and not always in the form we expected, but the light does not fail. Walking with Jesus is the antidote to the spiritual disorientation that comes from navigating life by our own best guesses.",
+      "The passage about truth and freedom (8:31&ndash;36) is one of the most practically urgent sections in all of Scripture. The slavery to sin that Jesus describes is one of the most familiar human experiences there is. We all know what it is to vow to stop something and fail; to be ashamed of a pattern we cannot seem to break; to feel as though our worst impulses have more power over us than our best intentions. Jesus&rsquo; diagnosis is precise: sin is not merely a bad habit; it is a bondage. And his offer is equally precise: the Son can set us free. This freedom comes through abiding in his word &mdash; not a one-time decision but a sustained, daily engagement with what Jesus has said.",
+      "The climax of John 8, where Jesus declares &ldquo;before Abraham was, I am,&rdquo; grounds all of the chapter&rsquo;s practical applications in theology. It matters that the one who refuses to condemn us, who offers himself as the light, who promises freedom through truth &mdash; it matters that this one is not merely a wise teacher or a remarkable prophet. He is the eternal Son of God, the one in whom the whole divine name is at stake. Christian discipleship is not the adoption of a set of ethical principles derived from a great man&rsquo;s teachings; it is a living relationship with the living Lord who has always existed and who will always exist. That is why his words carry the weight they do, and why abiding in them is life-changing.",
+      "A practical spiritual exercise drawn from John 8 might proceed as follows. Identify one area of your life where you feel condemned &mdash; either by others, by yourself, or by what you believe God thinks of you. Bring it before Jesus with the same directness the accusers brought the woman, and listen for his words: &ldquo;Neither do I condemn you.&rdquo; Then ask what it would mean to &ldquo;go and sin no more&rdquo; in that specific situation &mdash; not by willpower alone, but by abiding more deeply in the word of the one who has already set you free. The freedom Jesus offers is not a distant promise; it is a present-tense reality available to everyone who turns to him, brings their darkness into his light, and chooses to believe the truth he declares.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "HVxoPLSKv6I", title: "John 8 - Woman Caught in Adultery and I Am the Light of the World" },
+  { videoId: "GDhg9FJi88M", title: "The Woman Caught in Adultery - John 8:1-11 Explained" },
+  { videoId: "5xA_V2YFa0o", title: "I Am the Light of the World - Jesus in John 8" },
+  { videoId: "Nm4UNvO8eTg", title: "The Truth Shall Set You Free - John 8 Bible Study" },
+];
+
+export default function John8GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 8 &mdash; I Am the Light of the World
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Forgiveness for the condemned, light for those in darkness, truth that liberates, and the eternal &ldquo;I AM&rdquo; who existed before Abraham &mdash; John 8 is one of the most dramatic and theologically rich chapters in all of Scripture.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3.5rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of John 8 through these video teachings on the woman caught in adultery, Jesus as the light of the world, and the truth that sets us free.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Light Has Come</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 8 presents Jesus as the answer to humanity&rsquo;s three deepest needs: relief from condemnation, guidance out of darkness, and liberation from bondage. He offers all three not as distant hopes but as present realities, available to anyone who follows him, abides in his word, and believes the truth he declares about himself and about them.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

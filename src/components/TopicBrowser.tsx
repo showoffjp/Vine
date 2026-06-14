@@ -2032,6 +2032,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 3 Chapter": "acts-3-guide",
   "Lame Man Healed": "acts-3-guide",
   "Silver and Gold Acts Three": "acts-3-guide",
+  "John 8 Chapter": "john-8-guide",
+  "Woman Caught in Adultery": "john-8-guide",
+  "I Am the Light of the World": "john-8-guide",
+  "Romans 6 Chapter": "romans-6-guide",
+  "Baptized into His Death": "romans-6-guide",
+  "Dead to Sin Alive to Christ": "romans-6-guide",
+  "Luke 4 Chapter": "luke-4-guide",
+  "Jesus Tempted in Wilderness": "luke-4-guide",
+  "Spirit of the Lord Upon Me": "luke-4-guide",
+  "1 Corinthians 11 Chapter": "1-corinthians-11-guide",
+  "Do This in Remembrance": "1-corinthians-11-guide",
+  "Lord Supper Institution": "1-corinthians-11-guide",
 };
 
 
@@ -2978,6 +2990,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 4 Chapter" },
   { label: "James 4 Chapter" },
   { label: "Acts 3 Chapter" },
+  { label: "John 8 Chapter" },
+  { label: "Romans 6 Chapter" },
+  { label: "Luke 4 Chapter" },
+  { label: "1 Corinthians 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

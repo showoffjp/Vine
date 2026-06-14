@@ -1768,6 +1768,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hebrews 11 Chapter": "hebrews-11-guide",
   "By Faith They Conquered": "hebrews-11-guide",
   "Faith Hall Heroes": "hebrews-11-guide",
+  "Psalm 139 Chapter": "psalm-139-guide",
+  "Fearfully and Wonderfully Made": "psalm-139-guide",
+  "Search Me O God": "psalm-139-guide",
+  "John 14 Chapter": "john-14-guide",
+  "I Am the Way": "john-14-guide",
+  "Many Rooms": "john-14-guide",
+  "Ephesians 6 Chapter": "ephesians-6-guide",
+  "Put On the Whole Armor": "ephesians-6-guide",
+  "Stand Against the Schemes": "ephesians-6-guide",
+  "Psalm 51 Chapter": "psalm-51-guide",
+  "Create in Me a Clean Heart": "psalm-51-guide",
+  "Have Mercy on Me": "psalm-51-guide",
 };
 
 
@@ -2626,6 +2638,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Philippians 4 Chapter" },
   { label: "Psalm 91 Chapter" },
   { label: "Hebrews 11 Chapter" },
+  { label: "Psalm 139 Chapter" },
+  { label: "John 14 Chapter" },
+  { label: "Ephesians 6 Chapter" },
+  { label: "Psalm 51 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

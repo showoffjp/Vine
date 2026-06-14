@@ -1,0 +1,187 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Ten Virgins",
+  "Parable of Talents",
+  "Sheep and Goats",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Matthew 25 &mdash; Parables of the Kingdom and Final Judgment",
+    reference: "Matthew 25:1&ndash;46",
+    paragraphs: [
+      "Matthew 25 stands at the climax of the Olivet Discourse, Jesus&rsquo; extended teaching about the end of the age and the coming of the Son of Man. Having warned his disciples about false messiahs, wars, tribulation, and the destruction of the Temple in chapter 24, Jesus now shifts from prophetic description to parabolic instruction. The three units of Matthew 25 &mdash; the Parable of the Ten Virgins (vv. 1&ndash;13), the Parable of the Talents (vv. 14&ndash;30), and the account of the Sheep and the Goats (vv. 31&ndash;46) &mdash; each address the same fundamental question from a different angle: how should disciples live in the period between Christ&rsquo;s first and second coming?",
+      "The chapter is part of the fifth and final discourse in Matthew&rsquo;s Gospel. Matthew has organized the teaching of Jesus into five great blocks (chapters 5&ndash;7, 10, 13, 18, 24&ndash;25), each ending with the formula &ldquo;when Jesus had finished these sayings.&rdquo; The Olivet Discourse is the longest and most eschatologically focused of these blocks, and Matthew 25 is its culmination. The entire discourse has been building toward the question that chapter 25 forces upon every hearer: when the Son of Man comes, will he find you ready?",
+      "The three parables or sections of chapter 25 are not merely parallel; they advance in focus. The first (Ten Virgins) emphasizes readiness and watchfulness &mdash; the uncertainty of the hour and the urgency of spiritual preparation. The second (Talents) emphasizes faithfulness and fruitfulness &mdash; the responsibility of using what God has entrusted to you during the time of waiting. The third (Sheep and Goats) emphasizes the criterion of judgment &mdash; that love for Christ is revealed concretely in love for the least of his brothers and sisters. Together they paint a comprehensive picture of what it means to live as kingdom people in the last days.",
+      "The setting of Matthew 25 within the Gospel as a whole is significant. Jesus is in Jerusalem during the final week before the crucifixion. He has already cleansed the Temple, engaged in controversy with the religious leaders, and pronounced the seven woes on the Pharisees in chapter 23. He is days away from the cross. The eschatological discourse, including chapter 25, is thus not abstract theological speculation but urgent pastoral instruction: given that the Son of Man will come in judgment, how must you live now?",
+      "Each section of Matthew 25 closes with a word of final, irreversible consequence. The unprepared virgins hear the door shut and the dreadful words, &ldquo;Truly, I say to you, I do not know you&rdquo; (v. 12). The unfaithful servant is cast into &ldquo;the outer darkness&rdquo; (v. 30). The goats go away into &ldquo;eternal punishment,&rdquo; while the righteous go into &ldquo;eternal life&rdquo; (v. 46). Matthew 25 does not permit the luxury of a comfortable agnosticism about the stakes involved. Jesus is not merely teaching about how to live well; he is declaring that final destinies are shaped by how people respond to him and to the needs of his people in the present age.",
+      "For the church in every generation, Matthew 25 functions as a searching examination of conscience. It asks whether our devotion to Christ is deep enough to sustain us through a long period of waiting, whether we are actively investing the gifts God has given us for his kingdom, and whether our love for God is expressed concretely in love for the most vulnerable members of society. These are not peripheral concerns; they are, according to Jesus, the very criteria by which the Son of Man will judge the nations when he comes in his glory.",
+    ],
+  },
+  {
+    id: "Ten Virgins",
+    heading: "The Parable of the Ten Virgins",
+    reference: "Matthew 25:1&ndash;13",
+    paragraphs: [
+      "The Parable of the Ten Virgins opens with a scene drawn from the marriage customs of first-century Palestine. Ten young women take their lamps and go out to meet the bridegroom as he comes to claim his bride. Five of them are described as &ldquo;foolish&rdquo; (Greek: morai, from which we get &ldquo;moron&rdquo;) and five as &ldquo;wise&rdquo; (Greek: phronimoi, denoting practical wisdom and prudent judgment). The distinction between them is not their enthusiasm or their initial commitment; all ten go out to meet the bridegroom, all ten have lamps, and all ten fall asleep when the bridegroom is delayed. The difference is simple, concrete, and determinative: the wise took flasks of oil along with their lamps, and the foolish did not.",
+      "The delay of the bridegroom is central to the parable&rsquo;s meaning. &ldquo;As the bridegroom was delayed, they all became drowsy and slept&rdquo; (v. 5). This detail directly addresses the situation of Matthew&rsquo;s community and of every subsequent generation of believers: Christ&rsquo;s return has not happened as quickly as some expected. The parable does not criticize the virgins for sleeping; the wise ones sleep too. What it criticizes is the failure to prepare for the possibility of delay. Wisdom, in Jesus&rsquo; telling, consists not in certainty about the timing but in readiness for any eventuality.",
+      "At midnight the cry goes up: &ldquo;Here is the bridegroom! Come out to meet him&rdquo; (v. 6). The urgency of the hour strips away all pretense. The foolish virgins discover their lamps are going out, and they ask the wise for oil. The wise refuse &mdash; not out of selfishness, but because the nature of this particular resource does not permit sharing. Spiritual preparedness is not transferable. A parent cannot loan their faith to a child; a pastor cannot give their relationship with God to a congregation member; a long-time believer cannot loan their spiritual reserves to someone who has neglected their own. Each person must have their own oil.",
+      "While the foolish virgins go to buy more oil, the bridegroom arrives. &ldquo;Those who were ready went in with him to the marriage feast, and the door was shut&rdquo; (v. 10). The closed door is one of the most solemn images in all of Jesus&rsquo; parables. When the foolish virgins return and knock, crying, &ldquo;Lord, lord, open to us,&rdquo; the bridegroom replies, &ldquo;Truly, I say to you, I do not know you&rdquo; (vv. 11&ndash;12). The words &ldquo;I do not know you&rdquo; recall the language of Psalm 6:8 and Matthew 7:23, where the Lord disowns those who practiced lawlessness. To be unknown by the bridegroom is to have been excluded from the intimacy of covenant relationship.",
+      "The identity of the oil has been debated throughout the history of interpretation. Some have identified it with the Holy Spirit, pointing to the lamp as a symbol of faith and the oil as the Spirit who keeps faith burning. Others identify it with good works, deeds of love that accumulate over a lifetime of faithfulness. Still others see it simply as genuine saving faith &mdash; the real, sustained trust in Christ that perseveres through the long delay. Whatever the precise referent, the parable makes clear that the oil cannot be acquired at the last moment. It is built up over the long, quiet years of faithfulness, prayer, and obedience. The crisis simply reveals what was already there.",
+      "The parable closes with a direct command: &ldquo;Watch therefore, for you know neither the day nor the hour&rdquo; (v. 13). This is the interpretive key. The call to watch does not mean staying awake literally (all ten slept); it means maintaining a posture of readiness, an ongoing orientation toward the returning Lord that shapes the whole of life. The watching disciple is not one who neglects ordinary life in a fever of apocalyptic excitement, but one who lives every day with the awareness that the hour of accountability may come at any moment.",
+    ],
+  },
+  {
+    id: "Parable of Talents",
+    heading: "The Parable of the Talents",
+    reference: "Matthew 25:14&ndash;30",
+    paragraphs: [
+      "The Parable of the Talents follows immediately and deepens the teaching on readiness by focusing on faithful productivity during the period of waiting. A man about to go on a journey entrusts his property to three servants, distributing to each according to his ability &mdash; five talents to one, two to another, and one to the last. The word &ldquo;talent&rdquo; (Greek: talanton) refers to a monetary unit of extraordinary value; a single talent represented approximately fifteen to twenty years&rsquo; wages for a common laborer. The master is not entrusting trivial amounts; he is distributing the substantial wealth of his household.",
+      "The action of the first two servants is described with the same verb: they &ldquo;went at once and traded with them, and they made a profit&rdquo; (vv. 16&ndash;17). The word &ldquo;at once&rdquo; (eutheos) signals immediacy and zeal. They do not wait for the master to return to decide how to use what they have been given; they get to work immediately. The five-talent servant doubles his investment, and so does the two-talent servant. Significantly, they receive identical commendation: &ldquo;Well done, good and faithful servant. You have been faithful over a little; I will set you over much. Enter into the joy of your master&rdquo; (vv. 21, 23). The size of the gift matters less than the faithfulness of the stewardship.",
+      "The third servant tells a very different story. He dug a hole in the ground and hid his master&rsquo;s money. When the master returns, he offers an explanation rooted in fear: &ldquo;Master, I knew you to be a hard man, reaping where you did not sow and gathering where you scattered no seed, so I was afraid, and I went and hid your talent in the ground&rdquo; (vv. 24&ndash;25). The servant&rsquo;s portrait of the master as harsh and unreasonable is not validated by the parable; it is exposed as a rationalization. The master did not command the servant to take excessive risks; he expected at least the modest return of bank interest. The servant&rsquo;s inaction was not caution but fearful paralysis.",
+      "The master&rsquo;s response to the third servant is withering: &ldquo;You wicked and slothful servant!&rdquo; (v. 26). The pairing of &ldquo;wicked&rdquo; with &ldquo;slothful&rdquo; is revealing. In the moral universe of the parable, laziness is not a minor personality flaw but a form of wickedness &mdash; an active failure to fulfill the responsibilities entrusted to one by the master. The servant thought he was playing it safe; the master judges him as having squandered his opportunity through fearful inaction. The talent is taken from him and given to the one who has ten, illustrating the principle Jesus states explicitly: &ldquo;For to everyone who has, more will be given and he will have an abundance. But from the one who has not, even what he has will be taken away&rdquo; (v. 29).",
+      "The parable speaks to the church in every age about the stewardship of gifts, time, opportunities, and resources entrusted by God. Every believer has been given something &mdash; abilities, spiritual gifts, financial resources, relationships, a sphere of influence &mdash; and will be called to account for how it was used during the period of the master&rsquo;s absence. The parable is not a call to frenetic activity or to measure ministry by worldly standards of productivity. It is a call to faithful, courageous engagement with what God has given, free from the paralysis of fear and the rationalization of inaction.",
+      "The phrase &ldquo;enter into the joy of your master&rdquo; (vv. 21, 23) is an invitation to participate in the eschatological feast, the marriage supper of the Lamb. The faithful servant is not merely rewarded for good behavior; he is invited into intimate communion with the master himself. This is the ultimate motivation for faithful stewardship: not the accumulation of divine reward, but the deepening of a relationship that will be consummated in the age to come. The &ldquo;joy of your master&rdquo; is the joy of the Lord himself, shared with those who have been faithful in the things entrusted to them.",
+    ],
+  },
+  {
+    id: "Sheep and Goats",
+    heading: "The Sheep and the Goats",
+    reference: "Matthew 25:31&ndash;46",
+    paragraphs: [
+      "The account of the Sheep and the Goats is not technically a parable in the strict sense; it is an apocalyptic vision or prophetic tableau depicting the final judgment of the nations. It is nonetheless the climax of Matthew 25 and one of the most searching and consequential passages in all of Jesus&rsquo; teaching. When the Son of Man comes in his glory, attended by all the angels, he will sit on his glorious throne and all the nations will be gathered before him. He will separate them as a shepherd separates sheep from goats &mdash; sheep to his right hand and goats to his left. The imagery of sheep and goats draws on Ezekiel 34, where God promises to judge between the fat sheep who have oppressed the weak flock.",
+      "The King&rsquo;s words to those on his right are among the most affirming in Scripture: &ldquo;Come, you who are blessed by my Father, inherit the kingdom prepared for you from the foundation of the world&rdquo; (v. 34). The kingdom was prepared before the foundation of the world &mdash; it is not a last-minute arrangement but an eternal purpose of the Father. The ground of the invitation is not merit accumulated but inheritance given; the righteous are those who have been incorporated into God&rsquo;s family and are receiving what was prepared for them in eternity.",
+      "The criterion of separation is expressed in six concrete acts of mercy: feeding the hungry, giving drink to the thirsty, welcoming the stranger, clothing the naked, visiting the sick, and coming to those in prison (vv. 35&ndash;36, 42&ndash;43). These are not extraordinary religious duties but the most basic acts of human compassion. The righteous are not distinguished by theological sophistication, spectacular spiritual gifts, or impressive public ministry; they are distinguished by whether they saw and responded to human need in the most ordinary of circumstances.",
+      "The dramatic twist that runs through the entire scene is the identification of Christ with &ldquo;the least of these my brothers&rdquo; (v. 40, 45). Both the righteous and the unrighteous are astonished: &ldquo;Lord, when did we see you hungry and feed you, or thirsty and give you drink?&rdquo; (v. 37). Neither group was conscious of serving or failing to serve Jesus. The righteous did not feed the hungry as a calculated act of devotion to Christ; they simply responded to human need with compassion. The King&rsquo;s declaration reveals that in doing so, they encountered him. The identity of &ldquo;the least of these my brothers&rdquo; is debated: some restrict it to the followers of Jesus (as in Matthew 10:40&ndash;42), while others expand it to all the poor and marginalized of the world.",
+      "The words spoken to the goats are the mirror image of the blessing: &ldquo;Depart from me, you cursed, into the eternal fire prepared for the devil and his angels&rdquo; (v. 41). Significantly, the eternal fire was prepared for the devil and his angels, not originally for human beings. Those who go there do so because they have aligned themselves, through persistent indifference to Christ and his people, with the kingdom of darkness rather than the kingdom of light. The goats are not condemned for dramatic acts of wickedness but for chronic, comfortable indifference to human need. In the kingdom economy, the sins of omission are as damning as the sins of commission.",
+      "The closing verse of Matthew 25 &mdash; and of the entire Olivet Discourse &mdash; states the final outcome with stark symmetry: &ldquo;And these will go away into eternal punishment, but the righteous into eternal life&rdquo; (v. 46). The same Greek word (aionios, eternal) describes both punishment and life, suggesting that the eternality of both outcomes is equally real. Matthew 25 will not permit a sentimental universalism that dissolves the reality of final judgment, nor a fatalistic predeterminism that removes human responsibility. It calls every hearer to the urgent, practical, costly work of love &mdash; which is, in the end, the work of participating in the kingdom of the Son of Man.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Watching, Investing, and Serving",
+    reference: "Matthew 25 &mdash; Application",
+    paragraphs: [
+      "Matthew 25 confronts every generation of Christians with the same urgent threefold question: Are you ready? Are you faithful? Are you serving? These are not abstract theological questions; they demand concrete, practical answers that touch every area of daily life. The three sections of the chapter are designed to work together as a searching examination of the entire Christian life &mdash; its inner preparation, its outward fruitfulness, and its expression in love for the vulnerable.",
+      "The Parable of the Ten Virgins calls believers to the discipline of sustained spiritual preparation. The oil that the wise virgins had was not acquired in a single dramatic moment of consecration; it was accumulated over the long, unglamorous years of faithfulness in prayer, worship, and the word. The practical implication is clear: the time to build a deep relationship with God is not when the crisis comes but in the ordinary days before it. Daily prayer, consistent reading of Scripture, participation in the worshiping community, regular confession of sin &mdash; these are the habits by which the lamp of faith is kept burning through the long night of waiting.",
+      "The Parable of the Talents calls believers to courageous stewardship of every gift God has given. The third servant&rsquo;s failure was not active rebellion but fearful inaction, and Jesus names it as wickedness. This is a searching word for every believer who has allowed fear of failure, fear of criticism, or a distorted sense of humility to prevent them from using their gifts actively for the kingdom. What has God entrusted to you &mdash; a skill, a platform, a financial resource, a sphere of influence, a spiritual gift? The question of the Parable of the Talents is: what are you doing with it? The master is returning, and he expects to find increase.",
+      "The account of the Sheep and the Goats calls believers to a concrete, embodied love for the poor and the marginalized. Jesus&rsquo; identification of himself with &ldquo;the least of these&rdquo; is one of the most theologically radical statements in the Gospels. It means that every encounter with a hungry, thirsty, lonely, sick, or imprisoned person is, in a mysterious but real sense, an encounter with Christ himself. This does not mean that social action is a substitute for the gospel; it means that genuine faith in the gospel produces the fruit of concrete compassion. A Christianity that is indifferent to human suffering has not yet understood who Jesus is.",
+      "The three sections of Matthew 25 together resist a privatized, individualistic faith. The waiting virgins are part of a wedding community; the servants are entrusted by a master to whom they are accountable; the nations are judged by their response to the community of the poor and vulnerable. Kingdom living, according to Jesus, is never merely a matter of personal piety; it is always shaped by relationship, accountability, and corporate responsibility. The church is called to be the community in which all three of these patterns &mdash; readiness, faithfulness, and service &mdash; are embodied together.",
+      "Matthew 25 ends with the most solemn declaration in the Olivet Discourse, and it leaves no room for complacency. The same word &mdash; &ldquo;eternal&rdquo; &mdash; describes the punishment of the unprepared and the life of the prepared. This is not a word designed to produce fear as an end in itself; it is a word designed to produce urgency, love, and faithful action. The Son of Man who will come in glory is the same Son of Man who walked the roads of Galilee and healed the sick and fed the hungry and died for sinners. To live in the light of his coming is to live as he lived: watchfully, faithfully, and with outstretched hands toward the least of his brothers and sisters.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "3tqB7jXq35s", title: "The Parable of the Ten Virgins &mdash; Matthew 25 Explained" },
+  { videoId: "p4f7eDhzqXk", title: "Parable of the Talents &mdash; Matthew 25 Bible Study" },
+  { videoId: "hL4h5sIW0dQ", title: "Sheep and Goats &mdash; The Final Judgment in Matthew 25" },
+  { videoId: "KIHLiGBXAn0", title: "BibleProject &mdash; Gospel of Matthew Overview (Part 2)" },
+];
+
+export default function Matthew25GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 25 &mdash; Parables and Final Judgment
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The climax of the Olivet Discourse &mdash; three searching parables on readiness, faithful stewardship, and love for the least of Christ&rsquo;s brothers and sisters, culminating in the vision of the Son of Man separating the nations at the final judgment.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Watch, Invest, and Serve</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 25 calls every disciple to live in the light of the returning King. It is not enough to have begun the journey &mdash; the lamp must be kept burning. It is not enough to have received gifts &mdash; they must be faithfully invested. And it is not enough to profess faith &mdash; love for Christ must be embodied in love for the hungry, the stranger, and the forgotten. In these three parables, Jesus defines what it means to be ready for his coming.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

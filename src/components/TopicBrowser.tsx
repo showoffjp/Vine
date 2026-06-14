@@ -1912,6 +1912,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hebrews 12 Chapter": "hebrews-12-guide",
   "Run the Race Before Us": "hebrews-12-guide",
   "Cloud of Witnesses": "hebrews-12-guide",
+  "John 17 Chapter": "john-17-guide",
+  "High Priestly Prayer": "john-17-guide",
+  "That They May Be One": "john-17-guide",
+  "Matthew 25 Chapter": "matthew-25-guide",
+  "Ten Virgins Parable": "matthew-25-guide",
+  "Sheep and Goats Judgment": "matthew-25-guide",
+  "Philippians 2 Chapter": "philippians-2-guide",
+  "Humility of Christ": "philippians-2-guide",
+  "Every Knee Shall Bow": "philippians-2-guide",
+  "1 John 4 Chapter": "1-john-4-guide",
+  "Perfect Love Casts Out Fear": "1-john-4-guide",
+  "Love One Another": "1-john-4-guide",
 };
 
 
@@ -2818,6 +2830,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Mark 10 Chapter" },
   { label: "Acts 9 Chapter" },
   { label: "Hebrews 12 Chapter" },
+  { label: "John 17 Chapter" },
+  { label: "Matthew 25 Chapter" },
+  { label: "Philippians 2 Chapter" },
+  { label: "1 John 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

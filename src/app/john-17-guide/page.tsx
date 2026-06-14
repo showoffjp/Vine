@@ -1,0 +1,187 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Prayer for Himself",
+  "Prayer for Disciples",
+  "Prayer for All Believers",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "John 17 &mdash; The High Priestly Prayer",
+    reference: "John 17:1&ndash;26",
+    paragraphs: [
+      "John 17 stands as one of the most sacred passages in all of Scripture &mdash; a window into the very soul of Jesus on the night before his crucifixion. After speaking at length to his disciples in the Upper Room (John 13&ndash;16), Jesus lifts his eyes to heaven and begins to pray. What follows is not a prayer of desperate petition but one of confident intercession rooted in the eternal relationship between the Father and the Son. It is sometimes called the &ldquo;High Priestly Prayer&rdquo; because, like the high priest who entered the Most Holy Place on the Day of Atonement to intercede for God&rsquo;s people, Jesus here stands before the Father as the great High Priest, consecrating himself for the sacrifice that lies ahead and interceding for those the Father has given him.",
+      "The prayer divides naturally into three movements. In the first (vv. 1&ndash;5), Jesus prays for himself &mdash; specifically that the Father would glorify the Son so that the Son might glorify the Father and give eternal life to all whom the Father has given him. In the second (vv. 6&ndash;19), he intercedes for his immediate disciples &mdash; the eleven who have walked with him, known his name, and received his word. In the third (vv. 20&ndash;26), his gaze extends across time to &ldquo;those who will believe in me through their word&rdquo; &mdash; the entire future church, every generation of believers until the end of the age.",
+      "The theological density of John 17 is extraordinary. In twenty-six verses the prayer touches on the nature of eternal life, the unity of the Father and Son, the transfer of the divine name, the sending of the Son into the world, the distinction between the church and the world, the sanctifying power of truth, the mutual indwelling of believers in the triune God, and the consummation of divine love. Early Christian readers recognized it as a uniquely privileged access to the interior life of the Godhead, and it has fueled reflection on Trinitarian theology, ecclesiology, missiology, and the doctrine of sanctification ever since.",
+      "The setting of the prayer is inseparable from its meaning. Jesus knows that the hour of his glorification through suffering has come (v. 1). He is not surprised, cornered, or desperate. He has already told his disciples, &ldquo;I lay down my life that I may take it up again. No one takes it from me, but I lay it down of my own accord&rdquo; (John 10:17&ndash;18). The prayer is prayed from within that royal authority. Even the language of &ldquo;the hour has come&rdquo; resonates throughout John&rsquo;s Gospel as a marker of the divinely appointed moment when the Son of God accomplishes the salvation of the world.",
+      "John 17 also crowns the Farewell Discourse (John 13&ndash;17), which is itself unique to the Fourth Gospel. While the Synoptic Gospels report the institution of the Lord&rsquo;s Supper and the agony in Gethsemane, John gives us the washing of the disciples&rsquo; feet, the long discourses on the vine and the branches, the promise of the Spirit, and this prayer. The chapter is thus the summit of the entire upper room narrative &mdash; the moment when speech gives way to prayer and Jesus &ldquo;goes to the Father&rdquo; on behalf of those he is about to leave behind.",
+      "For the reader of John&rsquo;s Gospel, John 17 functions as a lens through which everything that follows &mdash; the arrest, trial, crucifixion, and resurrection &mdash; must be interpreted. The cross is not a defeat that God subsequently overturns; it is the divinely ordained means of glorification and the moment when the Son gives to his people all that the Father gave to him. The prayer is the interpretive key to the passion, and the passion is the answer to the prayer.",
+    ],
+  },
+  {
+    id: "Prayer for Himself",
+    heading: "Jesus Prays for His Own Glorification",
+    reference: "John 17:1&ndash;5",
+    paragraphs: [
+      "The prayer opens with a sentence that has captured the imagination of theologians and believers for two millennia: &ldquo;Father, the hour has come; glorify your Son that the Son may glorify you&rdquo; (17:1). The word &ldquo;hour&rdquo; has been building in tension throughout John&rsquo;s Gospel. At the wedding in Cana Jesus told his mother, &ldquo;My hour has not yet come&rdquo; (2:4). In Jerusalem, the authorities tried to arrest him, but &ldquo;no one laid a hand on him, because his hour had not yet come&rdquo; (7:30; 8:20). When some Greeks came to see Jesus, he replied, &ldquo;The hour has come for the Son of Man to be glorified&rdquo; (12:23). Now, in the upper room, the hour has fully arrived.",
+      "The request for glorification must not be misunderstood as a prayer for status, fame, or honor in the ordinary sense. In John&rsquo;s theology, the &ldquo;glory&rdquo; of the Son is inseparable from the cross. Jesus declares in 12:28 that the Father &ldquo;has glorified&rdquo; his name and &ldquo;will glorify it again,&rdquo; and this statement is immediately followed by the prediction of Jesus&rsquo; death by crucifixion. The lifting up of the Son on the cross is simultaneously his exaltation (3:14&ndash;15; 8:28; 12:32). To be glorified is to be given over to the very act of self-giving love that reveals the character of God most fully.",
+      "The purpose of the Son&rsquo;s glorification is the glorification of the Father: &ldquo;so that the Son may glorify you&rdquo; (v. 1b). This mutual glorification runs throughout the prayer and reflects the eternal, loving relationship within the Godhead. The Son does not seek glory for himself alone; he seeks it as the means by which the Father&rsquo;s name and character are revealed to the world. In the cross, the love, justice, holiness, and mercy of the Father are displayed in their fullest form, and the Son&rsquo;s glorification is thus the ultimate act of worship and revelation.",
+      "Verses 2&ndash;3 introduce the concept of eternal life in terms that are uniquely Johannine. The Father has given the Son &ldquo;authority over all flesh, to give eternal life to all whom you have given him&rdquo; (v. 2). Eternal life, in John&rsquo;s Gospel, is not primarily a quantity of time but a quality of relationship. Verse 3 gives the famous definition: &ldquo;And this is eternal life, that they know you, the only true God, and Jesus Christ whom you have sent.&rdquo; The word &ldquo;know&rdquo; here is not mere cognitive knowledge; it is the intimate, relational knowledge of covenant love &mdash; the same word used in the Septuagint for the knowledge between God and his covenant people.",
+      "Jesus concludes this section with a reference to the pre-incarnate glory he shared with the Father before creation: &ldquo;And now, Father, glorify me in your own presence with the glory that I had with you before the world existed&rdquo; (v. 5). This is a statement of breathtaking scope. The Son who stands in an upper room, knowing he will be betrayed and crucified within hours, prays from the vantage point of eternity, looking back to a glory that preceded the creation of the universe and forward to the resurrection glory that awaits him on the other side of the cross. The prayer is a prayer of the eternal Son, not merely of a human teacher facing death.",
+      "The christological weight of these five verses has been recognized throughout church history. John 17:5 in particular has been central to the church&rsquo;s affirmation of the pre-existence and full divinity of the Son. Only one who truly existed &ldquo;before the world existed&rdquo; can pray this prayer. The early councils that debated the nature of Christ repeatedly returned to texts like this one, recognizing that the church could not honor both Scripture and Christ without confessing him as the eternal Son of God who took on flesh for the salvation of the world.",
+    ],
+  },
+  {
+    id: "Prayer for Disciples",
+    heading: "Jesus Prays for His Disciples",
+    reference: "John 17:6&ndash;19",
+    paragraphs: [
+      "Having prayed for his own glorification, Jesus turns to intercede for the men who have walked with him throughout his ministry. The transition is marked by a shift from the cosmic to the personal: &ldquo;I have manifested your name to the people whom you gave me out of the world&rdquo; (v. 6). The disciples are characterized by three things: they were given to Jesus by the Father, they have kept the Father&rsquo;s word, and they know that everything Jesus has is from the Father. They are not self-made disciples; their faith is the gift of the Father&rsquo;s electing love working through the Son&rsquo;s revealing ministry.",
+      "Jesus makes a remarkable statement about the mutually constitutive nature of his relationship with the Father and with the disciples: &ldquo;All mine are yours, and yours are mine, and I am glorified in them&rdquo; (v. 10). The disciples belong simultaneously to the Father and to the Son. They are caught up in the communion of the Godhead itself. And the Son is glorified in them &mdash; not despite their weakness, failure, and coming desertion, but in and through them. The church is the community in which the glory of Christ is displayed to the world, even when the church is frail and broken.",
+      "The petitions Jesus makes for his disciples are specific and urgent. First, he prays for their protection: &ldquo;Holy Father, keep them in your name, which you have given me, that they may be one, even as we are one&rdquo; (v. 11). Jesus is going away; he can no longer guard his disciples by his physical presence. He commits them to the keeping power of the Father&rsquo;s name. The goal of that protection is unity &mdash; that the disciples might be one as the Father and Son are one. The unity Jesus envisions is not merely organizational or institutional; it is a participation in the life of the Godhead.",
+      "Second, he prays for their joy: &ldquo;But now I am coming to you, and these things I speak in the world, that they may have my joy fulfilled in themselves&rdquo; (v. 13). This is a stunning claim &mdash; that Jesus&rsquo; own joy, the joy of the Son in the presence of the Father, can be the joy of the disciples. It does not come by removing them from the world and its troubles; it comes through the word that Jesus has spoken. Joy in the Johannine sense is not a feeling contingent on circumstances but a settled delight in the Father that persists through tribulation.",
+      "Third, Jesus prays for their protection from the evil one: &ldquo;I do not ask that you take them out of the world, but that you keep them from the evil one&rdquo; (v. 15). The disciples are to remain in the world as a mission, not to be evacuated from it as a refuge. The world hates them because they do not belong to the world, even as Jesus does not belong to it (v. 14). The hostility of the world toward the church is not incidental; it is the natural consequence of the church&rsquo;s allegiance to a Lord the world has rejected.",
+      "The climax of this section is Jesus&rsquo; prayer for their sanctification: &ldquo;Sanctify them in the truth; your word is truth&rdquo; (v. 17). Sanctification here is not merely moral improvement but the setting apart of the disciples for a holy purpose &mdash; the same consecration that the high priest underwent before entering the Most Holy Place. The instrument of sanctification is &ldquo;the truth,&rdquo; and the truth is identified with &ldquo;your word.&rdquo; Jesus himself is the Word made flesh (John 1:14), and the word he has spoken to the disciples is the Father&rsquo;s own truth. To be sanctified in the truth is to be formed by the living word of God, shaped into the image of the one who is the way, the truth, and the life (14:6).",
+    ],
+  },
+  {
+    id: "Prayer for All Believers",
+    heading: "Jesus Prays for All Who Will Believe",
+    reference: "John 17:20&ndash;26",
+    paragraphs: [
+      "With verse 20 the scope of the prayer expands from the immediate disciples to the entire future church: &ldquo;I do not ask for these only, but also for those who will believe in me through their word.&rdquo; This is a breathtaking moment. Jesus, on the eve of the crucifixion, prays for people who have not yet been born, who will hear the gospel through the testimony of his disciples across centuries and cultures and continents. Every person who has ever come to faith in Jesus through the apostolic witness &mdash; through the New Testament, through preaching, through the witness of a friend or parent &mdash; is prayed for in this verse.",
+      "The great petition for the future church is the prayer for unity: &ldquo;that they may all be one, just as you, Father, are in me, and I in you, that they also may be in us, so that the world may believe that you have sent me&rdquo; (v. 21). This is perhaps the most theologically rich single verse in the prayer. The unity Jesus prays for is patterned after the unity of the Father and the Son &mdash; the most intimate, perfect, and unbreakable unity conceivable. The oneness of believers is not merely cooperative or organizational but participatory: &ldquo;that they also may be in us.&rdquo; The church is called to a unity that draws its life from, and reflects the nature of, the Trinitarian communion itself.",
+      "The purpose of Christian unity, according to verse 21, is explicitly missional: &ldquo;so that the world may believe that you have sent me.&rdquo; The visible unity of the church is meant to be an apologetic and a testimony to the watching world. When believers of every tribe, tongue, and social background are genuinely one in love, it bears witness to something that cannot be explained by sociology or politics alone &mdash; namely, the reality of the God who sent Jesus. Division among believers, therefore, is not merely a practical inconvenience but a contradiction of the gospel and a hindrance to mission.",
+      "Jesus elaborates the nature of this unity in verse 22: &ldquo;The glory that you have given me I have given to them, that they may be one even as we are one.&rdquo; The instrument of Christian unity is the divine glory given by the Father to the Son and by the Son to his people. This shared glory is not status or prestige; it is the self-giving, cruciform love of God that the cross displays. The glory that unites believers is the cross itself &mdash; the death that shattered the dividing wall of hostility (Ephesians 2:14) and reconciled Jew and Gentile, slave and free, male and female into one body.",
+      "The prayer moves toward its climax in verse 24 with a petition of profound desire: &ldquo;Father, I desire that they also, whom you have given me, may be with me where I am, to see my glory that you have given me because you loved me before the foundation of the world.&rdquo; This is the eschatological horizon of the prayer &mdash; the consummation toward which everything in John&rsquo;s Gospel is moving. The goal is not merely that believers would be forgiven, or sanctified, or united, but that they would be &ldquo;with me where I am&rdquo; and behold the Son&rsquo;s glory. It is a prayer for face-to-face communion with God.",
+      "The prayer closes in verses 25&ndash;26 with a declaration of the divine love that underlies everything: &ldquo;I made known to them your name, and I will continue to make it known, that the love with which you have loved me may be in them, and I in them.&rdquo; The ultimate goal of the incarnation, the ministry, the cross, the resurrection, and the sending of the Spirit is that the very love flowing between the Father and the Son would flow in and among the disciples of Jesus. The High Priestly Prayer does not end with a list of things God will do for believers; it ends with God himself &mdash; the triune God of love &mdash; dwelling within and among his people.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Living Inside the Prayer of Jesus",
+    reference: "John 17 &mdash; Application",
+    paragraphs: [
+      "One of the most extraordinary truths of John 17 is that Jesus prayed for you by name &mdash; not individually by the name your parents gave you, but as one of &ldquo;those who will believe in me through their word&rdquo; (v. 20). If you are a believer in Jesus, you exist within this prayer. You are not an afterthought or a distant concern of God; you are the specific subject of the intercession of the eternal Son of God. To read John 17 prayerfully is to overhear your own name in the mouth of Jesus as he stands before the Father.",
+      "The prayer calls every believer to a fresh reckoning with what eternal life actually means. Jesus defines it not as endless duration but as knowing &ldquo;the only true God, and Jesus Christ whom you have sent&rdquo; (v. 3). This invites a searching question: is my relationship with God growing in depth and intimacy, or have I settled for a formal religion that leaves the heart untouched? Eternal life, in the Johannine sense, is not something you receive at death; it is something you begin to inhabit the moment you know God through Christ, and it deepens with every year of walking with him.",
+      "John 17 is the great charter of Christian unity, and it places enormous weight on the visible oneness of the church. Jesus did not pray that all believers would eventually agree on every secondary question of theology; he prayed that their unity would be of the same nature as the unity of the Father and the Son &mdash; a unity of love, mission, and mutual indwelling. This means that bitterness, schism, rivalry, and contempt between believers are not merely relational failures; they are a contradiction of the prayer of Jesus and a hindrance to the mission he died to advance. Pursuing visible unity across denominational, ethnic, and cultural lines is not a sentimental nicety; it is an act of costly obedience to the prayer of the High Priest.",
+      "The prayer also grounds Christian mission in the nature of God himself. Jesus says, &ldquo;As you sent me into the world, so I have sent them into the world&rdquo; (v. 18). The sending of the disciples is patterned after and grounded in the sending of the Son. The church does not engage in mission because it has been commanded to fulfill a quota; it engages in mission because it participates in the eternal movement of God toward the world. The Father sends the Son; the Son sends the Spirit; the Spirit empowers the church to go. Mission is not a department of the church; it is the shape of the church&rsquo;s life as it participates in the life of God.",
+      "The prayer for sanctification in verse 17 &mdash; &ldquo;Sanctify them in the truth; your word is truth&rdquo; &mdash; invites a life of sustained immersion in Scripture. The Holy Spirit uses the written word to do the work for which Jesus prayed: setting us apart, forming us in holiness, conforming us to the image of the Son. This is not a passive process. It requires the deliberate, daily discipline of reading, meditating on, and obeying the word of God. The believer who neglects the Scriptures is in effect resisting the very instrument through which Jesus prayed that he or she would be made holy.",
+      "Finally, John 17 orients every believer toward the horizon of glory. The prayer ends with the longing of Jesus that his people would one day be with him where he is and behold his glory (v. 24). This is the eschatological hope that gives the Christian life its ultimate shape. Every trial, every temptation, every moment of grief or confusion or doubt is bracketed by this prayer: that the love of God would be in us, and Christ in us, until at last we see his face. To live inside the prayer of John 17 is to live with one foot already in the life of the age to come.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "4B0FiVHkHmo", title: "The High Priestly Prayer &mdash; John 17 Explained" },
+  { videoId: "WT4AH-7HPHI", title: "That They May Be One &mdash; Jesus&rsquo; Prayer for Unity in John 17" },
+  { videoId: "9fYGBPE3K_Q", title: "John 17 &mdash; What Is Eternal Life? Knowing the Father and Son" },
+  { videoId: "QGZUZe5KLSY", title: "BibleProject &mdash; The Gospel of John Overview (Part 2)" },
+];
+
+export default function John17GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 17 &mdash; The High Priestly Prayer
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            On the eve of the cross, Jesus lifts his eyes to heaven and prays &mdash; for his own glorification, for the protection and sanctification of his disciples, and for the unity and eternal destiny of all who will ever believe. John 17 is the summit of his farewell discourse and a window into the eternal love of the Trinity.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>That They May Be One</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 17 is the great intercessory prayer of the eternal Son, spanning time from the glory before creation to the consummation of all things. Every believer lives inside this prayer &mdash; protected by the Father&rsquo;s name, sanctified by the truth, sent into the world in the pattern of the Son, and destined to behold the glory of Christ face to face. The love with which the Father loved the Son is the love in which every believer stands.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

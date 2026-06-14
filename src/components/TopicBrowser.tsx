@@ -1684,6 +1684,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Philemon Deep Dive": "christian-book-of-philemon-guide",
   "Onesimus Runaway": "christian-book-of-philemon-guide",
   "Reconciliation in Christ Philemon": "christian-book-of-philemon-guide",
+  "2 Thessalonians Deep Dive": "christian-book-of-2-thessalonians-guide",
+  "Man of Lawlessness": "christian-book-of-2-thessalonians-guide",
+  "Day of the Lord Paul": "christian-book-of-2-thessalonians-guide",
+  "Jude Deep Dive": "christian-book-of-jude-guide",
+  "Jude Epistle Guide": "christian-book-of-jude-guide",
+  "Jude False Teachers": "christian-book-of-jude-guide",
+  "Amos Deep Dive": "christian-book-of-amos-guide",
+  "Justice Roll Down": "christian-book-of-amos-guide",
+  "Shepherd Prophet Amos": "christian-book-of-amos-guide",
+  "Micah Deep Dive": "christian-book-of-micah-guide",
+  "Ruler from Bethlehem": "christian-book-of-micah-guide",
+  "Do Justice Love Mercy": "christian-book-of-micah-guide",
 };
 
 
@@ -2514,6 +2526,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Numbers Deep Dive" },
   { label: "Judges Deep Dive" },
   { label: "Philemon Deep Dive" },
+  { label: "2 Thessalonians Deep Dive" },
+  { label: "Jude Deep Dive" },
+  { label: "Amos Deep Dive" },
+  { label: "Micah Deep Dive" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

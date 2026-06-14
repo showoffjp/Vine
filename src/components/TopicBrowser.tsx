@@ -1696,6 +1696,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Micah Deep Dive": "christian-book-of-micah-guide",
   "Ruler from Bethlehem": "christian-book-of-micah-guide",
   "Do Justice Love Mercy": "christian-book-of-micah-guide",
+  "Joel Deep Dive": "christian-book-of-joel-guide",
+  "Locust Plague": "christian-book-of-joel-guide",
+  "Outpouring of the Spirit": "christian-book-of-joel-guide",
+  "Habakkuk Deep Dive": "christian-book-of-habakkuk-guide",
+  "Live by Faith": "christian-book-of-habakkuk-guide",
+  "Habakkuk Prayer": "christian-book-of-habakkuk-guide",
+  "Zechariah Deep Dive": "christian-book-of-zechariah-guide",
+  "Zechariah Night Visions": "christian-book-of-zechariah-guide",
+  "Coming King Donkey": "christian-book-of-zechariah-guide",
+  "Malachi Deep Dive": "christian-book-of-malachi-guide",
+  "Malachi Sun of Righteousness": "christian-book-of-malachi-guide",
+  "Messenger of the Covenant": "christian-book-of-malachi-guide",
 };
 
 
@@ -2530,6 +2542,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jude Deep Dive" },
   { label: "Amos Deep Dive" },
   { label: "Micah Deep Dive" },
+  { label: "Joel Deep Dive" },
+  { label: "Habakkuk Deep Dive" },
+  { label: "Zechariah Deep Dive" },
+  { label: "Malachi Deep Dive" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

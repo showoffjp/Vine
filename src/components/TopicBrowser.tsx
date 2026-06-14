@@ -1792,6 +1792,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Revelation 21 Chapter": "revelation-21-guide",
   "New Heaven and New Earth": "revelation-21-guide",
   "No More Tears": "revelation-21-guide",
+  "Isaiah 40 Chapter": "isaiah-40-guide",
+  "Comfort My People": "isaiah-40-guide",
+  "Wings Like Eagles": "isaiah-40-guide",
+  "Luke 15 Chapter": "luke-15-guide",
+  "Prodigal Son Parable": "luke-15-guide",
+  "Lost Sheep": "luke-15-guide",
+  "Psalm 27 Chapter": "psalm-27-guide",
+  "The Lord Is My Light": "psalm-27-guide",
+  "Whom Shall I Fear": "psalm-27-guide",
+  "Proverbs 3 Chapter": "proverbs-3-guide",
+  "Trust in the Lord": "proverbs-3-guide",
+  "Lean Not on Your Own": "proverbs-3-guide",
 };
 
 
@@ -2658,6 +2670,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Galatians 5 Chapter" },
   { label: "1 Corinthians 15 Chapter" },
   { label: "Revelation 21 Chapter" },
+  { label: "Isaiah 40 Chapter" },
+  { label: "Luke 15 Chapter" },
+  { label: "Psalm 27 Chapter" },
+  { label: "Proverbs 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

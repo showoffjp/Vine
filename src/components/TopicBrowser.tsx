@@ -2020,6 +2020,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Mark 16 Chapter": "mark-16-guide",
   "Go Into All the World": "mark-16-guide",
   "Resurrection Morning Mark": "mark-16-guide",
+  "Luke 2 Chapter": "luke-2-guide",
+  "Birth of Jesus Luke": "luke-2-guide",
+  "Simeon and Anna": "luke-2-guide",
+  "Romans 4 Chapter": "romans-4-guide",
+  "Abraham Believed God": "romans-4-guide",
+  "Justification by Faith Romans": "romans-4-guide",
+  "James 4 Chapter": "james-4-guide",
+  "Draw Near to God": "james-4-guide",
+  "Submit to God Resist Devil": "james-4-guide",
+  "Acts 3 Chapter": "acts-3-guide",
+  "Lame Man Healed": "acts-3-guide",
+  "Silver and Gold Acts Three": "acts-3-guide",
 };
 
 
@@ -2962,6 +2974,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Colossians 1 Chapter" },
   { label: "1 John 1 Chapter" },
   { label: "Mark 16 Chapter" },
+  { label: "Luke 2 Chapter" },
+  { label: "Romans 4 Chapter" },
+  { label: "James 4 Chapter" },
+  { label: "Acts 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

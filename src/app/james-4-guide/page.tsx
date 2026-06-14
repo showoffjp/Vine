@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Draw Near to God",
+  "Submit to God Resist Devil",
+  "Humble Yourselves",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "James 4 &mdash; Draw Near to God",
+    reference: "James 4:1&ndash;17",
+    paragraphs: [
+      "James 4 stands as one of the most searching chapters in all of the New Testament epistles. Written by James, the brother of our Lord and the leader of the Jerusalem church, this chapter reaches into the very roots of human conflict, spiritual unfaithfulness, pride, and self-sufficiency, and delivers a remedy that is as radical as it is simple: draw near to God. The entire chapter is a call to reorient every desire, every plan, every word, and every relationship around the sovereign and gracious God who alone gives grace to the humble.",
+      "The chapter opens with a diagnostic question that cuts to the heart of interpersonal strife: &ldquo;What causes quarrels and what causes fights among you?&rdquo; (4:1). James does not point to external circumstances, personality clashes, or social pressures. He goes straight to the internal: &ldquo;Is it not this, that your passions are at war within you?&rdquo; Coveting, killing, fighting, quarreling &mdash; all of it flows from desires that have been left unsubmitted to God. The wars without reflect the wars within.",
+      "James then moves to indictment: the readers ask and do not receive because they ask wrongly, &ldquo;to spend it on your passions&rdquo; (4:3). Their prayer life has been corrupted by self-centeredness. More sharply still, James charges them with spiritual adultery &mdash; friendship with the world constitutes enmity with God. The world-system, the age organized around self-exaltation and the rejection of God&rsquo;s authority, stands in fundamental opposition to the kingdom of God, and to love one is to betray the other.",
+      "The cure James prescribes is a series of imperatives that build on one another: submit to God, resist the devil, draw near to God, cleanse your hands, purify your hearts, mourn and weep over sin, humble yourselves. Each step assumes and requires the one before. And at the center of all of them is the foundational promise: &ldquo;Draw near to God, and he will draw near to you&rdquo; (4:8). The God who seems distant is not hiding &mdash; he is waiting for the humble heart to turn toward him.",
+      "The chapter closes with a rebuke of two particular manifestations of the proud, self-sufficient spirit: the slanderer who sets himself up as judge over his neighbor (4:11&ndash;12), and the businessman who makes confident plans for the future without reference to the will of God (4:13&ndash;17). Both forms of pride share the same root &mdash; a failure to reckon with the sovereign lordship of God over human life, speech, and time. The corrective in both cases is the same: acknowledge that God is the Judge, and that all life and plans are contingent on his will: &ldquo;If the Lord wills, we will live and do this or that&rdquo; (4:15).",
+      "Taken together, James 4 offers a comprehensive vision of what it means to live in the world as a people who belong to another world &mdash; submitted to God, resistant to the devil, near to the One who draws near to the humble, and always speaking and planning with an awareness that human life is a vapor and God is sovereign over every breath we take.",
+    ],
+  },
+  {
+    id: "Draw Near to God",
+    heading: "Draw Near to God",
+    reference: "James 4:7&ndash;8",
+    paragraphs: [
+      "The command &ldquo;Draw near to God, and he will draw near to you&rdquo; (James 4:8) is one of the most beautiful and arresting sentences in all of Scripture. In four simple words &mdash; &ldquo;draw near to God&rdquo; &mdash; James summarizes the entire posture of the spiritual life. And the promise that accompanies the command makes it all the more staggering: the infinite, holy God of the universe will draw near to the one who draws near to him. The distance between creature and Creator is not fixed; it is responsive to the movement of the humble heart.",
+      "The language of drawing near is deeply rooted in the Old Testament. In the Levitical system, the priests &ldquo;drew near&rdquo; to God in the prescribed rituals of the tabernacle and Temple, approaching the holy presence through sacrifice and purification. The author of Hebrews picks up this same language to describe what the new covenant has made possible for all believers: &ldquo;Let us draw near with a true heart in full assurance of faith, with our hearts sprinkled clean from an evil conscience and our bodies washed with pure water&rdquo; (Hebrews 10:22). The veil has been torn; every believer now has priestly access to God through Christ.",
+      "Yet James&rsquo; call to draw near is not primarily about ritual or ceremony. It is a call to intentional, relational nearness &mdash; to press in toward God in prayer, in the word, in confession, in worship. The surrounding context makes clear what this drawing near looks like in practice: cleansed hands (outward conduct brought into alignment with God&rsquo;s law), purified hearts (undivided inner allegiance, not a double-minded man tossed by every wave), and a genuine grief over sin that leads to repentance rather than a superficial happiness that coexists with it.",
+      "The promise is unconditional in its simplicity and astonishing in its scope. God does not say he will draw near to the righteous, or the learned, or the long-tenured believer. He says he will draw near to the one who draws near to him. This means that the most broken, the most wandering, the most long-absent heart can initiate the movement and find that God meets it. The Prodigal Son&rsquo;s father did not wait until his son reached the front door &mdash; he &ldquo;saw him when he was yet a great way off, and ran&rdquo; (Luke 15:20). That is the character of the God James is holding before his readers.",
+      "Drawing near to God requires intentionality. It does not happen accidentally or by default; it must be chosen, pursued, returned to again and again. The medieval mystics spoke of the soul&rsquo;s journey toward God as the &ldquo;way of ascent&rdquo; &mdash; not a physical journey but a continual reorientation of the will, the affections, and the attention toward the One who is always and already present. Modern life with all its noise, busyness, and distraction is not friendly to this movement. James is calling his readers to make a deliberate, counter-cultural choice to prioritize nearness to God above all other pursuits.",
+      "The result of drawing near to God is not mystical escapism but deeply practical transformation. Those who abide near God begin to see what God sees, love what God loves, and grieve what God grieves. Their desires are reordered, their speech is purified, their plans are reframed. The quarrels and fights that occupied James 4:1&ndash;4 find their cure not in anger management or conflict resolution techniques but in the radical spiritual displacement that happens when the soul finds its center in God rather than in the self. Draw near to God &mdash; and everything else begins to fall into its proper place.",
+    ],
+  },
+  {
+    id: "Submit to God Resist Devil",
+    heading: "Submit to God, Resist the Devil",
+    reference: "James 4:7",
+    paragraphs: [
+      "James 4:7 contains two imperatives that belong together and cannot be separated: &ldquo;Submit yourselves therefore to God. Resist the devil, and he will flee from you.&rdquo; These are not sequential steps so much as two sides of a single stance. Submission to God and resistance to the devil are the positive and negative expressions of the same spiritual posture &mdash; a posture of dependent, trusting allegiance to God that refuses to yield any ground to the enemy.",
+      "The word translated &ldquo;submit&rdquo; (Greek: hupotasso) carries the sense of arranging oneself under another&rsquo;s authority, of voluntarily taking a subordinate position. It is a military metaphor &mdash; the image is of a soldier who places himself under the command of his superior, trusting the superior&rsquo;s strategy, obeying the superior&rsquo;s orders, and relying on the superior&rsquo;s resources rather than his own. To submit to God is to renounce the autonomy and self-determination that pride demands, and to place oneself fully within the authority and provision of God.",
+      "This submission is not passive resignation. It is a vigorous act of the will &mdash; a daily, even moment-by-moment, choice to align one&rsquo;s desires, decisions, words, and plans with the revealed will of God. It stands in direct opposition to the &ldquo;friendship with the world&rdquo; that James has just condemned (4:4), which is essentially submission to a rival authority &mdash; the world-system with its values of self-promotion, pleasure-seeking, and independence from God. One cannot submit to both; the choice between them is the fundamental choice of the spiritual life.",
+      "The second imperative &mdash; &ldquo;resist the devil&rdquo; &mdash; comes with one of the most extraordinary promises in the New Testament: &ldquo;and he will flee from you.&rdquo; The enemy who prowls around like a roaring lion seeking whom he may devour (1 Peter 5:8) is not, ultimately, a match for the soul that is submitted to God and actively resisting him. Peter pairs the same two concepts in his first letter: &ldquo;Humble yourselves therefore under the mighty hand of God&rdquo; &mdash; and then &mdash; &ldquo;Resist him, firm in your faith&rdquo; (1 Peter 5:6, 9). Humility before God and resistance to the devil are inseparable.",
+      "The word &ldquo;resist&rdquo; (Greek: anthistemi) means to stand against, to set oneself against, to oppose. It is the same word Paul uses in Ephesians 6:13 when he writes of &ldquo;standing firm&rdquo; against the schemes of the devil. Resistance to the devil is not a passive waiting for temptation to pass; it is an active spiritual engagement. It involves invoking the name of Christ, wielding the sword of the Spirit which is the word of God, fleeing the particular circumstances that invite temptation, and standing firm in the truth of who God is and who we are in him.",
+      "The promise that the devil &ldquo;will flee&rdquo; is not a promise of immunity from attack but of ultimate retreat. The enemy tests, probes, accuses, and tempts &mdash; but against the soul that is submitted to God and armed with the truth, he has no ultimate foothold. The cross of Christ has disarmed the principalities and powers (Colossians 2:15), and the resurrection has declared the verdict: life has overcome death, light has overcome darkness, the Son of God has overcome the evil one. The believer&rsquo;s resistance is not a desperate holding action but a confident enforcement of a victory already secured.",
+    ],
+  },
+  {
+    id: "Humble Yourselves",
+    heading: "Humble Yourselves Before the Lord",
+    reference: "James 4:6, 10",
+    paragraphs: [
+      "The theme of humility runs like a spine through the whole of James 4, reaching its clearest expression in two verses that frame the central exhortation. In verse 6, James quotes Proverbs 3:34: &ldquo;God opposes the proud but gives grace to the humble.&rdquo; In verse 10, he issues the corresponding imperative: &ldquo;Humble yourselves before the Lord, and he will exalt you.&rdquo; These two verses together present both the stakes of pride and the promise of humility in language that could not be plainer or more searching.",
+      "The statement &ldquo;God opposes the proud&rdquo; is one of the most sobering sentences in the Bible. The word translated &ldquo;opposes&rdquo; (Greek: antitassetai) is a strong military term, suggesting the image of an army arrayed in battle formation against an enemy. The God who is for us in Christ, who is our refuge and strength, our ever-present help in trouble &mdash; this same God stands in active opposition to the proud. Not merely indifference, not simply withdrawal of blessing, but active opposition. Pride does not just miss out on God&rsquo;s favor; it incurs God&rsquo;s resistance.",
+      "What is pride, at its root? It is the claim to self-sufficiency, the conviction that I am the center of my own story, the master of my own destiny, the final authority over my own life. Pride says: I do not need God to define me, direct me, or deliver me. It is the posture of the world, of the devil himself (Isaiah 14:12&ndash;15), and of every human heart that has not been broken and remade by grace. Pride is not merely an attitude of superiority toward others; at its core it is a refusal to acknowledge the creature&rsquo;s utter dependence on the Creator.",
+      "By contrast, &ldquo;grace to the humble&rdquo; is an astonishing outpouring. Grace is the undeserved, freely given favor of God &mdash; the resource that transforms the powerless into the empowered, the broken into the restored, the far-off into the near. James is saying that this grace, which is the currency of the entire Christian life, flows specifically and generously to the humble. Humility is not merely a virtue among other virtues; it is the channel through which divine grace enters human life. To be humble is to be positioned to receive everything God has to give.",
+      "The command &ldquo;Humble yourselves before the Lord&rdquo; is important in its specific phrasing. James does not say &ldquo;humble yourselves before others&rdquo; or &ldquo;be humble in your general demeanor.&rdquo; The reference point is the Lord himself &mdash; the infinite, holy, sovereign God before whom every knee will bow. True humility is Godward before it is manward. It begins in a right apprehension of who God is &mdash; his majesty, his holiness, his sovereign right over all creation &mdash; and flows naturally from that apprehension into the recognition of who we are: creatures, sinners, utterly dependent on his grace for every breath and every moment.",
+      "The promise that accompanies the command is breathtaking in its reversal: &ldquo;he will exalt you.&rdquo; This is the great paradox of the kingdom of God that Jesus announced in the Beatitudes and embodied in his own life. The one who loses his life will find it; the last shall be first; the one who humbles himself will be exalted. The exaltation James has in mind is not primarily social recognition in the present age, though honor among people sometimes follows genuine humility. It is ultimately eschatological &mdash; the exaltation that will come when the Lord himself raises up the humble to share in his glory at the last day, when &ldquo;those who are last will be first.&rdquo;",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying James 4 Today",
+    reference: "James 4:1&ndash;17",
+    paragraphs: [
+      "James 4 is not a chapter that allows the reader to remain a comfortable spectator. From its opening question &mdash; &ldquo;What causes quarrels and what causes fights among you?&rdquo; &mdash; to its closing word on the sin of omission &mdash; &ldquo;whoever knows the right thing to do and fails to do it, for him it is sin&rdquo; (4:17) &mdash; this chapter demands self-examination, repentance, and reorientation. The application of James 4 begins not with a program or a technique but with a question: where in my life have I been ruling rather than submitting, grasping rather than trusting, self-sufficient rather than dependent on God?",
+      "The diagnosis of conflict that opens the chapter (4:1&ndash;4) invites a deeply personal inventory. The quarrels and fights James describes need not be physical altercations; they may be the low-grade tension with a spouse, the bitterness toward a friend, the competition with a colleague, the resentment toward a leader. In every case, James&rsquo; analysis is the same: the root is internal desire that has been elevated above God. The application is not to try harder to control one&rsquo;s behavior, but to submit those desires to God &mdash; to lay them before him, name them honestly, and ask him to purify and redirect them.",
+      "The call to draw near to God (4:8) has intensely practical implications for the rhythms of daily life. Drawing near to God happens in the specifics: in a daily time of prayer and Scripture, in corporate worship, in the practice of confession with a trusted brother or sister, in meditation on God&rsquo;s character and promises. It means protecting time and space for these practices against the endless pressure of busyness, entertainment, and distraction. It means treating the means of grace not as optional extras for especially devout people but as the essential oxygen of spiritual life.",
+      "The section on slander and judging (4:11&ndash;12) strikes at one of the most common sins of the tongue in both Christian community and the wider culture. To speak against a brother, to set oneself up as his judge, is to usurp the place that belongs to God alone. The application here touches not only what we say about others to their face but what we say about them behind their backs &mdash; in conversation, in social media posts, in the private commentary of our own hearts. Humility before God necessarily produces charity toward others; the person who has genuinely seen himself in the light of God&rsquo;s holiness is not quick to condemn.",
+      "The warning about presumptuous planning (4:13&ndash;16) speaks with particular force to a culture saturated with the language of self-determination, personal branding, and five-year plans. The rebuke is not against planning itself but against planning that has no reference to God &mdash; that treats the future as a raw material to be shaped entirely by human intelligence and will. The corrective is not paralysis but a deep, habitual acknowledgment that all plans are provisional, all futures contingent, all life &mdash; even tomorrow &mdash; a gift. &ldquo;If the Lord wills&rdquo; is not a religious formality but a statement of genuine theological conviction that belongs in the heart of every Christian&rsquo;s approach to the future.",
+      "James 4 closes with the haunting reminder that sins of omission are still sins: &ldquo;whoever knows the right thing to do and fails to do it, for him it is sin&rdquo; (4:17). The application of this verse extends to every opportunity for kindness that was not taken, every truth that was not spoken, every act of service that was deferred, every moment when drawing near to God was crowded out by lesser things. The chapter that began with fighting and grasping ends with a call to a life of active, humble obedience &mdash; not just avoiding evil but doing the good that God has placed within our reach. This is what it looks like to live submitted to God, resistant to the devil, and near to the One who draws near to the humble.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "tH4OtSkuVZg", title: "James 4 - Draw Near to God - Bible Study" },
+  { videoId: "aRaBtpFzWgA", title: "Resist the Devil and He Will Flee - James 4:7" },
+  { videoId: "1WpXPAlPvSE", title: "God Opposes the Proud - Humility in James 4" },
+  { videoId: "4m3bGPSZZjQ", title: "Submit to God - Expository Study of James Chapter 4" },
+];
+
+export default function James4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            James 4 &mdash; Draw Near to God
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Submit to God, resist the devil, humble yourselves before the Lord &mdash; James 4 delivers one of Scripture&rsquo;s most piercing calls to abandon pride and self-sufficiency, and to draw near to the God who draws near to the humble.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Draw Near to God, and He Will Draw Near to You</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            James 4 confronts us with the reality that the strife, pride, and self-sufficiency that mark our lives are symptoms of a deeper disorder &mdash; distance from God. The remedy is not a program or a technique but a posture: submit to God, resist the devil, humble yourselves before the Lord. The one who takes this posture discovers the most extraordinary promise in all of Scripture &mdash; draw near to God, and he will draw near to you.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Abraham Believed God",
+  "Justification by Faith Romans",
+  "Hope Against Hope",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Romans 4",
+    reference: "Romans 4:1&ndash;25",
+    paragraphs: [
+      "Romans 4 is one of the most theologically dense and exhilarating chapters in the New Testament. Paul has just argued in Romans 3 that &ldquo;a person is justified by faith apart from works of the law&rdquo; (3:28) &mdash; a claim so radical in its first-century Jewish context that it immediately raises an objection: what about Abraham? Abraham was the founding father of the Jewish people, the one to whom God made his covenant promises, the paradigm of covenant faithfulness. If justification is by faith and not by law-keeping, how does Abraham fit?",
+      "Paul&rsquo;s answer is bold and elegant: Abraham himself was justified by faith, not by works. The great proof text is Genesis 15:6 &mdash; &ldquo;Abraham believed God, and it was counted to him as righteousness.&rdquo; Paul builds his entire argument on this single verse, and the argument cuts in several directions at once. First, Abraham was justified before he was circumcised (the circumcision comes in Genesis 17, two chapters after Genesis 15:6), which means circumcision was not the basis of his justification but a seal of the righteousness he had already received by faith. Second, Abraham was justified centuries before the Mosaic Law was given, which means the Law is not the basis of justification either.",
+      "The argument has profound implications for the identity of the people of God. If Abraham was justified by faith before circumcision, then he is the father not only of the circumcised who share his faith, but of all who believe &mdash; whether circumcised or not. Faith, not ethnicity or law-keeping, defines who belongs to Abraham&rsquo;s family. This is why Paul can say in Galatians 3:7, &ldquo;Know then that it is those of faith who are the sons of Abraham.&rdquo; Romans 4 grounds that claim in the text of Genesis itself.",
+      "The chapter culminates in a stunning portrait of Abraham&rsquo;s faith against all natural odds &mdash; &ldquo;hoping against hope&rdquo; (4:18) that God would give him a son, despite his own body being &ldquo;as good as dead&rdquo; and Sarah&rsquo;s womb likewise. Abraham did not weaken in faith or waver in unbelief but grew strong in faith, giving glory to God, fully convinced that God was able to do what he had promised. This kind of faith &mdash; trust in a God who gives life to the dead and calls into existence things that do not exist (4:17) &mdash; is the same faith that justifies us today, as we trust in the God who raised Jesus from the dead.",
+      "Romans 4 is thus not merely an argument from church history; it is a window into the nature of God and the character of saving faith. The God who justified Abraham is the same God who justifies the ungodly (4:5) through faith in Jesus Christ. Paul ties the chapter together in its final verses: Abraham&rsquo;s faith was &ldquo;counted to him as righteousness&rdquo; not for his sake alone but for ours too, because we believe in the one who raised from the dead Jesus our Lord, &ldquo;who was delivered up for our trespasses and raised for our justification&rdquo; (4:25). Faith rests on the accomplished fact of the cross and resurrection.",
+    ],
+  },
+  {
+    id: "Abraham Believed God",
+    heading: "Abraham Believed God",
+    reference: "Romans 4:1&ndash;8 and Genesis 15",
+    paragraphs: [
+      "Paul opens with a rhetorical question that announces his strategy: &ldquo;What then shall we say was gained by Abraham, our forefather according to the flesh?&rdquo; (4:1). He is going to argue from the case of Abraham, the most honored figure in Jewish tradition, to demonstrate that justification by faith is not a novelty of the Christian gospel but the ancient pattern of God&rsquo;s dealings with human beings. If Abraham himself was justified by faith and not by works, then the gospel Paul preaches is not an innovation but a recovery of the original.",
+      "The key text is Genesis 15:6: &ldquo;Abraham believed God, and it was counted to him as righteousness.&rdquo; The Greek verb translated &ldquo;counted&rdquo; (logizomai) is an accounting term &mdash; it means to credit, to reckon, to put on someone&rsquo;s ledger. Righteousness was credited to Abraham&rsquo;s account not because he had earned it but because he trusted God. Paul draws the logical implication: &ldquo;Now to the one who works, his wages are not counted as a gift but as his due. And to the one who does not work but believes in him who justifies the ungodly, his faith is counted as righteousness&rdquo; (4:4&ndash;5).",
+      "The phrase &ldquo;who justifies the ungodly&rdquo; is deliberately provocative. In the Old Testament, God explicitly condemns the judge who &ldquo;justifies the wicked&rdquo; (Proverbs 17:15, Exodus 23:7). Yet here Paul declares that God, the righteous judge, justifies the ungodly. How can this be? The answer lies in Romans 3:25&ndash;26: God set forth Jesus as a propitiation, so that he might be just and the justifier of the one who has faith in Jesus. The cross is the event that makes it possible for God to justify sinners without compromising his justice. He is both just and justifier because the penalty has been paid.",
+      "Paul then brings in David as a second witness, quoting Psalm 32:1&ndash;2: &ldquo;Blessed are those whose lawless deeds are forgiven, and whose sins are covered; blessed is the man against whom the Lord will not count his sin&rdquo; (4:7&ndash;8). The same verb (logizomai) appears again: the Lord does not &ldquo;count&rdquo; sin against the forgiven person. David, writing about the forgiveness of sin, uses the language of accounting &mdash; and Paul sees in this the same logic as Genesis 15:6. Both justification and forgiveness involve God&rsquo;s gracious reckoning, his crediting and debiting of accounts in a way that human merit cannot explain.",
+      "The context of Genesis 15 is crucial for understanding Abraham&rsquo;s faith. God had taken Abraham outside and told him to look up at the stars: &ldquo;So shall your offspring be.&rdquo; At this point Abraham and Sarah were childless and old. There was no natural basis for the promised offspring. God was asking Abraham to stake his hope entirely on the word of a promise, with no empirical evidence to support it. And Abraham believed &mdash; not merely agreeing to a proposition, but entrusting himself to a person. &ldquo;He believed the Lord,&rdquo; and the Lord counted it to him as righteousness. Faith of this quality is not a work; it is surrender to grace.",
+      "What Genesis 15:6 reveals about God is as important as what it reveals about Abraham. It shows that God&rsquo;s way of dealing with human beings has always been through grace received by faith. The covenant with Abraham was not a contract that Abraham fulfilled; it was a promise that God made and a commitment that God swore. The famous covenant ceremony of Genesis 15, in which God alone passes between the divided animals in the form of a smoking fire pot and a flaming torch, was an ancient way of saying: &ldquo;May what happened to these animals happen to me if I do not keep this covenant.&rdquo; God takes the full oath of self-imprecation. Abraham&rsquo;s faith is not a co-contribution to the covenant; it is trust in the God who has committed himself completely.",
+    ],
+  },
+  {
+    id: "Justification by Faith Romans",
+    heading: "Justification by Faith Apart from Works",
+    reference: "Romans 4:9&ndash;17",
+    paragraphs: [
+      "Having established that Abraham was justified by faith (from Genesis 15:6), Paul now asks a question about timing that might seem pedantic but carries enormous theological weight: was Abraham justified while circumcised or while uncircumcised? The answer from the biblical text is clear &mdash; uncircumcised. The circumcision command does not come until Genesis 17, which is at least fourteen years after Genesis 15. Abraham was counted righteous before he received the sign of circumcision.",
+      "Paul draws the implication with precision: &ldquo;He received the sign of circumcision as a seal of the righteousness that he had by faith while he was still uncircumcised&rdquo; (4:11). Circumcision was not the cause of Abraham&rsquo;s righteousness but the confirmation of a righteousness already received by faith. The sign came after the reality it signified. This is a crucial move: it means that circumcision was not what made Abraham right with God; faith was. And if that is true for Abraham, it is true for all who share his faith.",
+      "The purpose of this ordering, Paul says, was so that Abraham would be &ldquo;the father of all who believe without being circumcised, so that righteousness would be counted to them as well, and to make him the father of the circumcised who are not merely circumcised but who also walk in the footsteps of the faith that our father Abraham had before he was circumcised&rdquo; (4:11&ndash;12). Abraham has two kinds of children: uncircumcised Gentile believers and circumcised Jewish believers. What makes them both his children is not physical descent or ritual observance but faith.",
+      "The argument extends to the promise as well: &ldquo;For the promise to Abraham and his offspring that he would be heir of the world did not come through the law but through the righteousness of faith&rdquo; (4:13). The promise predates the law by four centuries (Galatians 3:17). If the inheritance depended on the law, faith would be nullified and the promise would be void, &ldquo;for the law brings wrath, but where there is no law there is no transgression&rdquo; (4:15). The law can expose and condemn sin; it cannot impart righteousness or fulfill the promise.",
+      "Therefore, the inheritance must be by faith, so that it may be by grace, so that the promise may be guaranteed to all Abraham&rsquo;s offspring &mdash; &ldquo;not only to the adherent of the law but also to the one who shares the faith of Abraham, who is the father of us all&rdquo; (4:16). This chain of logic &mdash; faith &mdash;&gt; grace &mdash;&gt; guarantee &mdash; is crucial. A promise secured by human performance is only as reliable as the human who must perform. A promise secured by the grace of God and received by faith rests on the rock of God&rsquo;s own faithfulness.",
+      "Paul grounds this in God&rsquo;s own identity: Abraham believed in &ldquo;God who gives life to the dead and calls into existence the things that do not exist&rdquo; (4:17). This characterization of God is itself a theological statement of immense importance. The God who made the universe out of nothing and who raises the dead is the one who promised Abraham a son from a dead womb. Justification by faith is not a moral or legal fiction; it is an act of divine creation. When God declares the ungodly righteous by faith, he is doing something as real and powerful as when he called light out of darkness. He does not merely pretend we are righteous; he creates the righteousness that faith receives.",
+    ],
+  },
+  {
+    id: "Hope Against Hope",
+    heading: "Hoping Against Hope: Abraham's Faith",
+    reference: "Romans 4:18&ndash;25",
+    paragraphs: [
+      "The final movement of Romans 4 is one of the most powerful portraits of faith in all of Scripture. Paul describes Abraham&rsquo;s faith in terms that make it clear this is no casual mental assent to a plausible proposition. Abraham &ldquo;in hope believed against hope, that he should become the father of many nations&rdquo; (4:18). &ldquo;Hope against hope&rdquo; is a striking phrase &mdash; every natural ground for hope had been exhausted, and yet Abraham continued to hope, not because the circumstances warranted it, but because God had spoken.",
+      "Paul is specific about the obstacles: Abraham &ldquo;considered his own body, which was as good as dead (since he was about a hundred years old), or when he considered the barrenness of Sarah&rsquo;s womb&rdquo; (4:19). He is not describing a man who simply ignored the problem, or refused to think about it. Abraham considered his body and Sarah&rsquo;s condition. He looked at the circumstances honestly. And then he looked at God. He did not weaken in faith because the source of his faith was not the circumstances; it was the promise and the promiser.",
+      "The result was extraordinary: &ldquo;No unbelief made him waver concerning the promise of God, but he grew strong in his faith as he gave glory to God, fully convinced that God was able to do what he had promised&rdquo; (4:20&ndash;21). Three things are said about Abraham&rsquo;s faith: he did not waver; he grew strong; and he gave glory to God. Faith is not a static possession; it can grow and strengthen. And the growth of faith is connected to giving glory to God &mdash; to worshiping, to acknowledging God&rsquo;s greatness and power, to fixing the eyes of the heart on the character of the one who has promised.",
+      "The phrase &ldquo;fully convinced&rdquo; is significant. Abraham&rsquo;s faith was not weak or tentative; it was a settled confidence in God&rsquo;s ability to keep his word. The Greek word (plerophoreo) means to be carried to full measure, to be completely assured. This kind of assurance is not the product of favorable circumstances but of a clear view of God. Abraham knew what God was like &mdash; the God who gives life to the dead, who calls into existence things that do not exist &mdash; and his knowledge of God was the foundation on which his faith stood firm.",
+      "Paul then applies this portrait of Abraham&rsquo;s faith to Christian faith with a deliberate parallel: &ldquo;But the words &lsquo;it was counted to him&rsquo; were not written for his sake alone, but for ours also. It will be counted to us who believe in him who raised from the dead Jesus our Lord&rdquo; (4:23&ndash;24). The same divine counting that credited righteousness to Abraham on the basis of his faith in God&rsquo;s life-giving power now credits righteousness to us on the basis of our faith in the God who raised Jesus from the dead. The object of faith is different in specificity but the same in character: we believe in a God who overcomes death.",
+      "The chapter closes with a compressed summary of the gospel: Jesus &ldquo;was delivered up for our trespasses and raised for our justification&rdquo; (4:25). The death of Jesus was not an accident but a divine delivery &mdash; God the Father gave up his Son for our sins, as Isaac was offered up on Moriah. And the resurrection is not merely the vindication of Jesus but the foundation of our justification: because Jesus was raised, there is now a risen Lord at the right hand of God to intercede for all who come to him by faith. Justification rests on both the cross and the empty tomb. It is a fully accomplished salvation, complete in Christ, received by faith, and credited by the grace of God.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Romans 4 Today",
+    reference: "Romans 4 &mdash; Walking by Faith",
+    paragraphs: [
+      "The first and most fundamental application of Romans 4 is a clear understanding of what justification is and where it comes from. Paul argues with sustained intensity that justification is by faith alone, apart from works. This is not a peripheral doctrine but the heart of the gospel. Many people approach God with a subtle works-righteousness &mdash; a sense that if they try hard enough, feel sorry enough, pray enough, or attend church enough, God will be satisfied. Romans 4 dismantles that approach entirely. Abraham was justified when he believed God, not when he performed for God. Righteousness is credited; it is not earned.",
+      "The second application concerns the nature of faith itself. Abraham&rsquo;s faith was not vague or passive. He considered the obstacles honestly, then fixed his confidence on the character and promises of God. He grew strong in faith by giving glory to God. This suggests a concrete practice: when we face circumstances that seem to contradict God&rsquo;s promises &mdash; illness, loss, unanswered prayer, seemingly closed doors &mdash; the path of faith is not to deny the reality of the problem but to look past it to the God who gives life to the dead. Praise and worship in hard circumstances is not denial; it is the exercise of Abraham&rsquo;s kind of hope against hope.",
+      "Romans 4 also has profound implications for how we understand the people of God. If Abraham is the father of all who believe &mdash; circumcised or uncircumcised, Jew or Gentile &mdash; then the church is not a sub-category of Israel or a replacement for Israel, but the fulfillment of the promise to Abraham that he would be &ldquo;the father of many nations.&rdquo; Every person who comes to God by faith in Jesus Christ, regardless of ethnicity, background, or history, is a child of Abraham in the truest sense. This has enormous implications for how churches relate to diversity: a congregation that reflects many nations is not a social experiment; it is a living fulfillment of God&rsquo;s ancient promise.",
+      "The phrase &ldquo;fully convinced that God was able to do what he had promised&rdquo; (4:21) invites a searching question: what are we fully convinced of? Our assurance in Christian living is only as strong as our knowledge of God. Abraham&rsquo;s rock-solid faith rested on a rock-solid grasp of who God is &mdash; the one who creates ex nihilo and raises the dead. When our faith wavers, it is usually because our view of God has shrunk. The remedy is not more willpower but more theology &mdash; a deeper, richer, more biblical understanding of the God whose promises we are asked to trust. Romans 4 is thus an invitation to serious theological formation as the foundation of practical Christian living.",
+      "Paul&rsquo;s closing verse &mdash; &ldquo;delivered up for our trespasses and raised for our justification&rdquo; (4:25) &mdash; points to the cross and resurrection as the objective foundation of everything. Christian faith is not a leap in the dark; it rests on historical events that God accomplished in real time: the death of Jesus for our sins and his bodily resurrection from the dead. Doubts and struggles in the Christian life are best addressed not by introspection but by looking again at these events. Did Jesus die? Did God raise him? If so, then everything Paul has been arguing follows: the ungodly are justified, the promise is guaranteed, and hope against hope is entirely rational.",
+      "Finally, Romans 4 teaches us to read the Old Testament as Christians. The story of Abraham is not merely ancient religious history or a moral example of heroic perseverance. It is gospel &mdash; the good news of justification by faith written in advance, as Paul says in Galatians 3:8: &ldquo;the Scripture, foreseeing that God would justify the Gentiles by faith, preached the gospel beforehand to Abraham.&rdquo; When we read Genesis 15, we are reading the same good news that Paul preaches in Romans 3&ndash;5. The whole Bible is the story of the God who justifies the ungodly by grace through faith, and Abraham is exhibit A. Every time we open Genesis, we are meeting our father in faith.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "ej_6s_gv3aU", title: "BibleProject - Book of Romans Overview (Ch. 1-4)" },
+  { videoId: "CUBbJTsOLKo", title: "Romans 4 - Abraham Justified by Faith - John Piper" },
+  { videoId: "p4_gkTua1Ys", title: "Justification by Faith Alone - What Did Paul Really Mean?" },
+  { videoId: "NN9SnFqnFIw", title: "Abraham, Father of Faith - Romans 4 Study" },
+];
+
+export default function Romans4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Romans 4 &mdash; Abraham Believed God
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Paul&rsquo;s argument from Abraham demonstrates that justification has always been by faith, not by law-keeping or circumcision &mdash; because Abraham was counted righteous when he believed God&rsquo;s promise, centuries before the Law was given.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3.5rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, margin: "0 0 0.5rem" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of Romans 4 through video teaching on Abraham&rsquo;s faith, justification by faith apart from works, the hope of the promise, and how Paul&rsquo;s argument shapes the Christian doctrine of salvation.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Credited as Righteousness</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Romans 4 shows that justification by faith is not a new idea invented by Paul, but the ancient pattern of God&rsquo;s grace &mdash; the same grace by which Abraham was counted righteous when he believed God&rsquo;s impossible promise. The God who called stars out of nothing and a son from a barren womb is the same God who raises the dead and credits righteousness to all who trust in Jesus.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Lame Man Healed",
+  "Silver and Gold Acts Three",
+  "Peter at Solomon Porch",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Acts 3 &mdash; Silver and Gold Have I None",
+    reference: "Acts 3:1&ndash;26",
+    paragraphs: [
+      "Acts 3 is one of the most electric chapters in the entire narrative of the early church. Coming immediately after the explosive birth of the church at Pentecost, it presents the first detailed miracle story in the Acts narrative and the sermon that follows it, and in doing so it lays out the essential elements of apostolic witness: the demonstration of the kingdom&rsquo;s power in healing, the proclamation of the risen and exalted Jesus, the call to repentance and faith, and the rooting of all of this in the ancient promises of the Hebrew Scriptures.",
+      "The chapter centers on two inseparable events: the healing of a lame man at the Beautiful Gate of the Temple, and Peter&rsquo;s subsequent sermon to the astonished crowd that gathered at Solomon&rsquo;s Portico. The miracle is the catalyst for the sermon, and the sermon is what gives the miracle its meaning. Together they embody the pattern of the early church&rsquo;s witness &mdash; a pattern of word and deed, sign and proclamation, that declares that the age of fulfillment has arrived in the person of Jesus of Nazareth.",
+      "Peter&rsquo;s words to the lame man have echoed through the centuries: &ldquo;Silver and gold have I none; but what I have I give thee: In the name of Jesus Christ of Nazareth rise up and walk&rdquo; (Acts 3:6, KJV). This sentence has become one of the most famous in all of Christian history &mdash; a declaration that the church&rsquo;s true treasure is not material wealth but the living power of the risen Christ. It has inspired countless sermons, songs, and acts of witness in every generation.",
+      "The sermon Peter delivers in Solomon&rsquo;s Portico (3:12&ndash;26) is a model of early Christian preaching. It begins not with self-congratulation but with a redirection: the miracle was not done by Peter&rsquo;s own power or piety. It moves swiftly to the scandal of the cross &mdash; the people of Jerusalem had denied the Holy and Righteous One, had killed the Author of Life &mdash; but then immediately to the glory of the resurrection: God raised him from the dead. And it concludes with an urgent call to repentance and the promise of &ldquo;times of refreshing&rdquo; from the presence of the Lord.",
+      "Throughout the chapter Luke is careful to show that everything that is happening is the fulfillment of what Moses, Samuel, and all the prophets had foretold. The healing of this particular man, unable to walk since birth, echoes the Messianic promise of Isaiah that in the age of salvation &ldquo;the lame shall leap like a deer&rdquo; (Isaiah 35:6). The arrival of these &ldquo;times of refreshing&rdquo; is the fulfillment of the ancient covenant made with Abraham, in whom &ldquo;all the families of the earth&rdquo; would be blessed (3:25). What is happening in Acts 3 is not something new but something long-promised, long-awaited, now finally and gloriously arrived.",
+      "Acts 3 presents the early church not as a new religion but as the flowering of ancient promise &mdash; a community of people who have encountered the risen Jesus and who, in his name and by his power, are announcing and demonstrating that the long-expected kingdom of God has broken into history. The lame man walking and leaping and praising God is a living parable of what this kingdom does: it restores what was broken, it elevates what was cast down, it gives to those who have nothing the only thing that ultimately matters.",
+    ],
+  },
+  {
+    id: "Lame Man Healed",
+    heading: "The Healing of the Lame Man at the Beautiful Gate",
+    reference: "Acts 3:1&ndash;10",
+    paragraphs: [
+      "The story of the healing of the lame man at the Beautiful Gate is told with the economy and precision of a master narrator. Luke sets the scene with care: it is three in the afternoon, the hour of prayer, and Peter and John are going up to the Temple. At the gate called Beautiful &mdash; probably the magnificent Nicanor Gate that divided the court of the Gentiles from the court of the women &mdash; a man lame from birth is being carried and laid. He is there every day, begging for alms from those who enter the Temple. He has been lame for over forty years (4:22). He asks Peter and John for money.",
+      "What follows is one of the great moments of reversal in the New Testament. Peter fastens his gaze on the man &mdash; and the man turns his attention to them, expecting to receive something. &ldquo;Silver and gold have I none; but what I have I give thee: In the name of Jesus Christ of Nazareth rise up and walk&rdquo; (3:6, KJV). The declaration is so simple as to seem almost casual &mdash; and yet it is freighted with the full weight of the apostolic gospel. The name of Jesus is not a magic formula but a genuine authorization, the name of the living Lord who is personally present to act.",
+      "Peter then takes the man by the right hand and lifts him up, and &ldquo;immediately his feet and ankle bones received strength&rdquo; (3:7). Luke the physician notes the medical specificity: it was the feet and the anklebones that were affected. The man who had never walked springs up, stands, walks, and &mdash; in a detail of pure joy that Luke could not resist including &mdash; enters the Temple with them &ldquo;walking, and leaping, and praising God&rdquo; (3:8, KJV). The movement is irrepressible, exuberant, overflowing. Something has happened that his body has never experienced before and that no amount of money could have purchased.",
+      "The crowd recognizes him. He is the man they have all seen at the Beautiful Gate for years. The man they have walked past, dropped coins to, perhaps barely registered any more &mdash; this man is now walking and leaping and praising God. Luke records their response: they were &ldquo;filled with wonder and amazement at that which had happened unto him&rdquo; (3:10). The Greek word for wonder here is thambos, conveying a kind of stunned astonishment. The miracle was undeniable, impossible to explain away, a sign demanding interpretation.",
+      "The choice of the Beautiful Gate is theologically significant. This was the gateway through which worshipers passed to come into the presence of God. The lame man had been present at this threshold every day but had never been able to pass through it into the Temple proper. Now, healed by the name of Jesus, he enters the Temple &mdash; leaping. He crosses the threshold he could never cross before. The geography of the miracle is itself a parable: Jesus opens the way into the presence of God for those who have been shut out, disabled, excluded, cast to the margins. &ldquo;I am the door,&rdquo; Jesus had said. &ldquo;If anyone enters by me, he will be saved&rdquo; (John 10:9).",
+      "The healing is described in terms that deliberately recall the Messianic promises of the Hebrew Scriptures. Isaiah had written that in the age of salvation, when the redeemed of the Lord walk the Way of Holiness, &ldquo;the lame man shall leap as an hart&rdquo; (Isaiah 35:6, KJV). When John the Baptist sent messengers to ask Jesus whether he was the Coming One, Jesus replied: &ldquo;Go and tell John what you hear and see: the blind receive their sight and the lame walk&rdquo; (Matthew 11:4&ndash;5). The healing of this man at the gate is a proclamation in action: the age of fulfillment has arrived, and the name that is above every name is the name of Jesus Christ of Nazareth.",
+    ],
+  },
+  {
+    id: "Silver and Gold Acts Three",
+    heading: "Silver and Gold Have I None",
+    reference: "Acts 3:6",
+    paragraphs: [
+      "The six words that stand at the heart of Acts 3 &mdash; &ldquo;silver and gold have I none&rdquo; &mdash; have proved to be among the most generative and challenging words in the history of the church. On one level they are a simple statement of fact: Peter and John, at that moment, did not have money to give. But in the context of the story, they become a confession of a different kind of wealth, a different kind of economy, a different set of resources altogether. What Peter and John had was the name of Jesus Christ, and in that name they possessed more than any amount of silver and gold could buy.",
+      "The contrast between silver and gold on one side and the name of Jesus on the other is not incidental. It goes to the heart of the church&rsquo;s identity and mission. The Temple in Jerusalem was an institution of enormous economic as well as spiritual power &mdash; a center of commerce, sacrifice, and the management of religious wealth. The Beautiful Gate itself was, according to the Jewish historian Josephus, made of Corinthian brass and exceeded in beauty the gates overlaid with silver and gold. The lame man sat at the intersection of spiritual desire and material wealth, expecting the latter from those who were on their way to encounter the former.",
+      "Peter&rsquo;s declaration inverts the expected order. He offers not what the man asked for but what the man needed. The man wanted coins to survive; Peter gave him legs to walk. He wanted charity; he received restoration. He wanted to be included in the economy of almsgiving that surrounded the Temple; he was included instead in the living community of those who praise God. The gift Peter gave was incomparably greater than what the man had asked for &mdash; and it came from a source that silver and gold could not access.",
+      "The story has been cited in almost every generation of church history as a parable of the church&rsquo;s condition. The famous exchange attributed to Thomas Aquinas and Pope Innocent II &mdash; in which the Pope gestured to the wealth of Rome and said, &ldquo;You see, the church can no longer say, &lsquo;Silver and gold have I none,&rsquo;&rdquo; and Thomas replied, &ldquo;True, holy father, and neither can she now say, &lsquo;Rise up and walk&rsquo;&rdquo; &mdash; whether historical or apocryphal, captures a genuine tension that every generation of the church must navigate. The accumulation of material wealth and institutional power can, if unchecked, displace the spiritual power that is the church&rsquo;s true treasure.",
+      "The name of Jesus in which Peter acts is not an incantation but a relationship &mdash; it is the name of the living Lord who is risen, exalted, and personally present to act through his people. When Peter says &ldquo;in the name of Jesus Christ of Nazareth,&rdquo; he is not deploying a formula; he is invoking a person. He is acting as an authorized representative of the risen Jesus, doing what Jesus himself would do and did do during his earthly ministry: restore the broken, heal the diseased, welcome the excluded. The power is not Peter&rsquo;s; it is Christ&rsquo;s, mediated through Peter&rsquo;s faith and obedience.",
+      "For the church in every age, the story of the Beautiful Gate is both an invitation and a warning. It is an invitation to discover and deploy the resources that are uniquely ours in Christ &mdash; the name, the Spirit, the word, the power of the resurrection &mdash; rather than measuring our effectiveness by the metrics of the surrounding culture. And it is a warning that the accumulation of silver and gold, in itself, cannot accomplish what only the living Christ can accomplish. What do we have to give the world? The answer of Acts 3 is clear: not silver and gold, but the name that is above every name, through which the lame walk, the broken are restored, and those far off are brought near.",
+    ],
+  },
+  {
+    id: "Peter at Solomon Porch",
+    heading: "Peter&rsquo;s Sermon at Solomon&rsquo;s Portico",
+    reference: "Acts 3:11&ndash;26",
+    paragraphs: [
+      "As the healed man clung to Peter and John in the Temple colonnade known as Solomon&rsquo;s Porch, the crowd that had witnessed the miracle ran together toward them, utterly astonished. Peter&rsquo;s response is the sermon of Acts 3:12&ndash;26, and it follows the same pattern as his Pentecost sermon: it begins by deflecting the attention from the apostles to God, it centers on the death and resurrection of Jesus, it grounds everything in the fulfillment of Scripture, and it concludes with a direct call to repentance and faith.",
+      "Peter begins with a decisive correction: &ldquo;Why marvel ye at this? or why look ye so earnestly on us, as though by our own power or holiness we had made this man to walk?&rdquo; (3:12, KJV). The crowd&rsquo;s instinct is to focus on the instruments &mdash; Peter and John &mdash; but Peter immediately redirects to the source. The miracle is not an advertisement for apostolic power; it is a sign pointing to the risen Jesus. This is characteristic of authentic apostolic ministry &mdash; it never draws attention to the messenger but always to the message.",
+      "Peter then names Jesus with a remarkable accumulation of titles: he is the servant of God (the Suffering Servant of Isaiah), the Holy and Righteous One, the Author of Life, the one whom God raised from the dead, the one of whom Moses and all the prophets spoke, the prophet-like-Moses, the fulfillment of the Abrahamic promise. Each title is drawn from the Hebrew Scriptures and applied to Jesus, so that the sermon functions as a demonstration that Jesus is not a deviation from Israel&rsquo;s story but its culmination.",
+      "The sermon confronts the crowd with the full weight of what happened at the cross: &ldquo;ye denied the Holy One and the Just, and desired a murderer to be granted unto you; and killed the Prince of life&rdquo; (3:14&ndash;15, KJV). This is startling in its directness. Peter does not soften the indictment or distribute blame elsewhere. The people of Jerusalem, their rulers, their choices, their rejection &mdash; these are named. Yet immediately Peter adds a mitigating acknowledgment: &ldquo;And now, brethren, I wot that through ignorance ye did it, as did also your rulers&rdquo; (3:17, KJV). The charge is serious; the grace on offer is also serious.",
+      "The climax of the sermon is the call to repentance and the promise of what follows: &ldquo;Repent ye therefore, and be converted, that your sins may be blotted out, when the times of refreshing shall come from the presence of the Lord&rdquo; (3:19, KJV). The phrase &ldquo;times of refreshing&rdquo; &mdash; kairos anapseuxeos in Greek, literally &ldquo;seasons of cooling/refreshment&rdquo; &mdash; is a beautiful and unusual expression. It suggests the relief and renewal that comes after drought, the cool of the evening after the heat of the day. What is promised to those who repent is not merely forgiveness but refreshment &mdash; the restoration of what the long drought of sin and exile had parched.",
+      "The sermon ends with a remarkable statement of the scope of the gospel. Peter declares that the early church is not a sect withdrawing from Israel but the fulfillment of Israel&rsquo;s calling: &ldquo;Ye are the children of the prophets, and of the covenant which God made with our fathers, saying unto Abraham, And in thy seed shall all the kindreds of the earth be blessed&rdquo; (3:25, KJV). The blessing of Abraham &mdash; the promise through which all the families of the earth would be blessed &mdash; is now being fulfilled in Jesus. The mission is to all peoples, but it begins here, with these people, in this place. God &ldquo;having raised up his Son Jesus, sent him to bless you, in turning away every one of you from his iniquities&rdquo; (3:26). The Messiah has come, not primarily to condemn, but to bless &mdash; by turning people away from sin and toward the living God.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Acts 3 Today",
+    reference: "Acts 3:1&ndash;26",
+    paragraphs: [
+      "Acts 3 is a chapter that forces a confrontation with the question of what we actually have to offer the world. The lame man came to Peter and John expecting money and received something incomparably better. The application for the church today begins with the same honest acknowledgment that Peter made: what do we actually have? Not silver and gold &mdash; or at least, not silver and gold as our primary resource. We have the name of Jesus, the presence of the Holy Spirit, the word of the living God, and the testimony of the resurrection. These are the resources that the world cannot provide for itself and that the church is uniquely positioned to offer.",
+      "The pattern of word and deed that runs through Acts 3 offers a model for Christian witness that resists the temptation to separate the two. The healing came before the sermon, and the sermon gave the healing its meaning. In the same way, acts of compassion, justice, and service in the name of Jesus create the context for proclamation, and proclamation gives the acts of compassion their ultimate significance. The church that only does good deeds without naming the name of Jesus leaves the world without the interpretation it needs. The church that only proclaims without demonstrating the power and compassion of Christ leaves the world with words that are not credibly embodied. Acts 3 insists on both.",
+      "The way Peter prayed for the lame man models a quality of attentive, faith-filled encounter that contrasts sharply with the reflexive charity of passing by and dropping a coin. Peter and John stopped. Peter fastened his eyes on him and commanded him to look at them. There was a personal encounter, a genuine seeing of this specific human being in his need. The application for Christian community and individual Christians alike is to cultivate this quality of attention &mdash; to stop, to see, to engage specifically and personally with the human beings God places before us, rather than relating to &ldquo;the poor&rdquo; or &ldquo;the needy&rdquo; as an abstract category.",
+      "Peter&rsquo;s sermon at Solomon&rsquo;s Porch models a form of gospel proclamation that is unafraid of direct confrontation with the human condition. He names sin clearly &mdash; the denial and killing of the Holy and Righteous One &mdash; and he names grace just as clearly: repent, be converted, receive the blotting out of sins and the times of refreshing. The application for preaching and personal witness today is to resist the pressure either to soften the diagnosis (which produces a thin, feel-good message with no power to actually change anything) or to soften the remedy (which produces a grim moralism without the liberating news of the resurrection and the promise of renewal).",
+      "The phrase &ldquo;times of refreshing from the presence of the Lord&rdquo; carries a profound implication for Christian spirituality and community life. Refreshing comes from the presence &mdash; not primarily from programs, resources, or organizational excellence, but from the experienced nearness of God. The application is to cultivate the conditions in which God&rsquo;s presence is known and experienced: prayer, worship, the ministry of the word, the practice of the sacraments, the genuine community of faith in which people bear one another&rsquo;s burdens. These are not mere religious routines; they are the means by which the &ldquo;seasons of refreshing&rdquo; that Peter announced become real in the lived experience of God&rsquo;s people.",
+      "Acts 3 ends with the promise that Jesus was sent to bless his people &ldquo;by turning every one of you from your iniquities.&rdquo; The blessing of Jesus is not comfort without change; it is transformation &mdash; a turning from sin toward God that is both a gift of grace and an ongoing call to repentance. The application for personal discipleship is to understand that the Christian life is not a static state of having been saved, but a dynamic, lifelong turning &mdash; a continuing conversion in which the name of Jesus exercises its power not once but again and again, bringing strength to areas of our lives that have been lame since birth, and sending us walking and leaping and praising God into the Temple of his presence.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "5zn3iQOG9bM", title: "Acts 3 - Peter Heals the Lame Man at the Beautiful Gate" },
+  { videoId: "26z_KhwNdD8", title: "Silver and Gold Have I None - Acts 3 Bible Study" },
+  { videoId: "z7FxFMG2mzw", title: "Peter's Sermon at Solomon's Portico - Acts 3 Explained" },
+  { videoId: "0_CPWZF9dHQ", title: "BibleProject - Overview of Acts 1-12" },
+];
+
+export default function Acts3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 3 &mdash; Silver and Gold Have I None
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Peter heals a man lame from birth at the Beautiful Gate, then proclaims the risen Christ at Solomon&rsquo;s Portico &mdash; demonstrating that the church&rsquo;s true treasure is not silver and gold but the name of Jesus Christ of Nazareth.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>In the Name of Jesus Christ of Nazareth, Rise Up and Walk</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 3 presents the church&rsquo;s true calling in living color: not the accumulation of silver and gold but the bold proclamation and demonstration of the risen Christ. The lame man at the Beautiful Gate received more than he asked for &mdash; not coins but a new life, not charity but restoration. This is what the name of Jesus does, and it is what the church is sent into the world to offer: the power that makes lame men leap, and the word that calls every soul to repentance and the times of refreshing that come from the presence of the Lord.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

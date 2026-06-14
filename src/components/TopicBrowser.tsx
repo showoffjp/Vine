@@ -1732,6 +1732,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Lamentations Deep Dive": "christian-book-of-lamentations-guide",
   "Great Is Your Faithfulness": "christian-book-of-lamentations-guide",
   "Weeping Prophet Lament": "christian-book-of-lamentations-guide",
+  "Matthew Deep Dive": "christian-book-of-matthew-guide",
+  "Sermon on the Mount King": "christian-book-of-matthew-guide",
+  "King of the Jews": "christian-book-of-matthew-guide",
+  "Ezra Deep Dive": "christian-book-of-ezra-guide",
+  "Decree of Cyrus": "christian-book-of-ezra-guide",
+  "Ezra the Scribe": "christian-book-of-ezra-guide",
+  "2 John Deep Dive": "christian-book-of-2-john-guide",
+  "Walking in Truth": "christian-book-of-2-john-guide",
+  "Watch for Deceivers": "christian-book-of-2-john-guide",
+  "3 John Deep Dive": "christian-book-of-3-john-guide",
+  "Gaius and Diotrephes": "christian-book-of-3-john-guide",
+  "Imitate What Is Good": "christian-book-of-3-john-guide",
 };
 
 
@@ -2578,6 +2590,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Chronicles Deep Dive" },
   { label: "Song of Solomon Deep Dive" },
   { label: "Lamentations Deep Dive" },
+  { label: "Matthew Deep Dive" },
+  { label: "Ezra Deep Dive" },
+  { label: "2 John Deep Dive" },
+  { label: "3 John Deep Dive" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

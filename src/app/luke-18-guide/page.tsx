@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Persistent Widow Prayer",
+  "Pharisee and Tax Collector",
+  "Rich Young Ruler",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview: Prayer, Humility, and the Cost of Following Jesus",
+    reference: "Luke 18:1&ndash;43",
+    paragraphs: [
+      "Luke 18 is one of the most theologically concentrated chapters in all the Gospels. In forty-three verses, Jesus covers the nature of persistent prayer, the danger of self-righteous religion, the character of childlike faith, the cost of wealth when it competes with God, the certainty of his own suffering and resurrection, and the power of faith that cries out and refuses to be silenced. No other chapter in Luke brings together so many of Jesus&rsquo;s most famous teachings in such compressed form.",
+      "The chapter falls into four major units. The parable of the persistent widow (vv. 1&ndash;8) addresses the disciples&rsquo; need to pray and not give up, and it culminates in one of the most searching questions in the Gospels: &ldquo;When the Son of Man comes, will he find faith on earth?&rdquo; The parable of the Pharisee and the tax collector (vv. 9&ndash;14) strips away every prop of religious self-congratulation and shows that the only posture that receives grace is the empty-handed acknowledgment of sin. Both parables teach about prayer, but from opposite angles &mdash; one about persistence, one about posture.",
+      "The welcoming of children (vv. 15&ndash;17) then becomes a parable in action: the kingdom belongs to those who receive it as a child. This sets up the encounter with the rich young ruler (vv. 18&ndash;30), which probes what it actually means to inherit eternal life and whether wealth can coexist with wholehearted discipleship. Jesus&rsquo;s answer is shocking enough to cause his disciples to ask, &ldquo;Then who can be saved?&rdquo; &mdash; and his response opens a window onto the grace that makes possible what is humanly impossible.",
+      "A third passion prediction (vv. 31&ndash;34) then interrupts the journey narrative with startling specificity: everything written about the Son of Man by the prophets will be accomplished in Jerusalem. Yet the disciples understand none of it, Luke says, because its meaning was hidden from them. The chapter closes with the healing of a blind man outside Jericho (vv. 35&ndash;43) &mdash; a man who cries out to the Son of David despite being rebuked to silence, and whose faith Jesus commends: &ldquo;Your faith has made you well.&rdquo;",
+      "Luke 18 has an underlying unity despite its apparent variety: every scene is in some way about who can receive what God gives. The widow who persists. The tax collector who humbles himself. The children who simply come. The rich man who turns away. The blind man who cries. The disciples who do not yet understand. Each character illustrates something about the posture of reception &mdash; or its failure &mdash; that lies at the heart of the Christian life.",
+      "The chapter is also travel narrative: Jesus is &ldquo;on the road, going up to Jerusalem&rdquo; (v. 31), and the shadow of the cross falls over every teaching. The persistent widow&rsquo;s cry for vindication echoes the prayer of the martyrs; the tax collector&rsquo;s &ldquo;God, be merciful to me, a sinner&rdquo; anticipates the prayer that can only be answered at Golgotha; the blind man&rsquo;s sight prefigures the spiritual sight that the cross and resurrection would eventually open in the disciples. Luke 18 is a chapter from a book that knows where it is going.",
+    ],
+  },
+  {
+    id: "Persistent Widow Prayer",
+    heading: "The Persistent Widow: Pray and Do Not Give Up",
+    reference: "Luke 18:1&ndash;8",
+    paragraphs: [
+      "Luke introduces the parable of the persistent widow with unusual explicitness about its purpose: Jesus &ldquo;told them a parable to the effect that they ought always to pray and not lose heart&rdquo; (v. 1). This directness is itself instructive. Luke does not leave the reader to decode the meaning of the parable; he announces it up front. The teaching is simple in statement and demanding in practice: pray. Keep praying. Do not give up even when the answer does not come.",
+      "The judge in the parable is a deliberately unflattering character. He &ldquo;neither feared God nor respected man&rdquo; (v. 2). He is the worst possible intercessor &mdash; unmoved by divine obligation and indifferent to human dignity. Against him stands a widow, the most vulnerable figure in the ancient world &mdash; without a husband to advocate for her, without social power or legal resources, with nothing to offer but her case and her refusal to stop pressing it. She comes to him again and again, demanding justice against her adversary.",
+      "The judge does not relent because he has had a change of heart. He relents because she will not stop. &ldquo;Because this widow keeps bothering me, I will give her justice, so that she will not beat me down by her continual coming&rdquo; (v. 5). The Greek word translated &ldquo;beat me down&rdquo; is a boxing term for a punch to the eye &mdash; a vivid image of the judge&rsquo;s exasperation. Her persistence alone, despite having nothing else in her favor, moves the unmovable.",
+      "Jesus then argues from the lesser to the greater. If an unjust judge will grant justice to a persistent widow to get rid of her, how much more will a God who &ldquo;loves justice&rdquo; and who has chosen his people vindicate those who cry to him day and night? The argument is not that we must wear God down &mdash; he is not like the unjust judge in that way. Rather, the parable establishes that persistence in prayer is not wasted. If mere persistence works on the worst possible judge, it certainly has a hearing with the best possible Father.",
+      "&ldquo;He will give justice to them speedily,&rdquo; Jesus says (v. 8). The word &ldquo;speedily&rdquo; is the same Greek word (&ldquo;en tachei&rdquo;) used in Revelation 22:6 of the things that &ldquo;must soon take place.&rdquo; There is a swiftness to God&rsquo;s vindication when it comes that is not apparent during the season of waiting. The suffering church cries; God hears; the answer comes with a suddenness that the long wait did not predict. The waiting is not evidence of divine indifference but of a timing that belongs to God alone.",
+      "The parable closes with a question that hangs over the whole passage: &ldquo;Nevertheless, when the Son of Man comes, will he find faith on earth?&rdquo; (v. 8). This is the unexpected sting in the tail. The teaching is not &ldquo;God will always answer your prayers immediately&rdquo; but &ldquo;Will you keep praying until he does?&rdquo; Faith here is not merely intellectual assent to doctrine but the sustained, persistent, widow-like refusal to stop bringing one&rsquo;s case to God. The question implies that this kind of faith is rarer than we might think &mdash; and that Jesus is asking whether his disciples will maintain it until he returns.",
+    ],
+  },
+  {
+    id: "Pharisee and Tax Collector",
+    heading: "The Pharisee and the Tax Collector: Grace for the Empty-Handed",
+    reference: "Luke 18:9&ndash;14",
+    paragraphs: [
+      "The parable of the Pharisee and the tax collector is addressed, Luke tells us, to those &ldquo;who trusted in themselves that they were righteous, and treated others with contempt&rdquo; (v. 9). Jesus does not hide the audience. The parable is not first a comfort to the humble but a confrontation to the self-righteous &mdash; and since self-righteousness is a universal human tendency, it is a confrontation addressed to everyone who has ever felt spiritually superior to anyone else.",
+      "The Pharisee&rsquo;s prayer is not obviously wicked. He fasts twice a week; the law required only the Day of Atonement fast, so he exceeds the requirement. He gives a tenth of all he gets; this too is rigorous observance. He does not extort, or act unjustly, or commit adultery. By any external measure, his life is exemplary. And he thanks God for it &mdash; which sounds like the right thing to do. But the prayer reveals a fatal orientation: it is directed at God but aimed at self. It is a performance whose audience is the Pharisee himself.",
+      "The tax collector stands far off. He will not even lift his eyes to heaven. He beats his breast &mdash; a gesture of grief and contrition unusual enough in the ancient world that Luke records it. His entire prayer is seven words in Greek: &ldquo;God, be merciful to me, a sinner.&rdquo; There is no catalog of his achievements, no comparison with others, no explanation or justification. Only the bare fact of his condition and the bare plea for mercy. He comes with nothing except his need.",
+      "Jesus&rsquo; verdict overturns every expectation of his audience: &ldquo;I tell you, this man went down to his house justified, rather than the other&rdquo; (v. 14). The word &ldquo;justified&rdquo; is the legal and theological term for being declared righteous before God &mdash; the very status the Pharisee assumed he already possessed. The man who possessed it walked away empty-handed; the man who walked away with it came empty-handed. The theological logic is crystalline: justification is received, not achieved; it is given to the empty, not the full.",
+      "The closing maxim &mdash; &ldquo;everyone who exalts himself will be humbled, but the one who humbles himself will be exalted&rdquo; (v. 14) &mdash; appears multiple times in Luke and is one of the governing principles of the kingdom. It is not merely a counsel of social politeness but a description of how God distributes grace. &ldquo;God opposes the proud but gives grace to the humble&rdquo; (James 4:6; 1 Pet. 5:5). The Pharisee&rsquo;s prayer arrived at God&rsquo;s throne already full of himself and found no room for grace. The tax collector&rsquo;s prayer arrived empty and was filled.",
+      "The parable has a diagnostic function for every act of prayer and worship. We are always bringing one prayer or the other. We pray with our achievements visible in our hands &mdash; even spiritual achievements, even the achievement of our own humility &mdash; or we pray with our hands open and our need exposed. The Pharisee trusted in himself; the tax collector trusted in God. That is the distinction that determines the verdict. And the invitation of the parable is not to despise Pharisees but to search our own prayers for the Pharisee within.",
+    ],
+  },
+  {
+    id: "Rich Young Ruler",
+    heading: "The Rich Young Ruler: The One Thing Lacking",
+    reference: "Luke 18:18&ndash;30",
+    paragraphs: [
+      "A ruler &mdash; probably a leader of a synagogue, young and wealthy &mdash; comes to Jesus with a question that sounds sincere: &ldquo;Good Teacher, what must I do to inherit eternal life?&rdquo; (v. 18). Jesus&rsquo;s first response is a question back: &ldquo;Why do you call me good? No one is good except God alone.&rdquo; This is not a denial of Jesus&rsquo;s own goodness but a probe of the young man&rsquo;s assumptions. If he calls Jesus good without recognizing that goodness belongs to God alone, he does not yet know who he is talking to. The question is an invitation to a deeper reckoning than the one the young man came prepared to have.",
+      "When Jesus cites the second table of the law &mdash; do not commit adultery, do not murder, do not steal, do not bear false witness, honor your father and mother &mdash; the ruler answers with confidence: &ldquo;All these I have kept from my youth.&rdquo; And Luke adds a detail found in Mark but not always noticed: &ldquo;When Jesus heard this, he said to him, &lsquo;One thing you still lack&rsquo;&rdquo; (v. 22). The young man is not lying about the commandments. Jesus does not correct him. He acknowledges the keeping and adds: one thing still.",
+      "That one thing is the very thing the ruler cannot do: &ldquo;Sell all that you have and distribute to the poor, and you will have treasure in heaven; and come, follow me.&rdquo; When he heard this, &ldquo;he became very sad, for he was extremely rich&rdquo; (v. 23). The command is not given to every inquirer in the Gospels &mdash; Jesus does not command Zacchaeus to sell everything, for example. The specific command is diagnostic: it reveals where the young man&rsquo;s ultimate trust is lodged. When confronted with the choice between Jesus and his wealth, he chooses his wealth. His riches are his real god.",
+      "Jesus&rsquo;s comment on the departure stuns the disciples: &ldquo;How difficult it is for those who have wealth to enter the kingdom of God! For it is easier for a camel to go through the eye of a needle than for a rich person to enter the kingdom of God&rdquo; (vv. 24&ndash;25). The image of a camel through a needle&rsquo;s eye is deliberately absurd &mdash; an impossibility. There is no &ldquo;needle gate&rdquo; in Jerusalem that a camel could squeeze through on its knees; that interpretation, which softens the saying, lacks historical support. Jesus means what he says: the attachment to wealth makes kingdom entry not merely difficult but humanly impossible.",
+      "The disciples, hearing this, ask the obvious question: &ldquo;Then who can be saved?&rdquo; They have assumed that wealth is a sign of divine favor &mdash; a common assumption in the ancient world, rooted in a misreading of Deuteronomic prosperity. If the rich cannot be saved, the situation is hopeless. Jesus answers with one of the most liberating statements in the Gospels: &ldquo;What is impossible with man is possible with God&rdquo; (v. 27). Salvation is not a human achievement, not a matter of accumulated virtue or financial success, not something the young ruler could have done by trying harder. It is a miracle &mdash; the work of a God who does what humans cannot.",
+      "Peter, speaking for the disciples, notes that they have left everything &mdash; presumably in contrast to the rich young ruler who could not. Jesus affirms it: there is no one who has left house or wife or brothers or parents or children for the sake of the kingdom who will not receive many times more in this time, and in the age to come eternal life. The call to discipleship is costly, but the one who calls has resources for the journey that cannot be counted. The young ruler walked away wealthy in the world&rsquo;s terms and poor in the kingdom&rsquo;s; the disciples walked away poor in the world&rsquo;s terms and rich in a way they were only beginning to understand.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Prayer, Humility, and Childlike Dependence",
+    reference: "Luke 18:1&ndash;43",
+    paragraphs: [
+      "The parable of the persistent widow speaks directly to every Christian who has prayed and not yet received the answer. The temptation in a long season of unanswered prayer is to conclude either that God is not listening, or that the prayer was not good enough, or that faith has failed. Jesus&rsquo;s answer to all three temptations is the same: keep praying. Not because we must convince a reluctant God but because persistent prayer is the shape of living faith &mdash; it is what trust in a good God looks like when the answer is not yet visible. To stop praying is to give up on God; to keep praying is to say, &ldquo;I still believe you hear.&rdquo;",
+      "The Pharisee and the tax collector offer a searching diagnostic for the life of prayer and worship. The question is not whether we are morally better or worse than our neighbors but whether we come to God trusting in ourselves or trusting in his mercy. Self-righteousness is seductive precisely because it often masquerades as genuine virtue &mdash; the very things the Pharisee boasts of are real spiritual disciplines. The corruption is not in fasting or tithing but in the direction of trust. Authentic prayer begins where the tax collector began: with an honest reckoning of need and a throwing of oneself on divine mercy.",
+      "The welcoming of children (vv. 15&ndash;17), while brief, reframes everything that follows. The kingdom belongs to those who receive it &ldquo;like a child.&rdquo; A child does not earn its place at the family table; it comes because it belongs, because the parent has made room. Childlike faith is not naive or intellectually unserious &mdash; it is the posture of one who knows that what they most need cannot be manufactured, achieved, or purchased, only received. The disciples who tried to keep the children away from Jesus were in danger of the same mistake the rich young ruler made: treating access to the kingdom as a matter of merit.",
+      "The encounter with the rich young ruler raises the question that sits underneath all of Luke 18: what is the competitor to God in our lives? For the young ruler it was wealth &mdash; not wealth as such, but wealth trusted, wealth held tightly, wealth that had become the real security beneath every other security. The diagnostic question is not &ldquo;do I have money?&rdquo; but &ldquo;what would I be unable to give up if Jesus asked?&rdquo; Whatever the answer to that question is &mdash; career, relationship, reputation, comfort, status &mdash; that is the thing that sits on the throne of the heart, and that is the thing Jesus will eventually bring us to a reckoning with.",
+      "The healing of the blind man at the end of chapter 18 (vv. 35&ndash;43) rounds out the chapter with an image of the faith that Luke has been describing throughout. The blind man hears that Jesus of Nazareth is passing, and he cries out: &ldquo;Jesus, Son of David, have mercy on me!&rdquo; The crowd rebukes him and tells him to be quiet. He cries out all the more. He is, in other words, the persistent widow &mdash; refused, rebuked, pressing his case anyway. He is the tax collector &mdash; calling out for mercy with nothing but his need. He is the child &mdash; simply coming to Jesus without pretense. His faith made him well, Jesus says. This is the faith Luke 18 has been describing and calling for from its first verse.",
+      "Luke 18 ultimately holds together two things that can feel in tension: the sovereignty of God (&ldquo;what is impossible with man is possible with God&rdquo;) and the responsibility of human faith (&ldquo;pray and do not give up,&rdquo; &ldquo;the one who humbles himself will be exalted,&rdquo; &ldquo;your faith has made you well&rdquo;). The chapter does not resolve the tension by collapsing one side into the other. God does the saving; humans must respond. The initiative is entirely God&rsquo;s; the posture of reception matters enormously. Both are true, and Luke 18 holds them together in story after story, calling the reader to persistent, humble, childlike, and wholehearted faith.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "GJ4TTNeSuoE", title: "Luke 18 - The Persistent Widow and the Pharisee and Tax Collector" },
+  { videoId: "iRfCXNiGfUQ", title: "The Pharisee and the Tax Collector - Bible Study Luke 18" },
+  { videoId: "mxRhWAM9FiQ", title: "The Rich Young Ruler - Luke 18:18-30 Explained" },
+  { videoId: "4MV8gSGnFl4", title: "Luke 18 Full Chapter Sermon - Prayer Humility and Faith" },
+];
+
+export default function Luke18GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Luke 18: Persistent Prayer and Humble Approach to God
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus teaches on the persistent widow who prays without giving up, the Pharisee and tax collector who reveal the two postures of prayer, the rich young ruler who turns away at the cost of discipleship, and blind Bartimaeus whose cry of faith wins him sight.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>What Is Impossible with Man Is Possible with God</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Luke 18 holds together the persistent cry of the widow, the empty-handed prayer of the tax collector, the childlike receiving of the kingdom, and the wholehearted giving-up of everything to follow Jesus. Each story strips away another false prop and calls the disciple to a single, clear posture: come to God with nothing but need, and pray without ceasing, for he hears and he answers and he is able to do what no human effort could accomplish.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

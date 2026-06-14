@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "No Other Name",
+  "Bold Witness Acts Four",
+  "One Heart and Soul",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Acts 4",
+    reference: "Acts 4:1&ndash;37",
+    paragraphs: [
+      "Acts 4 stands as one of the most electrifying chapters in all of Scripture. On the heels of Peter and John healing a lame man at the Beautiful Gate of the Temple (Acts 3), the Jerusalem authorities descend with swift force &mdash; arresting the two apostles, hauling them before the Sanhedrin, and demanding an accounting for their actions. What begins as an interrogation turns into one of the most powerful declarations in the New Testament: &ldquo;There is salvation in no one else, for there is no other name under heaven given among men by which we must be saved&rdquo; (4:12). From those words the rest of the chapter flows like a river in full flood.",
+      "The chapter divides neatly into three movements. First, the arrest and overnight imprisonment of Peter and John, prompted by the apostles&rsquo; proclamation of the resurrection of the dead in Jesus (4:1&ndash;4). Second, the trial before the Sanhedrin &mdash; the very council that had condemned Jesus to death scarcely weeks before &mdash; in which Peter, filled with the Holy Spirit, delivers a fearless defense culminating in the &ldquo;no other name&rdquo; declaration (4:5&ndash;22). Third, the return to the believing community, the prayer that shakes the building, and the portrait of a church living in extraordinary generosity and unity (4:23&ndash;37).",
+      "To read Acts 4 against its historical backdrop is to feel the full weight of its drama. The Sanhedrin numbered the most powerful religious leaders in Judea &mdash; former high priests, ruling priests, scribes, and elders. Their authority was formidable. Just weeks before, this same body had orchestrated the crucifixion of Jesus. Now two fishermen from Galilee stand before them without legal counsel, without social standing, without anything the ancient world would consider leverage &mdash; and they speak without flinching. Luke&rsquo;s editorial comment says it all: &ldquo;Now when they saw the boldness of Peter and John, and perceived that they were uneducated, common men, they were astonished. And they recognized that they had been with Jesus&rdquo; (4:13).",
+      "Acts 4 also marks a pivotal moment in the sociology of the early church. The community that had numbered one hundred and twenty at Pentecost had grown to five thousand men by the close of this chapter &mdash; and this despite, or rather because of, open persecution. The chapter closes with a portrait of a community so bound together in love that &ldquo;there was not a needy person among them,&rdquo; as those who owned property sold it and laid the proceeds at the apostles&rsquo; feet for distribution (4:34&ndash;35). The boldness of the apostles before the rulers and the generosity of the saints among one another are two sides of one coin: a community that truly believes no other name can save has nothing left to fear and nothing it would rather hold than give.",
+      "This chapter is not simply a record of what happened in Jerusalem circa A.D. 30. It is a charter of Christian witness for every generation. The pressure to be silent about the name of Jesus, to find a more socially acceptable way to speak of salvation, is not a modern novelty &mdash; it is the oldest demand the world makes of the church. Acts 4 answers it not with argument but with a community whose transformation is inexplicable apart from the risen Christ, and whose love for one another is a more powerful apologetic than anything the council chamber could produce.",
+      "The theological heart of the chapter beats in the phrase &ldquo;no other name.&rdquo; Peter did not say Jesus is one name among many, or the best name, or the name most relevant to a Jewish audience. He said &ldquo;no other.&rdquo; The exclusivity is not rudeness; it is rescue. A physician who tells a gravely ill patient that only one treatment exists is not being narrow-minded &mdash; he is being honest. The apostles&rsquo; insistence on the name of Jesus is the insistence of people who have looked into an empty tomb and cannot be quiet about what they found there.",
+    ],
+  },
+  {
+    id: "No Other Name",
+    heading: "No Other Name: The Exclusive Claim of Acts 4:12",
+    reference: "Acts 4:8&ndash;12",
+    paragraphs: [
+      "The centerpiece of Acts 4, and in many ways a cornerstone of New Testament theology, is the declaration Peter makes before the highest court in Judea: &ldquo;And there is salvation in no one else, for there is no other name under heaven given among men by which we must be saved&rdquo; (4:12). Every word of this sentence is deliberate and load-bearing. To understand it requires attending carefully to its context, its grammar, its Old Testament roots, and its theological implications.",
+      "The immediate context is a question about power &mdash; specifically, by what power or by what name the apostles had healed the lame man (4:7). The Sanhedrin wanted to discredit the miracle or at least contain its public effect. Peter&rsquo;s answer reframes the question entirely. He does not merely say, &ldquo;We healed him by the name of Jesus.&rdquo; He traces the full arc of the gospel: Jesus of Nazareth, whom you crucified (naming the council&rsquo;s complicity directly), whom God raised from the dead (the resurrection as God&rsquo;s verdict reversing human judgment) &mdash; by that name this man stands before you well (4:10). The healing is exhibit A in the case for the resurrection.",
+      "Peter then quotes Psalm 118:22: &ldquo;The stone that was rejected by you, the builders, which has become the cornerstone&rdquo; (4:11). The psalm was widely understood in Jewish interpretation as messianic &mdash; the stone the builders of Israel rejected had become the most important stone in the structure. Peter applies it directly: the Jerusalem leadership, the &ldquo;builders,&rdquo; had rejected Jesus, but God had reversed their verdict by raising him. The name by which the lame man was healed is the name of the exalted Messiah, the cornerstone of the new temple God is building &mdash; not of stones but of people.",
+      "The word &ldquo;salvation&rdquo; (Greek: soteria) in verse 12 is broader than personal conversion. It encompasses healing, wholeness, rescue, and ultimate deliverance &mdash; the same family of meaning as the Hebrew shalom. The lame man&rsquo;s physical healing is a visible parable of the spiritual wholeness that Jesus brings. Peter&rsquo;s genius is to insist that the council cannot separate the physical miracle they are investigating from the theological reality that produced it: the risen and exalted Jesus is the only source of every kind of salvation.",
+      "The phrase &ldquo;under heaven given among men&rdquo; points to the scope of the claim. This is not a parochial statement about the God of the Jews versus the gods of the Gentiles. The phrase reaches to every human being under the entire sky. Luke, who writes for a Gentile audience and whose Gospel opens by describing Jesus as &ldquo;a light for revelation to the Gentiles&rdquo; (Luke 2:32), understands the universality of the claim. There is no nation, no culture, no era in which another name fulfills what Jesus fulfills.",
+      "Objections to this exclusivity are ancient and modern alike. Was it narrow? The apostle&rsquo;s answer is implicit in the whole chapter: the name of Jesus produces what no other name produces &mdash; a lame man walks, the dead are raised, the poor are cared for, fearful fishermen speak without fear before armed power. The evidence is not a theological syllogism but a transformed community and a healed body. The exclusivity of &ldquo;no other name&rdquo; is not arrogance; it is the report of eyewitnesses who have watched one name do what no other could do.",
+      "For the believer today, Acts 4:12 functions as a kind of north star. When the pressure mounts &mdash; culturally, professionally, socially &mdash; to soften the claim about Jesus, to say &ldquo;one of many paths&rdquo; rather than &ldquo;no other name,&rdquo; this verse calls the church back to the apostolic starting point. The very pressure Peter faced in A.D. 30 is the pressure every witness faces in every generation. The question is whether we will give the same answer he gave, with the same reliance on the same Holy Spirit who filled him in that council chamber.",
+    ],
+  },
+  {
+    id: "Bold Witness Acts Four",
+    heading: "Bold Witness: Peter and John Before the Sanhedrin",
+    reference: "Acts 4:1&ndash;22",
+    paragraphs: [
+      "The arrest of Peter and John in Acts 4 is the first formal persecution of the Christian movement by the Jewish authorities. The trigger is their proclamation &ldquo;in Jesus the resurrection of the dead&rdquo; (4:2) &mdash; a claim the Sadducees found theologically repugnant, since they rejected the resurrection entirely. The Sadducees are mentioned first among those who arrest the apostles (4:1), a detail that signals the particular offense of the resurrection preaching.",
+      "The apostles spend the night in custody. Luke notes parenthetically that despite the arrest, many who heard the word believed, &ldquo;and the number of the men came to about five thousand&rdquo; (4:4). The imprisonment meant to silence the gospel instead became a marker of its advance. The arithmetic of the kingdom works differently from the arithmetic of coercive power: opposition measures growth, not suppression.",
+      "The next morning the court assembles: rulers, elders, scribes, the high priest Annas, Caiaphas (who had orchestrated Jesus&rsquo; trial), John, Alexander, and the entire high-priestly family (4:5&ndash;6). The list is imposing. This is not a local magistrate but the full weight of the Judean religious establishment. They ask the key question: &ldquo;By what power or by what name did you do this?&rdquo; (4:7). The question is meant to trap &mdash; any claim of supernatural power opens the speaker to charges of sorcery; any invocation of an unauthorized name opens charges of blasphemy.",
+      "Peter&rsquo;s response begins with one of the most significant phrases in the chapter: &ldquo;filled with the Holy Spirit&rdquo; (4:8). This is the fulfillment of Jesus&rsquo; promise in Luke 12:11&ndash;12: &ldquo;When they bring you before the synagogues and the rulers and the authorities, do not be anxious about how you should defend yourself or what you should say, for the Holy Spirit will teach you in that very hour what you ought to say.&rdquo; Peter is not performing from memory or relying on rhetorical training. He is speaking under the direct illumination of the Spirit.",
+      "What follows is a masterclass in gospel witness under pressure. Peter names the council&rsquo;s action (you crucified him), names God&rsquo;s action (God raised him), names the result (this man stands before you healed), grounds it in Scripture (the rejected cornerstone of Psalm 118), and draws the conclusion that cannot be softened: &ldquo;There is salvation in no one else&rdquo; (4:12). He does not hedge, apologize, or look for common ground that avoids the resurrection. He leads with it.",
+      "The council huddles. They cannot deny the miracle &mdash; the healed man is standing right there, and &ldquo;all the inhabitants of Jerusalem know&rdquo; what happened (4:16). Their only option is suppression. They command Peter and John not to speak or teach at all in the name of Jesus (4:18). The apostles&rsquo; answer has become one of the great statements of conscientious Christian dissent: &ldquo;Whether it is right in the sight of God to listen to you rather than to God, you must judge, for we cannot but speak of what we have seen and heard&rdquo; (4:19&ndash;20). They acknowledge the council&rsquo;s authority, submit the question of rightness to the council&rsquo;s own judgment, and then calmly state the compulsion under which they operate: they have seen and heard something they cannot suppress.",
+      "After further threats, the apostles are released &mdash; the council cannot punish them without triggering a public backlash, because everyone is praising God for the healing (4:21). The bold witness has succeeded not because it was strategically clever but because it was Spirit-empowered, truth-telling, and anchored in an undeniable miracle. The boldness of Acts 4 is not the boldness of the combative or the self-assured; it is the boldness of people who have nothing to lose because they have already found the one thing worth having.",
+    ],
+  },
+  {
+    id: "One Heart and Soul",
+    heading: "One Heart and Soul: The Community of Acts 4",
+    reference: "Acts 4:23&ndash;37",
+    paragraphs: [
+      "When Peter and John are released and return to their friends, they do the most natural thing in the world for people who have been under threat: they tell the community what happened (4:23). The community&rsquo;s response is equally natural &mdash; they pray. But the prayer that follows (4:24&ndash;30) is no ordinary prayer. It is one of the most theologically rich prayers in the New Testament, a masterwork of corporate intercession rooted in Scripture, honest about suffering, and specific in its request.",
+      "The prayer opens by addressing God as &ldquo;Sovereign Lord, who made the heaven and the earth and the sea and everything in them&rdquo; (4:24). The Greek word for &ldquo;Sovereign Lord&rdquo; is despotes &mdash; the absolute master. In a moment when Roman and Jewish authorities seem to hold all the cards, the church anchors itself in the sovereignty of the one who made everything those authorities exercise power within. Before asking for anything, they name who God is.",
+      "Then comes a remarkable piece of biblical reasoning. The community quotes Psalm 2:1&ndash;2 &mdash; &ldquo;Why did the Gentiles rage, and the peoples plot in vain? The kings of the earth set themselves, and the rulers were gathered together, against the Lord and against his Anointed&rdquo; &mdash; and then applies it to what has just happened: Herod and Pontius Pilate, with the Gentiles and the peoples of Israel, gathered against Jesus (4:27). The opposition the church now faces is not a surprise disruption to God&rsquo;s plan; it is the continuation of a pattern that Psalm 2 already described. The same alignment of powers that tried to stop God&rsquo;s Anointed is now trying to stop the Anointed&rsquo;s witnesses.",
+      "The prayer does not ask God to remove the opposition or to protect the community from suffering. It asks instead for two things: boldness to continue speaking the word (4:29), and signs and wonders done through the name of Jesus (4:30). The request is not for comfort but for continuation. The community&rsquo;s theology has led it to the conclusion that the path through opposition is not retreat but advance &mdash; more speaking, not less; more miracles, not withdrawal.",
+      "God&rsquo;s answer is immediate and physical: &ldquo;the place in which they were gathered together was shaken, and they were all filled with the Holy Spirit and continued to speak the word of God with boldness&rdquo; (4:31). The shaking of the building echoes the theophany traditions of the Old Testament &mdash; Sinai, Isaiah&rsquo;s vision in the Temple, Ezekiel&rsquo;s visions. God was signaling, in the visceral language of building-trembling, that the same Lord who spoke at Sinai was present in that upper room. And the apostles did exactly what they asked for: they spoke boldly.",
+      "Luke then turns to the portrait of the community itself &mdash; one of the most beautiful pictures in the New Testament. &ldquo;Now the full number of those who believed were of one heart and soul, and no one said that any of the things that belonged to him was his own, but they had everything in common&rdquo; (4:32). The phrase &ldquo;one heart and soul&rdquo; (kardia kai psyche mia) echoes the language of the most intimate friendship in Greek culture. It was the language used of a bond so deep that two people act as one person. The entire believing community had become that for one another.",
+      "The economic dimension of this unity (4:34&ndash;37) is not incidental. Barnabas is introduced here as a prime example &mdash; he sells a field and lays the money at the apostles&rsquo; feet. The result was that &ldquo;there was not a needy person among them.&rdquo; This is not a Marxist commune or a primitive form of socialism. It is a community so convinced that God in Christ has already given them everything they ultimately need that holding onto earthly property feels beside the point. The generosity of Acts 4 is the economic fruit of the theology of &ldquo;no other name.&rdquo; If Jesus is truly the only name that saves, then what could mere property possibly be worth by comparison?",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Acts 4 Today",
+    reference: "Acts 4 for the Twenty-First Century",
+    paragraphs: [
+      "Acts 4 is not a museum piece. It is a living document that speaks directly to the pressures every Christian community faces in any culture that finds the exclusive claims of Jesus inconvenient. The fundamental dynamics of the chapter &mdash; pressure to be silent, the temptation to soften the message, the counterintuitive power of a united and generous community &mdash; recur in every generation and in every geography where the church is alive.",
+      "The first application is the simplest and the most demanding: speak the name. Peter and John could have described their healing work in therapeutic or humanitarian terms that sidestepped the question of Jesus. They did not. &ldquo;We cannot but speak of what we have seen and heard&rdquo; (4:20) &mdash; this is not the language of doctrinal duty but of overwhelming personal experience. The application for today&rsquo;s believer is the same: what have you seen? What have you heard? What has Jesus done in your own life that you know you have not simply imagined? Speak that. Not a theological system (though theology matters) but a testimony rooted in experience that cannot be denied because it happened to you.",
+      "The second application concerns the nature of boldness. The boldness of Acts 4 was not loudness, combativeness, or social media bravado. It was a settled willingness to tell the truth in the presence of those who had the power to punish the telling. The question today is not whether we can quote Scripture on the internet without consequence &mdash; it is whether we can speak the name of Jesus clearly to a friend, a family member, or a colleague when the social cost of doing so is real. That is the Acts 4 test. And Acts 4 provides the Acts 4 resource: the same Holy Spirit who filled Peter in the council chamber is given to every believer (John 14:16). The application is not to be braver but to be more dependent &mdash; to ask, as the early church asked, for boldness as a gift from God.",
+      "The third application touches the prayer of Acts 4:24&ndash;30 and the practice of corporate intercession. The early church did not respond to persecution with a strategy meeting or a public relations campaign. They prayed &mdash; and they prayed together, out loud, anchored in Scripture, specific about their request. The remarkable poverty of corporate prayer in many contemporary churches is itself a diagnostic. When the church stops gathering to pray under pressure, it has already begun to accommodate rather than advance. The Acts 4 call is to recover the practice of the shaking-building prayer meeting: sovereign God addressed, Scripture applied, boldness requested, and the community expectant.",
+      "The fourth application is the economic witness of one heart and soul. The generosity of Acts 4 was not a fundraising campaign but a byproduct of a community whose deepest values had been reordered by the resurrection. In an age of economic anxiety and social atomization, a community that actually practices &ldquo;there was not a needy person among them&rdquo; is one of the most powerful apologetics available. The watching world does not need more Christian argument; it needs more Christian community &mdash; the kind where real needs are met by real people who have genuinely concluded that the life to come outweighs the possessions of the present.",
+      "Finally, Acts 4 invites the church to embrace the paradox of weakness. The apostles had no political leverage, no money, no social standing, no media platform. They had one thing: a name. And that name, wielded in the power of the Spirit, produced a man walking who had never walked, a community quaking with divine presence, and five thousand converts in a morning. The application is not to despair of the church&rsquo;s current smallness or social marginalization but to locate its power in the right place. Acts 4 declares that the power of the church has never been in its cultural influence but in its Lord &mdash; the same Lord who told Paul, &ldquo;My grace is sufficient for you, for my power is made perfect in weakness&rdquo; (2 Corinthians 12:9). Acts 4 is the lived proof of that promise, and it remains the calling card of the church in every age.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "S9YPiEr31C0", title: "Acts 4 - Peter and John Before the Sanhedrin (Bible Study)" },
+  { videoId: "IJzdMrfwWtY", title: "No Other Name Under Heaven - Acts 4:12 Explained" },
+  { videoId: "26z_KhwNdD8", title: "The Early Church Bold Prayer - Acts 4:23-31" },
+  { videoId: "0GokGMbFpS8", title: "BibleProject - The Book of Acts Overview" },
+];
+
+export default function Acts4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 4 &mdash; No Other Name
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Bold witness before the Sanhedrin, the exclusive declaration that salvation is found in no one else but Jesus Christ, and the extraordinary unity and generosity of the early church in Jerusalem.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", marginBottom: "1.5rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, margin: "0 0 1.5rem", color: TEXT }}>Video Teaching on Acts 4</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>We Cannot But Speak</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 4 confronts every believer with the same choice Peter and John faced before the Sanhedrin: to be silent or to speak. The chapter does not pretend the choice is easy. It shows the prison, the powerful court, the threats, and the real cost of continued witness. But it also shows the shaking building, the filled Spirit, the unity of one heart and soul, and the five thousand who believed because two unschooled fishermen would not stop speaking of what they had seen and heard. That is the Acts 4 invitation &mdash; to be people who, in the power of the Holy Spirit, cannot stay quiet about the name that heals, saves, and makes all things new.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

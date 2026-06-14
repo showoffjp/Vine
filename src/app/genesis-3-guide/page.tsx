@@ -1,0 +1,193 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Temptation",
+  "The Fall",
+  "Consequences and Grace",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Genesis 3 &mdash; The Fall of Man",
+    reference: "Genesis 3:1&ndash;24",
+    paragraphs: [
+      "Genesis 3 is among the most consequential chapters in all of Scripture. In its twenty-four verses the entire trajectory of human history shifts &mdash; from a garden of unhindered communion with God to a world of toil, shame, pain, and death. What begins in perfect shalom, with man and woman walking openly with their Creator, ends in exile from Eden. And yet, woven into the fabric of judgment, is the first glimmer of gospel hope &mdash; a promise that One would come to undo everything the serpent accomplished here.",
+      "The chapter flows through four distinct movements. First comes the temptation: the serpent approaches the woman and engages her in a dialogue designed to cast doubt on God&rsquo;s word and God&rsquo;s character. Second comes the fall itself: the woman takes the fruit, eats, and gives some to her husband, who eats with her. Third come the immediate consequences: eyes opened to shame, frantic attempts at covering, and the terrifying sound of God walking in the garden. Fourth comes the divine response &mdash; a mixture of judgment and grace, curses and promise, that simultaneously delivers the verdict on sin and plants the seed of redemption.",
+      "No other three-chapter sequence in the Bible (Genesis 1&ndash;3) has so profoundly shaped Christian theology. From the doctrine of original sin to the theology of atonement, from the biblical understanding of shame to the hope of new creation, nearly everything in the Christian faith traces its roots to what happened in this garden. The apostle Paul would later write that &ldquo;as in Adam all die, so also in Christ shall all be made alive&rdquo; (1 Corinthians 15:22), pointing to Genesis 3 as the disaster that makes the gospel necessary.",
+      "Genesis 3 must be read in the light of Genesis 1&ndash;2. There, God created a world that was &ldquo;very good&rdquo; &mdash; teeming with life, ordered and beautiful, with human beings made in the image of God and given meaningful work, intimate companionship, and the gift of unbroken fellowship with their Maker. The only restriction was a single tree: &ldquo;of the tree of the knowledge of good and evil you shall not eat, for in the day that you eat of it you shall surely die&rdquo; (2:17). The goodness of the prohibition was not arbitrary &mdash; it was the boundary of creatureliness, the acknowledgment that God alone is the measure of good and evil.",
+      "What makes Genesis 3 so devastating is precisely the contrast with what came before. The intimacy of God walking with his people, the beauty of the garden, the goodness of the original order &mdash; all of it is what was lost. The whole Bible, from this point forward, is in one sense the story of God working to restore what Genesis 3 destroyed and to bring humanity back &mdash; not merely to Eden, but to something far greater than Eden ever was.",
+      "The chapter speaks with profound psychological and spiritual insight about the anatomy of sin: how it begins with subtle doubt, progresses through desire, culminates in disobedience, and immediately produces shame, blame, and hiding. Reading it carefully is not merely an exercise in ancient history; it is a diagnosis of the human condition as we all still experience it. We recognize ourselves in Adam and Eve &mdash; in their rationalizations, their self-justifications, their attempts to cover themselves &mdash; and we find in the searching question of God the same voice that still confronts every human heart: &ldquo;Where are you?&rdquo;",
+    ],
+  },
+  {
+    id: "The Temptation",
+    heading: "The Serpent&rsquo;s Temptation",
+    reference: "Genesis 3:1&ndash;6",
+    paragraphs: [
+      "The chapter opens with a chilling introduction: &ldquo;Now the serpent was more crafty than any other beast of the field that the Lord God had made&rdquo; (3:1). The Hebrew word for crafty &mdash; &lsquo;arum &mdash; is a close wordplay on the Hebrew word for naked (&lsquo;arummim) used in 2:25 to describe Adam and Eve&rsquo;s original innocence. The man and woman were naked and unashamed; now enters the one who is crafty. The contrast is deliberate. Innocence is about to encounter cunning.",
+      "The serpent&rsquo;s opening gambit is a question, but not an innocent one: &ldquo;Did God actually say, &lsquo;You shall not eat of any tree in the garden&rsquo;?&rdquo; (3:1). The question is a masterpiece of distortion. God had said they could eat freely of every tree but one; the serpent reframes this generous provision as a sweeping prohibition. The strategy is ancient and still works: take God&rsquo;s one &ldquo;no&rdquo; and use it to cast suspicion on all his &ldquo;yeses.&rdquo; Make the restriction the lens through which the whole relationship is seen, so that God appears stingy and withholding rather than generous and good.",
+      "The woman&rsquo;s response is striking. She corrects the serpent &mdash; they may eat of every tree, except the one in the midst of the garden, lest they die &mdash; but in correcting him she adds something God did not say: &ldquo;neither shall you touch it, lest you die&rdquo; (3:3). God had forbidden eating; the woman adds touching. Theologians have debated whether this represents a hedge of extra caution or the beginning of a distorted view of God&rsquo;s command. What is clear is that a wedge is already being inserted between God&rsquo;s actual word and the woman&rsquo;s perception of it.",
+      "Then comes the direct attack: &ldquo;You will not surely die. For God knows that when you eat of it your eyes will be opened, and you will be like God, knowing good and evil&rdquo; (3:4&ndash;5). The serpent contradicts God flatly and then offers a counter-explanation: God&rsquo;s prohibition is not for their benefit but for his own protection. God is keeping them from something good because he does not want them to rise to his level. The lie is profound in its perversity &mdash; it inverts the entire character of God, turning the most generous Being in the universe into a jealous, threatened tyrant who withholds his best from his creatures.",
+      "The temptation works on three levels, which the text carefully documents: &ldquo;So when the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was to be desired to make one wise&rdquo; (3:6). Body, soul, and spirit &mdash; appetite, aesthetics, and ambition &mdash; all three are engaged. The apostle John would later speak of &ldquo;the desires of the flesh and the desires of the eyes and pride of life&rdquo; (1 John 2:16), and it is difficult not to see in Genesis 3:6 the archetype of that threefold temptation.",
+      "Where was Adam during this exchange? The text says simply that &ldquo;she also gave some to her husband who was with her, and he ate&rdquo; (3:6). The phrase &ldquo;who was with her&rdquo; has generated enormous discussion. Adam was present &mdash; and silent. The one charged with guarding and keeping the garden (2:15) stood by while the serpent dismantled the order God had established. His sin was not merely in the eating; it was in the abdication of responsibility, in the passive acceptance of what should have been named and resisted.",
+    ],
+  },
+  {
+    id: "The Fall",
+    heading: "The Fall and Its Immediate Aftermath",
+    reference: "Genesis 3:7&ndash;13",
+    paragraphs: [
+      "The moment of eating is recorded with stark brevity: &ldquo;she took of its fruit and ate, and she also gave some to her husband who was with her, and he ate&rdquo; (3:6). There is no thunderclap, no immediate earthquake. Just the eating. But what follows in the very next verse reveals the catastrophic inner transformation: &ldquo;Then the eyes of both were opened, and they knew that they were naked&rdquo; (3:7). The serpent&rsquo;s promise that their eyes would be opened came true &mdash; but not in the way he had implied. What they now saw was not divine glory but their own exposure and vulnerability.",
+      "Shame is the first fruit of the fall. The nakedness that had been &ldquo;not ashamed&rdquo; (2:25) is now a source of burning embarrassment. They sew fig leaves together to make coverings for themselves &mdash; the first human attempt at self-justification and self-covering. But fig leaves are inadequate to the problem. Shame is not merely a feeling; it is the fracture of the self, the collapse of the sense that one is fundamentally acceptable and worthy. No amount of human striving &mdash; no fig leaf, however cunningly fashioned &mdash; can address what has broken inside.",
+      "Then they hear the sound of the Lord God walking in the garden in the cool of the day, and they hide themselves from his presence among the trees (3:8). The God who had been a companion becomes a threat. The one whose presence had been their delight now fills them with dread. This is the essence of spiritual death &mdash; not the cessation of biological life, but the collapse of relationship with God into fear-driven hiding. Sin does not kill the soul so much as it alienates the soul from the only One who can truly give it life.",
+      "The Lord&rsquo;s question cuts through the garden silence: &ldquo;Where are you?&rdquo; (3:9). God does not ask because he does not know. He asks because the question forces the man to confront the reality of what has changed. Adam&rsquo;s answer is devastating in its self-awareness: &ldquo;I heard the sound of you in the garden, and I was afraid, because I was naked, and I hid myself&rdquo; (3:10). Fear of God, awareness of nakedness, and the impulse to hide &mdash; in three phrases Adam describes the entire human condition east of Eden. We have been afraid, exposed, and hiding ever since.",
+      "The divine interrogation continues: &ldquo;Who told you that you were naked? Have you eaten of the tree of which I commanded you not to eat?&rdquo; (3:11). Again God already knows; the question is for Adam&rsquo;s benefit. And now comes the response that has defined human behavior in the face of accountability ever since: the blame-shift. &ldquo;The woman whom you gave to be with me, she gave me fruit of the tree, and I ate&rdquo; (3:12). In one sentence Adam blames both Eve and God himself &mdash; &ldquo;the woman whom you gave to be with me.&rdquo; The gift has become the excuse.",
+      "Eve, when questioned in turn, follows the same pattern: &ldquo;The serpent deceived me, and I ate&rdquo; (3:13). The observation is accurate &mdash; she was deceived &mdash; but it is offered as deflection rather than confession. The anatomy of sin in Genesis 3 includes not only the transgression itself but the subsequent layers of hiding, blaming, and excuse-making that characterize fallen human responses to confrontation. What is absent from both accounts is the one thing that could have led to restoration: a simple, unqualified &ldquo;I sinned.&rdquo;",
+    ],
+  },
+  {
+    id: "Consequences and Grace",
+    heading: "The Curses, the Promise, and the First Grace",
+    reference: "Genesis 3:14&ndash;24",
+    paragraphs: [
+      "God now turns to pronounce judgment, and he does so in reverse order: the serpent first, then the woman, then the man. The serpent&rsquo;s curse is absolute &mdash; no question asked, no answer awaited. He is cursed above all livestock and above all beasts of the field; he will go on his belly and eat dust all the days of his life (3:14). The reversal is poetic justice: the one who sought to elevate himself by bringing others down is brought lowest of all.",
+      "But embedded in the serpent&rsquo;s curse is the most extraordinary promise in the Old Testament: &ldquo;I will put enmity between you and the woman, and between your offspring and her offspring; he shall bruise your head, and you shall bruise his heel&rdquo; (3:15). Theologians have called this the &lsquo;protoevangelium&rsquo; &mdash; the first gospel. In the very moment of curse and judgment, God plants the seed of redemption. A descendant of the woman will engage the serpent in mortal combat. The serpent will wound him &mdash; a strike to the heel, painful but survivable. But the seed of the woman will crush the serpent&rsquo;s head &mdash; a mortal blow.",
+      "The proto-evangelium is the interpretive key to the entire rest of Scripture. Every subsequent promise of deliverance &mdash; through Abraham, through David, through the prophets &mdash; is a progressive unfolding of this first word of hope spoken over a fallen pair in a cursed garden. The apostle Paul reaches back to it when he writes, &ldquo;The God of peace will soon crush Satan under your feet&rdquo; (Romans 16:20), and the book of Revelation reaches forward to it when the dragon, that ancient serpent, is at last thrown into the lake of fire. Genesis 3:15 is both the beginning of the story and the preview of its ending.",
+      "The woman&rsquo;s consequence is pain in childbearing and a distortion of the marriage relationship &mdash; the desire that will bring conflict (3:16). This is not a new command but a description of how sin corrupts what was meant to be beautiful. The man&rsquo;s consequence is frustration in labor: ground that was meant to yield readily will now produce thorns and thistles, and the work of providing will come only through painful toil and the sweat of his brow (3:17&ndash;19). And then the summary word of judgment: &ldquo;for you are dust, and to dust you shall return&rdquo; (3:19). Physical death enters the human story.",
+      "Yet even in the midst of these judgments, grace appears. Adam names his wife Eve, &ldquo;because she was the mother of all living&rdquo; (3:20) &mdash; an act of faith in the promise of 3:15 even as they stand under the sentence of death. And God himself, before driving them from the garden, makes garments of skins and clothes them (3:21). The fig-leaf coverings of human self-effort are replaced by something more substantial &mdash; something that required the death of an animal. Many commentators have seen here the first sacrifice, the first provision of adequate covering for human sin by God himself, foreshadowing the skin-for-skin exchange of atonement.",
+      "The expulsion from the garden is both punishment and protection: &ldquo;lest he reach out his hand and take also of the tree of life and eat, and live forever&rdquo; (3:22). To live forever in a state of sin and alienation from God would be the ultimate misery, not the ultimate blessing. The exile from Eden, though painful, is itself an act of mercy &mdash; preserving the possibility of redemption, keeping death from becoming permanent. Cherubim and a flaming sword guard the way to the tree of life. But in the book of Revelation, that tree reappears &mdash; in the New Jerusalem, no longer guarded but freely accessible, its leaves for the healing of the nations (Revelation 22:2). What Genesis 3 closes, Revelation 22 opens again.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Living in the Light of Genesis 3",
+    reference: "Romans 5:12&ndash;21; 1 Corinthians 15:20&ndash;22",
+    paragraphs: [
+      "Genesis 3 is not merely a story about the distant past &mdash; it is a diagnosis of the present. Every human being who has ever lived east of Eden carries the marks of the fall: the tendency to doubt God&rsquo;s goodness, the susceptibility to rationalized disobedience, the instinct to hide and blame when confronted. To read Genesis 3 carefully is to read oneself. The temptation strategy of the serpent &mdash; sow doubt about God&rsquo;s word, reframe his generosity as restriction, promise self-actualization through disobedience &mdash; is still the template for every temptation we face.",
+      "The chapter calls us to recognize the anatomy of temptation before it completes its work. The serpent did not arrive in the garden with a drawn weapon; he arrived with a question. Temptation almost always begins in the mind, with a suggestion that God cannot be fully trusted, that his word is too restrictive, that some other path might lead to flourishing. The antidote in Scripture is not willpower alone but a renewed mind saturated with the truth of who God actually is &mdash; not a withholding tyrant but an overflowing fountain of generosity whose every command is for our good.",
+      "Genesis 3 also speaks powerfully about shame and the human need for covering. Adam and Eve&rsquo;s response to sin &mdash; sewing fig leaves, hiding in the trees &mdash; is the template for every strategy of self-justification and performance that human beings have used to manage the problem of guilt and shame. Religion, moralism, busyness, achievement, substance use, image management &mdash; all are variations on the fig leaf. The gospel declares that none of it is adequate and that God himself has provided the only covering that works: not a garment we fashion but a righteousness we receive.",
+      "The story of Adam and Eve is also a warning about the corrosive power of passivity in the face of spiritual danger. Adam was present during the temptation but did not speak. He received the fruit from his wife without protest. His sin was not only an act but an abdication &mdash; a failure to guard and keep what he had been entrusted to protect. The call to men and women alike in Scripture is not merely to avoid direct transgression but to actively resist evil, to name what is wrong, to stand and speak when the serpent is at work in the vicinity.",
+      "Perhaps the most powerful application of Genesis 3 is the one that reaches through the entire biblical story: the promise of the seed. In the darkest moment, when judgment has been pronounced and exile is imminent, God speaks a word of hope. The serpent will not have the last word. Sin and death are not permanent. There is One who will come &mdash; born of a woman, engaged in a cosmic battle with the ancient enemy &mdash; who will be wounded but will ultimately crush the head of the serpent. That One has come. Jesus of Nazareth, the last Adam (1 Corinthians 15:45), came not in a garden but into the full wilderness of a fallen world, faced the same tempter with the same strategies (Matthew 4:1&ndash;11), and did not fail. Where the first Adam abdicated, the last Adam overcame.",
+      "The restoration that begins with Genesis 3:15 is completed at the empty tomb and will be consummated at the return of Christ. Those who are united to the last Adam by faith are no longer hiding in the trees &mdash; they have been clothed in his righteousness, welcomed back into the Father&rsquo;s presence, and made co-heirs of the new creation where the tree of life grows freely and the curse is finally lifted. &ldquo;No longer will there be anything accursed, but the throne of God and of the Lamb will be in it, and his servants will worship him&rdquo; (Revelation 22:3). Genesis 3 is the wound; Revelation 22 is the healing. And the One who bridges them is the seed of the woman, the Lamb who was slain, Jesus Christ the Lord.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "oPo5x7DQZBU", title: "BibleProject - Genesis 1-11 Overview" },
+  { videoId: "GQI72THyO5I", title: "The Fall of Man: Genesis 3 Explained" },
+  { videoId: "9GmBBNBZVZQ", title: "What Really Happened in the Garden of Eden?" },
+  { videoId: "8ERFofQpFBc", title: "The Protoevangelium: First Promise of the Gospel in Genesis 3" },
+];
+
+export default function Genesis3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Genesis 3 &mdash; The Fall of Man
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Sin, shame, and the promise of redemption &mdash; the serpent&rsquo;s temptation, the catastrophic fall of Adam and Eve, the entry of death and exile into the human story, and the first glimmer of gospel hope in the protoevangelium of Genesis 3:15.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3.5rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of Genesis 3 through visual teaching on the fall of man, the temptation of Adam and Eve, original sin, and the first promise of redemption.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>He Shall Bruise Your Head</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Genesis 3 is the wound at the heart of the human story &mdash; but it is not the final word. In the very sentence of judgment on the serpent, God speaks the first gospel: a seed of the woman would come to crush the enemy&rsquo;s head. That seed has come in Jesus Christ, the last Adam, whose obedience undoes what the first Adam forfeited, whose cross absorbs the curse, and whose resurrection is the firstfruits of a new creation where the exile of Genesis 3 is permanently reversed.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

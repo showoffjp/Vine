@@ -1924,6 +1924,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 John 4 Chapter": "1-john-4-guide",
   "Perfect Love Casts Out Fear": "1-john-4-guide",
   "Love One Another": "1-john-4-guide",
+  "Genesis 3 Chapter": "genesis-3-guide",
+  "The Fall of Man": "genesis-3-guide",
+  "Forbidden Fruit": "genesis-3-guide",
+  "Exodus 3 Chapter": "exodus-3-guide",
+  "Moses and the Burning Bush": "exodus-3-guide",
+  "I Am Who I Am": "exodus-3-guide",
+  "Joshua 1 Chapter": "joshua-1-guide",
+  "Be Strong and Courageous": "joshua-1-guide",
+  "Book of the Law": "joshua-1-guide",
+  "1 Kings 19 Chapter": "1-kings-19-guide",
+  "Elijah in the Desert": "1-kings-19-guide",
+  "Wind Fire and Still Voice": "1-kings-19-guide",
 };
 
 
@@ -2834,6 +2846,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 25 Chapter" },
   { label: "Philippians 2 Chapter" },
   { label: "1 John 4 Chapter" },
+  { label: "Genesis 3 Chapter" },
+  { label: "Exodus 3 Chapter" },
+  { label: "Joshua 1 Chapter" },
+  { label: "1 Kings 19 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

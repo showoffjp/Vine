@@ -1,0 +1,188 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Commission",
+  "Be Strong and Courageous",
+  "The Book of the Law",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Joshua 1",
+    reference: "Joshua 1:1&ndash;18",
+    paragraphs: [
+      "Joshua 1 stands at one of the great hinge-points of the entire Bible. Moses, the servant of the Lord through whom God had spoken face-to-face, through whom the Exodus had been accomplished, through whom the Law had been given at Sinai &mdash; Moses is dead. Forty years of wilderness wandering are over. A generation has passed. Now the people of Israel stand on the eastern bank of the Jordan River, the land of Canaan shimmering before them, and everything depends on what happens next.",
+      "Into this moment of profound transition, the word of the Lord comes directly to Joshua the son of Nun, Moses&rsquo;s assistant and chosen successor. The chapter unfolds in three distinct movements: first, God commissions Joshua with a remarkable promise and a threefold command (vv. 1&ndash;9); second, Joshua relays the commission to the officers of the people and issues marching orders, including a pointed reminder to the Transjordanian tribes (vv. 10&ndash;15); third, the people respond with a rousing affirmation of loyalty that echoes the terms of the commission itself (vv. 16&ndash;18).",
+      "What makes Joshua 1 so theologically rich is the way it holds together the human and the divine. God makes sweeping promises &mdash; every place the sole of Joshua&rsquo;s foot treads shall be given to him, no man will be able to stand before him all the days of his life, God himself will be with him wherever he goes. Yet these promises are not invitations to passive waiting. They are the foundation and fuel for active, courageous obedience. The chapter&rsquo;s great refrain &mdash; &ldquo;be strong and courageous&rdquo; &mdash; appears four times in eighteen verses, woven through both the divine commission and the people&rsquo;s response, binding the whole chapter together.",
+      "The chapter also introduces what will be a central theme of the entire Book of Joshua: the relationship between the land, the Law, and the Lord. The promise of land is inseparable from fidelity to the covenant. Joshua cannot simply march in and take territory as a military commander; he must do so as a servant of the Lord who meditates on the Book of the Law day and night and is careful to do all that is written in it. The geography of Canaan and the theology of covenant are bound together from the opening verses.",
+      "Joshua 1 thus sets up the entire book by answering the question that hangs over the moment of transition: &ldquo;Can anyone follow Moses?&rdquo; The chapter&rsquo;s answer is nuanced and deeply pastoral. No one can be Moses; the text does not claim that. But Joshua does not need to be Moses. He needs to be faithful to the same God who was faithful to Moses, to cling to the same word that guided Moses, and to trust the same divine presence that accompanied Moses. That is enough.",
+    ],
+  },
+  {
+    id: "The Commission",
+    heading: "God&rsquo;s Commission to Joshua",
+    reference: "Joshua 1:1&ndash;9",
+    paragraphs: [
+      "The divine speech that opens Joshua 1 begins with the word &ldquo;after&rdquo; &mdash; &ldquo;After the death of Moses the servant of the Lord&rdquo; (1:1). The timing is deliberate. There is no interregnum, no period of leaderless uncertainty. The very moment Moses dies, God speaks to Joshua. The continuity of God&rsquo;s purpose with his people does not depend on the life of any single human leader, however great. Moses was irreplaceable; the mission was not paused.",
+      "God begins by identifying himself and Joshua in relation to Moses: Joshua is &ldquo;Moses&rsquo;s assistant&rdquo; (1:1). This is not a slight but a qualification. Joshua had been apprenticed to Moses for decades. He had stood in Moses&rsquo;s presence, witnessed his intercessions, accompanied him partway up Sinai, led the army against the Amalekites. Now the servant of the servant is called to step into the lead, and the title given him &mdash; Moses&rsquo;s assistant &mdash; is the credential that explains why he is ready.",
+      "The promise that follows is breathtaking in its scope: &ldquo;Every place that the sole of your foot will tread upon I have given to you, just as I promised to Moses&rdquo; (1:3). The perfect tense &mdash; &ldquo;I have given&rdquo; &mdash; is theologically significant. The land is spoken of as already given before a single soldier has crossed the Jordan. The conquest that will unfold across the rest of the book is the outworking of a gift already granted in the divine economy. This grammar of grace &mdash; God&rsquo;s prior action as the basis for human response &mdash; shapes everything that follows.",
+      "The geographical boundaries described in verse 4 are staggeringly large &mdash; from the wilderness to Lebanon, from the Euphrates to the Mediterranean. These borders largely exceed what Israel ever historically controlled, pointing beyond the immediate conquest to an eschatological horizon: the full inheritance of the people of God is still in view. The partial fulfillment under Joshua is real and significant, but it is not the end of the story.",
+      "God then delivers the heart of the commission: &ldquo;No man shall be able to stand before you all the days of your life. Just as I was with Moses, so I will be with you. I will not leave you or forsake you&rdquo; (1:5). The promise of divine presence is the foundation on which everything else is built. Joshua&rsquo;s courage does not arise from his own personal resources or military genius. It arises from the promise that the God who was with Moses &mdash; the God of the burning bush, of the Red Sea, of Sinai &mdash; is the same God who will be with him. The grounds of courage are not intrinsic to Joshua but extrinsic: they are rooted in the character and the word of the Lord.",
+      "The commission closes with three paired commands and reasons: be strong and courageous because you will cause this people to inherit the land I promised their fathers (v. 6); be strong and courageous because you must obey the Law my servant Moses commanded (v. 7); be strong and courageous because the Lord your God is with you wherever you go (v. 9). Strength and courage are not an attitude Joshua must summon from within; they are the rational response to facts about God that have been placed before him. God is giving the land, God has given the Law, God is present &mdash; therefore, be strong.",
+    ],
+  },
+  {
+    id: "Be Strong and Courageous",
+    heading: "Be Strong and Courageous",
+    reference: "Joshua 1:6&ndash;9, 16&ndash;18",
+    paragraphs: [
+      "The phrase &ldquo;be strong and courageous&rdquo; (&lsquo;chazaq ve&rsquo;ematz&rsquo; in Hebrew) is the spine of Joshua 1. It appears in verse 6, verse 7, and verse 9 from the mouth of God, and then again in verse 18 from the mouth of the people. This fourfold repetition is not rhetorical padding. It is the text insisting that we hear something carefully: whatever Joshua faces in the days ahead, the foundational disposition required of him is strength and courage rooted in God&rsquo;s promise.",
+      "Yet it is crucial to notice what this phrase is and is not. It is not a motivational mantra of self-belief. It is not the ancient Near Eastern equivalent of a locker-room speech about confidence and positive thinking. The command to be strong and courageous is always anchored to specific reasons that lie outside Joshua himself. &ldquo;Be strong and courageous, for you shall cause this people to inherit the land&rdquo; (1:6) &mdash; the reason is the certainty of the divine promise. &ldquo;Be strong and courageous... do not be frightened... for the Lord your God is with you wherever you go&rdquo; (1:9) &mdash; the reason is the reality of divine presence.",
+      "This pattern has a profound pastoral implication. When God calls someone to strength and courage, he does not leave them to manufacture those qualities from their own interior resources. He calls them to look outward and upward &mdash; to the promise, to the Law, to his presence &mdash; and to let what they see there transform their posture. Courage, in the biblical vision, is not the absence of fear but the choice to act on what God has said rather than on what circumstances appear to threaten.",
+      "The second occurrence of the phrase (v. 7) is particularly interesting because it links courage directly to obedience to the Law: &ldquo;Only be strong and very courageous, being careful to do according to all the law that Moses my servant commanded you. Do not turn from it to the right hand or to the left, that you may have good success wherever you go.&rdquo; Here strength and courage are not about battlefield valor; they are about the daily discipline of covenant faithfulness. It takes courage to stay on the narrow path when the world offers wider roads. It takes strength to keep meditating on the Law when pressing practical concerns crowd it out.",
+      "The people&rsquo;s response in verses 16&ndash;18 is one of the most moving moments in the chapter. They pledge unconditional loyalty: &ldquo;Whatever you have commanded us we will do, and wherever you send us we will go&rdquo; (1:16). And then they echo back to Joshua the very words God had spoken to him: &ldquo;Only be strong and courageous&rdquo; (1:18). The community of faith becomes a vehicle through which the divine commission is reinforced and applied. Joshua receives the call to courage not only from God&rsquo;s direct word but also from the united voice of his people rallying behind him.",
+      "The New Testament picks up this theme. The author of Hebrews quotes directly from Joshua 1:5 &mdash; &ldquo;I will never leave you nor forsake you&rdquo; &mdash; and applies it to the Christian community facing financial anxiety and persecution (Heb. 13:5&ndash;6). The conclusion drawn is the same: because God has said this, we may confidently say, &ldquo;The Lord is my helper; I will not fear; what can man do to me?&rdquo; The call to strength and courage rooted in divine presence is not merely an Old Testament relic; it is the permanent posture of everyone who walks with this God.",
+    ],
+  },
+  {
+    id: "The Book of the Law",
+    heading: "The Book of the Law",
+    reference: "Joshua 1:7&ndash;8",
+    paragraphs: [
+      "Tucked into the heart of God&rsquo;s commission to Joshua is one of the most important statements in the entire Old Testament about the role of Scripture in the life of a leader: &ldquo;This Book of the Law shall not depart from your mouth, but you shall meditate on it day and night, so that you may be careful to do according to all that is written in it. For then you will make your way prosperous, and then you will have good success&rdquo; (1:8). In a chapter saturated with military preparation and geopolitical promise, this verse stands as a counterintuitive priority. Before Joshua plans strategy, before he sends out spies, before he issues orders, God says: meditate on the Law.",
+      "The Hebrew word translated &ldquo;meditate&rdquo; here (&lsquo;hagah&rsquo;) carries a sense of murmuring or muttering &mdash; the quiet vocalization of a text as one turns it over and over in the mind. This was the practice of ancient readers, who read aloud even when alone, letting the words of a text pass through lips and ears and mind repeatedly until they were deeply internalized. The instruction that the Book of the Law should not &ldquo;depart from your mouth&rdquo; suggests that meditating on Scripture is not merely an intellectual exercise; it is a practice that shapes character at a deep level, forming the kind of person who instinctively turns to God&rsquo;s word when decisions must be made under pressure.",
+      "The promised outcome of this meditation is striking: &ldquo;then you will make your way prosperous, and then you will have good success.&rdquo; The word translated &ldquo;success&rdquo; (&lsquo;sakal&rsquo;) in Hebrew often connotes wisdom, insight, or prudent understanding. This is not a prosperity-gospel promise of material wealth or easy victories. It is the assurance that the leader who is deeply formed by God&rsquo;s word will possess a kind of practical wisdom &mdash; the ability to navigate complex situations with discernment &mdash; that cannot be acquired by military training or political cunning alone.",
+      "The instruction to meditate &ldquo;day and night&rdquo; connects Joshua 1:8 directly to Psalm 1:2, where the blessed man is described as one whose &ldquo;delight is in the law of the Lord, and on his law he meditates day and night.&rdquo; Both texts place Scripture-meditation at the center of a flourishing life. Joshua 1 grounds this practice not in abstract piety but in concrete preparation for the most demanding assignment the nation has ever faced: the conquest of Canaan. The implication is clear &mdash; no military challenge, no political responsibility, no leadership burden so urgent that it makes regular, deep engagement with God&rsquo;s word dispensable.",
+      "The &ldquo;Book of the Law&rdquo; referred to is almost certainly the book of Deuteronomy, or possibly the Pentateuch as a whole &mdash; the collection of divine instruction that Moses had set before Israel during the forty years in the wilderness. It was not a small document, and it was not easy reading. It contained detailed legislation, extended historical narrative, covenant curses and blessings, poetry, and prophecy. Yet Joshua is told to meditate on all of it, to hold it before his mind continually, to let it shape his lips, his thinking, and his actions.",
+      "For the Christian reader, this verse invites reflection on a long tradition of biblical meditation that runs from Joshua through the Psalms to the New Testament&rsquo;s instruction to &ldquo;let the word of Christ dwell in you richly&rdquo; (Col. 3:16). The practice has changed in form &mdash; we have a completed canon, the Holy Spirit to illuminate it, and centuries of faithful interpretation to draw on &mdash; but the principle has not. Those who would lead well, serve faithfully, and navigate the pressures of life with wisdom must not let the Book of the Law depart from their mouths. They must meditate on it day and night.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Living Joshua 1 Today",
+    reference: "Joshua 1:1&ndash;18",
+    paragraphs: [
+      "Joshua 1 addresses a universal human experience: the terrifying moment of transition when the familiar support is gone, the proven leader has passed from the scene, and you are suddenly responsible in a way you have never been before. Every generation faces its own version of the Jordan River &mdash; a calling that seems too large, a task for which you feel unqualified, a future that appears more uncertain than you can bear. Joshua 1 speaks directly into that experience with a word from God that is both demanding and deeply comforting.",
+      "The first application is simply to receive God&rsquo;s promise of presence as the foundation of courage. The text does not say &ldquo;God will make it easy&rdquo; or &ldquo;you will not face formidable opposition.&rdquo; Joshua faced walled cities, professional warriors, and entrenched nations. What God promised was not the absence of adversity but the certainty of his companionship: &ldquo;I will be with you. I will not leave you or forsake you.&rdquo; Christian disciples live under the identical promise, because the risen Christ has said, &ldquo;I am with you always, to the end of the age&rdquo; (Matt. 28:20). The grounds for courage have not changed; they have in fact deepened.",
+      "The second application concerns the counterintuitive priority of Scripture in the midst of urgent practical demands. When you are standing at the edge of the Jordan with a nation waiting behind you and a land to conquer before you, the most urgent item on the agenda feels like logistics. God says: meditate on the Book of the Law. This is not an instruction to neglect preparation; Joshua proceeds to give practical orders in the very next breath. It is an instruction about what must be primary, what must not be squeezed out by the pressure of busyness. The leader who is deeply rooted in the word of God brings something to every decision and crisis that no amount of strategic planning can supply.",
+      "The third application is that courage is a communal enterprise. Joshua does not simply receive God&rsquo;s commission and march off alone into his new responsibilities. He gathers the officers, issues clear direction, and receives the rallying pledge of his people. When the community echoes back to him the very words God had spoken &mdash; &ldquo;be strong and courageous&rdquo; &mdash; they are not merely offering encouragement; they are placing themselves behind his leadership and sharing his burden. The New Testament community is called to the same mutual strengthening: &ldquo;encourage one another and build one another up&rdquo; (1 Thess. 5:11).",
+      "There is also a sobering note of conditionality in Joshua 1 that pastoral honesty requires us to name. The promise of prosperous success is tied to careful obedience to the whole Law. &ldquo;Do not turn from it to the right hand or to the left, that you may have good success wherever you go&rdquo; (1:7). The book of Joshua will go on to show that when Israel is faithful, the victories come; when they are not &mdash; as in the sin of Achan that brings disaster at Ai &mdash; the promise is forfeited. The grace of God&rsquo;s presence does not eliminate the moral seriousness of covenant faithfulness.",
+      "Finally, Joshua 1 is a passage about endings that are really beginnings. The death of Moses feels like a catastrophic loss &mdash; and it was. Yet the very word with which God responds to that loss is &ldquo;now&rdquo; (&ldquo;Now therefore arise...&rdquo;, v. 2). God&rsquo;s purposes do not stall at the graves of his servants. He raises up the next person, gives them the same word and the same promise and the same charge, and says: arise, cross over, begin. This rhythm &mdash; death giving way to new beginning under the same faithful God &mdash; finds its ultimate expression in the resurrection of Jesus, through whom every ending becomes the threshold of something God is doing that is more glorious than what came before.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "JU2sjkVx0lA", title: "Elijah and the Prophets of Baal at Mount Carmel" },
+  { videoId: "qpDoc9lydDc", title: "BibleProject - Overview: Joshua" },
+  { videoId: "yzSPBdxiMVM", title: "Joshua 1 Explained: Be Strong and Courageous" },
+  { videoId: "V0MbQCVFVPc", title: "God&rsquo;s Call to Joshua &mdash; Crossing the Jordan" },
+];
+
+export default function Joshua1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Joshua 1 &mdash; Be Strong and Courageous
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            At the threshold of the Promised Land, with Moses gone and the Jordan before them, God speaks to Joshua: &ldquo;Be strong and courageous &mdash; for the Lord your God is with you wherever you go.&rdquo; A study of God&rsquo;s commission, the call to meditate on the Law, and what it means to step into the future trusting a faithful God.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>Video Teaching on Joshua 1</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "2.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Be Strong and Courageous</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Joshua 1 remains one of the most bracing commissions in all of Scripture. Its call to strength and courage is not a summons to human self-reliance but a call to plant your feet firmly on the promises of God: the land he has given, the Law he has revealed, and the presence he has promised will never leave. Wherever you are standing today, that same God says to you: arise, for the Lord your God is with you wherever you go.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

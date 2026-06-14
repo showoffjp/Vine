@@ -2152,6 +2152,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Judges 6 Chapter": "judges-6-guide",
   "Gideon and the Fleece": "judges-6-guide",
   "Mighty Warrior Gideon": "judges-6-guide",
+  "Joshua 2 Chapter": "joshua-2-guide",
+  "Rahab and the Spies": "joshua-2-guide",
+  "Scarlet Cord Rahab": "joshua-2-guide",
+  "Genesis 37 Chapter": "genesis-37-guide",
+  "Joseph Coat of Many Colors": "genesis-37-guide",
+  "Joseph Sold into Slavery": "genesis-37-guide",
+  "Colossians 2 Chapter": "colossians-2-guide",
+  "Fullness of God in Christ": "colossians-2-guide",
+  "Rooted and Built Up in Christ": "colossians-2-guide",
+  "Isaiah 61 Chapter": "isaiah-61-guide",
+  "Year of the Lord Favor": "isaiah-61-guide",
+  "Bind Up the Brokenhearted": "isaiah-61-guide",
 };
 
 
@@ -3138,6 +3150,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Samuel 11 Chapter" },
   { label: "Acts 13 Chapter" },
   { label: "Judges 6 Chapter" },
+  { label: "Joshua 2 Chapter" },
+  { label: "Genesis 37 Chapter" },
+  { label: "Colossians 2 Chapter" },
+  { label: "Isaiah 61 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

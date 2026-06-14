@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Spies Enter Jericho",
+  "Rahab Hides the Spies",
+  "Rahab Confesses the LORD",
+  "The Scarlet Cord Promise",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Joshua 2",
+    reference: "Joshua 2:1&ndash;24",
+    paragraphs: [
+      "Joshua 2 is one of the most surprising chapters in the Old Testament &mdash; a story of espionage, divine providence, and unexpected faith set in the heart of the enemy city of Jericho. Israel stands on the eastern side of the Jordan River, poised to enter the land of Canaan. Joshua, the son of Nun, has just been commissioned as Moses&rsquo;s successor, and the LORD has commanded him to be strong and courageous. Now Joshua acts: he sends two unnamed men ahead as spies to scout the land, and particularly Jericho &mdash; the first great city that lies in Israel&rsquo;s path.",
+      "The chapter turns on a single unexpected element: the spies do not find Israelite sympathizers hidden among the Canaanite population. They find a Canaanite woman &mdash; a prostitute named Rahab &mdash; who has heard of the LORD&rsquo;s deeds and has drawn a theological conclusion so firm that she risks her life to protect the men God has sent. Her confession of faith in verses 9&ndash;11 is one of the most striking declarations of Israel&rsquo;s God in the entire Hebrew Bible, made not by a prophet or a priest or a king but by a Gentile woman whose social status was among the lowest imaginable in the ancient world.",
+      "The narrative moves with remarkable economy. The spies enter Jericho, lodge at Rahab&rsquo;s house, are reported to the king, are hidden by Rahab under stalks of flax on the roof, and are let down by a rope through the window in the city wall. Before their escape, Rahab negotiates a covenant: a scarlet cord hung from her window will mark her household for protection when Israel comes to destroy the city. She asks for the lives of her father, mother, brothers, and all who belong to them. The spies swear an oath: &ldquo;Our life for yours even to death.&rdquo;",
+      "What makes Joshua 2 theologically rich is its layering of themes. It is a story about the nature of faith &mdash; Rahab&rsquo;s faith is not based on a direct encounter with the LORD but on what she has heard, and it produces action. It is a story about the expansion of the covenant community beyond the boundaries of ethnic Israel &mdash; Rahab and her household will be saved alive and will dwell in Israel to this day, the text says (6:25). It is a story about the sovereignty of God who works through the most unlikely instruments. And it is a story that foreshadows the greater redemption to come &mdash; a scarlet cord saving a family from judgment, a Gentile brought into the covenant people of God.",
+      "The chapter also sets up a pattern of divine faithfulness. The spies return to Joshua with a report that is not merely military intelligence but a theological declaration: &ldquo;Truly the LORD has given all the land into our hands. And also, all the inhabitants of the land melt away because of us&rdquo; (2:24). The victory over Jericho has already happened in the realm of God&rsquo;s sovereign decree; Israel is simply walking into what God has already determined. The faith of Rahab, the enemy, is more certain than the faith of Israel at the edge of the Jordan.",
+      "Rahab&rsquo;s story does not end in Joshua 2. Matthew 1:5 places her in the genealogy of Jesus Christ, identified as the mother of Boaz, the grandmother of Jesse, the great-grandmother of David. Hebrews 11:31 commends her: &ldquo;By faith Rahab the prostitute did not perish with those who were disobedient, because she had given a friendly welcome to the spies.&rdquo; James 2:25 cites her as an example of faith made complete by works. She is the first named convert in the conquest narrative, and she becomes an ancestor of the King of kings. Joshua 2 is thus not a footnote in the conquest story &mdash; it is a window into the grace of God that reaches beyond every human boundary.",
+    ],
+  },
+  {
+    id: "Spies Enter Jericho",
+    heading: "Spies Enter Jericho",
+    reference: "Joshua 2:1",
+    paragraphs: [
+      "The mission begins with a single sentence: &ldquo;And Joshua the son of Nun sent two men secretly from Shittim as spies, saying, &lsquo;Go, view the land, especially Jericho.&rsquo; And they went and came into the house of a prostitute whose name was Rahab and lodged there&rdquo; (2:1). The compression is deliberate &mdash; the narrator gives us the essential facts without explaining how the spies came to lodge at Rahab&rsquo;s house, or whether this was random or providential. The reader who knows how this story ends will have little doubt.",
+      "Jericho was the first great obstacle to Israel&rsquo;s conquest of Canaan. It was a fortified city in the Jordan Valley, lying at approximately 820 feet below sea level, the lowest city on earth, commanding the approaches to the central highlands. Its walls were formidable &mdash; the kind of structure that would have made a frontal assault enormously costly. By sending spies, Joshua follows the standard military practice of reconnaissance before engagement, the same practice Moses had employed when he sent twelve men to scout Canaan from the south (Numbers 13).",
+      "But the narrative immediately introduces an element that no military manual would recommend: the spies enter the house of a prostitute. The text identifies Rahab&rsquo;s profession plainly and without elaboration. In the ancient world, the house of a prostitute near the city gate would be a natural stopping point for travelers &mdash; it would attract less notice than two strangers lodging in a more respectable household, and it would provide access to the kind of information that flows through places where men gather and talk. Whether the spies chose Rahab&rsquo;s house for tactical reasons or were simply guided there by a providence they did not yet understand, the result is that they find themselves in the house of the one person in Jericho who will save their lives.",
+      "The king of Jericho receives intelligence almost immediately: &ldquo;Behold, men of Israel have come here tonight to search out the land&rdquo; (2:2). The speed of the report suggests that the king had informants and that the presence of strangers in the city was noted. He sends to Rahab directly, commanding her to bring out the men who have come to her, for &ldquo;they have come to search out all the land&rdquo; (2:3). The king&rsquo;s suspicion is correct in every detail. What he does not know is that the woman he is commanding has already decided whose side she is on.",
+      "The demand from the king creates the crisis that will reveal Rahab&rsquo;s character. She is a subject of Jericho&rsquo;s king, but she has already formed a settled conviction about the God of Israel. The choice she faces &mdash; obey the king and hand over the spies, or deceive the king and shelter them &mdash; is not, for Rahab, a close question. She has heard what the LORD has done. She knows that Jericho cannot stand against the God who dried up the Red Sea and destroyed Sihon and Og. Her act of concealment is not merely a strategic calculation; it is a confession enacted before the confession is spoken.",
+      "The city of Jericho as a whole represents the Canaanite world that has heard of the LORD&rsquo;s deeds and is melting in fear (2:9&ndash;11). But while the city melts, Rahab believes. The same report that paralyzes the population of Jericho with dread produces in Rahab a settled faith that leads to action. This distinction &mdash; between the fear that merely terrifies and the faith that saves &mdash; is at the heart of what makes Rahab&rsquo;s story so remarkable in the conquest narrative.",
+    ],
+  },
+  {
+    id: "Rahab Hides the Spies",
+    heading: "Rahab Hides the Spies",
+    reference: "Joshua 2:2&ndash;7",
+    paragraphs: [
+      "When the king&rsquo;s messengers arrive at Rahab&rsquo;s door, she has already hidden the two spies under the stalks of flax that she had laid in order on the roof (2:6). The detail is precise and practical: flax was dried on rooftops in the ancient Near East before it was processed into linen. A pile of flax stalks would be dense enough to conceal two men, and its presence on the roof would be entirely unremarkable in that agricultural context. Rahab has thought quickly and acted decisively.",
+      "Her deception of the king&rsquo;s messengers is complete and deliberate: &ldquo;True, the men came to me, but I did not know where they were from. And when the gate was about to be closed at dark, the men went out. I do not know where the men went. Pursue them quickly, for you will overtake them&rdquo; (2:4&ndash;5). She acknowledges the men&rsquo;s presence &mdash; a flat denial would have been implausible if the men had been seen entering &mdash; but she misdirects the pursuit. She sends the king&rsquo;s men out through the city gate in pursuit of the road to the Jordan fords while the spies lie hidden on her roof.",
+      "The gate of Jericho was shut after the pursuers had gone out (2:7). This detail marks a turning point: once the gate is shut, the city is closed, the pursuers are outside, and the spies are inside and safe. The very security apparatus of Jericho &mdash; its walls, its gates, its guards &mdash; has been turned against the city itself. The men sent to capture the spies are now outside the walls chasing a false trail, while the spies rest safely inside the walls of their target city under the protection of a woman who has sided with God.",
+      "The ethical question that has occupied interpreters across centuries is whether Rahab&rsquo;s lie should be commended or merely explained. Augustine and many in the classical tradition argued that Rahab sinned in lying even though she had a good motive, and that she was saved by her faith rather than her deception. Others, including many Reformation and post-Reformation commentators, argued that her lie was justified by the higher law of protecting innocent life and that in a context of war, misdirecting an unjust aggressor does not constitute moral wrongdoing. What the text itself does not do is condemn her. Hebrews 11:31 commends her for &ldquo;giving a friendly welcome to the spies&rdquo; without any qualification.",
+      "What stands out beyond the ethical debate is the quality of Rahab&rsquo;s presence of mind under pressure. She is visited by royal messengers with the authority of the king of Jericho behind them. She is a woman of low social status in a patriarchal society. And yet she controls the situation entirely &mdash; she speaks with calm authority, gives a plausible account, and sends the messengers in exactly the wrong direction. Her composure in this moment is the composure of a woman who has already decided what she believes and what she is going to do about it.",
+      "The hiding of the spies under the flax on the roof is also a small but resonant image within the larger theological pattern of the chapter. The roof is exposed, visible, the most public part of the house, and yet it conceals what the king of Jericho cannot find. The God who conceals his servants in plain sight, who protects the vulnerable by working through the unexpected, is the same God who will later dry up the Jordan and bring down the walls of Jericho without a single Israelite battering ram being raised. The hiddenness of the spies under the flax is a picture of divine protection operating in the most ordinary of materials.",
+    ],
+  },
+  {
+    id: "Rahab Confesses the LORD",
+    heading: "Rahab Confesses the LORD",
+    reference: "Joshua 2:8&ndash;14",
+    paragraphs: [
+      "Before the spies lie down for the night, Rahab comes up to them on the roof and delivers what is the theological center of the chapter: &ldquo;I know that the LORD has given you this land, and that the fear of you has fallen upon us, and that all the inhabitants of the land melt away before you&rdquo; (2:9). The confession begins with knowledge &mdash; not hope or speculation but settled conviction. She knows. She knows not because of a vision or a prophetic word but because of what she has heard, and what she has heard has produced in her a faith more certain than anything Jericho&rsquo;s walls could provide.",
+      "The content of what Rahab has heard is specific: &ldquo;For we have heard how the LORD dried up the water of the Red Sea before you when you came out of Egypt, and what you did to the two kings of the Amorites who were beyond the Jordan, to Sihon and Og, whom you devoted to destruction&rdquo; (2:10). The two great demonstrations of divine power she cites are the Exodus crossing of the Red Sea and the recent defeats of Sihon and Og, the Amorite kings east of the Jordan (Numbers 21). These are the same events that Israelite history celebrates in song and liturgy. Rahab has received the same report and drawn the correct theological conclusion from it.",
+      "The effect of this report on the people of Jericho is described plainly: &ldquo;And as soon as we heard it, our hearts melted, and there was no spirit left in any man because of you&rdquo; (2:11). But Rahab distinguishes herself from the rest of her city. The others hear and their hearts melt in the paralysis of dread. Rahab hears and her heart is moved to action &mdash; to protect the spies, to negotiate, to align herself with the people of the God whose power she recognizes. The same news that undoes the city of Jericho is what saves Rahab.",
+      "Her confession reaches its summit in verse 11: &ldquo;for the LORD your God, he is God in the heavens above and on the earth beneath.&rdquo; This statement is in form a classic Israelite affirmation of the LORD&rsquo;s sovereignty, the kind of language found in the Psalms and in Deuteronomy. But it is spoken by a Canaanite woman in a pagan city, and that incongruity is the whole point. The one true God has no geographic boundaries. His fame has traveled across the Jordan and into the houses of Jericho, and in the house of Rahab it has produced genuine monotheistic confession. She is, at this moment, more orthodox than most of Israel&rsquo;s subsequent kings.",
+      "Immediately following her confession, Rahab makes her request: &ldquo;Now then, please swear to me by the LORD that, as I have dealt kindly with you, you also will deal kindly with my father&rsquo;s house, and give me a sure sign that you will save alive my father and mother, my brothers and sisters, and all who belong to them, and deliver our lives from death&rdquo; (2:12&ndash;13). The word she uses for &ldquo;kindly&rdquo; is the Hebrew hesed &mdash; the covenant word for steadfast loyalty, the word used of God&rsquo;s own faithfulness to his people. She asks that the same covenant faithfulness she has shown the spies be returned to her and her family.",
+      "The spies agree. &ldquo;Our life for yours even to death! If you do not tell this business of ours, then when the LORD gives us the land we will deal kindly and faithfully with you&rdquo; (2:14). The oath is solemn and unconditional &mdash; their lives are pledged to her life. The covenant that Rahab makes with the spies on the roof of her house is in miniature the same kind of covenant by which Israel and its God are bound: steadfast loyalty, expressed through specific acts of protection, ratified by oath. Rahab enters into this covenant not as a bystander but as its initiator. She is the one who has faith, and she is the one who names the terms.",
+    ],
+  },
+  {
+    id: "The Scarlet Cord Promise",
+    heading: "The Scarlet Cord Promise",
+    reference: "Joshua 2:15&ndash;24",
+    paragraphs: [
+      "Having made the covenant, Rahab lets the spies down by a rope through the window of her house, which was built into the city wall, so that she lived in the wall itself (2:15). This practical detail &mdash; her house was part of the wall &mdash; is both a plot element and a resonant image. The very fortification that makes Jericho impregnable is the means of the spies&rsquo; escape. Rahab&rsquo;s house is literally inside the walls of Jericho, and yet it is the one place in Jericho that will not fall when the walls come down. The protection she provides extends to the protection she will receive.",
+      "She advises the spies to go to the hills and hide for three days until the pursuers have returned, then to go their way (2:16). Her tactical advice is sound &mdash; the pursuers have gone toward the Jordan fords, and the hill country to the west would be the last place they would search. The spies follow her counsel, hiding in the hills for three days before crossing back to Joshua. Rahab&rsquo;s help does not end with the hiding; she provides an escape route, a hiding strategy, and a plan for their safe return.",
+      "Before they depart, the spies give Rahab her sign: &ldquo;Tie this scarlet cord in the window through which you let us down, and gather into your house your father and mother, your brothers, and all your father&rsquo;s household. Then if anyone goes out of the doors of your house into the street, his blood shall be on his own head, and we shall be guiltless. But if a hand is laid on anyone who is with you in the house, his blood shall be on our head&rdquo; (2:18&ndash;19). The protection is specific, conditional, and complete: the cord marks the house; the family must be inside; anyone who leaves the protection of the house forfeits the covenant&rsquo;s protection.",
+      "The scarlet cord has drawn comment from interpreters across the centuries as a type of the blood of Christ. Clement of Rome, writing at the end of the first century, draws the typological connection explicitly, reading the scarlet cord as a sign of the redemption that would come through the blood of Jesus. Whether or not this is the intention of the original narrative, it is worth noting that the cord is explicitly scarlet, the color of blood, and that it functions as a distinguishing mark that causes the judgment falling on the city to pass over the household within. The structural parallel to the Passover &mdash; blood on the doorpost, the destroyer passes over &mdash; is not difficult to trace.",
+      "Rahab agrees immediately: &ldquo;According to your words, so be it.&rdquo; She sends them away, and &ldquo;she tied the scarlet cord in the window&rdquo; (2:21). The act of tying the cord is an act of faith &mdash; she cannot know when Israel will come, or how long she will have to wait, or whether the men will keep their oath. She ties the cord in faith and waits. The scarlet thread hanging from a window in the wall of Jericho becomes her confession enacted in fabric: she trusts the God of Israel to do what the spies have promised.",
+      "The spies return to Joshua and give their report: &ldquo;Truly the LORD has given all the land into our hands. And also, all the inhabitants of the land melt away because of us&rdquo; (2:24). Their intelligence report is framed in the language of divine certainty &mdash; &ldquo;the LORD has given&rdquo;: past tense, accomplished, settled. What they have brought back from Jericho is not primarily military data but a theological confirmation. The conquest has already occurred in the decree of God; Israel need only walk into what the LORD has determined. And the first evidence of that determination is the faith of Rahab the prostitute, who believed before Israel crossed the Jordan.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Joshua 2 Today",
+    reference: "Joshua 2 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The story of Rahab in Joshua 2 confronts every generation of readers with the same uncomfortable truth: the grace of God reaches people we would not expect it to reach, through means we would not plan for it to use, and produces faith in hearts we would have considered most unlikely. Rahab is a Canaanite, a member of the people whose sins had filled the cup of divine judgment (Genesis 15:16). She is a prostitute, at the bottom of the social hierarchy of the ancient world. She is an enemy of Israel. And she is the one person in Jericho who believes. The church in every age must reckon with a God whose grace is consistently more expansive than our categories for it.",
+      "Rahab&rsquo;s faith is instructive in its content and its form. She believes on the basis of what she has heard &mdash; the report of the Exodus and the defeats of Sihon and Og. She has not seen these events; she has heard of them. And hearing has been sufficient to produce settled conviction. This is the pattern the New Testament describes for Christian faith: &ldquo;So faith comes from hearing, and hearing through the word of Christ&rdquo; (Romans 10:17). The mechanism of Rahab&rsquo;s faith &mdash; a report heard, believed, and acted upon &mdash; is the same mechanism by which the gospel works in every generation. The question is not whether we have seen, but what we do with what we have heard.",
+      "Rahab&rsquo;s faith is also instructive in that it produces action. She does not merely change her inner convictions; she conceals the spies, misdirects the king&rsquo;s men, negotiates a covenant, provides an escape route, and ties the scarlet cord in her window. James 2:25 holds her up as the prime example of faith working through deeds: &ldquo;And in the same way was not also Rahab the prostitute justified by works when she received the messengers and sent them out by another way?&rdquo; Faith that does not produce action is, for James, no faith at all. Rahab&rsquo;s faith produced actions at great personal risk. That is the texture of genuine belief.",
+      "The scarlet cord in Rahab&rsquo;s window speaks to the theme of covenant protection &mdash; the mark that distinguishes the household that will be saved from the city that will fall. The New Testament develops this theme through the blood of Christ, which marks those who belong to him and separates them from the judgment that falls on all that is opposed to God. Rahab&rsquo;s cord is not an allegory to be decoded mechanically, but it participates in a pattern that runs from the Passover through the conquest through Calvary: the blood-red sign that distinguishes the people of God and secures their deliverance from judgment.",
+      "The inclusion of Rahab in the genealogy of Jesus (Matthew 1:5) is one of the most pointed statements in the New Testament about the scope of God&rsquo;s redemptive purpose. Matthew&rsquo;s genealogy deliberately includes women &mdash; and it includes women whose stories are irregular, unexpected, and grace-saturated. Tamar, Rahab, Ruth, and Bathsheba are not included because they are the most conventionally respectable figures in Israel&rsquo;s story; they are included because their inclusion makes a theological argument: the line of the Messiah runs through the grace of God, not the respectability of human selection. Rahab the Canaanite prostitute becomes an ancestor of Jesus of Nazareth. That fact alone is a sermon.",
+      "The city of Jericho in Joshua 2 represents, for the contemporary reader, every human structure built to resist the purposes of God. Its walls are formidable; its gate is shut; its king has the power of command and the force of arms. And yet the woman who has heard of the LORD&rsquo;s deeds ties a scarlet cord in her window and waits. The walls fall, the city burns, and Rahab and her household walk out alive. The church lives in a world full of Jerichos &mdash; systems, structures, and powers that seem impregnable. Joshua 2 teaches that the God who dried up the Red Sea and defeated Sihon and Og is still in the business of bringing down walls, still working through unexpected instruments, and still saving families through the faith of those who believe what they have heard.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "JwJlXGqHoFk", title: "BibleProject - Overview of Joshua" },
+  { videoId: "UIlIZvq2aXc", title: "Joshua 2 - Rahab and the Spies Explained" },
+  { videoId: "Z1wOvEeijVQ", title: "The Faith of Rahab - Joshua 2 Bible Study" },
+  { videoId: "ndqeW1dGdT8", title: "Rahab in the Genealogy of Jesus - Matthew 1" },
+];
+
+export default function Joshua2GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Joshua 2 &mdash; Rahab and the Spies
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Joshua sends two spies into Jericho. They lodge with Rahab, who hides them under flax on her roof when the king demands their surrender. She confesses: &ldquo;The LORD your God, he is God in the heavens above and on the earth beneath.&rdquo; She asks that her family be spared, and hangs a scarlet cord from her window as the sign of her covenant with Israel.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Joshua 2 through these video teachings on the spies in Jericho, the faith of Rahab, the scarlet cord, and Rahab&rsquo;s place in the genealogy of Jesus Christ.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The LORD Your God, He Is God</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Joshua 2 is the story of a God whose fame travels ahead of his people, reaching even into the houses of Jericho and producing faith in the most unexpected of hearts. Rahab heard, believed, and acted. Her scarlet cord hung in the window as a declaration of trust in the God of Israel &mdash; and it was honored. The walls fell. Rahab and her household walked out alive. And the line of the Messiah runs through her name.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

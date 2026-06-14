@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Rooted and Built Up in Christ",
+  "The Fullness of Deity in Christ",
+  "Cancelled the Record of Debt",
+  "Shadow and Substance",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Colossians 2",
+    reference: "Colossians 2:1&ndash;23",
+    paragraphs: [
+      "Colossians 2 is one of the most theologically concentrated chapters in the entire Pauline corpus. Writing from prison, Paul addresses a young congregation in Colossae that is under pressure from a sophisticated-sounding movement he calls &ldquo;philosophy and empty deceit, according to human tradition, according to the elemental spirits of the world, and not according to Christ&rdquo; (2:8). Whatever precise form this teaching took, its effect was to supplement Christ &mdash; to add something to him, as though he were not sufficient for full spiritual life. Paul&rsquo;s response is among the most exalted Christological arguments in the New Testament.",
+      "The chapter moves through a series of interlocking arguments, each building on the last. Paul begins by declaring his anguish and his longing that the Colossians and Laodiceans might reach all the riches of full assurance of understanding and the knowledge of God&rsquo;s mystery, which is Christ himself &mdash; &ldquo;in whom are hidden all the treasures of wisdom and knowledge&rdquo; (2:3). If Christ contains all wisdom and knowledge, then no supplementary system can add to what is already complete in him.",
+      "Paul then issues the chapter&rsquo;s great warning: &ldquo;See to it that no one takes you captive by philosophy and empty deceit, according to human tradition, according to the elemental spirits of the world, and not according to Christ&rdquo; (2:8). The imagery of &lsquo;taken captive&rsquo; is striking &mdash; Paul pictures a predator stalking the congregation, ready to lead believers off into an intellectual and spiritual prison dressed up in the language of wisdom. The antidote is not less thinking but clearer thinking: thinking &lsquo;according to Christ.&rsquo;",
+      "The heart of the chapter&rsquo;s argument arrives in verse 9: &ldquo;For in him the whole fullness of deity dwells bodily.&rdquo; This is not a declaration that Christ has some divine characteristics, or a measure of divinity, or a share in the divine nature. It is the declaration that the entire fullness &mdash; all that God is &mdash; has taken up permanent residence in a body, in the historical person of Jesus of Nazareth. And the immediate corollary is staggering: &ldquo;and you have been filled in him&rdquo; (2:10). Those who are in Christ share in the one who is himself the fullness of God.",
+      "The chapter then develops what union with Christ means in terms of the great problem of human existence before God. The record of debt &mdash; the written code standing against us with its legal demands &mdash; has been cancelled, nailed to the cross. The rulers and powers, whatever cosmic forces stood as accusers or captors, have been disarmed and publicly shamed in the triumph of the cross. Circumcision of the heart has replaced circumcision of the flesh. Burial and resurrection with Christ in baptism have replaced the old regime of the sinful body.",
+      "Paul then turns from positive declaration to protective warning. He refuses to allow anyone to pass judgment on the Colossians in matters of food and drink, festivals, new moons, or Sabbaths. These are shadows of the things to come, &ldquo;but the substance belongs to Christ&rdquo; (2:17). He warns against worship of angels, a false humility, and a strict asceticism that has &ldquo;an appearance of wisdom&rdquo; but &ldquo;is of no value in stopping the indulgence of the flesh&rdquo; (2:23). The whole chapter is a sustained argument that the one who has Christ has everything &mdash; and therefore needs nothing added to him.",
+    ],
+  },
+  {
+    id: "Rooted and Built Up in Christ",
+    heading: "Rooted and Built Up in Christ",
+    reference: "Colossians 2:1&ndash;7",
+    paragraphs: [
+      "The opening verses of Colossians 2 give us an unusual window into the emotional interior of Paul&rsquo;s apostolic ministry. He writes that he wants the Colossians and those at Laodicea to know &ldquo;how great a struggle I have for you&rdquo; (2:1). The word translated &lsquo;struggle&rsquo; (agon) is the same word from which we get &lsquo;agony&rsquo; &mdash; it was used of athletic contests, of wrestling matches, of intense exertion. Paul&rsquo;s care for churches he has not personally visited is not mild concern; it is an anguished intercession that costs him something even in his imprisonment.",
+      "The goal of Paul&rsquo;s struggle is specific and beautiful: &ldquo;that their hearts may be encouraged, being knit together in love, to reach all the riches of full assurance of understanding and the knowledge of God&rsquo;s mystery, which is Christ, in whom are hidden all the treasures of wisdom and knowledge&rdquo; (2:2&ndash;3). Notice the layered depth of what Paul wants for them. He wants encouraged hearts &mdash; hearts that are not wavering or anxious. He wants them knit together in love &mdash; community-shaped faith, not mere individual conviction. He wants full assurance of understanding &mdash; not tentative faith but settled comprehension. And all of this is located in the knowledge of Christ, who contains in himself all the treasures of wisdom and knowledge.",
+      "That last phrase is loaded with polemical significance. If all wisdom and knowledge are treasures hidden in Christ, then any teacher who comes offering wisdom that supplements or goes beyond Christ is, by definition, offering something less than Christ or something false. The richest possible intellectual and spiritual life is the life that plunges deeper and deeper into the knowledge of Christ himself. There is no ceiling on this exploration; there is no need to look elsewhere, because the treasures are inexhaustible.",
+      "Paul then gives his reason for writing: &ldquo;I say this in order that no one may delude you with plausible arguments&rdquo; (2:4). The false teaching threatening Colossae was not crude or obviously wrong; it was persuasive. Its arguments sounded reasonable. Its teachers knew how to make their case. This is why Paul&rsquo;s counter-argument does not rest on mere assertion but on a sustained demonstration of the incomparable sufficiency of Christ. The best defense against a plausible lie is a clearer vision of the truth.",
+      "Verses 6 and 7 provide the positive framework Paul will elaborate throughout the chapter. &ldquo;Therefore, as you received Christ Jesus the Lord, so walk in him, rooted and built up in him and established in the faith, just as you were taught, abounding in thanksgiving.&rdquo; The imagery is architecturally rich: roots going down (stability, nourishment, anchoring) and building going up (growth, strength, formation). Both happen &lsquo;in him&rsquo; &mdash; Christ is both the soil and the structure, both the ground into which believers sink their roots and the one in whom they are being built. And the whole process is characterized by thanksgiving &mdash; not anxious striving but grateful reception of what has already been given.",
+      "The instruction to walk &lsquo;as you received Christ Jesus the Lord&rsquo; is worth pausing over. They received Christ by faith, through the apostolic proclamation, as a gift given not earned. Paul&rsquo;s point is that the Christian life continues exactly the same way it began: by faith, through the word, as ongoing reception of grace. There is no later stage at which faith gives way to some more advanced mode of relating to God. The one who was received by faith is walked in by faith, rooted in by faith, built up in by faith &mdash; all the way to the end.",
+    ],
+  },
+  {
+    id: "The Fullness of Deity in Christ",
+    heading: "The Fullness of Deity in Christ",
+    reference: "Colossians 2:8&ndash;12",
+    paragraphs: [
+      "Colossians 2:9 is one of the most astonishing sentences in the New Testament: &ldquo;For in him the whole fullness of deity dwells bodily.&rdquo; The Greek word for fullness (pleroma) was a technical term in some of the philosophical and proto-Gnostic currents that circulated in Paul&rsquo;s world, used to describe the totality of divine powers or emanations. Paul takes that very word and focuses it with piercing precision: not a portion of the divine fullness, not a representative portion of deity, not a spiritual emanation &mdash; but the whole fullness of deity, permanently inhabiting a body.",
+      "The adverb &lsquo;bodily&rsquo; (somatikos) is decisive. Paul is not describing a spiritual reality that can be detached from the historical, physical, incarnate Christ. The fullness of God dwells in a body &mdash; the body that was born in Bethlehem, that hungered in the wilderness, that was crucified outside Jerusalem, that rose on the third day, and that even now, in the glorified resurrection body, contains the fullness of deity. This is why Christ cannot be supplemented by angels or spirits or traditions: no created intermediary contains what Christ contains.",
+      "The immediate application arrives in verse 10: &ldquo;and you have been filled in him, who is the head of all rule and authority.&rdquo; The verb &lsquo;filled&rsquo; (pleroo) echoes the noun &lsquo;fullness&rsquo; (pleroma) &mdash; Paul is saying that those who are in Christ, the one who is filled with the fullness of deity, have themselves been filled. Not that believers become divine, but that in union with the one who is all-sufficient, they lack nothing. Whatever the false teachers were promising &mdash; higher initiation, special angelic mediation, cosmic completion &mdash; the Colossians already possess in Christ.",
+      "Paul then deepens the argument through two metaphors for what union with Christ means. The first is circumcision: &ldquo;In him also you were circumcised with a circumcision made without hands, by putting off the body of the flesh, by the circumcision of Christ&rdquo; (2:11). The false teachers may well have been urging physical circumcision as a mark of full belonging to the covenant people. Paul responds that believers have already received a circumcision far more radical than any physical rite &mdash; the putting off of the whole &lsquo;body of the flesh,&rsquo; the entire old identity defined by the flesh rather than the Spirit. This is Christ&rsquo;s circumcision, not Moses&rsquo;.",
+      "The second metaphor is baptism: &ldquo;having been buried with him in baptism, in which you were also raised with him through faith in the powerful working of God, who raised him from the dead&rdquo; (2:12). The death-burial-resurrection narrative of Christ has become the narrative of every believer. Going under the water enacts the burial; rising from the water enacts the resurrection. And the power that accomplished both &mdash; for Christ and for the believer &mdash; is the same: &lsquo;the powerful working of God.&rsquo; The believer&rsquo;s resurrection is not a human achievement but a divine act, the same divine act that raised Jesus from the dead now applied to those who are in him.",
+      "This section of Colossians 2 is the doctrinal heart of Paul&rsquo;s counter-argument to the false teaching. Against the claim that believers need additional spiritual experiences, higher initiations, or mediated access through angels, Paul insists: you have the fullness of deity dwelling bodily in Christ; you are in Christ; therefore you have been filled. You have been circumcised with a circumcision made without hands. You have been buried and raised with Christ through the powerful working of God. To seek anything beyond Christ is not spiritual advancement &mdash; it is to walk away from the only place where fullness can be found.",
+    ],
+  },
+  {
+    id: "Cancelled the Record of Debt",
+    heading: "Cancelled the Record of Debt",
+    reference: "Colossians 2:13&ndash;15",
+    paragraphs: [
+      "Colossians 2:13&ndash;15 contains one of the most vivid descriptions of the atonement in the New Testament, packed with legal, military, and ceremonial imagery. Paul begins with the plight from which the Colossians have been delivered: &ldquo;And you, who were dead in your trespasses and the uncircumcision of your flesh, God made alive together with him&rdquo; (2:13). Death &mdash; not weakness, not sickness, not slowness, but death &mdash; is the condition from which they have been raised. And the one who makes the dead alive is God himself, doing in the Colossians what he did in Christ.",
+      "The mechanism of this life-giving is expressed through the imagery of the cancelled debt: &ldquo;having forgiven us all our trespasses, by cancelling the record of debt that stood against us with its legal demands. This he set aside, nailing it to the cross&rdquo; (2:13b&ndash;14). The &lsquo;record of debt&rsquo; (cheirographon) was a handwritten document &mdash; in ancient usage it referred to a bond, an IOU, a written acknowledgment of debt. The metaphor is of a legal obligation that we ourselves have incurred by our failures to live up to what we knew was right.",
+      "What God does with this record is described in three escalating actions. He &lsquo;cancelled&rsquo; it &mdash; the word means to blot out, to wipe clean, as ink is wiped from a wax tablet or a document is crossed through. He &lsquo;set it aside&rsquo; &mdash; removed it from the field of legal force, declared it no longer operative. And he &lsquo;nailed it to the cross&rsquo; &mdash; a final, visible, public act. In the ancient world, when a debt was paid in full, the document was often nailed up as a public declaration that the obligation had been discharged. Paul&rsquo;s image is that the cross is the place where the entirety of our debt was publicly, permanently, and legally cancelled.",
+      "This is why Paul argues so forcefully against the false teachers who are urging observance of food laws, festivals, and Sabbaths. If the record of debt has been cancelled, then the legal code that generated the record &mdash; including its ceremonial regulations &mdash; no longer stands as an accusing document over those who are in Christ. To submit again to the legal demands of the old covenant as though they could add something to what Christ has done is, in Paul&rsquo;s view, to fail to understand what was accomplished on the cross.",
+      "Verse 15 then shifts the imagery from the legal to the military: &ldquo;He disarmed the rulers and authorities and put them to open shame, by triumphing over them in him.&rdquo; The cross, which looked like the ultimate defeat of God&rsquo;s Messiah, was in reality the decisive military victory over the powers that had held humanity in bondage. The language of &lsquo;disarming&rsquo; (apekduomai) suggests the stripping of weapons from a defeated enemy. The language of &lsquo;open shame&rsquo; and &lsquo;triumphing&rsquo; evokes the Roman triumph &mdash; the victorious general parading his captured enemies through the streets of Rome.",
+      "The stunning reversal of the cross is that what appeared to be the rulers and authorities triumphing over Christ was in fact Christ triumphing over them. The shame they intended for him became their own shame. The death they administered became their defeat. The cross was not the place where sin and the powers won and God had to work out a plan B; it was the place God had always intended to defeat them, &lsquo;in him&rsquo; &mdash; in the crucified and risen Christ. This is the basis of the Colossians&rsquo; freedom from every system that promises deliverance through any power other than Christ.",
+    ],
+  },
+  {
+    id: "Shadow and Substance",
+    heading: "Shadow and Substance",
+    reference: "Colossians 2:16&ndash;23",
+    paragraphs: [
+      "Having established the positive ground of the Colossians&rsquo; freedom &mdash; Christ&rsquo;s fullness, the cancelled debt, the defeated powers &mdash; Paul now applies it with a series of negations. He begins in verse 16: &ldquo;Therefore let no one pass judgment on you in questions of food and drink, or with regard to a festival or a new moon or a Sabbath.&rdquo; The false teachers were apparently using dietary regulations, the Jewish festal calendar, and Sabbath observance as tests of spiritual standing. Paul refuses them that authority.",
+      "His reason is given immediately in verse 17, one of the most theologically pregnant sentences in the chapter: &ldquo;These are a shadow of the things to come, but the substance belongs to Christ.&rdquo; The word translated &lsquo;shadow&rsquo; (skia) was used in Platonic philosophy to describe the pale, insubstantial reflection of a higher reality. Paul uses it here to describe the relationship between the old covenant ceremonies and Christ. Dietary laws, festivals, Sabbaths &mdash; these were real and God-given, but they were shadow-realities pointing forward to their substance. The substance, the solid body that casts the shadow, is Christ himself.",
+      "This image of shadow and substance is one of the most illuminating frameworks in the New Testament for understanding the relationship between the two testaments. The Old Testament is not wrong; it is anticipatory. Its ceremonies are not arbitrary; they were divinely designed to cast forward shadows of the realities that would arrive in Christ. The Sabbath pointed forward to the rest that is found in Christ. The festivals pointed forward to the fulfillment of redemptive history in Christ&rsquo;s death, resurrection, and return. The food laws pointed forward to the clean and unclean distinction that would be resolved in Christ&rsquo;s work. To return to the shadows after the substance has come is not faithfulness but regress.",
+      "Paul then issues a warning against a specific element of the false teaching that has sometimes puzzled commentators: &ldquo;Let no one disqualify you, insisting on asceticism and worship of angels, going on in detail about visions, puffed up without reason by his sensuous mind, and not holding fast to the Head&rdquo; (2:18&ndash;19). Whatever the exact practice, the problem Paul identifies is clear: it involves a kind of false humility (&lsquo;asceticism&rsquo; here renders the Greek for humility used ironically), preoccupation with angelic intermediaries, and an emphasis on private visionary experience. And the fatal flaw of it all is that it &lsquo;is not holding fast to the Head.&rsquo;",
+      "The Head is Christ, from whom &ldquo;the whole body, nourished and knit together through its joints and ligaments, grows with a growth that is from God&rdquo; (2:19). The image is of a body that is properly connected to its head &mdash; every ligament and joint functioning, nutrients flowing through the proper channels, growth occurring as it should. When any part of the body severs its connection to the head &mdash; whether by attending to angels, pursuing visions, or adopting human traditions &mdash; the growth that comes from God is cut off.",
+      "The chapter concludes with verses 20&ndash;23, which complete the logic of the argument. If believers have died with Christ to the elemental spirits of the world, why do they submit to regulations as though they still belong to that world? &ldquo;Do not handle, Do not taste, Do not touch&rdquo; &mdash; these are the commands of a world-system that is passing away. They have &ldquo;an appearance of wisdom in promoting self-made religion and asceticism and severity to the body, but they are of no value in stopping the indulgence of the flesh&rdquo; (2:23). The crushing irony is that the strict rules accomplish nothing they promise: they cannot change the heart, they cannot subdue the flesh, they cannot produce genuine holiness. Only union with Christ &mdash; holding fast to the Head &mdash; produces the growth that is from God.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Colossians 2 Today",
+    reference: "Colossians 2 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The warning of Colossians 2:8 against being &lsquo;taken captive by philosophy and empty deceit, according to human tradition, according to the elemental spirits of the world, and not according to Christ&rsquo; is as urgent for the contemporary church as it was for the congregation in Colossae. The particular form of the threat changes in every generation &mdash; the Colossian heresy looked different from medieval scholasticism, which looked different from nineteenth-century liberalism, which looks different from the spiritual marketplace of today &mdash; but the underlying dynamic is constant. There are always plausible-sounding systems that offer to supplement Christ, to add something he allegedly lacks, to provide a higher wisdom than the gospel.",
+      "Paul&rsquo;s antidote is not defensive withdrawal from thinking but the vigorous pursuit of knowing Christ more deeply. &ldquo;In him are hidden all the treasures of wisdom and knowledge&rdquo; (2:3). The Christian intellectual tradition at its best has always operated on this premise: that exploration of Christ&rsquo;s person and work, the Scriptures that bear witness to him, and the creation that reflects his glory is the richest possible intellectual vocation. There is no department of human knowledge that falls outside the scope of the one in whom all things were created and in whom the whole fullness of deity dwells bodily.",
+      "The declaration that &ldquo;you have been filled in him&rdquo; (2:10) has profound implications for Christian spirituality. Much of contemporary Christian culture operates on a subtle deficit model: believers feel vaguely incomplete, and the spiritual marketplace offers techniques, experiences, and disciplines to fill the gap. Colossians 2 insists that those who are in Christ are not incomplete; they are filled in the one who is himself the fullness of all things. This does not mean spiritual disciplines are worthless &mdash; Paul himself commended prayer, Scripture, and gathered worship. But it does mean that these practices are not means of acquiring what is missing; they are means of growing into what is already possessed.",
+      "The image of the cancelled record of debt (2:14) speaks to the pervasive human experience of guilt and moral obligation. Many people carry through their lives a low-level (or high-level) sense of moral failure &mdash; of not measuring up, of a debt they cannot repay, of a ledger that will not balance in their favor. Colossians 2 announces that this is precisely what was accomplished at the cross: the document was cancelled, blotted out, set aside, nailed publicly to the cross. The one who is in Christ lives not under the pressure of an unpaid debt but in the freedom of a debt that has been entirely and publicly discharged.",
+      "The shadow-and-substance framework of verses 16&ndash;17 has continuing relevance for how the church reads the Old Testament. Neither dismissing the old covenant as irrelevant nor reimposing its ceremonial regulations as binding will do justice to Paul&rsquo;s argument. The Old Testament is the inspired shadow; Christ is the substance. To read it rightly is to read it as pointing forward to him, to find in every festival and Sabbath and food law the shape of a promise that has been fulfilled. This kind of typological reading honors both the Old Testament (as genuinely divine anticipation) and Christ (as the one in whom all the anticipations arrive at their goal).",
+      "The closing warning against regulations that have &ldquo;an appearance of wisdom&rdquo; but &ldquo;are of no value in stopping the indulgence of the flesh&rdquo; (2:23) is a perennial corrective to moralism in Christian life. The temptation to domesticate Christian discipleship into a set of rules &mdash; do not handle, do not taste, do not touch &mdash; is powerful precisely because it is measurable. It offers the appearance of spiritual progress without requiring the transformation of the heart. Colossians 2 insists that genuine formation happens only by &lsquo;holding fast to the Head&rsquo; (2:19), staying connected to Christ in whom the whole body grows with a growth that is from God.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "pXTtFpDMFBo", title: "BibleProject - Overview: Colossians" },
+  { videoId: "nIhKbMkGPkc", title: "Colossians 2 - The Fullness of Christ Explained" },
+  { videoId: "SXd_7CDxkFQ", title: "Cancelled the Record of Debt - The Cross in Colossians 2" },
+  { videoId: "Vd8JjGIbFAE", title: "Shadow and Substance - Old and New Covenant in Colossians" },
+];
+
+export default function Colossians2GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Colossians 2 &mdash; Complete in Christ
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Paul warns against being taken captive by philosophy and empty deceit. &ldquo;For in him the whole fullness of deity dwells bodily, and you have been filled in him.&rdquo; The record of debt has been cancelled and nailed to the cross; the rulers and powers disarmed. These are a shadow of things to come &mdash; but the substance belongs to Christ.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Colossians 2 through these video teachings on the fullness of deity in Christ, the cancelled record of debt, the disarming of rulers and powers, and the warning against legalism and false asceticism.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>You Have Been Filled in Him</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Colossians 2 is the great sufficiency chapter of the New Testament. In Christ, the whole fullness of deity dwells bodily. In Christ, the record of debt has been cancelled. In Christ, the powers have been disarmed. The shadows of the old covenant find their substance in him. Those who hold fast to the Head lack nothing &mdash; for in him they have been filled.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

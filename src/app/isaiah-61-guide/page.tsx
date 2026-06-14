@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Spirit of the Lord Upon Me",
+  "Good News for the Poor",
+  "The Year of the Lord's Favor",
+  "Oaks of Righteousness",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Isaiah 61",
+    reference: "Isaiah 61:1&ndash;11",
+    paragraphs: [
+      "Isaiah 61 stands among the most luminous chapters of the entire Old Testament &mdash; and it occupies that position not least because of what happened in a synagogue in Nazareth. Luke tells us that Jesus, early in his public ministry, stood up to read in his home synagogue, was handed the scroll of Isaiah, and deliberately unrolled it to what we know as Isaiah 61. He read the opening words &mdash; &ldquo;The Spirit of the Lord is upon me, because he has anointed me to proclaim good news to the poor&rdquo; &mdash; and then sat down. Every eye was fixed on him. &ldquo;Today,&rdquo; he said, &ldquo;this Scripture has been fulfilled in your hearing&rdquo; (Luke 4:18&ndash;21). That single claim gives Isaiah 61 its permanent place at the center of the gospel.",
+      "The chapter falls into the third major section of Isaiah (chapters 40&ndash;66), often called Deutero-Isaiah or the Book of Consolation, which speaks of Israel&rsquo;s redemption from exile and the coming of a new creation. Within that larger section, chapters 56&ndash;66 intensify the focus on the final restoration: a new heaven and new earth, the ingathering of the nations, the vindication of the oppressed, and the everlasting covenant. Isaiah 61 sits near the heart of this final movement, with the Servant of the LORD speaking in the first person about a mission of release and renewal that encompasses the whole of broken humanity.",
+      "The speaker of verses 1&ndash;3 is most naturally understood as the Servant of the LORD, the mysterious figure who appears in the Servant Songs (Isaiah 42, 49, 50, 52&ndash;53) and who embodies in himself the calling of Israel while surpassing it. He is anointed &mdash; the Hebrew word is mashach, from which we get Messiah &mdash; by the Spirit of the LORD for a specific mission. That mission is articulated in a series of infinitives that tumble out one after another: to bring good news, to bind up, to proclaim liberty, to declare the year of the LORD&rsquo;s favor, to comfort the mourners, to give them a garland instead of ashes.",
+      "The chapter then moves from the Servant&rsquo;s mission to its effects on the community he restores (vv. 4&ndash;9). The ruined cities are rebuilt. The foreigners tend the flocks and vineyards while Israel serves as priests of the LORD. The double shame of exile is replaced by a double portion of honor. An everlasting covenant is established. The nations recognize that they are a people whom the LORD has blessed. The restoration described here is total &mdash; spiritual, social, material, and international in scope.",
+      "The chapter closes with a song of praise (vv. 10&ndash;11) in which the speaker &mdash; whether the Servant, the restored community, or both &mdash; gives voice to exultant thanksgiving. &ldquo;I will greatly rejoice in the LORD; my soul shall exult in my God, for he has clothed me with the garments of salvation; he has covered me with the robe of righteousness, as a bridegroom decks himself like a priest with a beautiful headdress, and as a bride adorns herself with her jewels.&rdquo; The imagery of clothing is deliberate: where ashes and mourning were the garments of exile, salvation and righteousness are the garments of restoration.",
+      "For the Christian reader, Isaiah 61 is simultaneously a chapter about the ancient historical hope of Israel and a chapter about the person and work of Jesus. Jesus&rsquo; claim in the Nazareth synagogue was not a spiritualizing reduction of the text &mdash; it was the declaration that the one in whom Israel&rsquo;s calling was embodied, who was anointed by the Spirit at his baptism, whose ministry was marked by proclamation to the poor and release to the captive, had arrived. The chapter is fulfilled not by allegorizing its terms but by their being taken up into a history-shaping person whose mission encompasses and exceeds everything Isaiah saw.",
+    ],
+  },
+  {
+    id: "The Spirit of the Lord Upon Me",
+    heading: "The Spirit of the Lord Upon Me",
+    reference: "Isaiah 61:1",
+    paragraphs: [
+      "The opening line of Isaiah 61 establishes three things that are fundamental to everything that follows: the identity of the speaker, the nature of his empowerment, and the purpose of his mission. &ldquo;The Spirit of the Lord GOD is upon me, because the LORD has anointed me to bring good news to the poor.&rdquo; Who is this speaker? He is a person distinct from the LORD who sends him; he is a human figure who receives the Spirit and is anointed; and he speaks with a directness and personal authority that goes beyond any prophet merely delivering an oracle.",
+      "The anointing of the Spirit in the Old Testament was associated with particular offices and tasks. Kings were anointed to rule (1 Samuel 16:13 &mdash; &ldquo;the Spirit of the LORD rushed upon David from that day forward&rdquo;). Prophets were anointed to speak the word of God. Priests were anointed to serve in the sanctuary. The Servant of Isaiah 61 seems to combine all three: he speaks as a prophet, he rules with the authority of a king (the nations recognize his people as blessed, v.9), and he consecrates his people as priests (v.6). The anointing is singular, comprehensive, and unprecedented.",
+      "Isaiah 42:1 provides the closest parallel: &ldquo;Behold my servant, whom I uphold, my chosen, in whom my soul delights; I have put my Spirit upon him; he will bring forth justice to the nations.&rdquo; The same Spirit, the same servant, the same mission extending to the nations &mdash; Isaiah 61 is the great first-person expansion of what the Servant who bears the Spirit will actually do. The connection between the two texts is tight enough that reading Isaiah 61 in the light of the Servant Songs is not an imposition but a reading of the text in the context it invites.",
+      "When Jesus is baptized in the Jordan, Luke tells us that &ldquo;the Holy Spirit descended on him in bodily form, like a dove&rdquo; and the Father&rsquo;s voice declares, &ldquo;You are my beloved Son; with you I am well pleased&rdquo; (Luke 3:22). The language echoes both Isaiah 42 (my servant, in whom my soul delights) and the royal Psalm 2 (you are my Son). Jesus&rsquo;s reading of Isaiah 61 in the Nazareth synagogue immediately follows this baptism and the temptation in the wilderness &mdash; it is his public announcement of his Spirit-anointed identity and mission. &ldquo;The Spirit of the Lord is upon me&rdquo; was not a phrase Jesus applied to himself from memory; it was the description of what had just happened at the Jordan.",
+      "The phrase &lsquo;because the LORD has anointed me&rsquo; underlines that the Servant&rsquo;s mission is not self-generated or self-authorized. He is sent, anointed, and empowered by Another. This is characteristic of Jesus&rsquo;s self-understanding throughout the Gospels: &ldquo;I can do nothing on my own&rdquo; (John 5:30); &ldquo;the words that I say to you I do not speak on my own authority, but the Father who dwells in me does his works&rdquo; (John 14:10). The Servant&rsquo;s anointing by the Spirit is the Trinitarian shape of his mission &mdash; sent by the Father, empowered by the Spirit, to accomplish the work that restores humanity.",
+      "For the church, the significance of the Spirit-anointing in Isaiah 61 extends beyond Christology into ecclesiology. Paul writes in 2 Corinthians 1:21 that God &ldquo;has anointed us, and who has also put his seal on us and given us his Spirit in our hearts as a guarantee.&rdquo; Those who are in Christ participate in his anointing &mdash; not as a repetition of his unique mission but as its extension into the world. The church is sent in the power of the same Spirit, to proclaim the same gospel, to enact in word and deed the same good news to the poor that Isaiah 61 announces. The Spirit who was upon the Servant is now given to the body of the Servant.",
+    ],
+  },
+  {
+    id: "Good News for the Poor",
+    heading: "Good News for the Poor",
+    reference: "Isaiah 61:1&ndash;3",
+    paragraphs: [
+      "The first and controlling purpose of the Servant&rsquo;s Spirit-anointed mission is &lsquo;to bring good news to the poor.&rsquo; The Hebrew word for &lsquo;bring good news&rsquo; is basar, from which the Greek Old Testament (the Septuagint) draws its translation euangelizomai &mdash; the very word the New Testament uses for proclaiming the gospel. To bring the euangelion, the good news, is the Servant&rsquo;s first and defining act. And the recipients are specifically identified: the poor, the anawim, those who are materially destitute and spiritually dependent, those who have nothing left to rely on but God.",
+      "Isaiah does not leave the identification of the poor abstract. The list of those who are its first recipients unfolds through verses 1&ndash;3 in a series of parallel descriptions: the brokenhearted, the captives, those who are bound, those who mourn in Zion, those who are in grief. Each description adds depth and specificity to who &lsquo;the poor&rsquo; are. They are not merely economically disadvantaged (though they may be that); they are those who have been broken by life, imprisoned by forces they cannot overcome, who have lost hope, who carry grief they cannot put down. The good news is aimed precisely at the place of deepest human need.",
+      "The mission articulated in verses 1&ndash;2 is expressed through five proclamatory verbs, each announcing what the Servant will do: bring good news, bind up, proclaim liberty, declare the opening of the prison, proclaim the year of the LORD&rsquo;s favor. The clustering of proclamation and action is significant &mdash; the Servant does not merely announce that things will get better; he speaks words that effect what they announce. &lsquo;Binding up&rsquo; the brokenhearted is not merely comforting words; it is the application of healing power to a wound. &lsquo;Proclaiming liberty&rsquo; to captives actually opens the prison.",
+      "Jesus&rsquo;s citation of this text in Luke 4 and his subsequent ministry illuminate what it means for these words to be fulfilled. His preaching attracted the poor, the sinners, the tax collectors, the lepers, the women of ill repute &mdash; all those whom respectable religious society had marked as outside the circle of blessing. When John the Baptist, imprisoned and doubting, sent his disciples to ask whether Jesus was the one who was to come, Jesus responded by pointing to exactly this: &ldquo;the poor have good news preached to them&rdquo; (Luke 7:22). The Isaiah 61 vocabulary is how Jesus defined his own mission.",
+      "The transformation described in verse 3 is expressed through a series of &lsquo;instead of&rsquo; contrasts that are among the most beautiful in Scripture: &ldquo;to give them a beautiful headdress instead of ashes, the oil of gladness instead of mourning, the garment of praise instead of a faint spirit.&rdquo; Ashes were a sign of mourning and grief in the ancient world; the garland (or headdress) was a sign of festivity and joy. Oil of gladness was used at celebrations; mourning was the posture of loss and desolation. The garment of praise stands in contrast to a spirit that has gone faint, heavy, dim with grief. Each contrast is total &mdash; what was there is entirely replaced by its opposite.",
+      "The purpose of this transformation is then stated: so that they may be called &lsquo;oaks of righteousness, the planting of the LORD, that he may be glorified.&rsquo; The poor who receive the good news do not merely receive improved circumstances; they are transformed into something strong and deeply rooted &mdash; oaks of righteousness &mdash; whose existence displays the glory of God. The recipients of the gospel become, by their transformation, a testimony to what the LORD can do. This is the eschatological purpose of the mission: the glorification of God through the restoration of his people.",
+    ],
+  },
+  {
+    id: "The Year of the Lord's Favor",
+    heading: "The Year of the Lord's Favor",
+    reference: "Isaiah 61:2&ndash;4",
+    paragraphs: [
+      "The phrase &lsquo;the year of the LORD&rsquo;s favor&rsquo; (v.2) stands at the center of the Servant&rsquo;s proclamation, and understanding it requires going back to the Levitical institution of the Jubilee year (Leviticus 25). Every fiftieth year in Israel was to be a Jubilee: debts were cancelled, slaves were freed, and ancestral land that had been sold or forfeited was returned to its original family. The Jubilee was the great reset of Israel&rsquo;s social and economic order, a year in which the accumulated injustices of poverty and debt and displacement were undone. It was, in effect, a year of comprehensive restoration.",
+      "Isaiah 61&rsquo;s proclamation of &lsquo;the year of the LORD&rsquo;s favor&rsquo; draws on this Jubilee framework and projects it onto a grand eschatological canvas. What the literal Jubilee enacted in Israel&rsquo;s social life every fifty years, the Servant&rsquo;s mission enacts permanently and universally for all humanity. The captives are released not merely from literal chains but from the bondage of sin and death. The debts are cancelled not merely on the ledgers of the wealthy but on the moral ledger of God&rsquo;s law. The return to the inheritance is not merely land in Canaan but the restored relationship with God and the new creation.",
+      "Jesus&rsquo;s deliberate reading and application of this text in Nazareth suggests that he understood his own ministry as the inauguration of the ultimate Jubilee. His announcement was not &lsquo;the year of the LORD&rsquo;s favor will come eventually&rsquo; but &lsquo;today this Scripture has been fulfilled in your hearing.&rsquo; The eschatological Jubilee has begun; the acceptable year is now. This is why the timing of Jesus&rsquo; ministry is theologically decisive &mdash; it is not merely an event in history but the beginning of the end, the inauguration of the age in which the comprehensive restoration of Isaiah 61 is underway.",
+      "Crucially, Jesus stopped reading in the middle of verse 2. He read &lsquo;to proclaim the year of the LORD&rsquo;s favor&rsquo; but did not continue to &lsquo;and the day of vengeance of our God.&rsquo; This was not an oversight; it was a theological statement. The day of vengeance belongs to Jesus&rsquo;s second coming, not his first. His first advent inaugurated the year of favor; his second will bring the day of judgment. The two aspects of the Servant&rsquo;s mission are separated by the entire span of what we call the church age &mdash; the period in which the gospel goes to the ends of the earth before the final judgment arrives.",
+      "The restoration described in verses 3&ndash;4 adds a communal dimension to the Jubilee: &ldquo;They shall build up the ancient ruins; they shall raise up the former devastations; they shall repair the ruined cities, the devastations of many generations.&rdquo; The released captives do not merely return home to find things as they were; they participate in rebuilding what was destroyed. This is active, creative, communal restoration. The people who receive the good news are not passive recipients of divine benefit; they become agents of renewal in the world. The Jubilee creates not merely freed individuals but a restored community with the capacity to rebuild.",
+      "For the New Testament church, the &lsquo;year of the LORD&rsquo;s favor&rsquo; is the entire era inaugurated by Christ&rsquo;s first coming. We live in the year of favor &mdash; the time when the gospel goes to the poor, when captives are freed, when mourners are comforted, when ruins are rebuilt. This era will end when Christ returns and the day of vengeance gives way to the new creation. Until then, the mission announced in Isaiah 61 is the church&rsquo;s mission: to proclaim in word and demonstrate in deed the comprehensive restoration that the LORD&rsquo;s favor brings.",
+    ],
+  },
+  {
+    id: "Oaks of Righteousness",
+    heading: "Oaks of Righteousness",
+    reference: "Isaiah 61:4&ndash;11",
+    paragraphs: [
+      "The image of the restored community as &lsquo;oaks of righteousness, the planting of the LORD&rsquo; (61:3) is one of the most arresting in Isaiah 61. An oak is notable for its deep-rootedness, its longevity, its strength, and its capacity to provide shelter for others. It does not bloom quickly or produce spectacular flowers; it grows over decades and centuries into something massive and enduring. To call the restored people &lsquo;oaks of righteousness&rsquo; is to describe what the LORD&rsquo;s favor produces over time: not fragile, seasonal growth but deep-rooted, enduring righteousness that becomes a shelter for the community and a display of the LORD&rsquo;s glory.",
+      "The designation &lsquo;the planting of the LORD&rsquo; is equally significant. Oaks in nature grow from acorns by natural process. These oaks are planted &mdash; deliberately, intentionally, by the LORD himself. The righteousness of the restored community is not self-generated; it is the direct product of the LORD&rsquo;s initiative. He planted them; he waters them; their growth is his work. This is the consistent pattern of Isaiah&rsquo;s theology of grace: restoration is not a human achievement that God endorses but a divine planting that produces human flourishing. The oaks of righteousness glorify the Planter, not themselves.",
+      "Verses 4&ndash;9 develop the communal restoration in terms of reversals that mirror and surpass the losses of exile. The ruined cities are rebuilt (v.4). Where Israel once served as slaves in Egypt and in Babylon, foreigners now tend Israel&rsquo;s flocks and vineyards (v.5). Israel herself is reconstituted as a priestly nation &mdash; &ldquo;you shall be called the priests of the LORD; they shall speak of you as the ministers of our God&rdquo; (v.6). The priestly calling that was assigned to Israel at Sinai (&ldquo;you shall be to me a kingdom of priests and a holy nation,&rdquo; Exodus 19:6) is restored and fulfilled. The nation that had forfeited its calling by unfaithfulness now enters into it in fullness.",
+      "The double-portion promise of verse 7 is one of the most specific reversals in the chapter: &ldquo;Instead of your shame there shall be a double portion; instead of dishonor they shall rejoice in their lot; therefore in their land they shall possess a double portion; they shall have everlasting joy.&rdquo; In biblical culture, a double portion was the inheritance of the firstborn son &mdash; the mark of special favor and honor. Where exile had brought double shame and dishonor, the restoration brings double honor and everlasting joy. The reversal is not merely proportional but eschatological: &lsquo;everlasting joy&rsquo; is not a limited-time improvement but an eternal condition.",
+      "Verse 8 grounds all of this in the character of God: &ldquo;For I the LORD love justice; I hate robbery and wrong; I will faithfully give them their recompense, and I will make an everlasting covenant with them.&rdquo; The restoration is not arbitrary; it flows from what God is. Because he loves justice, he will set right the injustices of exile. Because he hates robbery and wrong, he will restore what was taken. Because he is faithful, the covenant he establishes will be everlasting &mdash; not a temporary arrangement subject to the same failure that brought exile, but a new covenant written on the heart. The &lsquo;everlasting covenant&rsquo; here is the same covenant announced in Isaiah 55 and 59 and fulfilled in the new covenant of Jeremiah 31 and enacted by Jesus at the Last Supper.",
+      "The chapter&rsquo;s closing hymn (vv. 10&ndash;11) offers the community&rsquo;s response to what God has done and promised. The garments of salvation and the robe of righteousness replace the garments of grief and the ashes of mourning. The bridegroom decks himself with a beautiful headdress; the bride adorns herself with jewels. The imagery of wedding clothing at the end of Isaiah 61 anticipates the marriage supper of the Lamb in Revelation 19 &mdash; the ultimate fulfillment of the restoration Isaiah saw. &ldquo;For as the earth brings forth its sprouts, and as a garden causes what is sown in it to sprout up, so the Lord GOD will cause righteousness and praise to sprout up before all the nations&rdquo; (61:11). The final word is universal: the righteousness the LORD plants in his restored people is destined to be seen by all the nations.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Isaiah 61 Today",
+    reference: "Isaiah 61 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Isaiah 61 is one of the defining texts for understanding the church&rsquo;s mission in the world. When Jesus claimed this passage in the Nazareth synagogue, he was not simply making a statement about his own identity; he was defining the mission he came to inaugurate and into which he would send his disciples. The church that is &lsquo;the body of Christ&rsquo; is called to continue the mission of the one who was anointed by the Spirit &mdash; proclaiming good news to the poor, binding up the brokenhearted, proclaiming liberty to the captives. This is not a peripheral concern but the central description of what the gospel-formed community does in the world.",
+      "The phrase &lsquo;good news to the poor&rsquo; has been the subject of significant theological debate. Some traditions have interpreted it almost entirely in spiritual terms: the poor are the spiritually humble, and the good news is the gospel of forgiveness. Others have emphasized the material dimension: the good news must address actual poverty, hunger, and oppression. Isaiah 61 does not permit this dichotomy. The list of recipients &mdash; the brokenhearted, the captives, those who mourn &mdash; encompasses both spiritual and material dimensions. The &lsquo;poor&rsquo; in the biblical tradition are those who have nothing to bring to God and nothing to offer to the world; the good news addresses their actual condition, which is at once spiritual, relational, physical, and social.",
+      "The Jubilee framework of &lsquo;the year of the LORD&rsquo;s favor&rsquo; has deep implications for how the church understands economics and justice. The Jubilee was a structural reset designed to prevent the permanent entrenchment of poverty and debt. While the church is not a nation-state and cannot legislate a Jubilee, the Jubilee&rsquo;s animating principle &mdash; that the accumulated disadvantages of the poor should be regularly addressed &mdash; is one the church is called to embody. Debt relief, advocacy for the imprisoned, hospitality to the foreigner, support for the mourning &mdash; these are not optional extras to Christian mission but expressions of the Jubilee logic that Jesus declared fulfilled in his own ministry.",
+      "The transformation from mourning to praise described in verses 2&ndash;3 is a paradigm for pastoral ministry. The garland instead of ashes, the oil of gladness instead of mourning, the garment of praise instead of a faint spirit &mdash; these are not instant transactions but the fruit of genuine encounter with the good news. Pastoral ministry in the Isaiah 61 mode is ministry that stays with the brokenhearted long enough to see them become oaks of righteousness. It does not merely announce that healing is available and move on; it binds up the wound, stays through the mourning, and accompanies the transformation from ashes to beauty.",
+      "The image of the restored community as &lsquo;oaks of righteousness, the planting of the LORD, that he may be glorified&rsquo; (61:3) defines the ultimate purpose of the church&rsquo;s existence. The church does not exist primarily to grow large, or to exercise cultural influence, or to produce well-adjusted individuals. It exists so that God may be glorified. The oaks of righteousness are planted by him, grow according to his plan, and display his character. The question every local congregation should regularly ask is not &lsquo;are we growing?&rsquo; but &lsquo;does our life together glorify the One who planted us?&rsquo;",
+      "The closing vision of Isaiah 61 &mdash; righteousness and praise sprouting up before all the nations &mdash; reminds the church that its mission is never merely local or tribal. The good news that was proclaimed in a Nazareth synagogue has been traveling toward the ends of the earth ever since. Every act of gospel proclamation, every instance of the brokenhearted being bound up, every captive freed by the word of truth, every mourner comforted, every ruin rebuilt in some community somewhere &mdash; all of it is the sprouting of the righteousness that Isaiah saw, growing up before all the nations until the LORD himself is known throughout the earth. The year of the LORD&rsquo;s favor is still underway; the mission of Isaiah 61 is not yet complete.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Er3JKqpBFh4", title: "BibleProject - Overview: Isaiah 40-66" },
+  { videoId: "qZSUkm7pMvQ", title: "Isaiah 61 - The Year of the Lord's Favor Explained" },
+  { videoId: "ACqFMqzpNcM", title: "Jesus Reads Isaiah 61 in Nazareth - Luke 4 Explained" },
+  { videoId: "xVXjFQ8wGdI", title: "The Servant of the Lord in Isaiah - BibleProject" },
+];
+
+export default function Isaiah61GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Isaiah 61 &mdash; The Year of the Lord&rsquo;s Favor
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            &ldquo;The Spirit of the Lord GOD is upon me, because the LORD has anointed me to bring good news to the poor&hellip; to proclaim the year of the LORD&rsquo;s favor.&rdquo; Jesus reads these words in Nazareth and declares: &ldquo;Today this Scripture has been fulfilled in your hearing.&rdquo; Isaiah 61 is the great charter of the Messiah&rsquo;s mission &mdash; and ours.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Isaiah 61 through these video teachings on the Spirit-anointed Servant, the year of the LORD&rsquo;s favor, Jesus reading this passage in Nazareth, and the Servant Songs of Isaiah.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Today This Scripture Is Fulfilled</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Isaiah 61 is the great charter of the Messiah&rsquo;s mission &mdash; and of the church he sends in his name. The Spirit-anointed Servant proclaims good news to the poor, binds up the brokenhearted, releases the captive, and plants oaks of righteousness that display the glory of God. The year of the LORD&rsquo;s favor has begun; we are living in it, and we are sent into it.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

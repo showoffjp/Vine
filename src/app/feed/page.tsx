@@ -19,7 +19,7 @@ import {
   X,
   CheckCircle2,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 const stories = [
@@ -270,6 +270,12 @@ interface UserPost {
   authorColor: string;
 }
 
+// Module-scoped localStorage helper so render-scope purity analysis never
+// sees an impure read; only invoked from event-handler callbacks below.
+function readStoredReplies(postId: number): { id: number; text: string; time: string }[] {
+  try { const s = localStorage.getItem(`vine_post_replies_${postId}`); return s ? JSON.parse(s) : []; } catch { return []; }
+}
+
 export default function FeedPage() {
   const [likedPosts, setLikedPosts] = useState<PostLikes>(() => {
     try {
@@ -301,15 +307,19 @@ export default function FeedPage() {
   const [openReply, setOpenReply] = useState<number | null>(null);
   const [replyTexts, setReplyTexts] = useState<Record<number, string>>({});
   const [replySaved, setReplySaved] = useState<number | null>(null);
+  // Replies loaded from localStorage on demand (when a reply panel opens),
+  // held in state so render stays pure (no localStorage reads during render).
+  const [postReplies, setPostReplies] = useState<Record<number, { id: number; text: string; time: string }[]>>({});
 
-  function getPostReplies(postId: number): { id: number; text: string; time: string }[] {
-    try { const s = localStorage.getItem(`vine_post_replies_${postId}`); return s ? JSON.parse(s) : []; } catch { return []; }
-  }
-  function savePostReply(postId: number, text: string) {
-    const existing = getPostReplies(postId);
+  const loadPostReplies = useCallback((postId: number) => {
+    setPostReplies((prev) => ({ ...prev, [postId]: readStoredReplies(postId) }));
+  }, []);
+  const savePostReply = useCallback((postId: number, text: string) => {
+    const existing = readStoredReplies(postId);
     const updated = [...existing, { id: Date.now(), text, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }];
     try { localStorage.setItem(`vine_post_replies_${postId}`, JSON.stringify(updated)); } catch {}
-  }
+    setPostReplies((prev) => ({ ...prev, [postId]: updated }));
+  }, []);
 
   const handlePostMenu = (id: number, action: "copy" | "hide" | "report") => {
     setOpenMenu(null);
@@ -681,7 +691,7 @@ export default function FeedPage() {
                       <span className="text-xs">{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
                     </button>
                     <button type="button"
-                      onClick={() => { setOpenReply(openReply === post.id ? null : post.id); setReplyTexts((p) => ({ ...p, [post.id]: "" })); }}
+                      onClick={() => { const opening = openReply !== post.id; setOpenReply(opening ? post.id : null); if (opening) loadPostReplies(post.id); setReplyTexts((p) => ({ ...p, [post.id]: "" })); }}
                       className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#3a7d56]"
                       style={{ color: openReply === post.id ? "#3a7d56" : "#6A6A88" }}
                     >
@@ -710,7 +720,7 @@ export default function FeedPage() {
                   {/* Inline reply panel */}
                   {openReply === post.id && (
                     <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-                      {getPostReplies(post.id).map((r) => (
+                      {(postReplies[post.id] ?? []).map((r) => (
                         <div key={r.id} className="flex gap-2 mb-2">
                           <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold" style={{ background: "#3a7d56", color: "#fff" }}>Y</div>
                           <div className="flex-1 rounded-xl px-3 py-2" style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.12)" }}>

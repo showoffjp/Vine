@@ -596,7 +596,7 @@ export default function NamesOfGodStudy() {
     setEntries(prev => prev.filter(e => e.id !== id));
   }, []);
 
-  const usePrompt = useCallback((p: string) => {
+  const applyPrompt = useCallback((p: string) => {
     setReflection(prev => (prev ? prev + "\n\n" + p + "\n" : p + "\n"));
   }, []);
 
@@ -1408,7 +1408,7 @@ export default function NamesOfGodStudy() {
                   {JOURNAL_PROMPTS.map(p => (
                     <button
                       key={p}
-                      onClick={() => usePrompt(p)}
+                      onClick={() => applyPrompt(p)}
                       style={{
                         background: CARD,
                         border: `1px solid ${GREEN}44`,

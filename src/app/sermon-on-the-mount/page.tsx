@@ -293,7 +293,7 @@ const JOURNAL_PROMPTS = [
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function SectionHeader({ color, ref: refText, title }: { color: string; ref: string; title: string }) {
+function SectionHeader({ color, reference: refText, title }: { color: string; reference: string; title: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 18, flexWrap: "wrap", gap: 8 }}>
       <h2 style={{ color, fontWeight: 900, fontSize: 26, margin: 0, lineHeight: 1.2 }}>{title}</h2>
@@ -311,7 +311,7 @@ function Callout({ color, label, children }: { color: string; label: string; chi
   );
 }
 
-function VerseBlock({ ref: refText, text, color = GREEN }: { ref: string; text: string; color?: string }) {
+function VerseBlock({ reference: refText, text, color = GREEN }: { reference: string; text: string; color?: string }) {
   return (
     <div style={{ background: `${color}06`, border: `1px solid ${color}18`, borderRadius: 8, padding: "12px 16px", display: "flex", gap: 12, marginBottom: 10 }}>
       <span style={{ color, fontWeight: 800, fontSize: 12, flexShrink: 0, paddingTop: 3 }}>{refText}</span>
@@ -464,7 +464,7 @@ export default function SermonOnTheMountPage() {
             {activeTab === "overview" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "28px 30px", marginBottom: 20 }}>
-                  <SectionHeader color={GREEN} ref="Matthew 5–7" title="The Constitution of the Kingdom" />
+                  <SectionHeader color={GREEN} reference="Matthew 5–7" title="The Constitution of the Kingdom" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 18 }}>
                     The Sermon on the Mount was delivered on a hillside in Galilee, early in Jesus's public ministry. Matthew records it as the first of five great discourses in his Gospel (5–7; 10; 13; 18; 23–25), a structure that deliberately evokes the five books of Moses. Jesus sits to teach — the posture of a rabbi — and the disciples come to him, while the crowd listens from behind. The Sermon is simultaneously addressed to disciples (those who have begun to follow) and overheard by the world.
                   </p>
@@ -529,7 +529,7 @@ export default function SermonOnTheMountPage() {
             {activeTab === "beatitudes" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
-                  <SectionHeader color={GREEN} ref="Matthew 5:3-12" title="The Beatitudes" />
+                  <SectionHeader color={GREEN} reference="Matthew 5:3-12" title="The Beatitudes" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 14 }}>
                     The eight Beatitudes open the Sermon not with commands but with declarations — &ldquo;Blessed are...&rdquo; The Greek makarios is often translated &ldquo;blessed&rdquo; or &ldquo;happy,&rdquo; but it carries a divine weight: these are not wishes for happiness but royal announcements about those who belong to the king. The Beatitudes are not a ladder to climb but a portrait of the person who has already come under God&apos;s reign.
                   </p>
@@ -563,16 +563,16 @@ export default function SermonOnTheMountPage() {
             {activeTab === "law" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
-                  <SectionHeader color={PURPLE} ref="Matthew 5:17-48" title="The Law Fulfilled" />
+                  <SectionHeader color={PURPLE} reference="Matthew 5:17-48" title="The Law Fulfilled" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 14 }}>
                     &ldquo;Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them&rdquo; (5:17). This is one of the most debated sentences in the New Testament. What does &ldquo;fulfill&rdquo; (plēroō) mean? In Matthew&apos;s Gospel, plēroō consistently refers to bringing something to its intended completion — as a prophecy is fulfilled when its full meaning is enacted. Jesus is not abolishing Torah or simply intensifying it — he is revealing its telos, its full intended depth.
                   </p>
                   <Callout color={PURPLE} label="The New Moses">
                     The six antitheses that follow (5:21-48) are each introduced with a double formula: &ldquo;You have heard that it was said to the people long ago...&rdquo; followed by &ldquo;But I say to you.&rdquo; No prophet in the OT spoke this way — prophets said &ldquo;thus says the LORD.&rdquo; Jesus speaks in his own name, with his own authority. The crowds recognize it: &ldquo;he taught as one who had authority, and not as their teachers of the law&rdquo; (7:29).
                   </Callout>
-                  <VerseBlock ref="5:17" text="Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them." />
-                  <VerseBlock ref="5:20" text="For I tell you that unless your righteousness surpasses that of the Pharisees and the teachers of the law, you will certainly not enter the kingdom of heaven." />
-                  <VerseBlock ref="5:48" text="Be perfect, therefore, as your heavenly Father is perfect." />
+                  <VerseBlock reference="5:17" text="Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them." />
+                  <VerseBlock reference="5:20" text="For I tell you that unless your righteousness surpasses that of the Pharisees and the teachers of the law, you will certainly not enter the kingdom of heaven." />
+                  <VerseBlock reference="5:48" text="Be perfect, therefore, as your heavenly Father is perfect." />
                 </div>
 
                 <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 18, marginBottom: 14, marginTop: 4 }}>The Six Antitheses</h3>
@@ -613,7 +613,7 @@ export default function SermonOnTheMountPage() {
             {activeTab === "piety" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
-                  <SectionHeader color={GOLD} ref="Matthew 6:1-18" title="Three Acts of Piety" />
+                  <SectionHeader color={GOLD} reference="Matthew 6:1-18" title="Three Acts of Piety" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 16 }}>
                     Chapter 6 opens with the Sermon&apos;s overarching principle for religious practice: &ldquo;Be careful not to practice your righteousness in front of others to be seen by them. If you do, you will have no reward from your Father in heaven&rdquo; (6:1). Three practices follow — giving, prayer, and fasting — each addressed with exactly the same structural pattern. The warning is not against the practices themselves but against the audience.
                   </p>
@@ -684,7 +684,7 @@ export default function SermonOnTheMountPage() {
             {activeTab === "lordsprayer" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
-                  <SectionHeader color={GOLD} ref="Matthew 6:9-13" title="The Lord's Prayer" />
+                  <SectionHeader color={GOLD} reference="Matthew 6:9-13" title="The Lord's Prayer" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 16 }}>
                     The Lord&apos;s Prayer is given not as a formula to recite but as a pattern for prayer — &ldquo;This, then, is how you should pray&rdquo; (6:9). It is remarkably compact. In seven petitions (six plus the doxology), it covers the full range of genuine prayer: orientation toward God, alignment with God&apos;s purposes, dependence for daily provision, the reality of forgiveness, preservation through trial, and a final return to God&apos;s sovereignty. Its structure is instructive: three God-centered petitions precede three human-need petitions, establishing that prayer begins by entering God&apos;s world, not by bringing God into ours.
                   </p>
@@ -734,13 +734,13 @@ export default function SermonOnTheMountPage() {
             {activeTab === "anxiety" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
-                  <SectionHeader color={GREEN} ref="Matthew 6:19-34" title="Do Not Worry" />
+                  <SectionHeader color={GREEN} reference="Matthew 6:19-34" title="Do Not Worry" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 16 }}>
                     The passage on anxiety follows directly from the Lord&apos;s Prayer, and the connection is deliberate. The one who has prayed &ldquo;give us today our daily bread&rdquo; and &ldquo;your kingdom come&rdquo; has already placed provision and governance in the Father&apos;s hands. Matthew 6:19-34 is not simply emotional advice about reducing worry — it is a theological argument about who God is, what his kingdom means, and how trust displaces anxiety as the operating principle of kingdom life.
                   </p>
-                  <VerseBlock ref="6:25" text="Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes?" />
-                  <VerseBlock ref="6:33" text="But seek first his kingdom and his righteousness, and all these things will be given to you as well." />
-                  <VerseBlock ref="6:34" text="Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own." />
+                  <VerseBlock reference="6:25" text="Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes?" />
+                  <VerseBlock reference="6:33" text="But seek first his kingdom and his righteousness, and all these things will be given to you as well." />
+                  <VerseBlock reference="6:34" text="Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own." />
                 </div>
 
                 {ANXIETY_SECTIONS.map((sec, i) => (
@@ -777,7 +777,7 @@ export default function SermonOnTheMountPage() {
             {activeTab === "kingdom" && (
               <div>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 20 }}>
-                  <SectionHeader color={PURPLE} ref="Matthew 7:1-27" title="The Kingdom Logic of the Sermon" />
+                  <SectionHeader color={PURPLE} reference="Matthew 7:1-27" title="The Kingdom Logic of the Sermon" />
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 16 }}>
                     The Sermon is not a miscellany of moral advice — it has a coherent theological logic throughout. The kingdom (basileia) is the Sermon&apos;s controlling category: it has arrived in Jesus, it belongs to those with nothing to offer (the poor in spirit), it transforms how one relates to enemies, to money, to one&apos;s own prayer life, and to the anxiety that results from not trusting God&apos;s provision. Matthew 7 brings the Sermon to its close through a series of warnings and through the most famous parable of all: the house on the rock.
                   </p>

@@ -1780,6 +1780,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 51 Chapter": "psalm-51-guide",
   "Create in Me a Clean Heart": "psalm-51-guide",
   "Have Mercy on Me": "psalm-51-guide",
+  "Romans 12 Chapter": "romans-12-guide",
+  "Living Sacrifice": "romans-12-guide",
+  "Be Transformed": "romans-12-guide",
+  "Galatians 5 Chapter": "galatians-5-guide",
+  "Fruit of the Spirit Chapter": "galatians-5-guide",
+  "Walk by the Spirit": "galatians-5-guide",
+  "1 Corinthians 15 Chapter": "1-corinthians-15-guide",
+  "Resurrection Chapter": "1-corinthians-15-guide",
+  "Where O Death": "1-corinthians-15-guide",
+  "Revelation 21 Chapter": "revelation-21-guide",
+  "New Heaven and New Earth": "revelation-21-guide",
+  "No More Tears": "revelation-21-guide",
 };
 
 
@@ -2642,6 +2654,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "John 14 Chapter" },
   { label: "Ephesians 6 Chapter" },
   { label: "Psalm 51 Chapter" },
+  { label: "Romans 12 Chapter" },
+  { label: "Galatians 5 Chapter" },
+  { label: "1 Corinthians 15 Chapter" },
+  { label: "Revelation 21 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

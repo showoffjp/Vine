@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Return from Exile",
+  "Rachel Weeping",
+  "The New Covenant",
+  "The Permanence of God's Promise",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Jeremiah 31",
+    reference: "Jeremiah 31:1&ndash;40",
+    paragraphs: [
+      "Jeremiah 31 stands as one of the most luminous chapters in the entire Old Testament &mdash; a shaft of pure light breaking through the darkness that pervades much of the surrounding book. Jeremiah was a prophet whose ministry spanned the final decades of Jerusalem&rsquo;s existence as an independent city, culminating in the catastrophic Babylonian exile of 586 B.C. His book is saturated with lament, warning, and the anguish of a man compelled to announce judgment upon the people he loved. But chapter 31, set within a collection of oracles scholars call &ldquo;The Book of Consolation&rdquo; (chapters 30&ndash;33), is an extended declaration of hope that reaches beyond the exile to a future in which God will do something entirely new.",
+      "The chapter opens with the foundational covenant declaration that frames all that follows: &ldquo;At that time, declares the LORD, I will be the God of all the clans of Israel, and they shall be my people&rdquo; (31:1). This is the covenant formula in its simplest and most elemental form &mdash; the formula that runs like a thread from Genesis through Revelation, the promise on which all other promises depend. Everything in Jeremiah 31 is an unpacking of what it means for God to truly be the God of his people and for his people to truly be his.",
+      "The major movements of the chapter are four. First, the return from exile: God promises to gather the scattered remnant of Israel with everlasting love, to rebuild the virgin Israel, and to replant the northern tribes who have long since been taken into Assyrian captivity (vv. 1&ndash;22). Second, the transformation of Judah: the land will be blessed, the farmers and flocks will return, the city will be rebuilt (vv. 23&ndash;30). Third, and most importantly, the New Covenant: God will make a new covenant with Israel and Judah, different from the Mosaic covenant, in which the law will be written on hearts rather than stone, all will know the LORD directly, and sins will be remembered no more (vv. 31&ndash;34). Fourth, the permanence of these promises: as long as the sun, moon, and stars endure, God will not reject Israel (vv. 35&ndash;40).",
+      "Embedded within the first section is one of the most emotionally powerful images in all of Scripture: Rachel weeping for her children (v. 15). Rachel, the mother of Joseph and Benjamin, stands for the whole people in their grief over the exile. She weeps for the children who are gone &mdash; carried away, it seems, beyond return. But God answers her weeping with a word of comfort and a promise of homecoming: &ldquo;Refrain your voice from weeping, and your eyes from tears, for there is a reward for your work, declares the LORD, and they shall come back from the land of the enemy&rdquo; (31:16). The prophet Matthew will hear in this image the weeping of Bethlehem&rsquo;s mothers for the children killed by Herod &mdash; and beyond that grief, too, there is a return, a resurrection, a homecoming.",
+      "The New Covenant passage (vv. 31&ndash;34) is the theological heart of the chapter and one of the most significant passages in the entire Old Testament. It is quoted at length in Hebrews 8:8&ndash;12 as the Scriptural basis for the claim that Christ&rsquo;s high-priestly ministry has made the Mosaic covenant obsolete. It provides the Old Testament foundation for the cup Jesus takes at the Last Supper and calls &ldquo;the new covenant in my blood&rdquo; (Luke 22:20). It articulates a vision of transformation so radical &mdash; law written on the heart, direct knowledge of God for all, total forgiveness of sin &mdash; that only the gospel can satisfy it.",
+      "To read Jeremiah 31 is to encounter the God who, in the moment of his people&rsquo;s deepest failure and greatest loss, is already at work on the far side of the disaster, preparing a restoration that will exceed the original. The exile is not the end of the story; it is the occasion for a new beginning. The broken covenant is not patched up; it is superseded by a covenant so much better that the writer of Hebrews can say it has made the first one &ldquo;obsolete&rdquo; (Hebrews 8:13). Jeremiah 31 is a chapter that teaches God&rsquo;s people, in every age of loss and darkness, to look for what God is doing on the other side.",
+    ],
+  },
+  {
+    id: "Return from Exile",
+    heading: "Return from Exile",
+    reference: "Jeremiah 31:1&ndash;22",
+    paragraphs: [
+      "The first twenty-two verses of Jeremiah 31 are an extended love song from God to his scattered people. They open with a memory: &ldquo;Thus says the LORD: &lsquo;The people who survived the sword found grace in the wilderness; when Israel sought for rest, the LORD appeared to him from far away. I have loved you with an everlasting love; therefore I have continued my faithfulness to you&rsquo;&rdquo; (31:2&ndash;3). The pattern of God&rsquo;s dealing with Israel in the wilderness &mdash; grace to the undeserving, faithfulness to the forgetful &mdash; is the pattern that will govern the restoration. God has not changed.",
+      "The word &ldquo;everlasting&rdquo; (&lsquo;olam&rsquo;) applied to God&rsquo;s love is the anchor of the whole passage. Israel&rsquo;s history has been a story of unfaithfulness met by patient, pursuing love. The exile was the consequence of persistent covenant-breaking, but the love that preceded the covenant and that the covenant expressed was never conditional on Israel&rsquo;s performance. God loved Israel before Israel existed as a nation, before the covenant was given, before the people had done anything at all. That love is not cancelled by failure; it is the ground on which even the possibility of restoration stands.",
+      "The restoration promises that follow are vivid and concrete. &ldquo;Again I will build you, and you shall be built, O virgin Israel! Again you shall adorn yourself with tambourines and shall go forth in the dance of the merrymakers&rdquo; (31:4). The image of the virgin Israel suggests a return to a purity and dignity that exile had stripped away. The tambourines and dancing suggest the festive joy of a people who have been restored to wholeness, not merely rescued from danger. The restoration is not just political survival; it is communal flourishing, the kind of abundant life that only comes when God himself is the source.",
+      "The scope of the promised return is striking: it includes both the northern kingdom (Ephraim, Samaria) and the southern kingdom (Judah), a people divided since the death of Solomon whose reunion was politically inconceivable by Jeremiah&rsquo;s time. The northern tribes had been taken into Assyrian captivity over a century before Jeremiah wrote, scattered and largely absorbed into the surrounding nations. Yet God promises to gather them too: &ldquo;For there shall be a day when watchmen will call in the hill country of Ephraim: &lsquo;Arise, and let us go up to Zion, to the LORD our God&rsquo;&rdquo; (31:6). The unity of God&rsquo;s people, fractured by sin and history, will be restored by the gathering power of the everlasting love.",
+      "One of the most tender images in the passage is the description of those who will return: &ldquo;See, I will bring them from the north country and gather them from the farthest parts of the earth, among them the blind and the lame, the pregnant woman and she who is in labor, together; a great company, they shall return here&rdquo; (31:8). This is not a return of the strong and the capable; it is a procession of the vulnerable &mdash; the disabled, the pregnant, the laboring. The God who gathers these is not impressed by human strength or efficiency. His covenant love extends to those whom the world would leave behind, and his restoration includes precisely those who are most obviously dependent on his provision.",
+      "The passage closes with one of Jeremiah&rsquo;s most evocative oracles: &ldquo;Is Ephraim my dear son? Is he my darling child? For as often as I speak against him, I do remember him still. Therefore my heart yearns for him; I will surely have mercy on him, declares the LORD&rdquo; (31:20). The word translated &ldquo;yearns&rdquo; is the Hebrew &lsquo;hamah&rsquo;, a word for deep internal agitation, the churning of the innermost being. The same word is used of a mother&rsquo;s bowels yearning for her child. God here speaks of his own heart&rsquo;s movement toward his wayward people &mdash; a movement that is not suppressed by their sin but that persists through it and ultimately cannot be denied.",
+    ],
+  },
+  {
+    id: "Rachel Weeping",
+    heading: "Rachel Weeping and God's Comfort",
+    reference: "Jeremiah 31:15&ndash;22",
+    paragraphs: [
+      "Among all the images in Jeremiah 31, the image of Rachel weeping for her children is the one that has most deeply embedded itself in the consciousness of both Jewish and Christian tradition. &ldquo;A voice is heard in Ramah, lamentation and bitter weeping. Rachel is weeping for her children; she refuses to be comforted for her children, because they are no more&rdquo; (31:15). Rachel, the beloved wife of Jacob and the mother of Joseph and Benjamin, died giving birth to Benjamin on the road and was buried at Ramah, on the border of Benjamin&rsquo;s territory. From her tomb, she hears the weeping of the exiles as they are marched past in the darkness.",
+      "The image is one of the most poignant in all of Scripture precisely because of its layers of grief. Rachel wept for her last child in her death; now she weeps for all her children in theirs. The exile is described not as a political catastrophe or a military defeat but as a bereavement &mdash; children torn from their mother, a people torn from their land, a community torn from the presence of God. The insistence that Rachel &ldquo;refuses to be comforted&rdquo; captures the depth of the grief: this is not a sorrow that can be addressed with platitudes or managed with positive thinking. It is the kind of grief that goes all the way down.",
+      "But the oracle does not end with Rachel&rsquo;s weeping. God speaks directly to her: &ldquo;Keep your voice from weeping, and your eyes from tears, for there is a reward for your work, declares the LORD, and they shall come back from the land of the enemy. There is hope for your future, declares the LORD, and your children shall come back to their own country&rdquo; (31:16&ndash;17). The word &ldquo;reward&rdquo; here is unexpected &mdash; the work of raising children who were then taken away is not forgotten by God; it is recognized and will be recompensed. The hope is specific and geographical: the children will return from the enemy&rsquo;s land to their own country. The exile will end.",
+      "The comfort God offers Rachel is not a denial of the reality of the grief. He does not tell her that the exile was not as bad as it seemed, or that she should not have wept, or that things will work out without any real cost. He acknowledges the grief, speaks to it directly, and then points beyond it. This is the shape of genuine comfort throughout Scripture &mdash; not the false comfort that bypasses pain, but the true comfort that enters into the pain and then speaks a word of hope from beyond it. God weeps with those who weep, and then he speaks the word that dries tears without erasing them from the record.",
+      "The fuller meaning of this image was seen by Matthew when he applied it to the slaughter of the infants of Bethlehem by Herod (Matthew 2:17&ndash;18). In Bethlehem, as in Ramah, Rachel wept again. The children of the covenant were massacred by a tyrant who feared the coming of a King. But Matthew&rsquo;s placement of this quotation in his narrative about Jesus is deliberate: just as the exile was not the final word for Jeremiah&rsquo;s Israel, so the slaughter at Bethlehem is not the final word in Matthew&rsquo;s story. The child who escaped to Egypt and returned is himself the one who will bring all the exiles home. In Jesus, Rachel&rsquo;s weeping is answered at last.",
+      "The oracle concludes with an enigmatic line that has puzzled interpreters for centuries: &ldquo;How long will you waver, O faithless daughter? For the LORD has created a new thing on the earth: a woman encircles a man&rdquo; (31:22). Whatever its precise meaning, the line signals that the restoration God is promising is not a mere repetition of the past. It is genuinely new &mdash; so new that it inverts normal expectations. The new creation that God is bringing about in the restoration of his people will surprise even the most hopeful imaginations. Something has begun that has never been seen before.",
+    ],
+  },
+  {
+    id: "The New Covenant",
+    heading: "The New Covenant",
+    reference: "Jeremiah 31:31&ndash;34",
+    paragraphs: [
+      "The four verses that form the New Covenant oracle (31:31&ndash;34) are among the most important in the entire Old Testament, and their importance is recognized within the New Testament itself: the writer of Hebrews quotes them at length twice (8:8&ndash;12 and 10:16&ndash;17), making them the longest Old Testament quotation in the New Testament. They provide the Scriptural basis for Jesus&rsquo; words at the Last Supper, &ldquo;This cup that is poured out for you is the new covenant in my blood&rdquo; (Luke 22:20), and they articulate the deepest rationale for the superiority of Christ&rsquo;s mediatorial work.",
+      "&ldquo;Behold, the days are coming, declares the LORD, when I will make a new covenant with the house of Israel and the house of Judah, not like the covenant that I made with their fathers on the day when I took them by the hand to bring them out of the land of Egypt, my covenant that they broke, though I was their husband, declares the LORD&rdquo; (31:31&ndash;32). The newness is defined in contrast to the Mosaic covenant, and the contrast is significant: the Mosaic covenant was broken. Not because it was defective in itself &mdash; Paul is clear in Romans and Galatians that the Law was holy, righteous, and good &mdash; but because the people to whom it was given lacked the inner resources to keep it. The problem was never the Law; the problem was the human heart.",
+      "&ldquo;But this is the covenant that I will make with the house of Israel after those days, declares the LORD: I will put my law within them, and I will write it on their hearts. And I will be their God, and they shall be my people&rdquo; (31:33). The difference between the old covenant and the new is the location of the law: external tablets of stone versus internal inscription on the heart. This is not a weakening of the law&rsquo;s demands; the law itself remains unchanged. What changes is the medium through which it is communicated and the power through which it is obeyed. When the law is written on the heart, obedience is no longer reluctant compliance with an external command; it is the natural expression of a transformed inner life.",
+      "The second element of the New Covenant is the universalization of the knowledge of God: &ldquo;And no longer shall each one teach his neighbor and each his brother, saying, &lsquo;Know the LORD,&rsquo; for they shall all know me, from the least of them to the greatest, declares the LORD&rdquo; (31:34a). Under the old covenant, knowledge of God was mediated through priests, prophets, and teachers; the ordinary Israelite depended on specialists to interpret the divine will. In the new covenant, every member of the covenant community has direct, unmediated access to God. This does not abolish teaching &mdash; the New Testament is full of teachers &mdash; but it democratizes the fundamental relationship with God in a way the old covenant never did.",
+      "The third element is the most astonishing: &ldquo;For I will forgive their iniquity, and I will remember their sin no more&rdquo; (31:34b). In the old covenant, forgiveness was real but always provisional and repetitive &mdash; the sacrificial system had to be renewed continually because it could not permanently deal with the problem of sin. The writer of Hebrews makes this point explicitly: &ldquo;in these sacrifices there is a reminder of sins every year&rdquo; (Hebrews 10:3). But in the new covenant, forgiveness is complete and final. God will remember their sin no more &mdash; not because he becomes forgetful, but because the sin has been so fully dealt with that it no longer stands as a barrier between God and his people. The ground of this final, unrepeated forgiveness is the once-for-all sacrifice of Christ.",
+      "The New Covenant oracle is the Old Testament&rsquo;s deepest diagnosis of the human problem and its most radical prescription for the cure. The problem is not that the law was unclear or unjust; the problem is that the human heart is hard and incapable of genuine, sustained obedience to what is right. The cure is not better education or more rigorous discipline; the cure is transformation &mdash; a heart that has been written on by God himself, a spirit that has been renewed by his Spirit, a knowledge of God so direct and personal that no mediating system of law and sacrifice is any longer necessary. In Jesus Christ, this new thing has been done. The new covenant age has dawned.",
+    ],
+  },
+  {
+    id: "The Permanence of God's Promise",
+    heading: "The Permanence of God's Promise",
+    reference: "Jeremiah 31:35&ndash;40",
+    paragraphs: [
+      "Having announced the stunning provisions of the New Covenant, Jeremiah records God&rsquo;s answer to the question that must have been pressing on every reader: can these promises be trusted? After all, the old covenant had also seemed permanent, yet it had ended in exile and apparent abandonment. What guarantee is there that the new covenant will not end the same way? God&rsquo;s answer is to point to the created order itself: &ldquo;Thus says the LORD, who gives the sun for light by day and the fixed order of the moon and the stars for light by night, who stirs up the sea so that its waves roar &mdash; the LORD of hosts is his name: &lsquo;If this fixed order departs from before me, declares the LORD, then shall the offspring of Israel cease from being a nation before me forever&rsquo;&rdquo; (31:35&ndash;36).",
+      "The comparison is deliberate and precise. The sun rises every morning; the moon and stars maintain their ordered circuits; the sea follows the boundaries God has set for it. These fixed orders are not maintained by human effort or sustained by human faithfulness; they are sustained by the word and power of the God who set them in place. In the same way, God&rsquo;s commitment to Israel does not depend on Israel&rsquo;s performance or human capability; it rests on the unshakeable decree of the One who made and sustains the cosmos. The continuance of the natural order is God&rsquo;s daily signature on his promise to his people.",
+      "This cosmic grounding of the covenant promise is a profound theological move. It removes God&rsquo;s commitment to his people from the realm of contingency and places it in the same category as the most reliable features of reality. The sun will rise tomorrow not because of anything human beings do, but because God said &ldquo;let there be light&rdquo; and the creation has obeyed him ever since. In exactly the same way, God&rsquo;s covenant faithfulness to Israel is not a matter of ongoing negotiation; it is as fixed as the created order that he spoke into existence. The exile might have suggested that the covenant was ended; the fixed order of sun and moon announces every day that it is not.",
+      "God then adds a second, complementary assurance: &ldquo;Thus says the LORD: &lsquo;If the heavens above can be measured, and the foundations of the earth below can be explored, then I will cast off all the offspring of Israel for all that they have done, declares the LORD&rsquo;&rdquo; (31:37). The heavens cannot be measured; the foundations of the earth cannot be explored. The impossibility of these things is the measure of the impossibility of God casting off his people. This is not a statement that Israel&rsquo;s sin does not matter; the exile itself is evidence that it matters enormously. It is a statement that the love which elected Israel is deeper than any failure that Israel can produce &mdash; not because sin is trivial, but because grace is inexhaustible.",
+      "The chapter closes with a vision of the rebuilt city of Jerusalem, its boundaries extended and its most defiled places &mdash; the valley of Hinnom, the ash-fields, the ravines &mdash; transformed into something holy and consecrated to the LORD (31:38&ndash;40). The specific geographical detail is significant: Jeremiah is not speaking vaguely about spiritual renewal in a timeless realm. He is speaking about real places, real streets, real valleys that were associated with the worst of Israel&rsquo;s apostasy and now will be part of a city that is &ldquo;sacred to the LORD.&rdquo; God&rsquo;s redemptive purpose is not a flight from the material world but a transformation of it &mdash; the very places of corruption becoming places of holiness.",
+      "The permanence of God&rsquo;s promise declared in these closing verses of Jeremiah 31 is not merely a theological abstraction; it is a word addressed to people living in the ruins of what they thought was permanent. The Temple was destroyed, the city was leveled, the king was taken captive, the priesthood was disrupted. Every visible token of God&rsquo;s presence and favor had been removed. Into that devastation, God speaks of fixed orders and unmeasurable heavens, of a city rebuilt holier than before, of a covenant written on hearts that cannot be stolen or destroyed by any Babylonian army. The word that endures is stronger than any catastrophe that can befall those who trust it.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Jeremiah 31 Today",
+    reference: "Jeremiah 31 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Jeremiah 31 addresses Christians who know what it is to live between the first and second comings of Christ &mdash; a people who have received the New Covenant through the blood of Jesus but who still live in a world of loss, exile, and unfinished restoration. The everlasting love declared in verse 3 is the ground of Christian confidence not because the church has been faithful &mdash; it has not, any more than Israel was &mdash; but because God&rsquo;s love was never conditional on faithfulness in the first place. It was &lsquo;olam love: love that preceded the covenant, that outlasted every breach, and that in Christ has been displayed once and for all in the most dramatic act of faithfulness in history.",
+      "The image of Rachel weeping speaks directly to every Christian and every church that knows the grief of loss &mdash; the loss of children to unbelief, of communities to fragmentation, of whole cultures to secularization. God does not tell Rachel to stop weeping before he has heard her weeping. He hears it fully, acknowledges it completely, and then speaks the word of hope beyond it. The pastoral implication is clear: the church&rsquo;s ministry to those who grieve must not hurry past the grief to the comfort. The comfort is real; but it is only received as true comfort when it is offered to grief that has been fully heard. The God of Jeremiah 31 is not in a hurry to get past the lamentation.",
+      "The New Covenant passage is the Old Testament foundation for the entire theology of Christian transformation. The deepest problem of human beings is not ignorance, not poverty, not social injustice &mdash; though all of these are real and must be addressed. The deepest problem is the hard heart, the inward resistance to God and to his ways that produces all the other problems in cascade. The cure offered in the New Covenant is not education, not social reform, not better structures of accountability, but the transforming work of God&rsquo;s Spirit writing the law on the heart. This is what happens in regeneration; this is what the Spirit does in sanctification; this is what the church announces and mediates.",
+      "The democratization of the knowledge of God in verse 34 &mdash; &ldquo;they shall all know me, from the least of them to the greatest&rdquo; &mdash; has revolutionary implications for how the church structures its common life. The New Covenant is not a religion for specialists, reserved for the theologically educated or the spiritually gifted. Every baptized believer has direct access to God through Christ the mediator, and the Spirit dwelling in every believer is sufficient to give that believer genuine, personal knowledge of God. This does not make teachers unnecessary; teachers help the community understand what it means to know God and to live from that knowing. But it does mean that the knowledge of God is not the property of a priestly class. It belongs to every member of the covenant community.",
+      "The completeness of forgiveness announced in verse 34 &mdash; &ldquo;I will remember their sin no more&rdquo; &mdash; is the foundation of Christian confidence before God. Many believers live under a functional condemnation that the New Covenant has already addressed and removed. They return again and again to sins God has forgiven, carrying them as permanent burdens, unable to accept that the remembering has ended. Hebrews 10 insists that the once-for-all sacrifice of Christ has achieved what the old sacrificial system could never achieve: a final, unrepeated cleansing that removes sin from the divine memory permanently. The Christian who grasps this does not become careless about sin; they become free to live in the present grace of God rather than under the past weight of failure.",
+      "The cosmic grounding of God&rsquo;s promise in the fixed order of sun, moon, and stars (31:35&ndash;36) offers a resource for Christian confidence in seasons when every visible token of God&rsquo;s faithfulness seems to have been removed. The church in the West is living through one of those seasons &mdash; decline, scandal, cultural marginalization, the loss of social influence that once seemed permanent. Jeremiah 31 speaks to exactly this situation: the God who keeps the sun in its course and the moon in its orbit has not cancelled his covenant. The new covenant sealed in Christ&rsquo;s blood is more permanent than the created order, because the Creator himself is its guarantor. Sunrise and moonrise are the daily reminder that the God of the New Covenant has not forgotten his people and will not cast them off.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "v9IiSmFQYh0", title: "BibleProject - Overview of Jeremiah" },
+  { videoId: "RSK36cHbrk0", title: "Jeremiah 31 - The New Covenant Explained" },
+  { videoId: "3oFZKE-b5_w", title: "Rachel Weeping for Her Children - Jeremiah 31:15 and Matthew 2" },
+  { videoId: "Q0oIoEN4OGE", title: "The New Covenant and the Heart of God - Jeremiah 31:31-34" },
+];
+
+export default function Jeremiah31GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Jeremiah 31 &mdash; The New Covenant
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            One of the most hope-filled chapters in the Old Testament &mdash; God promises to gather his exiled people with everlasting love, comforts Rachel&rsquo;s weeping with the promise of return, and declares the New Covenant: &ldquo;I will put my law within them, and I will write it on their hearts&rdquo; &mdash; sins remembered no more.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Jeremiah 31 through these video teachings on the return from exile, Rachel weeping, the New Covenant, and the permanence of God&rsquo;s promise.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Will Write It on Their Hearts</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Jeremiah 31 is the Old Testament&rsquo;s greatest declaration of a future that God alone can bring about &mdash; a gathering of exiles, a comforting of mourners, a covenant written not on stone but on hearts, a forgiveness so complete that sin is remembered no more. In Jesus Christ, this new covenant has been inaugurated through his blood. The church that lives in him lives already in the age of hearts transformed, direct knowledge of God, and permanent forgiveness &mdash; anchored by a promise as fixed as the sun and moon that rise each day over a world God has not abandoned.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

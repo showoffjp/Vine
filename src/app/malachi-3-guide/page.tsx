@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Messenger Who Prepares the Way",
+  "Refiner's Fire",
+  "Robbing God in Tithes",
+  "Test Me in This",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Malachi 3",
+    reference: "Malachi 3:1&ndash;18",
+    paragraphs: [
+      "Malachi 3 stands near the very end of the Old Testament canon &mdash; the last prophetic book in the Hebrew Bible &mdash; and it carries the weight of a closing argument. The word of the Lord through Malachi is addressed to a community of post-exilic Jews who had returned from Babylon, rebuilt the Temple under Zerubbabel, and re-established the sacrificial system. But decades had passed, and the initial fervor of return had given way to a weary routinization. The priests were offering blemished animals at the altar. The people were marrying foreign wives and divorcing the wives of their youth. A mood of cynical fatalism had settled over the community: &ldquo;It is vain to serve God. What is the profit of our keeping his charge?&rdquo; (3:14).",
+      "Chapter 3 addresses this malaise with a series of divine declarations that move from promise to rebuke to renewed promise. The chapter opens with one of the most striking announcements in all of prophetic literature: God will send a messenger to prepare the way before him, and then &mdash; suddenly &mdash; the Lord himself will come to his Temple. The one who had seemed absent and indifferent was in fact on his way, and his coming would not be the comfortable arrival of a patronizing deity but the refining fire of a consuming holiness.",
+      "The identity of the messenger who prepares the way has been one of the most discussed questions in biblical prophecy. The Hebrew word (malak) means simply &ldquo;messenger&rdquo; &mdash; the same word as the prophet&rsquo;s own name, Malachi. The final chapter of Malachi (4:5) identifies this figure as &ldquo;Elijah the prophet,&rdquo; connecting the messenger prophecy with the tradition of Elijah&rsquo;s return before the great and awesome day of the Lord. The New Testament is unambiguous in identifying John the Baptist as the fulfillment of this promise: Jesus himself declares, &ldquo;This is he of whom it is written, Behold, I send my messenger before your face, who will prepare your way before you&rdquo; (Matthew 11:10, quoting Malachi 3:1).",
+      "The refining and purifying work that the Lord&rsquo;s coming will accomplish occupies the second section of the chapter. He will sit as a refiner and purifier of silver and will purify the sons of Levi, who had corrupted the priestly office with careless and dishonest offerings. The image of the refiner&rsquo;s fire is one of the Bible&rsquo;s great metaphors for the painful but productive work of divine judgment that removes impurity without destroying the person. The goal is not annihilation but sanctification &mdash; that the sons of Levi may present offerings in righteousness.",
+      "The third section of the chapter contains the rebuke that has arguably been the most preached and debated passage in Malachi: the charge that Israel has been robbing God in tithes and offerings, and the astonishing invitation to test him by bringing the full tithe into the storehouse. The promise attached to faithful tithing &mdash; that God will open the windows of heaven and pour down a blessing so great there will not be room enough to receive it &mdash; has made this passage a touchstone of teaching on generosity, stewardship, and the relationship between material faithfulness and divine provision. The chapter closes with a distinction between those who fear the Lord and those who do not, and the promise of a book of remembrance written before him for those who honor his name.",
+    ],
+  },
+  {
+    id: "The Messenger Who Prepares the Way",
+    heading: "The Messenger Who Prepares the Way",
+    reference: "Malachi 3:1",
+    paragraphs: [
+      "The first verse of Malachi 3 is, despite its brevity, one of the most theologically packed sentences in the Old Testament: &ldquo;Behold, I send my messenger, and he will prepare the way before me. And the Lord whom you seek will suddenly come to his temple; and the messenger of the covenant in whom you delight, behold, he is coming, says the Lord of hosts.&rdquo; Three figures appear in compressed succession: a messenger who prepares the way, the Lord himself who will suddenly come to his temple, and the messenger of the covenant. The relationship among these figures has occupied interpreters across three millennia.",
+      "The context is a dispute between the Lord and his people. The previous chapter has ended with Israel&rsquo;s weary cynicism: &ldquo;Every one who does evil is good in the sight of the Lord, and he delights in them. Or where is the God of justice?&rdquo; (2:17). The people are questioning whether God is in fact the moral ruler of the world &mdash; whether righteousness is rewarded and wickedness punished. The opening of chapter 3 is God&rsquo;s direct response to this challenge: the God of justice they are looking for is indeed coming, and the messenger being sent is the precursor who will announce his arrival.",
+      "The announcement that &ldquo;the Lord whom you seek will suddenly come to his temple&rdquo; is significant precisely because of the word &ldquo;suddenly.&rdquo; The coming will not be preceded by a long period of warning and preparation in which people can position themselves favorably. It will be an unexpected, unannounced arrival that finds people as they actually are, not as they wish to appear. The Temple, the place where Israel had been offering their defective sacrifices and going through the motions of religion, is the destination. The one who comes will see everything as it actually is.",
+      "The phrase &ldquo;the messenger of the covenant&rdquo; has been interpreted in various ways. Some understand it as a reference to the same forerunner figure &mdash; the one who comes to enforce and restore the covenant. Others understand it as a reference to the Lord himself, who comes as the mediator and enforcer of the covenant he has made with his people. In either case, the covenant context is central: the coming of the Lord is not the arrival of a stranger but the return of the covenant partner, and the question his coming poses is whether Israel has been faithful to the covenant obligations they have undertaken.",
+      "The New Testament&rsquo;s identification of this messenger with John the Baptist is consistent and emphatic. Mark opens his Gospel by quoting Malachi 3:1 as the scriptural warrant for John&rsquo;s ministry: &ldquo;As it is written in Isaiah the prophet, Behold, I send my messenger before your face, who will prepare your way&rdquo; (Mark 1:2). Matthew quotes the same verse when Jesus is asked about John&rsquo;s identity (Matthew 11:10). Luke applies the text to Zechariah&rsquo;s prophecy over the infant John (Luke 1:76). The consistent New Testament witness is that in John the Baptist, the prophetic promise of Malachi 3:1 reached its historical fulfillment, and that in the ministry, death, and resurrection of Jesus Christ, the sudden coming of the Lord to his Temple became a reality that exceeded even what Malachi&rsquo;s language could fully contain.",
+      "The theological significance of this fulfillment for the church is profound. The God who seemed absent to the cynical and weary people of Malachi&rsquo;s day was not absent at all; he was in the process of sending the forerunner and preparing the most decisive arrival in human history. The pattern is instructive for every generation that asks, &ldquo;Where is the God of justice?&rdquo; The silence is not absence. The delay is not indifference. The messenger has come; the Lord has come to his Temple; and the final arrival toward which all prophetic hope still strains &mdash; the return of the Lord in glory &mdash; is as certain as the word that announced the first.",
+    ],
+  },
+  {
+    id: "Refiner's Fire",
+    heading: "Refiner&rsquo;s Fire &mdash; Purifying the Priesthood",
+    reference: "Malachi 3:2&ndash;4",
+    paragraphs: [
+      "Having announced the coming of the Lord to his Temple, Malachi immediately poses the question that the announcement raises: &ldquo;But who can endure the day of his coming, and who can stand when he appears? For he is like a refiner&rsquo;s fire and like fullers&rsquo; soap&rdquo; (3:2). The question is rhetorical and sobering. The people had been complaining that God seemed indifferent to justice &mdash; but the oracle now suggests that the justice they were demanding would not be the comfortable vindication they had imagined. The coming of the holy God is an event that exposes, not merely a reward that gratifies.",
+      "The two images &mdash; a refiner&rsquo;s fire and fullers&rsquo; soap &mdash; are both images of intense purification. The ancient refiner would heat silver or gold in a crucible until the impurities floated to the surface and could be skimmed off, leaving the pure metal behind. The fuller&rsquo;s soap was a harsh alkali used to scour and bleach cloth, removing the accumulated stains of travel and daily life. Both images emphasize that the Lord&rsquo;s coming will be a process of removal &mdash; the removal of what does not belong, what has accumulated through negligence and sin, what would corrupt the finished product. The imagery is painful but purposeful: the goal is not destruction but restoration to original purity.",
+      "The specific target of this purifying work is identified in verse 3: &ldquo;He will sit as a refiner and purifier of silver, and he will purify the sons of Levi and refine them like gold and silver, and they will bring offerings in righteousness to the Lord.&rdquo; The sons of Levi &mdash; the priestly tribe whose specific calling was to approach God on behalf of the people and to present offerings that would be acceptable to him &mdash; had been the most spectacular failure of Malachi&rsquo;s day. The first chapter of Malachi had catalogued their offenses: offering blind, lame, and sick animals, polluting the altar, expressing contempt for the table of the Lord while speaking through their teeth, &ldquo;What a weariness this is!&rdquo; (1:13).",
+      "The refiner&rsquo;s work on the sons of Levi is described not as punishment but as renewal. The purpose is expressed in the result: &ldquo;they will bring offerings in righteousness to the Lord.&rdquo; The goal of the divine refining is a priesthood that once again does what a priesthood is meant to do &mdash; present to God what is truly his due, with undivided heart and unfeigned reverence. The fire does not destroy the priest; it restores him to his calling. This is the pattern of all divine discipline as understood throughout Scripture: not the annihilation of the person but the removal of what has degraded the person&rsquo;s dignity and obstructed their purpose.",
+      "The New Testament applies the imagery of refining fire to the work of the Holy Spirit. John the Baptist himself, the messenger who prepared the way, described the one who would come after him as the one who &ldquo;will baptize you with the Holy Spirit and fire. His winnowing fork is in his hand, and he will clear his threshing floor and gather his wheat into the barn, but the chaff he will burn with unquenchable fire&rdquo; (Matthew 3:11&ndash;12). The purifying fire that Malachi announces is the same fire that descends at Pentecost and that continues to work in the lives of believers through the sanctifying ministry of the Spirit &mdash; not a fire of destruction but a fire of transformation.",
+      "The application to the church in every generation is clear and uncomfortable. The people who handle holy things &mdash; who preach, lead worship, administer the sacraments, teach the young, counsel the struggling &mdash; are not immune to the gradual drift into the kind of religious professionalism that marked the sons of Levi in Malachi&rsquo;s day. The offering can become routine; the Table can become mechanical; the word can be delivered with skill but without the trembling that belongs to those who stand near the burning holiness of God. The promise of the refiner&rsquo;s fire is not a threat to be feared by those who submit to it; it is a promise of restoration to the calling that makes ministry worth having.",
+    ],
+  },
+  {
+    id: "Robbing God in Tithes",
+    heading: "Robbing God in Tithes and Offerings",
+    reference: "Malachi 3:6&ndash;10",
+    paragraphs: [
+      "After the announcement of the coming Lord and the purifying of the priesthood, Malachi&rsquo;s oracle turns to address the whole nation with a charge of unusual severity: &ldquo;From the days of your fathers you have turned aside from my statutes and have not kept them. Return to me, and I will return to you, says the Lord of hosts. But you say, &lsquo;How shall we return?&rsquo;&rdquo; (3:7). The question &mdash; &ldquo;How shall we return?&rdquo; &mdash; is either genuinely confused or evasively disingenuous, and the Lord&rsquo;s response cuts through both possibilities with a specific charge that is both shocking and precise.",
+      "&ldquo;Will man rob God? Yet you are robbing me. But you say, &lsquo;How have we robbed you?&rsquo; In your tithes and contributions&rdquo; (3:8). The charge of robbing God is one of the most startling accusations in all of prophetic literature. The word translated &ldquo;rob&rdquo; (qaba) implies a bold, brazen seizure &mdash; not petty theft but the kind of taking that treats the rightful owner with contempt. Israel had been claiming the tithes and offerings that belonged to God as their own. In doing so, the prophet suggests, they were committing an act of sacrilegious seizure against the owner of all things.",
+      "The background of this charge lies in the tithing system of the Mosaic law, which required Israel to bring a tenth of their agricultural produce to the Temple storehouse, where it would be used to support the Levites, who had no inheritance of land, and to provide for the poor, the widow, and the sojourner. The tithe was not a voluntary donation to a religious institution; it was a divinely mandated recognition that all the fruit of the land ultimately belonged to the Lord, and that the community had obligations both to those who served at the altar and to those on the margins of society.",
+      "The consequence of this robbing is stated in terms of a national curse: &ldquo;You are cursed with a curse, for you are robbing me, the whole nation of you&rdquo; (3:9). The language connects Israel&rsquo;s material difficulties &mdash; drought, crop failure, locust devastation &mdash; with their failure to honor God in their material life. Malachi is not suggesting a simple mechanical transaction in which tithing automatically produces prosperity. He is pointing to the covenantal relationship between Israel&rsquo;s material life and their faithfulness to the Lord who gave them the land and its produce. To withhold what belonged to God was to sever a vital connection in the covenant relationship that made blessing possible.",
+      "The specific mention of the &ldquo;storehouse&rdquo; in verse 10 is significant. The storehouse (Hebrew: otzar) in the Temple complex was a real physical structure where the tithes were brought and stored before being distributed. Nehemiah 13 describes Nehemiah&rsquo;s horror at finding that Tobiah the Ammonite had been given a large room in the Temple storehouse &mdash; a room that should have held grain, wine, oil, and the tithes for the Levites &mdash; for his personal use. The material, structural failure of the storehouse system was not merely an administrative problem; it was a symptom of a community whose covenantal priorities had become disordered.",
+      "The New Testament does not transfer the Mosaic tithing system directly to the church, which is not under the Mosaic covenant. But the principle underlying Malachi&rsquo;s charge &mdash; that material generosity is a reflection of one&rsquo;s actual relationship to God, and that the person who claims to love God while clinging tightly to their material resources has not yet understood what it means to belong to one who gave everything &mdash; runs through the New Testament from the parable of the Rich Young Ruler to Paul&rsquo;s celebrated teaching on generous giving in 2 Corinthians 8&ndash;9. The charge of robbing God is not resolved by the abolition of tithing but by the deeper transformation of the heart toward the generosity that reflects the nature of the God who &ldquo;so loved the world that he gave his only Son.&rdquo;",
+    ],
+  },
+  {
+    id: "Test Me in This",
+    heading: "Test Me in This",
+    reference: "Malachi 3:10&ndash;12",
+    paragraphs: [
+      "The single most remarkable feature of Malachi 3:10 is that God invites his people to test him. Throughout the Old Testament, the testing of God is presented as a serious and forbidden sin. In the wilderness, Israel had tested God at Massah and Meribah, demanding water and doubting his provision, and this testing was remembered as one of the signal examples of faithlessness that a later generation was warned never to repeat (Psalm 95:8&ndash;9; Deuteronomy 6:16). Jesus himself, in the wilderness temptation, refused to test God by throwing himself from the pinnacle of the Temple, citing Deuteronomy 6:16. The prohibition on testing God is one of the Old Testament&rsquo;s clearest moral directives.",
+      "Yet here, in Malachi 3:10, God himself reverses the direction of the prohibition: &ldquo;Bring the full tithe into the storehouse, that there may be food in my house. And thereby put me to the test, says the Lord of hosts, if I will not open the windows of heaven for you and pour down for you a blessing until there is no more need.&rdquo; This is one of only two places in the entire Bible where God explicitly invites his people to test him (the other is arguably Isaiah 7:11, where God tells Ahaz to ask for a sign). The inversion is deliberate and striking: the people who had been testing God by their disobedience and cynicism are now invited to test him by their obedience.",
+      "The language of &ldquo;the windows of heaven&rdquo; carries enormous freight in the biblical imagination. The same phrase appears in Genesis 7:11 when the floodwaters burst forth at the beginning of Noah&rsquo;s flood. It appears in 2 Kings 7:2 when the prophet Elisha promises an end to the siege of Samaria and is met with incredulity: &ldquo;If the Lord himself should make windows in heaven, could this thing be?&rdquo; The windows of heaven represent the source of divine provision that lies beyond human calculation or manipulation &mdash; the storehouse of heaven from which God distributes rain, grain, oil, and wine according to his own sovereign generosity.",
+      "The promise attached to faithful tithing is expressed in extravagant language: &ldquo;I will rebuke the devourer for you, so that it will not destroy the fruits of your soil, and your vine in the field shall not fail to bear, says the Lord of hosts. Then all nations will call you blessed, for you will be a land of delight, says the Lord of hosts&rdquo; (3:11&ndash;12). Three distinct blessings are named: an opened heaven of provision, protection against the forces that destroy agricultural productivity, and a restored reputation among the nations. The community that had been under a curse would become visibly blessed, a testimony among the nations to the faithfulness of the God they served.",
+      "The invitation to &ldquo;test me in this&rdquo; has made Malachi 3:10 one of the most preached and debated texts in the history of Christian teaching on money and generosity. Some theologians have warned against extracting the text from its covenantal context and applying it mechanically to the church, as if material prosperity were the automatic and guaranteed reward of tithing under the new covenant. Others have emphasized the deep continuity between the principle Malachi articulates &mdash; that the God who owns all things honors the community that honors him with their material lives &mdash; and the New Testament&rsquo;s repeated emphasis on generous giving as both a grace (2 Corinthians 8:7) and a seed that produces a harvest of righteousness (2 Corinthians 9:10).",
+      "What is beyond dispute is the character of God that the invitation reveals. The God of Malachi 3:10 is not a remote deity who demands tribute and gives nothing back. He is a covenant-keeping Lord who stands ready to be tested in the arena of practical, material faithfulness &mdash; not because he needs the tithe, but because the act of bringing it is the outward expression of a heart that has grasped the fundamental truth that &ldquo;the earth is the Lord&rsquo;s and the fullness thereof&rdquo; (Psalm 24:1). The test is not of God&rsquo;s resources, which are infinite, but of Israel&rsquo;s trust &mdash; and the invitation to test him is simultaneously an invitation to discover that his trustworthiness exceeds anything they have yet experienced.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Malachi 3 Today",
+    reference: "Malachi 3 &mdash; For the Life of the Believer",
+    paragraphs: [
+      "Malachi 3 is a chapter for weary and disillusioned believers &mdash; people who have been going through the motions of religious practice long enough to have developed a subtle cynicism about whether it matters. The community Malachi addressed was not composed of rank atheists or open apostates; they were Temple-attending, sacrifice-offering, tithe-paying (when they remembered) members of the covenant community. Their problem was not the absence of religion but its hollowing-out &mdash; the replacement of genuine encounter with the living God by the comfortable routines of institutional religion. That diagnosis describes a significant portion of every generation of the church.",
+      "The promise of the messenger who prepares the way is first and foremost a promise about the faithfulness of God. The community that had grown cynical about divine justice was being told that the God who seemed absent was in fact moving toward them in history &mdash; sending a forerunner, preparing an arrival, organizing the cosmos toward a moment of decisive appearing. For the Christian who reads this promise in the light of its New Testament fulfillment, the encouragement is doubled: the Lord who came to his Temple in Jesus of Nazareth has promised to come again, and the same God who organized the centuries between Malachi and John the Baptist is organizing the centuries between Pentecost and the Parousia. The apparent silence of God is the silence of a God who is coming.",
+      "The image of the refiner&rsquo;s fire in Malachi 3:2&ndash;4 offers a framework for understanding the painful experiences through which God shapes and sanctifies his people. The Christian who finds themselves in a season of loss, difficulty, suffering, or unwanted exposure of their own weakness and corruption may find in the refiner&rsquo;s imagery a lens through which to interpret what is happening. The fire is not punitive destruction; it is purposeful purification. The Refiner sits at the crucible, not absent while his people suffer, but present and attentive, removing what would destroy them and leaving what belongs to their truest identity as people made in his image and redeemed by his grace.",
+      "The charge of robbing God in tithes and offerings, while addressed first to a community under the Mosaic covenant, raises questions that the New Testament explicitly extends to the church. Jesus spoke about money with remarkable frequency &mdash; more than about any other single subject &mdash; and consistently identified the disposition of the heart toward material possessions as one of the clearest indicators of the actual state of the soul. The parable of the Rich Young Ruler, the widow&rsquo;s mite, the parable of the Talents, the Sermon on the Mount&rsquo;s teaching on treasure and anxiety &mdash; all press the same fundamental question that Malachi asks with unusual directness: has the claim that God makes on your material life been honored, or have you arranged your financial life as if it belonged primarily to you?",
+      "The &ldquo;test me in this&rdquo; invitation of Malachi 3:10 has a specific covenantal context that cannot simply be downloaded into twenty-first-century individual Christian life without nuance. But the character of God it reveals is the same character that the New Testament announces. The God who invites testing in the arena of material faithfulness is the God who &ldquo;did not spare his own Son but gave him up for us all&rdquo; and who will &ldquo;with him graciously give us all things&rdquo; (Romans 8:32). Generous giving, in the New Testament, is not a mechanism for extracting divine blessings but a response to a God whose generosity has already been established beyond all question at Calvary. The believer who gives generously is not buying God&rsquo;s favor; they are living out, in the material dimension of life, the truth that has transformed their entire existence: God gave first, God gave more than we could ask or imagine, and the appropriate response is a life oriented toward giving rather than accumulating.",
+      "The closing verses of Malachi 3 draw a distinction between those who fear the Lord and those who serve him faithfully on one hand, and those who do not on the other. The book of remembrance that the Lord keeps for those who honor his name (3:16) is a striking image of divine attentiveness to the small, hidden acts of faithfulness that are never noticed by the surrounding culture but are never missed by the one who sees in secret. In a culture saturated with metrics, visibility, and the pressure to perform for audiences, the image of a Lord who keeps a book of remembrance for those who simply fear him and think on his name is a word of extraordinary grace. The faithfulness that Malachi calls for is not spectacular; it is daily, ordinary, material, and deeply noted by the God in whose service it is rendered.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "MkETkRv9tG8", title: "BibleProject Overview - Malachi" },
+  { videoId: "3dGT7d4wDiM", title: "Malachi 3 - The Messenger and the Refiner's Fire" },
+  { videoId: "hqDjmhH9GtI", title: "Bring the Full Tithe - Malachi 3:10 Explained" },
+  { videoId: "XvmFWgm9XEY", title: "John the Baptist and the Fulfillment of Malachi 3:1" },
+];
+
+export default function Malachi3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Malachi 3 &mdash; Behold, I Send My Messenger
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            God announces a messenger who will prepare the way, a refiner&rsquo;s fire that will purify the priesthood, and the stunning challenge to a robbing nation: &ldquo;Bring the full tithe into the storehouse&hellip; and thereby put me to the test.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Explore Malachi 3 through these video teachings on the forerunner messenger, the refiner&rsquo;s fire, the charge of robbing God, and the bold invitation to test him in the storehouse.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Put Me to the Test</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Malachi 3 closes the Old Testament with a word addressed to a weary, cynical, and materially unfaithful community &mdash; and the word is not final condemnation but renewed invitation. The messenger has been sent; the Lord has come to his Temple; the refiner&rsquo;s fire has done its purifying work in Jesus Christ. The God who invited Israel to test him in the storehouse is the same God who gave his Son without reservation, and who invites his people in every generation to discover that his generosity exceeds anything they have yet experienced.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

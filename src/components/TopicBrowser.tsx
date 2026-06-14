@@ -2080,6 +2080,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Titus 3 Chapter": "titus-3-guide",
   "Saved by Washing Renewing": "titus-3-guide",
   "Not by Works Titus": "titus-3-guide",
+  "2 Peter 1 Chapter": "2-peter-1-guide",
+  "Partakers Divine Nature Peter": "2-peter-1-guide",
+  "Diligence and Virtue Peter": "2-peter-1-guide",
+  "Jeremiah 31 Chapter": "jeremiah-31-guide",
+  "New Covenant Jeremiah": "jeremiah-31-guide",
+  "Law Written on Hearts": "jeremiah-31-guide",
+  "Haggai 2 Chapter": "haggai-2-guide",
+  "Desired of All Nations": "haggai-2-guide",
+  "Glory of Latter House": "haggai-2-guide",
+  "Malachi 3 Chapter": "malachi-3-guide",
+  "Tithing and Testing God": "malachi-3-guide",
+  "Messenger Prepare the Way": "malachi-3-guide",
 };
 
 
@@ -3042,6 +3054,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 31 Chapter" },
   { label: "2 Kings 4 Chapter" },
   { label: "Titus 3 Chapter" },
+  { label: "2 Peter 1 Chapter" },
+  { label: "Jeremiah 31 Chapter" },
+  { label: "Haggai 2 Chapter" },
+  { label: "Malachi 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

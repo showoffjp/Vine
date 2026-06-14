@@ -1936,6 +1936,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Kings 19 Chapter": "1-kings-19-guide",
   "Elijah in the Desert": "1-kings-19-guide",
   "Wind Fire and Still Voice": "1-kings-19-guide",
+  "Acts 10 Chapter": "acts-10-guide",
+  "Peter and Cornelius": "acts-10-guide",
+  "Gentiles Receive the Spirit": "acts-10-guide",
+  "Luke 10 Chapter": "luke-10-guide",
+  "Good Samaritan Story": "luke-10-guide",
+  "Mary and Martha": "luke-10-guide",
+  "Isaiah 6 Chapter": "isaiah-6-guide",
+  "Here I Am Send Me": "isaiah-6-guide",
+  "Isaiah Vision of the Lord": "isaiah-6-guide",
+  "2 Corinthians 4 Chapter": "2-corinthians-4-guide",
+  "Treasure in Clay Jars": "2-corinthians-4-guide",
+  "Light Out of Darkness": "2-corinthians-4-guide",
 };
 
 
@@ -2850,6 +2862,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Exodus 3 Chapter" },
   { label: "Joshua 1 Chapter" },
   { label: "1 Kings 19 Chapter" },
+  { label: "Acts 10 Chapter" },
+  { label: "Luke 10 Chapter" },
+  { label: "Isaiah 6 Chapter" },
+  { label: "2 Corinthians 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

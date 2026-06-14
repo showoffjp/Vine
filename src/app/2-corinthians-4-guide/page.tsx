@@ -1,0 +1,191 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Unveiled Gospel",
+  "Treasure in Clay Jars",
+  "Light Out of Darkness",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "2 Corinthians 4 &mdash; Overview",
+    reference: "2 Corinthians 4:1&ndash;18",
+    paragraphs: [
+      "Second Corinthians 4 is one of the most personally revealing chapters in all of Paul&rsquo;s letters &mdash; a sustained theological reflection on what it means to carry the gospel through a life of weakness, suffering, and apparent defeat. Paul wrote this letter in a context of intense personal opposition: false apostles had come to Corinth challenging his credentials, his authority, and even his claim to be a genuine minister of Christ. Rather than defending himself by appealing to strength, success, or social standing, Paul offers a theology of the cross that reframes weakness as the very medium through which God&rsquo;s power is most clearly displayed.",
+      "The chapter is structured around a series of contrasts that run throughout Paul&rsquo;s thought: the treasure and the clay jar, the outer self wasting away and the inner self being renewed, the momentary affliction and the eternal weight of glory, the things seen and the things unseen. These contrasts are not abstract theological propositions &mdash; they are forged in the furnace of real suffering. Paul has been beaten, imprisoned, shipwrecked, and left for dead. He knows what it is to be &ldquo;afflicted in every way&rdquo; (4:8). His theology of weakness is not a theoretical construct but a hard-won conviction about how God works in the world.",
+      "The immediate context is chapters 2&ndash;6 of this letter, sometimes called the &ldquo;great digression&rdquo; or the &ldquo;apology of Paul&rsquo;s apostleship,&rdquo; in which Paul defends not merely himself but the nature of genuine Christian ministry. In chapter 3, Paul has contrasted the old covenant, written on stone tablets, with the new covenant, written on the heart by the Spirit &mdash; and has declared that the new covenant surpasses the old in glory as the sun surpasses a candle. Now in chapter 4 he turns to the paradox at the heart of this new-covenant ministry: the message is infinitely glorious, but the messenger is conspicuously fragile.",
+      "The theological heart of the chapter is verse 7: &ldquo;But we have this treasure in jars of clay, to show that the surpassing power belongs to God and not to us.&rdquo; This single verse encapsulates Paul&rsquo;s entire theology of ministry. The treasure is the gospel &mdash; specifically, the &ldquo;light of the knowledge of the glory of God in the face of Jesus Christ&rdquo; (4:6). The clay jars are human beings: breakable, perishable, unremarkable in themselves, easily overlooked. The deliberate mismatch between the greatness of the treasure and the fragility of the vessel is not an accident or a problem to be solved &mdash; it is the point. It is the design.",
+      "Chapter 4 also stands in the great tradition of Old Testament lament theology. The Psalms are full of voices that cry out from affliction, weakness, and near-death experience, and yet affirm the faithfulness of God. Paul quotes Psalm 116:10 directly in verse 13: &ldquo;I believed, and so I spoke.&rdquo; The psalmist spoke from a place of profound suffering; Paul speaks from a similar place. Both affirm that the conviction of faith &mdash; the settled confidence in the God who raises the dead &mdash; compels speech even when circumstances would counsel silence. The connection between believing and speaking, between interior conviction and outward proclamation, is one of the chapter&rsquo;s central themes.",
+    ],
+  },
+  {
+    id: "The Unveiled Gospel",
+    heading: "The Unveiled Gospel",
+    reference: "2 Corinthians 4:1&ndash;6",
+    paragraphs: [
+      "Paul opens chapter 4 by returning to the idea of ministry received through mercy. &ldquo;Therefore, having this ministry by the mercy of God, we do not lose heart&rdquo; (4:1). The word &ldquo;therefore&rdquo; links back to the glorious description of the new-covenant ministry in chapter 3, where Paul has described how the Spirit removes the veil that covers the hearts of those who read the old covenant without Christ, so that believers behold the glory of the Lord with unveiled faces and are transformed from one degree of glory to another. Ministry is not a human achievement or a career choice; it is a mercy received. And because it is received as mercy, it is a reason not to lose heart.",
+      "Paul states his ministerial principles plainly: he has renounced disgraceful, underhanded ways; he refuses to practice cunning or to tamper with God&rsquo;s word; he commends himself to everyone&rsquo;s conscience by the open statement of the truth (4:2). This is in direct contrast to the style of the false apostles who have infiltrated Corinth, who use manipulation, flattery, and impressive rhetoric to win followers. Paul&rsquo;s only tool is the truth &mdash; spoken openly, without tricks, and directed not just at the emotions or the ego but at the conscience, the deepest moral sense of the hearer.",
+      "Yet even this honest proclamation does not reach everyone. &ldquo;And even if our gospel is veiled, it is veiled to those who are perishing&rdquo; (4:3). Paul refuses to conclude from unbelief that the gospel is defective or the messenger inadequate. The failure to receive the gospel has a spiritual cause: &ldquo;the god of this world has blinded the minds of the unbelievers, to keep them from seeing the light of the gospel of the glory of Christ, who is the image of God&rdquo; (4:4). The &ldquo;god of this world&rdquo; &mdash; Satan &mdash; exercises a blinding influence over those who have not come to faith, keeping them from perceiving what is plainly displayed in the gospel.",
+      "This understanding of Satanic blinding is not a counsel of despair but a clarification of the battlefield. It explains why the gospel cannot be reduced to a merely rational argument that, if well enough constructed, will inevitably produce belief. Unbelief is not primarily an intellectual problem; it is a spiritual one. The remedy is not merely better reasoning but divine illumination &mdash; and that illumination is what God provides when he causes his light to shine in darkened hearts.",
+      "Paul then states his personal manifesto of gospel ministry in verse 5: &ldquo;For what we proclaim is not ourselves, but Jesus Christ as Lord, with ourselves as your servants for Jesus&rsquo; sake.&rdquo; This is a direct rebuke of self-promoting ministry, of the kind that makes the personality, the gifts, the experiences, or the authority of the preacher the center of attention. The one who proclaims himself rather than Christ has misunderstood the task entirely. The preacher is a servant &mdash; of Christ and, for Christ&rsquo;s sake, of the congregation.",
+      "The passage culminates in one of the great theological statements of the New Testament: &ldquo;For God, who said, &lsquo;Let light shine out of darkness,&rsquo; has shone in our hearts to give the light of the knowledge of the glory of God in the face of Jesus Christ&rdquo; (4:6). Paul draws an explicit parallel between creation and new creation. The same divine word that called light out of primordial darkness at the beginning now calls spiritual light out of the darkness of the human heart. The knowledge of God&rsquo;s glory &mdash; the very knowledge that the false apostles claimed to purvey through impressive spiritual credentials &mdash; is given freely, by sovereign grace, as an act of new creation, and it is mediated through the face of Jesus Christ.",
+    ],
+  },
+  {
+    id: "Treasure in Clay Jars",
+    heading: "Treasure in Clay Jars",
+    reference: "2 Corinthians 4:7&ndash;12",
+    paragraphs: [
+      "The pivotal verse of the chapter arrives in verse 7: &ldquo;But we have this treasure in jars of clay, to show that the surpassing power belongs to God and not to us.&rdquo; The treasure is the gospel &mdash; the &ldquo;light of the knowledge of the glory of God in the face of Jesus Christ&rdquo; just described in verse 6. This is a treasure of incalculable worth, a revelation that the angels longed to look into (1 Peter 1:12), a message that contains the power of God for salvation to everyone who believes (Romans 1:16). And this matchless treasure is deposited in clay jars &mdash; ostrakina skeue in Greek, referring to cheap, ordinary, fragile earthenware pots of the kind used everywhere in the ancient world for storing grain, oil, or water.",
+      "Clay jars were so common and so inexpensive in the ancient world that they were routinely discarded when they cracked. They were the disposable containers of their day &mdash; useful but utterly unimpressive. Paul is not engaging in false modesty when he applies this image to himself and to his fellow apostles. He has been beaten with rods, stoned, and left for dead. He carries in his body the marks of Jesus (Galatians 6:17). He is acutely aware that he does not present an impressive package by the world&rsquo;s standards. But this is precisely the point. The very ordinariness and fragility of the vessel throws the extraordinary quality of the treasure into sharp relief.",
+      "Paul then unpacks the lived experience of being a clay jar carrying a divine treasure through a series of four magnificent antitheses (4:8&ndash;9). &ldquo;We are afflicted in every way, but not crushed; perplexed, but not driven to despair; persecuted, but not forsaken; struck down, but not destroyed.&rdquo; Each phrase has two parts: the first acknowledges the full weight of the suffering; the second declares the miracle of divine sustaining. Paul does not minimize the affliction, the perplexity, the persecution, the being struck down. He names them honestly. But he insists that in each case the situation that looked fatal proved survivable, not because of the clay jar&rsquo;s own toughness, but because of the power within it.",
+      "The word &ldquo;crushed&rdquo; in verse 8 literally means pressed to the walls, as in a narrow space from which there is no escape. Paul has been in situations that seemed to offer no exit, and yet he was not crushed &mdash; the space was always just enough. &ldquo;Perplexed&rdquo; (Greek: aporeo) means at a complete loss, without a way forward &mdash; a feeling that any honest Christian worker will recognize, the moment when no strategy or resource seems adequate. Yet Paul adds &ldquo;but not driven to despair&rdquo; (Greek: exaporeo) &mdash; the same root with an intensifying prefix. The perplexity did not cross the line into absolute hopelessness.",
+      "Paul deepens the theology in verses 10&ndash;12, applying the cross-and-resurrection pattern to daily experience: &ldquo;always carrying in the body the death of Jesus, so that the life of Jesus may also be manifested in our bodies.&rdquo; This is not a metaphor but a description of actual experience. Paul&rsquo;s constant experience of weakness, suffering, and near-death is described as &ldquo;carrying the death of Jesus&rdquo; &mdash; a participation in the cruciform pattern of Christ&rsquo;s own life. And the purpose of this death-carrying is that the resurrection life of Jesus might also be manifested &mdash; that the same power that raised Jesus from the dead might break through in and through the mortal body of the apostle.",
+      "Verse 12 takes this one step further with a breathtaking statement: &ldquo;So death is at work in us, but life in you.&rdquo; The suffering and apparent dying of the apostle is not waste; it is not meaningless tragedy. It is generative. Through Paul&rsquo;s affliction, the life of God flows to others. The clay jar cracks and breaks, and the light within shines more brightly as a result. This is the paradox of cruciform ministry: the power of the gospel is released not through human strength and impressiveness but through human weakness that has been surrendered to God.",
+    ],
+  },
+  {
+    id: "Light Out of Darkness",
+    heading: "Light Out of Darkness",
+    reference: "2 Corinthians 4:13&ndash;18",
+    paragraphs: [
+      "Having described the outward pattern of his ministry &mdash; affliction, perplexity, persecution, being struck down, carrying death in his body &mdash; Paul now grounds his refusal to lose heart in the interior convictions that sustain him. &ldquo;Since we have the same spirit of faith according to what has been written, &lsquo;I believed, and so I spoke,&rsquo; we also believe, and so we also speak&rdquo; (4:13). Paul quotes Psalm 116:10, the psalm of a man who spoke of his faith even in the midst of great affliction. The connection between believing and speaking is essential: the ministry of proclamation is not an optional add-on to the life of faith but flows necessarily from it.",
+      "The content of the faith that compels speech is resurrection: &ldquo;knowing that he who raised the Lord Jesus will raise us also with Jesus and bring us with you into his presence&rdquo; (4:14). Paul&rsquo;s confidence is not in present comfort, institutional security, or ministerial success &mdash; it is in the God who raises the dead. This is the bedrock conviction that makes it possible to carry on in the face of suffering and apparent defeat. If God raised Jesus from the dead, then no affliction, no persecution, no being struck down, no death itself can ultimately defeat those who are in Christ. The resurrection of Jesus is not only a past event but a guarantee of a future one.",
+      "Paul also frames his suffering in explicitly other-directed terms: &ldquo;For it is all for your sake, so that as grace extends to more and more people it may increase thanksgiving, to the glory of God&rdquo; (4:15). The suffering has a purpose beyond Paul&rsquo;s personal spiritual formation. It is for the sake of others &mdash; specifically, for the extension of grace to more people and the multiplication of thanksgiving to God. Paul sees his own hardship as a kind of sacramental act: the clay jar breaks and breaks, and through each breaking the treasure is distributed more widely. The more people receive grace, the greater the chorus of thanksgiving that rises to God.",
+      "The chapter then rises to one of its most celebrated passages: &ldquo;So we do not lose heart. Though our outer self is wasting away, our inner self is being renewed day by day. For this light momentary affliction is preparing for us an eternal weight of glory beyond all comparison&rdquo; (4:16&ndash;17). The contrast between the outer self and the inner self is not a Platonic dualism that devalues the body &mdash; Paul elsewhere insists on the resurrection of the body and the goodness of creation. It is an eschatological contrast: the outer person, the physical frame in its present mortal condition, is subject to decay and suffering; the inner person, the renewed self constituted by the Spirit, is being transformed and strengthened in the very midst of the outer person&rsquo;s trials.",
+      "The description of the sufferings as &ldquo;light&rdquo; and &ldquo;momentary&rdquo; is striking given the catalogue of afflictions Paul has described. He has been beaten, stoned, imprisoned, and has faced death many times. By no ordinary reckoning are these experiences &ldquo;light.&rdquo; But Paul is not measuring on an ordinary scale. He is measuring against &ldquo;an eternal weight of glory beyond all comparison.&rdquo; The Greek word for &ldquo;weight&rdquo; here is baros, and for &ldquo;eternal&rdquo; is aionion. Paul coins a phrase that has no precise parallel in Greek &mdash; a &ldquo;beyond-all-comparison eternal-weight of glory.&rdquo; The suffering is real, but when placed on a scale with the coming glory, it is feather-light.",
+      "The chapter closes with the perspective that makes all of this possible: &ldquo;as we look not to the things that are seen but to the things that are unseen. For the things that are seen are transient, but the things that are unseen are eternal&rdquo; (4:18). The key word is &ldquo;looking&rdquo; &mdash; not a casual glance but a sustained, deliberate fixing of the gaze. Faith is a kind of seeing &mdash; not the seeing of physical eyes, but the perception of the heart that grasps the unseen realities of God&rsquo;s kingdom, the resurrection, the eternal weight of glory. Paul ends where he began: not losing heart, because the eyes of faith are fixed on what lasts forever.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "2 Corinthians 4 &mdash; Application for Today",
+    reference: "2 Corinthians 4:1&ndash;18",
+    paragraphs: [
+      "The first and most foundational application of 2 Corinthians 4 is a recovery of the theology of weakness. Western Christianity, particularly in its more successful and culturally comfortable forms, is deeply tempted to believe that God works primarily through strength, impressiveness, and visible success. Paul&rsquo;s theology in this chapter is a direct challenge to that assumption. God has deliberately placed his greatest treasure &mdash; the gospel of Jesus Christ &mdash; in the most fragile and unimpressive of vessels. He does this not in spite of his sovereignty but because of it: the mismatch between the greatness of the treasure and the fragility of the vessel ensures that the glory goes to God and not to the vessel.",
+      "Second, the chapter speaks powerfully to anyone who is tempted to lose heart in ministry or in life. The phrase &ldquo;we do not lose heart&rdquo; appears twice &mdash; in verse 1 and again in verse 16 &mdash; like bookends around the entire argument. Losing heart is a real temptation, not a theoretical one. Paul knows this from experience. The antidote he offers is not more willpower, better strategy, or a change of circumstances &mdash; it is theological: the mercy by which the ministry was received (v. 1), the God who raises the dead (v. 14), and the eternal weight of glory that awaits (v. 17). Endurance in the Christian life is grounded in theology, not in temperament.",
+      "Third, the four antitheses of verses 8 and 9 &mdash; afflicted but not crushed, perplexed but not despairing, persecuted but not forsaken, struck down but not destroyed &mdash; offer a framework for processing personal suffering that is both honest and hopeful. The pattern does not deny the reality or the weight of the suffering. It does not paper over affliction with cheerful platitudes. It names the suffering directly and then declares, with equal directness, the miracle of divine sustaining. This is a model for pastoral care and personal devotion: sitting with someone in genuine affliction while also bearing witness to the God who holds back the final blow.",
+      "Fourth, the concept of &ldquo;carrying the death of Jesus&rdquo; (4:10) invites believers to reframe their own experiences of weakness, failure, and suffering as participation in the cruciform pattern of Jesus&rsquo; own life. Suffering is not merely something to be endured or managed; it can be received as a place of union with Christ in his death, with the expectation that resurrection life will also be manifested. This is not masochism or a theological glorification of pain for its own sake. It is the recognition that the same cross-and-resurrection pattern that stands at the center of salvation history also structures the daily experience of those who follow the crucified and risen Lord.",
+      "Fifth, the eschatological perspective of verses 16&ndash;18 offers a transformative way of understanding suffering in the present by setting it in the context of eternity. Paul does not counsel detachment from the world or denial of suffering. He counsels a reorientation of perspective: look not at the things that are seen but at the things that are unseen. This is the practice of what Reformed theologians have called &ldquo;sub specie aeternitatis&rdquo; &mdash; viewing present circumstances under the aspect of eternity. The suffering of the present moment, when placed alongside the eternal weight of glory, is genuinely and measurably light. This perspective does not make the suffering disappear, but it does radically relativize it.",
+      "Finally, 2 Corinthians 4 is a call to integrity in Christian witness and proclamation. Paul renounces every form of manipulation, cunning, or distortion of the gospel (4:2). He insists that the task of the preacher is to proclaim Christ as Lord and to serve the congregation, not to promote himself (4:5). In an age saturated with carefully curated images, personal brand-building, and the commodification of spiritual experience, Paul&rsquo;s model of open, honest, self-effacing proclamation is countercultural and urgent. The gospel is not improved by impressive packaging; it is displayed most clearly when the clay jar is cracked enough for the light within to shine through.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "k-3RBEVbkq4", title: "2 Corinthians 4 &mdash; Treasure in Jars of Clay Explained" },
+  { videoId: "7RoqnGcEjcs", title: "Afflicted But Not Crushed &mdash; 2 Corinthians 4:8&ndash;9 Teaching" },
+  { videoId: "EByAjO4KGUM", title: "BibleProject &mdash; 2 Corinthians Overview" },
+  { videoId: "4VKehFPpMhg", title: "Light Out of Darkness &mdash; The Power of God in Human Weakness" },
+];
+
+export default function TwoCorinthians4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Corinthians 4 &mdash; Treasure in Jars of Clay
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The surpassing power of the gospel carried in fragile human vessels &mdash; afflicted but not crushed, perplexed but not despairing, struck down but not destroyed, looking to the eternal weight of glory that far outweighs every present suffering.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of 2 Corinthians 4 through these video teachings on the treasure in clay jars, the power of God in human weakness, and the eternal weight of glory.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Surpassing Power Belongs to God</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Second Corinthians 4 dismantles every illusion that the gospel advances through human strength, polish, or impressiveness. The clay jar is the point &mdash; its very fragility declares that the power within it is divine. Afflicted but not crushed, struck down but not destroyed: this is the pattern of every faithful life lived in the light of the resurrection, fixed on the eternal weight of glory that no present suffering can outweigh.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

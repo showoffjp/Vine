@@ -1,0 +1,196 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "No Other Gods Before Me",
+  "The Sabbath Command",
+  "Honor Your Father and Mother",
+  "Do Not Murder Do Not Steal",
+  "The Purpose of the Law",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "No Other Gods Before Me",
+    heading: "No Other Gods Before Me",
+    reference: "Exodus 20:1&ndash;7",
+    paragraphs: [
+      "The Ten Commandments do not begin with a command. They begin with a declaration: &ldquo;I am the Lord your God, who brought you out of the land of Egypt, out of the house of slavery&rdquo; (Exodus 20:2). This preamble is not decorative &mdash; it is load-bearing. Everything that follows rests on this foundation. God does not say, &ldquo;Obey these rules and then I will be your God.&rdquo; He says, &ldquo;I am already your God, I have already acted for you, I have already set you free &mdash; now live as people who know who their God is.&rdquo; The Ten Commandments are not a ladder to earn divine favor; they are the shape of a life that has already been graced.",
+      "The first commandment follows immediately: &ldquo;You shall have no other gods before me&rdquo; (20:3). In the ancient world this was a thunderclap. Egypt had dozens of gods &mdash; gods of the Nile, of the sun, of death, of fertility. Canaan had its Baals and Asherahs. Babylon had its cosmic pantheon. Into that world, Israel&rsquo;s God makes an exclusive claim: there is no room for any rival. The word &ldquo;before me&rdquo; in Hebrew can mean &ldquo;in addition to me,&rdquo; &ldquo;in my presence,&rdquo; or &ldquo;over against me.&rdquo; All three senses apply: no god alongside the Lord, no god in his presence, no god set up in opposition to him.",
+      "The second commandment deepens the first: &ldquo;You shall not make for yourself a carved image, or any likeness of anything that is in heaven above, or that is in the earth beneath, or that is in the water under the earth&rdquo; (20:4). The prohibition of images is not arbitrary prudishness about art. It is a profound statement about the nature of God. Any image reduces God, constrains him, and ultimately replaces him with a human projection. The gods of the nations were manageable because they could be imaged, housed in temples, and manipulated through ritual. The God of Israel refuses to be managed. He is not like anything in creation, which means nothing in creation can represent him.",
+      "The self-description that follows is startling: &ldquo;For I the Lord your God am a jealous God&rdquo; (20:5). Divine jealousy is not petty envy &mdash; it is the passionate, covenant loyalty of a God who has bound himself to his people and who will not share them with a rival that will destroy them. The gods of the nations were not innocent alternatives; they demanded child sacrifice, ritual prostitution, and the abandonment of justice for the poor. God&rsquo;s jealousy is the jealousy of a physician who watches his patient choose poison and refuses to be neutral about it.",
+      "The third commandment prohibits taking the name of the Lord &ldquo;in vain&rdquo; (20:7). This is typically understood as prohibiting profanity, but its scope is far wider. The Hebrew word for &ldquo;vain&rdquo; means &ldquo;emptiness, falsehood, worthlessness.&rdquo; To take God&rsquo;s name in vain is to use it for empty or false purposes: swearing falsely, invoking divine authority for self-serving ends, using religious language as a cover for dishonesty. It is particularly a warning to those who speak for God &mdash; prophets, teachers, leaders &mdash; not to abuse the trust that comes with handling the divine name. God&rsquo;s name represents his character, his reputation, and his claim on his people. To handle it carelessly is a fundamental betrayal.",
+      "Together the first three commandments establish the vertical axis of the Decalogue: the exclusive claim of the one true God, the refusal to reduce him to an image, and the sanctity of his name. Before anything is said about how human beings treat one another, the question of who God is and how he is to be known and addressed must be settled. Everything else in the moral order flows from getting this right: the right God, known truly, addressed faithfully. This is why Jesus could say that the greatest commandment is to love the Lord your God with all your heart, soul, and mind &mdash; not because the other commandments are unimportant, but because they all depend on this one.",
+    ],
+  },
+  {
+    id: "The Sabbath Command",
+    heading: "The Sabbath Command",
+    reference: "Exodus 20:8&ndash;11",
+    paragraphs: [
+      "The fourth commandment stands at the hinge of the Decalogue, connecting the first table (duties to God) with the second table (duties to neighbor): &ldquo;Remember the Sabbath day, to keep it holy. Six days you shall labor, and do all your work, but the seventh day is a Sabbath to the Lord your God&rdquo; (20:8&ndash;10). It is the longest of all ten commandments, elaborated with more detail and more theological grounding than any of the others. Its length is a measure of its importance.",
+      "The word &ldquo;remember&rdquo; is significant. One does not typically command people to remember something they have never known. The Sabbath is to be remembered because it predates the Sinai covenant &mdash; it goes back to Genesis 2:2&ndash;3, where God himself rested on the seventh day and blessed and hallowed it. Israel is not receiving a new institution at Sinai; they are being called to recover and observe one that was written into the structure of creation itself. The Sabbath is not a Jewish invention; it is a creational gift given to all humanity, recovered and specified for Israel as a covenant sign.",
+      "The rationale given at Sinai is explicitly theological and creational: &ldquo;For in six days the Lord made heaven and earth, the sea, and all that is in them, and rested on the seventh day. Therefore the Lord blessed the Sabbath day and made it holy&rdquo; (20:11). Israel&rsquo;s Sabbath rest is a weekly imitation of God&rsquo;s own pattern. To keep the Sabbath is to say with your time what Genesis 1 says with words: that the world belongs to God, that he finished the work of creation and it was very good, and that human beings do not have to earn their place in the world by ceaseless striving. Rest is not laziness; it is trust.",
+      "The social dimension of the Sabbath is made explicit: it applies not only to the Israelite but to &ldquo;your son, or your daughter, your male servant, or your female servant, or your livestock, or the sojourner who is within your gates&rdquo; (20:10). The Sabbath command is one of the most revolutionary social provisions in the ancient world. Slaves and servants rest. Animals rest. Foreigners rest. The rhythm of the Sabbath flattens social hierarchy for one day in seven, reminding everyone that before God, all human beings share the same status: creatures made in his image, dependent on his provision.",
+      "The later version of the Decalogue in Deuteronomy 5 adds a second rationale for the Sabbath: &ldquo;You shall remember that you were a slave in the land of Egypt, and the Lord your God brought you out from there with a mighty hand and an outstretched arm. Therefore the Lord your God commanded you to keep the Sabbath day&rdquo; (Deuteronomy 5:15). The Sabbath is not only a creation ordinance; it is also a liberation ordinance. Those who were once slaves with no day off, no rest, no dignity, are now commanded to rest &mdash; and to ensure that all who live among them rest as well. Freedom remembered becomes freedom shared.",
+      "Jesus engaged the Sabbath more than any other commandment, insisting that &ldquo;the Sabbath was made for man, not man for the Sabbath&rdquo; (Mark 2:27). His healings on the Sabbath were not violations of the commandment but fulfillments of its deepest intention: to be a day of liberation, wholeness, and the restoration of what was broken. The writer of Hebrews points forward to a final Sabbath rest &mdash; the rest of the age to come &mdash; into which believers enter through faith in Christ (Hebrews 4:9&ndash;11). The Sabbath command is not abolished in the new covenant; it is eschatologically fulfilled in the rest that Christ himself provides.",
+    ],
+  },
+  {
+    id: "Honor Your Father and Mother",
+    heading: "Honor Your Father and Mother",
+    reference: "Exodus 20:12&ndash;17",
+    paragraphs: [
+      "The fifth commandment begins the second table of the Decalogue, the commands governing human relationships: &ldquo;Honor your father and your mother, that your days may be long in the land that the Lord your God is giving you&rdquo; (20:12). It is the first commandment to carry an explicit promise, a fact noted by Paul in Ephesians 6:2 when he calls it &ldquo;the first commandment with a promise.&rdquo; The promise is not automatic reward but the organic connection between a society that honors its elders and a society that endures. A culture that despises the old, discards the wisdom of the past, and treats parents as obstacles will not flourish; one that honors them cultivates the intergenerational transmission of faith, wisdom, and character.",
+      "The word &ldquo;honor&rdquo; in Hebrew is &ldquo;kabod,&rdquo; which is also the word for &ldquo;glory&rdquo; or &ldquo;weight.&rdquo; To honor is to give someone their proper weight &mdash; to treat them as significant, worthy of respect and serious consideration. The commandment applies to children of all ages; it is not merely a rule for toddlers but a lifelong obligation. In an ancient culture without social safety nets, honoring aged parents meant supporting them materially, and Jesus condemned those who evaded this duty through religious technicality (Mark 7:9&ndash;13). In every culture, honoring parents means taking their words seriously, caring for their needs, and recognizing that they stand in a representative relationship to God&rsquo;s own authority.",
+      "The sixth commandment is among the most basic of all moral prohibitions: &ldquo;You shall not murder&rdquo; (20:13). The Hebrew word &ldquo;ratsach&rdquo; refers specifically to unlawful killing &mdash; to murder &mdash; rather than to all taking of life. This distinction matters: the same Torah that prohibited murder also authorized capital punishment for certain offenses and holy war against certain peoples. The commandment is not absolute pacifism but a protection for innocent human life rooted in the theology of Genesis 9:6: &ldquo;Whoever sheds the blood of man, by man shall his blood be shed, for God made man in his own image.&rdquo; Murder is wrong because it destroys what God has made in his own image.",
+      "Jesus in the Sermon on the Mount radicalizes the sixth commandment, reaching behind the act of murder to its root: &ldquo;But I say to you that everyone who is angry with his brother will be liable to judgment&rdquo; (Matthew 5:22). The Law prohibited the external act; Jesus addresses the internal disposition. Murderous anger, contempt, dehumanizing speech &mdash; these are the seeds from which murder grows. The purpose of the commandment is not merely to prevent death by violence but to create a community characterized by the opposite of murder: love, care, the affirmation of the neighbor&rsquo;s dignity and worth.",
+      "The seventh commandment prohibits adultery (20:14), protecting the covenant bond of marriage. The eighth prohibits theft (20:15), protecting the right of persons to the fruit of their labor and to the property entrusted to their care. The ninth prohibits false witness (20:16), protecting truth as the foundation of community life; a society in which testimony cannot be trusted, in which courts can be manipulated by lies, is a society that cannot long hold together. The tenth commandment &mdash; &ldquo;You shall not covet&rdquo; (20:17) &mdash; uniquely addresses not an action but a state of the heart: the desiring of what belongs to another. Covetousness is the root of nearly every other violation; to address it is to address the source rather than merely the symptom.",
+      "Taken together, the second table of the Decalogue sketches the shape of a just and functioning human community: one in which authority is respected, life is protected, marriage is honored, property is secure, truth is told, and the heart itself is ordered toward contentment and love. These are not arbitrary rules imposed by a distant deity; they are the architecture of flourishing. Where these commands are kept, communities thrive; where they are violated, trust erodes, relationships fracture, and societies decline.",
+    ],
+  },
+  {
+    id: "Do Not Murder Do Not Steal",
+    heading: "Do Not Murder Do Not Steal",
+    reference: "Exodus 20:13&ndash;15",
+    paragraphs: [
+      "The three prohibitions at the heart of the second table &mdash; do not murder, do not commit adultery, do not steal &mdash; are among the most compact moral statements in world literature. Each is a single sentence in Hebrew, without qualification or elaboration. Their brevity is itself a statement: these things need no lengthy justification. Every human community, in every culture and era, has recognized that life, fidelity, and property must be protected if human society is to exist at all. The Decalogue does not invent these moral intuitions; it ratifies them, grounds them in the character of God, and gives them their ultimate authority.",
+      "The prohibition of murder is the deepest, because it touches the most fundamental question: what is a human life worth? The biblical answer, rooted in Genesis 1:26&ndash;27, is that every human life bears the image of God and is therefore of inestimable worth. To murder is not merely to end a biological process; it is to destroy something that God values uniquely above all other things in creation. The death penalty for murder in the Torah is explicitly grounded not in deterrence or retribution as such, but in the theology of the image: &ldquo;Whoever sheds the blood of man, by man shall his blood be shed, for God made man in his own image&rdquo; (Genesis 9:6). Life is sacred because its maker is holy.",
+      "The prohibition of adultery protects the covenant of marriage, which is the fundamental building block of human society and family. The biblical picture of marriage is not a legal contract that can be dissolved by mutual agreement but a covenant &mdash; a solemn, binding commitment made before God and witnessed by community &mdash; that mirrors the covenant God himself has made with his people. Adultery is therefore not merely a private betrayal between two individuals; it is a rupture of a divinely appointed covenant, a tearing apart of what God has joined, and a betrayal of children, extended family, and the social fabric that marriages sustain. The seventh commandment is the recognition that sexual fidelity is not merely a personal virtue but a social necessity.",
+      "The prohibition of theft protects the right of persons to the fruit of their labor and to the property entrusted to their stewardship. In the ancient world, where poverty was brutal and margins thin, the theft of livestock, grain, or tools could mean the difference between survival and starvation for a family. The commandment recognizes that what people own is in a real sense an extension of themselves &mdash; it represents their time, their effort, their ingenuity. To steal is to take from a person something they cannot replace, and to do so without consent is to treat them not as a neighbor made in God&rsquo;s image but as a resource to be exploited.",
+      "Later biblical reflection deepens all three prohibitions in ways that illuminate their full scope. The prophets applied the prohibition of murder to the systemic exploitation of the poor &mdash; the wealthy who &ldquo;crush the poor&rdquo; (Amos 4:1) are guilty of a kind of slow murder. The prophets applied the prohibition of theft to the unjust manipulation of weights and measures, the defrauding of laborers, and the seizure of land. The prohibition of adultery was applied not only to sexual infidelity but to Israel&rsquo;s spiritual unfaithfulness to God, who is repeatedly described as Israel&rsquo;s husband. These extensions are not impositions on the text; they reflect the logic of commands that are grounded in the character of a God who is just, faithful, and generous.",
+      "Paul&rsquo;s summary in Romans 13:9 is apt: the commandments against murder, adultery, theft, and coveting are all &ldquo;summed up in this word: &lsquo;You shall love your neighbor as yourself.&rsquo;&rdquo; This is not a replacement of the specific commands with a vague general principle; it is the identification of the love that animates and fulfills each specific command. One who truly loves the neighbor will not murder, will not steal, will not betray. Love is not an alternative to law; it is the inner life that law points toward and that the Spirit of God produces in those who are being renewed in the image of their Creator.",
+    ],
+  },
+  {
+    id: "The Purpose of the Law",
+    heading: "The Purpose of the Law",
+    reference: "Exodus 20:18&ndash;21 &amp; Romans 3:20",
+    paragraphs: [
+      "When God finished speaking the Ten Commandments from Sinai, the people did not rush forward in enthusiasm. They retreated in terror: &ldquo;Now when all the people saw the thunder and the flashes of lightning and the sound of the trumpet and the mountain smoking, the people were afraid and trembled, and they stood far off&rdquo; (20:18). They begged Moses to be their mediator: &ldquo;You speak to us, and we will listen; but do not let God speak to us, lest we die&rdquo; (20:19). This response is not a failure of nerve but an accurate intuition. They sensed that they were encountering a holiness they could not approach, a standard they could not meet, a God before whom they were undone.",
+      "Moses replied with a word that deserves careful attention: &ldquo;Do not fear, for God has come to test you, that the fear of him may be before you, that you may not sin&rdquo; (20:20). The awesome display at Sinai serves a purpose: it impresses upon Israel the absolute seriousness of the moral order that God is establishing. This is not theater. These commands come from the one who made heaven and earth, whose holiness is consuming fire, who cannot be trifled with or outwitted. The fear of God is not servile terror but the reverent recognition that the One who commands is infinitely greater than those who receive the commands, and that disobedience carries infinite consequences.",
+      "The New Testament opens up the purpose of the Law with extraordinary clarity. Paul declares in Romans 3:20 that &ldquo;through the law comes knowledge of sin.&rdquo; The Law is not given to save but to reveal. It is given to show human beings what righteousness looks like &mdash; and in doing so, to show them that they do not have it. The Decalogue holds up a mirror to the human heart and the reflection is devastating. Who has never placed something before God? Who has never taken his name carelessly? Who has never failed to honor a parent, coveted what belongs to another, harbored murderous anger, or been unfaithful in some dimension of their commitments?",
+      "Paul extends this in Galatians 3:24 with a striking metaphor: &ldquo;the law was our guardian until Christ came, in order that we might be justified by faith.&rdquo; The Greek word translated &ldquo;guardian&rdquo; is &ldquo;paidagogos&rdquo; &mdash; the household slave in a wealthy Greco-Roman family whose job was to escort the children to school and ensure their conduct. The paidagogos was not the teacher; his job was to get the children to the teacher. The Law is Israel&rsquo;s paidagogos: not the source of righteousness but the escort to the one who is. It leads to Christ by showing that Christ is the only one in whom the Law is fully met.",
+      "Jesus himself was explicit about his relationship to the Law: &ldquo;Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them&rdquo; (Matthew 5:17). He does not set aside the Ten Commandments; he fills them full of meaning. He keeps them perfectly where Israel and all humanity have failed. And he then offers his perfection as the ground of justification for those who trust in him. This is the gospel that the Law anticipates: not that God lowers his standard but that the standard is met by a substitute, and his righteousness is credited to those who are joined to him by faith.",
+      "The Christian relationship to the Law is therefore neither abolition nor mere externally imposed obligation. The believer in Christ does not obey the Ten Commandments to earn God&rsquo;s favor &mdash; that favor has already been given freely in Christ. The believer obeys because they love the God who redeemed them, because the Holy Spirit is writing the law on their hearts (Jeremiah 31:33, Hebrews 8:10), and because they are being conformed to the image of the Son, who perfectly embodied every principle the Law points toward. The preamble to the Commandments at Sinai &mdash; &ldquo;I am the Lord your God who brought you out of Egypt&rdquo; &mdash; finds its New Testament counterpart in the gospel: &ldquo;We love because he first loved us&rdquo; (1 John 4:19). Law kept in the light of grace is not burden but delight.",
+      "The Ten Commandments endure not as a legal code that was abolished at the cross but as a revelation of the moral character of God himself. God does not lie; therefore we do not bear false witness. God is faithful; therefore we honor marriage. God is the giver of life; therefore we do not murder. God rests and delights in creation; therefore we keep the Sabbath. The commandments are not arbitrary impositions but windows into the character of the One who made us in his image. To obey them is to become more like him. And to become more like him is the whole purpose of the redemption that the God of Sinai was already, in those thunderous words on the mountain, preparing to accomplish.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "oNkO2D5JBqc", title: "BibleProject - Overview - Exodus 19-40" },
+  { videoId: "mRNJgmEiBLA", title: "The Ten Commandments Explained - Exodus 20 Study" },
+  { videoId: "xkErFiC-mPU", title: "Law and Gospel - How the Commandments Point to Christ" },
+  { videoId: "KPOhzIIHPGE", title: "The Sinai Covenant and the Character of God" },
+];
+
+export default function Exodus20GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Exodus 20 &mdash; The Ten Commandments
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The Ten Commandments are not a ladder to climb to God but the shape of life for people who have already been set free. Explore the Sinai covenant, each commandment, the moral order built into creation, and the gospel that Christ has fulfilled what we could not.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Exodus 20 through visual teaching on the Ten Commandments, the Sinai covenant, the moral order of God, and the gospel that fulfills the Law.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Am the Lord Your God</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            The Ten Commandments begin not with obligation but with grace: &ldquo;I am the Lord your God, who brought you out of Egypt.&rdquo; Every command flows from that prior act of liberation. Christ has fulfilled what we could not, and the Spirit now writes the law on the hearts of those who are his. Obedience is no longer duty performed at a distance &mdash; it is love returned to the one who loved us first.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1864,6 +1864,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Genesis 22 Chapter": "genesis-22-guide",
   "The Binding of Isaac": "genesis-22-guide",
   "God Will Provide": "genesis-22-guide",
+  "Genesis 1 Chapter": "genesis-1-guide",
+  "Let There Be Light": "genesis-1-guide",
+  "God Created the Heavens": "genesis-1-guide",
+  "Exodus 20 Chapter": "exodus-20-guide",
+  "The Ten Commandments": "exodus-20-guide",
+  "No Other Gods Before Me": "exodus-20-guide",
+  "Daniel 3 Chapter": "daniel-3-guide",
+  "The Fiery Furnace": "daniel-3-guide",
+  "Shadrach Meshach Abednego": "daniel-3-guide",
+  "Daniel 6 Chapter": "daniel-6-guide",
+  "The Lions Den": "daniel-6-guide",
+  "My God Sent His Angel": "daniel-6-guide",
 };
 
 
@@ -2754,6 +2766,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "John 1 Chapter" },
   { label: "Acts 16 Chapter" },
   { label: "Genesis 22 Chapter" },
+  { label: "Genesis 1 Chapter" },
+  { label: "Exodus 20 Chapter" },
+  { label: "Daniel 3 Chapter" },
+  { label: "Daniel 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -333,6 +333,7 @@ const navLinks: NavLink[] = [
           { label: "Healing & Wholeness", href: "/healing" },
           { label: "Addiction & Recovery", href: "/addiction-recovery" },
           { label: "Biblical Counseling", href: "/biblical-counseling" },
+          { label: "Crisis Help", href: "/crisis-help" },
         ],
       },
       {
@@ -460,6 +461,7 @@ const navLinks: NavLink[] = [
           { label: "The Gospel / Salvation", href: "/salvation" },
           { label: "First Steps of Faith", href: "/new-believer" },
           { label: "Church Finder", href: "/church-finder" },
+          { label: "Find a Church", href: "/find-church" },
           { label: "Mentorship", href: "/mentorship" },
           { label: "Youth & Students", href: "/youth" },
           { label: "Challenges", href: "/challenges" },

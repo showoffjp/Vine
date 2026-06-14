@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Lord of the Sabbath",
+  "The Beatitudes and Woes",
+  "Love Your Enemies",
+  "A Tree and Its Fruit",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Luke 6",
+    reference: "Luke 6:1&ndash;49",
+    paragraphs: [
+      "Luke 6 is one of the most densely packed chapters in the Third Gospel, moving from a pair of sharp controversies with the Pharisees over the Sabbath to the solemn appointment of the Twelve, and then to the Sermon on the Plain &mdash; Luke&rsquo;s version of Jesus&rsquo; great inaugural address, which covers much of the same ethical ground as Matthew&rsquo;s Sermon on the Mount while carrying its own distinctive emphases. The chapter demonstrates a recurring pattern in Luke: Jesus challenges the categories of the powerful, elevates the poor and marginalized, and calls his followers to a quality of life that is utterly unlike anything that human natural instinct or social convention would produce.",
+      "The chapter opens with two Sabbath controversies that are really a single sustained argument about authority. First the Pharisees object to the disciples plucking heads of grain as they walk through the fields on the Sabbath. Jesus answers with the example of David eating the bread of the Presence from the sanctuary &mdash; an act that was technically a violation of Levitical law performed under the pressure of necessity. Then he makes the claim that is the theological center of both controversies: &ldquo;The Son of Man is lord of the Sabbath&rdquo; (6:5). This is not merely a claim about Sabbath interpretation; it is a claim to be the one who gave the Sabbath, who owns it, and who therefore has authority to define what it means and demands.",
+      "The calling of the Twelve follows a night of prayer on the mountain &mdash; a detail unique to Luke. The careful reader notes that Jesus does not rush into this appointment; he withdraws alone for prayer first, and only then, when morning comes, calls his disciples and chooses twelve from among them. The number twelve is significant: these are not merely Jesus&rsquo; inner circle but the reconstituted leadership of the twelve tribes of Israel, the founding council of the renewed people of God that Jesus is assembling around himself.",
+      "The Sermon on the Plain that follows (6:20&ndash;49) is addressed first to the disciples and then, by extension, to the crowd. It opens with four Beatitudes that pronounce blessing on the poor, the hungry, those who weep, and those who are hated for the sake of the Son of Man &mdash; and then, in a feature found only in Luke, follows each blessing with a corresponding Woe directed at the rich, the full, those who laugh, and those who are spoken well of. The structural pairing is not accidental: Luke&rsquo;s Jesus is announcing a reversal of the world&rsquo;s valuations that is not coming in some distant future but is already happening in his own ministry.",
+      "The ethical teaching that follows the Beatitudes and Woes is among the most radical in the New Testament. Love your enemies. Do good to those who hate you. Bless those who curse you. Pray for those who abuse you. Give to everyone who begs from you. The Golden Rule. Judge not. Give, and it will be given to you. The teaching builds to its climax with the image of the two foundations: the one who hears these words and does them is like a man who built his house on rock; the one who hears and does not do them is like a man who built on the earth without a foundation, and when the flood came, the ruin of that house was great. The criterion of the last day, Jesus implies, is not what you have heard but what you have done.",
+    ],
+  },
+  {
+    id: "Lord of the Sabbath",
+    heading: "Lord of the Sabbath",
+    reference: "Luke 6:1&ndash;11",
+    paragraphs: [
+      "The two Sabbath incidents that open Luke 6 need to be read together as a unified argument about the identity and authority of Jesus. In the first, the disciples pluck heads of grain as they walk through fields on the Sabbath, and the Pharisees object: &ldquo;Why are you doing what is not lawful to do on the Sabbath?&rdquo; (6:2). The objection is not frivolous &mdash; the rabbinic tradition counted reaping as one of the thirty-nine categories of work prohibited on the Sabbath, and plucking grain could be classified under that heading. The Pharisees are applying their interpretive tradition with consistency.",
+      "Jesus&rsquo; response does not contest the Pharisees on their own terms or argue about the fine points of Sabbath law. Instead he goes to the story of David eating the bread of the Presence from the sanctuary at Nob (1 Samuel 21), bread that the law reserved for the priests alone. David did this, Jesus says, when he was hungry &mdash; and the clear implication is that the need of David and his men constituted a kind of emergency that made the technical violation not only excusable but right. The appeal to David is significant in another way: David was God&rsquo;s anointed king, and his prerogative to override a religious regulation in a crisis situation was bound up with his royal authority.",
+      "The punch line of the first incident is therefore not primarily about hungry disciples and grain fields. It is the declaration: &ldquo;The Son of Man is lord of the Sabbath&rdquo; (6:5). The Sabbath was given by God; only God, or someone acting with God&rsquo;s own authority, can be lord of it. Jesus is claiming that he is in the position of the Giver of the Sabbath &mdash; that the law that the Pharisees are citing as the standard against which his disciples&rsquo; behavior must be measured is his own law, and he has the authority to say what it requires.",
+      "The second incident sharpens the point. On another Sabbath Jesus is in the synagogue teaching, and a man is there with a withered right hand. The scribes and Pharisees are watching to see whether he will heal on the Sabbath, &ldquo;so that they might find a reason to accuse him&rdquo; (6:7). Jesus, knowing their thoughts, calls the man to stand in the middle of the synagogue and then puts the question to his opponents: &ldquo;I ask you, is it lawful on the Sabbath to do good or to do harm, to save life or to destroy it?&rdquo; (6:9). The question is unanswerable because it reframes the situation entirely.",
+      "The Pharisees&rsquo; question was whether healing on the Sabbath is permitted. Jesus&rsquo; question is whether refusing to heal on the Sabbath, when you have the power to heal, is doing good or doing harm. If the Sabbath is a day that belongs to the Lord of life, then the one who has the power to restore life to a withered hand and chooses not to do so is not honoring the Sabbath but violating its deepest intent. Jesus heals the man; his hand is restored. And the response of the scribes and Pharisees is not chastened reflection but fury &mdash; they &ldquo;were filled with fury and discussed with one another what they might do to Jesus&rdquo; (6:11).",
+      "The two Sabbath controversies thus establish at the very opening of the chapter what kind of figure Jesus is. He is not a rabbi offering a new interpretation within the tradition; he is the Lord of the Sabbath itself, the one whose authority over the day derives from his authority over creation and over the law that ordered creation&rsquo;s rest. His healing of the withered hand on the Sabbath is not a violation of the Sabbath but the fullest possible expression of its meaning &mdash; the restoration of a human being to wholeness by the one who made human beings in the first place.",
+    ],
+  },
+  {
+    id: "The Beatitudes and Woes",
+    heading: "The Beatitudes and Woes",
+    reference: "Luke 6:20&ndash;26",
+    paragraphs: [
+      "Luke&rsquo;s Beatitudes are strikingly different from Matthew&rsquo;s in two respects that are not incidental. First, Luke&rsquo;s Beatitudes are addressed directly to the disciples in the second person: &ldquo;Blessed are you who are poor, for yours is the kingdom of God&rdquo; (6:20) &mdash; not &ldquo;blessed are the poor in spirit&rdquo; as in Matthew 5:3. This directness makes the Beatitudes not abstract descriptions of types of people who receive divine approval but direct pronouncements addressed to specific people in specific circumstances. Jesus is looking at his disciples &mdash; who are, many of them, literally poor, literally hungry &mdash; and pronouncing blessing on them.",
+      "Second, and uniquely in Luke, the Beatitudes are immediately followed by a series of four Woes that correspond structurally and thematically to the Beatitudes. Blessed are the poor; woe to the rich. Blessed are the hungry; woe to you who are full. Blessed are those who weep; woe to you who laugh now. Blessed are the hated; woe to those of whom all speak well. The pairing creates a dramatic reversal structure: the Beatitudes do not merely add blessing to the currently disadvantaged but implicitly take that blessing away from the currently advantaged. The kingdom of God is a great inversion.",
+      "The Woes are not a condemnation of wealth, food, laughter, or reputation as such. They are warnings about a particular kind of wealth, fullness, laughter, and reputation: the kind that has become a sufficient world, a substitute for the kingdom. The rich in Luke&rsquo;s woes are those whose comfort has so insulated them from need that they have no longing for what God alone can give. They &ldquo;have received their consolation&rdquo; (6:24) &mdash; the word for consolation is the same word used elsewhere for the comfort of the Spirit. They have taken the consolation prize instead of waiting for the gift.",
+      "The first Beatitude &mdash; &ldquo;Blessed are you who are poor, for yours is the kingdom of God&rdquo; &mdash; carries the full weight of Luke&rsquo;s concern for the poor throughout his Gospel. Luke&rsquo;s Jesus is not spiritualizing poverty; he is declaring that the materially poor, who have no worldly cushion between themselves and God, are in the best position to receive the kingdom that God is offering. This does not mean that poverty is virtuous; it means that the disposition of need and dependence that poverty produces is the disposition in which the kingdom can be received. The poor know they need something; the rich are often convinced they do not.",
+      "The Beatitude about those who weep &mdash; &ldquo;Blessed are you who weep now, for you shall laugh&rdquo; (6:21) &mdash; introduces the theme of eschatological reversal that runs through the whole sermon. The laughter that belongs to the blessed is future: &ldquo;you shall laugh.&rdquo; The laughter of those under woe is present: &ldquo;woe to you who laugh now.&rdquo; The temporal markers are crucial. Luke&rsquo;s Jesus is not indifferent to present suffering; he is anchoring hope in a future that will reverse it. The present grief of those who mourn for the world as it is &mdash; for injustice, for the reign of death, for the absence of the kingdom &mdash; is the appropriate response to reality, and it will be transformed.",
+      "The final Beatitude, about those who are hated and excluded for the sake of the Son of Man (6:22&ndash;23), moves from economic and emotional categories to explicitly eschatological ones. Those who are hated, excluded, reviled, and spurned on account of Jesus are to leap for joy &mdash; because their reward is great in heaven, and because their experience is the same as that of the prophets who came before them. The reference to the prophets is not merely a historical comparison; it situates the followers of Jesus in the great line of those who suffered for the sake of God&rsquo;s word, and it promises that the God who vindicated the prophets will vindicate them too.",
+    ],
+  },
+  {
+    id: "Love Your Enemies",
+    heading: "Love Your Enemies",
+    reference: "Luke 6:27&ndash;38",
+    paragraphs: [
+      "The ethical teaching that Jesus delivers in Luke 6:27&ndash;38 is among the most radical in the history of human moral philosophy. It begins with what has rightly been called one of the hardest commands in the New Testament: &ldquo;But I say to you who hear, Love your enemies, do good to those who hate you, bless those who curse you, pray for those who abuse you&rdquo; (6:27&ndash;28). The fourfold structure is deliberate: love, do good, bless, pray. Each verb addresses a different dimension of the relationship with the enemy &mdash; the inward disposition, the outward action, the spoken word, and the orientation of prayer. There is no dimension of the relationship that is exempted from transformation.",
+      "Jesus then gives three concrete illustrations that push the command into the specific and uncomfortable. If someone strikes you on the cheek, offer the other also. If someone takes your cloak, do not withhold your tunic. Give to everyone who begs from you. To the one who takes your goods, do not ask them back. Each illustration removes a layer of the natural instinct to protect the self &mdash; from physical retaliation, from legal self-defense, from the impulse to limit generosity to the deserving and to recover what has been taken. The commands do not legislate passivity or foolishness in every situation; they legislate the renunciation of the self-protective reflex as the governing principle of the disciple&rsquo;s life.",
+      "The Golden Rule appears here in its positive form: &ldquo;As you wish that others would do to you, do so to them&rdquo; (6:31). In the negative form (&ldquo;do not do to others what you would not want done to you&rdquo;) this principle appears in many ancient ethical traditions. Jesus&rsquo; formulation is positive, active, and therefore far more demanding. The negative rule requires only restraint; the positive rule requires initiative. You must not merely refrain from treating others badly; you must actively treat them as you would wish to be treated. This shifts the moral stance from defensive avoidance to creative love.",
+      "The rationale for this extraordinary ethical program is then made explicit: &ldquo;If you love those who love you, what benefit is that to you? For even sinners love those who love them&rdquo; (6:32). Jesus is not appealing here to natural goodwill or to a utilitarian calculation of outcomes. He is appealing to what is distinctive about the life of the kingdom. If the disciples love their friends, help their helpers, and lend to those who can repay, they are doing nothing that pagans and tax collectors do not also do. The life of the kingdom must be qualitatively different: &ldquo;love your enemies, and do good, and lend, expecting nothing in return, and your reward will be great, and you will be sons of the Most High, for he is kind to the ungrateful and the evil&rdquo; (6:35).",
+      "The appeal to the character of God is the deepest grounding for the command. God is kind to the ungrateful and the evil. The sun rises on the just and the unjust; the rain falls on the good and the bad. God does not restrict his generosity to those who deserve it or who will return it. The disciples are called to be &ldquo;sons of the Most High&rdquo; &mdash; that is, to so resemble their Father in their behavior that the family resemblance is unmistakable. The love of enemies is not primarily a social ethic; it is a theological statement about what it looks like when human beings become children of the God who loves the ungrateful and the evil.",
+      "The section closes with the command not to judge and with the promise of astonishing generosity: &ldquo;Give, and it will be given to you. Good measure, pressed down, shaken together, running over, will be put into your lap. For with the measure you use it will be measured back to you&rdquo; (6:38). The image is from the grain market, where a generous merchant would heap the basket, shake it down to pack it, and then heap it again until it overflowed. The promise is not that generosity is a clever investment strategy; it is that the generous life opens a person to the generous life of God himself, who gives in the same spirit but on an infinitely greater scale.",
+    ],
+  },
+  {
+    id: "A Tree and Its Fruit",
+    heading: "A Tree and Its Fruit",
+    reference: "Luke 6:39&ndash;49",
+    paragraphs: [
+      "The closing section of Luke 6 consists of a series of short parables and sayings that bring the Sermon on the Plain to its climax and conclusion. The common thread running through all of them is the relationship between the inner life and the outer &mdash; between what a person is and what a person does, between hearing the teaching of Jesus and doing it. The sermon ends not with a doctrinal statement but with a call to action, and the implied warning is that the difference between hearing and doing is the difference between a house that stands and a house that collapses.",
+      "The first image, the blind leading the blind (6:39), targets the problem of religious guides who cannot see. A blind man cannot lead a blind man; both will fall into a pit. The saying is addressed to the disciples but has the Pharisees in its sightlines: they are the religious authorities who are attempting to guide Israel but who, having rejected Jesus, have lost the capacity to see what God is doing in their midst. The disciple is called to ask whether his teacher can see before trusting his guidance &mdash; and implicitly, whether he himself is becoming a guide who can see.",
+      "The second image, the speck and the log (6:41&ndash;42), is one of Jesus&rsquo; most vivid and ironic sayings. &ldquo;How can you say to your brother, &lsquo;Brother, let me take out the speck that is in your eye,&rsquo; when you yourself do not see the log that is in your own eye? You hypocrite, first take the log out of your own eye, and then you will see clearly to take out the speck that is in your brother&rsquo;s eye.&rdquo; The satirical humor of the image &mdash; a man with a log sticking out of his eye squinting to help someone remove a speck &mdash; makes the point unforgettably. The call is not to stop caring about the moral and spiritual condition of others; it is to begin the work of self-examination that alone qualifies a person to help others.",
+      "The parable of the tree and its fruit (6:43&ndash;45) provides the theological foundation for everything in the sermon. A good tree cannot bear bad fruit, and a bad tree cannot bear good fruit. Each tree is known by its own fruit. Figs are not gathered from thornbushes, nor grapes from a bramble bush. &ldquo;The good person out of the good treasure of his heart produces good, and the evil person out of his evil treasure produces evil, for out of the abundance of the heart his mouth speaks&rdquo; (6:45). The key word is &ldquo;abundance&rdquo; &mdash; what the heart is filled with will eventually overflow through speech and action, regardless of what a person intends to project.",
+      "This parable raises the most fundamental question the sermon can ask: what kind of tree am I? And the answer to that question is not determined by examining the outer behavior alone but by examining the treasure of the heart &mdash; what has been stored there, what is loved and valued, what the heart turns to when it is unguarded. The commands to love enemies, to give without expecting return, to refuse judgment &mdash; these are not first of all behavioral commands; they are descriptions of what a transformed heart looks like from the outside. The sermon is calling for heart-transformation, not mere behavioral compliance.",
+      "The sermon&rsquo;s final image, the two foundations (6:46&ndash;49), is one of the most searching conclusions in all of Jesus&rsquo; teaching. &ldquo;Why do you call me &lsquo;Lord, Lord,&rsquo; and not do what I tell you?&rdquo; (6:46). The question cuts through all religious performance and self-assessment. The one who comes to Jesus and hears his words and does them is like a man who dug deep and laid the foundation of his house on rock. When the flood came and the stream beat against it, the house could not be shaken, because it was founded on rock. But the one who hears and does not do is like a man who built without a foundation, and when the flood came the ruin was great. The difference between the two houses is not the quality of their construction above the ground but the presence or absence of the foundation below it. In a time of testing, the invisible foundation is the only thing that matters.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Luke 6 Today",
+    reference: "Luke 6 &mdash; For the Life of the Believer",
+    paragraphs: [
+      "The Sabbath controversies of Luke 6:1&ndash;11 speak to a recurring temptation in Christian religion: the temptation to elevate the form of religion above its substance, the rule above the human being the rule was meant to serve. The Pharisees were not wrong to take the Sabbath seriously; God had commanded it, and it was holy. They were wrong to apply it in a way that prevented acts of mercy, need, and restoration. The lesson for every generation of believers is not that rules do not matter but that rules exist to serve human flourishing under God, and the Lord of every rule is Jesus, who came not to destroy the law but to fulfill it in ways that the rule-keepers did not anticipate.",
+      "The Beatitudes in Luke require a more radical reading than their often-sentimentalized interpretations allow. &ldquo;Blessed are you who are poor&rdquo; is not a compliment to poverty; it is a declaration of revolution. The world&rsquo;s system of value &mdash; which measures blessing in terms of wealth, comfort, laughter, and reputation &mdash; is being decisively overturned by the announcement of the kingdom. The application for the believer is not to pursue poverty as a spiritual discipline but to examine whether the present accumulation of comfort, wealth, laughter, and social approval has become a substitute for the kingdom &mdash; whether, in the language of the woes, they have already received their consolation.",
+      "The command to love enemies is the most practically challenging teaching in Luke 6, and it cannot be applied without a prior transformation of desire. The natural human desire, when attacked or wronged, is for justice &mdash; which in its fallen form quickly becomes a desire for revenge, for the restoration of one&rsquo;s sense of superiority over the one who has wronged you. Jesus does not suppress that desire; he redirects it. The disciple is to want for the enemy what a good parent wants for a wayward child &mdash; repentance, restoration, life. This is only possible if the disciple has already experienced being an enemy who was loved by God, which is why the Pauline theology of grace and the Lukan ethics of love your enemy are two expressions of a single reality.",
+      "The speck and the log passage has been consistently misused to argue against all moral discernment or accountability within the church. But Jesus does not say &ldquo;never remove the speck from your brother&rsquo;s eye;&rdquo; he says &ldquo;first remove the log from your own eye, and then you will see clearly to take out the speck.&rdquo; The goal is clarity of vision, not the abolition of moral concern. The application is that genuine care for the moral condition of others must be accompanied by a rigorous and prior honesty about one&rsquo;s own moral condition &mdash; which tends to make the care gentler, more patient, and less self-righteous.",
+      "The parable of the tree and its fruit invites a form of spiritual self-examination that goes deeper than behavioral audit. The question is not &ldquo;what am I doing?&rdquo; but &ldquo;what is in the treasure of my heart?&rdquo; What do I return to when I am unguarded? What does my speech reveal about what I love? What do I spend attention and energy on when no one is counting? The fruit of the tree reveals the nature of the tree; the abundance of the mouth reveals the abundance of the heart. Christian growth, on this account, is not primarily the disciplined management of behavior but the steady replacement of the heart&rsquo;s treasury &mdash; filling it with the word of God, with love for God and neighbor, with the habits of prayer and worship and generosity that slowly change what the heart is stocked with.",
+      "The two foundations close the chapter with a stark eschatological warning that every hearer of the sermon must take personally. Jesus does not threaten those who consciously reject his teaching; he warns those who call him Lord and do not do what he says. The most dangerous spiritual condition, in Luke 6, is not atheism or open rebellion but the combination of orthodox address (&ldquo;Lord, Lord&rdquo;) with practical non-compliance. The flood will come &mdash; the testing of suffering, of death, of judgment &mdash; and at that moment the only thing that will matter is whether the life that has been lived has been built on the rock of doing the words of Jesus, or on the earth of hearing them admiringly without ever letting them reorganize the way life is actually lived.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "XIb_dCIxzr0", title: "BibleProject - The Gospel of Luke Overview" },
+  { videoId: "d2qMREetvaA", title: "The Sermon on the Plain - Luke 6 Explained" },
+  { videoId: "oRfIjBB7cz0", title: "Love Your Enemies - What Jesus Really Meant" },
+  { videoId: "MkETkRv9tG8", title: "The Beatitudes in Luke - Blessed Are the Poor" },
+];
+
+export default function Luke6GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Luke 6 &mdash; The Sermon on the Plain
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus declares himself Lord of the Sabbath, calls the Twelve, and delivers the Sermon on the Plain &mdash; Beatitudes and woes that overturn the world&rsquo;s values, the radical command to love enemies, a tree known by its fruit, and two foundations that reveal who truly hears and does his words.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Explore Luke 6 through these video teachings on the Sabbath controversies, the Beatitudes, the command to love enemies, and the two foundations of Jesus&rsquo; Sermon on the Plain.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Why Do You Call Me Lord and Not Do What I Say?</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Luke 6 moves from the authority of Jesus over the Sabbath to the radical ethics of his kingdom &mdash; Beatitudes that bless the poor and hungry, woes that warn the comfortable and self-sufficient, and commands to love enemies and give without expectation of return. It ends with the most searching of all questions: is your life built on the rock of doing these words, or on the earth of hearing them and walking away unchanged? The flood will reveal the answer.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

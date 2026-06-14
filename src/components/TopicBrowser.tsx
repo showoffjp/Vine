@@ -2104,6 +2104,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Zephaniah 3 Chapter": "zephaniah-3-guide",
   "Mighty Warrior in Your Midst": "zephaniah-3-guide",
   "Sing Aloud Zephaniah": "zephaniah-3-guide",
+  "Amos 5 Chapter": "amos-5-guide",
+  "Let Justice Roll Down Amos": "amos-5-guide",
+  "Seek the Lord and Live": "amos-5-guide",
+  "1 Samuel 16 Chapter": "1-samuel-16-guide",
+  "Samuel Anoints David": "1-samuel-16-guide",
+  "Man Looks on Outward Appearance": "1-samuel-16-guide",
+  "Mark 4 Chapter": "mark-4-guide",
+  "Parable of the Sower Mark": "mark-4-guide",
+  "Storm on the Sea Mark": "mark-4-guide",
+  "Luke 6 Chapter": "luke-6-guide",
+  "Sermon on the Plain Luke": "luke-6-guide",
+  "Beatitudes Luke 6": "luke-6-guide",
 };
 
 
@@ -3074,6 +3086,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Leviticus 19 Chapter" },
   { label: "Joel 2 Chapter" },
   { label: "Zephaniah 3 Chapter" },
+  { label: "Amos 5 Chapter" },
+  { label: "1 Samuel 16 Chapter" },
+  { label: "Mark 4 Chapter" },
+  { label: "Luke 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

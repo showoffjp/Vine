@@ -2116,6 +2116,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Luke 6 Chapter": "luke-6-guide",
   "Sermon on the Plain Luke": "luke-6-guide",
   "Beatitudes Luke 6": "luke-6-guide",
+  "2 Chronicles 7 Chapter": "2-chronicles-7-guide",
+  "If My People Will Pray": "2-chronicles-7-guide",
+  "Heal Their Land Chronicles": "2-chronicles-7-guide",
+  "Daniel 7 Chapter": "daniel-7-guide",
+  "Son of Man Clouds Daniel": "daniel-7-guide",
+  "Ancient of Days Daniel": "daniel-7-guide",
+  "Exodus 14 Chapter": "exodus-14-guide",
+  "Crossing the Red Sea": "exodus-14-guide",
+  "Parting of the Sea Moses": "exodus-14-guide",
+  "2 Samuel 7 Chapter": "2-samuel-7-guide",
+  "Davidic Covenant Chapter": "2-samuel-7-guide",
+  "God Builds David a House": "2-samuel-7-guide",
 };
 
 
@@ -3090,6 +3102,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Samuel 16 Chapter" },
   { label: "Mark 4 Chapter" },
   { label: "Luke 6 Chapter" },
+  { label: "2 Chronicles 7 Chapter" },
+  { label: "Daniel 7 Chapter" },
+  { label: "Exodus 14 Chapter" },
+  { label: "2 Samuel 7 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

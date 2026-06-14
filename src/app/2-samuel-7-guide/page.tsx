@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "David Wants to Build a Temple",
+  "God Refuses and Promises Instead",
+  "The Davidic Covenant",
+  "David Worships in Response",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 2 Samuel 7",
+    reference: "2 Samuel 7:1&ndash;29",
+    paragraphs: [
+      "Second Samuel 7 is the theological heart of the books of Samuel and one of the most important chapters in the entire Old Testament. It records the Davidic covenant &mdash; the divine promise to David that his dynasty, his kingdom, and his throne will be established forever. The chapter begins with David&rsquo;s noble desire to build a house for God and ends with one of the most moving prayers of thanksgiving in Scripture. Between these two poles, God speaks through the prophet Nathan in words that will shape Israel&rsquo;s messianic hope for all the centuries that follow.",
+      "The occasion is a moment of relative peace and consolidation in David&rsquo;s reign. He has been established in Jerusalem, the ark of God has been brought into the city, and David is dwelling in his palace of cedar. In this moment of security and prosperity, David notices what seems to him a glaring disparity: &ldquo;See now, I dwell in a house of cedar, but the ark of God dwells in a tent&rdquo; (7:2). The king who has a fine house is troubled that the God who has blessed him so lavishly has no house of his own. The desire to build God a temple is presented as a sincere act of devotion.",
+      "The prophet Nathan, who will become a crucial figure in David&rsquo;s story, initially endorses David&rsquo;s plan without consulting God: &ldquo;Go, do all that is in your heart, for the LORD is with you&rdquo; (7:3). But that same night, the word of the LORD comes to Nathan with a correction &mdash; not a rebuke, but a stunning reversal. God does not want David to build him a house. Instead, God will build David a house &mdash; not a structure of wood and stone, but a dynasty, a lineage, a royal family whose ultimate descendant will reign on a throne established forever.",
+      "The divine speech that follows (7:5&ndash;16) is structured around a series of rhetorical moves. God first questions whether he has ever asked for a house of cedar, recalling his history with Israel from Egypt to the present. He then rehearses all that he has done for David &mdash; taking him from the sheepfold, giving him victory, making his name great. And then he turns to what he will do: he will appoint a place for Israel, give them rest from their enemies, and, most remarkably, raise up David&rsquo;s offspring after him, establish his kingdom, and be to him a father as he shall be to God a son. The Davidic covenant is unconditional and eternal.",
+      "David&rsquo;s response (7:18&ndash;29) is a model of how a human being receives an overwhelming act of divine grace. He goes in and sits before the LORD &mdash; a posture of humility and stillness &mdash; and asks, &ldquo;Who am I, O Lord GOD, and what is my house, that you have brought me thus far?&rdquo; (7:18). He marvels at the smallness of his own origins and the magnitude of what God has promised. He does not receive the promise as something deserved; he receives it with wonder, gratitude, and worship. His prayer closes with a petition that God would fulfill what he has spoken, so that his name would be magnified forever.",
+      "For the Christian reader, 2 Samuel 7 is not primarily a historical document about ancient Near Eastern politics; it is the chapter in which God lays the covenantal foundation for the coming of Jesus Christ. The New Testament opens with &ldquo;the book of the genealogy of Jesus Christ, the son of David&rdquo; (Matthew 1:1), and the angel Gabriel announces to Mary that God will give him &ldquo;the throne of his father David,&rdquo; and that &ldquo;of his kingdom there will be no end&rdquo; (Luke 1:32&ndash;33). The promise made in the cedar-paneled palace in Jerusalem finds its ultimate fulfillment in the one whose kingdom is not of this world but whose throne is established forever.",
+    ],
+  },
+  {
+    id: "David Wants to Build a Temple",
+    heading: "David Wants to Build a Temple",
+    reference: "2 Samuel 7:1&ndash;3",
+    paragraphs: [
+      "The opening verses of 2 Samuel 7 establish a moment of unusual tranquility in David&rsquo;s turbulent reign. &ldquo;Now when the king lived in his house and the LORD had given him rest from all his surrounding enemies&rdquo; &mdash; this is the precondition for the conversation that follows. David is at peace, dwelling in his palace of cedar, the cedar that was the premium building material of the ancient Near East, imported from Lebanon and associated with wealth, stability, and permanence. He has made it. He has arrived at the kind of security that most people spend their lives pursuing.",
+      "And in this moment of arrival, David looks beyond himself. His eye falls on the contrast between his own circumstances and those of the God who has blessed him: &ldquo;See now, I dwell in a house of cedar, but the ark of God dwells in a tent&rdquo; (7:2). The ark of God &mdash; the golden chest that represented the footstool of the divine throne, the place where God&rsquo;s presence rested among his people &mdash; was still housed in tent curtains, the movable tabernacle that had served Israel since the wilderness. David, the man after God&rsquo;s own heart, cannot rest comfortably in his fine house while the symbol of God&rsquo;s presence is in a tent.",
+      "What is striking about David&rsquo;s desire is that it is entirely unprompted. God has not commanded him to build a temple; no prophet has delivered such a message; no national crisis has made it urgent. It arises purely from David&rsquo;s own heart, from a sense of disproportion between what he has received and what he has given back. There is something admirable and even beautiful about this impulse: the man who has been blessed by God is not content simply to enjoy the blessing but wants to give something back, to honor the One from whom the blessing has come.",
+      "Nathan the prophet, hearing David&rsquo;s intention, endorses it immediately: &ldquo;Go, do all that is in your heart, for the LORD is with you&rdquo; (7:3). Nathan&rsquo;s initial encouragement is instructive in what it reveals about prophetic ministry: even a true prophet can speak from his own understanding rather than from direct divine revelation. Nathan is responding to what makes sense, to what seems right, to what appears to be a godly desire being expressed by a godly king. And he is not wrong that the desire itself is good. But he has not yet heard what God thinks about the specific plan.",
+      "The design of the narrative builds the reader&rsquo;s expectation, and then subverts it. We expect what David and Nathan both expect: a divine endorsement of the temple-building project, perhaps accompanied by specifications for the design or instructions about the timing. What we get instead is something far more surprising &mdash; a complete reversal of the question. David asked whether he could build God a house. God&rsquo;s answer is to turn the question around: not whether David will build God a house, but what God will build for David. The divine initiative does not flow in the direction that human initiative assumed.",
+      "The parallel between Solomon&rsquo;s later construction of the Temple and this chapter is important. God does not say he does not want a temple; he says David is not the one to build it. In 1 Chronicles 22:8&ndash;10, God tells David that he cannot build the temple because he is a man of war who has shed much blood; his son Solomon, whose name means &ldquo;peace,&rdquo; will be the builder. The desire of David&rsquo;s heart will be fulfilled &mdash; but by his successor, not by him. God honors the impulse of devotion even when he redirects its expression.",
+    ],
+  },
+  {
+    id: "God Refuses and Promises Instead",
+    heading: "God Refuses and Promises Instead",
+    reference: "2 Samuel 7:4&ndash;11",
+    paragraphs: [
+      "The word of the LORD comes to Nathan that same night &mdash; not the next day, not after a period of prayer and consultation, but immediately. God does not wait for David&rsquo;s plan to gain momentum. The divine word is: &ldquo;Go and tell my servant David, &lsquo;Thus says the LORD: Would you build me a house to dwell in?&rsquo;&rdquo; (7:5). The question is not asked to receive information; God already knows the answer. It is a rhetorical question designed to reframe the entire conversation. The premise David has been operating on &mdash; that God needs a house and that David is the one to provide it &mdash; is gently challenged.",
+      "God&rsquo;s argument is historical. He has never, from the day he brought Israel up from Egypt to this day, lived in a house or asked for one. He has dwelt in a tent and a tabernacle. He has moved from place to place with Israel. And in all this time, did he ever say to any of the judges or leaders of Israel, &ldquo;Why have you not built me a house of cedar?&rdquo; (7:7). The implied answer is: no. God&rsquo;s presence with his people has not been contingent on a permanent building. He has been perfectly content to move with his people, to be with them in their wandering as much as in their settled life.",
+      "The rhetorical effect of this historical recital is to establish that the temple is not something God needs; it is something God allows &mdash; and will allow, through Solomon, in his own time and on his own terms. More fundamentally, it is to establish that God&rsquo;s presence is not a function of architectural arrangements. The building will not create the presence; the presence will inhabit the building. And the presence was there long before any building was imagined. God is the initiator; David is the responder. That ordering is fundamental.",
+      "Then comes the pivot. Instead of addressing David&rsquo;s plan for God, God announces his plan for David: &ldquo;Now, therefore, thus you shall say to my servant David, &lsquo;Thus says the LORD of hosts, I took you from the pasture, from following the sheep, that you should be prince over my people Israel. And I have been with you wherever you went and have cut off all your enemies from before you. And I will make for you a great name, like the name of the great ones of the earth&rsquo;&rdquo; (7:8&ndash;9). The scale of what God has done and intends to do dwarfs what David was proposing.",
+      "The catalog of divine acts on David&rsquo;s behalf is presented in three tenses: past, present, and future. In the past: God took David from the sheepfold, was with him, cut off his enemies. In the present: God is establishing David. In the future: God will make David&rsquo;s name great, will appoint a place for Israel, will plant them so that they dwell in their own place, will give rest from enemies. The language &ldquo;I will make for you a great name&rdquo; echoes the promise to Abraham in Genesis 12:2: God will make Abraham a great name. David is being drawn into the stream of the Abrahamic covenant and its promise of blessing to all nations.",
+      "The reversal is now complete. David asked whether he could build God a house. God&rsquo;s answer is: I don&rsquo;t need you to build me a house. What I am going to do is build you a house. The &ldquo;house&rdquo; in David&rsquo;s proposal was a building &mdash; a structure of cedar and stone to shelter the ark. The &ldquo;house&rdquo; in God&rsquo;s promise is a dynasty &mdash; a family line, a royal heritage, an enduring succession. David had been thinking in categories of construction; God is thinking in categories of covenant. The human initiative of devotion becomes the occasion for the divine initiative of grace on a scale that David had not imagined.",
+    ],
+  },
+  {
+    id: "The Davidic Covenant",
+    heading: "The Davidic Covenant",
+    reference: "2 Samuel 7:12&ndash;16",
+    paragraphs: [
+      "The core of the Davidic covenant is concentrated in five verses that constitute one of the most important passages in the Old Testament. &ldquo;When your days are fulfilled and you lie down with your fathers, I will raise up your offspring after you, who shall come from your body, and I will establish his kingdom. He shall build a house for my name, and I will establish the throne of his kingdom forever. I will be to him a father, and he shall be to me a son&rdquo; (7:12&ndash;14). These words, spoken through Nathan to David, establish a covenant that will shape Israel&rsquo;s hope for the next thousand years and beyond.",
+      "The promise unfolds at two levels that the original hearers would have understood to operate simultaneously. At the immediate level, the &ldquo;offspring&rdquo; who will build the temple is Solomon &mdash; the son who will succeed David and construct the permanent sanctuary in Jerusalem. The father-son relationship (&ldquo;I will be to him a father, and he shall be to me a son&rdquo;) establishes the king as the adopted son of God, the one who represents God&rsquo;s rule on earth. This is what scholars call the royal adoption formula, and it places the Davidic king in a relationship with God that is qualitatively different from that of ordinary Israelites.",
+      "But the language of the promise extends far beyond what Solomon could fulfill. &ldquo;I will establish the throne of his kingdom forever&rdquo; &mdash; the word &ldquo;forever&rdquo; (&lsquo;olam&rsquo;) appears three times in the passage (verses 13, 16). No human dynasty endures forever; Solomon&rsquo;s kingdom was divided at his death; the Davidic line was eventually carried into exile. The promise of an eternal throne points beyond any single successor to a final, ultimate son of David whose kingdom would never end. The covenant is making a claim that exceeds what the immediate historical context can bear.",
+      "The passage also includes a remarkable provision for the covenant&rsquo;s unconditional character: &ldquo;When he commits iniquity, I will discipline him with the rod of men, with the stripes of the sons of men, but my steadfast love will not depart from him, as I took it from Saul, whom I put away from before you&rdquo; (7:14&ndash;15). The contrast with Saul is explicit and deliberate. God&rsquo;s covenant with David is fundamentally different from his relationship with Saul: disobedience will bring discipline, but it will not terminate the covenant. The steadfast love (&lsquo;chesed&rsquo;) that God extends to David&rsquo;s line will not be removed as it was from Saul.",
+      "The conclusion of the divine speech drives home the eternal and unconditional character of the promise: &ldquo;And your house and your kingdom shall be made sure forever before me. Your throne shall be established forever&rdquo; (7:16). The repetition of &ldquo;forever&rdquo; three times in quick succession is not careless redundancy; it is emphatic. This covenant, unlike many in the ancient world, does not come with a conditional expiration clause. It rests not on David&rsquo;s continued faithfulness but on God&rsquo;s own character. The throne that will be established forever is established by God&rsquo;s own word and will stand as long as God&rsquo;s word stands.",
+      "The New Testament interprets the Davidic covenant as finding its ultimate fulfillment in Jesus Christ. Peter&rsquo;s Pentecost sermon in Acts 2 quotes Psalm 16 and argues that David, &ldquo;being therefore a prophet, and knowing that God had sworn with an oath to him that he would set one of his descendants on his throne,&rdquo; foresaw the resurrection of Christ (Acts 2:30&ndash;31). The letter to the Hebrews quotes 2 Samuel 7:14 (&ldquo;I will be to him a father, and he shall be to me a son&rdquo;) and applies it to Jesus as the Son of God who is greater than the angels (Hebrews 1:5). The house God promised to build for David is ultimately the person of Jesus Christ, in whom all the promises of God find their yes and amen.",
+    ],
+  },
+  {
+    id: "David Worships in Response",
+    heading: "David Worships in Response",
+    reference: "2 Samuel 7:18&ndash;29",
+    paragraphs: [
+      "After Nathan delivers God&rsquo;s word to David, something remarkable happens: &ldquo;Then King David went in and sat before the LORD&rdquo; (7:18). The image is striking. The king who has been active, purposeful, and kingly throughout this chapter &mdash; who proposed the temple, who spoke with Nathan, who must have been turning over ambitious plans &mdash; now simply goes in and sits. The posture of sitting before the LORD is a posture of reception rather than action. David is not petitioning, not planning, not mobilizing; he is absorbing the magnitude of what he has just heard.",
+      "The prayer that follows is organized around a series of astonished questions and declarations. &ldquo;Who am I, O Lord GOD, and what is my house, that you have brought me thus far?&rdquo; (7:18). This is not false modesty; it is genuine theological reckoning. David knows his own story. He was a shepherd, the youngest and least significant of Jesse&rsquo;s sons, overlooked when Samuel came to anoint a king. He is asking the question that any honest person asks when confronted with the disproportionate grace of God: what about me warranted this? The answer, implied by the question, is: nothing. This is grace.",
+      "&ldquo;And yet this was a small thing in your eyes, O Lord GOD. You have spoken also of your servant&rsquo;s house for a great while to come, and this is instruction for mankind, O Lord GOD!&rdquo; (7:19). The phrase &ldquo;instruction for mankind&rdquo; &mdash; or in some translations, &ldquo;this is the charter for humanity&rdquo; &mdash; suggests that David recognizes the Davidic covenant as having implications that extend beyond himself and beyond Israel. What God has promised is not merely a dynastic arrangement for one small nation; it is a revelation of how God works in history, a pattern that illuminates the nature of divine grace and promise.",
+      "David continues by marveling at the uniqueness of the God who has done this: &ldquo;And what one nation on earth is like your people Israel, whom God went to redeem to be his people, making himself a name and doing for them great and awesome things by driving out before your people a nation and its gods?&rdquo; (7:23). The prayer widens from the personal to the national to the cosmic. The covenant with David is set within the larger context of God&rsquo;s covenantal relationship with Israel, which is itself set within the context of God&rsquo;s sovereign rule over all nations and gods. David worships the God who is not merely his patron but the Lord of history.",
+      "The prayer closes with a petition that is itself an act of faith: &ldquo;And now, O LORD God, confirm forever the word that you have spoken concerning your servant and concerning his house, and do as you have spoken. And your name will be magnified forever, saying, &lsquo;The LORD of hosts is God over Israel,&rsquo; and the house of your servant David will be established before you&rdquo; (7:25&ndash;26). David is asking God to do what God has already promised to do &mdash; but this is not redundancy. It is the prayer of one who understands that the promises of God are received and appropriated through prayer and faith, not merely acknowledged and filed away.",
+      "What David models in this prayer is a pattern of response to divine grace that the New Testament calls worship in spirit and truth. He does not treat the covenant as a transaction, as a divine service rendered in exchange for his good intentions about the temple. He receives it as grace, marvels at it as grace, acknowledges his own unworthiness, widens the frame to include the glory of God over all the earth, and then asks God to fulfill his promise for the sake of God&rsquo;s own name. The prayer is thoroughly theocentric: it begins with God&rsquo;s greatness, orbits around God&rsquo;s faithfulness, and closes with a petition oriented toward God&rsquo;s glory.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying 2 Samuel 7 Today",
+    reference: "2 Samuel 7 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Second Samuel 7 confronts the contemporary church with a pattern of divine initiative and human response that challenges the most basic assumptions of a consumer culture. David came to God with a plan &mdash; a good plan, a generous plan, a plan born of genuine devotion. And God&rsquo;s response was essentially: I don&rsquo;t need your plan; I have a plan for you. The direction of grace in this chapter flows not from human initiative to divine acceptance, but from divine initiative to human astonishment. God is not waiting to receive what we offer; he is waiting to give what we have not imagined.",
+      "The specific form of God&rsquo;s promise &mdash; &ldquo;I will build you a house&rdquo; &mdash; speaks to a deep human need that no architectural project can address. Human beings build houses to secure themselves against instability, to mark their place in the world, to leave something permanent after they are gone. David was proposing to secure God&rsquo;s presence with a permanent structure. God&rsquo;s response inverts the proposal: the permanence David was trying to provide for God is the permanence God intends to provide for David. The security we seek to offer God is the security God alone can give.",
+      "The Davidic covenant&rsquo;s provision for human failure &mdash; &ldquo;when he commits iniquity, I will discipline him with the rod of men, but my steadfast love will not depart from him&rdquo; (7:14&ndash;15) &mdash; is one of the most practically important elements of this chapter for the life of the church. The covenant is not terminated by failure; it is sustained through it. The discipline of God is the instrument of his continued commitment, not the end of it. This is a word of profound hope for every Christian who has experienced the painful consequences of sin and wondered whether they have forfeited the purposes of God for their life.",
+      "David&rsquo;s prayer in response to the covenant is a model of how the community of faith receives divine promises. He sits. He wonders. He marvels at his own smallness and at God&rsquo;s largeness. He widens the frame from his own situation to the story of Israel to the glory of God over all the earth. He closes with a petition for God to fulfill what God has promised. This is the structure of a prayer that is genuinely oriented toward God rather than toward the self &mdash; a prayer that begins with &ldquo;who am I?&rdquo; and ends with &ldquo;for your name&rsquo;s sake.&rdquo; The contemporary church would benefit greatly from learning to pray in this pattern.",
+      "The prophetic expectation generated by the Davidic covenant is one of the most powerful forces in the entire biblical narrative. After the Davidic line was carried into exile and the throne of David went dark, the covenant did not die; it became the source of Israel&rsquo;s deepest and most enduring hope. Isaiah, Jeremiah, Ezekiel, Amos, and the Psalms all return to the Davidic promise as the ground of hope in the darkest times. The church that knows this covenant knows why the coming of Jesus Christ was not an unexpected intrusion into Israel&rsquo;s story but its long-awaited fulfillment.",
+      "Ultimately, 2 Samuel 7 is a chapter about the faithfulness of a God who makes promises and keeps them against all historical odds. The throne that God promised to establish forever was interrupted by exile, occupation, and centuries of apparent silence. But the New Testament declares that in the resurrection of Jesus Christ, the son of David who was crucified outside Jerusalem, the eternal throne has been established. &ldquo;He has been declared to be the Son of God in power according to the Spirit of holiness by his resurrection from the dead&rdquo; (Romans 1:4). The God who said &ldquo;your throne shall be established forever&rdquo; to David has said it finally and completely in the one who sits at the right hand of the Father, whose kingdom will have no end.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "GswSg2ohqmA", title: "BibleProject - Overview of 2 Samuel" },
+  { videoId: "xvua6TFhaC4", title: "The Davidic Covenant - 2 Samuel 7 Explained" },
+  { videoId: "0MKlO3FXBig", title: "God Will Build David a House - The Covenant Promise" },
+  { videoId: "SnPMJc5mZkU", title: "David's Prayer of Worship - 2 Samuel 7:18-29" },
+];
+
+export default function Samuel7GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Samuel 7 &mdash; The Davidic Covenant
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            David wants to build God a house, but God turns the question around: &ldquo;I will build you a house.&rdquo; God promises to raise up David&rsquo;s offspring, establish his kingdom, and be to him a father. &ldquo;Your throne shall be established forever.&rdquo; David responds in astonished worship: &ldquo;Who am I, O Lord GOD, that you have brought me thus far?&rdquo; The Davidic covenant is the foundation of Israel&rsquo;s messianic hope.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 2 Samuel 7 through these video teachings on the Davidic covenant, God&rsquo;s promise to build David a house, and the messianic hope that flows from this chapter across the entire biblical narrative.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Your Throne Shall Be Established Forever</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Second Samuel 7 is the chapter in which God turns David&rsquo;s generous impulse into a cosmic promise. David wanted to build God a house; God promised to build David a dynasty whose throne would last forever. The covenant that seemed to end in exile found its fulfillment in the resurrection of Jesus Christ &mdash; the son of David who now reigns at the right hand of the Father, whose kingdom will have no end.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

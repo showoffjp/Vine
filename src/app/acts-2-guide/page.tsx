@@ -1,0 +1,196 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "The Day of Pentecost",
+  "Peters Sermon at Pentecost",
+  "David Foresaw the Resurrection",
+  "The Lord Said to My Lord",
+  "Three Thousand Souls Added",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "The Day of Pentecost",
+    heading: "The Day of Pentecost",
+    reference: "Acts 2:1&ndash;13",
+    paragraphs: [
+      "The second chapter of Acts opens at the festival of Pentecost, the Jewish feast of Weeks that came fifty days after Passover. The disciples, numbering about one hundred and twenty, are together in one place when suddenly a sound comes from heaven like a mighty rushing wind, filling the entire house where they are sitting. Divided tongues as of fire appear and rest on each one of them, and they are all filled with the Holy Spirit and begin to speak in other tongues as the Spirit gives them utterance (2:1&ndash;4). The long-promised gift has arrived.",
+      "The imagery is rich with Old Testament resonance. Wind and fire are the characteristic accompaniments of the divine presence in the Hebrew Scriptures. At Sinai, when God gave the Torah to Israel, the mountain blazed with fire and the Lord descended in fire (Exodus 19:18). The rushing mighty wind evokes the ruach, the breath or spirit of God that moved over the face of the waters at creation (Genesis 1:2) and that Ezekiel saw in his vision of the valley of dry bones, a wind that brought the dead to life (Ezekiel 37:9&ndash;10). Pentecost is simultaneously a new creation and a new Sinai, a second giving of the Law &mdash; this time not on tablets of stone but written on the hearts of the gathered community by the Spirit of the living God.",
+      "Jerusalem is crowded for the feast, and the sound of the wind draws a multitude together. They are bewildered because each one is hearing the disciples speak in his own native language, the languages of the diaspora Jews who have come from every nation under heaven: Parthians, Medes, Elamites, residents of Mesopotamia, Judea, Cappadocia, Pontus, Asia, Phrygia, Pamphylia, Egypt, parts of Libya, visitors from Rome, Cretans and Arabs (2:9&ndash;11). Luke&rsquo;s list is a deliberate evocation of the table of nations in Genesis 10, suggesting that Pentecost begins the reversal of Babel, where the confusion of tongues and the scattering of the nations is now being addressed by a miraculous gift of comprehension.",
+      "The reaction of the crowd is divided. Some are amazed and perplexed, asking what this means. Others mock and say, &ldquo;They are filled with new wine&rdquo; (2:13). This division of response mirrors the divided reception Jesus himself received throughout his ministry and anticipates the two responses Peter&rsquo;s sermon will elicit. The accusation of drunkenness at nine in the morning is dismissive and condescending, the classic move of those who wish to explain away what they cannot deny: the disciples are clearly doing something extraordinary, so the sceptical observers reach for the most reductive explanation available.",
+      "Luke&rsquo;s account of Pentecost is carefully crafted to present the event not as a religious curiosity or an esoteric spiritual experience but as a world-historical turning point. The gift of tongues means that the message of what God has done in Jesus Christ can now be heard and understood in every human language. The gospel is not the property of one ethnic group or one linguistic community. From the very first moment of the Spirit&rsquo;s outpouring, the mission of the church is implicitly universal. Every nation under heaven is represented at Jerusalem on this day, and the Spirit&rsquo;s first act is to make the good news intelligible to all of them in their own tongue.",
+      "The theological significance of the day is deepened by its calendar position. Pentecost was already the feast that celebrated God&rsquo;s gift of the Torah at Sinai. In Jewish tradition of the period, the feast commemorated the covenant that God made with Israel at the mountain. Now the Spirit comes on this very day, fulfilling Jeremiah&rsquo;s promise of a new covenant written on the heart (Jeremiah 31:33) and Ezekiel&rsquo;s promise of a new spirit within the people of God (Ezekiel 36:26&ndash;27). The day is not accidental; God appointed it, as he appointed every detail of the redemptive drama, so that those who knew their Scriptures would recognize in the rushing wind and the tongues of fire not chaos but covenant, not disorder but the arrival of everything the prophets had promised.",
+    ],
+  },
+  {
+    id: "Peters Sermon at Pentecost",
+    heading: "Peter&rsquo;s Sermon at Pentecost",
+    reference: "Acts 2:14&ndash;36",
+    paragraphs: [
+      "Peter stands up with the eleven and raises his voice to address the crowd. The Peter who denied Jesus three times in the courtyard of the high priest now stands publicly before the assembled crowds of Jerusalem and speaks. This is itself one of the most powerful testimonies to the reality of the resurrection: the transformation of a man who was characterized by impulsive bravado followed by cowardly collapse into the bold, authoritative preacher of Acts is inexplicable apart from the event he is about to describe.",
+      "Peter begins by refuting the charge of drunkenness: it is nine in the morning. He then declares that what they are witnessing is the fulfillment of Joel&rsquo;s prophecy (Joel 2:28&ndash;32). The quotation is extensive and important. Joel had promised that in the last days God would pour out his Spirit on all flesh, and the result would be prophecy, visions, and dreams across all demographic boundaries &mdash; sons and daughters, young men and old men, even male and female servants. The gift of the Spirit is not for an elite spiritual class; it is for all flesh. And the cosmic signs that will accompany this outpouring &mdash; blood, fire, and billows of smoke, the sun turned to darkness and the moon to blood before the great and glorious day of the Lord &mdash; point to the eschatological seriousness of the moment.",
+      "The eschatological framing is crucial to understanding Peter&rsquo;s sermon. He is not announcing a religious improvement or a new spiritual technique. He is announcing that the last days have begun, that the age of fulfillment has arrived, that history has reached the moment toward which all the prophets pointed. The pouring out of the Spirit is not background accompaniment to some other main event; it is itself the sign that the great day of the Lord is underway. And at the end of Joel&rsquo;s quotation comes the hinge on which the sermon turns: &ldquo;And it shall come to pass that everyone who calls upon the name of the Lord shall be saved&rdquo; (2:21). Peter will spend the rest of his sermon identifying whose name that is.",
+      "The identification comes in the next section, which is perhaps the most concentrated piece of early Christian proclamation in the New Testament. Peter addresses Jesus of Nazareth: &ldquo;a man attested to you by God with mighty works and wonders and signs that God did through him in your midst, as you yourselves know &mdash; this Jesus, delivered up according to the definite plan and foreknowledge of God, you crucified and killed by the hands of lawless men. God raised him up, loosing the pangs of death, because it was not possible for him to be held by it&rdquo; (2:22&ndash;24). This is the apostolic kerygma in its earliest and most compact form: Jesus, crucified by human hands yet within the sovereign plan of God, raised by God from the dead.",
+      "The phrase &ldquo;the definite plan and foreknowledge of God&rdquo; (2:23) is theologically momentous. The crucifixion was not an accident, not a miscarriage of justice that God had to scramble to correct, not a tragedy that God then turned into triumph through the resurrection. It was the predetermined plan. God ordained the death of his Son. Human beings are fully responsible for the crime of crucifying the Lord of glory, and yet their crime was the instrument of God&rsquo;s own saving purpose. The sovereignty of God and the responsibility of human beings are held together in a single breathtaking sentence, neither truth swallowing the other.",
+      "Peter then introduces the Old Testament evidence for the resurrection, and it is at this point that the sermon becomes a masterpiece of Scriptural exegesis. He will quote Psalm 16 to prove that David foresaw the resurrection of the Christ, and Psalm 110 to prove that the risen Christ has been exalted to the right hand of God. Both arguments are sophisticated readings of texts that the crowd knew well, and both demonstrate that what had happened to Jesus was not a surprise to God but had been anticipated in the inspired writings of Israel&rsquo;s greatest king.",
+    ],
+  },
+  {
+    id: "David Foresaw the Resurrection",
+    heading: "David Foresaw the Resurrection",
+    reference: "Acts 2:25&ndash;32 &amp; Psalm 16",
+    paragraphs: [
+      "Peter quotes Psalm 16:8&ndash;11 in full: &ldquo;I saw the Lord always before me, for he is at my right hand that I may not be shaken; therefore my heart was glad, and my tongue rejoiced; my flesh also will dwell in hope. For you will not abandon my soul to Hades, or let your Holy One see corruption. You have made known to me the paths of life; you will make me full of gladness with your presence&rdquo; (2:25&ndash;28). The Psalm is a song of confidence, a declaration of trust in God even in the face of death. The speaker trusts that God will not abandon him to the realm of the dead, that his Holy One will not see corruption.",
+      "Peter&rsquo;s argument is careful and exegetical. He concedes the obvious objection: David wrote this Psalm, and David died and was buried, and his tomb is with them to that day (2:29). The Psalm cannot be a simple first-person report of David&rsquo;s own experience of resurrection, because David did not rise from the dead. His body saw corruption; his tomb was still there in Jerusalem. So how can the Psalm speak of one who would not see corruption? Peter&rsquo;s answer is that David, being a prophet and knowing that God had sworn with an oath to him that he would set one of his descendants on his throne (2:30), foresaw and spoke about the resurrection of the Christ. David was not writing autobiography; he was writing prophecy. The Holy One who would not see corruption was not David himself but David&rsquo;s greater Son.",
+      "This is a genuinely sophisticated piece of Biblical interpretation. Peter is arguing that the Psalms have a depth of meaning that their human author could not fully exhaust, that David was not merely a poet expressing personal faith but a prophet speaking words whose full significance pointed beyond himself to the one who would come after him. The royal Psalms in particular, those that speak of the king&rsquo;s special relationship to God, the king&rsquo;s confidence in God&rsquo;s protection, the king&rsquo;s ultimate vindication, are not simply records of David&rsquo;s experience but windows into the experience of the ultimate Davidic king, the Messiah.",
+      "The conclusion Peter draws is explicit: &ldquo;This Jesus God raised up, and of that we all are witnesses&rdquo; (2:32). The &ldquo;we&rdquo; is emphatic. Peter is not offering a theological argument alone; he is offering personal testimony. He and the other apostles have seen the risen Jesus. They have eaten with him after the resurrection; he showed them his hands and his feet; they touched him and found him to be not a ghost but a bodily reality. Their proclamation of the resurrection is grounded in direct experience, and the fact that all one hundred and twenty of them are willing to stake their lives on this testimony is itself evidence of the reality of what they are proclaiming.",
+      "The resurrection of Jesus, Peter is arguing, was the event that unlocked the meaning of Psalm 16. Before the resurrection the Psalm was puzzling &mdash; why would David say his Holy One would not see corruption if David himself did see corruption? After the resurrection the Psalm becomes luminous. David wrote it as a prophet, and it described not his own experience but the experience of his descendant who, unlike all other human beings, would pass through death and come out the other side without his body decaying. Jesus of Nazareth is the one person in all of human history of whom the statement &ldquo;you will not abandon my soul to Hades, or let your Holy One see corruption&rdquo; is literally and completely true.",
+      "This interpretive move &mdash; reading the Psalms as prophetic of the Messiah and finding their fulfillment in the specific events of Jesus&rsquo; life, death, and resurrection &mdash; becomes the characteristic apostolic hermeneutic. It is not eisegesis, the reading of meaning into texts that cannot support it, but the discovery of layers of meaning that were always there, waiting for the event that would make them visible. The resurrection was the interpretive key that unlocked the whole of Israel&rsquo;s Scriptures and showed them to be, in their deepest intention, a witness to Jesus of Nazareth.",
+    ],
+  },
+  {
+    id: "The Lord Said to My Lord",
+    heading: "The Lord Said to My Lord &mdash; Psalm 110",
+    reference: "Acts 2:33&ndash;36 &amp; Psalm 110",
+    paragraphs: [
+      "Having established the resurrection from Psalm 16, Peter moves to his climactic argument from Psalm 110. He first explains what has happened since the resurrection: Jesus, being exalted to the right hand of God and having received from the Father the promise of the Holy Spirit, has poured out what the crowd is now seeing and hearing (2:33). The Pentecost event is itself evidence of the resurrection and exaltation of Jesus. The Spirit could not have been poured out in this way unless Jesus had first been raised and then glorified at the right hand of the Father. The experience of the crowd is thus itself a data point in Peter&rsquo;s argument.",
+      "Then comes the second Psalm quotation: &ldquo;The Lord said to my Lord, sit at my right hand, until I make your enemies your footstool&rdquo; (2:34&ndash;35; Psalm 110:1). Peter applies the same argument he used for Psalm 16: David did not ascend into the heavens, so David cannot be the one seated at God&rsquo;s right hand. David is speaking of someone else, someone greater than himself. The key to the argument is the word &ldquo;my Lord.&rdquo; David calls this figure &ldquo;my Lord.&rdquo; But David was the king; for David to call someone &ldquo;my Lord&rdquo; is for the king to acknowledge a superior. Who could be greater than the king of Israel? Only the Messiah &mdash; the one whose throne is established forever, whose reign transcends all earthly reigns.",
+      "Jesus himself had used this very argument during the final week of his public ministry. He asked the Pharisees, &ldquo;What do you think about the Christ? Whose son is he?&rdquo; They replied, &ldquo;The son of David.&rdquo; He then asked them, &ldquo;How is it then that David, in the Spirit, calls him Lord, saying, the Lord said to my Lord, sit at my right hand &hellip;? If then David calls him Lord, how is he his son?&rdquo; (Matthew 22:41&ndash;45). The Pharisees had no answer. Now Peter is providing the answer the Pharisees could not give: the Christ is both the son of David according to the flesh and the Lord of David according to his divine nature, because God raised him from the dead and exalted him to the highest place.",
+      "The exaltation of Jesus to the right hand of the Father is not a consolation prize for the cross, not God&rsquo;s way of making it up to Jesus for the suffering he endured. It is the completion of the redemptive plan. Jesus sits at the right hand of power, the position of supreme authority and honor, as the fully vindicated, fully glorified, fully enthroned Lord over all creation. Psalm 110 describes the Messiah not merely as resurrected but as reigning &mdash; seated on the throne of universal sovereignty, his enemies being made his footstool, his authority extending to the ends of the earth.",
+      "Peter brings his sermon to its shattering conclusion: &ldquo;Let all the house of Israel therefore know for certain that God has made him both Lord and Christ, this Jesus whom you crucified&rdquo; (2:36). The word &ldquo;Lord&rdquo; in this conclusion is the same word that Paul will later say every tongue will confess, the word that in the Greek Old Testament translates the divine name YHWH. Peter is not saying that God has made Jesus a great teacher or a significant religious figure. He is saying that the one they crucified now holds the title that belongs to God alone. And the one who holds that title is identified with total precision: not a cosmic abstraction, not an anonymous deity, but &ldquo;this Jesus whom you crucified.&rdquo; The Lord of all creation is the man they killed on a cross outside Jerusalem not fifty days ago.",
+      "The argument from Psalm 110 is one of the most commonly cited Old Testament texts in the New Testament, appearing in the Gospels, Acts, the epistles of Paul, and the letter to the Hebrews. The early church returned to it again and again because it answered the most pressing objection to the gospel: how could the Messiah have been crucified? The Messiah was supposed to be triumphant, not defeated. Psalm 110&rsquo;s answer is that the way to the throne of glory passes through suffering and apparent defeat, that the exaltation follows the humiliation and is in fact the Father&rsquo;s vindication of the Son who was obedient even to death on a cross. The cross is not the end of the story but the penultimate act, and the resurrection-exaltation is the act that reveals the meaning of everything that came before.",
+    ],
+  },
+  {
+    id: "Three Thousand Souls Added",
+    heading: "Three Thousand Souls Added",
+    reference: "Acts 2:37&ndash;47",
+    paragraphs: [
+      "The response to Peter&rsquo;s sermon is immediate and overwhelming. When the people hear his words they are cut to the heart, a phrase that conveys deep conviction, the sharp recognition of guilt and its consequences. They ask Peter and the rest of the apostles, &ldquo;Brothers, what shall we do?&rdquo; (2:37). The question is the right question: not &ldquo;what do you think of this argument?&rdquo; or &ldquo;how can we verify these claims?&rdquo; but &ldquo;what shall we do?&rdquo; The sermon has accomplished what a sermon is supposed to accomplish: it has brought people to the point of decision, the point where intellectual assent must become moral response.",
+      "Peter&rsquo;s answer is one of the most quoted and debated passages in the New Testament: &ldquo;Repent and be baptized every one of you in the name of Jesus Christ for the forgiveness of your sins, and you will receive the gift of the Holy Spirit. For the promise is for you and for your children and for all who are far off, everyone whom the Lord our God calls to himself&rdquo; (2:38&ndash;39). Three things are called for: repentance, baptism, and the reception of the Holy Spirit. And the promise extends beyond the immediate crowd to their children and to those who are far off &mdash; a phrase that in the context of Acts will unfold to include the Gentiles, the nations of the world who are &ldquo;far off&rdquo; from the covenants of Israel.",
+      "Repentance is not merely feeling sorry. The Greek word metanoia means a change of mind, a fundamental reorientation of one&rsquo;s relationship to God and to reality. It is the turning that the prophets called for throughout the Old Testament, the turning from self-direction to God-direction, from trusting one&rsquo;s own judgment to submitting to the word and will of God. In the context of Peter&rsquo;s sermon, repentance has a specific content: it means acknowledging that Jesus of Nazareth is in fact Lord and Christ, and that the crucifixion was the great crime of human history, and that we are among those who would have done the same.",
+      "Baptism in the name of Jesus Christ for the forgiveness of sins is the outward act that corresponds to the inward repentance. To be baptized in the name of Jesus is to be publicly identified with him, to come under his lordship, to be incorporated into the community of those who bear his name. The forgiveness of sins is not something earned by the act of baptism but is the gracious gift that accompanies genuine faith and repentance, sealed and signified in the act of baptism. The gift of the Holy Spirit that follows is the fulfillment of Joel&rsquo;s promise, the same Spirit who has just been poured out on the one hundred and twenty now promised to all who repent and believe.",
+      "Luke reports that those who received Peter&rsquo;s word were baptized, and there were added that day about three thousand souls (2:41). The number is staggering. On the day of Pentecost, the church grew from about one hundred and twenty to over three thousand. And Luke immediately describes what this new community looked like: &ldquo;And they devoted themselves to the apostles&rsquo; teaching and the fellowship, to the breaking of bread and the prayers&rdquo; (2:42). These four marks &mdash; apostolic teaching, fellowship, the breaking of bread, and the prayers &mdash; are the constitutive practices of the apostolic community, the practices that formed and sustained the common life of the first Christians.",
+      "The life of the early church as Luke describes it in the closing verses of Acts 2 is a portrait of what the Spirit-filled community looks like. Awe came upon every soul, and many wonders and signs were being done through the apostles. All who believed were together and had all things in common; they sold their possessions and distributed to any who had need. Day by day, attending the temple together and breaking bread in their homes, they received their food with glad and generous hearts, praising God and having favor with all the people. And the Lord added to their number day by day those who were being saved (2:43&ndash;47). The church is not a voluntary association of religious consumers; it is a community of the Spirit, characterized by generosity, joy, worship, and a shared life that the watching world finds attractive.",
+      "Acts 2 as a whole is the founding chapter of the Christian church. It answers the question of what the resurrection and exaltation of Jesus mean for those who were not present on that first Easter morning: they mean the outpouring of the Spirit, the offer of forgiveness and new life to all who repent and believe, and the formation of a new community that embodies the life of the age to come in the midst of the present age. The promise of Acts 2:39 is still in force: the gift of the Holy Spirit is for all who are far off, everyone whom the Lord our God calls to himself. The calling continues; the gift is still given; the three thousand are still multiplying.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "G-2e9mMf7E8", title: "BibleProject - Overview of Acts 1 and 2" },
+  { videoId: "oNNZO9i1Gjc", title: "The Day of Pentecost - Acts 2 Explained" },
+  { videoId: "OlGSK5lh8pA", title: "Peters Sermon at Pentecost - Psalm 16 and Psalm 110" },
+  { videoId: "kBiIs790d9s", title: "The Birth of the Church - Acts 2 and the Spirit" },
+];
+
+export default function Acts2GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 2 &mdash; The Day of Pentecost
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The rushing mighty wind and tongues of fire, Peter&rsquo;s sermon from Joel and the Psalms, the resurrection of Christ attested from Psalm 16, the exaltation of the Lord at the right hand of God from Psalm 110, repentance and baptism in the name of Jesus Christ, and three thousand souls added to the church in a single day.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Acts 2 through visual teaching on the day of Pentecost, Peter&rsquo;s sermon from Joel and the Psalms, the resurrection and exaltation of Christ, and the birth of the apostolic community.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Repent and Be Baptized</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 2 is the birthday of the church. The Spirit poured out on Pentecost is the fulfillment of Joel&rsquo;s prophecy, the result of Christ&rsquo;s resurrection and exaltation, and the down payment of the age to come. The call that rang out over Jerusalem on that day still rings out: repent, be baptized in the name of Jesus Christ for the forgiveness of sins, and receive the gift of the Holy Spirit &mdash; for the promise is for you and for your children, and for all who are far off.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

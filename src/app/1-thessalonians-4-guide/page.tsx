@@ -1,0 +1,199 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Abound More and More",
+  "This Is the Will of God",
+  "Love One Another Earnestly",
+  "Comfort One Another",
+  "The Lord Himself Will Descend",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Abound More and More",
+    heading: "Abound More and More",
+    reference: "1 Thessalonians 4:1&ndash;2",
+    paragraphs: [
+      "The fourth chapter of 1 Thessalonians opens with a transition that is both pastoral and urgent. Paul has spent the first three chapters recounting the founding of the Thessalonian church, expressing his profound affection for the believers there, and describing his longing to return to them. Now he turns to instruction, and the very manner of his instruction is itself instructive: &ldquo;Finally, then, brothers, we ask and urge you in the Lord Jesus, that as you received from us how you ought to walk and to please God, just as you are doing, that you do so more and more&rdquo; (4:1). The verb &ldquo;abound&rdquo; or &ldquo;more and more&rdquo; (the Greek &lsquo;perisseuete&rsquo;) runs through this chapter and into chapter 5 as a kind of keynote: the Christian life is not a static achievement but a dynamic and ever-deepening movement toward God and toward one another.",
+      "Paul&rsquo;s tone here is characteristically gentle even while being clear. He does not say &ldquo;you are failing&rdquo; or &ldquo;you have stopped growing.&rdquo; He explicitly acknowledges that the Thessalonians are already walking in a way pleasing to God &mdash; &ldquo;just as you are doing.&rdquo; His exhortation is not to remedy a deficit but to fuel an advance. This is important for understanding the shape of the Christian life as Paul conceives it: it is not a performance to be graded but a journey to be pursued, not a test to be passed but a relationship to be deepened. The Thessalonians have learned from Paul and his companions how to walk in a way that pleases God; now they are to walk that way more and more.",
+      "The phrase &ldquo;in the Lord Jesus&rdquo; qualifies both the manner of Paul&rsquo;s urging and the source of his authority. He is not commanding from his own apostolic prestige alone; he is urging them within the sphere of their shared union with and allegiance to the Lord Jesus. The instructions he is about to give are not novel philosophical positions; they are &ldquo;instructions we gave you through the Lord Jesus&rdquo; (4:2). The Lord Jesus is the mediating authority through whom Paul speaks and in whose name the Thessalonians are called to obey.",
+      "The call to abound more and more in pleasing God sets the frame for everything that follows in chapter 4. Sexual purity (4:3&ndash;8), brotherly love (4:9&ndash;12), and the hope of resurrection (4:13&ndash;18) are not three separate subjects loosely grouped together. They are three expressions of what it means to walk in a way that pleases God more and more &mdash; in the arena of the body, in the arena of the community, and in the arena of grief and hope. Together they paint a portrait of a community that is pressing deeper into the life of God while it waits for the return of his Son.",
+      "The &lsquo;abounding more and more&rsquo; language is a reminder that the Christian life has no plateau. There is no attainment of holiness so complete that the call to grow further ceases to apply. Paul himself, writing to the Philippians, would say that he had &ldquo;not yet attained&rdquo; and was &ldquo;pressing on toward the goal&rdquo; (Philippians 3:12&ndash;14). The Thessalonians who are already walking faithfully are called to walk more faithfully still. The ones who are already loving their brothers are called to love them more and more. This is not a counsel of anxious striving but of joyful, Spirit-fueled growth in the direction of the God who has called them.",
+      "Pastors and teachers drawing from this passage will find here a model for exhortation: begin with acknowledgment of what is already true and beautiful in the congregation, then press toward more. This is not flattery; Paul has already demonstrated in chapters 1 through 3 that he knows the Thessalonians&rsquo; sufferings and struggles. It is rather the pastoral practice of building on what the Spirit has already accomplished before calling for further advance. The congregation that hears &ldquo;you are doing well; now do it more and more&rdquo; is given a firmer foundation for obedience than the congregation that only ever hears how far short it falls.",
+    ],
+  },
+  {
+    id: "This Is the Will of God",
+    heading: "This Is the Will of God",
+    reference: "1 Thessalonians 4:3&ndash;8",
+    paragraphs: [
+      "Few verses in the New Testament are as direct and unambiguous as 1 Thessalonians 4:3: &ldquo;For this is the will of God, your sanctification: that you abstain from sexual immorality.&rdquo; Christians who wonder what the will of God is for their lives need look no further for at least one unqualified answer. Paul does not say &ldquo;it might be God&rsquo;s will&rdquo; or &ldquo;under certain circumstances, perhaps.&rdquo; He states it as flatly and clearly as anything in his letters: the will of God is your sanctification, and that sanctification includes the complete and deliberate avoidance of sexual immorality.",
+      "The word translated &ldquo;sexual immorality&rdquo; is the Greek &lsquo;porneia,&rsquo; which in the New Testament covers the full range of sexual activity outside the covenant of marriage between a man and a woman. The Thessalonian believers had come to faith in a Greco-Roman culture in which sexual promiscuity was widely normalized, temple prostitution was connected to religious practice, and the body was often regarded as irrelevant to spiritual matters. Paul&rsquo;s instruction cuts directly against all of these cultural assumptions: the body matters, the sexual life of the believer matters, and God has a specific will for it.",
+      "Verses 4 and 5 develop the positive counterpart to abstaining from porneia. Each man is to &ldquo;know how to control his own body in holiness and honor, not in the passion of lust like the Gentiles who do not know God.&rdquo; The contrast with &ldquo;the Gentiles who do not know God&rdquo; is not an ethnic slur but a description of life lived without the knowledge of God&rsquo;s character and purposes. Sexual immorality flows from the ignorance of God; sexual holiness flows from knowing him. The one who truly knows the God who created human bodies as good, who became incarnate in a body, and who will one day resurrect the body to glory, will not treat the body as a mere instrument of appetite.",
+      "Verse 6 extends the reach of this passage beyond the purely personal to the communal: &ldquo;that no one transgress and wrong his brother in this matter, because the Lord is an avenger in all these things, as we told you beforehand and solemnly warned you.&rdquo; Sexual sin is not merely a private matter between consenting adults; it wrongs others. It violates trust, it breaks covenant, it exploits vulnerability, it damages the body of Christ. And the Lord takes notice. The word &ldquo;avenger&rdquo; (the Greek &lsquo;ekdikos&rsquo;) is a strong term: the Lord is the one who executes justice, who makes right what sin has made wrong. This is a solemn warning, not a threat of petty retribution; it is the announcement that God is not indifferent to the wounds that sexual sin inflicts on his people.",
+      "Verses 7 and 8 press to the deepest root of the call to sexual holiness: &ldquo;For God has not called us for impurity, but in holiness. Therefore whoever disregards this, disregards not man but God, who gives his Holy Spirit to you.&rdquo; Two things are packed into these sentences. First, the call to holiness is integral to the call of the gospel itself. God did not call us to manage our behavior or adjust our lifestyle; he called us into a new kind of existence, a holiness that comes from being set apart for God. Second, the Holy Spirit who has been given to believers is the Spirit of holiness; to persist in sexual immorality is to act in contradiction to the Spirit who now inhabits the body (see also 1 Corinthians 6:19&ndash;20).",
+      "For the Christian today, this passage speaks not only to the obvious and dramatic cases of sexual sin but to every way in which the culture&rsquo;s sexual values are allowed to form the heart and habits of the believer. The pornography industry, the sexualization of everyday entertainment, the normalization of casual sexual encounters, the contempt for covenant fidelity &mdash; all of these are forms of the cultural pressure Paul was already resisting in the first century. The call is to a sanctification that goes all the way down, that re-forms the imagination and the appetite, not merely the outward behavior. And it is a call issued not by an austere rule-setter but by the God who gives his Holy Spirit to those who receive it.",
+      "The church&rsquo;s ministry to those who have been wounded by sexual sin &mdash; their own or others&rsquo; &mdash; must hold both the clarity of Paul&rsquo;s call and the compassion of his apostolic heart. He is not writing to condemn but to protect. The God who calls his people into holiness is the God who forgives and restores; the same gospel that commands abstinence from porneia also announces forgiveness for all who have failed. The will of God is sanctification, and the God who wills sanctification also provides the Spirit to accomplish it in those who call upon his name.",
+    ],
+  },
+  {
+    id: "Love One Another Earnestly",
+    heading: "Love One Another Earnestly",
+    reference: "1 Thessalonians 4:9&ndash;12",
+    paragraphs: [
+      "Having addressed the sanctification of the body in the arena of sexuality, Paul turns in verse 9 to the sanctification of the community in the arena of brotherly love: &ldquo;Now concerning brotherly love you have no need for anyone to write to you, for you yourselves have been taught by God to love one another.&rdquo; The phrase &ldquo;taught by God&rdquo; translates the Greek &lsquo;theodidaktoi,&rsquo; a word that appears only here in the entire New Testament. Paul is saying that the Thessalonians have received their instruction in love directly from God &mdash; through the Holy Spirit poured into their hearts (Romans 5:5), through the example of Christ&rsquo;s own self-giving, and through the word of the gospel that formed their community from the beginning.",
+      "Paul&rsquo;s acknowledgment that the Thessalonians already love their brothers extends beyond Thessalonica itself: &ldquo;for that indeed is what you are doing to all the brothers throughout Macedonia&rdquo; (4:10). The love of this young congregation is not merely inward-looking, a warmth among familiar faces. It reaches to all the believers in the broader region. In a world where travel was difficult and communication slow, the love of the Thessalonians has nevertheless made itself felt throughout Macedonia. This is a community that has learned to practice the radical solidarity of the body of Christ even at a distance.",
+      "And yet, true to the pattern established in verse 1, Paul immediately urges them to &ldquo;do so more and more.&rdquo; No level of love achieved is the ceiling; the ceiling is always the love of Christ himself, which &ldquo;surpasses knowledge&rdquo; (Ephesians 3:19). The Thessalonians&rsquo; love is real and visible; Paul affirms it without reservation. But love that abounds more and more is love that is perpetually pressing against its own limits, asking how it might give more, sacrifice more, extend further, forgive more readily, and receive the other more generously.",
+      "Verses 11 and 12 take the love exhortation in a direction that might at first seem surprising: &ldquo;and to aspire to live quietly, and to mind your own affairs, and to work with your hands, as we instructed you, so that you may walk properly before outsiders and be dependent on no one.&rdquo; The connection between brotherly love and quiet, industrious self-sufficiency is not immediately obvious, but Paul&rsquo;s logic is clear in context. Brotherly love in the community does not license disorderliness or dependence on others&rsquo; generosity. A person who abandons work, neglects her own responsibilities, and becomes a burden on the community while expecting others to care for her is not practicing love; she is consuming it.",
+      "The call to &ldquo;live quietly&rdquo; is a countercultural word in any era. In the first-century Thessalonian context it was particularly pointed: the culture prized civic ambition, rhetorical display, and the pursuit of honor in the public arena. The Christian community, by contrast, is called to a certain quiet dignity &mdash; not a withdrawal from the world but a refusal of the world&rsquo;s status games. The aspiration to live quietly is the aspiration to find one&rsquo;s meaning and security not in public acclaim but in faithfulness to God and service to neighbors.",
+      "The command to &ldquo;walk properly before outsiders&rdquo; connects the internal life of the community to its witness in the world. The way the Thessalonian believers conduct themselves &mdash; their work ethic, their financial integrity, their community stability &mdash; is part of their testimony to the watching culture. A community riddled with idleness and dependency is not an attractive advertisement for the gospel; a community of industrious, generous, quietly dignified people whose mutual love is evident without being ostentatious is a powerful witness to the transforming power of the news about Jesus.",
+      "For churches and individuals today, this passage offers a vision of love that is both expansive and grounded. It expands outward to brothers and sisters throughout the region; it grounds itself in the disciplines of quiet living, honest work, and responsible self-care. Love that abounds more and more is love that neither collapses into sentimentality nor burns out in unsustainable self-sacrifice, but finds its long-term fuel in the steady practices of a well-ordered life and a community shaped by the word and Spirit of God.",
+    ],
+  },
+  {
+    id: "Comfort One Another",
+    heading: "Comfort One Another",
+    reference: "1 Thessalonians 4:13&ndash;14, 18",
+    paragraphs: [
+      "The final and most famous section of 1 Thessalonians 4 addresses a grief that was real and pressing in the Thessalonian community: the death of believers before the return of the Lord. The community was a young church, and some of its members had died before the expected return of Christ. Their surviving brothers and sisters were grieving &mdash; and grieving not merely from the natural sorrow of bereavement but from a theological anxiety: what had happened to those who died? Would they miss the great event? Had their death come too soon?",
+      "Paul&rsquo;s response begins in verse 13 with both compassion and theological clarity: &ldquo;But we do not want you to be uninformed, brothers, about those who are asleep, that you may not grieve as others do who have no hope.&rdquo; The phrase &ldquo;as others do who have no hope&rdquo; is not a condemnation of grief; it is a distinction between two kinds of grief. Paul does not say &ldquo;do not grieve.&rdquo; He says &ldquo;do not grieve as those who have no hope.&rdquo; Grief is natural, human, and right; Jesus himself wept at the tomb of Lazarus. But Christian grief is grief that takes place within the horizon of resurrection hope, and that hope transforms grief without eliminating it.",
+      "The word &ldquo;asleep&rdquo; for the dead is a characteristic New Testament metaphor that carries enormous weight. Sleep is a temporary condition; the sleeper will wake. To describe the dead in Christ as &ldquo;those who have fallen asleep&rdquo; is not a denial of the reality and sorrow of death; it is an affirmation of the resurrection that awaits them. The language holds together the reality of death and the certainty of what lies beyond it.",
+      "Verse 14 provides the theological foundation for the hope Paul is about to describe: &ldquo;For since we believe that Jesus died and rose again, even so, through Jesus, God will bring with him those who have fallen asleep.&rdquo; Everything rests on the resurrection of Jesus. If Jesus died and rose again &mdash; and this is the bedrock of Christian confession &mdash; then those who are united to him by faith will share in his resurrection. The resurrection of Jesus is not a one-time anomaly in human history; it is the &lsquo;firstfruits&rsquo; (1 Corinthians 15:20) of a great harvest of resurrections yet to come. The dead in Christ are not lost; they are, in some sense Paul does not fully specify, already with Jesus, and they will be brought with him at his return.",
+      "The comfort Paul offers in verse 18 &mdash; &ldquo;therefore encourage one another with these words&rdquo; &mdash; is the pastoral conclusion to the theological argument. The words Paul has just given are not primarily for the comfort of solitary private meditation, though they serve that purpose. They are words to be spoken to one another in community, in the context of grief, at the graveside, in the dark night of loss. The church is to be a community of mutual comfort, and the content of that comfort is not platitude or sentiment but the concrete theological affirmation that Jesus died and rose again and that those who have died in him will be brought with him in glory.",
+      "The ministry of comfort in the face of death remains one of the most distinctively Christian things the community can offer. In a culture that often manages death by hiding it, or that responds to grief with cheerful assurances that the deceased is &ldquo;in a better place&rdquo; without grounding that hope in anything specific, Paul offers something both sterner and more beautiful: the resurrection of Jesus as the certain foundation of resurrection hope for all who belong to him. The grieving Christian is not asked to pretend; she is invited to grieve with the horizon of Easter before her eyes.",
+      "Every believer who has stood at a graveside or held the hand of a dying friend knows the weight of verse 13 and the gift of verse 14. The words &ldquo;those who have fallen asleep&rdquo; and &ldquo;God will bring with him those who have fallen asleep&rdquo; are among the most comfort-filled phrases in all of Scripture precisely because they are not abstract promises but declarations rooted in a historical event &mdash; the empty tomb. The one who rose is the same one who promises to bring his own with him, and that promise is the anchor of Christian hope in the face of every kind of loss.",
+    ],
+  },
+  {
+    id: "The Lord Himself Will Descend",
+    heading: "The Lord Himself Will Descend",
+    reference: "1 Thessalonians 4:15&ndash;17",
+    paragraphs: [
+      "Verses 15 through 17 of 1 Thessalonians 4 contain one of the most vivid and theologically dense descriptions of the return of Christ in all of the New Testament. Paul introduces his account with an unusual claim to authority: &ldquo;For this we declare to you by a word from the Lord&rdquo; (4:15). He is not drawing on prior tradition or reasoning from inference; he is conveying a revelation concerning the order and manner of the Lord&rsquo;s coming. Whether this refers to a specific saying of Jesus not otherwise preserved, to a word received through prophecy, or to some other form of special revelation is debated among scholars, but the effect is clear: Paul wants his readers to receive what follows as authoritative divine instruction.",
+      "The specific concern Paul addresses in verse 15 is the anxiety about the relative status of those who have died versus those who are alive at the Lord&rsquo;s coming: &ldquo;we who are alive, who are left until the coming of the Lord, will not precede those who have fallen asleep.&rdquo; The Greek word translated &ldquo;coming&rdquo; is &lsquo;parousia,&rsquo; which in the Hellenistic world was the technical term for the ceremonial arrival of a king or emperor. Paul uses it here to describe the return of the Lord Jesus, deliberately invoking that imagery of royal arrival. Those who have fallen asleep in Christ will not be disadvantaged by their death; indeed, they will rise first.",
+      "Verse 16 describes the parousia in three overlapping images of sound: &ldquo;For the Lord himself will descend from heaven with a cry of command, with the voice of an archangel, and with the sound of the trumpet of God, and the dead in Christ will rise first.&rdquo; Each of these images carries Old Testament resonance. The cry of command (Greek &lsquo;keleusma&rsquo;) is the shout of the commander-king summoning his armies or troops. The voice of the archangel evokes the angelic messengers who announced the great acts of God throughout Israel&rsquo;s history. The trumpet of God recalls the trumpet blast at Sinai when God descended to meet his people (Exodus 19:16&ndash;19) and the trumpet of the great Day of Atonement (Leviticus 25:9), the jubilee trumpet that announced liberation and the restoration of what had been lost.",
+      "The emphasis &ldquo;the Lord himself will descend&rdquo; is striking in its particularity. Paul is not saying that an emissary will come, or that a spiritual presence will be felt, or that there will be some metaphorical &lsquo;coming&rsquo; in the course of history. The Lord himself &mdash; the personal, bodily risen Christ who ascended into heaven &mdash; will himself descend. This is a personal return, as personal as the resurrection was personal. The one who died, rose, and ascended will come back, and his coming will be unmistakable: heralded by royal command, announced by angelic voice, and accompanied by the cosmic trumpet of God.",
+      "Verse 17 describes what happens next: &ldquo;Then we who are alive, who are left, will be caught up together with them in the clouds to meet the Lord in the air, and so we will always be with the Lord.&rdquo; The phrase &ldquo;caught up&rdquo; translates the Greek &lsquo;harpagesometha,&rsquo; which in Latin became &lsquo;raptus&rsquo; &mdash; the origin of the English word &ldquo;rapture.&rdquo; But it is important to read the verse carefully. Paul&rsquo;s point is not about a secret removal of believers from the world; it is about the gathering of all believers &mdash; the raised dead and the living alike &mdash; to meet the descending Lord. The image of &ldquo;meeting the Lord in the air&rdquo; uses the Greek word &lsquo;apantesis,&rsquo; which was the technical term for the civic ceremony in which the citizens of a city went out to meet a visiting dignitary and escort him back into the city in triumph.",
+      "The climax of the description is deliberately simple: &ldquo;and so we will always be with the Lord.&rdquo; After the trumpet, the resurrection, the gathering in the clouds &mdash; after all the cosmic drama of the parousia &mdash; the ultimate reality is relational permanence with the Lord. This is the destination toward which the whole of Christian hope is directed, the end that gives meaning to the beginning and the middle. The resurrection is not the end of the story; it is the beginning of an existence with the Lord that will never end. &ldquo;Always&rdquo; &mdash; the Greek &lsquo;pantote&rsquo; &mdash; is the last word of the promise, and it is an eternal word.",
+      "The return of Christ described in these verses has fueled two millennia of Christian hope in the face of death, suffering, and the apparent triumph of evil. Every generation of believers has faced the question that the Thessalonians faced: what about those who have died? Do they miss the great event? Are they lost? And the answer Paul gives has remained constant across every century: the dead in Christ will rise first, the living will be gathered to meet the Lord, and all together will be with the Lord forever. This is the hope that does not put to shame (Romans 5:5), the anchor for the soul that is sure and steadfast (Hebrews 6:19), the reason that believers do not grieve as those who have no hope.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "No_3lCm2HpA", title: "BibleProject - Overview of 1 Thessalonians" },
+  { videoId: "3YKD6TK7MHM", title: "1 Thessalonians 4 - Holy Living and the Resurrection Hope" },
+  { videoId: "pEHFDjZBKu4", title: "The Return of Christ - 1 Thessalonians 4:13-18 Explained" },
+  { videoId: "rNsHi5vEqQ0", title: "Sanctification and the Will of God - 1 Thessalonians 4 Study" },
+];
+
+export default function FirstThessalonians4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            1 Thessalonians 4: Holy Living and Resurrection Hope
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Walk in a way pleasing to God and abound more and more &mdash; in sanctification, in brotherly love, and in the certain hope that the Lord himself will descend and the dead in Christ will rise to be with him forever.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 1 Thessalonians 4 through visual teaching on holy living, sanctification, brotherly love, the hope of resurrection, and the return of the Lord.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>And So We Will Always Be with the Lord</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            First Thessalonians 4 holds together the call to holy living and the hope of resurrection, showing that sanctification and the return of Christ are not separate concerns but two sides of a single orientation: pressing ever more deeply into the life of God while waiting for the Lord himself to descend and gather all who belong to him to be with him forever.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

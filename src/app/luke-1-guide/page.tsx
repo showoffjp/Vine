@@ -1,0 +1,199 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "The Angel Gabriel",
+  "Mary and Elizabeth",
+  "The Magnificat",
+  "Zechariah Song of Praise",
+  "The Forerunner Is Born",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "The Angel Gabriel",
+    heading: "The Angel Gabriel",
+    reference: "Luke 1:1&ndash;38",
+    paragraphs: [
+      "Luke opens his Gospel with a careful prologue addressed to Theophilus, announcing that he has investigated everything carefully from the beginning so that his reader may have certainty about the things he has been taught (1:1&ndash;4). Luke writes as a historian who has access to eyewitness testimony, and the whole of his first chapter is saturated with the immediacy of that witness. The events he is about to narrate are not myths or legends but history &mdash; the hinge on which all other history turns.",
+      "The scene opens in the days of Herod, king of Judea, with an elderly priest named Zechariah who serves in the division of Abijah. He and his wife Elizabeth are both righteous before God, walking blamelessly in all the commandments and statutes of the Lord, yet they have carried the grief of childlessness into old age. Elizabeth has been barren, and both are advanced in years. Into this quiet sorrow, God is about to speak.",
+      "Zechariah&rsquo;s lot has fallen to enter the temple of the Lord and burn incense, the highest honor that could come to a priest by lot, a privilege that might fall to a man only once in his lifetime. While the whole multitude of the people is praying outside at the hour of incense, the angel Gabriel appears to Zechariah, standing on the right side of the altar of incense. Zechariah is troubled, and fear falls upon him. Gabriel speaks the perennial angelic word: &ldquo;Do not be afraid, Zechariah, for your prayer has been heard, and your wife Elizabeth will bear you a son, and you shall call his name John&rdquo; (1:13).",
+      "The announcement that follows is one of the richest messianic descriptions in the New Testament. John will be great before the Lord; he shall drink no wine or strong drink; he will be filled with the Holy Spirit even from his mother&rsquo;s womb. He will turn many of the children of Israel to the Lord their God, and he will go before him in the spirit and power of Elijah, to turn the hearts of the fathers to the children, and the disobedient to the wisdom of the just, to make ready a people prepared for the Lord (1:15&ndash;17). The language deliberately echoes the closing promise of Malachi, the last word of the Old Testament prophecy, which promised that Elijah would come before the great and dreadful day of the Lord (Malachi 4:5&ndash;6). John will be that Elijah-figure, the herald of the coming King.",
+      "Zechariah&rsquo;s response is one of honest yet faithless doubt. He asks for a sign: &ldquo;How shall I know this? For I am an old man, and my wife is advanced in years&rdquo; (1:18). Gabriel&rsquo;s answer is both a rebuke and a discipline. He declares himself Gabriel, who stands in the presence of God and was sent to speak to Zechariah and to bring him this good news. Because he did not believe the words which will be fulfilled in their time, Zechariah will be silent and unable to speak until the day these things take place. The old priest comes out of the temple unable to speak to the waiting crowd, and they perceive he has seen a vision. He goes home, and Elizabeth conceives.",
+      "Six months later Gabriel is sent again, this time to a virgin in Nazareth named Mary, betrothed to Joseph, of the house of David. The greeting Gabriel brings is extraordinary: &ldquo;Greetings, O favored one, the Lord is with you!&rdquo; (1:28). Mary is greatly troubled by the greeting and wonders what sort of greeting this might be. Gabriel stills her: &ldquo;Do not be afraid, Mary, for you have found favor with God. And behold, you will conceive in your womb and bear a son, and you shall call his name Jesus. He will be great and will be called the Son of the Most High. And the Lord God will give to him the throne of his father David, and he will reign over the house of Jacob forever, and of his kingdom there will be no end&rdquo; (1:30&ndash;33).",
+      "The annunciation to Mary is the center of the chapter and of the entire Lukan prologue. Every clause carries enormous theological weight. The name Jesus means &ldquo;the Lord saves.&rdquo; He will be called Son of the Most High, unambiguously divine. He will receive the throne of David, fulfilling the Davidic covenant of 2 Samuel 7. He will reign forever, transcending every earthly king. When Mary asks how this can be, since she has not known a man, Gabriel reveals that the Holy Spirit will come upon her and the power of the Most High will overshadow her, so the child to be born will be called holy &mdash; the Son of God (1:35). The incarnation is a sovereign creative act of God, not a biological event with a human father.",
+      "Gabriel closes with the sign of Elizabeth&rsquo;s pregnancy, declaring that with God nothing will be impossible (1:37). Mary&rsquo;s response stands as the pattern of all discipleship: &ldquo;Behold, I am the servant of the Lord; let it be to me according to your word&rdquo; (1:38). Where Zechariah doubted, Mary submits. Where the old priest asked for a sign before he would believe, the young woman accepts the word of God without visible proof. The posture of the handmaid of the Lord &mdash; humble, trusting, yielded &mdash; becomes the defining posture of all who receive the Kingdom of God.",
+    ],
+  },
+  {
+    id: "Mary and Elizabeth",
+    heading: "Mary and Elizabeth",
+    reference: "Luke 1:39&ndash;56",
+    paragraphs: [
+      "Having received Gabriel&rsquo;s word, Mary immediately rises and goes with haste to the hill country, to a town of Judah, and she enters the house of Zechariah and greets Elizabeth. The phrase &ldquo;with haste&rdquo; (1:39) is characteristic of those who have encountered the living God in Luke&rsquo;s Gospel; the same urgency marks the shepherds after the angelic announcement at the nativity. Mary does not linger or deliberate but moves quickly toward the one Gabriel has shown her as the confirming sign of God&rsquo;s faithfulness.",
+      "When Elizabeth hears Mary&rsquo;s greeting, the baby leaps in her womb, and Elizabeth is filled with the Holy Spirit. This is a moment of profound theological significance. The leaping of John in the womb is not merely a physical reflex but a Spirit-prompted recognition: even before birth, the forerunner acknowledges the one whose coming he has been appointed to announce. The child in Elizabeth&rsquo;s womb responds to the presence of the child in Mary&rsquo;s womb, and the Holy Spirit interprets the movement by filling Elizabeth with prophetic speech.",
+      "Elizabeth&rsquo;s blessing is a double beatitude. First: &ldquo;Blessed are you among women, and blessed is the fruit of your womb!&rdquo; (1:42). The word &ldquo;blessed&rdquo; here translates the Greek word used to describe the blessedness of those whom God has specially favored, one who stands under the active goodwill and provision of God. Second: &ldquo;And why is this granted to me that the mother of my Lord should come to me?&rdquo; (1:43). Elizabeth does not merely say &ldquo;the mother of my kinsman&rdquo; or &ldquo;the mother of the Messiah&rdquo; &mdash; she says &ldquo;the mother of my Lord,&rdquo; using the Greek word Kyrios which in the Septuagint consistently translates the divine name YHWH. Elizabeth is Spirit-filled and confesses the lordship of the unborn child.",
+      "Elizabeth marvels at Mary&rsquo;s faith, pronouncing a third beatitude: &ldquo;And blessed is she who believed that there would be a fulfillment of what was spoken to her from the Lord&rdquo; (1:45). This beatitude stands in implicit contrast to Zechariah, who heard the same messenger from the same Lord and did not believe. Mary&rsquo;s faith is not the faith of those who have seen and then believed; it is the faith of one who has heard the word of God and trusted it before any visible confirmation except the one sign Gabriel mentioned, the pregnancy of an elderly relative she had not yet seen.",
+      "Mary stays with Elizabeth for about three months, presumably until near the time of John&rsquo;s birth, and then returns to her home. In those months, two women &mdash; one old and one young, one from a priestly family and one of Davidic lineage, one whose barrenness God had finally broken and one who had never known a man &mdash; shared the extraordinary secret of what God was doing in the world. The house in the hill country of Judah became a sanctuary of the Spirit, a place where prophecy broke out, where the unborn forerunner leaped and the young mother of the Lord sang.",
+      "There is rich theological meaning in the fact that the two women find one another. God did not leave Mary to carry the news alone. The confirming sign Gabriel gave was a real sign, a real relationship with a real person who had also experienced the impossible grace of God. Elizabeth becomes for Mary what every believer needs: a companion in faith who has themselves witnessed what God can do, who can speak a blessing out of their own experience of divine faithfulness, who can say &ldquo;I too have seen God do the impossible&rdquo; and thereby strengthen the younger woman&rsquo;s trust before the visible proof has arrived. The fellowship of the Spirit is itself a sign of the Kingdom.",
+    ],
+  },
+  {
+    id: "The Magnificat",
+    heading: "The Magnificat",
+    reference: "Luke 1:46&ndash;55",
+    paragraphs: [
+      "Mary&rsquo;s response to Elizabeth&rsquo;s blessing is the Magnificat, one of the great hymns of Scripture, a song that has been sung by the church in every century from the time of the early fathers to the present day. It opens: &ldquo;My soul magnifies the Lord, and my spirit rejoices in God my Savior, for he has looked on the humble estate of his servant. For behold, from now on all generations will call me blessed; for he who is mighty has done great things for me, and holy is his name. And his mercy is for those who fear him from generation to generation&rdquo; (1:46&ndash;50).",
+      "The Magnificat is deeply saturated in the language and theology of the Old Testament, especially the Song of Hannah in 1 Samuel 2, which Mary seems to have known by heart. Like Hannah, Mary has been visited by God in a condition of lowliness. Like Hannah, she responds not with self-congratulation but with praise to the God who acts from sovereign mercy. The word translated &ldquo;humble estate&rdquo; is the Greek word tapeinosis, which carries the sense of low social position, not merely inner humility. Mary is acknowledging her actual social standing, a young woman from an obscure town in Galilee, betrothed but not yet married, of no social prominence whatsoever. It is precisely upon such a one that God has looked in favor.",
+      "The second stanza of the Magnificat moves from the personal to the universal, declaring the character of God&rsquo;s action throughout history: &ldquo;He has shown strength with his arm; he has scattered the proud in the thoughts of their hearts; he has brought down the mighty from their thrones and exalted those of humble estate; he has filled the hungry with good things, and the rich he has sent away empty&rdquo; (1:51&ndash;53). These are not predictions about the future alone but statements about the unchanging pattern of God&rsquo;s action. The verbs are aorist in the Greek, describing actions God characteristically does, actions grounded in who he always is.",
+      "The reversals Mary sings are radical. The proud scattered, the mighty brought down, the hungry filled, the rich sent away empty. This is not the economic program of a political movement but the description of a divine economy that runs counter to every human hierarchy. God is consistently on the side of the lowly &mdash; not because the lowly are morally superior, but because the self-sufficient have no need of him, and those who empty themselves of their own resources are the ones who come to him with open hands. The Kingdom of God inverts the value systems of every culture in every era.",
+      "The Magnificat closes with the theological anchor of all that precedes: &ldquo;He has helped his servant Israel, in remembrance of his mercy, as he spoke to our fathers, to Abraham and to his offspring forever&rdquo; (1:54&ndash;55). What God is doing in the incarnation is not a departure from the covenant but its deepest fulfillment. The promise to Abraham, that through his offspring all the nations of the earth would be blessed, is now in the womb of this young woman from Nazareth reaching its appointed hour. The mercy God is showing in Jesus is the same mercy he swore to show to Abraham; the faithfulness of God spans the millennia and comes to its fullness in the one Mary is carrying.",
+      "The church has sung the Magnificat at evening prayer, vespers, for more than fifteen hundred years because it captures something essential about the Christian life: that we come to God as those who have nothing, as those of humble estate, as the hungry and the lowly, and that God&rsquo;s characteristic response to such people is to look upon them with favor, to do great things for them, and to fill them with good things. The song is a declaration that the God who became incarnate in the womb of a peasant girl from Galilee is the same God who has always been reversing human hierarchies, and that his mercy endures to all generations for those who fear him.",
+    ],
+  },
+  {
+    id: "Zechariah Song of Praise",
+    heading: "The Benedictus &mdash; Zechariah Song of Praise",
+    reference: "Luke 1:57&ndash;80",
+    paragraphs: [
+      "When the time comes for Elizabeth to give birth, she bears a son, and her neighbors and relatives hear that the Lord has shown great mercy to her and they rejoice with her. On the eighth day the child is to be circumcised and named, and there is an expectation that he will be called Zechariah after his father. Elizabeth insists his name shall be John, a name foreign to the family, and when the neighbors appeal to Zechariah himself, he asks for a writing tablet and writes: &ldquo;His name is John&rdquo; (1:63). Immediately his mouth is opened and his tongue loosed and he speaks, blessing God.",
+      "The Benedictus, the great song of Zechariah, is the second of the three great canticles of Luke 1 (alongside the Magnificat and the Nunc Dimittis, which comes in chapter 2). It is a prophetic song spoken by a man who has been silent for nine months, and it pours out with the accumulated pressure of months of enforced silence during which Zechariah has been meditating on the word of Gabriel and watching the signs of its fulfillment in his wife&rsquo;s pregnancy. The church has traditionally sung the Benedictus at morning prayer, lauds, every day, because it is the great song of dawn, of light arriving after darkness.",
+      "The Benedictus opens with a doxology and a declaration of what God has done: &ldquo;Blessed be the Lord God of Israel, for he has visited and redeemed his people and has raised up a horn of salvation for us in the house of his servant David, as he spoke by the mouth of his holy prophets from of old, that we should be saved from our enemies and from the hand of all who hate us&rdquo; (1:68&ndash;71). The word &ldquo;visited&rdquo; (episkeptomai) is a word of intense personal attention and intervention; God has not remained remote but has come to his people. The &ldquo;horn of salvation&rdquo; is a Davidic image for a mighty savior, and Zechariah sees its fulfillment in the child whose announcement Mary is even now carrying in her womb.",
+      "Zechariah then sings the theological grounding of God&rsquo;s action: it is in fulfillment of the oath sworn to Abraham, that Israel would be rescued from its enemies so that it might serve God without fear, in holiness and righteousness before him all its days (1:72&ndash;75). The covenant with Abraham was never merely a promise of land and posterity; it was always a promise of a relationship, of a people freed to serve God. The deliverance God is bringing in Jesus is the deepest fulfillment of that ancient promise.",
+      "The Benedictus then turns to address the newborn John directly, and the language is charged with prophetic weight: &ldquo;And you, child, will be called the prophet of the Most High; for you will go before the Lord to prepare his ways, to give knowledge of salvation to his people in the forgiveness of their sins, because of the tender mercy of our God, whereby the sunrise from on high will visit us, to give light to those who sit in darkness and in the shadow of death, to guide our feet into the way of peace&rdquo; (1:76&ndash;79). John is here given his full prophetic commission. He is the one who goes before the Lord, the herald who prepares the way. The metaphor of the sunrise is striking &mdash; God himself, in Christ, is the dawn, the light that comes to those sitting in darkness and the shadow of death.",
+      "The image of light visiting those in darkness connects the Benedictus to the great Servant passages of Isaiah and to the prophecy of Isaiah 9:2, which Matthew will later apply directly to the beginning of Jesus&rsquo; public ministry. Luke is showing that the same redemptive pattern &mdash; light breaking into darkness, life coming to those under the shadow of death &mdash; is what is being inaugurated through John&rsquo;s birth and will reach its fullness in the one John announces. The chapter ends quietly: the child John grows and becomes strong in spirit, and he is in the wilderness until the day of his public appearance to Israel (1:80).",
+      "The theology of Luke 1 as a whole is the theology of the God who reverses human expectations. Zechariah is silenced so that he might finally hear and believe. Elizabeth&rsquo;s barrenness becomes the occasion for prophetic fullness. Mary&rsquo;s lowliness becomes the occasion for divine favor. The forerunner is born to elderly parents in an obscure priestly household in the hill country of Judea. The child who will be called Son of the Most High is conceived by the power of the Holy Spirit in a young virgin in Galilee. None of this is how human beings would plan a divine intervention. All of it is precisely how God acts: through the unlikely, the lowly, the barren, the silent, the unexpected &mdash; so that no human being may boast, and so that the mercy and the power belong entirely to God.",
+    ],
+  },
+  {
+    id: "The Forerunner Is Born",
+    heading: "The Forerunner Is Born",
+    reference: "Luke 1:57&ndash;80 &amp; Malachi 3&ndash;4",
+    paragraphs: [
+      "The birth of John the Baptist is far more than the birth of a remarkable child. It is the fulfillment of four hundred years of prophetic silence. From the closing chapters of Malachi, the last book of the Hebrew prophets, until the appearance of Gabriel to Zechariah in the temple, no canonical prophet had arisen in Israel. The silence of the heavens had been long, and the people of God had been waiting &mdash; waiting for the restoration of the kingdom, waiting for the coming of the Messiah, waiting for the God who had spoken through Moses and David and Isaiah and Malachi to speak again.",
+      "John stands at the seam between the two Testaments. Gabriel describes him in language drawn directly from the final verses of Malachi: he will go before the Lord in the spirit and power of Elijah, to turn the hearts of the fathers to the children (1:17; cf. Malachi 4:5&ndash;6). Malachi had promised that before the great and awesome day of the Lord, God would send the prophet Elijah. Jesus himself will later confirm that John is the Elijah who was to come (Matthew 11:14). John is the answer to the question Malachi left open at the end of the Old Testament: when and how will God fulfill his promise to send the forerunner?",
+      "The answer is: now, in the fullness of time, through an elderly priest and his barren wife in the hill country of Judea, under the rule of Herod and the Roman Empire. God&rsquo;s timing is never the timing that human beings would choose. John is not born in Jerusalem to a prominent family. He is born in obscurity. He will grow up in the wilderness and emerge as a voice crying in the desert. The forerunner of the Lord of glory enters the world without fanfare, circumcised on the eighth day, named by a father who has spent nine months in silence and now bursts into prophetic song.",
+      "The name John means &ldquo;the Lord is gracious,&rdquo; and grace is the theme of his entire life and ministry. He comes not to condemn but to prepare, not to judge but to baptize with a baptism of repentance for the forgiveness of sins, not to be the light but to bear witness to the light. John&rsquo;s greatness, as Gabriel announced, is a greatness before the Lord, not a greatness in the eyes of the world. He will be the greatest prophet who ever lived &mdash; Jesus will say so himself (Matthew 11:11) &mdash; yet the one who comes after him is so much greater that John declares himself unworthy to untie the sandal of his feet.",
+      "The waiting posture that Luke 1 depicts is one of the great themes of the Biblical narrative. Simeon will wait in the temple for the consolation of Israel. Anna will fast and pray in the temple night and day, waiting. Zechariah and Elizabeth have waited for a child through decades of barrenness. Mary will wait, carrying in her womb the one the whole creation has been waiting for. The people outside the temple on the day of Gabriel&rsquo;s visit are themselves praying, themselves waiting. Into this atmosphere of expectant longing, God breaks through &mdash; not overwhelming it, but answering it with a grace far greater than anyone had dared to pray for.",
+      "The birth of John teaches that God&rsquo;s preparation is as purposeful as his fulfillment. The forerunner is not an afterthought; he is planned from before his conception, announced by the archangel Gabriel, filled with the Spirit from his mother&rsquo;s womb, and given a specific prophetic commission that only he can fulfill. The God who sends his Son into the world also sends the one who will prepare the way. Nothing in redemptive history is improvised. The sunrise from on high visits his people, but he sends the herald of the dawn first, and the herald himself is a mercy &mdash; a sign that the light is on its way, that the long darkness is ending, that the God who promised has not forgotten, and that the way of peace is being prepared.",
+      "Luke closes chapter 1 with a glimpse of John growing and becoming strong in spirit, living in the desert until the day of his public appearance to Israel (1:80). The desert will be his formation, just as it was Elijah&rsquo;s, just as it was Israel&rsquo;s own formation in the Exodus. The wilderness is where God speaks most clearly, where the noise of human civilization falls away and the voice of the Lord can be heard. John will emerge from the wilderness with a message that is as simple as it is shattering: repent, for the Kingdom of God is at hand. The forerunner is born. The Lord is coming. The long wait is almost over.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "HIGd_4Qlc9A", title: "BibleProject - The Gospel of Luke Overview" },
+  { videoId: "aKfZDhWTNCA", title: "The Magnificat - Mary Song of Praise Explained" },
+  { videoId: "o_pHNFhBvb8", title: "Gabriel Visits Zechariah and Mary - Luke 1" },
+  { videoId: "zXCDsEVmXrc", title: "The Forerunner - John the Baptist in Luke and Isaiah" },
+];
+
+export default function Luke1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Luke 1 &mdash; The Birth Announcements and the Great Canticles
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Gabriel&rsquo;s announcement to Zechariah in the temple, the annunciation to Mary, the visit to Elizabeth where the baby leaped in the womb, the Magnificat, the birth of John, and the great song of Zechariah &mdash; the Benedictus &mdash; announcing the sunrise from on high that will visit those sitting in darkness.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Luke 1 through visual teaching on Gabriel&rsquo;s announcements, Mary&rsquo;s Magnificat, the birth of John, and the prophetic Benedictus of Zechariah.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Let It Be to Me According to Your Word</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Luke 1 sets the tone for the entire Gospel: God acts through the humble and the lowly, reversing every human hierarchy, filling the hungry with good things, and scattering the proud. The God who visits his people in the incarnation is the same God who has always been faithful to his covenant, bringing his promises to their fullness in the one whose sunrise visits those who sit in darkness and in the shadow of death.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

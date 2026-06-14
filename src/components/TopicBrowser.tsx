@@ -1840,6 +1840,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Peter 5 Chapter": "1-peter-5-guide",
   "Cast Your Anxieties on Him": "1-peter-5-guide",
   "Clothe Yourselves with Humility": "1-peter-5-guide",
+  "Luke 1 Chapter": "luke-1-guide",
+  "The Magnificat": "luke-1-guide",
+  "Zechariah Song": "luke-1-guide",
+  "Acts 2 Chapter": "acts-2-guide",
+  "Pentecost Sermon": "acts-2-guide",
+  "They Were All Filled": "acts-2-guide",
+  "Colossians 3 Chapter": "colossians-3-guide",
+  "Set Your Mind on Things Above": "colossians-3-guide",
+  "Whatever You Do Do It Heartily": "colossians-3-guide",
+  "1 Thessalonians 4 Chapter": "1-thessalonians-4-guide",
+  "Comfort One Another": "1-thessalonians-4-guide",
+  "The Lord Himself Will Descend": "1-thessalonians-4-guide",
 };
 
 
@@ -2722,6 +2734,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 5 Chapter" },
   { label: "John 15 Chapter" },
   { label: "1 Peter 5 Chapter" },
+  { label: "Luke 1 Chapter" },
+  { label: "Acts 2 Chapter" },
+  { label: "Colossians 3 Chapter" },
+  { label: "1 Thessalonians 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

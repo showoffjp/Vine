@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Majestic Name",
+  "What Is Man",
+  "Mindful of Him",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Psalm 8",
+    reference: "Psalm 8:1&ndash;9",
+    paragraphs: [
+      "Psalm 8 is one of the shortest and most celebrated psalms in the entire Psalter, and it is also one of the most theologically dense. Its nine verses move in a great arc from the majesty of God&rsquo;s name to the vastness of the created cosmos, down to the smallness of the human being standing beneath the stars, and then to the astonishing height of human dignity that God has nonetheless granted &mdash; before returning at the close to the same doxological cry with which it began: &ldquo;O Lord, our Lord, how majestic is your name in all the earth!&rdquo;",
+      "The psalm is attributed to David and is designated &ldquo;according to the Gittith,&rdquo; a musical term whose precise meaning is debated but which may indicate a particular melody or instrument associated with the town of Gath. What is certain is that the psalm is a song, a lyric meditation on what any person can observe simply by looking up at the night sky and then looking inward at themselves. Its starting point is not abstract theology but direct personal encounter with the glory of God as it pours from the created world.",
+      "The structure of the psalm is carefully crafted. It begins and ends with the identical acclamation of God&rsquo;s majesty (vv. 1a and 9), forming what scholars call an inclusio &mdash; a literary frame that signals the theme. Within that frame the psalm passes through four movements: the majesty of the divine name spread across the earth and the heavens (vv. 1b&ndash;2), the vastness of creation that makes the human being seem insignificant (vv. 3&ndash;4), the surprising elevation of humanity in spite of that smallness (vv. 5&ndash;8), and the return to praise (v. 9). The movement from cosmic grandeur to personal intimacy and back again is what gives the psalm its distinctive emotional power.",
+      "What makes Psalm 8 unique among creation psalms is that it is not ultimately about creation but about the paradox of the human person within creation. The psalmist is not primarily asking, &ldquo;What is the universe?&rdquo; He is asking, &ldquo;What am I?&rdquo; &mdash; and the answer he receives is both humbling and exalting. Measured against the stars and the moon, a human being is infinitesimally small. Measured against God&rsquo;s intention and design, a human being is crowned with glory and honor and given dominion over all the works of God&rsquo;s hands. Both of these truths are essential; neither can be abandoned without distorting the full biblical picture of humanity.",
+      "The New Testament writers recognized in Psalm 8 a prophetic depth that extended beyond its immediate application to Adam and his race. The author of Hebrews (2:6&ndash;9) and Paul (1 Corinthians 15:27; Ephesians 1:22) both quote verse 6 in reference to Jesus Christ as the true human being who perfectly fulfills the vocation of Adam &mdash; who, as the second Adam, has conquered death and is now crowned with glory and honor, with all things placed under his feet. Psalm 8 is thus a psalm about what it means to be human, but it finds its ultimate fulfillment only in the one who is both fully God and fully human.",
+      "Meditating on Psalm 8 is an act of double reorientation. It reorients us upward, toward the majesty of the God whose name fills the whole earth, whose glory is set above the heavens, in whose presence the stars and moon are merely fingertip work. And it reorients us horizontally, toward our fellow human beings &mdash; creatures who, however frail and mortal, have been crowned with glory and given stewardship of the earth. No text in Scripture more powerfully grounds both the humility and the dignity that should characterize the life of every person made in the image of God.",
+    ],
+  },
+  {
+    id: "Majestic Name",
+    heading: "How Majestic Is Your Name: The Glory of God Above and Below",
+    reference: "Psalm 8:1&ndash;2",
+    paragraphs: [
+      "The psalm opens with a double invocation of the divine name that immediately sets the theological register: &ldquo;O Lord, our Lord, how majestic is your name in all the earth!&rdquo; (v. 1a). The first &ldquo;Lord&rdquo; in Hebrew is YHWH &mdash; the personal, covenant name of God revealed to Moses at the burning bush, the name that carries all the weight of divine faithfulness and saving action. The second &ldquo;Lord&rdquo; is Adonai &mdash; the word for master or sovereign. Together they affirm both the intimacy of the covenant relationship (&ldquo;our Lord&rdquo;) and the absolute sovereignty of the one addressed. This is not a distant deity or an abstract force; this is the God who has bound himself to his people and who rules over all.",
+      "The exclamation &ldquo;how majestic is your name!&rdquo; is not merely aesthetic admiration. In the ancient world, a person&rsquo;s name was understood to carry their identity, character, and power. To speak of the majesty of God&rsquo;s name is to speak of the majesty of God himself as he has made himself known. And the scope of that name&rsquo;s display is explicitly universal: &ldquo;in all the earth.&rdquo; Not merely in Israel, not only in the Temple, not just for those who already believe &mdash; the glory of this God is visible to every human being on earth who has eyes to see the world he made.",
+      "The psalm then turns skyward: &ldquo;You have set your glory above the heavens&rdquo; (v. 1b). If God&rsquo;s name fills all the earth, his glory surpasses even the heavens. The created order, as magnificent as it is, cannot contain or exhaust the majesty of the Creator. This is a key move in the logic of the psalm &mdash; the creation reveals God&rsquo;s glory but is not identical with it. The heavens and earth are theater, not God himself. They point beyond themselves to the one whose glory they display.",
+      "The next verse introduces one of the most surprising and theologically arresting images in the psalm: &ldquo;Out of the mouth of babies and infants, you have established strength because of your foes, to still the enemy and the avenger&rdquo; (v. 2). The logic here is paradoxical and deliberate. The greatest threat to God&rsquo;s enemies does not come from powerful armies or eloquent philosophers. It comes from the most helpless of human beings &mdash; nursing infants, whose praise silences all opposition to God. Divine power operates through weakness; the strength of God is most purely displayed in what the world considers insignificant.",
+      "Jesus quotes this verse in Matthew 21:16, when the children in the Temple are crying &ldquo;Hosanna to the Son of David&rdquo; and the religious authorities object. Jesus&rsquo; application is pointed: the very people who are being excluded from &ldquo;proper&rdquo; religious discourse are the ones through whom God has established his praise. The infants and children who seem too small and uninformed to praise God correctly are, in the economy of the kingdom, the truest witnesses to his majesty. This is a permanent hermeneutical key to how God works &mdash; through the weak, the overlooked, and the vulnerable.",
+      "The opening two verses thus set up a cosmic paradox that runs through the entire psalm. God&rsquo;s glory exceeds the heavens, yet it is proclaimed by nursing infants. His name fills all the earth, yet he condescends to be &ldquo;our Lord&rdquo; &mdash; the covenant God of a small and often faithless people. The distance between divine majesty and human smallness is infinite, yet God has chosen to bridge it. Understanding this paradox is essential to everything that follows in the psalm &mdash; the question of what humanity is, and the answer that surpasses all expectation.",
+    ],
+  },
+  {
+    id: "What Is Man",
+    heading: "What Is Man: The Great Question of Human Smallness",
+    reference: "Psalm 8:3&ndash;4",
+    paragraphs: [
+      "With verse 3 the psalmist shifts his gaze from the heavens to the night sky and then to himself: &ldquo;When I look at your heavens, the work of your fingers, the moon and the stars, which you have set in place &mdash;&rdquo; The image is breathtaking in its simplicity. The heavens are &ldquo;the work of your fingers&rdquo; &mdash; not your great effort, not the product of cosmic struggle or mighty toil, but something God fashioned with the ease of fingerwork. The moon and stars, which seem to ancient and modern observers alike as the most stupendously large things in existence, were set in place by God with the casual dexterity of an artisan placing beads on a string.",
+      "The note of wonder in verse 3 is the wonder of scale. The psalmist understands something that modern astronomy has only confirmed with overwhelming force: the universe is unimaginably vast. The nearest star beyond our sun is four light-years away. The Milky Way contains hundreds of billions of stars. The observable universe contains hundreds of billions of galaxies. And yet all of this is the work of God&rsquo;s fingers &mdash; made without effort, set in place with precision, sustained by his ongoing word. The God who made all of this is the one the psalmist is addressing as &ldquo;our Lord.&rdquo;",
+      "And then comes the great question, the heart of the psalm: &ldquo;What is man that you are mindful of him, and the son of man that you care for him?&rdquo; (v. 4). In Hebrew, the word for &ldquo;man&rdquo; is enosh, a term that emphasizes human frailty and mortality &mdash; the same word used in contexts of weakness and transience. &ldquo;Son of man&rdquo; is ben adam, a generic term for human beings as members of the human race. The question is not asked in pride but in astonishment: given the incomprehensible vastness of the cosmos you have made with your fingers, why do you bother to think about a creature as small and as short-lived as a human being?",
+      "The question &ldquo;what is man?&rdquo; has been called one of the foundational questions of philosophy and religion, and it receives very different answers in different worldviews. For the ancient Near Eastern cosmologies surrounding Israel, human beings existed to be the slaves and servants of the gods, created to do the menial labor that the gods did not want to do. For the modern materialist, human beings are accidents of evolutionary biology &mdash; complex arrangements of matter that will eventually dissolve back into the cosmos without trace. The psalmist poses the question in a way that refuses both of these answers.",
+      "The very act of asking the question to God &mdash; &ldquo;you are mindful of him,&rdquo; &ldquo;you care for him&rdquo; &mdash; contains within it an astonishing theological claim. The God who made the galaxies with his fingers thinks about human beings. The creator of the cosmos cares for mortal, frail, finite human creatures. The Hebrew word translated &ldquo;mindful&rdquo; (zakar) means to actively remember, to hold in thought, to bring to mind with intention and affection. God does not merely observe human beings from a cosmic distance; he actively thinks about them, attends to them, cares for them. This is itself a staggering claim.",
+      "The sense of smallness that the night sky evokes is not false humility but accurate perception. A human being, measured against the cosmos, is invisibly small. Human life, measured against cosmic time, is immeasurably brief. And yet &mdash; and this is the paradox the psalm is building toward &mdash; this same God who fills the universe with his fingers has not forgotten or ignored the tiny, mortal, finite creature standing beneath his stars. The question &ldquo;what is man?&rdquo; sets up the answer of verses 5&ndash;8, which is one of the most generous and dignity-conferring answers in the history of human thought.",
+    ],
+  },
+  {
+    id: "Mindful of Him",
+    heading: "Mindful of Him: The Crown of Human Dignity",
+    reference: "Psalm 8:5&ndash;9",
+    paragraphs: [
+      "The answer to &ldquo;what is man?&rdquo; arrives in verse 5 with the force of a revelation: &ldquo;Yet you have made him a little lower than the heavenly beings and crowned him with glory and honor.&rdquo; The Hebrew word translated &ldquo;heavenly beings&rdquo; is elohim &mdash; the same word used for God himself in Genesis 1:1. The Septuagint, the Greek translation of the Old Testament used by the early church, renders it &ldquo;angels,&rdquo; which is why the ESV uses &ldquo;heavenly beings.&rdquo; Whether the reference is to God directly or to the divine council, the point is clear: human beings occupy a position of astonishing dignity in the hierarchy of creation, placed just below the divine realm itself.",
+      "To be &ldquo;crowned with glory and honor&rdquo; is royal language. In the ancient world, crowning was done to kings. The psalmist is applying the imagery of royal investiture to every human being &mdash; not just to Israel&rsquo;s kings but to humanity as such. This picks up the creation theology of Genesis 1, where human beings are made in the image of God and given dominion over the earth. In the ancient Near East, it was common for a king to be described as the &ldquo;image&rdquo; of a god, meaning his representative on earth. What Psalm 8 radicalizes is the claim that this royal-image status belongs not to one king but to every human person.",
+      "The specific content of this royal dignity is spelled out in verses 6&ndash;8: &ldquo;You have given him dominion over the works of your hands; you have put all things under his feet, all sheep and oxen, and also the beasts of the field, the birds of the heavens, and the fish of the sea, whatever passes along the paths of the seas.&rdquo; This language mirrors Genesis 1:28 with unmistakable precision. Human beings are appointed as stewards and rulers over the rest of creation &mdash; not owners who can exploit and destroy, but representatives of the divine King who are responsible for the care and governance of what belongs to him.",
+      "The phrase &ldquo;put all things under his feet&rdquo; deserves careful attention. In the ancient world, placing something under the feet was a sign of conquest and dominion &mdash; a conquered king would literally prostrate himself beneath the feet of the victorious ruler. God has, in an act of breathtaking generosity, given this symbol of total authority to human beings with respect to the rest of the created order. The whole of the natural world &mdash; domestic animals, wild beasts, birds, fish, everything &mdash; is placed under human stewardship.",
+      "The New Testament writers recognized that this vision of total dominion was not yet fulfilled in fallen humanity. Hebrews 2:8b acknowledges honestly: &ldquo;At present, we do not yet see everything in subjection to him.&rdquo; Sin has distorted the dominion mandate; human beings, rather than faithfully ruling creation as God&rsquo;s stewards, have often exploited, damaged, and destroyed it. The vocation remains, but the capability is compromised. It is only in Jesus Christ &mdash; the true image of God, the second Adam, the one who in his resurrection and ascension has all things placed under his feet &mdash; that the vision of Psalm 8 is perfectly fulfilled.",
+      "The psalm closes as it opened: &ldquo;O Lord, our Lord, how majestic is your name in all the earth!&rdquo; (v. 9). This reprise is not a mere literary device; it is a theological statement. The recognition of human dignity does not lead to anthropocentrism or self-glorification. It leads back to God. The proper response to discovering that you have been crowned with glory and honor and given dominion over creation is not self-congratulation but worship &mdash; the astonished, grateful praise of the one who has so honored creatures as unworthy as we are. The circle of the psalm is the circle of all true anthropology: we discover who we are only in relation to who God is, and the discovery of our dignity drives us back to the adoration of our Maker.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Majestic Name, Mortal Frame",
+    reference: "Psalm 8:1&ndash;9",
+    paragraphs: [
+      "Psalm 8 offers profound resources for the Christian life at the intersection of cosmic humility and human dignity. In an age when people tend to swing between the poles of inflated self-importance on one side and crushing self-contempt on the other, the psalm charts a third way &mdash; the way of wonder, in which the human person is simultaneously small and crowned, mortal and magnificent, creatures of dust who are nonetheless the object of divine attention and bearers of divine glory.",
+      "The first application is the practice of stargazing as a spiritual discipline. The psalmist&rsquo;s contemplation of the moon and stars is not merely an aesthetic pastime; it is a practice that produces the fundamental orientation of worship. When we allow the actual scale of the cosmos to enter our consciousness &mdash; when we truly let the night sky tell us something about our own smallness &mdash; the result is not despair but wonder. We are freed from the exhausting pretension of making ourselves the center of the universe. The stars speak God&rsquo;s greatness more eloquently than any human achievement.",
+      "The second application concerns human dignity. The crown of glory and honor that Psalm 8 places on every human head has massive practical implications. If every human being &mdash; regardless of age, ability, appearance, social status, ethnic background, or level of achievement &mdash; has been crowned with glory and honor by the Creator of the cosmos, then every human being deserves to be treated with a reverence that reflects that dignity. The psalmist&rsquo;s vision is one of the deepest theological roots of the conviction that all human life is sacred and inviolable.",
+      "The third application is the theology of stewardship. God has given human beings dominion over the works of his hands &mdash; not ownership, not license to exploit, but responsibility. The creation belongs to God; human beings are his appointed stewards. This means that the care of creation &mdash; the earth, its creatures, its resources &mdash; is not an optional extra for the thoughtful Christian but a fundamental expression of what it means to be human. To be made in the image of the God who &ldquo;works all things well&rdquo; is to be commissioned to work the earth with care, creativity, and responsibility.",
+      "The fourth application is Christological. Psalm 8 reaches its fullest meaning in Jesus Christ, the true human who perfectly fulfills the vocation of image-bearer and ruler of creation. When we feel that we are falling short of our human calling &mdash; when our dominion over our own sinful nature feels more like subjection, when our stewardship of the world we were given seems like an embarrassing failure &mdash; we look to the one who has already accomplished what we cannot. Jesus is the second Adam who has gone where we cannot go and done what we cannot do, and who now invites us to share in his resurrection life and his restored image.",
+      "Finally, Psalm 8 teaches us how to begin and end &mdash; with praise. The psalm does not begin with a problem, a lament, or a petition. It begins with the majesty of God&rsquo;s name. It ends the same way. Whatever comes between those two moments of praise &mdash; the questions, the humility, the astonishment, the gratitude &mdash; is enclosed within the brackets of worship. This is the pattern for a life well-lived: to begin with the recognition of who God is, to pass through the honest questions of who we are and what we are for, and to arrive again at the same acknowledgment with which we started &mdash; that the Lord our Lord is majestic in all the earth, and that his name alone deserves our highest praise.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "f6NHCFeqgqc", title: "BibleProject - Psalms Overview" },
+  { videoId: "Y3QZBM7JFDo", title: "Psalm 8 - How Majestic Is Your Name" },
+  { videoId: "QfE8GCFCbjI", title: "What Is Man - Human Dignity in Psalm 8" },
+  { videoId: "9zD6bKFoqiA", title: "Psalm 8 and the Second Adam - Christ Fulfills the Psalm" },
+];
+
+export default function Psalm8GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Psalm 8 &mdash; How Majestic Is Your Name
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The great paradox of human life &mdash; insignificant beneath the stars, yet crowned with glory and honor by the God who made them. Psalm 8 grounds both our humility and our dignity in the majesty of the name of the Lord.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of Psalm 8 through visual teaching on the majesty of God&rsquo;s name, the dignity of human beings, and the fulfillment of this psalm in Jesus Christ.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>O Lord, Our Lord, How Majestic Is Your Name</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Psalm 8 begins and ends with the same cry of praise, enclosing within it the whole journey of human self-understanding &mdash; from smallness beneath the stars to dignity crowned by God, from the mortal frame to the glory of the one who made it. The proper response to discovering our own dignity is not pride but worship: the adoration of the one who has so honored us.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,190 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Become Like Children",
+  "The Lost Sheep",
+  "Unforgiving Servant",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Matthew 18",
+    reference: "Matthew 18:1&ndash;35",
+    paragraphs: [
+      "Matthew 18 stands as one of the most concentrated collections of teaching on community life in all of Scripture. Scholars sometimes call it the &ldquo;Community Discourse&rdquo; &mdash; the fourth of Jesus&rsquo; five great teaching blocks in Matthew&rsquo;s Gospel &mdash; because nearly every verse speaks to how the people of God are to relate to one another in the kingdom of heaven. It addresses questions of greatness, stumbling, discipline, prayer, and above all forgiveness.",
+      "The chapter opens with a dispute among the disciples: &ldquo;Who is the greatest in the kingdom of heaven?&rdquo; (18:1). It is a question that reveals how much the disciples still think in terms of rank and status. Jesus&rsquo; answer turns their assumptions completely upside down. He calls a child into their midst and places the child before them as a model, declaring that unless they turn and become like children they will never enter the kingdom at all. Greatness in the kingdom is not achieved by climbing but by descending.",
+      "From this foundation of humble, childlike dependence Jesus moves outward into a series of related teachings. He warns with startling severity against causing one of his &ldquo;little ones&rdquo; to stumble &mdash; those who are young in faith, vulnerable, and trusting. He teaches that God goes after every single lost sheep, unwilling to see even one perish. He gives a procedure for restoring a sinning brother. He promises the powerful presence of Christ wherever two or three gather in his name.",
+      "The chapter reaches its dramatic climax in the parable of the Unforgiving Servant, told in response to Peter&rsquo;s question about how many times he must forgive &mdash; &ldquo;as many as seven times?&rdquo; (18:21). Jesus answers &ldquo;seventy-seven times&rdquo; (or seventy times seven), meaning without limit, and then tells a parable about a servant who is forgiven an astronomically large debt but immediately throttles a fellow servant who owes him a tiny amount. The parable ends with a solemn warning: those who will not forgive from the heart cannot expect God&rsquo;s forgiveness to remain upon them.",
+      "Taken together, the teachings of Matthew 18 define a community of radical mercy. The kingdom of heaven belongs to those who know they are small, who value the vulnerable, who will go to extraordinary lengths to recover the one who wanders, and who extend to others the same boundless forgiveness they themselves have received from God. It is a chapter that diagnoses the church&rsquo;s besetting sins &mdash; pride, contempt, and an unwillingness to forgive &mdash; and prescribes the only cure: a return to the posture of a child at the feet of Jesus.",
+      "Throughout Matthew 18 there is an underlying theology of divine initiative and human response. It is God who is like the father of the lost sheep, unwilling that any should perish (18:14). It is the king who cancels the impossible debt out of compassion (18:27). What is required of the community is not some superhuman achievement of virtue but the willingness to receive grace and then live as those who have been graced. The radical demands of the chapter flow from the even more radical generosity of God.",
+    ],
+  },
+  {
+    id: "Become Like Children",
+    heading: "Become Like Children: The Upside-Down Kingdom",
+    reference: "Matthew 18:1&ndash;9",
+    paragraphs: [
+      "The disciples&rsquo; question &mdash; &ldquo;Who is the greatest in the kingdom of heaven?&rdquo; &mdash; is not a theoretical inquiry. It arises from competition and jockeying for position within the inner circle of Jesus&rsquo; followers. They have already been arguing among themselves (cf. Mark 9:34), and they come to Jesus hoping for a ranking that will settle the matter in their favor. Jesus does not answer the question they asked. Instead he reframes the entire premise.",
+      "He calls a child to him and stands the child in the middle of the disciples. In the ancient world, children occupied the lowest social position &mdash; they had no legal standing, no earning power, no social capital. They were dependent entirely on the provision and protection of others. By placing a child at the center and saying &ldquo;this is what kingdom greatness looks like,&rdquo; Jesus issues a thoroughgoing reversal of every human hierarchy.",
+      "The Greek word for &ldquo;turn&rdquo; in verse 3 (&ldquo;unless you turn and become like children&rdquo;) is the same word used elsewhere for repentance and conversion. Jesus is not simply asking for an attitude adjustment. He is calling for a fundamental reorientation of the self &mdash; a turning away from the pursuit of status and a return to the position of one who has nothing to offer and everything to receive. &ldquo;Whoever humbles himself like this child is the greatest in the kingdom of heaven&rdquo; (18:4).",
+      "What does childlike humility look like in practice? The child in the ancient world could not compete, could not accumulate honor, and could not call in favors. The child&rsquo;s only resource was trust &mdash; trust in the parent to provide, protect, and lead. This is the trust Jesus calls his disciples to exercise toward God. It is not naivety or immaturity but a clear-eyed recognition that we are not self-sufficient, that we are dependent creatures who must receive the kingdom as a gift rather than earn it as a wage.",
+      "Jesus then extends the teaching outward to how we treat those who are &ldquo;little&rdquo; in faith. &ldquo;Whoever receives one such child in my name receives me&rdquo; (18:5). The vulnerable, the young in faith, the weak member of the community &mdash; each one is received or rejected as if Christ himself were being received or rejected. This gives enormous dignity to those whom the world considers insignificant.",
+      "The warning that follows is among the most severe in all of Jesus&rsquo; teaching: it would be better for someone to have a millstone hung around their neck and be drowned in the sea than to cause one of these little ones to stumble (18:6). The millstone in question is the large upper stone of a grain mill, turned by a donkey &mdash; so heavy that a person tied to it would sink immediately and without hope. Jesus uses this shocking image to underline how seriously God takes the protection of the vulnerable. Causing a weak or young disciple to fall away from faith is not a minor transgression; it is an offense of the highest gravity.",
+      "The chapter continues with warnings about stumbling in one&rsquo;s own life. If your hand or foot causes you to sin, cut it off; if your eye causes you to sin, tear it out &mdash; for it is better to enter life maimed than to be thrown into hell whole (18:8&ndash;9). These are obviously hyperbolic expressions meant to communicate absolute seriousness, not literal surgical instructions. The point is that no cost is too high to pay in order to protect one&rsquo;s faith and the faith of others. The stakes of discipleship are ultimate.",
+    ],
+  },
+  {
+    id: "The Lost Sheep",
+    heading: "The Parable of the Lost Sheep",
+    reference: "Matthew 18:10&ndash;14",
+    paragraphs: [
+      "At the heart of Matthew 18 is a brief parable that may be the most beloved of all Jesus&rsquo; parables: the story of the shepherd who leaves ninety-nine sheep to go searching for the one who has wandered away. In Luke&rsquo;s Gospel this parable appears in a context of Jesus defending his ministry to tax collectors and sinners (Luke 15). In Matthew it appears in a context of Jesus teaching about the value of &ldquo;little ones&rdquo; and warning against contempt for the vulnerable. In both settings the parable makes the same point: every single person matters infinitely to God.",
+      "Jesus begins with a rhetorical question that he expects his audience to answer &ldquo;yes&rdquo; to: &ldquo;What do you think? If a man has a hundred sheep and one of them has gone astray, does he not leave the ninety-nine on the mountains and go in search of the one that went astray?&rdquo; (18:12). In reality, a sensible shepherd might calculate the risk differently &mdash; losing one sheep to save the herd is ordinary economics. But Jesus assumes that this shepherd will leave the ninety-nine. His love for each individual sheep defies ordinary calculation.",
+      "The joy of the shepherd when he finds the lost one is the central emotional note of the parable: &ldquo;And if he finds it, truly I tell you, he rejoices over it more than over the ninety-nine that never went astray&rdquo; (18:13). This is a remarkable statement. The one who was lost and found is the occasion of greater joy than those who were never in danger. This is not because the ninety-nine matter less, but because reunion after loss produces a quality of joy that steady presence cannot. It is the joy of recovery, of the relationship renewed after it was broken.",
+      "The parable closes with the explicit application: &ldquo;So it is not the will of my Father who is in heaven that one of these little ones should perish&rdquo; (18:14). This verse is the theological anchor of the entire parable. The will of God &mdash; his deep desire, his settled purpose &mdash; is that not a single one of the vulnerable members of the community should be lost. This is not merely a sentimental statement but a statement about the character of God. God is not a God of statistical averages who can accept a certain percentage of losses as tolerable. He goes after the one.",
+      "For the community this parable carries an enormous responsibility. If God&rsquo;s own will is that none of the &ldquo;little ones&rdquo; should perish, then the community of disciples is called to share that concern. When a member wanders &mdash; through sin, through doubt, through discouragement &mdash; the community is not to write them off or celebrate their departure. The response of the kingdom community to the wandering sheep is to go looking for them with the same urgency that the shepherd displayed.",
+      "The parable of the Lost Sheep is also a commentary on the nature of God&rsquo;s love. It is an active, seeking love &mdash; not a passive affection that waits for the lost to find their own way home. The shepherd does not put out a sign at the sheepfold and hope for the best. He leaves the ninety-nine and goes. This is the God revealed in Jesus, who himself came to &ldquo;seek and to save the lost&rdquo; (Luke 19:10). The parable is, in miniature, the whole story of the gospel.",
+      "Within the context of Matthew 18&rsquo;s community teaching, the parable also provides the theological motivation for the difficult practice of church discipline described in verses 15&ndash;20. Confronting a sinning brother is not an exercise in moral superiority or community self-protection &mdash; it is an act of love shaped by the shepherd&rsquo;s urgency to recover the one who is wandering. The goal is always and only to &ldquo;gain your brother&rdquo; (18:15) &mdash; to restore the relationship and bring the wandering sheep back into the fold.",
+    ],
+  },
+  {
+    id: "Unforgiving Servant",
+    heading: "The Parable of the Unforgiving Servant",
+    reference: "Matthew 18:21&ndash;35",
+    paragraphs: [
+      "The chapter&rsquo;s climactic parable is triggered by a question from Peter that seems generous at first glance: &ldquo;Lord, how often will my brother sin against me, and I forgive him? As many as seven times?&rdquo; (18:21). In the rabbinic tradition of Peter&rsquo;s day, forgiving three times was considered exceptionally generous; Peter&rsquo;s offer of seven already goes beyond the expected norm. But Jesus refuses to work within the framework of counting. &ldquo;I do not say to you seven times, but seventy-seven times&rdquo; (18:22) &mdash; or in some translations, seventy times seven. Either way, the number means: stop counting altogether.",
+      "To make his point vivid, Jesus tells a parable about a king and his servants. A servant is brought before the king who owes him ten thousand talents. A single talent was equivalent to approximately twenty years of a laborer&rsquo;s wages. Ten thousand talents &mdash; a myriad, the largest number in the Greek counting system, combined with the largest monetary unit &mdash; is a debt so enormous it defies real-world plausibility. No single person could accumulate such a debt. Jesus is being deliberately hyperbolic to make the point that the servant&rsquo;s debt is beyond any imaginable possibility of repayment.",
+      "The servant falls on his knees and begs for time: &ldquo;Have patience with me, and I will pay you everything&rdquo; (18:26). He does not ask for the debt to be cancelled &mdash; only for more time. What he receives is infinitely more than what he asked for: &ldquo;the master of that servant was moved with compassion, and released him and forgave him the debt&rdquo; (18:27). The word translated &ldquo;forgave&rdquo; is the same word used elsewhere for releasing a prisoner or cancelling an obligation entirely. The debt is gone. The servant walks out a free man.",
+      "What happens next is the moral and spiritual crisis of the parable. That same servant, just released from an unpayable debt, goes out and finds a fellow servant who owes him one hundred denarii. A denarius was a single day&rsquo;s wage; one hundred denarii is a real but manageable debt &mdash; a trivial fraction of the ten thousand talents that had just been cancelled. Yet the forgiven servant seizes his fellow by the throat and demands immediate payment, and when the man begs for patience using virtually the same words the first servant had used (&ldquo;have patience with me&rdquo;), he refuses and throws him into prison.",
+      "The disproportion between the two debts &mdash; ten thousand talents versus one hundred denarii &mdash; is the theological heart of the parable. The first servant had received grace on an incomprehensible scale; what was being asked of him was grace on a tiny, human scale. His refusal is not merely ungenerous but morally monstrous, because it reveals that the forgiveness he received had made no difference in him at all. He walked out of the king&rsquo;s presence still in the grip of the ledger-keeping, throat-grabbing spirit of unforgiveness.",
+      "When the king hears what has happened, his response is anger: &ldquo;You wicked servant! I forgave you all that debt because you pleaded with me. And should not you have had mercy on your fellow servant, as I had mercy on you?&rdquo; (18:32&ndash;33). He hands the servant over to the torturers until the entire original debt is paid &mdash; which, since the debt was impossible to pay in the first place, means permanent imprisonment. And Jesus adds a final word that sends a chill through every reader: &ldquo;So also my heavenly Father will do to every one of you, if you do not forgive your brother from your heart&rdquo; (18:35).",
+      "The parable teaches that forgiveness is not optional for those who have themselves been forgiven. This is not a legal transaction &mdash; as if God keeps score and revokes forgiveness when we fail to forgive others. Rather, it is a statement about spiritual reality: those who truly grasp the magnitude of the grace they have received find that forgiveness of others flows naturally from that understanding. Conversely, a heart that clings bitterly to grievances and refuses to release them has perhaps never truly reckoned with the depth of its own debt before God. The inability to forgive is a spiritual diagnosis as much as a moral failure.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Matthew 18 Today",
+    reference: "Matthew 18 &mdash; Principles for Community Life",
+    paragraphs: [
+      "Matthew 18 addresses some of the most persistent and painful problems in Christian community &mdash; pride, contempt for the weak, the loss of wandering members, unresolved conflict, and bitter unforgiveness &mdash; and it does so with both realism and hope. The chapter does not assume that the kingdom community will be free of these problems. It assumes they will arise and provides wisdom for navigating them with integrity and love.",
+      "The call to become like children is a perennial corrective for churches that measure success by influence, size, or cultural prestige. In every generation the temptation arises to court the powerful, to build platforms, to compete for recognition. Matthew 18 insists that the orientation of the kingdom community is always downward &mdash; toward the child, the little one, the marginalized, the vulnerable. Institutional self-interest must never be permitted to crowd out genuine care for those who are least able to defend themselves.",
+      "The parable of the Lost Sheep speaks directly to how churches handle the departure of members. It is easy, when someone stops attending or falls into sin or drifts away, to simply adjust the membership roll and move on. But the parable demands a different posture: a genuine grief for the missing one, an active effort to reach out, a community culture in which every person knows they are missed when they are absent. Discipleship groups, pastoral care structures, and friendship networks within the church are all practical expressions of the shepherd&rsquo;s heart.",
+      "The teaching on confronting a sinning brother (18:15&ndash;20) provides a framework that is both relational and structured. The first step is always a private, one-on-one conversation &mdash; not a public announcement, not gossip shared under the guise of &ldquo;prayer requests,&rdquo; but a direct and loving approach to the person themselves. Only when this fails does the circle widen. The goal throughout is restoration, not punishment. A community that practices this kind of confrontation &mdash; gentle, private, direct, and aimed at winning the brother &mdash; will be far healthier than one that either ignores sin or broadcasts it.",
+      "The practice of radical forgiveness &mdash; seventy times seven, without keeping score &mdash; is perhaps the most countercultural element of Matthew 18 in contemporary life. We live in a culture of grievance and of documented offense, where wrongs are catalogued and replayed and the decision to forgive can feel like a betrayal of one&rsquo;s sense of justice. Jesus does not deny that wrongs are real wrongs. He does not ask us to pretend that offenses did not occur. He asks us to release the debt &mdash; to stop demanding from another person a payment that we have the authority, as recipients of God&rsquo;s grace, to cancel.",
+      "Practically speaking, forgiveness in the tradition of Matthew 18 is less a feeling than a decision and a practice. It is a choice, made often against strong emotional resistance, to stop rehearsing the offense, to release the demand for repayment, and to treat the offender with the same grace that has been extended to us. This does not mean trusting an untrustworthy person or maintaining a dangerous relationship. But it does mean releasing the inner claim on punishment &mdash; the bitter ledger-keeping that ultimately injures the one who keeps the ledger more than the one whose name is on it.",
+      "Matthew 18 closes with the deepest motivation for all of its demands: the staggering mercy of God toward us. We forgive because we have been forgiven. We protect the vulnerable because we know what it is to be vulnerable before God and to find that God did not turn away. We go after the lost because we know that we were once lost and someone came after us. The ethics of the kingdom are not a burden imposed from outside but a life shaped by the experience of grace from within. To live as Matthew 18 describes is to live as people who know they have been found, and forgiven, and welcomed home.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "CKnMpBgMeNs", title: "Matthew 18 Explained - Forgiveness and the Kingdom" },
+  { videoId: "9Ahb6GCBFhY", title: "The Parable of the Unforgiving Servant - Matthew 18" },
+  { videoId: "H6zMPyqvGTY", title: "The Lost Sheep Parable - Jesus Seeks the One" },
+  { videoId: "XxMsQ4CDZN0", title: "Becoming Like a Child - Humility in the Kingdom of Heaven" },
+];
+
+export default function Matthew18GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 18: Greatness, Lost Sheep, and Radical Forgiveness
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The &ldquo;Community Discourse&rdquo; of Jesus &mdash; turning worldly ambition upside down, treasuring every lost soul, and extending the boundless forgiveness of God to one another within the kingdom community.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Seventy Times Seven</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 18 calls the community of Jesus to live by the arithmetic of grace rather than the arithmetic of grievance. To become like a child, to seek the lost with urgency, and to forgive without limit &mdash; these are not counsels of weakness but expressions of the reckless generosity of a God who cancelled an impossible debt and sent his Son to bring the wandering sheep home.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1948,6 +1948,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Corinthians 4 Chapter": "2-corinthians-4-guide",
   "Treasure in Clay Jars": "2-corinthians-4-guide",
   "Light Out of Darkness": "2-corinthians-4-guide",
+  "Ezekiel 37 Chapter": "ezekiel-37-guide",
+  "Can These Bones Live": "ezekiel-37-guide",
+  "Spirit Breathes Life": "ezekiel-37-guide",
+  "Psalm 8 Chapter": "psalm-8-guide",
+  "Majestic Name": "psalm-8-guide",
+  "What Is Man": "psalm-8-guide",
+  "Matthew 18 Chapter": "matthew-18-guide",
+  "Become Like Children": "matthew-18-guide",
+  "Unforgiving Servant": "matthew-18-guide",
+  "Job 38 Chapter": "job-38-guide",
+  "Where Were You": "job-38-guide",
+  "God Speaks from Whirlwind": "job-38-guide",
 };
 
 
@@ -2866,6 +2878,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 10 Chapter" },
   { label: "Isaiah 6 Chapter" },
   { label: "2 Corinthians 4 Chapter" },
+  { label: "Ezekiel 37 Chapter" },
+  { label: "Psalm 8 Chapter" },
+  { label: "Matthew 18 Chapter" },
+  { label: "Job 38 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

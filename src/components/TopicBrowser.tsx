@@ -2044,6 +2044,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 11 Chapter": "1-corinthians-11-guide",
   "Do This in Remembrance": "1-corinthians-11-guide",
   "Lord Supper Institution": "1-corinthians-11-guide",
+  "Hebrews 4 Chapter": "hebrews-4-guide",
+  "Great High Priest": "hebrews-4-guide",
+  "Throne of Grace Access": "hebrews-4-guide",
+  "Galatians 2 Chapter": "galatians-2-guide",
+  "No Longer I But Christ": "galatians-2-guide",
+  "Justified by Faith Galatians": "galatians-2-guide",
+  "1 Peter 3 Chapter": "1-peter-3-guide",
+  "Always Be Ready Gospel": "1-peter-3-guide",
+  "Gentle Quiet Spirit": "1-peter-3-guide",
+  "Hebrews 10 Chapter": "hebrews-10-guide",
+  "Hold Fast Our Confession": "hebrews-10-guide",
+  "Do Not Forsake Assembling": "hebrews-10-guide",
 };
 
 
@@ -2994,6 +3006,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 6 Chapter" },
   { label: "Luke 4 Chapter" },
   { label: "1 Corinthians 11 Chapter" },
+  { label: "Hebrews 4 Chapter" },
+  { label: "Galatians 2 Chapter" },
+  { label: "1 Peter 3 Chapter" },
+  { label: "Hebrews 10 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

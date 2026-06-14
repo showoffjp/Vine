@@ -1972,6 +1972,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Titus 2 Chapter": "titus-2-guide",
   "Teach What Accords": "titus-2-guide",
   "Grace That Trains": "titus-2-guide",
+  "Psalm 22 Chapter": "psalm-22-guide",
+  "My God Why Forsaken Me": "psalm-22-guide",
+  "Messianic Psalm": "psalm-22-guide",
+  "John 20 Chapter": "john-20-guide",
+  "Mary at the Tomb": "john-20-guide",
+  "Doubting Thomas": "john-20-guide",
+  "Deuteronomy 6 Chapter": "deuteronomy-6-guide",
+  "The Shema": "deuteronomy-6-guide",
+  "Love the Lord Your God": "deuteronomy-6-guide",
+  "Numbers 6 Chapter": "numbers-6-guide",
+  "Priestly Blessing": "numbers-6-guide",
+  "The Lord Bless You": "numbers-6-guide",
 };
 
 
@@ -2898,6 +2910,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Lamentations 3 Chapter" },
   { label: "Acts 17 Chapter" },
   { label: "Titus 2 Chapter" },
+  { label: "Psalm 22 Chapter" },
+  { label: "John 20 Chapter" },
+  { label: "Deuteronomy 6 Chapter" },
+  { label: "Numbers 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

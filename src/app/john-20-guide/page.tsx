@@ -1,0 +1,191 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Mary at the Tomb",
+  "Thomas and the Resurrection",
+  "Doubting Thomas",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of John 20",
+    reference: "John 20:1&ndash;31",
+    paragraphs: [
+      "John 20 is the pivot on which the entire fourth Gospel turns. Everything that has come before &mdash; the prologue declaring that the Word became flesh, the seven signs pointing toward Jesus&rsquo; glory, the farewell discourse promising that the Father would send another Helper, the agony of Gethsemane, the betrayal, the trials, and the horror of the cross &mdash; reaches its resolution in the events of this single morning. The tomb is empty. Jesus is alive. And nothing will ever be the same.",
+      "The chapter is structured around a series of resurrection appearances, each illuminating a different facet of what it means to encounter the risen Lord. Mary Magdalene is the first witness, hearing her name spoken by the one she thought was dead and responding with recognition so overwhelming that Jesus has to redirect her attachment. Peter and the Beloved Disciple race to the tomb and find the grave clothes folded in a way that speaks of deliberate departure rather than theft. The disciples as a group receive the Holy Spirit and are commissioned as those sent by the Father. And Thomas, absent for the first appearance, is invited ten days later to touch the wounds he had demanded as the price of his belief.",
+      "What holds these scenes together is John&rsquo;s repeated emphasis on seeing and believing, on witness and testimony. Mary sees the angels, then Jesus himself. The Beloved Disciple sees the burial cloths and believes. The disciples see Jesus and rejoice. Thomas sees the wounds and confesses. And Jesus himself draws the lesson for every subsequent generation: &ldquo;Blessed are those who have not seen and yet have believed&rdquo; (v. 29). The entire chapter is oriented toward the reader who was not in the garden, was not in the locked room, was not present for any of these encounters &mdash; but who reads the testimony of those who were.",
+      "John closes the chapter with an explicit statement of his purpose: &ldquo;These are written so that you may believe that Jesus is the Christ, the Son of God, and that by believing you may have life in his name&rdquo; (v. 31). This is the Gospel&rsquo;s own thesis statement, placed here after the resurrection because it is the resurrection that makes the claim credible. The signs Jesus performed throughout the Gospel were pointers; the resurrection is the thing itself. It is not one more piece of evidence to be weighed; it is the event that reframes all the evidence that came before.",
+      "John 20 also functions as a commissioning chapter. The risen Jesus does not simply appear to his disciples to prove he is alive; he sends them out as those who carry his presence and his authority into the world. &ldquo;As the Father has sent me, even so I am sending you&rdquo; (v. 21). The church exists not as a memorial society for a deceased teacher but as the continued embodiment of the mission of the risen Lord. The same Spirit that descended on Jesus at his baptism is now breathed into his disciples, equipping them for the work of bringing God&rsquo;s forgiveness and restoration to the world.",
+    ],
+  },
+  {
+    id: "Mary at the Tomb",
+    heading: "Mary Magdalene at the Empty Tomb",
+    reference: "John 20:1&ndash;18",
+    paragraphs: [
+      "The resurrection story begins in darkness. &ldquo;Now on the first day of the week Mary Magdalene came to the tomb early, while it was still dark&rdquo; (v. 1). John&rsquo;s note about the darkness is not merely chronological; it is theological. The world is still in its pre-resurrection darkness when Mary arrives. What she discovers &mdash; the stone rolled away &mdash; sends her running not in joy but in alarm. Her immediate interpretation is not miracle but theft: &ldquo;They have taken the Lord out of the tomb, and we do not know where they have laid him&rdquo; (v. 2).",
+      "Peter and the Beloved Disciple run to the tomb. The detail that the Beloved Disciple outran Peter is one of those vivid particulars that characterizes eyewitness testimony &mdash; it is too oddly specific to be invented. The Beloved Disciple reaches the tomb first but stops at the entrance, peering in to see the linen cloths lying there. Peter, characteristically, goes straight in and observes the same thing: the grave cloths lying where the body had been, and the face cloth that had been on Jesus&rsquo; head &ldquo;not lying with the linen cloths but folded up in a place by itself&rdquo; (v. 7). The deliberateness of the arrangement speaks against grave robbery; no thief pauses to fold napkins.",
+      "The Beloved Disciple then enters and &ldquo;saw and believed&rdquo; (v. 8) &mdash; though John immediately adds, with characteristic honesty, that at this point they did not yet understand the scriptures that said he must rise from the dead. Belief here is nascent, incomplete, not yet able to explain what it has encountered. The disciples return home. Mary, by contrast, stays. She stands outside the tomb weeping, and through her tears she stoops to look in &mdash; and sees two angels in white sitting where the body of Jesus had been, one at the head and one at the feet (v. 12). The arrangement echoes the two cherubim flanking the mercy seat of the ark of the covenant. The tomb has become a holy of holies.",
+      "Mary tells the angels what she told Peter: someone has taken her Lord and she does not know where they have laid him. Then she turns around and sees Jesus standing there but does not know it is him. She supposes he is the gardener &mdash; another theologically rich detail in John&rsquo;s Gospel. The resurrection takes place in a garden, the same setting as the original creation and the fall; the risen Jesus as gardener evokes the imagery of a new creation beginning.",
+      "The moment of recognition comes through the speaking of her name. Jesus says only, &ldquo;Mary.&rdquo; And with that single word the darkness is over. She turns &mdash; or rather she turns again, a double turning that may suggest the full reorientation of her being &mdash; and cries, &ldquo;Rabboni!&rdquo; (which means Teacher). She reaches for him, and he gently redirects her: &ldquo;Do not cling to me, for I have not yet ascended to the Father&rdquo; (v. 17). The relationship that was, cannot simply be resumed; a new mode of knowing him is beginning. She is not to hold on to the Jesus she knew; she is to go and announce the Jesus who is. She becomes the first herald of the resurrection: &ldquo;I have seen the Lord&rdquo; (v. 18).",
+      "The significance of Mary as the first witness to the resurrection is enormous. In a culture where women&rsquo;s testimony was often discounted in legal settings, the risen Jesus chose a woman to be his first witness and commissioned her to carry the news to the male disciples. This is consistent with John&rsquo;s entire Gospel, where women repeatedly receive some of the most profound revelations &mdash; at the well in Samaria, at the tomb of Lazarus, and now at the empty tomb. The kingdom of God works through those whom the world overlooks.",
+    ],
+  },
+  {
+    id: "Thomas and the Resurrection",
+    heading: "The Disciples and the Breath of the Spirit",
+    reference: "John 20:19&ndash;23",
+    paragraphs: [
+      "On the evening of that same first day of the week, the disciples are gathered behind locked doors. The reason John gives is &ldquo;for fear of the Jews&rdquo; &mdash; the same leaders who had engineered the crucifixion three days before. The community of Jesus&rsquo; followers is huddled in fear, behind locked doors, with no plan and no power. Into this scene the risen Jesus comes. He does not knock. He does not wait for them to open the door. He simply &ldquo;came and stood among them&rdquo; (v. 19). The locked door is simply not an obstacle to the resurrection body.",
+      "His first words are &ldquo;Peace be with you&rdquo; (v. 19). The Hebrew greeting &ldquo;shalom&rdquo; carries more than a conventional salutation; from the lips of the risen Lord it is a declaration that the fracture of the cross has been repaired, that the estrangement between God and humanity that sin created has been addressed, that the peace of the kingdom has arrived. He then shows them his hands and his side &mdash; the wounds of the crucifixion, now glorified but still present. The resurrection does not erase the cross; it vindicates it and carries its marks eternally into the life of God. &ldquo;Then the disciples were glad when they saw the Lord&rdquo; (v. 20).",
+      "The greeting of peace is repeated, and then the commission is given: &ldquo;As the Father has sent me, even so I am sending you&rdquo; (v. 21). This is the fourth Gospel&rsquo;s version of the Great Commission, and it grounds the church&rsquo;s mission in the mission of the Son. The disciples are not simply sent to carry a message; they are sent in the same way that the Son was sent by the Father &mdash; with the same authority, the same dependence on the Spirit, the same willingness to be misunderstood and rejected, the same ultimate confidence that the Father is working through them.",
+      "Then comes one of the most theologically charged moments in the Gospel. &ldquo;And when he had said this, he breathed on them and said to them, &lsquo;Receive the Holy Spirit&rsquo;&rdquo; (v. 22). The word for &ldquo;breathed on&rdquo; in Greek is used only once elsewhere in the Septuagint &mdash; in Genesis 2:7, when God &ldquo;breathed into his nostrils the breath of life&rdquo; and Adam became a living creature. The risen Jesus is performing a new creation. Just as the first Adam received life by the breath of God, the new humanity that Jesus is forming receives the Spirit of the new creation by the breath of the risen Son of God.",
+      "The authority given with the Spirit is striking: &ldquo;If you forgive the sins of any, they are forgiven them; if you withhold forgiveness from any, it is withheld&rdquo; (v. 23). The church is not simply a community that knows about forgiveness; it is a community equipped to mediate God&rsquo;s forgiveness to the world. This is not an arbitrary grant of human power but an extension into the world of what Jesus himself has accomplished &mdash; the bearing away of sins &mdash; through the Spirit-empowered witness and proclamation of his people. The forgiveness of sins that the cross secured is to be announced by those who carry the Spirit of the risen Lord.",
+      "These verses are foundational for understanding the nature of the church. The community that gathers in Jesus&rsquo; name does not do so to preserve a memory; it gathers because the risen Jesus continues to stand in its midst, to speak peace into its fears, to equip it with his Spirit, and to send it into the world with his authority. The locked room on that first Easter evening is the template: fear transformed into joy, isolation transformed into commission, emptiness transformed into the fullness of the Spirit.",
+    ],
+  },
+  {
+    id: "Doubting Thomas",
+    heading: "Doubting Thomas: From Doubt to the Summit of Faith",
+    reference: "John 20:24&ndash;31",
+    paragraphs: [
+      "Thomas, called the Twin, was not with the disciples when Jesus appeared on Easter evening. When the others told him what had happened &mdash; &ldquo;We have seen the Lord&rdquo; &mdash; his response has become proverbial: &ldquo;Unless I see in his hands the mark of the nails, and place my finger into the mark of the nails, and place my hand into his side, I will never believe&rdquo; (v. 25). The demand is extreme: not just visual confirmation but tactile, physical contact with the wounds themselves. Thomas is not asking for a persuasive argument; he is asking for an encounter.",
+      "It is worth pausing over Thomas&rsquo; demand before too quickly labeling it as failure. Throughout John&rsquo;s Gospel Thomas has been characterized by a certain bleak realism. When Jesus announces his intention to go back to Judea despite the threat on his life, it is Thomas who says to the other disciples, &ldquo;Let us also go, that we may die with him&rdquo; (John 11:16). At the Last Supper when Jesus speaks of going to prepare a place and says the disciples know the way, it is Thomas who gives voice to what they are all thinking: &ldquo;Lord, we do not know where you are going. How can we know the way?&rdquo; (John 14:5). Thomas is consistently the one willing to say out loud what others are merely thinking. His doubt here is of the same type &mdash; honest, direct, unwilling to pretend.",
+      "Eight days pass. Then, with the doors again locked, Jesus appears once more and immediately addresses Thomas by name: &ldquo;Put your finger here, and see my hands; and put out your hand, and place it in my side. Do not disbelieve, but believe&rdquo; (v. 27). The risen Lord has heard Thomas&rsquo; demand made a week earlier in his absence. This is one of the quiet demonstrations of omniscience woven through the resurrection appearances &mdash; Jesus meets each person precisely where they are, with precisely what they need. He does not shame Thomas for his demand; he fulfills it.",
+      "What happens next is the climax of the entire fourth Gospel. Thomas, confronted with the risen Jesus, does not ask to conduct the physical examination he had stipulated. Whether he touches the wounds or not John does not say; the text simply records his response: &ldquo;My Lord and my God!&rdquo; (v. 28). This is the highest confession of faith in any of the four Gospels. Thomas, the one who had demanded the most evidence, now speaks the most complete theological statement. He does not say &ldquo;my teacher&rdquo; or &ldquo;my Lord&rdquo; alone but &ldquo;my Lord and my God&rdquo; &mdash; ascribing to Jesus the divine name itself. The one who had refused second-hand testimony has now, in encountering Jesus directly, moved further than any of the other disciples had yet gone in explicit confession.",
+      "Jesus&rsquo; response to Thomas&rsquo; confession is the verse that orients the entire chapter toward every subsequent reader: &ldquo;Have you believed because you have seen me? Blessed are those who have not seen and yet have believed&rdquo; (v. 29). This is the beatitude for the church in every age. Thomas saw; future generations will not see. But the testimony of those who saw has been preserved in written form precisely for this purpose: to generate faith in those who cannot make the journey to the garden tomb or stand in the locked upper room. The Gospel of John is written for us, for the people who have not seen but who read and can believe.",
+      "The Thomas episode carries profound pastoral significance for the contemporary church. There will always be believers who find it harder to believe than others, who need their questions taken seriously rather than dismissed, who articulate their doubts bluntly and find the Christian community uncomfortable with that bluntness. Jesus did not abandon Thomas during the week of his disbelief; he returned specifically to meet his stated need. The same patience and care characterizes the risen Lord&rsquo;s dealings with those in every generation who struggle to believe. Doubt that is honest and seeking is not the opposite of faith; it is often the pathway to the deepest faith of all.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Living in the Light of Resurrection",
+    reference: "John 20 for Today",
+    paragraphs: [
+      "John 20 does not allow the resurrection to be a doctrine held at arm&rsquo;s length. It is narrated in intensely personal terms &mdash; Mary weeping and then hearing her name; Peter running and finding neatly folded grave cloths; Thomas being invited to touch the wounds; disciples cowering in fear and then suddenly filled with the Spirit and sent into the world. The resurrection in John 20 is not an abstract theological proposition but a series of personal encounters that transform the people who experience them. It demands a similarly personal response from the reader.",
+      "The story of Mary at the tomb teaches something vital about how the risen Jesus reveals himself. He did not appear to Mary as a blinding light or an overwhelming force; he spoke her name. The intimacy of the resurrection is as striking as its cosmic significance. The one who conquered death knows each of his people by name and calls them individually. In seasons of grief and disorientation &mdash; which is precisely what Mary was experiencing &mdash; the risen Lord meets people not with explanations but with personal address. The question he asked Mary, &ldquo;Woman, why are you weeping? Whom are you seeking?&rdquo; (v. 15), is a question the risen Lord continues to ask those who grieve what they have lost.",
+      "The commissioning of the disciples in verses 21&ndash;23 sets the agenda for the church in every generation. The church exists as a sent community. It does not gather merely for its own benefit or to maintain its own traditions; it gathers to be re-equipped and then sent out into the world with the message and ministry of the risen Lord. The pattern is clear: encounter the risen Jesus, receive his peace, be given his Spirit, and go as those sent by the Father through the Son. Every local church that follows this pattern participates in the original Easter commission.",
+      "The story of Thomas reminds us that the community of faith is the proper context for moving through doubt. Thomas was cut off from the community when Jesus appeared; he was alone in his disbelief for eight days. When he was reunited with the community of disciples, Jesus came again. The church is not a community of the perfectly certain; it is a community of those who are together waiting for the risen Lord to address their needs. Bringing honest doubt into the life of the community &mdash; rather than nursing it in isolation &mdash; creates the conditions in which the Lord can speak.",
+      "The purpose statement of verse 31 applies the entire chapter directly to the reader. John wrote these things &ldquo;so that you may believe that Jesus is the Christ, the Son of God, and that by believing you may have life in his name.&rdquo; The resurrection is not a philosophical puzzle to be solved but an invitation to life. The life in question is not merely biological continuation but the particular quality of life that belongs to those who are in relationship with the risen Lord &mdash; what John elsewhere calls &ldquo;eternal life,&rdquo; a life that participates even now in the life of God and that death cannot ultimately interrupt.",
+      "Practically, John 20 calls believers to three things. First, to the discipline of testimony: Mary&rsquo;s simple declaration, &ldquo;I have seen the Lord,&rdquo; is the model for Christian witness. The resurrection is not primarily an argument to be won but a person to be introduced. Second, to the courage of the locked room: the disciples in fear became disciples in mission when the risen Jesus stood among them. Whatever fear locks the doors of the contemporary church, the risen Lord can walk through it. Third, to the patience of Thomas&rsquo; eight days: faith is not always instantaneous, and the risen Lord is not impatient with those who need time and encounter. He will meet the honest seeker precisely where they are.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "G-2e9mMf7E4", title: "John 20 - Resurrection Morning - Bible Study" },
+  { videoId: "RRmZC_cSJ8g", title: "Mary Magdalene and the Risen Jesus - John 20 Explained" },
+  { videoId: "bj6fJKVP6ME", title: "Doubting Thomas - What John 20 Really Teaches" },
+  { videoId: "7_CGP-12AE0", title: "The Resurrection of Jesus - John 20 Overview" },
+];
+
+export default function John20GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 20
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Resurrection morning &mdash; the empty tomb, Mary Magdalene hearing her name in the garden, the disciples receiving the Spirit behind locked doors, and Thomas moving from &ldquo;unless I see&rdquo; to &ldquo;My Lord and my God.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "2.5rem", marginBottom: "2.5rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 1.75rem" }}>
+            Explore the resurrection appearances of John 20 through these teachings on the empty tomb, Mary Magdalene&rsquo;s encounter with the risen Jesus, the disciples receiving the Spirit, and Thomas&rsquo; journey from doubt to the greatest confession in the Gospels.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Blessed Are Those Who Have Not Seen</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 20 was written for those who were not in the garden, were not in the locked room, and cannot touch the wounds of the risen Lord &mdash; but who read the testimony of those who did and believe. The blessing Jesus pronounced on Thomas is for every generation of the church: those who have not seen and yet have believed are blessed, and by believing they have life in his name.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

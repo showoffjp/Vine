@@ -1,0 +1,191 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "My God Why Forsaken Me",
+  "Messianic Psalm",
+  "From Suffering to Praise",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Psalm 22",
+    reference: "Psalm 22:1&ndash;31",
+    paragraphs: [
+      "Psalm 22 stands as one of the most remarkable poems in all of human literature. Written by David well over a thousand years before Christ, it opens with a cry of absolute desolation &mdash; &ldquo;My God, my God, why have you forsaken me?&rdquo; &mdash; and closes with a triumphant vision of all the ends of the earth turning to the Lord. Its journey from abandonment to adoration, from the pit of suffering to cosmic praise, makes it the great messianic psalm of the Psalter.",
+      "What makes Psalm 22 so astonishing is the precision of its prophetic detail. Without knowledge of crucifixion as a method of execution &mdash; the Persians had not yet invented it in David&rsquo;s day &mdash; David describes in graphic, almost clinical terms the physical experience of dying on a cross: disjointed bones, a heart melted like wax, strength dried up like a potsherd, pierced hands and feet, the casting of lots for clothing. The New Testament writers understood this psalm not merely as a reflection of David&rsquo;s own trials but as a prophetic word that found its ultimate fulfillment on Golgotha.",
+      "The psalm divides into two great movements. The first (vv. 1&ndash;21) is a sustained lament, alternating between raw cries of abandonment and memories of God&rsquo;s past faithfulness. The sufferer feels utterly forsaken &mdash; scorned by men, surrounded by enemies, his body failing &mdash; yet he continues to address God directly, refusing to let go of the one who seems to have let go of him. The second movement (vv. 22&ndash;31) is an equally sustained song of praise, in which the sufferer, having been delivered, proclaims God&rsquo;s name to his brothers, summons the congregation to worship, and announces that even the dead and the yet-unborn will one day hear and rejoice.",
+      "Jesus quoted the opening verse of this psalm from the cross (Matthew 27:46; Mark 15:34), and by doing so was not expressing theological despair but was indicating to those with ears to hear that this entire psalm was being fulfilled in him at that moment. The Jewish tradition of referencing a psalm by its opening words meant that those who knew their scripture would have recognized the whole of Psalm 22 as the lens through which to understand the crucifixion. The psalm is the interpretive key to Calvary.",
+      "The psalm&rsquo;s final verses expand its vision to breathtaking proportions: the poor shall eat and be satisfied, all the ends of the earth shall remember and turn to the Lord, all the families of the nations shall worship before him. &ldquo;Posterity shall serve him; it shall be told of the Lord to the coming generation; they shall come and proclaim his righteousness to a people yet unborn, that he has done it&rdquo; (vv. 30&ndash;31). The final word of the psalm in Hebrew &mdash; &ldquo;he has done it&rdquo; &mdash; carries the same force as the word Jesus cried from the cross: &ldquo;It is finished.&rdquo;",
+    ],
+  },
+  {
+    id: "My God Why Forsaken Me",
+    heading: "My God, Why Have You Forsaken Me?",
+    reference: "Psalm 22:1&ndash;11",
+    paragraphs: [
+      "The psalm opens with one of the most piercing sentences in all of Scripture: &ldquo;My God, my God, why have you forsaken me? Why are you so far from saving me, so far from my cries of anguish?&rdquo; (v. 1). The double address &mdash; &ldquo;My God, my God&rdquo; &mdash; is not a rhetorical flourish but an act of desperate clinging. The speaker is not saying God does not exist; he is addressing God directly, furiously, with the intimacy of someone betrayed by their closest relationship. The very act of crying out is itself a form of faith.",
+      "What makes the opening verses so theologically charged is the tension they establish between experience and conviction. By night the sufferer cries out and is not answered; by day he is not silent, yet relief does not come (v. 2). This is the dark night of the soul in its most acute form &mdash; prayer that goes unanswered, silence from heaven when anguish is loudest on earth. Yet the very next verse anchors the cries in the character of God: &ldquo;Yet you are holy, enthroned on the praises of Israel&rdquo; (v. 3). The sufferer refuses to revise his theology downward to match his experience.",
+      "The psalmist then remembers the history of God&rsquo;s faithfulness. &ldquo;In you our fathers trusted; they trusted, and you delivered them. To you they cried and were saved; in you they trusted and were not put to shame&rdquo; (vv. 4&ndash;5). This pattern of corporate memory is characteristic of Hebrew lament &mdash; the sufferer does not try to minimize the pain but holds it together with the record of who God has shown himself to be. Deliverance has happened before; the character of God who delivered the ancestors has not changed.",
+      "The contrast with the sufferer&rsquo;s own situation is brutal. &ldquo;But I am a worm and not a man, scorned by mankind and despised by the people. All who see me mock me; they make mouths at me; they wag their heads&rdquo; (vv. 6&ndash;7). The taunts recorded here echo with uncanny precision in the Gospel accounts of the crucifixion: &ldquo;He trusts in the Lord; let him deliver him; let him rescue him, for he delights in him!&rdquo; (v. 8; cf. Matthew 27:43). Those who pass by the cross are, whether they know it or not, reciting lines from an ancient script.",
+      "Yet even in this abasement the psalm reaches for intimacy. &ldquo;Yet you are he who took me from the womb; you made me trust you at my mother&rsquo;s breast. On you was I cast from my birth, and from my mother&rsquo;s womb you have been my God&rdquo; (vv. 9&ndash;10). The relationship with God was not chosen at some point of spiritual maturity; it was there at the very beginning of life. This makes the present sense of abandonment all the more devastating &mdash; and the persistence of address to God all the more remarkable. The section closes with a plea, plain and unadorned: &ldquo;Be not far from me, for trouble is near, and there is none to help&rdquo; (v. 11).",
+      "For the Christian reader, the theological depth of these opening verses reaches its fullest meaning in the cry of Jesus from the cross. The Son of God, bearing the sin of the world, experienced in its fullest reality the God-forsakenness that the psalmist described. The one who had known unbroken communion with the Father from before creation cried these words in the darkness of Good Friday. The psalm was not merely a text Jesus happened to quote; it was the script of the event his life was moving toward, the precise map of the territory he entered for the sake of those whose sin had truly severed them from God.",
+    ],
+  },
+  {
+    id: "Messianic Psalm",
+    heading: "Messianic Prophecy and the Crucifixion",
+    reference: "Psalm 22:12&ndash;21",
+    paragraphs: [
+      "The central section of Psalm 22 contains the most strikingly prophetic material &mdash; a description of physical suffering that matches crucifixion detail by detail despite being written centuries before that method of execution existed. Scholars who approach the psalm purely as a historical document of David&rsquo;s personal trial have struggled to account for the specificity of the imagery; the New Testament writers, reading these verses in the light of Calvary, understood them as nothing less than divine preview.",
+      "The sufferer is surrounded and hemmed in: &ldquo;Many bulls encompass me; strong bulls of Bashan surround me; they open wide their mouths at me, like a ravening and roaring lion&rdquo; (vv. 12&ndash;13). Bulls and lions are images of overwhelming, predatory power &mdash; the kind that cannot be reasoned with or negotiated. The sufferer has no resource against them. This mirrors the gathering of enemies around the cross: the rulers, the soldiers, the crowd that thirsted for blood.",
+      "Then comes the physiological description that has arrested readers for millennia: &ldquo;I am poured out like water, and all my bones are out of joint; my heart is like wax; it is melted within my breast; my strength is dried up like a potsherd; and my tongue sticks to my jaws; you lay me in the dust of death&rdquo; (vv. 14&ndash;15). Modern medical analysis of crucifixion explains that the position on the cross causes progressive dislocation of the shoulders and arms as the body&rsquo;s weight pulls downward; the stress on the cardiovascular system can rupture the pericardial sac, causing the heart to swim in blood and fluid &mdash; literally &ldquo;melted within the breast.&rdquo; The severe dehydration that death by crucifixion involves dries the tongue and cracks the lips. Every phrase finds its anatomical correlate in what happens to a crucified body.",
+      "The most debated verse in the psalm follows: &ldquo;For dogs encompass me; a company of evildoers encircles me; they have pierced my hands and feet&rdquo; (v. 16). The Hebrew is contested &mdash; some manuscripts read a verb meaning &ldquo;like a lion&rdquo; while others read &ldquo;they pierced&rdquo; &mdash; but the Septuagint (Greek translation) and the Dead Sea Scrolls support the reading &ldquo;pierced.&rdquo; Whether understood as literal or metaphorical, the Gospels record the nails driven through Jesus&rsquo; hands and feet as the fulfillment of precisely this verse. John 20:25&ndash;27 records Thomas being invited to inspect these wounds as proof of resurrection identity.",
+      "The sufferer can count all his bones &mdash; the skin stretched across the frame making each rib and joint visible &mdash; and people stare and gloat (v. 17). Then comes one of the most precise predictions in all of Scripture: &ldquo;They divide my garments among them, and for my clothing they cast lots&rdquo; (v. 18). Four Gospel writers record this happening at the foot of the cross (Matthew 27:35; Mark 15:24; Luke 23:34; John 19:23&ndash;24), with John specifically noting that the soldiers cast lots for Jesus&rsquo; seamless tunic rather than tear it &mdash; an unconscious act of scriptural fulfillment by men who had never read the psalm.",
+      "The section closes with an urgent, reaching plea: &ldquo;But you, O Lord, do not be far off! O you my help, come quickly to my aid! Deliver my soul from the sword, my precious life from the power of the dog! Save me from the mouth of the lion!&rdquo; (vv. 19&ndash;21). In the depths of suffering, surrounded by enemies, with strength gone and death near, the sufferer still cries out to God. The final word of verse 21 in Hebrew &mdash; &ldquo;you have answered me&rdquo; or &ldquo;you rescued me&rdquo; &mdash; functions as the hinge of the whole psalm, the pivot from lament to praise. God answers, and everything changes.",
+    ],
+  },
+  {
+    id: "From Suffering to Praise",
+    heading: "From Suffering to Universal Praise",
+    reference: "Psalm 22:22&ndash;31",
+    paragraphs: [
+      "The second half of Psalm 22 is one of the most dramatic reversals in the Psalter. Without explanation, without narrating what deliverance looked like, the psalm pivots from the raw edge of death to an eruption of praise. &ldquo;I will tell of your name to my brothers; in the midst of the congregation I will praise you&rdquo; (v. 22). The suffering one who cried out alone is now surrounded by community; the one who could not be heard is now singing before an assembly; the one who was dying is now leading worship.",
+      "The summons to praise expands in concentric circles. First the sufferer himself praises; then the congregation is called to join: &ldquo;You who fear the Lord, praise him! All you offspring of Jacob, glorify him, and stand in awe of him, all you offspring of Israel!&rdquo; (v. 23). The reason given for this praise is theologically foundational &mdash; not that God made life comfortable or removed all obstacles, but that &ldquo;he has not despised or scorned the suffering of the afflicted one; he has not hidden his face from him but has listened to his cry for help&rdquo; (v. 24). The very suffering that seemed to be evidence of divine abandonment turns out to be the arena in which God was most attentive.",
+      "The praise that follows is grounded in the assembly of God&rsquo;s people. &ldquo;From you comes my praise in the great congregation; my vows I will perform before those who fear him. The afflicted shall eat and be satisfied; those who seek him shall praise the Lord! May your hearts live forever!&rdquo; (vv. 25&ndash;26). The word &ldquo;afflicted&rdquo; here is the same root used throughout the lament section for the sufferer&rsquo;s own condition. The one who was afflicted and delivered now becomes the agent through whom other afflicted ones find food and satisfaction. Suffering redeemed becomes blessing distributed.",
+      "Then the psalm breaks entirely beyond the borders of Israel. &ldquo;All the ends of the earth shall remember and turn to the Lord, and all the families of the nations shall worship before you. For kingship belongs to the Lord, and he rules over the nations&rdquo; (vv. 27&ndash;28). This is an astonishing expansion of horizon. What begins as a cry from a single sufferer becomes a declaration that impacts every nation, every family, every people on earth. The faithfulness of God displayed in rescuing one person ripples outward until it brings the whole world to its knees in worship.",
+      "The vision sweeps through time as well as space. &ldquo;Even to him shall all the proud of the earth bow down; before him shall bow all who go down to the dust, even the one who could not keep himself alive&rdquo; (v. 29). The great and the lowly, the living and those who have already died, will bow before the Lord. &ldquo;Posterity shall serve him; it shall be told of the Lord to the coming generation; they shall come and proclaim his righteousness to a people yet unborn&rdquo; (vv. 30&ndash;31). The testimony generated by this suffering and deliverance will be passed from generation to generation until even people who are not yet born will hear and proclaim it.",
+      "The final three words of the psalm in Hebrew are &ldquo;ki asah &mdash; that he has done it.&rdquo; This brief phrase carries enormous weight. The thing declared to future generations is not a set of principles or moral teachings but a completed act. God did something. He acted in history. And the act is so definitive, so total, that it generates praise that will never stop echoing. Christians read these closing words in the light of the last words of Jesus on the cross in John&rsquo;s Gospel &mdash; &ldquo;It is finished&rdquo; (John 19:30) &mdash; the cry of one who knew that the thing the psalm had always pointed toward had now been accomplished. The psalm that began with the cry of abandonment ends with the proclamation of completion.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Application: Living the Pattern of Psalm 22",
+    reference: "Psalm 22 for Today",
+    paragraphs: [
+      "Psalm 22 is far more than a historical prophecy to be verified; it is a living pattern for how God&rsquo;s people are invited to move through suffering. The psalm gives permission &mdash; indeed, a model &mdash; for bringing raw, unfiltered pain directly to God. The sufferer does not tidy up his language before addressing the Almighty; he does not pretend that everything is fine or that his faith is unshaken. He cries out exactly what he feels: &ldquo;My God, my God, why have you forsaken me?&rdquo; Authentic lament is not a failure of faith; it is faith exercised under the most extreme conditions.",
+      "The pattern of the psalm &mdash; lament and memory alternating until praise breaks through &mdash; is a pattern the Christian life repeatedly traverses. When the experience of God&rsquo;s presence seems distant or absent, the psalm teaches us to hold onto the record of who God has shown himself to be. &ldquo;Our fathers trusted in you and you delivered them.&rdquo; The memory of past faithfulness is not a cliche to silence suffering; it is a theological anchor that keeps the sufferer from drifting into despair. We cry out in the darkness while holding fast to what we know of God in the light.",
+      "The psalm also reframes what abandonment means. The sufferer of Psalm 22 felt forsaken; verse 24 reveals he was not. &ldquo;He has not despised or scorned the suffering of the afflicted one; he has not hidden his face from him but has listened to his cry for help.&rdquo; The feeling of divine absence was not the theological reality. God was present and attentive throughout the entire ordeal. This truth does not eliminate the pain of feeling forsaken, but it does speak to what we conclude from that feeling. Feelings are real; they are not always accurate reporters of ultimate truth.",
+      "The messianic fulfillment of Psalm 22 in the crucifixion gives every suffering Christian a profound companion in their pain. Jesus did not merely quote verse 1 from the cross as a literary flourish; he experienced the God-forsakenness that the psalm describes, carrying the full weight of human sin in a way that brought with it the real experience of divine withdrawal. Because he went into that darkness, no believer ever goes there alone. The cry &ldquo;My God, my God, why have you forsaken me?&rdquo; has been prayed from the cross once, definitively, so that those who feel forsaken can pray it knowing that the one who prayed it before them came out the other side into resurrection.",
+      "The concluding vision of Psalm 22 calls the church to its missionary identity. The deliverance of the one suffering generates praise that spreads to the ends of the earth, to all the families of the nations, to posterity and to people yet unborn. The church exists as the community that carries this news from generation to generation. Every time the gospel is preached, every time a life is changed by the story of the cross and resurrection, the vision of Psalm 22&rsquo;s closing verses is being enacted. The psalm is not finished; its final movement &mdash; the spreading of the fame of what God has done to all peoples &mdash; is still in progress, and the church is its instrument.",
+      "Practically, Psalm 22 invites a regular discipline of honest prayer. Bring your actual situation to God without dressing it up. Name the desolation if it is there. Hold onto what you know of God&rsquo;s character and history even when you cannot feel it. Expect that the movement from lament to praise is possible &mdash; not because circumstances always change, but because God&rsquo;s character does not. And when you emerge from darkness into praise, understand that your testimony is meant to be told: to your brothers and sisters in the congregation, to your children, to your community. The one who has cried out in the dark and been heard has something to proclaim that others desperately need.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "GJPVTsDU-T8", title: "Psalm 22 - My God Why Have You Forsaken Me - Bible Study" },
+  { videoId: "XTFM2aBi1Mk", title: "Psalm 22 and the Crucifixion - Messianic Prophecy Fulfilled" },
+  { videoId: "jHdNBE8ntc8", title: "Why Did Jesus Quote Psalm 22 on the Cross?" },
+  { videoId: "4MgQfKxHkxI", title: "Psalm 22 - From Desolation to Praise - Explained" },
+];
+
+export default function Psalm22GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Psalm 22
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The messianic psalm of suffering and praise &mdash; David&rsquo;s cry of desolation that became a precise prophecy of the crucifixion, moving from &ldquo;My God, my God, why have you forsaken me?&rdquo; to a vision of all nations worshiping the Lord.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "2.5rem", marginBottom: "2.5rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 1.75rem" }}>
+            Deepen your understanding of Psalm 22 through these teachings on David&rsquo;s messianic prophecy, the cry of desolation from the cross, and the journey from suffering to praise.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>He Has Done It</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Psalm 22 begins with abandonment and ends with the declaration that &ldquo;he has done it&rdquo; &mdash; the same proclamation that Jesus made from the cross: &ldquo;It is finished.&rdquo; Every believer who walks through darkness can do so knowing that the one who prayed this psalm before them emerged through suffering into an indestructible life, and that the same God who heard his cry hears ours.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Transfiguration",
+  "If You Can Believe",
+  "Prayer and the Unclean Spirit",
+  "First Shall Be Last",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Mark 9",
+    reference: "Mark 9:1&ndash;50",
+    paragraphs: [
+      "Mark 9 is one of the most dramatically rich chapters in the entire Gospel of Mark, holding together the blazing glory of the Transfiguration and the mundane failures of confused disciples, the desperate faith of a father begging for his son and the disciples&rsquo; inability to help, the humility Jesus demands of those who would be great and the warnings he gives about anything that causes us to stumble. The chapter moves between the heights &mdash; a mountain where Jesus shines like the sun and the voice of the Father thunders from a cloud &mdash; and the valley below, where nine disciples have failed to cast out a spirit and the crowd is watching in bewilderment.",
+      "The chapter opens with the Transfiguration, the most theophanic moment in the Synoptic Gospels outside of the baptism of Jesus. Six days after Peter&rsquo;s confession at Caesarea Philippi and Jesus&rsquo; first clear prediction of his death and resurrection, Jesus takes Peter, James, and John up a high mountain and is transfigured before them. His clothes become dazzling white, whiter than any launderer on earth could make them. Moses and Elijah appear, conversing with him. A cloud overshadows them and the voice of the Father speaks: &ldquo;This is my beloved Son; listen to him.&rdquo;",
+      "Coming down from the mountain, Jesus encounters a father whose son has a spirit that throws him into convulsions, makes him foam at the mouth, grinds his teeth, and has repeatedly thrown him into fire and water trying to kill him. The nine disciples who remained behind could not cast the spirit out. Jesus rebukes his generation for their lack of faith, commands the spirit to leave, and raises the boy. When the disciples ask why they could not do it, Jesus&rsquo; answer is spare and searching: &ldquo;This kind cannot be driven out by anything but prayer.&rdquo;",
+      "A second prediction of the death and resurrection of Jesus follows (9:30&ndash;32), and again the disciples do not understand and are afraid to ask. On the road to Capernaum they are silent, and when Jesus asks what they were arguing about, the silence deepens &mdash; because they had been arguing about who among them was the greatest. Jesus&rsquo; response to this is to sit down, call the twelve, and teach them: &ldquo;If anyone would be first, he must be last of all and servant of all.&rdquo; He then places a child before them as the model of the kind of welcome the kingdom requires.",
+      "The chapter ends with a series of warnings and sayings gathered around the theme of what it costs to follow Jesus and what threatens to prevent it. A saying about an outsider casting out demons in Jesus&rsquo; name leads into warnings about causing &ldquo;one of these little ones&rdquo; to stumble, and then a series of vivid hyperboles about cutting off hands, feet, and eyes rather than letting them cause sin. The refrain &ldquo;where their worm does not die and the fire is not quenched&rdquo; underscores the seriousness with which Jesus treats the danger of sin. The chapter closes with the mysterious saying about salt: &ldquo;Salt is good, but if the salt has lost its saltiness, how will you make it salty again? Have salt in yourselves, and be at peace with one another.&rdquo;",
+      "Mark 9 is the central chapter of the central section of Mark&rsquo;s Gospel (chapters 8&ndash;10), the &ldquo;way section&rdquo; in which Jesus is on the road to Jerusalem and teaching his disciples what discipleship means in the shadow of the cross. The Transfiguration gives the disciples a glimpse of who Jesus truly is; the healing in the valley shows them what ministry looks like when faith is present and what it looks like when it is absent; the argument about greatness reveals the degree to which they have not yet understood the upside-down nature of the kingdom he is inaugurating. Together these episodes form a comprehensive portrait of the gap between the glory of Jesus and the slowness of the disciples, a gap that the Gospel insists is bridged only by the cross.",
+    ],
+  },
+  {
+    id: "The Transfiguration",
+    heading: "The Transfiguration",
+    reference: "Mark 9:2&ndash;13",
+    paragraphs: [
+      "Six days after Peter&rsquo;s confession and Jesus&rsquo; first passion prediction, Jesus takes his three closest disciples &mdash; Peter, James, and John &mdash; to a high mountain apart, by themselves. The phrase &ldquo;six days&rdquo; is unusual for Mark, who typically uses the vaguer &ldquo;immediately&rdquo; or &ldquo;in those days.&rdquo; The precision suggests a deliberate connection with the Sinai tradition, where Moses waited six days before the voice of God spoke to him out of the cloud on the seventh day (Exodus 24:16). The Transfiguration is being narrated in the key of the Exodus.",
+      "What happens on the mountain is narrated with restraint but carries enormous theological weight. Jesus was &ldquo;transfigured before them&rdquo; &mdash; the Greek word metamorphothe suggests a transformation from within rather than a change of outward appearance. His clothes became &ldquo;radiant, intensely white, as no one on earth could bleach them&rdquo; (9:3). The whiteness is not the whiteness of human laundering; it is the whiteness of divine glory, the same uncreated light that clothed Moses&rsquo; face after his forty days on Sinai.",
+      "Moses and Elijah appear talking with Jesus. Their presence is theologically charged. Moses represents the Law and Elijah the Prophets &mdash; the two great streams of Israel&rsquo;s covenant revelation. Their appearance with Jesus signals that he is not a new departure from the history of Israel&rsquo;s faith but its fulfillment. They do not appear as teachers instructing Jesus; they appear as witnesses, as those whose entire ministry has pointed toward this moment. The cloud that overshadows them evokes the Shekinah cloud of the Exodus, the visible manifestation of the divine presence.",
+      "Peter&rsquo;s response to the vision is characteristically well-intentioned and misguided: &ldquo;Rabbi, it is good that we are here. Let us make three tents, one for you and one for Moses and one for Elijah&rdquo; (9:5). Mark adds with characteristic candor that Peter &ldquo;did not know what to say, for they were terrified&rdquo; (9:6). The proposal to build three tents may reflect the Festival of Booths, or simply the desire to prolong an overwhelming experience. What is clear is that Peter is trying to domesticate the moment, to do something, to manage an encounter that exceeds his categories.",
+      "The voice from the cloud cuts across Peter&rsquo;s well-meaning confusion: &ldquo;This is my beloved Son; listen to him&rdquo; (9:7). The echo of the baptism is unmistakable (&ldquo;You are my beloved Son&rdquo;, Mark 1:11), but here the declaration is made to the disciples rather than to Jesus alone, and it is accompanied by an imperative: &ldquo;listen to him.&rdquo; This imperative is the key to the whole scene. The disciples have witnessed the glory of Jesus; the Father&rsquo;s instruction is not to build monuments to the experience but to listen &mdash; especially to what Jesus has just told them about his coming suffering and death (8:31&ndash;33).",
+      "The descent from the mountain is accompanied by a conversation about Elijah and the Son of Man rising from the dead. The disciples puzzle over what &ldquo;rising from the dead&rdquo; means, which tells the reader that the Transfiguration has not resolved their confusion but deepened it. The glory they have witnessed on the mountain is inseparable from the way of the cross that Jesus has just described. The beloved Son who shines like the sun on the mountain is the same one who will be handed over and killed. The Transfiguration is not an escape from the cross but a revelation of the glory that lies on the other side of it.",
+    ],
+  },
+  {
+    id: "If You Can Believe",
+    heading: "If You Can Believe",
+    reference: "Mark 9:14&ndash;27",
+    paragraphs: [
+      "The contrast Mark draws between the Transfiguration and its aftermath is one of the most dramatically effective in the Gospels. From the dazzling white of the mountaintop, where Moses and Elijah converse with the transfigured Jesus and the voice of the Father thunders from the cloud, Jesus descends to find a scene of confusion, argument, and suffering: nine disciples surrounded by a crowd, scribes arguing with them, and a father with a demonized son who has not been helped.",
+      "The father&rsquo;s description of his son&rsquo;s condition is harrowing: a spirit has made the boy mute, it seizes him and throws him down, he foams at the mouth and grinds his teeth and becomes rigid. Whenever it throws him, it throws him into fire and water, trying to kill him. The boy has suffered like this since childhood. The father has brought him to the disciples, &ldquo;and I asked your disciples to cast it out, and they were not able&rdquo; (9:18). The disciples&rsquo; failure stands in stark contrast to the authority Jesus has just been revealed to possess on the mountain.",
+      "Jesus&rsquo; response is sharp: &ldquo;O faithless generation, how long am I to be with you? How long am I to bear with you? Bring him to me&rdquo; (9:19). The frustration is not merely with the disciples who failed but with the entire generation that cannot grasp the nature of the kingdom he is inaugurating. The rhetorical questions &mdash; &ldquo;how long am I to be with you?&rdquo; &mdash; hint at the increasing urgency of his movement toward Jerusalem and the cross.",
+      "The conversation between Jesus and the father is one of the most searching exchanges in Mark. When Jesus asks how long the boy has been like this, the father answers with the whole weight of years of suffering, and then adds the plea that has shaped a thousand prayers since: &ldquo;But if you can do anything, have compassion on us and help us&rdquo; (9:22). Jesus gently redirects the conditional: &ldquo;&lsquo;If you can!&rsquo; All things are possible for one who believes&rdquo; (9:23). The condition is not on Jesus&rsquo; side but on the side of faith.",
+      "The father&rsquo;s response is one of the most honest confessions in Scripture: &ldquo;I believe; help my unbelief!&rdquo; (9:24). It is a confession of both faith and its failure, a prayer that holds together genuine trust and genuine doubt without pretending that either cancels out the other. The father does not claim a faith he does not have; he brings the faith he does have, however mixed and uncertain, and lays it before Jesus along with the unbelief that accompanies it. Jesus heals the boy.",
+      "When the crowd comes running and Jesus takes the boy by the hand and lifts him up, the description in verse 27 carries an unmistakable echo of resurrection: &ldquo;he arose.&rdquo; The Greek word used &mdash; aneste &mdash; is the standard word for resurrection. The healing of the boy is a sign in miniature of what Jesus will accomplish on a cosmic scale: the one who raises the boy from the apparent death of the convulsion is the one who is himself headed toward death and resurrection. The miracle is not only a work of compassion; it is a parable of the power that drives the whole narrative forward.",
+    ],
+  },
+  {
+    id: "Prayer and the Unclean Spirit",
+    heading: "Prayer and the Unclean Spirit",
+    reference: "Mark 9:28&ndash;29",
+    paragraphs: [
+      "After the healing of the demonized boy, the disciples wait until they are alone with Jesus in the house and then ask the question that must have been burning since their public failure: &ldquo;Why could we not cast it out?&rdquo; (9:28). The question reflects a genuine desire to understand, and it is addressed privately &mdash; the disciples are not arguing their case before the crowd but seeking instruction from their teacher. It is a moment of teachable failure, the kind that opens people to genuine learning.",
+      "Jesus&rsquo; answer is brief and searching: &ldquo;This kind cannot be driven out by anything but prayer&rdquo; (9:29). The disciples had been given authority over unclean spirits earlier in the Gospel (Mark 6:7, 13), and they had exercised that authority successfully. What was different now? The answer is not that this particular spirit required a different technique or a higher level of spiritual performance. The answer is that the disciples had come to rely on the authority delegated to them without maintaining the posture of dependence on God that makes that authority effective.",
+      "The phrase &ldquo;this kind&rdquo; suggests that there are gradations of spiritual opposition, that not every situation can be navigated by the same level of spiritual readiness. But the deeper point is not a taxonomy of demons; it is the nature of ministry itself. What enables Jesus to cast out the spirit is not his technique or his superior spiritual status in isolation; it is his continuous, unbroken dependence on the Father. The disciples who went out on mission in chapter 6 were effective because they had received authority and gone in dependence. They had not become self-sufficient since then; they had simply forgotten the dependence.",
+      "The call to prayer as the irreplaceable foundation of ministry is a recurring theme in Mark. Jesus himself retreats repeatedly to pray (1:35, 6:46). The Gethsemane prayer (14:32&ndash;42) will reveal the depths of what that prayer costs, as Jesus wrestles with the will of the Father in the face of the cross. The disciples who fall asleep in Gethsemane when Jesus asks them to watch and pray are the same disciples who fail to cast out the spirit in Mark 9. The connection is not accidental: the failure of prayer in one place is the failure of ministry in another.",
+      "The saying about prayer as the condition for this kind of deliverance also addresses the question of why some situations in ministry seem intractable. Not every failure is a failure of faith in the simple sense; some failures reveal that the ministry context requires a depth of prayer that has not yet been developed, a surrender of self-sufficiency that has not yet been achieved. The disciples were not expelled from the mission; they were invited into a deeper dependence. Their failure became the occasion for their instruction.",
+      "For the church today, the saying &ldquo;this kind cannot be driven out by anything but prayer&rdquo; is both a comfort and a challenge. It is a comfort because it names what the church already suspects: that some of the intractable conditions it faces &mdash; in individuals, in communities, in cultures &mdash; are not susceptible to program, technique, or human cleverness, however well-intentioned. It is a challenge because it demands what is most costly: the persistent, disciplined, humble practice of prayer that has no immediate visible result and no measurable output except the slow formation of a community that is genuinely dependent on God.",
+    ],
+  },
+  {
+    id: "First Shall Be Last",
+    heading: "First Shall Be Last",
+    reference: "Mark 9:30&ndash;41",
+    paragraphs: [
+      "The second passion prediction in Mark 9 (verses 30&ndash;32) follows immediately after the healing of the demonized boy. Jesus is traveling through Galilee and does not want anyone to know &mdash; this is a period of intensive teaching of the disciples, not public ministry. He tells them plainly: &ldquo;The Son of Man is going to be delivered into the hands of men, and they will kill him. And when he is killed, after three days he will rise.&rdquo; The prediction is clearer than the first (8:31) but the disciples still do not understand, &ldquo;and they were afraid to ask him.&rdquo;",
+      "The contrast between what Jesus has just said and what the disciples do next is one of the most humanly revealing moments in the Gospels. Jesus has just spoken of being handed over, killed, and raised. The disciples, on the road to Capernaum, are arguing about who among them is greatest. When they arrive and Jesus asks what they were arguing about, &ldquo;they kept silent, for on the way they had argued with one another about who was the greatest&rdquo; (9:34). Their silence is not mere embarrassment; it is the silence of people who know they have been found out, who recognize the catastrophic incongruity between what their teacher has just said and what they have been thinking.",
+      "Jesus&rsquo; response is to sit down &mdash; the posture of formal teaching in the Jewish tradition &mdash; and call the twelve. What he says is short enough to memorize and long enough to overturn the entire assumption that drives the argument: &ldquo;If anyone would be first, he must be last of all and servant of all&rdquo; (9:35). The kingdom that Jesus is establishing does not run on the normal metrics of greatness &mdash; achievement, status, recognition, power over others. It runs on the inverse: the willingness to place oneself at the bottom of every hierarchy in service to others.",
+      "Jesus then takes a child and places the child in the midst of the disciples, and taking the child in his arms he says: &ldquo;Whoever receives one such child in my name receives me, and whoever receives me, receives not me but him who sent me&rdquo; (9:37). In the ancient world, children occupied a position of social insignificance; they had no status, no power, no ability to reciprocate. To receive a child was to receive someone who could give you nothing in return. This is precisely the point: the kingdom of God is accessed through the willingness to extend welcome and service to those who cannot benefit you.",
+      "John&rsquo;s report about the man casting out demons in Jesus&rsquo; name (9:38&ndash;40) introduces a further dimension of the greatness question. The disciples had stopped him because &ldquo;he was not following us.&rdquo; The phrase is revealing: the concern is not whether the man is following Jesus but whether he is following &ldquo;us&rdquo; &mdash; the concern is group identity and control rather than the advance of the kingdom. Jesus&rsquo; response cuts across the disciples&rsquo; territorial instinct: &ldquo;Do not stop him, for no one who does a mighty work in my name will be able soon afterward to speak evil of me. For the one who is not against us is for us.&rdquo;",
+      "The saying about giving a cup of water in Jesus&rsquo; name (9:41) extends the principle further in the opposite direction. Just as the disciples must not exclude the outsider who ministers in Jesus&rsquo; name, so the smallest act of service done in connection with Jesus &mdash; even a cup of water given to a disciple &mdash; will not lose its reward. The kingdom&rsquo;s metrics are consistently surprising: the man they tried to stop is doing kingdom work; the cup of water is a kingdom act. What matters is not the size of the act or the institutional affiliation of the actor but the name under which it is done and the spirit of service in which it is offered.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Mark 9 Today",
+    reference: "Mark 9 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The Transfiguration teaches the church that the Jesus it follows is not simply a great teacher or a compassionate healer but the beloved Son of God in whom the fullness of divine glory dwells. The Father&rsquo;s instruction &mdash; &ldquo;listen to him&rdquo; &mdash; is addressed to every generation of disciples, not only to Peter, James, and John. The content of what they are called to listen to is precisely what Peter had found so offensive: the prediction of suffering and death (8:31&ndash;33). The glory of the Transfiguration does not contradict the way of the cross; it is the glory that lies through it.",
+      "The father&rsquo;s prayer &mdash; &ldquo;I believe; help my unbelief!&rdquo; &mdash; has served as the prayer of struggling faith in every generation because it is honest about both dimensions of the human condition before God. The church that requires its members to present only polished, confident faith before God and before one another has not learned from this exchange. Jesus did not rebuke the father for his unbelief; he received the mixed faith the father offered and healed the son. The prayer of mixed faith is still prayer, and Jesus still responds to it.",
+      "The disciples&rsquo; failure to cast out the spirit and Jesus&rsquo; explanation &mdash; &ldquo;this kind cannot be driven out by anything but prayer&rdquo; &mdash; calls the church to examine the relationship between its public ministry and its private prayer life. Programs, strategies, and techniques are not substitutes for the prayerful dependence on God that makes ministry effective. The church that is busy with activity but thin on prayer is in the position of the nine disciples in the valley &mdash; well-intentioned and authorized but unable to accomplish what the situation requires.",
+      "The argument about greatness among the disciples on the road to Capernaum is reproduced in every congregation and every Christian institution. The desire for recognition, for status, for influence, for the first place &mdash; these are not uniquely ancient temptations. Jesus&rsquo; response does not simply forbid the ambition; it redirects it. Those who want to be first in the kingdom can be first &mdash; by being last of all and servant of all. The ambition itself is not condemned; its direction is transformed. The kingdom absorbs the human desire for significance and returns it, transfigured, as the vocation of service.",
+      "The child placed in the center of the disciples is the perpetual symbol of kingdom values. The church that measures its success by the impressiveness of the people it attracts and the influence it exercises among the powerful has missed the point. The kingdom of God is accessed through the welcome extended to the small, the powerless, the socially insignificant, the ones who can give nothing in return. Every child welcomed, every marginalized person received, every small act of service rendered to someone without status is, in the logic of Mark 9, an act of receiving Jesus himself.",
+      "The warnings about causing &ldquo;little ones&rdquo; to stumble and about cutting off what causes us to sin are among the most severe in the Gospels, and they resist the softening that makes them more comfortable. Jesus is not speaking hyperbolically about relatively minor spiritual inconveniences; he is speaking with urgency about the real and serious danger of falling away, of leading others astray, of allowing sin to remain in the life of the community unchallenged. The salt saying at the end of the chapter &mdash; &ldquo;have salt in yourselves, and be at peace with one another&rdquo; &mdash; connects the internal character of the disciple (salt) with the relational outcome of discipleship (peace). The community that cultivates genuine holiness within itself will be the community capable of genuine peace among its members.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "HGHqu9-DtXk", title: "BibleProject - Overview: Mark" },
+  { videoId: "VCJoouE5RcA", title: "The Transfiguration of Jesus Explained - Mark 9" },
+  { videoId: "Na4PmBJBWCE", title: "Mark 9 - The Healing of the Demonized Boy" },
+  { videoId: "0R7xNS42m7s", title: "Who Is the Greatest? - Mark 9 Sermon" },
+];
+
+export default function Mark9GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Mark 9 &mdash; Transfiguration, Faith, and Servant Greatness
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus shines like the sun on a high mountain as Moses and Elijah appear and the Father declares, &ldquo;This is my beloved Son; listen to him.&rdquo; Descending, he heals a boy the disciples could not heal &mdash; &ldquo;this kind comes out only by prayer&rdquo; &mdash; then teaches that whoever would be first must be last of all and servant of all.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Mark 9 through these video teachings on the Transfiguration, the healing of the demonized boy, the role of prayer in ministry, and the servant greatness Jesus requires of his disciples.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>This Is My Beloved Son; Listen to Him</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Mark 9 holds together the dazzling glory of the Transfiguration and the humble demands of discipleship. The Son who shines with uncreated light on the mountain is the same one who places a child in the center of his disciples and says: if you want to be first, be last of all and servant of all. The way to the glory runs through the cross, and the way to greatness runs through service.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

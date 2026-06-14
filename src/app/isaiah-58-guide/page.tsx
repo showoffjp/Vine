@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Hypocritical Fasting",
+  "The Fast God Chooses",
+  "Break the Chains of Injustice",
+  "Light Rising in the Darkness",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Isaiah 58",
+    reference: "Isaiah 58:1&ndash;14",
+    paragraphs: [
+      "Isaiah 58 stands as one of the most searching prophetic challenges in the entire Old Testament. God instructs the prophet to cry aloud without restraint and to declare to his people their transgressions. On the surface, these are a religious people: they seek God daily, they appear to delight in knowing his ways, they fast, they humble themselves. And yet something is profoundly wrong. The fasting they practice has become a hollow ritual, a religious performance that coexists comfortably with injustice, exploitation, and indifference to the poor. God will not accept it.",
+      "The chapter unfolds in two main movements. In the first movement (verses 1&ndash;12), God contrasts the people&rsquo;s counterfeit fasting with the true fast that he has chosen. The counterfeit fast is characterized by self-interest, quarreling, exploitation of workers, and the satisfaction of having performed a religious duty while leaving the actual demands of covenant faithfulness unmet. The true fast that God requires is intensely practical and social: loose the chains of injustice, untie the cords of the yoke, set the oppressed free, share bread with the hungry, provide shelter for the wandering poor, clothe the naked, and do not turn away from your own flesh and blood.",
+      "In the second movement (verses 13&ndash;14), the prophet turns to the Sabbath and the remarkable promise attached to its proper observance. If the people will call the Sabbath a delight rather than a burden, if they will honor it by not pursuing their own pleasures and not speaking idle words, then they will find their joy in the Lord and God will cause them to ride on the heights of the earth. The Sabbath promise extends the earlier principle: true religion is about reorienting the whole of life around God and his purposes, not about the management of religious obligations.",
+      "What makes Isaiah 58 so contemporary is that it addresses a perennial temptation: the human instinct to substitute religious activity for genuine covenant faithfulness. The people in Isaiah&rsquo;s day were not hypocrites in the crude sense of people who did not believe what they professed. They appear to have believed sincerely that their fasting was pleasing to God. The prophetic critique is more disturbing than simple hypocrisy: it reveals that religious practice can become a way of managing God rather than surrendering to him, a way of feeling righteous without actually becoming just.",
+      "The promises attached to true fasting are staggering in their scope. &ldquo;Then your light will break forth like the dawn, and your healing will quickly appear; then your righteousness will go before you, and the glory of the Lord will be your rear guard&rdquo; (58:8). The imagery of light in darkness, healing, righteousness, and divine protection &mdash; of God himself walking behind his people to protect them &mdash; paints a picture of total shalom, of a life in full alignment with the purposes of God. This is what genuine obedience unlocks, and this is what performative religion forfeits.",
+      "Isaiah 58 belongs to the section of Isaiah often called Third Isaiah (chapters 56&ndash;66), addressed to a community that has returned from exile in Babylon but finds that the glorious restoration promised by the earlier chapters has not yet materialized in full. The problem, the prophet suggests, is not that God has failed his promises but that the community has not yet learned to live by the values of the kingdom they are entering. The same pattern repeats in every generation: the people of God are given extraordinary promises, and the question is always whether they will receive them through genuine obedience or miss them through religious performance that substitutes form for substance.",
+    ],
+  },
+  {
+    id: "Hypocritical Fasting",
+    heading: "Hypocritical Fasting",
+    reference: "Isaiah 58:1&ndash;5",
+    paragraphs: [
+      "The chapter opens with a divine command of startling urgency: &ldquo;Cry aloud; do not hold back; lift up your voice like a trumpet; declare to my people their transgression, to the house of Jacob their sins&rdquo; (58:1). The very forcefulness of this opening &mdash; the trumpet imagery, the prohibition of restraint &mdash; signals that what follows is not a routine correction of minor faults but a penetrating exposure of something seriously wrong at the heart of Israel&rsquo;s worship.",
+      "The indictment is made all the more sharp by what follows: these are, by all appearances, a devout people. They seek God daily and appear to delight in knowing his ways. Like a nation that has done righteousness and has not forsaken the judgment of God, they ask for righteous judgments and seem to delight in approaching God. They fast, and they humble themselves. They wonder why God does not see, why their fasting seems to go unrewarded. The question they put before God is sincere: &ldquo;Why have we fasted, and you see it not? Why have we humbled ourselves, and you take no knowledge of it?&rdquo; (58:3).",
+      "God&rsquo;s answer is devastating in its precision. The problem is not the fasting itself but what the fasting coexists with. &ldquo;Behold, in the day of your fast you seek your own pleasure and oppress all your workers. Behold, you fast only to quarrel and to fight and to hit with a wicked fist. Fasting like yours this day will not make your voice to be heard on high&rdquo; (58:3&ndash;4). The people fast from food while they fail to fast from exploitation. They humble themselves before God on designated fast days while they lord over the workers beneath them throughout the week.",
+      "The specific sins identified &mdash; seeking one&rsquo;s own pleasure, oppressing workers, quarreling, striking with a wicked fist &mdash; are not random. They describe the precise contradiction between what is professed in the sacred sphere and what is practiced in the economic sphere. The people who bow low before God in religious observance stand tall in their own interests when dealing with the vulnerable. The contrast is not between public virtue and private vice; it is between the performative humility of the sanctuary and the practical arrogance of the marketplace.",
+      "God asks a pointed rhetorical question in verse 5: &ldquo;Is it such a fast that I choose, a day for a person to humble himself? Is it to bow down his head like a reed, and to spread sackcloth and ashes under him? Will you call this a fast, and a day acceptable to the Lord?&rdquo; The answer is clearly no. The fast of bowed heads and sackcloth, of outward gestures of self-abasement, is not the fast God has chosen. The problem is not the physical act of going without food but the comprehensive misunderstanding of what fasting is meant to accomplish.",
+      "The theological point is searching and enduring. Fasting, in the biblical tradition, is meant to be an act of self-denial that creates space &mdash; space for God, space for prayer, and space to become more acutely aware of the suffering of those around us. When fasting is practiced as a private transaction with God while the conditions of injustice and exploitation remain undisturbed, it becomes not an act of self-denial but a form of self-congratulation. The people are congratulating themselves on their religious seriousness while the evidence of their actual priorities &mdash; the exploitation of workers, the quarreling, the striking &mdash; lies in plain sight.",
+    ],
+  },
+  {
+    id: "The Fast God Chooses",
+    heading: "The Fast God Chooses",
+    reference: "Isaiah 58:6&ndash;7",
+    paragraphs: [
+      "Having rejected the hollow fast of religious performance, God declares with unmistakable clarity what the fast he has chosen actually looks like. The answer spans just two verses, but those two verses contain a comprehensive social vision: &ldquo;Is not this the fast that I choose: to loose the bonds of wickedness, to undo the straps of the yoke, to let the oppressed go free, and to break every yoke? Is it not to share your bread with the hungry and bring the homeless poor into your house; when you see the naked, to cover him, and not to hide yourself from your own flesh?&rdquo; (58:6&ndash;7).",
+      "The fast God chooses begins with the liberation of the oppressed. The imagery of bonds and yokes speaks to all forms of unjust constraint &mdash; economic debt that has enslaved, legal structures that have trapped the powerless, social arrangements that keep the vulnerable in permanent subjection. The fast God requires is not an interior spiritual discipline that leaves these external conditions undisturbed; it is a fast that expresses itself precisely in the effort to undo what is unjust in the conditions of other people&rsquo;s lives.",
+      "The phrase &ldquo;break every yoke&rdquo; is particularly forceful. The text does not say to ease the burden or to improve conditions somewhat; it says to break. The yoke that binds the oppressed is not to be managed more humanely but dismantled entirely. This is the radical character of the fast God chooses: it is not reform at the margins but the comprehensive dismantling of systems and conditions that diminish the humanity of those made in the image of God.",
+      "The second part of God&rsquo;s answer moves from structural oppression to personal and immediate obligation: share bread with the hungry, bring the homeless poor into your house, cover the naked, do not hide yourself from your own flesh and blood. These demands are not metaphorical; they describe concrete acts of provision and welcome extended to specific individuals in need. The movement from structural (loose the bonds, break the yoke) to personal (share your bread, bring the homeless into your house) is deliberate: both dimensions are required.",
+      "The phrase &ldquo;do not hide yourself from your own flesh&rdquo; (58:7) is particularly striking. The Hebrew phrase &rsquo;flesh and blood&rsquo; can refer both to biological family and, more broadly, to shared humanity &mdash; the recognition that all human beings share a common nature before God. To hide from the suffering of another person is to suppress the recognition of this shared humanity. The fast God chooses is precisely the refusal to hide, the willingness to see the hunger, the homelessness, the nakedness of others and to respond rather than look away.",
+      "What emerges from these two verses is a vision of fasting as comprehensive reorientation of life rather than scheduled religious practice. The fast God chooses cannot be performed on designated days while leaving the rest of life undisturbed. It demands a continuous disposition of attentiveness to the suffering of others, a habitual readiness to share, to welcome, to clothe, to advocate. It is, in short, a way of life &mdash; one that the people of God are called to inhabit at all times, not merely to perform at appointed seasons.",
+    ],
+  },
+  {
+    id: "Break the Chains of Injustice",
+    heading: "Break the Chains of Injustice",
+    reference: "Isaiah 58:6, 8&ndash;12",
+    paragraphs: [
+      "The call to loose the bonds of wickedness and break every yoke (58:6) is not simply a metaphor for personal spiritual liberation. Within its original context, it refers to concrete economic and social structures that bound people in involuntary servitude, debt slavery, and systemic disadvantage. Isaiah&rsquo;s audience would have understood these chains as the real constraints experienced by real people &mdash; the landless laborer, the debtor who could not repay, the widow with no legal advocate, the stranger without community protection.",
+      "The prophetic tradition to which Isaiah belongs consistently understands the liberation of the oppressed as inseparable from the worship of God. As far back as the Exodus, the defining act of Israel&rsquo;s faith was not a theological conviction but a historical deliverance: God heard the cry of his people under the yoke of Egyptian oppression and broke their chains. That original liberation became the pattern that was to shape Israel&rsquo;s own treatment of the vulnerable in her midst. The people who had themselves been slaves were not to oppress the stranger, the widow, the orphan, the poor worker (Deuteronomy 24:17&ndash;22).",
+      "The promises that follow the call to justice in Isaiah 58:8&ndash;9 are breathtaking in their cumulative force. &ldquo;Then your light will break forth like the dawn, and your healing will quickly appear; then your righteousness will go before you, and the glory of the Lord will be your rear guard. Then you shall call, and the Lord will answer; you shall cry, and he will say, &lsquo;Here I am.&rsquo;&rdquo; The unanswered cries of the hollow fast (verse 3) become the answered prayers of the genuine fast. God&rsquo;s very presence &mdash; &ldquo;Here I am&rdquo; &mdash; is the reward of justice practiced.",
+      "Verses 9b&ndash;10 spell out the negative conditions that must be removed alongside the positive actions that must be undertaken: &ldquo;If you take away the yoke from your midst, the pointing of the finger, and speaking wickedness, if you pour yourself out for the hungry and satisfy the desire of the afflicted, then shall your light rise in the darkness and your gloom be as the noonday.&rdquo; The &ldquo;pointing of the finger&rdquo; refers to the gesture of accusation, of blame-shifting, of the powerful finding ways to hold the vulnerable responsible for their own suffering. To break the chains of injustice requires not only positive action but also the cessation of this culture of accusation.",
+      "The rebuilding language of verses 11&ndash;12 is particularly rich: &ldquo;The Lord will guide you continually and satisfy your desire in scorched places and make your bones strong; and you shall be like a watered garden, like a spring of water, whose waters do not fail. And your ancient ruins shall be rebuilt; you shall raise up the foundations of many generations; you shall be called the repairer of the breach, the restorer of streets to dwell in.&rdquo; The title &ldquo;repairer of the breach&rdquo; is one of the most evocative in Scripture. The community that practices justice becomes the community through which God repairs what has been broken in the fabric of human society.",
+      "Isaiah 58 does not allow the reader to spiritualize the call to justice into an interior attitude. The chains that must be broken are real chains, the yokes real yokes, the hungry genuinely hungry, the homeless actually without shelter. The prophetic vision is not simply that individuals should have a compassionate disposition but that the community of God&rsquo;s people should become an agent of structural change, a place where the patterns of exploitation and indifference that mark the surrounding culture are actively dismantled and replaced by the patterns of justice and generosity that belong to the kingdom of God.",
+    ],
+  },
+  {
+    id: "Light Rising in the Darkness",
+    heading: "Light Rising in the Darkness",
+    reference: "Isaiah 58:8&ndash;14",
+    paragraphs: [
+      "The dominant image of the second half of Isaiah 58 is light breaking through darkness. &ldquo;Then your light will break forth like the dawn&rdquo; (58:8) &mdash; the Hebrew word for &ldquo;break forth&rdquo; carries the sense of a sudden, violent irruption, the way dawn bursts over the horizon after a long night. This is not a gradual brightening but a dramatic reversal: the community that has been living in the gloom of unanswered prayer and unrealized restoration suddenly experiences the dawn of God&rsquo;s favor.",
+      "The light imagery is layered throughout the chapter&rsquo;s promises. In verse 8, light breaks forth like the dawn and the glory of the Lord becomes the community&rsquo;s rear guard &mdash; the divine presence not only going before them but protecting them from behind. In verse 10, for the one who pours himself out for the hungry, &ldquo;your light shall rise in the darkness and your gloom be as the noonday.&rdquo; Even in the darkest conditions, even in what feels like midnight, the practice of justice transforms the experience of the doer: gloom becomes noonday light.",
+      "The Sabbath promises of verses 13 and 14 extend the light imagery into a different register. The Sabbath, in the theological vision of the Hebrew Bible, is not primarily a day of rest from labor (though it is that) but a day of reorientation &mdash; a sign that the world belongs to God and not to human productivity, that time is not simply a resource to be maximized but a gift to be received. &ldquo;If you call the Sabbath a delight and the holy day of the Lord honorable; if you honor it, not going your own ways, or seeking your own pleasure, or talking idly; then you shall take delight in the Lord, and I will make you ride on the heights of the earth&rdquo; (58:13&ndash;14).",
+      "The phrase &ldquo;ride on the heights of the earth&rdquo; is a striking image of elevation and flourishing. The community that honors the Sabbath &mdash; that takes seriously the claim of God on time as well as on treasure &mdash; will be lifted to a place of dignity and blessing that no human striving can achieve. The heights that self-seeking cannot reach are freely given to those who cease from their own seeking and allow God to be the center of their lives.",
+      "The connection between the true fast (verses 6&ndash;7) and the proper observance of the Sabbath (verses 13&ndash;14) is not accidental. Both are about the same fundamental reorientation: the displacement of self-interest from the center of life and the placement of God and neighbor in its stead. The person who practices the fast God chooses &mdash; who shares bread, welcomes the homeless, clothes the naked &mdash; and who keeps the Sabbath as a delight rather than a burden is the same person, living a life of radical God-centeredness that expresses itself in both justice and rest.",
+      "The promise that &ldquo;the glory of the Lord will be your rear guard&rdquo; (58:8) deserves careful attention. In the Exodus tradition, the glory of the Lord went before Israel as a pillar of fire and cloud; here it covers the rear, protecting the community from what threatens to overtake them from behind. The image is of a people moving forward into their calling, with God both guiding their direction and guarding their vulnerability. This comprehensive divine protection &mdash; presence ahead, presence behind &mdash; is what the life of genuine justice and Sabbath-keeping unlocks. It is the fullness of what it means to walk with God.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Isaiah 58 Today",
+    reference: "Isaiah 58 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Isaiah 58 addresses the church in every generation because the temptation it exposes is perennial. The tendency to substitute religious performance for genuine covenant faithfulness did not die with the exilic community. Every congregation faces the danger of constructing a pattern of religious activity &mdash; Sunday worship, small groups, personal devotions, fasting seasons &mdash; that generates a feeling of spiritual seriousness while leaving unaddressed the very conditions of injustice that the fast God chooses requires his people to dismantle.",
+      "The specific critique of verse 3 &mdash; that the people fast while oppressing their workers &mdash; is directly applicable to any Christian community that participates in economic systems that exploit the labor of the poor. The global supply chains that provide many Christians in wealthy nations with inexpensive goods are sustained, in many cases, by working conditions that Isaiah would recognize as the yokes and bonds his contemporaries were called to break. The fast God chooses is not simply about local generosity; it raises questions about the structural conditions in which believers participate as consumers, investors, and citizens.",
+      "The promise of divine nearness &mdash; &ldquo;Then you shall call, and the Lord will answer; you shall cry, and he will say, &lsquo;Here I am&rsquo;&rdquo; (58:9) &mdash; speaks directly to the experience of many Christians whose prayer life feels dry and whose sense of God&rsquo;s presence has become distant. Isaiah 58 suggests that the path to renewed intimacy with God is not more intense religious practice of the existing kind but the practice of justice and generosity. When we extend ourselves to the hungry, the homeless, and the oppressed, we find ourselves in closer proximity to the God who has identified himself with the poor throughout Scripture.",
+      "The call to be &ldquo;repairers of the breach&rdquo; (58:12) gives the church a powerful self-understanding. In a society characterized by social fractures &mdash; between rich and poor, between racial communities, between the housed and the unhoused &mdash; the community that practices the fast God chooses becomes an agent of repair. This is not a political program but a prophetic vocation: to live in ways that visibly demonstrate the reintegrating power of the kingdom of God.",
+      "The Sabbath teaching of verses 13 and 14 challenges the busyness culture that afflicts both individuals and congregations. The inability to rest, the compulsion to be productive, the sense that time not spent in achievement is time wasted &mdash; these are symptoms of the same failure of trust that drives hypocritical fasting. Both fasting and Sabbath-keeping are practices of relinquishment: fasting relinquishes food, Sabbath relinquishes productivity, and both are expressions of the deeper relinquishment of self-sovereignty that the covenant requires. The community that truly rests on the Sabbath is the community that has learned to trust God with what it cannot control.",
+      "Isaiah 58 does not allow the church to separate the vertical dimension of its life (worship, prayer, fasting, Sabbath) from its horizontal dimension (justice, generosity, advocacy, welcome). The two are not parallel tracks that can be pursued independently; they are two aspects of a single integrated response to the character of God. The God who is worshiped on the Sabbath is the God who hears the cry of the oppressed; the worship that does not issue in justice has not yet encountered the living God whom Isaiah proclaims. The light that rises in the darkness is the light of a community whose whole life has become an act of worship.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "sK_ugGcWMys", title: "BibleProject - Overview: Isaiah" },
+  { videoId: "d8Ez3bMBB9Y", title: "Isaiah 58 - True Fasting and Justice Explained" },
+  { videoId: "A7JpIMwVjJU", title: "The Fast God Chooses - Isaiah 58 Sermon" },
+  { videoId: "9J4yn6MKFXQ", title: "Isaiah 58 - Light Rising in the Darkness" },
+];
+
+export default function Isaiah58GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Isaiah 58 &mdash; The Fast God Chooses
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            God rebukes Israel for hollow, hypocritical fasting &mdash; they fast yet exploit workers, quarrel, and strike with wicked fists. The fast he truly chooses is to loose the chains of injustice, set the oppressed free, share food with the hungry, and provide shelter for the poor. Then the light will break forth like the dawn and the glory of the Lord will be their rear guard.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Isaiah 58 through these video teachings on true and false fasting, the call to justice and generosity, and the extraordinary promises God makes to those who live as he requires.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Then Your Light Will Break Forth Like the Dawn</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Isaiah 58 calls the people of God out of the performance of religion and into the practice of justice. The fast God chooses is not bowed heads and sackcloth but loosed chains, shared bread, and welcomed strangers &mdash; and the promise attached to that fast is nothing less than the full, radiant presence of God himself: light breaking through darkness, healing springing up, the glory of the Lord as a rear guard, and a voice that answers, &ldquo;Here I am.&rdquo;
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

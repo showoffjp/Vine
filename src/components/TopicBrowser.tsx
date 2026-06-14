@@ -2128,6 +2128,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Samuel 7 Chapter": "2-samuel-7-guide",
   "Davidic Covenant Chapter": "2-samuel-7-guide",
   "God Builds David a House": "2-samuel-7-guide",
+  "Numbers 14 Chapter": "numbers-14-guide",
+  "Spies Report Canaan": "numbers-14-guide",
+  "Grasshoppers in Our Own Sight": "numbers-14-guide",
+  "1 Kings 18 Chapter": "1-kings-18-guide",
+  "Elijah Carmel Fire from Heaven": "1-kings-18-guide",
+  "Contest with Prophets Baal": "1-kings-18-guide",
+  "Isaiah 58 Chapter": "isaiah-58-guide",
+  "True Fasting Isaiah": "isaiah-58-guide",
+  "Loose the Chains of Injustice": "isaiah-58-guide",
+  "Mark 9 Chapter": "mark-9-guide",
+  "Transfiguration Mark": "mark-9-guide",
+  "If You Can Believe": "mark-9-guide",
 };
 
 
@@ -3106,6 +3118,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Daniel 7 Chapter" },
   { label: "Exodus 14 Chapter" },
   { label: "2 Samuel 7 Chapter" },
+  { label: "Numbers 14 Chapter" },
+  { label: "1 Kings 18 Chapter" },
+  { label: "Isaiah 58 Chapter" },
+  { label: "Mark 9 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

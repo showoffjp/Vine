@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Bad Report",
+  "We Were Like Grasshoppers",
+  "Joshua and Caleb Stand Firm",
+  "God Decrees 40 Years",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Numbers 14",
+    reference: "Numbers 14:1&ndash;45",
+    paragraphs: [
+      "Numbers 14 is one of the most consequential chapters in the entire Pentateuch &mdash; a chapter in which the entire trajectory of Israel&rsquo;s journey to the Promised Land is dramatically reversed. Twelve spies have returned from forty days of scouting the land of Canaan. The land is everything God promised: flowing with milk and honey, producing enormous clusters of grapes, pomegranates, and figs. But ten of the twelve spies bring a report that is not about the land&rsquo;s richness; it is about the people who live there &mdash; their size, their cities, their strength. And that report unleashes a catastrophe that will define the next forty years of Israel&rsquo;s history.",
+      "The crisis unfolds in a single night. The congregation hears the bad report, weeps until morning, and raises a cry of complaint that is the bitterest and most comprehensive Israel has yet uttered against God and Moses. They do not merely grumble; they formally resolve to appoint a new leader and return to Egypt. They wish they had died in the wilderness. They accuse God of bringing them to this land to fall by the sword. Two spies &mdash; Caleb son of Jephunneh and Joshua son of Nun &mdash; tear their garments and plead with the people: the land is exceedingly good, the Lord is with us, do not fear. The congregation responds by threatening to stone them.",
+      "God&rsquo;s anger rises to a point it has not reached before. He proposes to strike Israel with pestilence and disinherit them, making of Moses a greater nation. Moses intercedes, appealing not to Israel&rsquo;s worthiness but to God&rsquo;s reputation among the nations and his own revealed character &mdash; slow to anger and abounding in steadfast love, forgiving iniquity and transgression. God relents from immediate destruction but pronounces a sentence of proportional judgment: the generation that has seen God&rsquo;s signs and yet refused to trust him will wander one year for each of the forty days of spying, and they will die in the wilderness. Not one of them, with the exception of Caleb and Joshua, will enter the land.",
+      "The chapter ends with the death of the ten faithless spies by plague, and with a tragic postscript: a chastened Israel tries to enter the land the next morning without God&rsquo;s command or Moses&rsquo; blessing. Moses warns them that the Lord is not among them and they will fall. They go anyway, and the Amalekites and Canaanites rout them as far as Hormah. The generation that refused to advance when God commanded now advances without God, and pays the price. Numbers 14 is a chapter about what faith demands and what unbelief costs.",
+      "For the church reading this passage, the chapter is rich with typological significance. The writer of Hebrews (chapters 3 and 4) explicitly interprets the wilderness generation&rsquo;s failure as a warning to Christian believers: &ldquo;Take care, brothers, lest there be in any of you an evil, unbelieving heart, leading you to fall away from the living God&rdquo; (Hebrews 3:12). The Promised Land becomes a type of the rest that remains for the people of God; the unbelief of Kadesh becomes a warning against the hardening of hearts through the deceitfulness of sin. Numbers 14 is not merely ancient history; it is a mirror held up to every generation of God&rsquo;s people.",
+      "The structural center of the chapter is the intercession of Moses in verses 13&ndash;19, which is one of the great intercessory prayers in the Old Testament. Moses does not argue from Israel&rsquo;s merit; he argues from God&rsquo;s glory and God&rsquo;s own self-declaration. He quotes back to God the words God himself spoke at Sinai: &ldquo;The LORD is slow to anger and abounding in steadfast love, forgiving iniquity and transgression, but he will by no means clear the guilty&rdquo; (14:18, echoing Exodus 34:6&ndash;7). The intercession of Moses here becomes a type of the intercession of Christ, who pleads for his people not on the basis of their faithfulness but on the basis of his own atoning work.",
+    ],
+  },
+  {
+    id: "The Bad Report",
+    heading: "The Bad Report",
+    reference: "Numbers 13:26&ndash;14:4",
+    paragraphs: [
+      "The twelve spies return to Kadesh-barnea after forty days and give their report to Moses, Aaron, and the whole congregation of Israel. They begin with the facts about the land itself, and the facts are glorious: &ldquo;We came to the land to which you sent us. It flows with milk and honey, and this is its fruit&rdquo; (13:27). They hold up the enormous cluster of grapes, the pomegranates, the figs &mdash; tangible evidence of the land&rsquo;s abundance. The good news is real. The promise of God has been verified. The land is everything God said it would be.",
+      "But the word &ldquo;however&rdquo; in verse 28 begins one of the most fateful sentences in the Old Testament: &ldquo;However, the people who dwell in the land are strong, and the cities are fortified and very large. And besides, we saw the descendants of Anak there&rdquo; (13:28). The ten spies immediately pivot from what God has promised to what human observation fears. The Amalekites are in the Negeb; the Hittites, Jebusites, and Amorites are in the hill country; the Canaanites are by the sea and along the Jordan. The geography of the land is not mapped as an opportunity but as an inventory of threats.",
+      "Caleb interrupts the report with a counter-statement: &ldquo;Let us go up at once and occupy it, for we are well able to overcome it&rdquo; (13:30). His confidence is not bravado; it is theological. Caleb has seen the same cities, the same giants, the same fortifications. He draws a different conclusion because he is working from a different premise &mdash; not the strength of Israel versus the strength of Canaan, but the faithfulness of God versus the strength of Canaan. But his voice is drowned out by the ten.",
+      "The ten spies intensify their report into an outright denial of the possibility of conquest: &ldquo;We are not able to go up against the people, for they are stronger than we are&rdquo; (13:31). Then they add something that turns assessment into defamation: &ldquo;So they brought to the people of Israel a bad report of the land that they had spied out, saying, &lsquo;The land, through which we have gone to spy it out, is a land that devours its inhabitants, and all the people that we saw in it are of great height&rsquo;&rdquo; (13:32). The &ldquo;bad report&rdquo; &mdash; the Hebrew is &lsquo;dibbah&rsquo;, which carries the sense of slander or defamation &mdash; is not merely a pessimistic assessment; it is a distortion of reality that contradicts God&rsquo;s own word about the land.",
+      "The congregation&rsquo;s response is immediate and overwhelming. They raise a loud cry; they weep all night; they grumble against Moses and Aaron. Their despair escalates into something that is, theologically, far worse than fear: &ldquo;Would that we had died in the land of Egypt! Or would that we had died in this wilderness! Why is the LORD bringing us into this land, to fall by the sword? Our wives and our little ones will become a prey. Would it not be better for us to go back to Egypt?&rdquo; (14:2&ndash;3). They propose to appoint a leader and return to Egypt &mdash; to undo the Exodus itself, to walk backward out of the covenant story God has been telling.",
+      "The theological depth of the catastrophe at Kadesh-barnea lies in what the bad report reveals about the nature of unbelief. Unbelief is not simply the absence of information; the ten spies had all the same information as Caleb and Joshua. Unbelief is a fundamental orientation of the heart that interprets all available data through the lens of human limitation rather than divine promise. The ten spies were not unintelligent or uninformed; they were operating with a perfectly consistent logic that simply excluded God from its calculations. And that exclusion &mdash; not the giants, not the fortified cities &mdash; is what made their report catastrophic.",
+    ],
+  },
+  {
+    id: "We Were Like Grasshoppers",
+    heading: "We Were Like Grasshoppers in Our Own Sight",
+    reference: "Numbers 13:33",
+    paragraphs: [
+      "The most psychologically revealing verse in Numbers 13&ndash;14 comes at the end of the bad report: &ldquo;And there we saw the Nephilim (the sons of Anak, who come from the Nephilim), and we seemed to ourselves like grasshoppers, and so we seemed to them&rdquo; (13:33). This single verse lays bare the interior dynamic of unbelief with extraordinary precision. The spies have looked at the inhabitants of Canaan, and then they have looked at themselves &mdash; and what they see in themselves is not the people of God, not the recipients of the covenant, not those whom the Lord has redeemed with a mighty hand and an outstretched arm. They see grasshoppers.",
+      "The image of the grasshopper is one of radical smallness and vulnerability &mdash; a creature that can be crushed without effort, that has no strength of its own, that is at the mercy of any larger creature that encounters it. By describing themselves this way, the ten spies are not being humble; they are being faithless. True humility acknowledges human limitation while trusting in divine power. The grasshopper self-image of the ten spies does not leave room for a God who fights for his people; it fills the entire frame with human inadequacy and leaves no room for anything else.",
+      "What makes the grasshopper verse even more striking is the second clause: &ldquo;and so we seemed to them.&rdquo; The spies claim not only to have assessed themselves as grasshoppers but to have read the Canaanites&rsquo; assessment of Israel as well. This is a remarkable claim, since the spies were in Canaan as secret observers, not as acknowledged ambassadors. But more than a factual problem, the claim reveals how thoroughly the unbelieving heart projects its own self-assessment onto the world around it. When you believe yourself to be a grasshopper, you assume everyone else sees you the same way.",
+      "The irony is that the actual testimony of Canaan about Israel was the exact opposite of grasshoppers. When Rahab the prostitute speaks to the Israelite spies in Joshua 2 &mdash; a generation later, when the actual conquest is about to begin &mdash; she tells them: &ldquo;I know that the LORD has given you the land, and that the fear of you has fallen upon us, and that all the inhabitants of the land melt away before you&rdquo; (Joshua 2:9). The Canaanites were terrified of Israel because they had heard what the God of Israel had done in Egypt and at the Red Sea. The grasshoppers were feared by the giants. But the ten spies never learned this, because they were looking inward rather than upward.",
+      "The grasshopper syndrome &mdash; the tendency to see oneself as hopelessly small in the face of the obstacles that stand between the present situation and God&rsquo;s promise &mdash; is one of the most perennial manifestations of unbelief in the life of faith. It takes many forms: the conviction that one&rsquo;s own sin is too great for God&rsquo;s forgiveness, that one&rsquo;s own resources are too limited for God&rsquo;s calling, that the opposition arrayed against the work of God is too formidable for God&rsquo;s power. In every case, the error is the same: the calculation of human capacity in isolation from divine promise, leading to a verdict of impossibility that God has never endorsed.",
+      "The antidote to the grasshopper syndrome is not a more optimistic self-assessment; it is a God-centered reorientation of vision. Caleb and Joshua saw the same giants but drew a different conclusion: &ldquo;The LORD is with us; do not fear them&rdquo; (14:9). Their confidence was not in their own size relative to the Canaanites but in the presence and power of the God who had already demonstrated at the Red Sea that he specializes in impossible situations. The question is not whether we are grasshoppers; the question is whether the Lord is with us. And if he is &mdash; as he was at the Red Sea, as he is in Christ &mdash; then the size of the giants is irrelevant.",
+    ],
+  },
+  {
+    id: "Joshua and Caleb Stand Firm",
+    heading: "Joshua and Caleb Stand Firm",
+    reference: "Numbers 14:5&ndash;10",
+    paragraphs: [
+      "As the congregation descends into despair and the proposal to return to Egypt gains momentum, two men act. Moses and Aaron fall on their faces before the assembly &mdash; a posture of intercession and grief. But Caleb son of Jephunneh and Joshua son of Nun tear their garments &mdash; a sign of mourning, but also of prophetic urgency &mdash; and address the congregation directly. Their words are a model of faith under pressure, all the more remarkable for being spoken to a crowd that has just proposed to stone them.",
+      "Caleb and Joshua begin with the land: &ldquo;The land, which we passed through to spy it out, is an exceedingly good land&rdquo; (14:7). They do not minimize the challenges or pretend the cities are not fortified or the people not large. Their counterargument is not that the ten spies were wrong about what they saw but that the ten spies drew the wrong conclusion from what they saw. The goodness of the land is real; the promise of God about the land is reliable; therefore the report of the land should produce faith, not fear.",
+      "The theological pivot comes in verse 8: &ldquo;If the LORD delights in us, he will bring us into this land and give it to us, a land that flows with milk and honey.&rdquo; Caleb and Joshua locate the decisive variable not in Israel&rsquo;s military capacity or in the strength of the Canaanites but in the character and will of the LORD. The conditional &ldquo;if the LORD delights in us&rdquo; is not a statement of uncertainty about God&rsquo;s will &mdash; God has already said clearly that he intends to give them the land &mdash; but a reminder that the entire enterprise depends on the Lord&rsquo;s initiative, not Israel&rsquo;s effort.",
+      "Verse 9 contains one of the most powerful declarations of faith in the entire Old Testament: &ldquo;Only do not rebel against the LORD. And do not fear the people of the land, for they are bread for us. Their protection is removed from them, and the LORD is with us; do not fear them.&rdquo; The word &ldquo;bread&rdquo; is startling &mdash; the giants of Canaan are described not as threats to be feared but as food to be consumed, prey that will fall before Israel as surely as bread is eaten. The reason is not Israel&rsquo;s strength but the fact that the Canaanites&rsquo; &ldquo;protection&rdquo; &mdash; their divine covering, their shadow &mdash; has been removed. They are exposed. And the LORD is with Israel.",
+      "The congregation&rsquo;s response to this courageous declaration is chilling: &ldquo;Then all the congregation said to stone them with stones&rdquo; (14:10). Caleb and Joshua nearly die for their faith. The crowd that weeps all night and threatens to return to Egypt is not merely confused or frightened; they are in active rebellion against the word of God, and they are prepared to silence the witnesses to that word by violence. It is at this moment that the glory of the LORD appears at the tent of meeting &mdash; God himself arrives to vindicate his servants and to judge the rebellion that has reached its apex.",
+      "The reward of Caleb and Joshua for their stand at Kadesh-barnea is stated explicitly and returned to throughout the subsequent narrative. Of Caleb the Lord says, &ldquo;My servant Caleb, because he has a different spirit and has followed me fully, I will bring into the land into which he went, and his descendants shall possess it&rdquo; (14:24). A different spirit &mdash; not a different strategy, not a different military assessment, but a different spirit. The spirit that saw God where others saw only giants, that trusted the promise where others trusted only the evidence of eyes. Caleb and Joshua enter the Promised Land forty years later as the only survivors of their generation, aged men who outlasted the doubters because faith outlasts fear.",
+    ],
+  },
+  {
+    id: "God Decrees 40 Years",
+    heading: "God Decrees 40 Years in the Wilderness",
+    reference: "Numbers 14:11&ndash;38",
+    paragraphs: [
+      "God&rsquo;s response to Israel&rsquo;s rebellion at Kadesh-barnea is an eruption of divine anger that is unprecedented in the wilderness narrative: &ldquo;How long will this people despise me? And how long will they not believe in me, in spite of all the signs that I have done among them?&rdquo; (14:11). The language &ldquo;despise me&rdquo; and &ldquo;not believe in me&rdquo; frames the rebellion not as a failure of nerve but as an act of contempt against God himself. To refuse to trust God&rsquo;s promise after witnessing God&rsquo;s signs is to declare, in effect, that God&rsquo;s signs are not sufficient evidence of his power &mdash; which is to call God a liar.",
+      "God&rsquo;s proposed judgment is the most severe yet announced: &ldquo;I will strike them with the pestilence and disinherit them, and I will make of you a nation greater and mightier than they&rdquo; (14:12). The language echoes God&rsquo;s offer to Moses at the golden calf (Exodus 32:10): he is prepared to start over, to begin the covenant people again from Moses alone. The offer is not a test of Moses; it is a genuine expression of divine wrath at a people who have, in the face of everything God has done for them, resolved to return to slavery in Egypt.",
+      "Moses&rsquo; intercession (verses 13&ndash;19) is one of the great prayers in the Old Testament. Characteristically, Moses does not appeal to Israel&rsquo;s merit; he appeals to God&rsquo;s reputation and God&rsquo;s own revealed character. His first argument is geopolitical: the Egyptians have heard that the LORD is in the midst of this people. If God destroys Israel in the wilderness, the nations will conclude that he was not able to bring them into the land he promised. God&rsquo;s glory among the nations is bound up with the completion of what he has begun.",
+      "Moses&rsquo; second and decisive argument is the character of God himself. He quotes back to God the great self-declaration of Sinai: &ldquo;The LORD is slow to anger and abounding in steadfast love, forgiving iniquity and transgression, but he will by no means clear the guilty, visiting the iniquity of the fathers on the children, to the third and the fourth generation&rdquo; (14:18, echoing Exodus 34:6&ndash;7). Moses does not ask God to abandon his justice; he asks God to enact his mercy. &ldquo;Please pardon the iniquity of this people, according to the greatness of your steadfast love, just as you have forgiven this people, from Egypt until now&rdquo; (14:19).",
+      "God&rsquo;s response to Moses is both gracious and just: &ldquo;I have pardoned, according to your word. But truly, as I live, and as all the earth shall be filled with the glory of the LORD, none of the men who have seen my glory and my signs that I did in Egypt and in the wilderness, and yet have put me to the test these ten times and have not obeyed my voice, shall see the land that I swore to give to their fathers. None of those who despised me shall see it&rdquo; (14:20&ndash;23). The pardon is real; the judgment is also real. The generation will not be destroyed immediately, but they will not enter the land. The mercy of God does not abolish the consequences of sustained unbelief.",
+      "The decree of forty years is stated with awful precision: &ldquo;According to the number of the days in which you spied out the land, forty days, a year for each day, you shall bear your iniquity forty years, and you shall know my displeasure&rdquo; (14:34). One year for each day of spying &mdash; the very thing they did in fear of the land becomes the measure of their judgment. The spies who brought the bad report die by plague immediately before Moses; the rest of the congregation will die gradually over the forty years of wandering. Caleb and Joshua are explicitly exempted: they alone, of all who were counted in the census, will enter the land.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Numbers 14 Today",
+    reference: "Numbers 14 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Numbers 14 is not simply a chapter about ancient Israelites who lacked the courage to enter Canaan. It is a diagnostic chapter &mdash; a chapter that exposes with surgical precision the anatomy of unbelief in the human heart and the terrible weight of its consequences. The writer of Hebrews treats it exactly this way, using the failure at Kadesh-barnea as the primary warning passage for the Christian community: &ldquo;Today, if you hear his voice, do not harden your hearts as in the rebellion&rdquo; (Hebrews 3:15). The Exodus generation is presented not as a curiosity from the distant past but as a mirror held up to every generation of God&rsquo;s people, showing what happens when the deceitfulness of sin is allowed to harden the heart against the word of God.",
+      "The grasshopper syndrome &mdash; the self-assessment of radical smallness that excludes God from the calculation &mdash; is as active in the contemporary church as it was at Kadesh-barnea. Every time a Christian looks at the obstacles before them and concludes that the task God has called them to is impossible without weighing the power and faithfulness of God, the shadow of the ten spies falls over the situation. The call of Numbers 14 is not to a naive optimism that ignores real challenges but to a God-centered realism that refuses to calculate without the variable of divine power and promise. Caleb&rsquo;s &ldquo;Let us go up at once&rdquo; was not recklessness; it was faith that had done the math correctly.",
+      "The intercession of Moses in Numbers 14 presents the church with a pattern of prayer that is deeply instructive. Moses does not pray from a position of personal righteousness or on the basis of Israel&rsquo;s merit. He prays from the character of God &mdash; specifically, from the great &ldquo;slow to anger, abounding in steadfast love&rdquo; declaration that is the most often quoted theological statement in the Old Testament. For the Christian, the basis of intercession is even more richly grounded: we pray in the name of Jesus Christ, whose atoning work provides the basis for God&rsquo;s pardon and whose ongoing intercession at the right hand of the Father means that his people always have an advocate before God.",
+      "The proportion of the judgment &mdash; one year of wandering for each day of faithless reconnaissance &mdash; illustrates a principle that runs throughout Scripture: the consequences of unbelief are often shaped by the nature of the unbelief itself. The generation that spent forty days evaluating the land through the lens of fear spent forty years never entering it. This is not merely punitive arithmetic; it is the natural outcome of the spiritual condition that produced the bad report. A generation whose dominant orientation was fear and self-reliance rather than trust and obedience was not capable of the faith that the conquest would require. The forty years in the wilderness were simultaneously a judgment and a mercy, keeping an unbelieving generation from the greater disasters that their unbelief would have produced in the land.",
+      "The tragic postscript of Numbers 14 &mdash; Israel&rsquo;s presumptuous attempt to enter the land after the decree of forty years has been announced &mdash; is a warning against the confusion of repentance with a change of strategy. The congregation&rsquo;s morning advance into the hill country (14:40&ndash;45) looks like courage and faith at first glance; after all, they are now going toward the land rather than away from it. But Moses identifies it immediately as presumption: &ldquo;Do not go up, for the LORD is not among you, lest you be struck down before your enemies&rdquo; (14:42). Obedience to God is always obedience to God&rsquo;s word at the time and in the manner God specifies. Doing the right thing at the wrong time and without God&rsquo;s leading is not faith but a different form of self-reliance.",
+      "Numbers 14 ultimately points forward to the greater Joshua &mdash; Jesus, whose name is the Greek form of the Hebrew &lsquo;Yeshua&rsquo;, the same name as Joshua son of Nun. As Joshua led the second generation into the Promised Land where the first generation could not go, Jesus leads his people into the true rest that the earthly Canaan only foreshadowed. Hebrews 4 makes this connection explicit: &ldquo;For if Joshua had given them rest, God would not have spoken of another day later on. So then, there remains a Sabbath rest for the people of God&rdquo; (4:8&ndash;9). The rest that the faithless generation forfeited at Kadesh-barnea &mdash; the rest of covenant blessing, of dwelling in the land of God&rsquo;s promise &mdash; is the rest that Jesus alone can give, and it is available to all who do not harden their hearts but draw near to him in faith.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "l9vn5UvsHvM", title: "BibleProject - Overview: Numbers" },
+  { videoId: "xmFPS0f-kzs", title: "Numbers 14 - The Bad Report and Israel's Rebellion" },
+  { videoId: "WKHAJdRJ7Pc", title: "Caleb and Joshua - Standing Firm in Faith" },
+  { videoId: "t9JmxQBOBBE", title: "40 Years in the Wilderness - The Cost of Unbelief" },
+];
+
+export default function Numbers14GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Numbers 14 &mdash; The Bad Report and Forty Years in the Wilderness
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Ten spies return from Canaan with a bad report &mdash; the land devours its inhabitants, the people are giants, &ldquo;we were like grasshoppers in our own sight.&rdquo; Israel rebels and wants to return to Egypt. Caleb and Joshua urge faith: &ldquo;The LORD is with us; do not fear them.&rdquo; God decrees forty years of wandering &mdash; one year for each day of spying &mdash; and the faithless generation dies in the wilderness.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Numbers 14 through these video teachings on the bad report of the spies, Israel&rsquo;s rebellion at Kadesh-barnea, the faith of Caleb and Joshua, and the decree of forty years in the wilderness.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The LORD Is With Us; Do Not Fear Them</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Numbers 14 stands as one of the great warnings in Scripture about the cost of unbelief. The generation that saw God&rsquo;s signs in Egypt and in the wilderness and yet refused to trust his promise paid for that refusal with forty years and their lives. But the faith of Caleb and Joshua &mdash; a different spirit, the spirit of those who follow God fully &mdash; still calls out across the centuries: the land is exceedingly good, the Lord is with us, do not fear.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

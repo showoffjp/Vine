@@ -1900,6 +1900,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Jonah 1 Chapter": "jonah-1-guide",
   "The Great Fish": "jonah-1-guide",
   "Jonah Runs from God": "jonah-1-guide",
+  "Luke 24 Chapter": "luke-24-guide",
+  "The Road to Emmaus": "luke-24-guide",
+  "He Opened the Scriptures": "luke-24-guide",
+  "Mark 10 Chapter": "mark-10-guide",
+  "What Do You Want Me to Do": "mark-10-guide",
+  "Jesus Blesses Children": "mark-10-guide",
+  "Acts 9 Chapter": "acts-9-guide",
+  "The Damascus Road": "acts-9-guide",
+  "Saul to Paul": "acts-9-guide",
+  "Hebrews 12 Chapter": "hebrews-12-guide",
+  "Run the Race Before Us": "hebrews-12-guide",
+  "Cloud of Witnesses": "hebrews-12-guide",
 };
 
 
@@ -2802,6 +2814,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Ruth 1 Chapter" },
   { label: "Esther 4 Chapter" },
   { label: "Jonah 1 Chapter" },
+  { label: "Luke 24 Chapter" },
+  { label: "Mark 10 Chapter" },
+  { label: "Acts 9 Chapter" },
+  { label: "Hebrews 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

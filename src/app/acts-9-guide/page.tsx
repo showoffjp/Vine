@@ -1,0 +1,201 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Saul Breathing Threats",
+  "A Light from Heaven",
+  "Saul Why Do You Persecute Me",
+  "Ananias and Saul",
+  "He Proclaimed Jesus in the Synagogues",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Saul Breathing Threats",
+    heading: "Saul Breathing Threats",
+    reference: "Acts 9:1&ndash;2",
+    paragraphs: [
+      "The ninth chapter of Acts opens on one of the most dramatic turning points in all of Christian history, and it does so with a portrait of a man who is the embodiment of violent religious zeal. &ldquo;But Saul, still breathing threats and murder against the disciples of the Lord, went to the high priest and asked him for letters to the synagogues at Damascus, so that if he found any belonging to the Way, men or women, he might bring them bound to Jerusalem&rdquo; (9:1&ndash;2). Two verses; a world of darkness compressed into them.",
+      "The phrase &ldquo;still breathing threats and murder&rdquo; is startling in its physicality. Luke does not say that Saul was planning murder or that he harbored threats in his heart. He was breathing them &mdash; as naturally as a living man draws breath. Destruction was his atmosphere. We have already been told earlier in Acts that Saul was ravaging the church, entering house after house, dragging off men and women and committing them to prison (8:3). He had stood by approvingly when Stephen was stoned, holding the garments of the killers (7:58&ndash;8:1). He was not a passive onlooker to persecution; he was its energetic engine.",
+      "Understanding the portrait of pre-conversion Saul is crucial for grasping the magnitude of what is about to happen. Paul himself would later look back on this period with a mixture of honest self-assessment and wonder at sovereign grace. &ldquo;I was formerly a blasphemer, persecutor, and insolent opponent. But I received mercy because I had acted ignorantly in unbelief&rdquo; (1 Tim. 1:13). And again: &ldquo;For I am the least of the apostles, unworthy to be called an apostle, because I persecuted the church of God. But by the grace of God I am what I am&rdquo; (1 Cor. 15:9&ndash;10).",
+      "The letters Saul sought from the high priest represent the full institutional force of Jerusalem religion being mobilized against the nascent community of Jesus-followers. The followers of the Way &mdash; the earliest designation for Christians, rooted perhaps in Jesus&rsquo; self-description as &ldquo;the way, the truth, and the life&rdquo; &mdash; had spread beyond Judea after the persecution surrounding Stephen&rsquo;s death. Saul was prepared to pursue them all the way to Damascus, more than one hundred and thirty miles to the north, to capture and extradite them.",
+      "There is a terrible logic in Saul&rsquo;s persecution from within his own framework. He was a Pharisee of Pharisees, trained at the feet of Gamaliel, zealous for the law beyond many of his own age (Phil. 3:5&ndash;6; Gal. 1:14). The claim that a crucified man was the risen Messiah was, to his mind, both blasphemy and a threat to the covenantal faithfulness that defined Jewish identity. He was not persecuting the church in spite of his devotion to God; he believed he was persecuting it because of that devotion. This makes the story that follows all the more astonishing: the God whom Saul thought he was defending was himself about to appear in the person of Jesus and overturn everything.",
+      "The followers of the Way in Damascus would have had no idea what was coming toward them. A man of enormous religious authority, armed with legal letters, burning with zeal, was marching north with companions to seize them. From a human vantage point, the situation was bleak. But the narrator of Acts has been consistently showing throughout the book that what looks like the triumph of opposition to the gospel is frequently the precondition of the gospel&rsquo;s most remarkable advances. Philip had been scattered to Samaria by the very persecution Saul inaugurated. Now Saul himself was about to be stopped in his tracks by the one whose people he was destroying.",
+      "The opening verses invite the reader to sit for a moment with the picture of Saul breathing threats and murder and to feel the weight of what grace would have to overcome. This is not a mild sinner who needed a gentle nudge in a better direction. This is a man who was the face of violent opposition to Jesus. And the grace that is about to arrest him is all the more glorious precisely because of how formidable and how willing an opponent he was.",
+    ],
+  },
+  {
+    id: "A Light from Heaven",
+    heading: "A Light from Heaven",
+    reference: "Acts 9:3&ndash;9",
+    paragraphs: [
+      "As Saul and his companions approach Damascus, something happens that no one on earth could have engineered or anticipated. &ldquo;Now as he went on his way, he approached Damascus, and suddenly a light from heaven shone around him&rdquo; (9:3). The word &ldquo;suddenly&rdquo; in Luke&rsquo;s narrative is almost always a marker of divine intervention. At the birth of Jesus, angels appeared suddenly to the shepherds. At Pentecost, there was suddenly a sound from heaven like a mighty rushing wind. And now, on the road to Damascus, light suddenly breaks through.",
+      "This is not a metaphorical light or an inner spiritual illumination. Paul would later describe this event to King Agrippa as &ldquo;a light from heaven, brighter than the sun, that shone around me and those who journeyed with me&rdquo; (Acts 26:13). It was midday &mdash; the sun was at its full strength &mdash; and still this light was brighter than the sun. Saul fell to the ground. His companions, the men who had accompanied him on this mission of destruction, were struck speechless or fell too. This was a theophany, an appearance of the living God, in the person of the risen and glorified Jesus.",
+      "The account of the Damascus road is given three times in the Book of Acts: here in chapter nine, then in Paul&rsquo;s address to the Jerusalem crowd in chapter twenty-two, and then before Agrippa in chapter twenty-six. The repetition is deliberate. Luke wants the reader to understand that this event is not peripheral to the story of early Christianity &mdash; it is central. The missionary who will carry the gospel to the Gentile world received his commission not from any human institution but from a direct, unmediated encounter with the risen Christ.",
+      "Saul heard a voice speaking to him. The voice said his name twice: &ldquo;Saul, Saul.&rdquo; The doubling of the name is a Hebrew idiom of address that carries urgency, intimacy, and even tenderness. When God called Abraham from heaven at the moment of sacrifice, it was &ldquo;Abraham, Abraham&rdquo; (Gen. 22:11). When Moses was called from the burning bush, it was simply &ldquo;Moses, Moses&rdquo; (Exod. 3:4). The doubled name in the Hebrew tradition is the address of a personal God who knows the one he is calling by name. Saul knew how to read that code. He was being personally addressed by the divine.",
+      "Saul&rsquo;s response was to ask a question that, in the circumstances, required enormous courage: &ldquo;Who are you, Lord?&rdquo; (9:5). He used the word &ldquo;Lord&rdquo; &mdash; kyrios in Greek &mdash; which could mean simply &ldquo;sir&rdquo; or could be the full confessional title of the risen Christ. At this moment Saul did not yet know which it was, but the overwhelming power of what was happening to him compelled the honorific. He was undone, blinded, prostrate in the dust, and he was asking the blazing presence above him who it was.",
+      "The answer he received was the answer that shattered his world and rebuilt it at the same time: &ldquo;I am Jesus, whom you are persecuting&rdquo; (9:5). Three words in Greek: &ldquo;I am Jesus.&rdquo; The one whose movement Saul was destroying was alive. Not merely spiritually alive in the memory of his followers, but personally, gloriously, blindingly alive, appearing in light brighter than the noon sun on the road to Damascus. Everything Saul had believed about Jesus &mdash; that he was a false messiah whose crucifixion was God&rsquo;s verdict against his claims &mdash; collapsed in an instant. The resurrection was not a rumor or a hallucination of grieving disciples. It was standing in front of him.",
+      "Then Saul was told to rise, go into Damascus, and there he would be told what he was to do. He rose from the ground, opened his eyes, and saw nothing. Three days he was blind, neither eating nor drinking. The man who had arrived at Damascus with letters of authority to bind and extradite believers arrived instead blind, led by the hand, helpless, the prisoner of the one he had been persecuting.",
+    ],
+  },
+  {
+    id: "Saul Why Do You Persecute Me",
+    heading: "Saul, Why Do You Persecute Me",
+    reference: "Acts 9:4&ndash;6; 22:7&ndash;10; 26:14&ndash;18",
+    paragraphs: [
+      "The question at the center of the Damascus road encounter demands its own meditation: &ldquo;Saul, Saul, why are you persecuting me?&rdquo; (9:4). The question is not primarily forensic &mdash; it is not as though Jesus needed information about Saul&rsquo;s motives. The question is revelatory. It reveals to Saul the nature of what he has been doing, and it reveals to the reader the nature of Jesus&rsquo; union with his people.",
+      "The most theologically striking word in the question is &ldquo;me.&rdquo; Saul had been arresting people, dragging them from their homes, voting for their deaths. He had been persecuting the church. But the risen Christ does not say, &ldquo;Why are you persecuting them?&rdquo; He says, &ldquo;Why are you persecuting me?&rdquo; The identification of Jesus with his people is complete and personal. What is done to one member of the body is done to the head. The community of Jesus-followers and Jesus himself are so united that an assault on one is an assault on the other.",
+      "This is not merely a pious sentiment. It is a profound theological claim about the nature of the church. Paul would later develop this theology in his letters with the language of the body of Christ: &ldquo;Now you are the body of Christ and individually members of it&rdquo; (1 Cor. 12:27). The one who is seated at the right hand of the Father is not distant from or indifferent to the sufferings of his people on earth. He is present in them, joined to them, and he experiences their persecution as his own.",
+      "The question &ldquo;why are you persecuting me?&rdquo; also carries an implicit challenge to the framework within which Saul had been operating. He believed he was serving God by destroying the church. He believed he was defending the honor of the Torah and the covenant people against dangerous blasphemy. But the question from heaven exposes the inversion: in the very act of serving what he thought was God, he was fighting God. The zeal that he had directed against the followers of Jesus was in fact directed against the risen Son of God himself.",
+      "In the account given in Acts 26, Paul reports that Jesus added a further word at this moment: &ldquo;It is hard for you to kick against the goads&rdquo; (26:14). This was a proverbial image well-known in the Greco-Roman world: the goad was the spike used to direct oxen, and kicking against it only drove the point deeper. The risen Christ was indicating that Saul&rsquo;s resistance was futile &mdash; not because his will was being overpowered without his consent, but because the direction of history and the weight of divine purpose were moving in a direction Saul could not ultimately stop. The harder he kicked, the deeper the conviction would have gone.",
+      "There is extraordinary pastoral richness in the question &ldquo;why are you persecuting me?&rdquo; for those who suffer for their faith. It is not that the Lord surveys the persecuted church from a safe distance and sympathizes. He suffers in and with and through his people. The early church drew immense comfort from this identification. It gave meaning to their suffering: what they were enduring was not meaningless, because it was being shared and gathered up into the experience of the one who had himself suffered and triumphed.",
+      "And finally, the question is evangelical in its direction. It is spoken not to condemn Saul but to convert him. The answer Saul gives &mdash; &ldquo;Who are you, Lord?&rdquo; &mdash; is a question that opens the door to the revelation of Jesus. The question from heaven is designed to bring Saul to the point of asking who it is that is speaking to him, so that the answer &ldquo;I am Jesus&rdquo; can land with its full force. The divine question is itself an act of grace.",
+    ],
+  },
+  {
+    id: "Ananias and Saul",
+    heading: "Ananias and Saul",
+    reference: "Acts 9:10&ndash;19",
+    paragraphs: [
+      "There is a disciple in Damascus named Ananias. He is not a famous figure. He appears in the New Testament only here and in the two later accounts Paul gives of his conversion. He was not an apostle. He was a man described elsewhere simply as &ldquo;a devout man according to the law, well spoken of by all the Jews who lived there&rdquo; (22:12). He was, in every respect, an ordinary believer. And the Lord chose him to play a role in the conversion of the man who would become the greatest missionary in Christian history.",
+      "The Lord came to Ananias in a vision. The message was direct: &ldquo;Rise and go to the street called Straight, and at the house of Judas look for a man of Tarsus named Saul, for behold, he is praying, and he has seen in a vision a man named Ananias come in and lay his hands on him so that he might regain his sight&rdquo; (9:11&ndash;12). The Lord had already told Saul in his own vision that Ananias was coming. The two visions were interlocking parts of one divine plan. God had already arranged the meeting; he was now asking Ananias to walk into it.",
+      "Ananias&rsquo;s response is one of the most humanly understandable moments in all of Acts. He answered: &ldquo;Lord, I have heard from many about this man, how much evil he has done to your saints at Jerusalem. And here he has authority from the chief priests to bind all who call on your name&rdquo; (9:13&ndash;14). This is not a refusal. Ananias says &ldquo;Lord&rdquo; at the start, which indicates his posture of submission. But he is, transparently and honestly, afraid. He is being asked to go to a man who has been arresting and killing people like him. His fear is not sinful; it is reasonable. And his expression of it to the Lord is itself a model of honest prayer.",
+      "The Lord&rsquo;s reply does not rebuke Ananias for his fear. Instead it gives him information that transforms the situation: &ldquo;Go, for he is a chosen instrument of mine to carry my name before the Gentiles and kings and the children of Israel. For I will show him how much he must suffer for the sake of my name&rdquo; (9:15&ndash;16). The man who had been the church&rsquo;s greatest persecutor was now the Lord&rsquo;s chosen vessel. The reversal is total. And the life ahead of Saul, the Lord noted, would not be one of triumph over his enemies but of suffering for Jesus. The convert would become, in his turn, the one who suffered for the name he had once tried to destroy.",
+      "Ananias went. That simple verb covers the full measure of his obedience. He had heard the worst about Saul. He had reason to be afraid. He had lodged his honest concern with the Lord. And then, trusting the Lord&rsquo;s word over his own assessment of the situation, he went. He found the house, entered, laid his hands on Saul, and spoke: &ldquo;Brother Saul, the Lord Jesus who appeared to you on the road by which you came has sent me so that you may regain your sight and be filled with the Holy Spirit&rdquo; (9:17).",
+      "The first word Ananias spoke to the man who had been arresting and killing his fellow believers was &ldquo;Brother.&rdquo; Brother Saul. The grace that had already floored Saul on the road now came to him through the mouth of an ordinary disciple who called him family. Immediately something like scales fell from Saul&rsquo;s eyes, and he regained his sight. He rose and was baptized. He took food and was strengthened. In three days he had passed from violence to blindness to sight to baptism to nourishment. He had been unmade and remade.",
+      "The role of Ananias in the conversion of Paul is one of the most instructive minor episodes in Acts. God could have completed Saul&rsquo;s conversion without Ananias. The same Lord who appeared on the road could have appeared again in the house of Judas on the street called Straight. But he did not. He chose to bring Saul his sight and his first word of Christian community through an ordinary, frightened, obedient disciple who went when the Lord said go. The conversion of the greatest apostle was mediated through the obedience of a man no one remembers. Ordinary faithfulness was the instrument of extraordinary grace.",
+    ],
+  },
+  {
+    id: "He Proclaimed Jesus in the Synagogues",
+    heading: "He Proclaimed Jesus in the Synagogues",
+    reference: "Acts 9:20&ndash;31",
+    paragraphs: [
+      "The transformation that follows Saul&rsquo;s baptism is immediate, and it is total. The text says: &ldquo;And immediately he proclaimed Jesus in the synagogues, saying, &lsquo;He is the Son of God&rsquo;&rdquo; (9:20). This is remarkable on several levels. The man who had come to Damascus with letters to arrest followers of Jesus was now himself proclaiming Jesus in the very synagogues where he had planned to operate. The hunter had become the hunted; the prosecutor had become the witness for the defense.",
+      "The reaction of those who heard him was astonishment &mdash; the Greek word is existemi, to be beside oneself with shock. &ldquo;And all who heard him were amazed and said, &lsquo;Is not this the man who made havoc in Jerusalem of those who called upon this name? And has he not come here for this purpose, to bring them bound before the chief priests?&rsquo;&rdquo; (9:21). The Damascus congregation knew exactly who Saul was and why he had been on his way there. They had been the intended targets of his mission. And now here he was, proclaiming that Jesus is the Son of God.",
+      "Luke tells us that Saul increased all the more in strength, and confounded the Jews who lived in Damascus by proving that Jesus was the Christ (9:22). The verb translated &ldquo;proving&rdquo; (symbibazon) implies a careful, systematic, argument-based demonstration. Saul was not simply testifying to a religious experience. He was bringing his formidable training in Scripture to bear on the case for Jesus as the Messiah. The same mind that had once deployed its powers against the church was now deploying them for it.",
+      "The pattern of his ministry &mdash; proclaiming, debating, proving from Scripture, and then facing a plot against his life &mdash; would repeat itself throughout all of Paul&rsquo;s subsequent missionary career. Here in Damascus, after many days, the Jews plotted to kill him. They were watching the gates of the city day and night to catch and kill him. The disciples took him by night and let him down through an opening in the wall, lowering him in a basket. The man who had arrived to bind believers was now himself being smuggled out of the city in a basket to escape arrest. The reversal is almost comic in its completeness.",
+      "Saul returned to Jerusalem and attempted to join the disciples there, but they were afraid of him &mdash; not believing that he was truly a disciple. The fear was understandable. Saul&rsquo;s previous activity in Jerusalem had been to ravage the church. His sudden claim to be one of them could easily have been a spy&rsquo;s stratagem. Into this standoff of mutual suspicion stepped Barnabas, &ldquo;son of encouragement,&rdquo; whose role throughout Acts is to see potential in people others have written off. He brought Saul to the apostles, declared how Saul had seen the Lord on the road and how the Lord had spoken to him, and how in Damascus Saul had preached boldly in the name of Jesus (9:27).",
+      "This intervention by Barnabas was essential. Without someone to vouch for Saul&rsquo;s conversion, he might have remained in a kind of ecclesiastical limbo &mdash; too dangerous for the church to trust, too converted to return to the Sanhedrin. Barnabas&rsquo;s willingness to stake his own credibility on Saul&rsquo;s genuineness opened the door of the Jerusalem church to the man who would change the world. The pattern repeats: extraordinary events in the kingdom of God are mediated through ordinary acts of human courage and generosity.",
+      "With Barnabas&rsquo;s endorsement, Saul moved freely through Jerusalem, speaking boldly in the name of the Lord. He spoke and disputed against the Hellenists &mdash; Greek-speaking Jews &mdash; and they sought to kill him. The brothers sent him to Caesarea and from there to Tarsus. And then the summary statement arrives, one of the great breath-taking moments in Acts: &ldquo;So the church throughout all Judea and Galilee and Samaria had peace and was being built up. And walking in the fear of the Lord and in the comfort of the Holy Spirit, it multiplied&rdquo; (9:31). The church&rsquo;s greatest persecutor had become the occasion of its peace. Grace had taken the weapon aimed at the body of Christ and forged it into an instrument of the body&rsquo;s growth.",
+      "Acts 9 as a whole is a masterclass in the persistence of divine grace. Jesus did not write off Saul when Saul was breathing threats and murder. He did not wait for Saul to soften or reconsider. He appeared on the road, spoke his name, asked his penetrating question, and answered it with the most important truth Saul would ever hear: &ldquo;I am Jesus.&rdquo; The grace that converts persecutors is not a mild, gentle nudge toward better behavior. It is a light brighter than the sun, a voice that breaks through every defense, and a love that names you and will not let you go.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "yzpPGGrpYoI", title: "BibleProject - Acts Overview Part 2 - Ch. 13-28" },
+  { videoId: "oNNZO9i1Gjc", title: "The Conversion of Saul on the Road to Damascus - Acts 9" },
+  { videoId: "X_Simwxkfss", title: "Paul the Apostle - From Persecutor to Preacher" },
+  { videoId: "5KMsUCJY3_U", title: "Ananias and the Call to Ordinary Obedience - Acts 9" },
+];
+
+export default function Acts9GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 9 &mdash; The Conversion of Saul
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The road to Damascus, the light from heaven, and the most dramatic conversion in history &mdash; how the church&rsquo;s greatest persecutor became its greatest missionary, and what the grace that stopped Saul means for all who resist Jesus.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Acts 9 through visual teaching on the conversion of Saul, the role of Ananias, and the explosive beginning of Paul&rsquo;s apostolic ministry.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Am Jesus, Whom You Are Persecuting</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 9 declares that no one is beyond the reach of the risen Christ. The grace that stopped the church&rsquo;s most violent enemy, gave him sight, called him brother, and sent him to the Gentiles is the same grace that pursues all who resist Jesus &mdash; the grace of a light brighter than the sun, a voice that knows your name, and a love that will not let you go.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

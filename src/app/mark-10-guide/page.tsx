@@ -1,0 +1,199 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Jesus Blesses Little Children",
+  "The Rich Young Ruler",
+  "What Do You Want Me to Do",
+  "The Blind Bartimaeus",
+  "The Son of Man Came to Serve",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Jesus Blesses Little Children",
+    heading: "Jesus Blesses Little Children",
+    reference: "Mark 10:13&ndash;16",
+    paragraphs: [
+      "Mark 10 opens what might be called the great inversion passage of the Gospel &mdash; a sustained meditation on who is great, who is first, who belongs to the kingdom, and what it costs to follow Jesus. The first scene is as brief as it is arresting: people were bringing children to Jesus for him to touch, and the disciples rebuked them. The disciples&rsquo; action is not presented as cruelty; it is presented as management. Children had low social standing in the ancient world, and the disciples apparently judged that the teacher&rsquo;s time and attention ought not to be consumed by those of no apparent significance.",
+      "Jesus is indignant. The word Mark uses (10:14) is strong &mdash; the same word used elsewhere of righteous anger at the hardness of heart he encountered in the synagogue (3:5). The disciples have not merely made a scheduling error; they have misread the kingdom. &ldquo;Let the children come to me; do not hinder them, for to such belongs the kingdom of God&rdquo; (10:14). The kingdom belongs to such as these. Not to the powerful or the learned or the religiously accomplished &mdash; to those who are small, dependent, unable to argue their own way in.",
+      "Jesus then intensifies the point into a general principle: &ldquo;Truly, I say to you, whoever does not receive the kingdom of God like a child shall not enter it&rdquo; (10:15). The kingdom is received, not earned. It is received like a child receives &mdash; with open hands, with complete dependence on the giver, with no prior achievement to present. The adult tendency to calculate merit, to accumulate qualifications, to determine whether one is deserving enough, is precisely what must be set aside. The kingdom posture is childlike receptivity.",
+      "Then Jesus takes the children in his arms and blesses them, laying his hands on them (10:16). The image is tender and deliberate. He does not merely permit them to approach; he actively receives them, enfolds them, speaks blessing over them. Those whom the disciples considered an interruption to the important work of the kingdom are treated by Jesus as exemplars of the kingdom. The disciples will need this lesson again and again &mdash; and so will every subsequent generation of the church.",
+      "The placement of this scene at the opening of chapter 10 is theologically significant. It stands as an interpretive frame for everything that follows. The rich young ruler who arrives moments later comes with accomplishments and possessions; the children came with nothing. James and John will ask for greatness and prominence; the children asked only to be touched. Bartimaeus will cry out in helpless need; the children were brought in the helplessness of infancy. The pattern is established from the first: in the kingdom of God, the small inherit what the great cannot grasp.",
+    ],
+  },
+  {
+    id: "The Rich Young Ruler",
+    heading: "The Rich Young Ruler",
+    reference: "Mark 10:17&ndash;31",
+    paragraphs: [
+      "The man who runs up to Jesus and kneels before him seems, on the surface, to be everything the disciples are not. He is eager &mdash; he runs. He is reverent &mdash; he kneels. He is sincere &mdash; his question is entirely serious: &ldquo;Good Teacher, what must I do to inherit eternal life?&rdquo; (10:17). And he has, by his own account, kept the commandments from his youth. Luke tells us he is a ruler; Matthew tells us he is young; all three synoptic accounts agree he has great possessions. He is, by every visible measure, an exemplary human being.",
+      "Jesus&rsquo; response begins with a pointed question that the man does not seem to notice. &ldquo;Why do you call me good? No one is good except God alone&rdquo; (10:18). This is not a disclaimer of divine goodness but an invitation to consider who it is that stands before him. If Jesus is good in the full sense, then he is the one God alone &mdash; and the man is kneeling before more than a teacher. The question is left hanging as Jesus proceeds to name the commandments: do not murder, do not commit adultery, do not steal, do not bear false witness, do not defraud, honour your father and mother.",
+      "The man&rsquo;s answer comes without apparent hesitation: &ldquo;Teacher, all these I have kept from my youth&rdquo; (10:20). Mark then records the most remarkable detail in the scene: &ldquo;And Jesus, looking at him, loved him&rdquo; (10:21). The look of Jesus is a look of love. There is no contempt here, no impatience, no desire to humiliate. Jesus sees the genuine earnestness of this man and loves him. And it is precisely out of that love that he speaks the word that the man cannot receive.",
+      "&ldquo;You lack one thing: go, sell all that you have and give to the poor, and you will have treasure in heaven; and come, follow me&rdquo; (10:21). The one thing lacking is not a particular virtue or a missing religious exercise. The one thing lacking is the displacement of wealth from the throne of the man&rsquo;s life. Jesus does not present this as the universal command to all his followers; he presents it as the specific diagnosis of this specific man&rsquo;s particular attachment. The man&rsquo;s great possessions had become his security, his identity, his functional god. The invitation to follow Jesus required dethroning that god.",
+      "The man&rsquo;s face falls. He goes away sorrowful, for he had great possessions. Mark captures the tragedy in the simplest possible terms: the one who ran up with eagerness walks away in grief. Jesus then turns to his disciples and speaks one of the most uncomfortable sentences in the Gospels: &ldquo;How difficult it will be for those who have wealth to enter the kingdom of God!&rdquo; (10:23). The disciples are astonished &mdash; wealth in their world was understood as a sign of divine blessing, not as an obstacle to it.",
+      "Jesus presses the point: &ldquo;It is easier for a camel to go through the eye of a needle than for a rich person to enter the kingdom of God&rdquo; (10:25). The image is deliberately absurd &mdash; a camel, the largest animal in the Palestinian world, passing through the smallest possible aperture. The disciples respond with the right question: &ldquo;Then who can be saved?&rdquo; And Jesus gives the only sufficient answer: &ldquo;With man it is impossible, but not with God. For all things are possible with God&rdquo; (10:27). Salvation is never the achievement of the qualified; it is always the gift of the God for whom all things are possible.",
+      "Peter then speaks up, as he so often does, to note what the disciples have done: they have left everything and followed Jesus. Jesus does not dismiss this. He acknowledges the cost and announces the astonishing return: a hundredfold in this life, in houses and brothers and sisters and mothers and children and lands, and in the age to come eternal life. But the list includes persecutions, and the final word is the great reversal: &ldquo;But many who are first will be last, and the last first&rdquo; (10:31). The inversion that began with the children continues here, and will continue throughout the chapter.",
+    ],
+  },
+  {
+    id: "What Do You Want Me to Do",
+    heading: "What Do You Want Me to Do",
+    reference: "Mark 10:35&ndash;45",
+    paragraphs: [
+      "Between the prediction of the passion (10:32&ndash;34) and the healing of Bartimaeus (10:46&ndash;52) lies the most direct teaching on greatness in all of Mark&rsquo;s Gospel. Jesus has just told the disciples for the third time that the Son of Man will be delivered, condemned, mocked, flogged, and killed, and on the third day will rise. The disciples&rsquo; response is staggering in its tone-deafness: James and John come to Jesus with a request for the seats of greatest honour in his glory.",
+      "Jesus does not immediately refuse them. He asks: &ldquo;What do you want me to do for you?&rdquo; (10:36). This is the same question he will ask Bartimaeus moments later (10:51) &mdash; a deliberate verbal echo that the attentive reader cannot miss. The question is gracious and open; Jesus invites them to name their desire. Their answer reveals what they have understood of the kingdom: they want the throne positions, the seats of visible power and prestige, the positions of prominence when the glory arrives.",
+      "Jesus gently dismantles their ambition, not by denying the reality of his glory but by redirecting their understanding of how it is entered. Can they drink the cup he is about to drink? Can they be baptized with the baptism he is about to undergo? The cup and the baptism are Markan shorthand for the cross &mdash; the suffering and death that he has just predicted. With characteristic boldness they say they can, and Jesus acknowledges that they will indeed share in his sufferings. But the seats of honour are not his to assign; they belong to those for whom they have been prepared.",
+      "When the ten other disciples hear of James and John&rsquo;s request, they are indignant &mdash; not because the request was improper, but because they wanted those positions themselves. Jesus calls them all together and delivers the charter of servant leadership: &ldquo;You know that those who are considered rulers of the Gentiles lord it over them, and their great ones exercise authority over them. But it shall not be so among you. But whoever would be great among you must be your servant, and whoever would be first among you must be slave of all&rdquo; (10:42&ndash;44).",
+      "The contrast is between two models of greatness. The world&rsquo;s model is top-down: those who are greatest exercise the most authority, command the most resources, have the most people beneath them. The kingdom model is inverted: those who are greatest are those who serve the most people, in the most humble capacities, at the most personal cost. The slave of all is not the footnote of the community but its summit. This is not mere rhetoric; it is a structural redefinition of what power is for and how it should be expressed.",
+      "The ground of this inversion is the example of the Son of God himself: &ldquo;For even the Son of Man came not to be served but to serve, and to give his life as a ransom for many&rdquo; (10:45). This is the theological hinge of the entire chapter. The one who had every right to be served &mdash; who was served by angels, who was worshiped before the creation of the world &mdash; came in the form of a servant. And his service was not merely practical assistance; it culminated in the giving of his life as a ransom. The word &ldquo;ransom&rdquo; (lutron) means a price paid to set a captive free. The many who are ransomed are freed at the cost of his death.",
+      "This verse (10:45) is the only place in Mark where Jesus explicitly interprets the meaning of his own death. It is not an accident or a tragedy or a miscarriage of justice &mdash; it is a ransom, a price willingly paid by the servant-king for those who could not free themselves. Every subsequent Christian theology of atonement draws deeply from this single verse. And every Christian understanding of leadership and greatness must reckon with the fact that the king of the universe expressed his greatness not by commanding but by dying.",
+    ],
+  },
+  {
+    id: "The Blind Bartimaeus",
+    heading: "The Blind Bartimaeus",
+    reference: "Mark 10:46&ndash;52",
+    paragraphs: [
+      "The chapter closes with a story of sight &mdash; and it is the fitting end to a chapter that has been, at its heart, about spiritual blindness and spiritual seeing. Bartimaeus, a blind beggar, sits by the road outside Jericho as Jesus passes by with a great crowd. He has no social standing, no access to Jesus, no way to make his case to the one surrounded by followers and the interested public. He has only one thing: a voice and the willingness to use it.",
+      "When he hears that it is Jesus of Nazareth, he begins to cry out: &ldquo;Jesus, Son of David, have mercy on me!&rdquo; (10:47). The title is striking. No one else in Mark&rsquo;s Gospel has addressed Jesus as &ldquo;Son of David&rdquo; before this moment. The messianic title comes from the lips of a blind beggar who cannot even see Jesus, at precisely the moment in the narrative when the disciples who can see him have repeatedly failed to understand him. The one with no eyes sees who Jesus is; those with eyes have been blind to it.",
+      "The crowd rebukes him and tells him to be silent. This is the same impulse that moved the disciples to rebuke those who brought children to Jesus. The crowd&rsquo;s management of access to Jesus excludes the noisy, the inconvenient, the socially marginal. Bartimaeus does not yield. &ldquo;But he cried out all the more, &lsquo;Son of David, have mercy on me!&rsquo;&rdquo; (10:48). His persistence is not stubbornness; it is faith. He knows that this is the one who can help him, that this opportunity may not come again, and that the crowd&rsquo;s verdict on his worth is not the final word.",
+      "Jesus stops. In a crowd scene in which many things are happening, the cry of one blind beggar causes the Son of God to stand still. He says, &ldquo;Call him.&rdquo; The crowd&rsquo;s attitude instantly reverses: &ldquo;Take heart. Get up; he is calling you&rdquo; (10:49). Bartimaeus throws off his cloak &mdash; perhaps the only thing he owns, the blanket that doubles as his bed and his begging mat &mdash; springs up, and comes to Jesus.",
+      "Now Jesus asks the question: &ldquo;What do you want me to do for you?&rdquo; (10:51). The same question he asked James and John (10:36), who answered with a request for thrones and glory. Bartimaeus answers with a specificity that is itself a lesson in prayer: &ldquo;Rabbi, let me recover my sight&rdquo; (10:51). He does not ask for a general blessing or a vague improvement of his circumstances. He knows what he needs, and he asks for it precisely. The specificity of his prayer mirrors the clarity of his faith: he knows who Jesus is, he knows what he lacks, and he asks directly.",
+      "Jesus&rsquo; response is immediate: &ldquo;Go your way; your faith has made you well&rdquo; (10:52). The word translated &ldquo;made you well&rdquo; is the same Greek word (sozo) translated &ldquo;saved&rdquo; elsewhere. Bartimaeus is healed and he is saved &mdash; the outer restoration of sight mirrors an inner restoration of the soul. And then the detail that closes the chapter and completes the narrative arc: &ldquo;And immediately he recovered his sight and followed him on the way.&rdquo; He followed him on the way. The road to Jerusalem, the road to the cross &mdash; Bartimaeus, now seeing, joins the procession of disciples following Jesus into suffering and glory.",
+      "The narrative symmetry of Mark 10 is unmistakable. It begins with those who cannot come to Jesus and are welcomed; it ends with one who cannot come to Jesus and is welcomed. It begins with childlike receptivity as the model of kingdom entry; it ends with a beggar&rsquo;s cry as the model of kingdom prayer. In between stand the rich man who had everything and went away with nothing, and the disciples who had Jesus and yet understood nothing. The chapter is a sustained lesson in seeing &mdash; and in the great reversal: the last are first, the blind see, and the beggars of the earth inherit what the great cannot grasp.",
+    ],
+  },
+  {
+    id: "The Son of Man Came to Serve",
+    heading: "The Son of Man Came to Serve",
+    reference: "Mark 10:32&ndash;45",
+    paragraphs: [
+      "The central theological statement of Mark 10 &mdash; indeed, one of the central theological statements of the entire Gospel &mdash; is Mark 10:45: &ldquo;For even the Son of Man came not to be served but to serve, and to give his life as a ransom for many.&rdquo; This verse does not appear in isolation. It is the conclusion of Jesus&rsquo; teaching on servant leadership, but it is also the interpretive key to the whole chapter and to the whole of Mark&rsquo;s narrative of Jesus&rsquo; journey toward the cross.",
+      "The journey to Jerusalem frames everything in this section of Mark. Beginning at 8:31, Jesus has been moving toward the city where he will be handed over and killed. Three times he has stated this explicitly: 8:31, 9:31, and now 10:32&ndash;34. Each prediction is followed, with almost comic irony, by a demonstration of the disciples&rsquo; failure to grasp what he is saying. After the first they argue about who is greatest. After the second they argue about who is greatest. After the third, James and John ask for the best seats. The disciples are not wicked; they are simply operating with a completely different model of what the kingdom looks like.",
+      "Jesus does not lose patience with them. He teaches, patiently and repeatedly, a different model. The model is servanthood &mdash; not as a technique for advancement, not as a posture adopted to gain influence, but as a fundamental orientation of life that finds its supreme expression in the self-giving of the Son of Man. He does not say that serving will lead to greatness in some future calculation; he says that serving is greatness, and that the one who is slave of all is first of all.",
+      "The word &ldquo;servant&rdquo; (diakonos) in verse 43 and &ldquo;slave&rdquo; (doulos) in verse 44 are not interchangeable with contemporary uses of the same words in their popular positive sense. In the ancient world, a slave was at the bottom of the social hierarchy &mdash; someone with no rights, no social standing, no claim to consideration. Jesus is not inviting his disciples to a comfortable and valued service role. He is inviting them to the position of social zero, the person who exists for others rather than for themselves.",
+      "The ground for this invitation, as verse 45 makes unmistakably clear, is christological. Jesus himself took the position of servant and slave, and did so not merely as a model but as a mission. He came to serve &mdash; the verb is in the aorist, indicating the whole purpose and mission of his coming. And the service he rendered was not merely practical or social; it was substitutionary and atoning. He gave his life as a ransom for many &mdash; one life in exchange for the lives of the many who were held captive. The service of the cross is the foundation on which all Christian service stands.",
+      "This has profound implications for leadership in the church and in the world. Leadership understood in kingdom terms is not the accumulation of authority over others but the extension of service to others. The pastor who lords authority over the congregation has confused worldly power with kingdom power. The elder who manages the church for the enhancement of personal prestige has confused worldly greatness with kingdom greatness. The standard is not comfort or efficiency or even effectiveness by worldly measures. The standard is the Son of Man who gave his life.",
+      "There is also a word here about prayer and desire. The contrast between James and John asking for thrones and Bartimaeus asking for sight is not merely narrative structure &mdash; it is a lesson in what kingdom desire looks like. The disciples&rsquo; desire was for a share in the world&rsquo;s kind of glory; Bartimaeus&rsquo; desire was for healing, for the capacity to see and follow. The prayer Jesus grants in this chapter is not the prayer of ambitious self-advancement but the prayer of desperate, specific, faith-filled need. &ldquo;Son of David, have mercy on me&rdquo; is the prayer that stops Jesus in his tracks. The prayer for the best seats does not.",
+      "Mark 10 ends with a man following Jesus on the road to Jerusalem. That road leads to the cross. The cost of following Jesus in this Gospel is not hidden or minimized &mdash; Jesus has named it plainly in the three passion predictions and in the teaching on the cross as the disciple&rsquo;s calling (8:34&ndash;38). But Mark 10 also demonstrates that following that road is not beyond the grasp of the most marginal person alive. A blind beggar with nothing but a voice and a conviction about who Jesus is &mdash; he makes it onto the road. The great possessions of the rich young ruler weigh too much to be carried there. The thrones of James and John cannot be brought along. But the cloak that Bartimaeus throws away, the last thing he owns &mdash; that he leaves behind without a second look, and he follows.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "HGHqu9-DtXk", title: "BibleProject - Overview - Mark 1-8" },
+  { videoId: "5RgsGbNJ6bs", title: "BibleProject - Overview - Mark 9-16" },
+  { videoId: "3dEh3_D2tSM", title: "The Rich Young Ruler - Mark 10 Explained" },
+  { videoId: "YoG-A0NQSQU", title: "Servant Leadership and Bartimaeus - Mark 10 Study" },
+];
+
+export default function Mark10GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Mark 10 &mdash; Servanthood and Greatness
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus blesses children, confronts the rich young ruler, redefines greatness as servanthood, and heals blind Bartimaeus &mdash; a sustained meditation on who truly belongs to the kingdom and what it costs to follow the Son of Man who came to serve.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Mark 10 through visual teaching on children and the kingdom, the rich young ruler, servant leadership, and the healing of blind Bartimaeus.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Last Shall Be First</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Mark 10 dismantles every worldly model of greatness and replaces it with the image of the Son of Man who came not to be served but to serve and to give his life as a ransom for many. Children receive what rulers cannot grasp; blind beggars see what disciples miss; and the slave of all is first of all. The kingdom belongs to those who come with open hands.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

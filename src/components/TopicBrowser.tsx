@@ -1816,6 +1816,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 103 Chapter": "psalm-103-guide",
   "Bless the Lord O My Soul": "psalm-103-guide",
   "Who Forgives All": "psalm-103-guide",
+  "Psalm 121 Chapter": "psalm-121-guide",
+  "I Lift Up My Eyes": "psalm-121-guide",
+  "The Lord Is Your Keeper": "psalm-121-guide",
+  "Matthew 6 Chapter": "matthew-6-guide",
+  "Do Not Be Anxious": "matthew-6-guide",
+  "Seek First the Kingdom": "matthew-6-guide",
+  "2 Corinthians 12 Chapter": "2-corinthians-12-guide",
+  "My Grace Is Sufficient": "2-corinthians-12-guide",
+  "Power Made Perfect": "2-corinthians-12-guide",
+  "James 1 Chapter": "james-1-guide",
+  "Count It All Joy": "james-1-guide",
+  "Doer of the Word": "james-1-guide",
 };
 
 
@@ -2690,6 +2702,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 11 Chapter" },
   { label: "Psalm 46 Chapter" },
   { label: "Psalm 103 Chapter" },
+  { label: "Psalm 121 Chapter" },
+  { label: "Matthew 6 Chapter" },
+  { label: "2 Corinthians 12 Chapter" },
+  { label: "James 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

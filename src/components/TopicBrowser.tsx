@@ -1720,6 +1720,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Haggai Deep Dive": "christian-book-of-haggai-guide",
   "Haggai Consider Your Ways": "christian-book-of-haggai-guide",
   "Rebuild the Temple Haggai": "christian-book-of-haggai-guide",
+  "1 Chronicles Deep Dive": "christian-book-of-1-chronicles-guide",
+  "Genealogies of Israel": "christian-book-of-1-chronicles-guide",
+  "David Reign Chronicles": "christian-book-of-1-chronicles-guide",
+  "2 Chronicles Deep Dive": "christian-book-of-2-chronicles-guide",
+  "Solomon Temple Glory": "christian-book-of-2-chronicles-guide",
+  "Faithful Kings Judah": "christian-book-of-2-chronicles-guide",
+  "Song of Solomon Deep Dive": "christian-book-of-song-of-solomon-guide",
+  "Many Waters Love": "christian-book-of-song-of-solomon-guide",
+  "Christ and the Church Bride": "christian-book-of-song-of-solomon-guide",
+  "Lamentations Deep Dive": "christian-book-of-lamentations-guide",
+  "Great Is Your Faithfulness": "christian-book-of-lamentations-guide",
+  "Weeping Prophet Lament": "christian-book-of-lamentations-guide",
 };
 
 
@@ -2562,6 +2574,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Nahum Deep Dive" },
   { label: "Zephaniah Deep Dive" },
   { label: "Haggai Deep Dive" },
+  { label: "1 Chronicles Deep Dive" },
+  { label: "2 Chronicles Deep Dive" },
+  { label: "Song of Solomon Deep Dive" },
+  { label: "Lamentations Deep Dive" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

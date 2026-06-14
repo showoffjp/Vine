@@ -1744,6 +1744,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "3 John Deep Dive": "christian-book-of-3-john-guide",
   "Gaius and Diotrephes": "christian-book-of-3-john-guide",
   "Imitate What Is Good": "christian-book-of-3-john-guide",
+  "Psalm 23 Chapter": "psalm-23-guide",
+  "The Lord Is My Shepherd": "psalm-23-guide",
+  "Shepherd Psalm Comfort": "psalm-23-guide",
+  "Romans 8 Chapter": "romans-8-guide",
+  "More Than Conquerors": "romans-8-guide",
+  "Nothing Can Separate Us": "romans-8-guide",
+  "1 Corinthians 13 Chapter": "1-corinthians-13-guide",
+  "Love Is Patient Kind": "1-corinthians-13-guide",
+  "The Greatest Is Love": "1-corinthians-13-guide",
+  "Isaiah 53 Chapter": "isaiah-53-guide",
+  "Pierced for Our Transgressions": "isaiah-53-guide",
+  "By His Wounds Healed": "isaiah-53-guide",
 };
 
 
@@ -2594,6 +2606,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Ezra Deep Dive" },
   { label: "2 John Deep Dive" },
   { label: "3 John Deep Dive" },
+  { label: "Psalm 23 Chapter" },
+  { label: "Romans 8 Chapter" },
+  { label: "1 Corinthians 13 Chapter" },
+  { label: "Isaiah 53 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

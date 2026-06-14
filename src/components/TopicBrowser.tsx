@@ -1756,6 +1756,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 53 Chapter": "isaiah-53-guide",
   "Pierced for Our Transgressions": "isaiah-53-guide",
   "By His Wounds Healed": "isaiah-53-guide",
+  "John 3 Chapter": "john-3-guide",
+  "Born Again": "john-3-guide",
+  "For God So Loved": "john-3-guide",
+  "Philippians 4 Chapter": "philippians-4-guide",
+  "Be Anxious for Nothing": "philippians-4-guide",
+  "Peace That Surpasses": "philippians-4-guide",
+  "Psalm 91 Chapter": "psalm-91-guide",
+  "Shelter of the Most High": "psalm-91-guide",
+  "He Who Dwells": "psalm-91-guide",
+  "Hebrews 11 Chapter": "hebrews-11-guide",
+  "By Faith They Conquered": "hebrews-11-guide",
+  "Faith Hall Heroes": "hebrews-11-guide",
 };
 
 
@@ -2610,6 +2622,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 8 Chapter" },
   { label: "1 Corinthians 13 Chapter" },
   { label: "Isaiah 53 Chapter" },
+  { label: "John 3 Chapter" },
+  { label: "Philippians 4 Chapter" },
+  { label: "Psalm 91 Chapter" },
+  { label: "Hebrews 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

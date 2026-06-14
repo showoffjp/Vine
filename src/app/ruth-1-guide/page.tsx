@@ -1,0 +1,192 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Naomi and Elimelech in Moab",
+  "The Deaths of Mahlon and Chilion",
+  "Naomi Urges the Women to Return",
+  "Where You Go I Will Go",
+  "Naomi Returns Bitter",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Naomi and Elimelech in Moab",
+    heading: "Naomi and Elimelech in Moab",
+    reference: "Ruth 1:1&ndash;2",
+    paragraphs: [
+      "The book of Ruth opens with one of the Bible&rsquo;s most economical and poignant scene-settings: &ldquo;In the days when the judges ruled there was a famine in the land, and a man of Bethlehem in Judah went to sojourn in the country of Moab, he and his wife and his two sons&rdquo; (1:1). Every element of that opening verse carries weight. The time reference &mdash; the days of the judges &mdash; locates the story in an era that the book of Judges has characterized as a time of moral chaos, of cycles of apostasy and oppression, of each person doing what was right in their own eyes. Into that dark historical background the book of Ruth introduces a story of extraordinary fidelity and grace.",
+      "The man&rsquo;s name is Elimelech, which means &ldquo;My God is King.&rdquo; His wife&rsquo;s name is Naomi, which means &ldquo;Pleasant&rdquo; or &ldquo;Sweet.&rdquo; They come from Bethlehem in Judah &mdash; a name that means &ldquo;House of Bread,&rdquo; a bitter irony for a family leaving precisely because there is no bread. The two sons are Mahlon and Chilion. The family is not fleeing persecution or war; they are fleeing hunger, seeking survival in a foreign land. This is one of the most common of all human experiences: the migration of a family from a place that cannot sustain them to a place that might.",
+      "Moab lay east of the Dead Sea, on the high plateau across the Jordan from Judah. It was a land with a complicated history in relation to Israel. The Moabites were descended from Lot, Abraham&rsquo;s nephew, and thus were cousins of the Israelites in some sense. Yet the relationship had often been hostile: Balak king of Moab had tried to have Balaam curse Israel in the wilderness, and Moabite women had drawn Israelite men into idolatry at Baal Peor. The Mosaic law had specifically excluded Moabites from the assembly of the Lord to the tenth generation (Deuteronomy 23:3). This historical background makes what will happen in this book all the more remarkable.",
+      "For Elimelech and Naomi to &ldquo;sojourn&rdquo; in Moab was to live as resident aliens &mdash; dependent on the hospitality and legal structures of a foreign people, without the land rights and covenant protections of their own country. The verb &ldquo;sojourn&rdquo; implies a temporary arrangement; they do not intend to make Moab their permanent home. They are displaced people, hoping the famine in Judah will end and they will be able to return. What begins as a temporary survival strategy will stretch across ten years and cost them everything they did not expect to lose.",
+      "The opening verses of Ruth thus establish a narrative of diaspora, of a covenant family living outside the land of promise under the pressure of necessity. This was not an unusual situation for Israelites in the period of the judges, when the instability of the era made normal agricultural life difficult. But the story that unfolds will show that God&rsquo;s purposes are not limited by geography, that his providential hand reaches into Moab as surely as it reaches into Bethlehem, and that he is capable of bringing extraordinary blessing through the least expected channels: a bereaved foreign woman&rsquo;s loyalty to her bereaved Israelite mother-in-law.",
+    ],
+  },
+  {
+    id: "The Deaths of Mahlon and Chilion",
+    heading: "The Deaths of Mahlon and Chilion",
+    reference: "Ruth 1:3&ndash;5",
+    paragraphs: [
+      "The narrative moves swiftly and with relentless bleakness through the losses that will define Naomi&rsquo;s situation. Elimelech, Naomi&rsquo;s husband, dies in Moab. The text does not explain how or why &mdash; no illness is named, no battle described, no theological reason offered. He simply dies, and Naomi is left with her two sons. The brevity of the account is itself eloquent: death comes without explanation, and it leaves behind it the diminished, vulnerable household of a widow with two dependent sons in a foreign land.",
+      "The two sons, Mahlon and Chilion, take Moabite wives. Mahlon marries Ruth; Chilion marries Orpah. This is a significant detail that the book introduces without editorial comment, though the reader familiar with Mosaic law would notice the transgression it implies. Israelite men taking Moabite wives cut against the grain of the covenant community&rsquo;s self-understanding. Yet the narrator does not condemn the marriages; the story will go on to show that one of these Moabite wives will become one of the most celebrated figures in the entire Old Testament. The book of Ruth is quietly, deliberately, pushing back against any reading of the covenant that would make ethnic identity the primary determinant of covenantal belonging.",
+      "Then the second wave of disaster strikes. After about ten years, both Mahlon and Chilion die. The text is again stark and unexplained: &ldquo;both Mahlon and Chilion died, so that the woman was left without her two sons and her husband&rdquo; (1:5). Naomi has now lost everything that defined her social and economic security in the ancient world &mdash; her husband and both sons. She is a widow in a foreign country, past the age of bearing more children, with two young foreign daughters-in-law who are themselves widows.",
+      "The Hebrew names of the sons &mdash; Mahlon and Chilion &mdash; may themselves carry ominous resonance. Mahlon is related to a root meaning &ldquo;sickness&rdquo; or &ldquo;weakness,&rdquo; and Chilion to a root meaning &ldquo;destruction&rdquo; or &ldquo;wasting away.&rdquo; Whether or not the original audience would have heard these overtones, the narrator seems to be signaling that these lives were always fragile, always marked by mortality. The family came to Moab to survive a famine; they have survived the famine but not the years.",
+      "The situation of Naomi, Orpah, and Ruth after the deaths of the men is one of extreme vulnerability by ancient standards. Widows without adult male relatives to advocate for them had limited legal standing and limited economic options. They could not own land in the normal course; they depended on the charity of the community and the protections extended to the poor and the foreigner. The only paths forward for Orpah and Ruth were to return to their fathers&rsquo; houses and hope for remarriage within their own people, or to follow Naomi back to a land and a people they did not know. The choice that each woman makes in the next verses will define the entire story.",
+    ],
+  },
+  {
+    id: "Naomi Urges the Women to Return",
+    heading: "Naomi Urges the Women to Return",
+    reference: "Ruth 1:6&ndash;15",
+    paragraphs: [
+      "The turn comes when Naomi hears that the Lord has visited his people and given them food. The famine in Judah is over. The word that reaches Naomi in Moab is not merely economic news &mdash; it is theological news. The narrator says the Lord &ldquo;had visited his people&rdquo; (1:6) using a word that carries covenantal weight throughout the Old Testament. God visits his people in their need; he remembers them; he acts on their behalf. The same word will be used of God&rsquo;s visit to Sarah in her barrenness, to the Israelites in their slavery in Egypt, and ultimately to the arrival of the Messiah in the New Testament. Naomi hears that God is at work, and she prepares to go home.",
+      "She sets out from Moab with her two daughters-in-law. But along the road to Judah, Naomi stops and speaks to them. She urges Orpah and Ruth to return to their own mothers&rsquo; houses, invoking the steadfast love (hesed) of the Lord as she does so: &ldquo;May the Lord deal kindly with you, as you have dealt with the dead and with me&rdquo; (1:8). Naomi is blessing them in the name of the God of Israel, attributing to their faithfulness to their husbands and to her the quality of hesed &mdash; covenant loyalty, loving-kindness &mdash; which is one of the central attributes of God himself in the Old Testament. She sees in these Moabite women something of the character of her own God.",
+      "Naomi then gives practical counsel rooted in love: she wants them to find rest in the houses of new husbands. She has nothing to offer them &mdash; she is old, too old to have another husband and certainly too old to bear sons who could serve as levirate husbands for these women. She invokes the bitterness of her own situation to make the case that loyalty to her can offer them nothing material. &ldquo;No, my daughters, for it is exceedingly bitter to me for your sake that the hand of the Lord has gone out against me&rdquo; (1:13). Naomi is under no illusion about her circumstances: she sees her widowhood, her emptiness, her foreignness in Judah, as the hand of God against her, and she does not want these young women to share her grief.",
+      "Both women initially weep and resist returning. Their resistance is itself a testimony to the quality of the family life they had shared with Naomi &mdash; these daughters-in-law do not want to abandon her. But eventually Naomi&rsquo;s argument prevails with Orpah. She kisses Naomi goodbye and returns to her people and her gods. The text does not condemn Orpah; her choice is the reasonable, prudent, expected choice. She is doing what Naomi herself has urged. Orpah is not a villain in this story; she is simply a woman who makes the normal human choice when the cost of an extraordinary alternative is made clear to her.",
+      "With Orpah&rsquo;s departure, the focus narrows entirely to Ruth. Naomi urges her as well to follow Orpah, to return to her people and her gods. The phrase &ldquo;her gods&rdquo; is worth noting: Naomi does not pretend that returning to Moab would be a neutral religious act. Ruth would be returning to the worship of Chemosh and the other Moabite deities. To follow Naomi is not just to follow a person; it is to follow a God. And it is precisely here, faced with a direct invitation to return, that Ruth speaks her extraordinary words.",
+    ],
+  },
+  {
+    id: "Where You Go I Will Go",
+    heading: "Where You Go I Will Go",
+    reference: "Ruth 1:16&ndash;17",
+    paragraphs: [
+      "Ruth&rsquo;s speech to Naomi is one of the most celebrated passages in all of Scripture, quoted at weddings and funerals, set to music in every generation, memorized by millions across the centuries. But its power is often domesticated when it is removed from its dramatic context. Ruth is not speaking to a husband or a lover; she is speaking to a grieving mother-in-law who has just explicitly urged her to go home. She is making a choice that will cost her everything familiar &mdash; her family, her language, her culture, her religious community, her marriage prospects among her own people, and any practical future that ordinary prudence would have recommended.",
+      "&ldquo;Do not urge me to leave you or to return from following you,&rdquo; Ruth says. &ldquo;For where you go I will go, and where you lodge I will lodge. Your people shall be my people, and your God shall be my God. Where you die I will die, and there will I be buried. May the Lord do so to me and more also if anything but death parts me from you&rdquo; (1:16&ndash;17). The speech is a formal oath, sealed in the name of the God of Israel &mdash; the same God Naomi has been invoking throughout this conversation. Ruth is not making a sentimental promise; she is making a covenant commitment.",
+      "The structure of Ruth&rsquo;s oath moves through concentric rings of belonging. Where you go, I will go: shared movement, shared journey, shared direction. Where you lodge, I will lodge: shared home, shared daily life, shared space. Your people shall be my people: ethnic and national identification, the adoption of Naomi&rsquo;s people as her own. Your God shall be my God: the deepest commitment, the embrace of a different religion and a different Lord. Where you die I will die, and there will I be buried: even in death she will not separate herself from Naomi and Naomi&rsquo;s people. The final oath &mdash; &ldquo;may the Lord do so to me and more also&rdquo; &mdash; is an imprecatory self-curse, calling down divine judgment on herself if she fails to keep this promise. This is not poetry; this is a binding commitment.",
+      "What Ruth is doing here is a form of conversion &mdash; not a conversion forced by circumstance or social pressure, but a freely chosen embrace of a new identity, a new community, and a new God. She has seen enough of the God of Israel through her life with Naomi, Elimelech, Mahlon, and Chilion to make this choice with open eyes. The faithfulness of God&rsquo;s covenant people, imperfect as it always is, has been sufficient to draw a foreign woman to faith. Ruth is choosing hesed &mdash; covenant loyalty &mdash; not because she owes it but because she has been moved to it. She is choosing it toward a woman who has nothing to offer her.",
+      "The theological significance of this moment resonates through the entire biblical narrative. Ruth the Moabite, explicitly excluded by the Mosaic law from the assembly of the Lord, freely and fully commits herself to the God of Israel and is received by him. Her story anticipates the great vision of Isaiah, who foresaw foreigners joining themselves to the Lord, serving him and loving his name (Isaiah 56:6&ndash;7). It anticipates the New Testament&rsquo;s insistence that the partition between Jew and Gentile is broken down in Christ, that the household of God is constituted not by blood but by faith. Ruth is the great Old Testament picture of a Gentile drawn into the covenant people by grace, through the irresistible attractiveness of Israel&rsquo;s God.",
+      "Her words have become universal because the quality of love they express is universal. Hesed &mdash; the Hebrew word for this kind of loyal, costly, covenant love &mdash; is the love that does not calculate the cost, that goes beyond obligation into genuine devotion, that chooses the other over self-protection. It is the same quality attributed to God throughout the Psalms and the Prophets. When the New Testament says &ldquo;God is love,&rdquo; hesed is the richest Old Testament background to that claim. Ruth embodies it; Naomi has received it; and the book will go on to show how God weaves this human hesed into the fabric of his own providential purposes for his people and for the world.",
+    ],
+  },
+  {
+    id: "Naomi Returns Bitter",
+    heading: "Naomi Returns Bitter",
+    reference: "Ruth 1:18&ndash;22",
+    paragraphs: [
+      "When Naomi sees that Ruth is &ldquo;determined to go with her, she said no more&rdquo; (1:18). The silence is significant: Naomi has made her case as forcefully as she can, Ruth has answered it irrevocably, and Naomi accepts the decision. The two women travel together to Bethlehem. When they arrive, the whole town is stirred because of them. The Hebrew suggests a scene of communal commotion &mdash; people coming out to see, to recognize, to react. The women of the city ask: &ldquo;Is this Naomi?&rdquo; The question implies that Naomi is changed, perhaps beyond easy recognition &mdash; the grief and the years in Moab have left their mark.",
+      "Naomi&rsquo;s response to the question is one of the most raw and honest expressions of grief in Scripture. She tells them not to call her Naomi (Pleasant) but Mara (Bitter), &ldquo;for the Almighty has dealt very bitterly with me&rdquo; (1:20). She then elaborates: &ldquo;I went away full, and the Lord has brought me back empty. Why call me Naomi, when the Lord has testified against me and the Almighty has brought calamity upon me?&rdquo; (1:21). The theological directness of Naomi&rsquo;s complaint is remarkable. She does not blame fate or chance or the cruelty of life in the abstract. She names God &mdash; twice, using both the covenant name Lord (YHWH) and the name Almighty (Shaddai) &mdash; as the one who has acted against her.",
+      "Naomi&rsquo;s willingness to name God in her suffering is itself a form of faith, however bitter. She is not drifting into atheism or abandoning the covenant; she is bringing her grief directly to the source she believes is ultimately responsible. This is the pattern of the lament psalms, which dominate the Psalter: the psalmist does not politely suppress their anguish or pretend that God is not involved in their suffering. They bring the suffering before God in full, unflinching honesty, and they hold God accountable to his own covenant character. Naomi is in that tradition. Her bitterness is not apostasy; it is a wounded faith that has not yet given up on God.",
+      "The contrast she draws between &ldquo;full&rdquo; and &ldquo;empty&rdquo; is telling. She went away full &mdash; with a husband, with sons, with a future. She came back empty &mdash; bereft, widowed, without male heirs to carry on the family name or provide for her economic security. In the ancient world, her assessment of her situation is accurate: she is at the bottom of the social and economic ladder. What she does not yet see &mdash; and what the book will slowly reveal &mdash; is that she is not as empty as she thinks. Ruth is standing beside her, and Ruth is more than empty spaces can contain.",
+      "The irony that saturates these final verses of chapter 1 is profound. Naomi says she has returned empty, but she has Ruth. Naomi says the Lord has testified against her, but the Lord is already arranging the circumstances of her redemption. Naomi arrived in Bethlehem &ldquo;at the beginning of barley harvest&rdquo; (1:22) &mdash; a detail the narrator places there deliberately, pointing toward the fields of Boaz that will provide for both women and toward the kinsman-redeemer whose role will restore everything Naomi has lost. God&rsquo;s providence is not announced; it is embedded in the texture of ordinary events.",
+      "The book of Ruth does not rush to resolve Naomi&rsquo;s grief. It allows her bitterness to stand at the end of the first chapter without immediate comfort or explanation. This narrative patience reflects a theological honesty: grief does not dissolve quickly, and the purposes of God are not always visible in the middle of our losses. The reader who knows the whole story can see in Ruth&rsquo;s presence and in the harvest fields a grace that Naomi cannot yet perceive. This gap between what we can see and what God is doing is itself one of the great themes of the book &mdash; and indeed of the entire biblical narrative. God works in and through human loss, human loyalty, and human love to accomplish purposes that reach far beyond what any of the participants can see. Ruth will become the great-grandmother of David, and through David&rsquo;s line the ancestor of Jesus Christ, in whom the covenant love that Ruth exemplified in one small moment in Moab will be displayed for the entire world.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "0UOQzLOyBFI", title: "BibleProject - Overview - Ruth" },
+  { videoId: "GxOP0JBMQCM", title: "Ruth 1 - Loyalty, Loss, and the Providence of God" },
+  { videoId: "3gNNrU7Rha0", title: "Hesed - The Loving Kindness of God in Ruth" },
+  { videoId: "j_OFxnIPWUM", title: "Ruth and Boaz - A Story of Redemption" },
+];
+
+export default function Ruth1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Ruth 1: Where You Go I Will Go
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The story of Naomi and Ruth &mdash; a family&rsquo;s sojourn in Moab, the loss of Elimelech and his sons, Ruth&rsquo;s oath of covenant loyalty that crosses every ethnic and religious boundary, and Naomi&rsquo;s bitter return to Bethlehem in the hands of a God whose purposes she cannot yet see.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Ruth 1 through visual teaching on covenant loyalty, the meaning of hesed, and the God who works through human loss and love to accomplish his redemptive purposes.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Your People Shall Be My People</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Ruth 1 stands as one of Scripture&rsquo;s most powerful portraits of hesed &mdash; the covenant loyalty that crosses every boundary of ethnicity, convention, and self-interest. Ruth&rsquo;s pledge to Naomi is not merely a beautiful sentiment; it is a theological act of conversion and commitment that places her within the covenant people of God. Her story shows that belonging to God&rsquo;s community has always been a matter of faithful love rather than bloodline alone, and that the God who works through human loss is the same God who works through human loyalty to bring about his redemptive purposes for the world.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

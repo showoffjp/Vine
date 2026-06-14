@@ -1,0 +1,198 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Mordecai Weeps at the Gate",
+  "Esther Hears the News",
+  "Appointed for the Kingdom",
+  "I Will Go to the King",
+  "Fast for Me Three Days",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Mordecai Weeps at the Gate",
+    heading: "Mordecai Weeps at the Gate",
+    reference: "Esther 4:1&ndash;4",
+    paragraphs: [
+      "When Mordecai learned all that had been done &mdash; the royal decree, sealed with the king&rsquo;s own signet ring, ordering the destruction of every Jew in every province of Persia &mdash; he tore his clothes and put on sackcloth and ashes, and went through the city wailing with a loud and bitter cry (4:1). This was not a quiet grief. It was the kind of lamentation that could not be contained behind closed doors, the kind that poured into the streets and demanded to be seen and heard. Mordecai wore his anguish publicly because the danger was public, systemic, and total.",
+      "The scene at the king&rsquo;s gate is charged with painful irony. Mordecai had once sat at that gate as a minor official of the palace, watching power move through its corridors. Now he came to the same gate dressed in the garments of mourning, unable to enter because sackcloth was forbidden in the king&rsquo;s presence. The very system that had housed him now barred him from access, even as it prepared to kill him. The gate that was a symbol of royal authority now stood between the loyal subject and any hope of mercy.",
+      "In every province, wherever the king&rsquo;s command and his decree reached, there was great mourning among the Jews, with fasting and weeping and lamenting, and many of them lay in sackcloth and ashes (4:3). The grief was not isolated. It rippled outward across the empire as the edict became known. Haman&rsquo;s decree had set an entire people under a sentence of death, and the communal response was communal lamentation &mdash; the ancient posture of a people casting themselves before God when human help had run out.",
+      "Mordecai&rsquo;s weeping at the gate is a study in what it looks like to grieve without despair. He did not slink away into hiding, though hiding would have been safer. He did not pretend that things were manageable, though pretending might have preserved a kind of dignity. He tore his clothes and went into the streets because what was happening demanded that kind of response. Sackcloth and ashes in the ancient world were not merely emotional expression; they were a posture of humility before God, an embodied acknowledgment that only divine intervention could save. Mordecai&rsquo;s mourning was already a form of prayer.",
+      "There is a subterranean theme in Esther that this scene illuminates: God&rsquo;s name never appears in the book. There are no visions, no angelic visitations, no parting seas. What there is, instead, is a people who in their darkest hour tear their garments, pour ashes on their heads, and refuse to stop. They do not have a burning bush. They have sackcloth. And yet the narrator is at pains to show that this unseen God is no less present for being unnamed, and that the people who call out to him in grief are heard. Mordecai&rsquo;s cry is the cry of the whole community, and it does not go unnoticed.",
+      "The grief at the gate also functions as the catalyst for everything that follows. When Esther&rsquo;s maids and her eunuchs came and told her (4:4), the chain of events that would ultimately reverse the decree was set in motion. It was Mordecai&rsquo;s public lamentation, his refusal to perform normalcy in the face of catastrophe, that broke through the insulation of the palace and reached the ears of the one person who might be able to act. Sorrow, honestly expressed, became the beginning of courage.",
+    ],
+  },
+  {
+    id: "Esther Hears the News",
+    heading: "Esther Hears the News",
+    reference: "Esther 4:4&ndash;9",
+    paragraphs: [
+      "When Esther heard what was happening, she was deeply distressed (4:4). Her first response was practical: she sent garments to clothe Mordecai so that he could take off his sackcloth. It was a natural impulse &mdash; if she could restore him to presentable form, she could perhaps restore him to the gate, and to normalcy, and to safety. But Mordecai would not accept the clothes. He refused to be dressed out of his grief. The mourning was not a costume to be removed; it was the only honest response to what had been decreed.",
+      "Unable to reach Mordecai directly because no one could enter the king&rsquo;s gate clothed in sackcloth, Esther summoned Hathach, one of the king&rsquo;s eunuchs who had been appointed to attend her, and ordered him to go to Mordecai to learn what this was and why (4:5). The exchange that follows happens through an intermediary &mdash; a reminder that Esther&rsquo;s access to the world beyond the palace was always mediated, always controlled. She could not simply walk out and ask. She had to send and receive, communicate through channels, exercise power through others because her own direct power was so constrained.",
+      "Mordecai told Hathach everything that had happened to him, and the exact sum of money that Haman had promised to pay into the king&rsquo;s treasuries for the destruction of the Jews (4:7). The detail is striking: Haman had offered to pay ten thousand talents of silver &mdash; an enormous sum, perhaps amounting to a significant fraction of the Persian royal revenue for a year &mdash; to underwrite the genocide. Haman was so committed to the annihilation of the Jewish people that he was willing to fund it personally. This was not casual prejudice. It was organized, financed, administrative murder.",
+      "Mordecai also gave Hathach a copy of the written decree issued in Susa for their destruction, that he might show it to Esther and explain it to her and command her to go to the king to beg his favor and plead with him on behalf of her people (4:8). The word &ldquo;command&rdquo; is significant. Mordecai was Esther&rsquo;s cousin, the man who had raised her as his own daughter; he spoke with the authority of a father. And what he commanded was not safe. He was asking her to do the most dangerous thing a person could do in the Persian court: approach the king uninvited.",
+      "This moment &mdash; Esther receiving the news and the command through Hathach &mdash; is the hinge on which the whole book turns. Up until this point Esther has been largely passive, carried along by events: taken into the harem, chosen as queen, settled into the palace. Now she is called to act. The comfortable life she has built inside the palace walls is suddenly revealed as a kind of borrowed time. The decree that threatens every other Jew will not spare her simply because she has a crown. Safety and position are no longer separable from responsibility.",
+      "The irony of Esther&rsquo;s situation at this moment is carefully constructed by the narrator. She is the most powerful Jewish woman in the world &mdash; queen of the Persian Empire &mdash; and she is utterly powerless to act on her own authority. She cannot approach the king without being summoned. She cannot enter the throne room uninvited. The very structure of power that has elevated her has also enclosed her. In order to save her people, she will have to break the rules of the system that has protected her, and risk the system destroying her in return.",
+    ],
+  },
+  {
+    id: "Appointed for the Kingdom",
+    heading: "Appointed for the Kingdom",
+    reference: "Esther 4:10&ndash;14",
+    paragraphs: [
+      "Esther sent back a message to Mordecai explaining the practical impossibility of what he was asking. She pointed out that all the king&rsquo;s servants and the people of the king&rsquo;s provinces know that if any man or woman goes to the king inside the inner court without being called, there is but one law &mdash; to be put to death, except the one to whom the king holds out the golden scepter so that he may live (4:11). The law did not bend for queens. The throne room had one rule, and the penalty for breaking it was death. And the king had not called for her in thirty days.",
+      "That last detail is devastating in its domestic plainness. Thirty days had passed without the king summoning Esther. She was not currently in favor. She was not currently visible to Ahasuerus. She was one of many women in the palace, and whatever influence she had was contingent on the king&rsquo;s pleasure, which was fickle and had not been extended to her in a month. To walk into the inner court under these conditions was not courage &mdash; it was what looked to every rational observer like suicide.",
+      "Mordecai&rsquo;s response to this is one of the most quoted passages in all of Scripture, and it deserves to be heard in full. He sent back this word to Esther: &ldquo;Do not think to yourself that in the king&rsquo;s palace you will escape any more than all the other Jews. For if you keep silent at this time, relief and deliverance will rise for the Jews from another place, but you and your father&rsquo;s house will perish. And who knows whether you have not come to the kingdom for such a time as this?&rdquo; (4:13&ndash;14). Every clause of this response demands attention.",
+      "The first clause shatters any illusion of safety through proximity to power. Palace walls do not protect. A queen&rsquo;s title does not exempt. The decree was not written with exemptions for the well-positioned or the assimilated. Esther&rsquo;s Jewishness &mdash; the identity she had concealed by Mordecai&rsquo;s earlier instruction (2:10) &mdash; remained the thing that defined her fate in Haman&rsquo;s decree, regardless of what she wore or where she lived. The privilege of the palace was real but fragile, and it would not survive the decree that had already been signed.",
+      "The second clause is remarkable for what it says about the character of God without ever naming him. Mordecai does not say that if Esther keeps silent, all will be lost. He says that if she keeps silent, relief and deliverance will rise for the Jews from another place. There is a theological confidence underneath that statement that refuses to make the outcome of history dependent on any single human decision. God&rsquo;s purposes will not be frustrated. His people will not be annihilated. The means may change, but the end will not. What is at stake for Esther is not the survival of the Jews but her own participation in the story of their salvation.",
+      "The third clause &mdash; &ldquo;who knows whether you have not come to the kingdom for such a time as this&rdquo; &mdash; is perhaps the most searching question in the entire book. It is not a guarantee. Mordecai does not say, &ldquo;God has clearly placed you here for this purpose.&rdquo; He says &ldquo;who knows.&rdquo; The hiddenness that runs through the whole book of Esther runs through this statement too. The providence of God is visible in retrospect, but at the moment of decision it presents itself as possibility and calling, not as certainty. Esther must act without knowing for sure. She must step into the story not with proof but with trust.",
+      "This is the challenge that Mordecai&rsquo;s words lay before every reader: where are you positioned that you might not have noticed? What access, influence, proximity, or privilege do you hold that you have been treating as a gift to enjoy rather than a trust to deploy? The &ldquo;such a time as this&rdquo; of the passage is not merely ancient Persia. It is wherever any person finds themselves holding something that others need, and facing the choice between comfortable silence and costly action. The question is not whether your position came to you by accident or by providence. The question is what you will do with it.",
+    ],
+  },
+  {
+    id: "I Will Go to the King",
+    heading: "I Will Go to the King",
+    reference: "Esther 4:15&ndash;16a",
+    paragraphs: [
+      "Esther&rsquo;s response to Mordecai&rsquo;s challenge is not immediate heroism. It is not a declaration of confidence or a claim to divine protection. What she says is this: &ldquo;Go, gather all the Jews to be found in Susa, and hold a fast on my behalf, and do not eat or drink for three days, night or day. I and my young women will also fast as you do. Then I will go to the king, though it is against the law, and if I perish, I perish&rdquo; (4:15&ndash;16). This is one of the great statements of resolute courage in the entire Bible, and it is all the more powerful for what it does not claim.",
+      "Esther does not say she will be protected. She does not say the king will receive her. She does not say she has received a word from the Lord guaranteeing the outcome. She says: I will go, and if I perish, I perish. The &ldquo;if I perish&rdquo; is not resignation or fatalism. It is the honest acknowledgment of a real risk, combined with a decision that the risk is worth taking. She has counted the cost and decided that the cost of inaction is higher than the cost of action &mdash; not because she has been promised safety, but because she has been shown responsibility.",
+      "The phrase &ldquo;if I perish, I perish&rdquo; echoes across the centuries as a model of what it looks like to act faithfully in the face of genuine danger. It is the language of Jacob sending his sons back to Egypt: &ldquo;If I am bereaved of my children, I am bereaved&rdquo; (Genesis 43:14). It is the language of a person who has arrived at the place where doing the right thing and surviving are no longer the same guaranteed package. This is courage stripped of the false comfort of promised outcomes, courage that rests not on certainty but on conviction.",
+      "It is significant that Esther&rsquo;s decision is not framed as military strategy or political calculation, though she is clearly a woman of intelligence and composure. It is framed as a decision made under the discipline of fasting and prayer. Before she acts, she calls for three days of corporate fasting. She does not run to the throne room on the strength of her own resolve. She runs to the fast first &mdash; to the posture of utter dependence on a God whose name she does not speak but whose presence she clearly assumes. The action is preceded by the humility of prayer.",
+      "There is something crucial to notice about the nature of Esther&rsquo;s courage. It is not the absence of fear. Nothing in the text suggests that Esther was unafraid. She knew the law. She knew the consequences. She had watched what happened when women fell out of royal favor (1:19). Her courage was not the bravado of someone who underestimates the danger; it was the resolve of someone who has understood the danger fully and decided that something matters more than personal safety. That is a different and a higher thing than fearlessness.",
+      "The words &ldquo;I will go to the king&rdquo; are also a statement of agency in a book where women&rsquo;s agency has been severely constrained. Vashti was removed for refusing to appear. Esther was chosen by a process she did not control. The palace was a place where women were acted upon. And yet at this moment, Esther becomes the actor. She is the one who decides. She is the one who will go. The passive voice of her earlier life in the story gives way to the active voice of her commitment. In this she becomes, in the words of the New Testament, something like the heroes of faith who &ldquo;stopped the mouths of lions&rdquo; not through certainty but through action taken in trust.",
+    ],
+  },
+  {
+    id: "Fast for Me Three Days",
+    heading: "Fast for Me Three Days",
+    reference: "Esther 4:16b&ndash;17",
+    paragraphs: [
+      "Before Esther crosses the threshold of the throne room, she asks for something: community. She does not go to the king alone; she goes on the other side of three days of corporate fasting. &ldquo;Go, gather all the Jews to be found in Susa, and hold a fast on my behalf&rdquo; (4:16). The fast is not incidental to the story; it is the theological center of it. In a book where God&rsquo;s name is never spoken, the fast is the loudest statement of faith in the whole narrative. The community of God&rsquo;s people gathered in prayer and fasting is the unseen infrastructure that makes the visible events of the story possible.",
+      "Fasting in the Hebrew Bible is not primarily about physical discipline, though it involves that. It is about the reorientation of attention, the deliberate suspension of the ordinary comforts of life in order to press urgently into the presence of God. When you fast, your body keeps reminding you that something is missing. Every hunger pang is a prompt to pray. Every moment when you would normally eat and don&rsquo;t is a small act of saying: what I need most right now is not bread but God. The fast of three days that Esther requested was three days of communal, embodied, urgent prayer.",
+      "The fact that Esther included her young women in the fast &mdash; &ldquo;I and my young women will also fast as you do&rdquo; &mdash; is significant. She did not exempt herself from the discipline she asked of others. She did not treat the fast as a service to be rendered to her by the community while she remained comfortable in the palace. She joined the fast. She placed herself in the same posture of dependence before God as every other Jew in Susa. Whatever authority she had as queen did not elevate her above the need for prayer. If anything, it made the prayer more urgent.",
+      "There is also a missional quality to this fast. Mordecai gathered all the Jews in Susa; the fast was not a private devotional exercise but a community act. The people of God gathered around a shared need, with a shared posture, pointing their collective attention toward a God whose intervention alone could reverse an irreversible decree. What one person could not accomplish alone, the community undertook together. Esther&rsquo;s courage was not self-generated; it was prayed into being by the community of faith that surrounded her with three days of intercession.",
+      "The book of Esther ends with the institution of the feast of Purim, a celebration that the Jewish community has observed ever since. But the feast was preceded by the fast. The joy of deliverance was grounded in the prayer of dependence. The celebration that marked what God had done was built on the foundation of the community that had cried out to him. This pattern &mdash; fast, then feast; prayer, then action; dependence, then deliverance &mdash; is one of the deep rhythms of the life of faith that Esther 4 both illustrates and commands.",
+      "For the Christian reader, the three-day fast has an additional resonance. The sign of Jonah &mdash; three days in the belly of the fish &mdash; and the three days from cross to resurrection are part of the same symbolic structure: a period of darkness and waiting, a time when everything seems lost, followed by a reversal that only God could accomplish. Esther&rsquo;s three-day fast before her approach to the king rhymes with the three days of waiting before the stone was rolled away. In both cases, the community fasted, and waited, and then the impossible happened. Not because they deserved it, but because God is the kind of God who raises the dead and reverses decrees and holds out the golden scepter to those who dare to approach him.",
+      "Mordecai went away and did everything as Esther had ordered him (4:17). The man who had commanded Esther now obeyed her. The chapter ends with this quiet reversal of roles &mdash; the elder following the younger, the mentor following the student, the one who had called Esther to courage now submitting to her leadership. The community that had formed her was now being formed by her. This too is a pattern of the life of faith: those who are faithful in calling others to courage must also be faithful in following when courage rises up in those they have called.",
+      "The hidden providence that runs beneath every scene of Esther 4 &mdash; the providence of a God who does not appear but is clearly present, who does not speak but is clearly at work, who does not promise safety but is clearly trustworthy &mdash; is the deepest theme of this extraordinary chapter. A man weeps at a gate. A queen hears news through a servant. A question is asked about why she has come to the kingdom. A decision is made to fast and then to act. And through these ordinary, frightened, faithful human beings, the God whose name is not written in the book is writing the story of his people&rsquo;s salvation.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "JGpFB0GbsWQ", title: "BibleProject - Overview of Esther" },
+  { videoId: "bF3QlVHcBws", title: "Esther Chapter 4 - For Such a Time as This" },
+  { videoId: "P5yKpDFhkGQ", title: "The Book of Esther - Providence and Courage" },
+  { videoId: "N2pJiGPZGv8", title: "Esther and the Hidden Hand of God" },
+];
+
+export default function Esther4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Esther 4: For Such a Time as This
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Mordecai weeps in sackcloth at the king&rsquo;s gate; Esther hears the news of Haman&rsquo;s decree; Mordecai issues the great challenge &mdash; who knows whether you have not come to the kingdom for such a time as this; and Esther rises to say: I will go to the king, and if I perish, I perish.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Esther 4 through visual teaching on the hidden providence of God, the courage of Esther, and the community of fasting that preceded bold action.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Who Knows Whether You Have Not Come for Such a Time as This</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Esther 4 is a chapter about the responsibility of the positioned and the courage that flows from prayer. God&rsquo;s name is never spoken, yet his hand is everywhere. Mordecai&rsquo;s question still echoes: the access, the influence, the place where you stand &mdash; what if it was given to you not for your comfort but for this moment?
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1888,6 +1888,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Habakkuk 3 Chapter": "habakkuk-3-guide",
   "The Lord Is My Strength": "habakkuk-3-guide",
   "Yet I Will Rejoice": "habakkuk-3-guide",
+  "2 Samuel 12 Chapter": "2-samuel-12-guide",
+  "Nathan Confronts David": "2-samuel-12-guide",
+  "You Are the Man": "2-samuel-12-guide",
+  "Ruth 1 Chapter": "ruth-1-guide",
+  "Where You Go I Will Go": "ruth-1-guide",
+  "Naomi and Ruth": "ruth-1-guide",
+  "Esther 4 Chapter": "esther-4-guide",
+  "Esther Before the King": "esther-4-guide",
+  "Appointed for the Kingdom": "esther-4-guide",
+  "Jonah 1 Chapter": "jonah-1-guide",
+  "The Great Fish": "jonah-1-guide",
+  "Jonah Runs from God": "jonah-1-guide",
 };
 
 
@@ -2786,6 +2798,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Nehemiah 1 Chapter" },
   { label: "Micah 6 Chapter" },
   { label: "Habakkuk 3 Chapter" },
+  { label: "2 Samuel 12 Chapter" },
+  { label: "Ruth 1 Chapter" },
+  { label: "Esther 4 Chapter" },
+  { label: "Jonah 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

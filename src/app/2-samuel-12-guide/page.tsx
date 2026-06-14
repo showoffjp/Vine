@@ -1,0 +1,195 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "The Parable of the Ewe Lamb",
+  "You Are the Man Nathan Said",
+  "The Confession of David",
+  "The Lord Has Taken Away Your Sin",
+  "The Son of Bathsheba",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "The Parable of the Ewe Lamb",
+    heading: "The Parable of the Ewe Lamb",
+    reference: "2 Samuel 12:1&ndash;4",
+    paragraphs: [
+      "Second Samuel 12 opens at what should have been the height of David&rsquo;s power and godliness. He had united Israel, defeated her enemies, brought the ark of the covenant to Jerusalem, and received the great covenant promise that his house and kingdom would endure forever. Yet the previous chapter has shown David at his most corrupt: he slept with Bathsheba, the wife of Uriah the Hittite, one of his most loyal soldiers; he arranged Uriah&rsquo;s death in battle when Bathsheba became pregnant; and he took her as his wife as though nothing had happened. The narrator&rsquo;s verdict closes chapter 11 with devastating brevity: &ldquo;But the thing that David had done displeased the Lord.&rdquo;",
+      "Into this scene of outward triumph and inward corruption the Lord sends the prophet Nathan. Nathan does not come with a thundering denunciation. He comes, instead, with a story &mdash; a parable so perfectly crafted that it will bypass all of David&rsquo;s defenses and cause him to pronounce judgment upon himself before he realizes what he has done. This is one of the most psychologically and spiritually astute moments in all of Scripture, and it reveals something profound about the nature of prophetic confrontation.",
+      "Nathan&rsquo;s parable is disarmingly simple. There were two men in a certain city, he tells David &mdash; one rich and one poor. The rich man had very many flocks and herds; the poor man had nothing except one little ewe lamb, which he had bought. The lamb grew up with him and with his children. It ate of his morsel and drank from his cup and lay in his arms. The poor man loved it like a daughter. The detail is deliberately tender: this is not merely a financial asset but a beloved creature woven into the fabric of a family&rsquo;s life.",
+      "When a traveler came to the rich man, continues Nathan, the rich man was unwilling to take one of his own flock or herd to prepare for his guest. Instead, he took the poor man&rsquo;s one lamb and prepared it for the man who had come to him. The story is short, pointed, and emotionally loaded. It appeals to David&rsquo;s strong instincts for justice, which had been sharpened through years of ruling Israel. Nathan has set the trap with extraordinary skill, and David walks straight into it.",
+      "Every detail of the parable maps onto the reality of what David has done, though the correspondence is not exact in every point &mdash; parables seldom are. The rich man with abundant resources corresponds to David, who had power, wives, wealth, and the favor of God. The poor man with his one precious lamb corresponds to Uriah, who had only Bathsheba. The traveler is sometimes interpreted as David&rsquo;s lust or desire, the impulse that set the whole catastrophe in motion. The ewe lamb, treated by the poor man with the tenderness of a daughter, corresponds to Bathsheba &mdash; a woman who belonged to another man and was taken from him with ruthless disregard for his humanity and his covenant rights.",
+      "What the parable exposes above all is the absurdity of sin in the powerful. David did not need Bathsheba in any ordinary sense; he had wives and resources beyond counting. The rich man did not need the poor man&rsquo;s lamb; his flocks were vast. The sin was not born of genuine need but of something far darker: the refusal of a powerful man to accept any limit on his desires, the entitled assumption that whatever he wants should be his. Sin at this level is not primarily about weakness &mdash; it is about pride, self-will, and the arrogance of those who believe they stand above accountability.",
+    ],
+  },
+  {
+    id: "You Are the Man Nathan Said",
+    heading: "You Are the Man Nathan Said",
+    reference: "2 Samuel 12:5&ndash;9",
+    paragraphs: [
+      "The parable does exactly what Nathan intended. David&rsquo;s anger burns hot against the rich man. He declares to Nathan that the man who has done this deserves to die, and that he shall restore the lamb fourfold because he did this thing and had no pity. The irony is excruciating: David has just condemned himself out of his own mouth, invoking the standard of pity &mdash; the very thing he showed neither to Uriah nor to Bathsheba. He has been a righteous judge of a fictional wrongdoing while living in unrepented guilt over an actual one.",
+      "Then comes one of the most devastating pivots in Scripture. Four words in Hebrew; four words in English: &ldquo;You are the man!&rdquo; Nathan does not soften it, hedge it, or approach it obliquely. Having allowed the parable to do its work, he drives the point home with a directness that must have landed on David like a physical blow. There is no room for evasion. There is no possibility of misunderstanding. The king who has just condemned an imaginary rich man is now told by the prophet of God that he himself is that man.",
+      "Nathan then elaborates the indictment in the name of the Lord, and every sentence adds weight to the condemnation. The Lord, through Nathan, recites what he has done for David: &ldquo;I anointed you king over Israel, and I delivered you out of the hand of Saul. And I gave you your master&rsquo;s house and your master&rsquo;s wives into your arms and gave you the house of Israel and of Judah. And if this were too little, I would add to you as much more.&rdquo; The point is shattering: God&rsquo;s gifts to David were lavish beyond measure. David had more than enough. If David had felt some lack, God would have given more. Yet he took what was not his &mdash; he took Bathsheba through the most extreme act of abuse of power imaginable.",
+      "The specific charges follow in sequence: &ldquo;Why have you despised the word of the Lord, to do what is evil in his sight? You have struck down Uriah the Hittite with the sword and have taken his wife to be your wife and have killed him with the sword of the Ammonites.&rdquo; Notice the language: David has &ldquo;despised the word of the Lord.&rdquo; This is not merely ethical failure &mdash; it is a theological rupture. David has acted in open defiance of everything God had said, everything God had commanded, and everything God had given him. Sin against other people is always, at its root, a despising of God.",
+      "The confrontation Nathan delivers here is a model of prophetic courage. Nathan was speaking to the most powerful man in Israel &mdash; a king who had already demonstrated that he was capable of arranging a loyal soldier&rsquo;s death to cover his sin. To stand before that king and say &ldquo;You are the man&rdquo; required the kind of courage that only comes from knowing that one stands accountable to a higher authority than any earthly throne. Nathan&rsquo;s willingness to deliver this word, and the parable&rsquo;s wisdom in delivering it effectively, are themselves a testimony to the God who will not allow his servants&rsquo; sins to go unaddressed.",
+      "The structure of Nathan&rsquo;s confrontation &mdash; parable, engagement, pivot, and enumeration of divine gifts followed by specific charges &mdash; has shaped the tradition of prophetic preaching ever since. The prophet does not merely moralize in the abstract. He draws the sinner into a story that reveals the truth of what they have done, and then he names the sin with precision. This combination of narrative wisdom and direct declaration is one of the most powerful tools of pastoral and prophetic ministry.",
+    ],
+  },
+  {
+    id: "The Confession of David",
+    heading: "The Confession of David",
+    reference: "2 Samuel 12:10&ndash;13 and Psalm 51",
+    paragraphs: [
+      "The consequences Nathan announces are severe and specific. Because David has despised the Lord and taken the wife of Uriah the Hittite, the sword will not depart from his house. Evil will be raised up against David from within his own house. Nathan says that because David did this thing in secret, the Lord will do this thing before all Israel and before the sun &mdash; a reversal of David&rsquo;s private sin enacted in the full light of public shame. The rest of 2 Samuel will show how precisely these words were fulfilled: Amnon&rsquo;s rape of Tamar, Absalom&rsquo;s murder of Amnon, Absalom&rsquo;s rebellion and his public violation of David&rsquo;s concubines on the rooftop, and ultimately Absalom&rsquo;s death. Sin has consequences that ripple across generations.",
+      "David&rsquo;s response, however, is not the response of Saul, who deflected, minimized, and sought to preserve his reputation when confronted by Samuel. David&rsquo;s response is a single, unhedged sentence: &ldquo;I have sinned against the Lord.&rdquo; Five words in English; two in Hebrew. There is no self-justification, no appeal to the pressures of kingship, no pointing out Bathsheba&rsquo;s role, no minimizing of Uriah&rsquo;s death, no attempt to negotiate a lesser charge. David owns the sin fully, and he owns it in the most important dimension: as a sin against the Lord himself.",
+      "The phrase &ldquo;I have sinned against the Lord&rdquo; anticipates and reflects the great confession of Psalm 51, which the superscription attributes to David after Nathan came to him. In Psalm 51 David writes, &ldquo;Against you, you only, have I sinned and done what is evil in your sight.&rdquo; This is not a denial that he wronged Bathsheba and Uriah &mdash; he clearly did both, grievously. It is rather an acknowledgment that every sin, at its deepest root, is an offense against God. Uriah and Bathsheba were wronged by David, but God is the one before whom all moral reality is ultimately adjudicated, the one against whom the deepest wound of sin is always struck.",
+      "Psalm 51 unfolds the theology of David&rsquo;s repentance with extraordinary depth. He asks God to have mercy according to his steadfast love, according to his abundant mercy, to blot out his transgressions. He uses three different words for sin in rapid succession: transgression (pesha, willful rebellion), iniquity (avon, moral perversity and its guilt), and sin (hatta&rsquo;t, missing the mark). He is not confessing a single act but an orientation of his nature: &ldquo;Behold, I was brought forth in iniquity, and in sin did my mother conceive me&rdquo; (Psalm 51:5). The specific sin has revealed to David something about the condition of his heart and the corruption of his nature that reaches back to the very beginning.",
+      "The psalm then moves through the most powerful sequence of petitions for cleansing and renewal in Scripture. David asks to be washed thoroughly, to be purged with hyssop (the plant used in Levitical purification rites), to have his sins blotted out. He asks God to &ldquo;create in me a clean heart and renew a right spirit within me&rdquo; (Psalm 51:10) &mdash; using the word &lsquo;bara&rsquo;, the same verb used for God&rsquo;s creative activity in Genesis 1, because David knows that what is needed is not a repair of the old heart but a creative act of divine renewal. He pleads that God would not take his Holy Spirit from him, echoing the dreadful example of Saul upon whom the Spirit of God departed.",
+      "The psalm concludes with a profound reflection on the nature of acceptable worship. David recognizes that the Lord does not delight in sacrifice and burnt offering as such: &ldquo;The sacrifices of God are a broken spirit; a broken and contrite heart, O God, you will not despise&rdquo; (Psalm 51:17). This does not abolish sacrifice in the Mosaic system, but it locates its meaning correctly: ritual acts offered without the inward disposition of humility and penitence are meaningless to God. What God desires is the offering of a self that has been genuinely broken before him. Psalm 51 thus becomes one of the supreme documents of biblical spirituality, showing us what repentance looks like at its deepest and most honest.",
+    ],
+  },
+  {
+    id: "The Lord Has Taken Away Your Sin",
+    heading: "The Lord Has Taken Away Your Sin",
+    reference: "2 Samuel 12:13&ndash;14",
+    paragraphs: [
+      "Nathan&rsquo;s response to David&rsquo;s confession is immediate: &ldquo;The Lord also has taken away your sin; you shall not die.&rdquo; This is one of the most remarkable sentences in the Old Testament. The moment David confesses, Nathan declares the forgiveness of God. There is no waiting period, no period of probation, no extended penitential rite required before the word of absolution can be spoken. The moment the king says &ldquo;I have sinned against the Lord,&rdquo; the prophet says on the Lord&rsquo;s behalf, &ldquo;The Lord also has taken away your sin.&rdquo;",
+      "The grammar is significant: the Lord &ldquo;has taken away&rdquo; &mdash; perfect tense, accomplished fact. The Hebrew verb here speaks of a removal, a transfer, a carrying away of the sin from the sinner. This language of sin being &ldquo;taken away&rdquo; or &ldquo;borne&rdquo; runs throughout the Old Testament and points forward to the great Servant of Isaiah 53 who would bear the sins of many. When Nathan says &ldquo;the Lord has taken away your sin,&rdquo; he is speaking of something that is accomplished in the divine economy, not something contingent on David&rsquo;s future performance. The forgiveness is real, immediate, and complete.",
+      "The sentence &ldquo;you shall not die&rdquo; refers to the covenant curse that David&rsquo;s own verdict had invoked. David had said the rich man in the parable &ldquo;deserves to die.&rdquo; David himself, under the law he cited and under the holiness of the covenant, deserved death for what he had done &mdash; for adultery, for conspiracy to commit murder, for the abuse of royal power. The announcement that he shall not die is therefore not a dismissal of the gravity of the sin but a declaration of grace: God does not give David what he deserves. This is the heart of forgiveness at every level of Scripture.",
+      "Yet the word of grace does not stand alone; it is immediately followed by a word of consequence: &ldquo;Nevertheless, because by this deed you have utterly scorned the Lord, the child who is born to you shall die.&rdquo; This pairing of forgiveness and consequence is one of the most important theological moments in the entire narrative. Grace and accountability are not in competition. The removal of sin&rsquo;s ultimate penalty &mdash; spiritual death and final separation from God &mdash; does not mean the removal of all earthly consequences. The sword will still visit David&rsquo;s house. The child will still die. The consequences will be real and painful and long-lasting.",
+      "This distinction between the removal of sin&rsquo;s eternal penalty and the ongoing earthly consequences of sin is profoundly important for Christian understanding. The cross accomplishes forgiveness of sin and reconciliation with God; it does not promise immunity from the temporal consequences of our choices. A man forgiven of the sin of adultery must still navigate the broken trust in his marriage. A nation forgiven of corporate idolatry may still face the social dissolution that idolatry produces. Grace is real; forgiveness is total; but we live our lives in a moral universe where actions have consequences, and forgiveness does not rewind the chain of cause and effect.",
+      "The pattern established in this exchange between Nathan and David &mdash; immediate confession met by immediate absolution, followed by a clear-eyed acknowledgment of consequences &mdash; becomes a template for understanding how God deals with his covenant people. He does not abandon them in their sin; he sends a word of confrontation precisely because he loves them. When they respond with genuine repentance, he takes away the sin. But he treats them as moral agents whose choices have real weight in a world he has made, and the consequences of those choices will be worked through in the fabric of their lives.",
+    ],
+  },
+  {
+    id: "The Son of Bathsheba",
+    heading: "The Son of Bathsheba",
+    reference: "2 Samuel 12:15&ndash;25",
+    paragraphs: [
+      "The Lord strikes the child that Uriah&rsquo;s wife bore to David, and the child becomes very ill. What follows is one of the most humanly moving passages in all the historical books of the Old Testament. David begins to fast and pray for the child with a desperation that his servants have never seen in him. He goes in and lies on the ground, refusing to eat, refusing to rise. The elders of his house stand beside him to raise him up from the ground, but he will not, nor does he eat food with them. This continues for seven days &mdash; a full week of anguished intercession.",
+      "David&rsquo;s behavior is puzzling to his servants, and their puzzlement is understandable. They expect the conventions of grief: a man learns of a death, mourns, then eventually returns to the routines of life. David, however, is doing something different. He is praying while the child is still alive, with the desperate urgency of a man who believes God can yet be moved to change the outcome. He is not grieving; he is interceding. The God who had shown such extraordinary mercy in taking away his sin might yet show mercy to this innocent child. David does not presume to know how God will act; he simply throws himself before God in the hope that he might &ldquo;be gracious to me&rdquo; (12:22).",
+      "On the seventh day the child dies. David&rsquo;s servants are afraid to tell him, reasoning that if he acted so desperately while the child was alive, they do not know what he will do when he hears that the child is dead. But David perceives from their behavior that the child has died and asks them directly; they confirm it. What happens next astonishes everyone. David rises from the earth, washes himself, anoints himself, changes his clothes, goes into the house of the Lord and worships, and then comes to his own house and asks for food and eats.",
+      "His servants are bewildered: they ask him why he fasted and wept for the child while it was alive but now, with the child dead, he has risen and is eating. David&rsquo;s answer is one of the clearest expressions of mature theological faith in all of Scripture: &ldquo;While the child was still alive, I fasted and wept, for I said, &lsquo;Who knows whether the Lord will be gracious to me, that the child may live?&rsquo; But now he is dead. Why should I fast? Can I bring him back again? I shall go to him, but he will not return to me&rdquo; (12:22&ndash;23).",
+      "David&rsquo;s reasoning reveals a man whose faith in God is not performance or superstition but genuine relationship. He prayed while there was a possibility that God might act; when God has spoken through the child&rsquo;s death, David accepts the word. He does not continue to pray against the revealed will of God, nor does he collapse in despair. He accepts the consequence with the same submission that he showed in his confession. &ldquo;I shall go to him, but he will not return to me&rdquo; is often read as an expression of belief in some form of afterlife or continuing existence of the soul &mdash; a belief, however dimly held, that the dead child is still somewhere in the care of God, and that David will one day be reunited with him.",
+      "The passage closes with a remarkable act of divine consolation. David comforts Bathsheba his wife; he goes to her and lies with her, and she bears a son, and he calls his name Solomon. The narrator adds: &ldquo;And the Lord loved him and sent a message by Nathan the prophet. So he called his name Jedidiah [Beloved of the Lord], because of the Lord&rdquo; (12:24&ndash;25). From the wreckage of sin, consequence, grief, and loss, God brings a gift: the child whose name means &ldquo;Beloved of the Lord,&rdquo; the child who will build the Temple, the child in whose line the Messiah will come. The God who does not remove consequences also does not abandon his purposes or his people. He works through broken human stories to bring about redemption neither they nor we could have anticipated.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "PKDlMSzgJEo", title: "2 Samuel 12 Explained - Nathan and David" },
+  { videoId: "LJ8mVpDEBnk", title: "Psalm 51 - A Prayer of Repentance and Renewal" },
+  { videoId: "q78ViMPJMYE", title: "BibleProject - Overview - 1-2 Samuel" },
+  { videoId: "3aVrFTHPSMg", title: "The Grace and Judgment of God in 2 Samuel" },
+];
+
+export default function TwoSamuel12GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Samuel 12: Nathan, David, and the Grace of God
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The parable of the ewe lamb, the prophet&rsquo;s confrontation, David&rsquo;s confession &ldquo;I have sinned against the Lord,&rdquo; the immediate word of divine forgiveness, the abiding consequences of sin, and the prayer of Psalm 51 that was born from this moment of crisis.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 2 Samuel 12 through visual teaching on Nathan&rsquo;s parable, David&rsquo;s confession and Psalm 51, and the God who takes away sin while working through its consequences.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Lord Has Taken Away Your Sin</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Second Samuel 12 stands as one of Scripture&rsquo;s most searching portraits of sin, confrontation, and grace. Nathan&rsquo;s four words &mdash; &ldquo;You are the man&rdquo; &mdash; pierce the self-deception of power; David&rsquo;s two words &mdash; &ldquo;I have sinned&rdquo; &mdash; open the way to divine forgiveness. The chapter teaches us that grace is immediate and total, that consequences are real and serious, and that out of the ashes of our worst failures God is still working his purposes toward redemption.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

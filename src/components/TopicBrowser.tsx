@@ -1960,6 +1960,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Job 38 Chapter": "job-38-guide",
   "Where Were You": "job-38-guide",
   "God Speaks from Whirlwind": "job-38-guide",
+  "Zechariah 4 Chapter": "zechariah-4-guide",
+  "Lampstand Vision": "zechariah-4-guide",
+  "Not by Might Chapter": "zechariah-4-guide",
+  "Lamentations 3 Chapter": "lamentations-3-guide",
+  "New Mercies Morning": "lamentations-3-guide",
+  "Lord Is My Portion": "lamentations-3-guide",
+  "Acts 17 Chapter": "acts-17-guide",
+  "Paul at Mars Hill": "acts-17-guide",
+  "Unknown God Athens": "acts-17-guide",
+  "Titus 2 Chapter": "titus-2-guide",
+  "Teach What Accords": "titus-2-guide",
+  "Grace That Trains": "titus-2-guide",
 };
 
 
@@ -2882,6 +2894,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 8 Chapter" },
   { label: "Matthew 18 Chapter" },
   { label: "Job 38 Chapter" },
+  { label: "Zechariah 4 Chapter" },
+  { label: "Lamentations 3 Chapter" },
+  { label: "Acts 17 Chapter" },
+  { label: "Titus 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

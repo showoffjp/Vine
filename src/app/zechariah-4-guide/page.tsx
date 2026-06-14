@@ -1,0 +1,187 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Lampstand Vision",
+  "Not by Might",
+  "The Capstone",
+  "Application",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Zechariah 4",
+    reference: "Zechariah 4:1&ndash;14",
+    paragraphs: [
+      "Zechariah 4 arrives at one of the most discouraging moments in the history of Israel&rsquo;s restoration. The exiles have returned from Babylon, the altar has been rebuilt, and the foundations of the Temple have been laid &mdash; but the work has ground to a halt. Opposition from surrounding peoples, weariness among the returnees, and the sheer insignificance of what is being built compared to the glory of Solomon&rsquo;s Temple have all conspired to paralyze the project. Into this moment of spiritual and national exhaustion, God sends Zechariah a vision that reframes everything.",
+      "The prophet is woken &mdash; or it is as if he is woken &mdash; by the angel who has been showing him a series of night visions. &ldquo;What do you see?&rdquo; the angel asks (4:2). What Zechariah sees is a golden lampstand with a bowl at the top, seven lamps, and two olive trees flanking it on either side. It is a vision of light, abundance, and unceasing supply &mdash; a direct answer to the darkness of the hour and the depletion of the people&rsquo;s energy and resources.",
+      "The central oracle of the chapter is addressed specifically to Zerubbabel, the governor of Judah who is charged with overseeing the rebuilding of the Temple. God&rsquo;s word to him cuts through every source of discouragement: &ldquo;Not by might, nor by power, but by my Spirit, says the Lord of hosts&rdquo; (4:6). The completion of the Temple will not depend on human resources, military strength, or political leverage. It will be accomplished by the Spirit of the God who holds all those things in his hand.",
+      "The chapter belongs to the broader collection of Zechariah&rsquo;s eight night visions, which span chapters 1 through 6 and together form a sweeping portrait of God&rsquo;s purposes for his people after the exile. Each vision addresses a different dimension of the crisis facing the restoration community, and each vision is answered by a divine word of assurance. Zechariah 4 stands near the center of the sequence, and its declaration &mdash; &ldquo;not by might, nor by power, but by my Spirit&rdquo; &mdash; has become one of the most beloved and repeated promises in all of Scripture.",
+      "Understanding the chapter requires entering into the historical moment. Zerubbabel and the returned exiles were not facing a crisis of strategy or resources alone; they were facing a crisis of faith. Could the God who had allowed his Temple to be destroyed and his people to be carried into exile really be trusted to restore what had been lost? The vision of the lampstand, blazing with light and fed by an inexhaustible source, is God&rsquo;s answer: his presence has not dimmed, his purposes have not changed, and his Spirit is more than sufficient to finish what he has begun.",
+      "Zechariah 4 is also a chapter about prophetic seeing &mdash; about learning to look at circumstances through the lens of God&rsquo;s word rather than human assessment. The mountain of obstacles that loomed before Zerubbabel would become &ldquo;a plain&rdquo; before him (4:7). The hands that laid the foundation would also complete the building. The &ldquo;day of small things&rdquo; was not a day to be despised, because the Lord himself was rejoicing over the work and those who carried it out (4:10). The vision trains its readers to see what God sees rather than what circumstances suggest.",
+    ],
+  },
+  {
+    id: "The Lampstand Vision",
+    heading: "The Lampstand Vision",
+    reference: "Zechariah 4:1&ndash;5, 11&ndash;14",
+    paragraphs: [
+      "The vision of the golden lampstand is one of the most richly detailed images in prophetic literature. When Zechariah describes what he sees, he does not begin with an interpretation; he begins with wonder. The lampstand is entirely of gold. At its top is a bowl, and from the bowl radiate seven channels to seven lamps &mdash; the whole structure a single, integrated system of light. On either side stand two olive trees, and later Zechariah notices that from the trees come two golden pipes that pour golden oil directly into the bowl (4:12).",
+      "The lampstand would have immediately called to mind the menorah of the Tabernacle, the seven-branched golden lampstand that stood in the Holy Place before the veil. That lampstand was to burn continually before the Lord, tended daily by the priests who filled its cups with oil. It was the only source of light in the otherwise lightless inner sanctum of Israel&rsquo;s worship. To see a lampstand in vision &mdash; blazing, overflowing, fed by an automatic and inexhaustible supply &mdash; was to receive an image saturated with Exodus and Temple theology.",
+      "But this lampstand is different from the Tabernacle menorah in a crucial way: it does not depend on human effort to keep it burning. The priests who tended the menorah had to work; they had to be vigilant, bringing fresh oil and trimming the wicks. The lampstand of Zechariah&rsquo;s vision is fed directly, continuously, from the olive trees that stand beside it. The two trees, which the angel identifies as &ldquo;the two anointed ones who stand by the Lord of the whole earth&rdquo; (4:14), are themselves living conduits of God&rsquo;s provision. The supply of oil is not managed by human hands but flows from a divine and living source.",
+      "The seven lamps are often associated in biblical imagery with the fullness of God&rsquo;s presence and the completeness of his knowledge. In Revelation, the same imagery recurs in the seven spirits before God&rsquo;s throne and the seven lampstands that represent the churches. In Zechariah 4:10, the seven lamps are identified as &ldquo;the eyes of the Lord, which range through the whole earth&rdquo; &mdash; a breathtaking declaration that the burning lamps of the vision are not merely symbols of God&rsquo;s presence but images of his all-seeing, all-encompassing knowledge and care. Nothing in the whole earth is outside the range of his vision.",
+      "The identity of the two olive trees &mdash; &ldquo;the two anointed ones&rdquo; &mdash; has been debated across Jewish and Christian interpretation. In the immediate context of Zechariah&rsquo;s day, the most natural referents are Zerubbabel the governor (the royal, Davidic representative) and Joshua the high priest (who features prominently in Zechariah 3). Together they represent the two streams of God&rsquo;s anointing &mdash; kingly and priestly &mdash; that flow into Israel&rsquo;s life and mediate God&rsquo;s presence to his people. The imagery anticipates the one who would unite both offices: the priest-king who Zechariah himself names &ldquo;the Branch&rdquo; (3:8; 6:12).",
+      "For the Christian reader, the lampstand vision speaks to the nature of the church&rsquo;s light in the world. In Revelation 1&ndash;3, the risen Christ walks among seven golden lampstands, which are identified as the seven churches. The church does not generate its own light; it holds and displays the light of God. And that light is sustained not by human effort or organizational ingenuity but by the anointing of the Spirit, who flows from the Father and the Son like oil from living olive trees into the burning lamps of God&rsquo;s gathered people.",
+    ],
+  },
+  {
+    id: "Not by Might",
+    heading: "Not by Might, Nor by Power, But by My Spirit",
+    reference: "Zechariah 4:6&ndash;7",
+    paragraphs: [
+      "&ldquo;Not by might, nor by power, but by my Spirit, says the Lord of hosts&rdquo; &mdash; this single verse stands as one of the great declarations of Scripture. It is addressed &ldquo;to Zerubbabel&rdquo; (4:6), which means it was a word for a specific man in a specific crisis, not merely a general theological principle. Zerubbabel stood before a task that exceeded human capacity. The Temple he was charged to rebuild had been the wonder of the ancient world under Solomon; what was being constructed now looked, to those who remembered the former glory, like nothing (Haggai 2:3). And yet God was saying: the completion of this work will not come through the resources you can muster, but through my Spirit.",
+      "The two words translated &ldquo;might&rdquo; and &ldquo;power&rdquo; in this verse cover the full spectrum of human strength. &ldquo;Might&rdquo; (&rsquo;chayil&rsquo; in Hebrew) refers to military strength, the force of armies and weapons. &ldquo;Power&rdquo; (&rsquo;koach&rsquo;) refers to personal strength, energy, and capacity &mdash; the sum of human effort and ability. God is saying that neither the collective strength of nations nor the personal exertion of individuals will be the engine of what he is doing. His Spirit will be the energy source, and that changes everything.",
+      "The word &ldquo;Spirit&rdquo; here &mdash; &rsquo;Ruach&rsquo; &mdash; is the same word used throughout the Hebrew Bible for the breath of God that moved over the waters at creation, for the Spirit that came upon judges and prophets and kings, for the promise of Ezekiel 36 that God would put his Spirit within his people and cause them to walk in his statutes. The Spirit of God is not a vague spiritual force but the very personal, powerful, directional presence of God himself at work in the world. To say &ldquo;by my Spirit&rdquo; is to say: I will be at work here in the most intimate, most powerful, most creative way I know.",
+      "What follows immediately confirms the promise in the most striking terms: &ldquo;Who are you, O great mountain? Before Zerubbabel you shall become a plain, and he shall bring forward the top stone amid shouts of &lsquo;Grace, grace to it!&rsquo;&rdquo; (4:7). The mountain is likely a metaphor for all the obstacles accumulated against the rebuilding project &mdash; political opposition, economic exhaustion, religious discouragement, the smallness of the returning community. Whatever looms like an impassable mountain before the servant of God will be leveled by the Spirit of God.",
+      "The shout that accompanies the completion &mdash; &ldquo;Grace, grace to it!&rdquo; &mdash; is theologically rich. The word is &rsquo;chen&rsquo;, the Hebrew word for grace, favor, beauty. When the capstone is brought out, the people will not shout &ldquo;Look what Zerubbabel accomplished!&rdquo; or &ldquo;Look at the strength of our resources!&rdquo; They will shout grace &mdash; acknowledging that what stands before them is entirely the product of God&rsquo;s undeserved favor rather than human achievement. The completed Temple will be a monument not to human competence but to divine grace.",
+      "This word has resonated across centuries because the human condition has not changed. Every generation of God&rsquo;s people faces moments when the task before them exceeds their resources and the obstacles seem insurmountable. The temptation in those moments is to trust human strength more &mdash; to organize better, work harder, find more resources. The word of Zechariah 4:6 cuts across all of that: not by might, not by power. The only inexhaustible resource available to God&rsquo;s people is the Spirit of God himself, and that resource is more than enough.",
+    ],
+  },
+  {
+    id: "The Capstone",
+    heading: "The Capstone and the Day of Small Things",
+    reference: "Zechariah 4:7&ndash;10",
+    paragraphs: [
+      "The promise about the capstone &mdash; the final stone that would complete and crown the rebuilt Temple &mdash; is the most concrete, verifiable element in the whole vision. &ldquo;The hands of Zerubbabel have laid the foundation of this house; his hands shall also complete it&rdquo; (4:9). This was not merely an encouragement; it was a prophecy that could be either confirmed or falsified by subsequent events. If Zerubbabel&rsquo;s hands completed the Temple, the vision was true. If they did not, the prophet was false. The stakes are deliberately raised because God wants his people to know that what he speaks, he does.",
+      "The prophecy was fulfilled. Under the preaching of Zechariah and Haggai, the work of rebuilding the Temple resumed and was completed in 516 BC, exactly four years after the work restarted (Ezra 6:15). Zerubbabel&rsquo;s hands did lay the capstone, and the shout of &ldquo;grace, grace&rdquo; was raised over a completed Temple. The God who sees through the seven eyes that range over all the earth had watched over every stone of the project and brought it to its conclusion &mdash; not because the builders were mighty, but because the Lord of hosts is faithful.",
+      "The phrase &ldquo;day of small things&rdquo; in verse 10 deserves careful attention: &ldquo;For whoever has despised the day of small things shall rejoice, and shall see the plumb line in the hand of Zerubbabel.&rdquo; There were those &mdash; both inside and outside the community of returnees &mdash; who looked at the second Temple and despised it. Ezra 3:12 describes old men who had seen the first Temple weeping when they saw the new foundations laid, because by comparison the new building seemed as nothing. The smallness of the visible work was a scandal to those who assessed worth by outward appearance.",
+      "God&rsquo;s rebuke of that despising is pointed. The day of small things is not a day to be despised &mdash; it is a day to be watched with expectancy, because those who despise it will themselves be brought to rejoice when the plumb line in Zerubbabel&rsquo;s hand reaches its completion. What looks small in the eyes of human assessment may be enormous in God&rsquo;s reckoning, precisely because God measures things not by their present appearance but by the Spirit at work within them and the purposes they serve in his unfolding plan.",
+      "There is a profoundly pastoral word here for every believer who has ever felt that their work for God is too small to matter. The returned exiles were a tiny remnant rebuilding a modest Temple in a province of the Persian Empire, and yet they were at the center of God&rsquo;s redemptive purposes. The small, faithful, Spirit-dependent work of ordinary people in ordinary places is exactly the kind of thing God is pleased to call &ldquo;the day of his eyes&rdquo; &mdash; the work he watches with attention and delight. It is the day of small things, but it is his day.",
+      "The New Testament picks up this thread with the same theological weight. Jesus speaks of the kingdom of God as a mustard seed, the smallest of all seeds, that grows into the largest of garden plants. Paul tells the Corinthians that God chose what is weak in the world to shame the strong, what is low and despised in the world, even things that are not, to bring to nothing things that are &mdash; so that no human being might boast in the presence of God (1 Corinthians 1:27&ndash;29). The day of small things is precisely the kind of day in which God is most clearly at work, and most clearly the one who deserves the glory.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Living in the Spirit Rather Than in Our Own Strength",
+    reference: "Zechariah 4 Applied",
+    paragraphs: [
+      "The word of Zechariah 4 was spoken into a specific historical crisis, but it was preserved in Scripture because it speaks to a recurring condition of God&rsquo;s people in every age. Whenever the task before us exceeds our resources, whenever the obstacles loom large and the visible results look discouragingly small, whenever the energy to persevere seems to be running out &mdash; this is the chapter to return to. Not by might, nor by power, but by my Spirit.",
+      "The first application is personal: individual believers are called to live in daily dependence on the Spirit rather than relying primarily on their own gifts, talents, drive, and resources. This is harder than it sounds, because ability and effort are real goods, and the temptation to trust them is constant. The Word of God does not devalue human ability; Zerubbabel was clearly a capable leader and administrator. But it insists that human ability, without the Spirit of God animating it, is insufficient for the work of God&rsquo;s kingdom. &ldquo;Apart from me you can do nothing,&rdquo; Jesus said (John 15:5) &mdash; not &ldquo;very little,&rdquo; but nothing. The fruit of the vine comes from the vine, not from the branches&rsquo; own resources.",
+      "The second application is corporate: churches and Christian communities are called to be lampstand communities &mdash; to hold and display light that comes from a source beyond themselves. The church does not generate its own light; it receives it. The Spirit of God flows like oil from a living source into the gathered community, and when that community is willing to acknowledge its dependence on that supply rather than on its own institutional strength, the light shines with a brightness no human organization could produce. When churches forget their dependence on the Spirit and begin to rely primarily on programs, methods, budgets, and human charisma, the oil begins to run low and the light grows dim.",
+      "The third application concerns the &ldquo;mountains&rdquo; we face. Whatever looms like an impassable mountain in the calling God has given us &mdash; a difficult relationship that needs healing, a long-term ministry that seems to produce no visible fruit, a community that appears impervious to the gospel, a personal struggle that will not yield &mdash; the promise of this chapter is that before the Spirit of God, mountains become plains. This does not mean the mountain disappears overnight or without cost. Zerubbabel still had to take up the plumb line and do the work. But the outcome was guaranteed by a power that was not his own.",
+      "The fourth application is the willingness to embrace the &ldquo;day of small things.&rdquo; Contemporary Christian culture is often drawn to the large, the spectacular, and the measurable &mdash; to conferences that fill arenas, to ministries that can point to impressive statistics, to churches that make a visible splash. There is nothing wrong with any of those things in themselves, but Zechariah 4 calls us to honor and value and remain faithful in small, unglamorous, Spirit-dependent work that may never make the news. The seven eyes of the Lord are on the plumb line in the hand of the ordinary, faithful servant just as much as they are on the greatest preacher or the most celebrated ministry.",
+      "Finally, this chapter invites us to cultivate a theology of grace rather than achievement. The shout over the finished Temple was not &ldquo;look at what we did&rdquo; but &ldquo;grace, grace to it!&rdquo; The completed work bore the fingerprints of God&rsquo;s favor, not the trophy of human accomplishment. When we learn to frame our work and our lives this way &mdash; attributing what is accomplished not to our strength but to the Spirit who animates it &mdash; we are keeping ourselves in the orbit of what Zechariah 4 is calling us to. We are people who have learned to say, with full conviction and deep rest: not by might, nor by power, but by your Spirit, Lord.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "oCJuTXFaqG0", title: "Zechariah 4 - The Golden Lampstand Vision Explained" },
+  { videoId: "WVKHqnSCBZk", title: "Not by Might Nor by Power - Zechariah 4:6 Sermon" },
+  { videoId: "U0rJkTjTSGM", title: "BibleProject - Book of Zechariah Overview" },
+  { videoId: "qTNxBjzZh3U", title: "Zerubbabel and the Rebuilding of the Temple - Ezra and Zechariah" },
+];
+
+export default function Zechariah4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Prophecy
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Zechariah 4 &mdash; The Lampstand Vision
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            &ldquo;Not by might, nor by power, but by my Spirit, says the Lord of hosts.&rdquo; A vision of God&rsquo;s all-sufficient Spirit given to Zerubbabel and the discouraged exiles as they rebuild the Temple &mdash; and a word of grace for every generation that faces mountains too large for human strength.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Not by Might, Nor by Power</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            The golden lampstand blazes with a light that no human hand can extinguish, fed by living oil from a source beyond all human management. Whatever mountain looms before you today &mdash; in your own life, your ministry, or the work God has called you to &mdash; hear the word of the Lord: before his Spirit, that mountain becomes a plain. The capstone will be brought out with shouts of &ldquo;grace, grace&rdquo; to it.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

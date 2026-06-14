@@ -1828,6 +1828,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "James 1 Chapter": "james-1-guide",
   "Count It All Joy": "james-1-guide",
   "Doer of the Word": "james-1-guide",
+  "Psalm 1 Chapter": "psalm-1-guide",
+  "Blessed Is the Man": "psalm-1-guide",
+  "Tree Planted by Water": "psalm-1-guide",
+  "Romans 5 Chapter": "romans-5-guide",
+  "Justified by Faith": "romans-5-guide",
+  "Peace with God": "romans-5-guide",
+  "John 15 Chapter": "john-15-guide",
+  "I Am the True Vine": "john-15-guide",
+  "Abide in Me": "john-15-guide",
+  "1 Peter 5 Chapter": "1-peter-5-guide",
+  "Cast Your Anxieties on Him": "1-peter-5-guide",
+  "Clothe Yourselves with Humility": "1-peter-5-guide",
 };
 
 
@@ -2706,6 +2718,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 6 Chapter" },
   { label: "2 Corinthians 12 Chapter" },
   { label: "James 1 Chapter" },
+  { label: "Psalm 1 Chapter" },
+  { label: "Romans 5 Chapter" },
+  { label: "John 15 Chapter" },
+  { label: "1 Peter 5 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2356,6 +2356,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "John 13 Chapter": "john-13-guide",
   "Jesus Washes Disciples Feet Upper Room": "john-13-guide",
   "New Commandment Love One Another John": "john-13-guide",
+  "Ezekiel 36 Chapter": "ezekiel-36-guide",
+  "Heart of Stone Replaced Heart of Flesh": "ezekiel-36-guide",
+  "I Will Sprinkle You Clean Ezekiel": "ezekiel-36-guide",
+  "Genesis 50 Chapter": "genesis-50-guide",
+  "Joseph Forgives Brothers Fear Not God": "genesis-50-guide",
+  "You Intended Evil God Intended Good": "genesis-50-guide",
+  "Matthew 22 Chapter": "matthew-22-guide",
+  "Great Commandment Love God Neighbor": "matthew-22-guide",
+  "Render Caesar God Resurrection Question": "matthew-22-guide",
+  "1 Samuel 7 Chapter": "1-samuel-7-guide",
+  "Samuel Ebenezer Stone Here Help God": "1-samuel-7-guide",
+  "Israel Repents Philistines Defeated": "1-samuel-7-guide",
 };
 
 
@@ -3410,6 +3422,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 4 Chapter" },
   { label: "1 Corinthians 10 Chapter" },
   { label: "John 13 Chapter" },
+  { label: "Ezekiel 36 Chapter" },
+  { label: "Genesis 50 Chapter" },
+  { label: "Matthew 22 Chapter" },
+  { label: "1 Samuel 7 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

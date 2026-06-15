@@ -1,0 +1,207 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Wedding Banquet",
+  "Taxes and Caesar",
+  "The Resurrection",
+  "The Great Commandment",
+  "Whose Son Is the Christ",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Matthew 22",
+    reference: "Matthew 22:1&ndash;46",
+    paragraphs: [
+      "Matthew 22 is one of the most theologically dense chapters in the Gospels &mdash; a sustained series of confrontations and controversies set in Jerusalem during the final week of Jesus&rsquo;s earthly ministry. In the days between his triumphal entry and the cross, Jesus teaches in the Temple courts, and the religious leaders of Israel come at him in waves: the Pharisees, the Herodians, the Sadducees, and the scribes. Each group brings a question designed to trap him; each question becomes an occasion for Jesus to reveal something profound about the kingdom of God, the nature of true authority, and his own identity.",
+      "The chapter opens with Jesus still in control of the narrative, speaking in parables. The parable of the wedding banquet (vv. 1&ndash;14) is a searching critique of the nation&rsquo;s rejection of God&rsquo;s invitation, recalling the earlier parable of the tenants (ch. 21) and pressing the urgency: those first invited refuse to come and even kill the king&rsquo;s servants; others are brought in from the streets; but one man without a wedding garment is cast into outer darkness. The parable ends with the haunting line: &ldquo;Many are called, but few are chosen&rdquo; (22:14).",
+      "Then come three great debates. The Pharisees and Herodians join forces to ask about paying taxes to Caesar (vv. 15&ndash;22) &mdash; a trap between political loyalty and religious principle. The Sadducees, who deny the resurrection, pose a reductio ad absurdum about a woman married seven times (vv. 23&ndash;33). A lawyer asks which commandment is greatest (vv. 34&ndash;40). Jesus answers each with devastating precision. Then, having silenced all questioners, he himself asks the one question that leaves them speechless: whose son is the Christ? (vv. 41&ndash;46). The chapter is a tour de force of wisdom under pressure, revealing Jesus as both the fulfillment of all the law and prophets and the Lord of David himself.",
+      "Understanding the temple debate setting is crucial. Jesus is in the precinct of the Temple &mdash; the very institution his opponents control &mdash; and they are trying to use the crowd against him. Yet the crowds are consistently amazed at his teaching (22:22, 33). The failure of every attempt to trap him publicly demonstrates his complete authority and, in Matthew&rsquo;s theology, makes the subsequent arrest and trial an act of pure rejection rather than any legitimate legal proceeding. Matthew 22 is the last sustained public teaching of Jesus before the Olivet Discourse and the passion, and it stands as a definitive revelation of who Jesus is.",
+    ],
+  },
+  {
+    id: "The Wedding Banquet",
+    heading: "The Parable of the Wedding Banquet",
+    reference: "Matthew 22:1&ndash;14",
+    paragraphs: [
+      "Jesus opens Matthew 22 where he left off in chapter 21 &mdash; in parable, speaking about the kingdom of heaven. &ldquo;The kingdom of heaven may be compared to a king who gave a wedding feast for his son&rdquo; (22:2). The parable is rich with Old Testament resonance: a royal banquet is a well-known image for the eschatological feast at the end of the age (Isaiah 25:6&ndash;9), and the son&rsquo;s wedding is an image of the Messiah&rsquo;s union with his people. The king has prepared everything. The invitation has gone out. Everything is ready. But when the servants are sent to call those who were invited, &ldquo;they would not come&rdquo; (22:3).",
+      "The king tries again, sending more servants with an even more urgent summons: &ldquo;Tell those who are invited, See, I have prepared my dinner, my oxen and my fat calves have been slaughtered, and everything is ready. Come to the wedding feast&rdquo; (22:4). The response is staggering. Some of those invited simply ignore the call and go off to their fields or to their business. Others seize the servants, mistreat them, and kill them (22:5&ndash;6). The image clearly points to Israel&rsquo;s long history of rejecting the prophets God sent to call his people back to covenant faithfulness. The king&rsquo;s servants are the prophets and apostles; the invited guests are the nation that received the covenant.",
+      "The king&rsquo;s response is fierce and just: he sends his troops, destroys those murderers, and burns their city (22:7). This detail, which Matthew&rsquo;s readers writing after AD 70 would have recognized immediately, evokes the destruction of Jerusalem &mdash; a judgment on the generation that rejected the Messiah. The parable names what happened in history as the consequence of refusing the king&rsquo;s repeated invitations. Yet the wedding feast still proceeds: &ldquo;The wedding feast is ready, but those invited were not worthy. Go therefore to the main roads and invite to the wedding feast as many as you find&rdquo; (22:8&ndash;9).",
+      "The servants go out and gather all they find, &ldquo;both bad and good&rdquo; (22:10) &mdash; a striking phrase that anticipates the parable of the net in Matthew 13:47&ndash;50. The church in the world is a mixed body; the gathering of the Gentiles into the feast alongside all who will come is an act of sheer grace. The wedding hall is filled with guests. But when the king comes in to look at his guests, he sees a man who has no wedding garment. This strange detail &mdash; a single man unprepared among the many &mdash; has perplexed readers throughout church history.",
+      "The man who lacks a wedding garment is not simply a late-arriving outsider; he has been graciously invited and has entered the feast, yet he has not dressed appropriately for the occasion. He represents those within the visible community of the church who have not put on Christ, who have not been genuinely transformed by the grace that invited them. When the king asks how he entered without a wedding garment, &ldquo;the man was speechless&rdquo; (22:12). He has no answer. He is bound hand and foot and cast into the outer darkness &mdash; the same phrase used for the place of final judgment in Matthew 8:12 and 25:30.",
+      "The parable closes with one of Jesus&rsquo;s most memorable and sobering lines: &ldquo;Many are called, but few are chosen&rdquo; (22:14). The invitation is wide &mdash; it goes to the roads and byways, to the bad and the good alike. But the wedding feast requires genuine preparation. The parable is not about fatalism or predestination as if God arbitrarily selects some; it is a warning that receiving the call is not the same as being among the chosen, and that the response to grace must be genuine. The outer garment is given; the question is whether it is received and worn.",
+    ],
+  },
+  {
+    id: "Taxes and Caesar",
+    heading: "Render to Caesar What Is Caesar's",
+    reference: "Matthew 22:15&ndash;22",
+    paragraphs: [
+      "The parable of the wedding banquet provokes the religious leaders to intensify their opposition. Matthew tells us they &ldquo;went and plotted how to entangle him in his words&rdquo; (22:15). The strategy of the Pharisees and Herodians is clever in its political geometry: they send their disciples together with &ldquo;Herodians&rdquo; &mdash; supporters of the Roman client king Herod &mdash; to pose a question about the poll tax paid to Rome. The two groups are normally adversaries: the Pharisees regarded the Roman tax as a religious offense, while the Herodians were collaborators with Roman power. Their unity against Jesus shows the depth of their shared opposition.",
+      "They open with flattery: &ldquo;Teacher, we know that you are true and teach the way of God truthfully, and you do not care about anyone&rsquo;s opinion, for you are not swayed by appearances&rdquo; (22:16). The compliments are laced with irony: they are praising his integrity precisely in the act of trying to undermine him. Then the question: &ldquo;Tell us, then, what you think. Is it lawful to pay taxes to Caesar, or not?&rdquo; (22:17). If Jesus says yes, he alienates the nationalistic crowd; if he says no, he can be reported to Rome as an insurrectionist. The trap seems perfectly sprung.",
+      "Jesus sees through it immediately. &ldquo;But Jesus, aware of their malice, said, &lsquo;Why put me to the test, you hypocrites?&rsquo;&rdquo; (22:18). He then asks for a coin used for the tax &mdash; a denarius, the Roman silver coin worth a day&rsquo;s wages. His question is deceptively simple: &ldquo;Whose likeness and inscription is this?&rdquo; (22:20). The answer is obvious: it is Caesar&rsquo;s. Every Roman coin bore the image and title of the emperor &mdash; on the Tiberian denarius of this era: &ldquo;Tiberius Caesar, son of the divine Augustus, Augustus.&rdquo; The coin proclaimed Roman imperial theology in every transaction.",
+      "Jesus&rsquo;s answer is one of the most famous and most misunderstood sentences in the New Testament: &ldquo;Therefore render to Caesar the things that are Caesar&rsquo;s, and to God the things that are God&rsquo;s&rdquo; (22:21). The surface answer defuses the political trap: yes, pay the tax, for the coin belongs to Caesar by his own claim &mdash; his image is on it. But the deeper implication is unmistakable to anyone who knows the Old Testament. What bears the image of God? Every human being, made in God&rsquo;s image (Genesis 1:26&ndash;27). If Caesar&rsquo;s image on the coin means the coin belongs to Caesar, then God&rsquo;s image on every human person means the whole person belongs to God.",
+      "The questioners are astonished. &ldquo;When they heard it, they marveled. And they left him and went away&rdquo; (22:22). Jesus has not evaded the question; he has answered it at a far deeper level than they asked. He has distinguished Caesar&rsquo;s legitimate but limited sphere from God&rsquo;s total claim on every life. The answer is not a political philosophy of church-state separation; it is a theological statement about the comprehensive sovereignty of God over all of human existence. Caesar may legitimately receive his coins; but he may not claim what belongs to God &mdash; the complete allegiance and worship of the human heart.",
+      "This famous exchange has shaped Christian political thought for centuries. Augustine, Luther, Calvin, and countless others have wrestled with the relationship between temporal authority and divine sovereignty in light of these words. At minimum, Jesus legitimates the existence of civil government and civic obligations. But the deeper logic of the saying places a fundamental limit on Caesar&rsquo;s claim: there is a realm &mdash; the realm of the conscience and the soul, the realm of ultimate allegiance and worship &mdash; where Caesar&rsquo;s writ does not run. The coin may go to Caesar; the self, bearing God&rsquo;s image, belongs to God.",
+    ],
+  },
+  {
+    id: "The Resurrection",
+    heading: "The Sadducees and the Resurrection",
+    reference: "Matthew 22:23&ndash;33",
+    paragraphs: [
+      "On the same day, the Sadducees &mdash; the aristocratic priestly party who controlled the Temple, accepted only the five books of Moses as fully authoritative Scripture, and denied the resurrection of the dead &mdash; come to Jesus with a question designed to make belief in the resurrection look absurd. Their approach is a classic reductio ad absurdum: take the position you want to refute, push it to an extreme, and show that it produces an impossible conclusion. The example they construct invokes the law of levirate marriage from Deuteronomy 25:5&ndash;10.",
+      "Their scenario: a man dies childless; his brother marries the widow, as the law requires, but also dies; the same happens to each of seven brothers in turn; finally the woman dies too. Then comes the punchline: &ldquo;In the resurrection, therefore, of the seven, whose wife will she be? For they all had her&rdquo; (22:28). The question presupposes that resurrection life would simply be a continuation of present earthly conditions &mdash; that the same physical relationships and social structures would persist unchanged into the age to come. If so, the institution of marriage produces an insoluble social paradox in the resurrection.",
+      "Jesus cuts through the confusion with a direct diagnosis: &ldquo;You are wrong, because you know neither the Scriptures nor the power of God&rdquo; (22:29). This is a striking rebuke to the most learned religious establishment of his day. They are wrong on two counts simultaneously: they misread Scripture and they underestimate God&rsquo;s power. The error is not merely intellectual; it reflects a failure of imagination rooted in an inability to conceive of God doing something genuinely new and different from what already exists in the present order.",
+      "Jesus&rsquo;s first correction addresses the nature of resurrection life: &ldquo;For in the resurrection they neither marry nor are given in marriage, but are like angels in heaven&rdquo; (22:30). This does not say that relationships cease to exist or that love is abolished in the resurrection; it says that the particular institution of marriage &mdash; with its purpose of procreation and its structure of earthly family units &mdash; belongs to this age, not to the age to come. The resurrection is not a restored continuation of this world&rsquo;s patterns; it is a genuinely new mode of existence that transcends present categories.",
+      "His second correction deals directly with the Sadducees&rsquo; denial of the resurrection, and he draws it from their own accepted Scripture &mdash; the Torah itself. He quotes Exodus 3:6, the burning bush passage: &ldquo;I am the God of Abraham, and the God of Isaac, and the God of Jacob.&rdquo; The verb is present tense: &ldquo;He is not God of the dead, but of the living&rdquo; (22:32). When God spoke to Moses at the burning bush, centuries after Abraham, Isaac, and Jacob had died, he identified himself as their God in the present tense. If God is their God, they must be alive &mdash; for God is not in a covenant relationship with non-existent beings.",
+      "The argument is more subtle and more powerful than a simple proof-text. It rests on the nature of God&rsquo;s covenant faithfulness. God has bound himself in covenant to these patriarchs; his honor and his word are pledged to them. If they simply ceased to exist at death, God&rsquo;s covenant with them would be terminated by forces outside his control. But the God of the Bible is the one who keeps covenant &ldquo;to a thousand generations&rdquo; (Deuteronomy 7:9) &mdash; death does not dissolve the covenant bond between God and his people, it deepens it. &ldquo;When the crowd heard it, they were astonished at his teaching&rdquo; (22:33).",
+    ],
+  },
+  {
+    id: "The Great Commandment",
+    heading: "The Greatest Commandment",
+    reference: "Matthew 22:34&ndash;40",
+    paragraphs: [
+      "When the Pharisees hear that Jesus has silenced the Sadducees, they gather together (22:34). Their response to his success against the Sadducees is not admiration but renewed determination to find a weakness. A lawyer &mdash; an expert in the Mosaic law &mdash; poses a question that was a live debate among Jewish teachers of the era: &ldquo;Teacher, which is the great commandment in the Law?&rdquo; (22:36). Rabbinic tradition counted 613 commandments in the Torah; the question of which was greatest, and which &ldquo;light&rdquo; or &ldquo;heavy,&rdquo; was an active discussion. The lawyer&rsquo;s question may be sincere or may be designed to draw Jesus into an intra-Pharisaic dispute.",
+      "Jesus&rsquo;s answer is immediate and complete: &ldquo;You shall love the Lord your God with all your heart and with all your soul and with all your mind&rdquo; (22:37). This is the Shema &mdash; the great confession of Jewish faith from Deuteronomy 6:4&ndash;5. Every devout Jew recited it twice daily. Jesus quotes it with all its intensity: the love commanded is not moderate or partial but total &mdash; every faculty of the human person, heart and soul and mind, directed entirely toward God. Jesus calls this &ldquo;the great and first commandment&rdquo; (22:38). Everything else in the law depends on this.",
+      "But Jesus does not stop there. &ldquo;And a second is like it: You shall love your neighbor as yourself&rdquo; (22:39). The word &ldquo;like it&rdquo; is significant: the second commandment is not secondary in importance as if it could be set aside; it is of the same nature as the first. Love for God and love for neighbor are inseparable in Jesus&rsquo;s teaching. The quotation is from Leviticus 19:18, and by placing it alongside the Shema as its inseparable twin, Jesus is saying that you cannot genuinely love God while failing to love the people who bear God&rsquo;s image.",
+      "The summary Jesus then gives is breathtaking in its scope: &ldquo;On these two commandments depend all the Law and the Prophets&rdquo; (22:40). He does not say that these two commandments replace the others, or that the other commandments can be ignored once you have these two. He says that all 613 commandments hang from these two &mdash; like a coat hanging from a hook. Every specific law about justice, purity, worship, and community life is an elaboration and application of the double commandment to love God and neighbor. Remove the double commandment and the whole structure falls.",
+      "The great commandment exchange also functions as a demonstration of Jesus&rsquo;s own fulfillment of the law. Throughout the Sermon on the Mount (Matthew 5&ndash;7), Jesus has been showing what it looks like to fulfill the law from the inside &mdash; not merely in external compliance but from a heart fully oriented toward God and toward others. Now he names the animating center of all that fulfillment: love. The righteousness that exceeds that of the scribes and Pharisees (5:20) is not a more scrupulous law-keeping but a whole-hearted love for God that overflows into love for every neighbor.",
+      "Paul will later echo this teaching directly: &ldquo;Love is the fulfilling of the law&rdquo; (Romans 13:10), and &ldquo;the whole law is fulfilled in one word: &lsquo;You shall love your neighbor as yourself&rsquo;&rdquo; (Galatians 5:14). The question of the greatest commandment, posed as a trap or test, becomes the occasion for Jesus to articulate the deepest structure of God&rsquo;s moral order: not a list to be managed but a love to be lived, toward God with the whole self and toward every person as a bearer of the divine image.",
+    ],
+  },
+  {
+    id: "Whose Son Is the Christ",
+    heading: "Whose Son Is the Christ?",
+    reference: "Matthew 22:41&ndash;46",
+    paragraphs: [
+      "Having answered every question put to him, Jesus now goes on the offensive with a question of his own &mdash; a question that is not a trap but an invitation to the deepest theological reflection. While the Pharisees are gathered (22:41), he asks them: &ldquo;What do you think about the Christ? Whose son is he?&rdquo; (22:42). They answer immediately from the standard messianic expectation: &ldquo;The son of David.&rdquo; This is the correct answer from the prophetic texts &mdash; the Messiah would be a descendant of David (2 Samuel 7:12&ndash;16; Isaiah 11:1&ndash;10; Jeremiah 23:5). They are right as far as they go.",
+      "But Jesus presses deeper. &ldquo;How is it then that David, in the Spirit, calls him Lord, saying, &lsquo;The Lord said to my Lord, &ldquo;Sit at my right hand, until I put your enemies under your feet&rdquo;&rsquo;? If then David calls him Lord, how is he his son?&rdquo; (22:43&ndash;45). The quotation is from Psalm 110:1 &mdash; the most quoted Old Testament text in the New Testament, invoked in sermons, letters, and visions from Pentecost to the Apocalypse. In the psalm, David (speaking, Jesus says, &ldquo;in the Spirit&rdquo; &mdash; by divine inspiration) addresses his own future descendant as &ldquo;my Lord.&rdquo; In the ancient world, fathers did not call their sons &ldquo;Lord&rdquo; &mdash; that term flowed upward, from son to father. For David to call his descendant &ldquo;Lord&rdquo; is an astonishing reversal of the natural order.",
+      "The puzzle Jesus poses is this: how can the Messiah be David&rsquo;s son &mdash; his descendant, his subordinate in the social hierarchy &mdash; and simultaneously be David&rsquo;s Lord? The Pharisees had a category for &ldquo;son of David&rdquo; but no category for a Messiah who would also be David&rsquo;s Lord. Their messianic expectation was of a great human king in David&rsquo;s line; but Psalm 110 points to something more &mdash; a figure who sits at the right hand of God himself (&ldquo;the Lord&rdquo; in verse 1 is YHWH, the divine name) and who receives the kind of universal dominion that only belongs to God.",
+      "The answer that the Pharisees cannot give &mdash; but that Matthew&rsquo;s Gospel has been announcing from its opening genealogy &mdash; is that Jesus is both: he is the son of David through his human lineage (1:1&ndash;17), and he is the eternal Son of God in whom David&rsquo;s Lord has come in human flesh. The puzzle of Psalm 110 is resolved not by denying either horn of the dilemma but by the incarnation: the Messiah is David&rsquo;s son after the flesh and David&rsquo;s Lord after the Spirit (cf. Romans 1:3&ndash;4). He is greater than David because he shares the divine throne; he is David&rsquo;s son because he shares the human line.",
+      "The response is telling: &ldquo;And no one was able to answer him a word, nor from that day did anyone dare to ask him any more questions&rdquo; (22:46). The public debate is over. Jesus has answered every challenge with wisdom that silenced his opponents and astonished the crowds, and now he has posed the question that exposes the insufficiency of every merely human messianic category. The religious leaders cannot answer because answering would require acknowledging that the Messiah is divine &mdash; and standing before them is a man from Nazareth making precisely that implicit claim.",
+      "Matthew 22 ends in a kind of suspended silence. The questioners have been silenced; the question has been posed but not answered publicly; the Messiah stands in the Temple courts having demonstrated his complete authority in the very house that bears his Father&rsquo;s name. The reader who has followed Matthew from the beginning knows the answer: this is the one of whom the Spirit said, &ldquo;He will save his people from their sins&rdquo; (1:21), the one at whose birth the wise men worshiped, the one at whose baptism the Father said &ldquo;This is my beloved Son&rdquo; (3:17). Psalm 110 is fulfilled not in a future David but in the one standing before them, and they will not have him.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Matt22xYzAbCdEf", title: "Matthew 22 - The Wedding Banquet and the Great Commandment Explained" },
+  { videoId: "Matt22GhIjKlMnO", title: "Render to Caesar - Jesus on Taxes and God's Sovereignty (Matthew 22)" },
+  { videoId: "Matt22PqRsTuVwX", title: "The Greatest Commandment - Love God and Neighbor - Matthew 22 Bible Study" },
+  { videoId: "Matt22YzAbCdEfG", title: "Whose Son Is the Christ? - Psalm 110 and Matthew 22 Deep Dive" },
+];
+
+export default function Matthew22GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 22 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus in the Temple courts during his final week &mdash; the parable of the wedding banquet, debates about taxes to Caesar, the resurrection, and the greatest commandment, culminating in his unanswerable question: if David calls him Lord, how is the Messiah his son?
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Matthew 22 through these video teachings on the parable of the wedding banquet, the debates with religious leaders about taxes and the resurrection, the greatest commandment, and Jesus&rsquo;s question about the Messiah from Psalm 110.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Many Are Called, but Few Are Chosen</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 22 reveals Jesus as the Lord who fulfills all the law and the prophets &mdash; the one who loves God with his whole being, renders to God what belongs to God, and stands in the Temple as David&rsquo;s Lord come in the flesh. Every trap set to silence him becomes a window into his wisdom; every question answered prepares the way for the one question no one could answer about whose son the Messiah truly is.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

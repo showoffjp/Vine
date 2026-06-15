@@ -1,0 +1,202 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "For My Holy Name",
+  "Cleansing and Restoration",
+  "Heart of Flesh",
+  "My Spirit Within You",
+  "Garden of Eden Restored",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Ezekiel 36",
+    reference: "Ezekiel 36:1&ndash;38",
+    paragraphs: [
+      "Ezekiel 36 stands as one of the most breathtaking chapters in the entire Old Testament &mdash; a sweeping divine promise addressed to the mountains of Israel, then to the scattered nation, and finally to the hearts of individual men and women. The chapter arrives in the midst of the exile, when Israel has been carried off to Babylon, the land lies desolate, and the nations around have taken possession of the heights of God&rsquo;s inheritance, mocking both the people and their God. Into this darkness comes not a word of further judgment but a cascade of divine promises that reach from the restoration of the land all the way into the renewal of the human heart.",
+      "The chapter opens with God addressing the mountains of Israel directly &mdash; the physical land itself becomes the audience for the divine word. The nations have said of Israel, &ldquo;Aha!&rdquo; and have plundered the ancient heights; they have become the possession of the rest of the nations. But God declares that he will speak in his burning jealousy against those nations and turn his hand once again toward his own land. The land will be tilled and sown; it will yield its fruit and feed his people again; it will be inhabited as in the former times. The desolation that seemed permanent is temporary, because the Lord of the land has not abandoned his claim upon it.",
+      "The heart of the chapter, however, is not the restoration of soil and trees but the renewal of the people themselves. Israel had profaned the holy name of God among the nations wherever they went &mdash; even in exile, their presence among the Gentiles communicated the wrong message, as though the Lord could not protect his own. So God acts, not for Israel&rsquo;s sake but for the sake of his own great name. He will vindicate his holiness, gather his scattered people, cleanse them from their impurities, give them a new heart, put his Spirit within them, and restore them to their land. This is a promise that no human effort or covenant faithfulness could have earned; it flows entirely from the sovereign mercy and holy jealousy of God himself.",
+      "Ezekiel 36 is the theological foundation for the vision of the dry bones in chapter 37. The new heart and new spirit promised here become the breath of life breathed into the valley of bones there. Together these two chapters constitute the greatest Old Testament prophecy of the new covenant &mdash; the covenant that Jeremiah also described when he spoke of the law written on the heart rather than the stone tablet. The New Testament writers heard Ezekiel 36 ringing behind the ministries of Jesus and Paul: the cleansing water, the new spirit, the indwelling presence that moves the people of God to obedience &mdash; all find their fulfillment in the work of Christ and the gift of the Holy Spirit.",
+    ],
+  },
+  {
+    id: "For My Holy Name",
+    heading: "Not for Your Sake but for My Holy Name",
+    reference: "Ezekiel 36:16&ndash;23, 32",
+    paragraphs: [
+      "The great pivot of Ezekiel 36 &mdash; the theological hinge on which all the promises turn &mdash; is the declaration that God&rsquo;s restoration of Israel is emphatically not grounded in Israel&rsquo;s merit. Before the cascade of blessings is announced, God gives the reason for them, and the reason cuts against every form of human pride: &ldquo;It is not for your sake, O house of Israel, that I am about to act, but for the sake of my holy name&rdquo; (36:22). This statement is repeated twice in the chapter, once in verse 22 and again in verse 32, bracketing the great promises to ensure that no reader can mistake what the foundation of the restoration is.",
+      "The backstory makes the need for this clarification plain. Israel had been given the land as an inheritance, but they defiled it by their ways and deeds. Their conduct in the land was like the uncleanness of a menstrual woman &mdash; God poured out his wrath upon them, scattered them among the nations, and judged them according to their ways and their deeds (36:17&ndash;19). This was the deserved consequence of covenant unfaithfulness. There was nothing in Israel at that moment that deserved restoration. The exile was a righteous sentence.",
+      "But the nations among whom Israel was scattered drew the wrong conclusion from what they saw. When they looked at this scattered, defeated people, they said in effect, &ldquo;The God of Israel cannot keep his people; he is too weak to protect them.&rdquo; Or worse: &ldquo;The God of Israel has abandoned his people; his promises were not reliable.&rdquo; In both cases the name of the Lord was being profaned among the nations. God&rsquo;s reputation was being damaged by the spectacle of his people in exile. And this God would not endure &mdash; not because he was indifferent to the exile&rsquo;s justice, but because he is jealous for his own great name and for the truth of his own character.",
+      "So God acts. He will sanctify his great name by gathering his people, bringing them back to their land, cleansing them, renewing them, and restoring them to the kind of covenant faithfulness that his name requires of a people called by his name. The restoration is a vindication: God is showing the nations and the watching world what kind of God he is &mdash; faithful to his promises even when his people were not faithful to him, powerful to save even when every human prospect of salvation had collapsed. &ldquo;And the nations will know that I am the Lord,&rdquo; declares the Lord God (36:23).",
+      "The theological weight of this &ldquo;not for your sake&rdquo; declaration cannot be overstated. It teaches that the deepest ground of God&rsquo;s saving acts is not human worthiness but divine glory. Grace flows from God&rsquo;s commitment to his own name, his own character, his own holy purposes. This is not cold or mechanical &mdash; the very same passage overflows with tender language of cleansing, renewal, and intimate relationship. But the grace is radical precisely because it begins with God and not with Israel. It is the grace that the New Testament calls justification by faith: the undeserved favor of a holy God toward those who have forfeited every claim on his mercy.",
+    ],
+  },
+  {
+    id: "Cleansing and Restoration",
+    heading: "Cleansing from Idols and the Sprinkling of Clean Water",
+    reference: "Ezekiel 36:24&ndash;25, 29&ndash;30",
+    paragraphs: [
+      "The first act of God&rsquo;s restoration described in Ezekiel 36 is geographical: &ldquo;I will take you from the nations and gather you from all the countries and bring you into your own land&rdquo; (36:24). The scattering that was itself a form of covenant judgment &mdash; Deuteronomy had warned that disobedience would lead to being driven to the four corners of the earth &mdash; will be reversed by divine initiative. God himself will do the gathering. The people do not find their way home by their own effort or ingenuity; they are brought.",
+      "But the return to the land is immediately followed by a cleansing that goes deeper than geography. &ldquo;I will sprinkle clean water on you, and you shall be clean from all your uncleannesses, and from all your idols I will cleanse you&rdquo; (36:25). The sprinkling of water evokes the ritual purification ceremonies of the Mosaic law &mdash; the use of water mixed with the ashes of a red heifer to cleanse those defiled by contact with death (Numbers 19). Israel in exile was in precisely that kind of defilement: a dead people in a spiritually dead condition, cut off from the living God and from the life that comes only through covenant relationship with him.",
+      "The specific mention of idols is significant. Idolatry was the defining sin of Israel throughout its history, from the golden calf at Sinai to the high places that dotted the landscape under every king. The prophets, Ezekiel included, returned to this theme again and again because the worship of idols represented the most fundamental betrayal of the covenant: Israel had been given the living God, the Creator of heaven and earth, and had preferred gods of wood and stone and gold. The idols were not merely morally neutral mistakes; they were adultery against the divine husband who had redeemed, married, and sustained his people.",
+      "God&rsquo;s promise is therefore not merely to relocate Israel but to deal with the root cause of their exile. The external scattering was the symptom; the internal defilement &mdash; the attraction to idols, the corruption of the heart &mdash; was the disease. He will cleanse them from both. The image of sprinkling reaches forward into the New Testament, where the author of Hebrews speaks of drawing near with &ldquo;hearts sprinkled clean from an evil conscience and bodies washed with pure water&rdquo; (Hebrews 10:22), applying the Ezekiel promise to the work of Christ&rsquo;s blood. Peter addresses his readers as those &ldquo;sprinkled with his blood&rdquo; (1 Peter 1:2). The water of Ezekiel 36 becomes the atoning blood and the washing of regeneration in the new covenant.",
+      "The agricultural promises that follow in verses 29&ndash;30 complete the picture of restoration: God will call for the grain and make it abundant, lay no famine upon the people, multiply the fruit of the tree and the increase of the field. The land itself will come alive again, freed from the curse of barrenness that had accompanied the exile. Creation and covenant cannot finally be separated in Ezekiel&rsquo;s vision &mdash; the renewal of human hearts is written large in the renewal of the soil, the trees, the seasons, the abundance of a land flowing once again with the blessing of God.",
+    ],
+  },
+  {
+    id: "Heart of Flesh",
+    heading: "A New Heart and a Heart of Flesh",
+    reference: "Ezekiel 36:26",
+    paragraphs: [
+      "The single most famous verse of Ezekiel 36 &mdash; arguably the most concentrated statement of the new covenant promise in the entire Old Testament &mdash; is verse 26: &ldquo;And I will give you a new heart, and a new spirit I will put within you. And I will remove the heart of stone from your flesh and give you a heart of flesh.&rdquo; Everything in the chapter moves toward and radiates out from this promise. The gathering from the nations, the cleansing from idols, the agricultural renewal, the increase of population &mdash; all of it presupposes and depends on this radical inward transformation.",
+      "The contrast between the heart of stone and the heart of flesh is one of the most illuminating images in the Bible for the condition of unregenerate humanity. A heart of stone is not merely hard &mdash; it is inert, unresponsive, incapable of movement toward God. Stone does not feel, cannot be softened by argument or appeal, cannot be moved by love or threat. It simply is what it is: fixed, cold, dead. Israel&rsquo;s problem throughout its history was not a lack of law or a lack of divine instruction but a lack of the capacity to respond rightly to what they knew. The law was given; the prophets were sent; miracles were performed. And yet the people kept returning to idols and covenant unfaithfulness. The problem ran deeper than behavior; it was constitutional.",
+      "A heart of flesh, by contrast, is alive, responsive, capable of being moved. It can feel the weight of the divine word, respond to the call of God, be shaped by love and loyalty. It is not a perfect heart &mdash; flesh is not an image of moral strength but of vitality, of the capacity for genuine response. God is not promising to give Israel a heart that will never sin; he is promising to give them a heart that can genuinely respond to him, that is no longer constitutionally unable to love what is good and hate what is evil.",
+      "The promise is entirely unilateral: &ldquo;I will give&rdquo; and &ldquo;I will remove.&rdquo; Israel does not reform its own heart. Israel does not choose to soften the stone or cultivate the flesh. God reaches in and does what no human therapy, education, or effort could accomplish &mdash; he replaces the heart itself. This is why the Reformation tradition spoke of the absolute necessity of divine grace in conversion: the natural man cannot choose God because his heart is stone. The new birth &mdash; what Jesus describes to Nicodemus in John 3 as being born again of water and the Spirit &mdash; is the fulfillment of this Ezekiel promise. The heart of flesh is the regenerate heart, given as a gift from the sovereign God who alone can create what has never existed.",
+      "Jeremiah&rsquo;s parallel promise of the new covenant (Jeremiah 31:31&ndash;34) speaks of the law being written on the heart rather than on tablets of stone. The stone tablets of the Mosaic covenant were external; the law of the new covenant is internal, written on the fleshy heart that Ezekiel describes. Paul picks up this imagery explicitly in 2 Corinthians 3, contrasting the ministry of stone tablets with the ministry of the Spirit that writes on human hearts. The heart of flesh is the heart that has become capable of the obedience that the law always demanded but the old covenant age could not produce.",
+    ],
+  },
+  {
+    id: "My Spirit Within You",
+    heading: "My Spirit Within You to Move You to Follow My Decrees",
+    reference: "Ezekiel 36:27&ndash;28",
+    paragraphs: [
+      "The promise of a new heart in verse 26 is immediately followed by an even more startling promise: &ldquo;And I will put my Spirit within you, and cause you to walk in my statutes and be careful to obey my rules&rdquo; (36:27). The gift of the new heart is paired with the gift of the indwelling Spirit. These are not two separate transactions but two dimensions of a single divine act. The heart of flesh is the new capacity; the Spirit of God is the new power that operates through that capacity. Together they solve the problem that the law alone could never solve.",
+      "The phrase &ldquo;cause you to walk&rdquo; is remarkable. The Spirit is not merely an available resource that Israel can draw on if they choose; the Spirit within them will actually move them, incline them, cause them to walk in the way of God&rsquo;s statutes. This is not a coercive mechanism that overrides human will &mdash; the promise throughout is of genuine relationship, genuine obedience, genuine love. But it is a deeper-than-volitional work: the Spirit transforms the desires, the affections, the orientation of the will, so that what God commands becomes what the renewed heart genuinely wants. The obedience is real obedience, not mere compliance.",
+      "The Old Testament had known the Spirit of the Lord coming upon individuals for specific tasks &mdash; upon judges like Samson and Gideon for military leadership, upon Saul for kingship, upon the craftsman Bezalel for the making of the Tabernacle, upon the prophets for the word of the Lord. But the indwelling of the Spirit promised in Ezekiel 36 is different in kind: it is not a temporary empowerment for a particular task but a permanent habitation within the people of God as a whole, enabling the kind of walking-in-the-statutes that the covenant always demanded but the Spirit had not yet universally supplied.",
+      "This is the promise that Jesus identifies as his own gift to his disciples when he speaks of the Helper, the Paraclete, the Spirit of truth who will dwell with them and be in them (John 14:17). It is what Paul refers to when he speaks of the Spirit of God dwelling in believers as in a temple (1 Corinthians 3:16; 6:19) and when he describes the Spirit producing the fruit of love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, and self-control (Galatians 5:22&ndash;23). The walking-in-the-statutes of Ezekiel 36:27 becomes the walking by the Spirit, not fulfilling the desires of the flesh, of Galatians 5:16.",
+      "The covenant formula of verse 28 follows naturally from this Spirit-enabled life: &ldquo;You shall dwell in the land that I gave to your fathers, and you shall be my people, and I will be your God.&rdquo; This is the oldest covenant formula in the Old Testament, running from Genesis through Exodus, through the prophets, and forward into Revelation, where it reaches its final fulfillment in the new creation: &ldquo;They will be his people, and God himself will be with them as their God&rdquo; (Revelation 21:3). The Spirit within is the guarantee of the relationship without: those whom the Spirit indwells are the people of God, and God is their God. The promise holds through exile, through death, through every circumstance, because it rests on the character of the God who made it.",
+    ],
+  },
+  {
+    id: "Garden of Eden Restored",
+    heading: "The Land Like the Garden of Eden and the Nations Recognizing the Lord",
+    reference: "Ezekiel 36:33&ndash;38",
+    paragraphs: [
+      "Having promised the renewal of hearts and the gift of the Spirit, Ezekiel 36 closes with a vision of the land itself transformed beyond anything the returned exiles might have dared imagine. &ldquo;And they will say, &lsquo;This land that was desolate has become like the garden of Eden&rsquo;&rdquo; (36:35). The ruined, wasted cities that lie desolate in the minds of the exiles will be fortified and inhabited, and the desolate land will be tilled. The comparison to the Garden of Eden reaches back to the very beginning of the story: before the fall, before the curse, before thorns and thistles and painful toil &mdash; back to the original abundance of God&rsquo;s good creation, before human sin introduced desolation into the world.",
+      "This Eden comparison is not incidental. Ezekiel is drawing a line from creation to restoration that passes through the entire history of Israel&rsquo;s covenant failure and exile. The land of Canaan was always meant to be a new Eden, a place of abundance and blessing where the people of God would dwell in the presence of their God as Adam and Eve had dwelt in the garden. Israel&rsquo;s sin had turned that Eden-land into a wasteland, just as Adam&rsquo;s sin had turned the original garden into a place of toil and exile. The restoration promised here is therefore not merely a national recovery but a cosmic reversal &mdash; the undoing of exile in the deepest sense of the word.",
+      "The watching nations play a crucial role in the closing verses. They will know &mdash; they will recognize &mdash; that the Lord has built up the ruined places and planted what was desolate (36:36). Throughout the chapter the nations have been the audience for the profanation of God&rsquo;s name that the exile represented; they are also intended to be the audience for the vindication of God&rsquo;s name that the restoration will accomplish. When they see a devastated people returned, a wasted land flourishing, ruined cities rebuilt, they will have to acknowledge the power and faithfulness of the God of Israel. The restoration is simultaneously a gift to Israel and a testimony to the world.",
+      "God also promises to increase the number of people like a flock: &ldquo;Like the flock for sacrifices, like the flock at Jerusalem during her appointed feasts, so shall the waste cities be filled with flocks of people&rdquo; (36:38). The image of a flock &mdash; people gathered, cared for, brought into the city of God &mdash; echoes through the psalms and the prophets and finds its most explicit fulfillment in Jesus&rsquo;s description of himself as the Good Shepherd who gathers his sheep from all the nations (John 10). The scattered flock of Israel becomes the image for the scattered humanity that the Shepherd-Messiah comes to gather.",
+      "The final declaration of verse 38, &ldquo;Then they will know that I am the Lord,&rdquo; brings the chapter full circle. It began with the accusation that God&rsquo;s name was being profaned among the nations and ends with the assurance that his name will be vindicated before those same nations. The purpose of restoration is not merely the comfort of the restored but the declaration of who God is &mdash; to Israel, to the nations, to the whole watching creation. The Ezekiel 36 vision is ultimately a vision of the glory of God radiating outward from a renewed people in a renewed land, until the whole earth is filled with the knowledge of the Lord as the waters cover the sea.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Ezek36AbCdEf1", title: "Ezekiel 36 - A New Heart and New Spirit - Bible Study" },
+  { videoId: "Ezek36GhIjKl2", title: "God's Promise of Restoration in Ezekiel 36 Explained" },
+  { videoId: "Ezek36MnOpQr3", title: "Ezekiel 36 - For My Holy Name's Sake - Sermon" },
+  { videoId: "Ezek36StUvWx4", title: "The New Covenant in Ezekiel 36 and Its Fulfillment in Christ" },
+];
+
+export default function Ezekiel36GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Ezekiel 36 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            God&rsquo;s promise to Israel &mdash; a new heart and a new spirit, cleansing from idols, the Spirit within moving them to obedience, the land restored like the Garden of Eden, and the nations recognizing the Lord &mdash; all flowing not from Israel&rsquo;s merit but from God&rsquo;s holy name.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Ezekiel 36 through these video teachings on God&rsquo;s promise of a new heart and new spirit, his jealousy for his holy name, the cleansing of Israel, and the restoration of the land like the Garden of Eden.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Not for Your Sake but for My Holy Name</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Ezekiel 36 declares that the deepest ground of God&rsquo;s saving acts is his own holy name and character, not human merit. He cleanses, renews, and restores because he is jealous for his glory among the nations. The heart of stone gives way to a heart of flesh; the Spirit within causes his people to walk in his statutes; the desolate land becomes like the Garden of Eden &mdash; all so that the nations may know that he is the Lord.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

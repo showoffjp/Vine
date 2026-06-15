@@ -1,0 +1,202 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Jacob's Death",
+  "The Journey to Canaan",
+  "Brothers Fear Revenge",
+  "God Intended Good",
+  "Joseph's Final Years",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Genesis 50",
+    reference: "Genesis 50:1&ndash;26",
+    paragraphs: [
+      "Genesis 50 is the final chapter of the first book of the Bible &mdash; the conclusion of the Joseph narrative and the close of the patriarchal age. It gathers up the great themes of the entire book: God&rsquo;s providence working through human evil, the faithfulness of the covenant promises despite every obstacle, the hope of a land not yet possessed, and the grace of forgiveness extended even where vengeance might have been expected. The chapter is at once an ending and a beginning &mdash; the end of the Genesis story and the setting of the stage for the Exodus that will follow.",
+      "The chapter moves through four major movements. It opens with the death and mourning of Jacob &mdash; the patriarch who had been renamed Israel, the father of the twelve tribes &mdash; and the extraordinary honor paid to him in Egypt, including a seventy-day embalming period and a great state procession to the burial cave at Machpelah in Canaan. Then it turns to the brothers&rsquo; fear: with Jacob dead, will Joseph now take the revenge they had always feared? Their anxiety drives them to prostrate themselves before him as slaves, fulfilling the dreams of Joseph&rsquo;s youth in a context loaded with painful irony.",
+      "The emotional and theological center of the chapter is Joseph&rsquo;s response to his brothers&rsquo; plea &mdash; the famous declaration of verse 20: &ldquo;You intended to harm me, but God intended it for good, to accomplish what is now being done, the saving of many lives.&rdquo; This is one of the most compressed and powerful statements of divine providence in all of Scripture, a sentence that holds together the reality of human evil and the sovereignty of divine purpose without dissolving either into the other. Joseph does not minimize what his brothers did; he does not pretend it was not harm. But he sees, behind their intentions and above their actions, the intention of God working toward a purpose larger than any of them could have imagined.",
+      "The chapter ends with Joseph himself aging toward death, still in Egypt, making the brothers swear that when God visits his people and brings them out of Egypt, they will carry his bones with them to the Promised Land. His request is an act of faith &mdash; faith in the yet-unfulfilled promise of Canaan, faith that the God of Abraham, Isaac, and Jacob has not forgotten the covenant, faith that the future belongs to the people of God even when the present is Egypt. Joseph dies at a hundred and ten years, is embalmed, and placed in a coffin in Egypt. The Genesis story ends with a coffin and a promise.",
+    ],
+  },
+  {
+    id: "Jacob's Death",
+    heading: "Jacob's Death and the Mourning of Egypt",
+    reference: "Genesis 50:1&ndash;14",
+    paragraphs: [
+      "When Jacob breathes his last, Joseph throws himself upon his father&rsquo;s face, weeping over him and kissing him (50:1). The grief of Joseph &mdash; who had wept repeatedly throughout the Genesis narrative, from the moment he revealed himself to his brothers to the reunion with his father in Egypt &mdash; reaches its final expression here. The man who had been torn from his father as a teenager, who had spent thirteen years in slavery and prison with no word from home, now lies weeping over the body of the father he loved and had thought he would never see again.",
+      "Jacob had extracted a solemn oath from Joseph before his death: that Joseph would not bury him in Egypt but would carry him up and bury him in the cave of Machpelah, in the land of Canaan, where Abraham and Sarah, Isaac and Rebekah, and Leah were buried (49:29&ndash;32). The tomb at Machpelah was the one piece of Canaan the patriarchs actually owned, purchased by Abraham from Ephron the Hittite at the death of Sarah (Genesis 23). To be buried there was to be buried in the land of promise, to stake in death the same claim on the future that had been staked in life by faith.",
+      "Egypt honored Jacob in a remarkable way. Joseph commanded his servants the physicians to embalm his father, a process that took forty days in the Egyptian fashion &mdash; the full embalming period. Then the Egyptians wept for Jacob for seventy days, the same period of mourning accorded to the Pharaoh himself and one of the highest honors that Egyptian culture could extend. The man who had arrived in Egypt as a refugee, a displaced patriarch speaking through an interpreter, was honored in death like a head of state. This was the fruit of Joseph&rsquo;s position and the grace that God had woven through the whole strange story.",
+      "Joseph requested permission from Pharaoh to go and bury his father in Canaan, as he had sworn. Pharaoh not only granted the request but sent with Joseph a great company &mdash; all the servants of Pharaoh, the elders of his household, and the elders of the land of Egypt, along with chariots and horsemen. It was a state funeral procession of enormous proportions, crossing the desert to the land of Canaan. When the Canaanites who lived in the region of the Jordan saw it, they said, &ldquo;This is a grievous mourning by the Egyptians&rdquo; (50:11), and named the place Abel-Mizraim: &ldquo;the mourning of Egypt.&rdquo;",
+      "The sons of Jacob did exactly as their father had commanded. They carried him to the land of Canaan and buried him in the cave of the field at Machpelah, the field that Abraham had bought from Ephron the Hittite, east of Mamre (50:13). Then Joseph returned to Egypt with his brothers and all who had gone up with him to bury his father. The patriarchal age was closing, not with a conquest of the Promised Land but with a burial in it &mdash; the first fruits, as it were, of the inheritance, a deposit of faith in the ground of the promise.",
+    ],
+  },
+  {
+    id: "The Journey to Canaan",
+    heading: "The Great Procession to Machpelah",
+    reference: "Genesis 50:7&ndash;14",
+    paragraphs: [
+      "The funeral procession described in Genesis 50 is one of the most remarkable in the biblical narrative. &ldquo;All the servants of Pharaoh, the elders of his household, and all the elders of the land of Egypt&rdquo; (50:7) joined with the entire house of Joseph, his brothers, and his father&rsquo;s household in the journey. Only the children and the livestock were left behind in the land of Goshen. Chariots and horsemen accompanied the procession, creating what must have been an awe-inspiring column moving through the wilderness.",
+      "The journey from Egypt to Canaan was itself a rehearsal of the great Exodus yet to come. The same terrain, the same desert crossing, the same direction &mdash; toward the land of promise. Moses would later lead the whole nation on this journey; here, Joseph leads a funeral cortege. But the parallels between this journey and the Exodus are intentional for the reader who knows what comes next. God is already mapping the route, already establishing in the national memory that the way from Egypt to Canaan is a way that can be traveled, a way that God has blessed.",
+      "The route the procession took was not the direct coastal road but the longer route through Transjordan. They came to the threshing floor of Atad, &ldquo;which is beyond the Jordan,&rdquo; and there they held a great and very grievous lamentation, keeping a mourning of seven days (50:10). The Canaanite inhabitants watched and named the place accordingly. The mourning was public, extended, and witnessed by the inhabitants of the land &mdash; the land that God had promised to Abraham&rsquo;s descendants. Even in death, the patriarch was making his presence felt in the Promised Land.",
+      "The final act of the procession is the burial itself at Machpelah, described in precise terms that recall Abraham&rsquo;s original purchase of the cave: &ldquo;the cave of the field at Machpelah, to the east of Mamre, in the land of Canaan, which Abraham bought with the field from Ephron the Hittite to possess as a burying place&rdquo; (50:13). The detail is legally significant. The sons of Jacob are not burying their father in someone else&rsquo;s land; they are burying him in land that is legally and historically theirs, purchased at full price, witnessed by the people of the land. The God of the covenant has preserved both the deed and the title.",
+      "After the burial, Joseph returned to Egypt with his brothers and all who had accompanied them. The return was a return to waiting, to the land of sojourn rather than the land of promise. But something had changed: the bones of Jacob now rested in Canaan, and Joseph carried in his heart the memory of what he had seen &mdash; the land, the cave, the ancient burial ground of his fathers. He knew, in a way that Egypt could never erase, that his people had a home elsewhere, a home that God had not forgotten and had not given up.",
+    ],
+  },
+  {
+    id: "Brothers Fear Revenge",
+    heading: "The Brothers Fear Revenge",
+    reference: "Genesis 50:15&ndash;18",
+    paragraphs: [
+      "With Jacob buried and the procession returned to Egypt, a new anxiety surfaced among Joseph&rsquo;s brothers. They said to one another, &ldquo;It may be that Joseph will hate us and pay us back for all the evil that we did to him&rdquo; (50:15). The fear was not unreasonable from a human perspective. For seventeen years &mdash; the length of Jacob&rsquo;s time in Egypt &mdash; they had lived under the shadow of a reconciliation that might have been politic rather than genuine. Jacob had been alive; Joseph&rsquo;s love for his father might have restrained any impulse toward revenge. Now the restraining factor was gone.",
+      "The brothers&rsquo; fear exposes how incompletely they had understood Joseph&rsquo;s forgiveness. They had heard his words of reconciliation in Genesis 45, had seen his tears, had accepted his invitation to bring the whole family to Egypt. They had lived well in Goshen for seventeen years. And yet the old guilt had never fully released its grip on them. The crimes of their youth &mdash; throwing Joseph into the pit, selling him to slave traders, presenting the blood-stained coat to their father &mdash; were not things that could be forgotten, and they were not sure that Joseph had truly forgotten them either.",
+      "The brothers sent a message to Joseph before appearing in person, invoking the name of their dead father: &ldquo;Your father gave this command before he died: &lsquo;Say to Joseph, Please forgive the transgression of your brothers and their sin, because they did evil to you.&rsquo;&rdquo; (50:16&ndash;17). Whether Jacob actually gave this instruction or whether the brothers invented it as a protective strategy, we cannot know for certain. What is clear is that they felt they needed an intermediary, a higher authority to appeal to &mdash; even a dead one &mdash; because they did not trust that their own standing with Joseph was secure.",
+      "Then the brothers came themselves and fell down before him and said, &ldquo;Behold, we are your servants&rdquo; (50:18). The prostration fulfills, in its most complete form, the dreams of Joseph&rsquo;s youth. In the first dream, the brothers&rsquo; sheaves bowed down to his sheaf; in the second, the sun and moon and eleven stars bowed down to him. Here, at the very end of the story, the brothers bow down as servants, offering themselves as slaves. The dreams have been fulfilled &mdash; but the fulfillment is saturated with repentance and fear rather than triumph, and Joseph&rsquo;s response will be the opposite of the revenge they fear.",
+      "The scene is a masterpiece of narrative irony and theological depth. The brothers prostrate themselves as slaves before the very man they once sold into slavery. They beg forgiveness from the one they sought to destroy. The pit into which they threw Joseph has, by the strange alchemy of divine providence, become the throne from which he now looks down at them. And yet the one on the throne is not a man of vengeance but a man of tears and grace &mdash; a man who has had years in pits and prisons to learn that God, not Joseph, holds the world in his hands.",
+    ],
+  },
+  {
+    id: "God Intended Good",
+    heading: "You Intended Evil but God Intended Good",
+    reference: "Genesis 50:19&ndash;21",
+    paragraphs: [
+      "Joseph&rsquo;s response to his prostrate brothers is one of the most theologically dense passages in the entire Old Testament. He does not accept the role they have assigned him. &ldquo;Do not fear,&rdquo; he says, &ldquo;for am I in the place of God?&rdquo; (50:19). The question is both humble and profound. Joseph is not God; he does not have the authority to execute final judgment on his brothers, nor the omniscience to weigh their guilt against the full complexity of God&rsquo;s purposes. The claim to be the arbiter of cosmic justice &mdash; the right to repay evil for evil, to settle accounts &mdash; belongs to God alone. Joseph refuses to occupy that place.",
+      "Then comes the declaration that gives the chapter its theological center of gravity: &ldquo;You intended to harm me, but God intended it for good, to accomplish what is now being done, the saving of many lives&rdquo; (50:20). Every word of this sentence carries weight. &ldquo;You intended to harm me&rdquo; &mdash; the brothers&rsquo; evil is not minimized, not excused, not reinterpreted as something less than what it was. It was real harm, a real crime, driven by real malice. Joseph is not the kind of forgiver who pretends the wound was not a wound.",
+      "But: &ldquo;God intended it for good.&rdquo; Behind the brothers&rsquo; intention was a deeper intention, a divine purpose that was working through their evil without endorsing it, shaping their malice into a plan that none of them could see. The slave traders, the false accusation of Potiphar&rsquo;s wife, the years in prison, the forgotten butler &mdash; every dark chapter in Joseph&rsquo;s story was a movement in a story that God was writing, a story whose end was the preservation of the very family that had tried to destroy Joseph. The saving of many lives &mdash; the people of Egypt, the surrounding nations, and above all Jacob&rsquo;s family &mdash; was the purpose that God had been working toward through the long years of suffering.",
+      "Joseph goes on: &ldquo;So do not fear; I will provide for you and your little ones&rdquo; (50:21). The man who had the power to destroy them promises instead to sustain them. He comforts them &mdash; the same word used for God&rsquo;s comfort in Isaiah 40: &ldquo;Comfort, comfort my people.&rdquo; Joseph becomes, in this moment, a figure of the one who would come to comfort and provide for those who had done the ultimate evil &mdash; the disciples who abandoned him in Gethsemane, the people who nailed him to the cross. The pattern of Joseph&rsquo;s life prefigures the pattern of Christ&rsquo;s: rejected, sold, falsely accused, imprisoned, exalted, and finally extending grace to those who had wronged him most.",
+      "The theological doctrine embedded in Genesis 50:20 is what theologians call the concurrence of divine and human agency &mdash; the teaching that God can work through human actions, including sinful human actions, to accomplish his sovereign purposes, without himself being the author of the sin. This is not determinism that excuses human evil; the brothers were genuinely guilty and Joseph genuinely suffered. It is not a naive optimism that denies the reality of evil; the harm was real harm. It is a confession that no human action, however malicious, lies outside the scope of God&rsquo;s governance, and that the story God is telling is larger, wiser, and more gracious than anything the human characters could have written for themselves.",
+    ],
+  },
+  {
+    id: "Joseph's Final Years",
+    heading: "Joseph's Final Years and the Promise to Carry His Bones",
+    reference: "Genesis 50:22&ndash;26",
+    paragraphs: [
+      "Joseph lived in Egypt &mdash; he and his father&rsquo;s house. He lived a hundred and ten years (50:22). In Egyptian thought the ideal lifespan was a hundred and ten years, and Joseph&rsquo;s reaching exactly that age would have been read by Egyptian contemporaries as a sign of extraordinary divine favor and a life well-lived. But the biblical narrative is not primarily interested in the Egyptian ideal; it is interested in the God who had been with Joseph from the pit in Dothan to the second chariot of Pharaoh, and who had not let go of him through any of it.",
+      "In his final years Joseph saw Ephraim&rsquo;s children of the third generation, and the children also of Machir the son of Manasseh were counted as Joseph&rsquo;s own (50:23). The man who had been unable to have a family during the long years of slavery and imprisonment saw his family multiply abundantly before he died. The blessing of fruitfulness that God had promised to Abraham &mdash; &ldquo;I will make you exceedingly fruitful&rdquo; &mdash; was being enacted in the next generations even while the family still lived in Egypt. The promise was not waiting for the Promised Land to begin its fulfillment.",
+      "Joseph said to his brothers &mdash; meaning, to his extended family and the next generation &mdash; &ldquo;I am about to die, but God will surely visit you and bring you up out of this land to the land that he swore to Abraham, to Isaac, and to Jacob&rdquo; (50:24). The &ldquo;surely visit&rdquo; is emphatic in the Hebrew: God will indeed, certainly, without fail, visit. Joseph&rsquo;s confidence in the covenant promise was unshaken by decades in Egypt, by all the reversals and delays of his own story, by the death of his father, by the fact that the Promised Land was still four hundred years of waiting away for his descendants. He died in faith, &ldquo;not having received the things promised, but having seen them and greeted them from afar&rdquo; (Hebrews 11:13).",
+      "Then Joseph made the sons of Israel swear, saying, &ldquo;God will surely visit you, and you shall carry up my bones from here&rdquo; (50:25). The request is the final great act of faith in the Joseph narrative. Joseph does not ask to be embalmed and placed in an Egyptian tomb with Egyptian funerary rites, as his father had feared he might be. He asks to be preserved until the day when God fulfills the promise &mdash; and then carried out of Egypt and back to Canaan. He is investing his bones in the future, staking his burial on the promise of God. His coffin in Egypt becomes a standing sermon in the land of slavery: we do not belong here; our home is elsewhere; God has promised.",
+      "Joseph died and was embalmed and put in a coffin in Egypt (50:26). And there the coffin waits &mdash; through the enslaving of the Hebrews, through the plagues, through the first Passover &mdash; until that extraordinary night recorded in Exodus 13:19 when &ldquo;Moses took the bones of Joseph with him, for Joseph had made the sons of Israel solemnly swear, saying, &lsquo;God will surely visit you, and you shall carry up my bones with you from here.&rsquo;&rdquo; And finally, in Joshua 24:32, the bones of Joseph were buried at Shechem, in the piece of ground that Jacob had bought from the sons of Hamor. The promise was kept. The bones came home. God had visited, exactly as Joseph, dying in faith, had declared he would.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Gen50AbCdEf1x", title: "Genesis 50 - Joseph Forgives His Brothers - Bible Study" },
+  { videoId: "Gen50GhIjKl2y", title: "You Intended Evil but God Intended Good - Genesis 50 Sermon" },
+  { videoId: "Gen50MnOpQr3z", title: "The Death of Jacob and Joseph's Faith - Genesis 50 Explained" },
+  { videoId: "Gen50StUvWx4w", title: "Providence and Forgiveness in Genesis 50 - Teaching" },
+];
+
+export default function Genesis50GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Genesis 50 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Joseph forgives his brothers &mdash; the death and mourning of Jacob, the great procession to Machpelah, the brothers&rsquo; fear of revenge, and Joseph&rsquo;s declaration: &ldquo;You intended to harm me, but God intended it for good&rdquo; &mdash; and the bones preserved for the Promised Land.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Genesis 50 through these video teachings on Joseph&rsquo;s forgiveness, the providence of God, the death and burial of Jacob, and Joseph&rsquo;s dying faith in the promise of the land.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>You Intended Evil but God Intended Good</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Genesis 50 closes the book of beginnings with the most compressed statement of divine providence in all of Scripture. Joseph&rsquo;s story &mdash; the pit, the slavery, the prison, the palace &mdash; teaches that no human evil lies outside the scope of God&rsquo;s sovereign purpose, and that God&rsquo;s intention toward his people is always good, even when the path runs through suffering. The coffin waiting in Egypt is faith&rsquo;s answer to the future: God will visit, and the bones will come home.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

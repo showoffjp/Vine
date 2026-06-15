@@ -1,0 +1,204 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Controversy",
+  "The Council Convenes",
+  "Peter's Testimony",
+  "James's Ruling",
+  "The Council's Letter",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Acts 15",
+    reference: "Acts 15:1&ndash;41",
+    paragraphs: [
+      "Acts 15 records the first great doctrinal crisis of the Christian church &mdash; a crisis so significant that the apostles and elders convened a formal council in Jerusalem to resolve it. The question that precipitated the crisis was deceptively simple but of enormous consequence: must Gentile believers be circumcised and keep the Law of Moses in order to be saved? The answer given by the Jerusalem Council would determine whether Christianity remained a Jewish sect with an increasingly awkward Gentile appendage, or became the universal faith that Jesus had commissioned his followers to bring to every nation.",
+      "The chapter unfolds in four clearly defined movements. The first (vv. 1&ndash;5) describes the controversy that erupted in Antioch when certain men from Judea began teaching that circumcision was necessary for salvation, prompting Paul and Barnabas to dispute sharply with them and ultimately to travel to Jerusalem. The second movement (vv. 6&ndash;12) is the council debate itself, featuring Peter&rsquo;s decisive testimony about the Gentile Pentecost at the household of Cornelius &mdash; that God had given the Holy Spirit to uncircumcised Gentiles just as he had to Jewish believers, making no distinction. The third movement (vv. 13&ndash;21) is James&rsquo;s ruling, anchored in the prophecy of Amos, that Gentiles should not be burdened with the whole Mosaic law but should observe four specific abstentions. The fourth movement (vv. 22&ndash;41) records the drafting and delivery of the council&rsquo;s letter to the Gentile churches and closes with the painful split between Paul and Barnabas over John Mark.",
+      "The theological significance of Acts 15 can hardly be overstated. It is the moment at which the church formally declared that salvation is by grace through faith, not by law-keeping &mdash; decades before Paul would write Galatians and Romans to argue precisely that point. The council&rsquo;s decision was not an innovation; it was the recognition that what God had been doing in the Gentile mission all along was itself the fulfillment of Scripture. Peter, James, and the entire assembly read the evidence of the Spirit&rsquo;s work among the Gentiles and concluded that to require circumcision would be to &ldquo;put a yoke on the neck of the disciples that neither our fathers nor we have been able to bear&rdquo; (15:10).",
+      "Acts 15 also reveals the church at its most human as well as its most Spirit-led. The chapter opens with &ldquo;no small dissension and debate&rdquo; (15:2) and closes with a &ldquo;sharp disagreement&rdquo; (15:39) that separates two of the greatest missionaries in the history of the faith. Between those tensions lies the Spirit-guided wisdom of the council, the remarkable convergence of testimony, scripture, and communal discernment that produced a ruling both theologically grounded and pastorally wise. The church did not resolve its first great controversy without pain; but it did resolve it in a way that opened the door to the gospel for the whole Gentile world.",
+      "Christian readers throughout history have returned to Acts 15 as a model for how the church navigates genuine doctrinal controversy. The council combined several elements that remain essential: the testimony of experience (what God had actually done among the Gentiles), the authority of Scripture (James&rsquo;s citation of Amos 9), the weight of apostolic witness, communal discernment, and pastoral sensitivity to those who would receive the decision. The letter sent to the Gentile churches does not say &ldquo;we have argued you down&rdquo; but &ldquo;it has seemed good to the Holy Spirit and to us&rdquo; (15:28) &mdash; a remarkable formulation that attributes the council&rsquo;s consensus to divine guidance while fully owning the human process through which that guidance came.",
+    ],
+  },
+  {
+    id: "The Controversy",
+    heading: "The Controversy: Circumcision and Salvation",
+    reference: "Acts 15:1&ndash;5",
+    paragraphs: [
+      "The trouble began when &ldquo;some men came down from Judea and were teaching the brothers, &lsquo;Unless you are circumcised according to the custom of Moses, you cannot be saved&rsquo;&rdquo; (15:1). The men from Judea were not outsiders or enemies; they were members of the Christian community, almost certainly Jewish believers who had been shaped by a lifetime of understanding circumcision as the entrance rite into the covenant people of God. From the perspective of Jewish tradition, their concern was entirely reasonable. Circumcision had been the mark of covenant membership since Abraham; the Law of Moses was God&rsquo;s holy gift to Israel. Why should Gentiles be exempt from it if they wanted to share in Israel&rsquo;s salvation?",
+      "Paul and Barnabas, who had just returned from the first missionary journey with abundant evidence of God&rsquo;s grace at work among the Gentiles, saw the matter very differently. They had watched the Spirit of God fall on uncircumcised Gentiles in Pisidian Antioch, Iconium, Lystra, and Derbe. They had seen faith, repentance, joy, and transformed lives &mdash; all without a single convert undergoing circumcision. To now require circumcision as a condition of salvation was, in their view, to deny the sufficiency of what Christ had accomplished and to add a human work to the divine gift of grace. Luke records that &ldquo;Paul and Barnabas had no small dissension and debate with them&rdquo; (15:2).",
+      "The issue was not merely one of cultural preference or church practice. Paul would later make explicit in Galatians what is implicit in Acts 15: that to require circumcision for salvation was to say that the cross of Christ was not enough, that something must be added to what Jesus had done. It was to set aside grace and return to law as the basis of acceptance with God. This is why Paul called it &ldquo;another gospel&rdquo; in Galatians 1:6&ndash;7 and why he was willing to resist even apostolic authority on the point. The controversy was, at its deepest, a controversy about the nature of salvation itself.",
+      "The decision to send Paul and Barnabas to Jerusalem was a wise one, born of the recognition that this question could not be settled locally. The church at Antioch was a Gentile-majority congregation; the church at Jerusalem was the mother church of the entire movement and the home of the apostles. Any resolution that did not carry the authority of the Jerusalem leadership would remain contested. And so a delegation traveled the long road south, passing through Phoenicia and Samaria, reporting along the way &ldquo;the conversion of the Gentiles, and they brought great joy to all the brothers&rdquo; (15:3). The controversy had a larger audience than just Antioch and Jerusalem.",
+      "When the delegation arrived in Jerusalem, they were welcomed by the church, the apostles, and the elders. Paul and Barnabas reported all that God had done through them among the Gentiles &mdash; the miracles, the faith, the transformed communities. But &ldquo;some believers who belonged to the party of the Pharisees rose up and said, &lsquo;It is necessary to circumcise them and to order them to keep the law of Moses&rsquo;&rdquo; (15:5). The controversy was thus set before the full council: the weight of mission experience on one side, and the weight of scriptural tradition and covenant practice on the other. The apostles and elders gathered together to consider this matter, and the future of the Gentile mission hung in the balance.",
+    ],
+  },
+  {
+    id: "The Council Convenes",
+    heading: "The Council Convenes: Much Debate",
+    reference: "Acts 15:6&ndash;7",
+    paragraphs: [
+      "The council that assembled in Jerusalem was not a rubber-stamp meeting; Luke records that there was &ldquo;much debate&rdquo; (15:7) before any resolution was reached. This detail is important and honest. The questions before the council were genuinely difficult. The men arguing for circumcision were not villains but faithful believers wrestling with how their inherited covenant theology related to the startling new thing God was doing among the nations. The apostles and elders did not dismiss them or refuse to hear them; they engaged the substance of the debate.",
+      "The council format itself &mdash; apostles and elders gathered together to deliberate &mdash; represents an important principle of church governance that Acts presents as normative. No single individual, not even Paul or Peter, resolves the question alone. The matter is brought before the community of recognized leaders, heard in open debate, tested against scripture and experience, and resolved through a consensus that can be communicated with shared authority to the wider church. The Jerusalem Council is thus both a historical event and a model of how the Spirit-led community discerns truth in contested matters.",
+      "The weight of the debate fell on the question of continuity and discontinuity with Israel&rsquo;s heritage. Those who argued for circumcision stood for continuity: the people of God had always been marked by circumcision, and the inclusion of Gentiles should follow the existing pattern of proselyte conversion. Those who argued against it stood for discontinuity: the new thing God was doing in the Spirit exceeded and transformed the old categories. The question was not whether the Old Testament was authoritative &mdash; everyone in the room agreed it was &mdash; but how to read it in light of the resurrection and the outpouring of the Spirit.",
+      "Luke&rsquo;s compressed account of the debate gives prominence to two voices that eventually settled the matter: Peter and James. Peter speaks from the experience of what God had done at the house of Cornelius; James speaks from the authority of what Scripture had predicted. Together they provide the two pillars on which the council&rsquo;s decision rests: the testimony of God&rsquo;s actual action in the world, and the testimony of God&rsquo;s prior word in Scripture. The church does not decide matters of doctrine by experience alone or by Scripture alone in mechanical isolation, but by the careful, Spirit-guided reading of both together.",
+      "The council&rsquo;s willingness to engage in genuine debate, to hear all parties, and to weigh the evidence carefully before ruling stands as a model of theological seriousness and communal integrity. The goal of the debate was not to win an argument but to discern what the Spirit of God was saying. The atmosphere Luke describes is one of attentive listening: after Peter speaks, &ldquo;all the assembly fell silent&rdquo; (15:12); after James speaks, the whole council reaches a conclusion together. The debate was sharp, but the listening was real, and the outcome was a decision the entire assembly could own as the work of the Holy Spirit.",
+    ],
+  },
+  {
+    id: "Peter's Testimony",
+    heading: "Peter's Testimony: God Made No Distinction",
+    reference: "Acts 15:7&ndash;12",
+    paragraphs: [
+      "Peter rises to speak not as a theoretician but as an eyewitness. He reminds the council that God had chosen him, in the early days, to be the one through whom the Gentiles first heard the gospel and believed: &ldquo;Brothers, you know that in the early days God made a choice among you, that by my mouth the Gentiles should hear the word of the gospel and believe&rdquo; (15:7). He is referring to the visit to Cornelius&rsquo; household in Acts 10 &mdash; the vision of the sheet, the divine command to go to a Gentile home, and the astonishing moment when the Holy Spirit fell on the uncircumcised household before Peter had even finished speaking.",
+      "The center of Peter&rsquo;s argument is the observation that God gave the Holy Spirit to the Gentiles in exactly the same way he had given it to the Jewish believers at Pentecost: &ldquo;And God, who knows the heart, bore witness to them, by giving them the Holy Spirit just as he did to us, and he made no distinction between us and them, having cleansed their hearts by faith&rdquo; (15:8&ndash;9). The phrase &ldquo;made no distinction&rdquo; is the theological heart of Peter&rsquo;s testimony. The God who searches hearts had found faith in these Gentile hearts and had responded with the gift of the Spirit &mdash; without waiting for circumcision, without requiring law-keeping, without any condition beyond faith itself.",
+      "Peter then turns the argument in its most pointed direction: &ldquo;Now, therefore, why are you putting God to the test by placing a yoke on the neck of the disciples that neither our fathers nor we have been able to bear?&rdquo; (15:10). This is a remarkable admission from a Jewish apostle. The law of Moses, the very covenant instruction that the men from Judea were proposing to impose on the Gentiles, was something that Israel herself had not been able to bear. Not because the law was bad &mdash; Paul insists elsewhere that the law is holy and good &mdash; but because sinful human beings cannot achieve covenant standing through law-keeping. To require it of Gentiles would be to set them up for the same failure Israel had experienced.",
+      "Peter&rsquo;s conclusion is unambiguous: &ldquo;But we believe that we will be saved through the grace of the Lord Jesus, just as they will&rdquo; (15:11). The form of the sentence is striking. Peter does not say &ldquo;the Gentiles will be saved in the same way as we Jews.&rdquo; He says &ldquo;we will be saved &hellip; just as they will.&rdquo; He places the Jewish believers in the position of learning from the Gentile experience, not the other way around. The Gentiles&rsquo; uncomplicated salvation by grace through faith becomes the interpretive key that clarifies what salvation has always been, for Jew and Gentile alike: not law-keeping but grace.",
+      "After Peter finishes, Luke records a moment of charged silence: &ldquo;And all the assembly fell silent, and they listened to Barnabas and Paul as they related what signs and wonders God had done through them among the Gentiles&rdquo; (15:12). The silence was not emptiness; it was the silence of a room taking in testimony that could not be easily dismissed. Barnabas and Paul then added to Peter&rsquo;s theological argument the experiential evidence &mdash; the catalogue of miracles and transformed lives that God had worked through their mission. The case for the Gentiles rested not on human argument but on the undeniable evidence of God&rsquo;s own action among them.",
+    ],
+  },
+  {
+    id: "James's Ruling",
+    heading: "James's Ruling: Do Not Trouble the Gentiles",
+    reference: "Acts 15:13&ndash;21",
+    paragraphs: [
+      "After Barnabas and Paul finish their account, James &mdash; the brother of Jesus and the recognized leader of the Jerusalem church &mdash; rises to speak. He begins by summarizing Peter&rsquo;s testimony and then turns to Scripture to provide its authorization: &ldquo;And with this the words of the prophets agree, just as it is written, &lsquo;After this I will return, and I will rebuild the tent of David that has fallen; I will rebuild its ruins, and I will restore it, that the remnant of mankind may seek the Lord, and all the Gentiles who are called by my name, says the Lord, who makes these things known from of old&rsquo;&rdquo; (15:15&ndash;17, citing Amos 9:11&ndash;12).",
+      "James&rsquo;s use of Amos is foundational. The prophecy had envisioned a time when the &ldquo;tent of David&rdquo; &mdash; the Davidic dynasty that had fallen into ruin &mdash; would be rebuilt, and in that restoration the nations (the Gentiles) who were called by God&rsquo;s name would come to seek the Lord. James is reading the resurrection and exaltation of Jesus, the Son of David, as the fulfillment of this prophecy: the tent of David has been rebuilt in the risen Christ, and as a result the Gentile mission is not a departure from the plan of God but its fulfillment. The inclusion of the Gentiles without circumcision is not a concession to pragmatism; it is the fulfillment of Scripture.",
+      "James&rsquo;s ruling follows from this exegetical foundation: &ldquo;Therefore my judgment is that we should not trouble those of the Gentiles who turn to God&rdquo; (15:19). The word &ldquo;trouble&rdquo; (parenochle in) means to burden or disturb. James is saying that the church must not lay upon Gentile believers burdens that God himself has not laid upon them &mdash; that requiring circumcision and full Torah observance would be to &ldquo;trouble&rdquo; people whom the Spirit of God has already received. The ruling is pastoral as well as theological: James is concerned not just with what is doctrinally correct but with what will build up rather than burden the Gentile communities.",
+      "The four abstentions James recommends &mdash; from things polluted by idols, from sexual immorality, from what has been strangled, and from blood &mdash; are not a reduced version of the Mosaic law as a condition of salvation. They are practical guidelines intended to enable table fellowship between Jewish and Gentile believers. Three of the four (idolatry, blood, strangled animals) reflect the Noahic covenant and the laws of Leviticus 17&ndash;18 that applied to foreigners living among Israel. Sexual immorality rounds out the list as a universal moral boundary. Together they address the practices most likely to make common life and worship impossible between Jewish and Gentile Christians.",
+      "James&rsquo;s ruling also takes the pastoral situation of Jewish believers seriously: &ldquo;For from ancient generations Moses has had in every city those who proclaim him, for he is read every Sabbath in the synagogues&rdquo; (15:21). Jewish believers throughout the Diaspora were deeply formed by the Mosaic tradition; to ignore their sensibilities entirely would fracture the community. The four abstentions were therefore also a gesture of respect toward Jewish believers &mdash; a minimal set of common practices that would allow the two communities to eat together and worship together without either side requiring the other to abandon its identity. James&rsquo;s ruling was a work of theological precision and pastoral wisdom simultaneously.",
+    ],
+  },
+  {
+    id: "The Council's Letter",
+    heading: "The Council's Letter: Joy and Division",
+    reference: "Acts 15:22&ndash;41",
+    paragraphs: [
+      "The council&rsquo;s decision was not kept in Jerusalem; it was communicated to the wider church through a formal letter carried by a delegation that included Judas Barsabbas and Silas alongside Paul and Barnabas. The letter opens with a repudiation of the men from Judea who had caused the controversy: &ldquo;Since we have heard that some persons have gone out from us and troubled you with words, unsettling your minds, although we gave them no instructions&rdquo; (15:24). The council is clarifying that the men who had taught circumcision as necessary for salvation did not represent the apostolic leadership of Jerusalem; they had acted on their own authority.",
+      "The letter then states its central decision with the remarkable formulation: &ldquo;For it has seemed good to the Holy Spirit and to us to lay on you no greater burden than these requirements&rdquo; (15:28). The phrasing &ldquo;to the Holy Spirit and to us&rdquo; is one of the most theologically freighted phrases in the book of Acts. The council is claiming that its communal discernment was also the mind of the Spirit &mdash; not in the sense that they bypassed human reasoning, but in the sense that the Spirit guided the human process of testimony, debate, scriptural interpretation, and consensus. This is the church as it was meant to function: human wisdom and divine guidance working together.",
+      "The letter then lists the four abstentions &mdash; from things sacrificed to idols, from blood, from what has been strangled, and from sexual immorality &mdash; and closes with the personal witness of Judas and Silas, who are described as &ldquo;leading men among the brothers&rdquo; (15:22) and who are to confirm the letter&rsquo;s contents by word of mouth. When the letter was read in Antioch, the congregation&rsquo;s response was immediate and wholehearted: &ldquo;And when they had read it, they rejoiced because of its encouragement&rdquo; (15:31). The relief was not merely practical; it was the relief of a community that had feared a burden was about to be laid on them and had instead received the confirmation of their freedom in Christ.",
+      "Judas and Silas remained in Antioch for a time, and Luke describes them as prophets who &ldquo;encouraged and strengthened the brothers with many words&rdquo; (15:32). The Jerusalem Council&rsquo;s letter was not the end of the conversation but the beginning of a deeper relationship between the mother church and its Gentile daughter communities. The delegates were not just couriers but pastors, and their personal ministry in Antioch embodied the spirit of the letter itself: not law but encouragement, not burden but strengthening.",
+      "Yet the chapter does not end on a note of untroubled triumph. Paul proposes to Barnabas that they return to all the cities where they had preached to see how the brothers were doing. Barnabas wants to take John Mark, who had left them during the first missionary journey. Paul refuses to take someone who had &ldquo;withdrawn from them in Pamphylia and had not gone with them to the work&rdquo; (15:38). The disagreement is described starkly: &ldquo;And there arose a sharp disagreement, so that they separated from each other&rdquo; (15:39). Two of the great apostolic missionaries, who had stood together before the Jerusalem Council, could not agree on this personal matter and parted ways.",
+      "The split between Paul and Barnabas is one of the most humanly honest passages in the book of Acts. Luke does not adjudicate between them or tell us who was right. What he does show is that the Spirit of God was able to work even through the rupture: two missionary teams were now deployed instead of one, covering more ground, planting more churches. Paul took Silas and went through Syria and Cilicia; Barnabas took Mark and sailed for Cyprus. The pain of division does not cancel the providence of God. And Paul&rsquo;s later letters will show him fully reconciled with Mark, referring to him as &ldquo;useful to me for ministry&rdquo; (2 Timothy 4:11) &mdash; suggesting that the man Barnabas refused to abandon did indeed become the servant Paul had initially doubted.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Bm4dRpT7vKq", title: "Acts 15 - The Jerusalem Council Explained" },
+  { videoId: "Ln9xCmF5bRs", title: "The First Church Council - Acts 15 Bible Study" },
+  { videoId: "Dp3vBnK7cWj", title: "Saved by Grace Alone - Acts 15 and the Gentile Question" },
+  { videoId: "Xq8mNfP4bTk", title: "James's Ruling and the Council's Letter - Acts 15 Sermon" },
+];
+
+export default function Acts15GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 15 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The Jerusalem Council &mdash; the first great doctrinal debate of the church over whether Gentiles must be circumcised to be saved, Peter&rsquo;s testimony that God made no distinction, James&rsquo;s ruling from Amos, the letter of joy sent to Gentile churches, and the sharp disagreement that separated Paul and Barnabas.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Acts 15 through these video teachings on the Jerusalem Council, Peter&rsquo;s testimony about Cornelius, James&rsquo;s ruling from Amos, and the grace-alone foundation of Gentile salvation.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>It Has Seemed Good to the Holy Spirit and to Us</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 15 is the church at its most decisive and most human &mdash; a community willing to debate sharply, listen carefully, search Scripture honestly, and follow the Spirit into a conclusion that opened the door of salvation to the whole Gentile world. The Jerusalem Council did not invent grace; it recognized what God had already been doing. Its ruling echoes through every generation: we are saved through the grace of the Lord Jesus, just as they are &mdash; not by the works of the law, but by faith alone.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

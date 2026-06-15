@@ -2284,6 +2284,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 12 Chapter": "1-corinthians-12-guide",
   "Body of Christ Spiritual Gifts Unity": "1-corinthians-12-guide",
   "One Spirit Many Members Church Body": "1-corinthians-12-guide",
+  "Hosea 2 Chapter": "hosea-2-guide",
+  "God Covenant Love Restoration Hosea": "hosea-2-guide",
+  "Valley of Achor Door of Hope": "hosea-2-guide",
+  "Acts 15 Chapter": "acts-15-guide",
+  "Jerusalem Council Circumcision Faith": "acts-15-guide",
+  "Gentile Salvation Council Decree": "acts-15-guide",
+  "Ephesians 4 Chapter": "ephesians-4-guide",
+  "Unity Spirit Body Maturity Church": "ephesians-4-guide",
+  "Equipping Saints Ministry Building Up": "ephesians-4-guide",
+  "John 7 Chapter": "john-7-guide",
+  "Jesus Feast Tabernacles Living Water": "john-7-guide",
+  "Streams Living Water Holy Spirit John": "john-7-guide",
 };
 
 
@@ -3314,6 +3326,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Chronicles 34 Chapter" },
   { label: "1 Samuel 24 Chapter" },
   { label: "1 Corinthians 12 Chapter" },
+  { label: "Hosea 2 Chapter" },
+  { label: "Acts 15 Chapter" },
+  { label: "Ephesians 4 Chapter" },
+  { label: "John 7 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

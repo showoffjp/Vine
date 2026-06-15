@@ -1,0 +1,205 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Israel's Unfaithfulness",
+  "God's Response",
+  "The Valley of Hope",
+  "A New Covenant",
+  "Marriage Restored",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Hosea 2",
+    reference: "Hosea 2:1&ndash;23",
+    paragraphs: [
+      "Hosea 2 is one of the most searching chapters in all of prophetic literature &mdash; a sustained meditation on what it means for God to love a people who have abandoned him for other gods. The chapter operates simultaneously on two levels: the literal and the metaphorical. On the literal level, Hosea is addressing the unfaithfulness of his own wife Gomer, who had left him for other lovers. On the metaphorical level, which is the primary level of the chapter, God is addressing the unfaithfulness of Israel, who had left him for the Baals of Canaan. The two levels of meaning illuminate one another throughout, giving the chapter a raw emotional intensity that few biblical texts match.",
+      "The structure of the chapter follows a dramatic arc. It opens with a sharp indictment &mdash; God laying out Israel&rsquo;s charges of spiritual adultery, her pursuit of the Baals whom she credits for the grain, the wine, and the oil that are actually God&rsquo;s gifts. This is followed by God&rsquo;s declared intention to discipline her: to block her path, to hedge her in with thorns, to strip away the blessings she had attributed to her false lovers. Then, at verse 14, the tone shifts with startling suddenness from judgment to grace &mdash; &ldquo;Therefore, behold, I will allure her.&rdquo; God will lead Israel back into the wilderness and speak tenderly to her there, transforming the Valley of Achor into a door of hope.",
+      "The chapter reaches its climax in the new covenant that God declares he will make with his people: &ldquo;I will betroth you to me forever; I will betroth you to me in righteousness and in justice, in steadfast love and in mercy. I will betroth you to me in faithfulness, and you shall know the Lord&rdquo; (2:19&ndash;20). These are among the most beautiful words in the Hebrew prophets. The marriage metaphor that opened in accusation and grief is resolved in renewal and restoration. The names Lo-Ruhamah (&ldquo;No Mercy&rdquo;) and Lo-Ammi (&ldquo;Not My People&rdquo;) that were given to Hosea&rsquo;s children as signs of God&rsquo;s judgment are reversed: &ldquo;You are my people&rdquo; and &ldquo;You are my God.&rdquo;",
+      "The chapter ends with a vision of cosmic restoration &mdash; a creation that responds to its Creator in harmony, the grain and wine and oil restored not as gifts from Baal but as the blessing of God in covenant relationship. The name Jezreel, which had been a place of bloodshed and judgment, becomes the symbol of a people planted by God in their own land, flourishing under his care. Hosea 2 is a complete gospel in miniature: the holy God who is also the spurned husband, the covenant broken by unfaithfulness, the discipline of love that is fiercer than wrath, and the restoration that exceeds anything that was lost.",
+      "Christian readers across the centuries have found in Hosea 2 a rich anticipation of the New Testament&rsquo;s language of covenant love. The apostle Paul quotes directly from this chapter in Romans 9:25&ndash;26, applying the reversal of Lo-Ruhamah and Lo-Ammi to the inclusion of the Gentiles in the people of God. The new covenant language of betrothal &ldquo;in faithfulness&rdquo; echoes through John&rsquo;s vision of the Lamb&rsquo;s wedding supper (Revelation 19) and Paul&rsquo;s description of the church as the bride of Christ (Ephesians 5). What Hosea announced to eighth-century Israel finds its ultimate fulfillment in the redemption accomplished by the one who is both bridegroom and sacrifice.",
+    ],
+  },
+  {
+    id: "Israel's Unfaithfulness",
+    heading: "Israel's Unfaithfulness: Chasing the Baals",
+    reference: "Hosea 2:1&ndash;8",
+    paragraphs: [
+      "The chapter opens with a call that is addressed to Hosea&rsquo;s children &mdash; and through them to the nation: &ldquo;Plead with your mother, plead &mdash; for she is not my wife, and I am not her husband&rdquo; (2:2). The declaration is devastating in its directness. God is not softening the charge. The covenant relationship, the marriage bond between God and Israel that had been sealed at Sinai, is being spoken of as broken &mdash; not dissolved, not merely strained, but broken by Israel&rsquo;s persistent unfaithfulness. The word for her unfaithfulness is prostitution, a term the prophets use for the worship of other gods precisely because it violates the exclusive covenant bond.",
+      "The nature of Israel&rsquo;s unfaithfulness is made concrete in the accusation of verse 5: &ldquo;For their mother has played the whore; she who conceived them has acted shamefully. For she said, &lsquo;I will go after my lovers, who give me my bread and my water, my wool and my flax, my oil and my drink.&rsquo;&rdquo; This is the theological heart of the indictment. Israel had attributed to the Baals &mdash; the nature gods of Canaan, lords of storm and fertility &mdash; the provision of all the good things of the land. She credited the grain harvest to Baal, not to the Lord. She looked to the local shrines and their rites, not to the God of the Exodus, for the abundance of the earth.",
+      "The prophetic critique cuts to the root of ancient Israel&rsquo;s syncretism. The Baals were not distant philosophical abstractions; they were the gods of everyday agricultural life, the powers believed to control rain and soil and harvest. When Israel arrived in Canaan and saw the fertility of the land, the temptation was not to abandon the Lord entirely but to supplement worship of him with the Baals, to hedge religious bets in a land where the local gods seemed to hold the practical keys to survival. Hosea declares that this is adultery &mdash; not because Israel entirely forgot the Lord, but because she gave to rivals what belonged only to him.",
+      "God&rsquo;s response to this misattribution is pointed: &ldquo;She did not know that it was I who gave her the grain, the wine, and the oil, and who lavished on her silver and gold, which they used for Baal&rdquo; (2:8). The word &ldquo;know&rdquo; here (yada) is the same word used for intimate, covenantal knowing in Hebrew &mdash; the same word used of a husband and wife. Israel&rsquo;s failure is not merely a mistake of theological analysis; it is a failure of intimate recognition. She looked at God&rsquo;s gifts and did not know the Giver. She took his bread to the table of another and never even noticed whose hands had set it there.",
+      "The charge against Israel in these opening verses has a mirror image in every age. Whenever human beings attribute the good things of creation to forces other than the Creator &mdash; to luck, to fate, to the impersonal mechanisms of nature, to our own hard work alone &mdash; we recapitulate Israel&rsquo;s failure. Hosea 2 insists that all created good is a gift from the covenant God, and that to enjoy his gifts while ignoring or replacing the Giver is a form of spiritual adultery that strikes at the heart of the relationship he has made with his people.",
+    ],
+  },
+  {
+    id: "God's Response",
+    heading: "God's Response: Blocking the Path, Stripping the Gifts",
+    reference: "Hosea 2:6&ndash;13",
+    paragraphs: [
+      "God&rsquo;s announced response to Israel&rsquo;s unfaithfulness is not immediate destruction but a purposeful discipline designed to bring her back. &ldquo;Therefore I will hedge up her way with thorns, and I will build a wall against her, so that she cannot find her paths&rdquo; (2:6). The image is striking. God is not opening a door to her exile; he is closing the doors to her lovers. The hedge of thorns and the wall of stones are obstacles placed in the way of Israel&rsquo;s idolatrous pursuits &mdash; not to punish her for punishment&rsquo;s sake, but to frustrate her plans until she is willing to turn around.",
+      "The discipline is designed to produce a very specific response: &ldquo;She shall pursue her lovers but not overtake them, and she shall seek them but shall not find them. Then she shall say, &lsquo;I will go and return to my first husband, for it was better for me then than now&rsquo;&rdquo; (2:7). The goal of the hedge is not hopelessness but remembering. God wants Israel to recall what it was like when she was in right relationship with him &mdash; when the covenant was whole, when the worship was true, when the Giver and the gifts were both honored together. The word &ldquo;return&rdquo; (shuv) is one of the great words of Hebrew prophecy: to turn back, to repent, to come home.",
+      "The stripping of the blessings follows: &ldquo;Therefore I will take back my grain in its time, and my wine in its season, and I will take away my wool and my flax, which were to cover her nakedness&rdquo; (2:9). Every item listed here is something that Israel had credited to the Baals. God is removing the gifts in order to reveal the Giver. When the grain fails and the wine is sparse and the wool does not come, Israel will be forced to ask herself where these things had truly come from. The stripping is not abandonment; it is the drastic love of a husband who is willing to let his wife experience want so that she will return to the one who can truly provide.",
+      "The catalogue of God&rsquo;s stripping reaches its most pointed moment at verse 11: &ldquo;And I will put an end to all her mirth, her feasts, her new moons, her Sabbaths, and all her appointed feasts.&rdquo; The appointed feasts of Israel were the celebrations of God&rsquo;s covenant gifts &mdash; the harvest festivals, the new moon celebrations, the Sabbath rest. But Israel had been observing these feasts even while worshiping the Baals, turning God&rsquo;s own celebrations into an empty religious form. God will halt even these until the heart that keeps them is clean again.",
+      "The section ends with a summary of the charge: &ldquo;And I will punish her for the feast days of the Baals when she burned offerings to them and adorned herself with her ring and jewelry, and went after her lovers and forgot me, declares the Lord&rdquo; (2:13). The word &ldquo;forgot&rdquo; is the final and most damning word in the indictment. Everything else &mdash; the Baal worship, the attribution of gifts, the religious syncretism &mdash; flows from this root failure: she forgot the Lord. Not merely an intellectual lapse of memory, but the deliberate turning of attention away from the One who had brought her out of Egypt and made her his own. This forgetting is what the hedge and the stripping are designed to heal.",
+    ],
+  },
+  {
+    id: "The Valley of Hope",
+    heading: "The Valley of Hope: Achor as a Door of Hope",
+    reference: "Hosea 2:14&ndash;15",
+    paragraphs: [
+      "The pivot of Hosea 2 arrives at verse 14 with a &ldquo;therefore&rdquo; that is the most unexpected word in the chapter. After a sustained indictment and a catalogue of disciplines, one might expect the next &ldquo;therefore&rdquo; to introduce yet another consequence of judgment. Instead, it introduces grace: &ldquo;Therefore, behold, I will allure her, and bring her into the wilderness, and speak tenderly to her&rdquo; (2:14). The Hebrew phrase for &ldquo;speak tenderly&rdquo; is literally &ldquo;speak to her heart&rdquo; &mdash; an intimate expression used elsewhere in Scripture for the most personal, loving address one person can make to another.",
+      "The wilderness is the setting for this renewal, and the choice is deliberate and rich with meaning. The wilderness was the place of Israel&rsquo;s original encounter with God after the Exodus &mdash; the place where, alone and dependent, Israel had walked with God before the corruptions of Canaan and the Baals began. God is promising to take Israel back to the beginning, to strip away everything that had complicated and distorted the relationship, to start again from the place of bare, utter dependence on him alone. The wilderness that had been a place of testing and formation will become a place of courtship and renewal.",
+      "Then comes one of the most remarkable verses in all the Hebrew prophets: &ldquo;And there I will give her her vineyards and make the Valley of Achor a door of hope&rdquo; (2:15). The Valley of Achor was the place where Achan was stoned after his theft of devoted things following the battle of Jericho (Joshua 7). Its name meant &ldquo;Valley of Trouble.&rdquo; It was a place of sin exposed, judgment executed, and a people halted in their tracks by the consequences of covenant breaking. To a Hebrew ear, the Valley of Achor was a place of dread and shame &mdash; the opposite of hope.",
+      "God&rsquo;s announcement that Achor will become &ldquo;a door of hope&rdquo; is therefore a promise of thoroughgoing redemption. The very place of Israel&rsquo;s most shameful failure &mdash; the place that bore the name Trouble &mdash; will become the threshold through which hope enters. This is the logic of grace throughout the biblical story: God does not bring restoration by routing around the place of failure but by passing directly through it and transforming it. Achor becomes not merely a neutral space but a door &mdash; an opening, a threshold, a beginning. The trouble itself becomes the portal to hope.",
+      "The verse continues: &ldquo;And she shall answer there, as in the days of her youth, as at the time when she came out of the land of Egypt.&rdquo; The word &ldquo;answer&rdquo; here (anah) can also be translated &ldquo;sing&rdquo; &mdash; as Miriam sang after the crossing of the Red Sea (Exodus 15). God is envisioning a second Exodus, a new song, a restored Israel who responds to her Deliverer with the same joy and grateful worship she had shown at the sea. The wilderness becomes a second Sinai, and the new covenant is the new law written &mdash; as Jeremiah and Ezekiel will later add &mdash; on the heart rather than on stone.",
+      "For Christian readers, the Valley of Achor as a door of hope resonates with the New Testament&rsquo;s theology of redemption through the cross. The place of greatest shame &mdash; a Roman execution outside the city walls &mdash; becomes, in the logic of the gospel, the very door through which hope and life enter the world. The apostle Paul&rsquo;s declaration that &ldquo;where sin increased, grace abounded all the more&rdquo; (Romans 5:20) is the New Testament expression of what Hosea announces in the Valley of Achor: God transforms the sites of our greatest failure into the thresholds of his greatest grace.",
+    ],
+  },
+  {
+    id: "A New Covenant",
+    heading: "A New Covenant: Betrothed Forever",
+    reference: "Hosea 2:16&ndash;20",
+    paragraphs: [
+      "The new covenant that God announces in verses 16&ndash;20 is expressed through the transformation of a single word. &ldquo;And in that day, declares the Lord, you will call me &lsquo;My Husband,&rsquo; and no longer will you call me &lsquo;My Baal&rsquo;&rdquo; (2:16). The word &ldquo;Baal&rdquo; means both &ldquo;lord&rdquo; or &ldquo;master&rdquo; and is the name of the Canaanite fertility god. Israel had been calling God by a title she shared with her idols. In the day of restoration she will use instead the word for husband that carries no contamination from the Baal cult: Ishi, &ldquo;my man,&rdquo; &ldquo;my husband.&rdquo; The relationship will be so purified that even the vocabulary of intimacy will be renewed.",
+      "God then promises to remove every vestige of Baal worship from Israel&rsquo;s memory and speech: &ldquo;For I will remove the names of the Baals from her mouth, and they shall be remembered by name no more&rdquo; (2:17). This is not merely the suppression of idol worship; it is the promised transformation of desire itself. Israel will not simply be forbidden to speak the Baals&rsquo; names &mdash; she will no longer want to. The covenant renewal God is describing is not external compliance but internal transformation, the reorientation of love and loyalty at the deepest level. This inner renewal anticipates Jeremiah&rsquo;s new covenant written on the heart and Ezekiel&rsquo;s promise of a new spirit.",
+      "The covenant extends beyond the human community to encompass all creation: &ldquo;And I will make for them a covenant on that day with the beasts of the field, the birds of the heavens, and the creeping things of the ground. And I will abolish the bow, the sword, and war from the land, and I will make you lie down in safety&rdquo; (2:18). This is a vision of shalom in its fullest, most cosmic sense &mdash; the harmony that God intended at creation, disrupted by sin, now restored by covenant. The wild animals will not be threats; the weapons of war will be abolished; the land will be a place of rest and safety. Creation itself participates in the renewal.",
+      "Then come the three betrothal declarations that stand at the heart of the entire chapter &mdash; words so beautiful and so theologically dense that they have been treasured by Jewish bridegrooms who recite them while wrapping the prayer straps around their fingers at morning prayer: &ldquo;And I will betroth you to me forever. I will betroth you to me in righteousness and in justice, in steadfast love and in mercy. I will betroth you to me in faithfulness. And you shall know the Lord&rdquo; (2:19&ndash;20). God himself names the terms of the new covenant: righteousness, justice, steadfast love (hesed), mercy, and faithfulness. These are not conditions Israel must meet; they are the gifts God will give &mdash; the very character of God poured into the relationship as its foundation.",
+      "The phrase &ldquo;you shall know the Lord&rdquo; at the close of the betrothal declaration brings the chapter full circle from the indictment of verse 8, where Israel &ldquo;did not know&rdquo; that God had given her the grain and the wine and the oil. The covenant renewal is ultimately a renewal of knowing &mdash; of the intimate, personal, covenantal recognition that had been lost when Israel turned to the Baals. The goal of all God&rsquo;s discipline and all his wooing is this: that his people would truly know him again, as a wife knows her husband and a husband knows his wife, with the full warmth and weight of covenant relationship.",
+    ],
+  },
+  {
+    id: "Marriage Restored",
+    heading: "Marriage Restored: Jezreel, Lo-Ruhamah, Lo-Ammi Reversed",
+    reference: "Hosea 2:21&ndash;23",
+    paragraphs: [
+      "The closing verses of Hosea 2 are a cascade of reversals. God had instructed Hosea to name his children with names of judgment: Jezreel (&ldquo;God sows&rdquo; &mdash; but in the sense of scattering, as in the bloodshed of Jezreel in 1:4), Lo-Ruhamah (&ldquo;No Mercy&rdquo;), and Lo-Ammi (&ldquo;Not My People&rdquo;). These names were themselves prophetic acts &mdash; walking signs of the covenant broken between God and Israel. Every time Hosea called his children, he was announcing divine judgment over the nation. Now, in verses 21&ndash;23, every one of those judgments is overturned.",
+      "The reversal begins with a great chain of answering: &ldquo;And in that day I will answer, declares the Lord, I will answer the heavens, and they shall answer the earth, and the earth shall answer the grain, the wine, and the oil, and they shall answer Jezreel&rdquo; (2:21&ndash;22). The Hebrew word for &ldquo;answer&rdquo; (anah) creates a cascading picture of creation responding to God&rsquo;s initiative. God speaks to the heavens; the heavens respond to the earth; the earth responds by producing grain, wine, and oil; and all of it responds to &ldquo;Jezreel&rdquo; &mdash; the covenant people in their land. Creation is fully and finally doing what it was made to do: blessing the people of God at the command of God.",
+      "The transformation of Jezreel is at the center of this vision. The name that had meant judgment &mdash; the scattering sown in blood &mdash; now means what the word most literally means: &ldquo;God sows.&rdquo; Not sowing in judgment but sowing in abundance. &ldquo;And I will sow her for myself in the land&rdquo; (2:23). God himself is the sower, and the seed he plants is his own people, in his own land, under his own care. The place of greatest grief becomes the sign of greatest hope. Jezreel the valley of blood becomes Jezreel the field of God&rsquo;s planting.",
+      "Then come the direct reversals of the children&rsquo;s names: &ldquo;And I will have mercy on No Mercy, and I will say to Not My People, &lsquo;You are my people&rsquo;; and he shall say, &lsquo;You are my God.&rsquo;&rdquo; (2:23). Lo-Ruhamah becomes Ruhamah &mdash; &ldquo;She who has received mercy.&rdquo; Lo-Ammi becomes Ammi &mdash; &ldquo;My people.&rdquo; The names that had been the most precise possible statement of God&rsquo;s withdrawn covenant are reversed into the most intimate possible statement of covenant restored. &ldquo;You are my people&rdquo; / &ldquo;You are my God&rdquo; &mdash; these two declarations together reconstitute the covenant formula that runs through the entire Old Testament as the summary of what God intends in his relationship with Israel.",
+      "The apostle Paul sees in this reversal the announcement of the inclusion of the Gentiles: &ldquo;Those who were not my people I will call &lsquo;my people,&rsquo; and her who was not beloved I will call &lsquo;beloved.&rsquo; And in the very place where it was said to them, &lsquo;You are not my people,&rsquo; there they will be called &lsquo;sons of the living God&rsquo;&rdquo; (Romans 9:25&ndash;26, citing Hosea 2:23 and 1:10). Paul reads Hosea&rsquo;s promise as a prophecy of the Gentile mission &mdash; the great reversal of Lo-Ammi extended to all the nations who were, by definition, &ldquo;not my people.&rdquo; The marriage renewed between God and Israel becomes the pattern for the great ingathering that the gospel accomplishes across every boundary of nation and history.",
+      "Hosea 2 ends where only grace can end &mdash; with God speaking the covenant formula over a people who have done nothing to deserve it, planting them in the land they had defiled, and calling them his own. The chapter is a complete statement of the gospel: holy love wounded by unfaithfulness, discipline that is fiercer than indifference, a wilderness where the heart is stripped bare and God speaks tenderly to it, a valley of trouble that becomes a door of hope, and a betrothal declared forever &mdash; in righteousness, justice, steadfast love, mercy, and faithfulness. The God of Hosea 2 is the God who does not give up on the people he has chosen to love.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Hk3mRpT9vBq", title: "Hosea 2 - God's Covenant Love and Restoration" },
+  { videoId: "Jn7dLcX4mRs", title: "The Valley of Achor - A Door of Hope in Hosea" },
+  { videoId: "Rp2vBnK8cTw", title: "Hosea 2 Bible Study - Betrothed to God Forever" },
+  { videoId: "Wq5xNmF3bKj", title: "Lo-Ammi Reversed - New Covenant in Hosea 2 Sermon" },
+];
+
+export default function Hosea2GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Hosea 2 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            God&rsquo;s covenant love pursues an unfaithful Israel &mdash; charges of chasing the Baals, a hedge of thorns to block her path, the Valley of Achor transformed into a door of hope, and a new betrothal declared forever in righteousness, steadfast love, and faithfulness, with the names Lo-Ruhamah and Lo-Ammi gloriously reversed.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Hosea 2 through these video teachings on God&rsquo;s covenant love, the Valley of Achor as a door of hope, the new betrothal declaration, and the reversal of the names Lo-Ruhamah and Lo-Ammi.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Will Betroth You to Me Forever</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Hosea 2 is the gospel in the language of marriage: holy love wounded by unfaithfulness, discipline fiercer than indifference, a wilderness where God speaks tenderly to a broken heart, and a betrothal declared forever &mdash; in righteousness, justice, steadfast love, mercy, and faithfulness. The God who charged Israel with adultery is the same God who refuses to let her go, transforms her valley of trouble into a door of hope, and calls &ldquo;Not My People&rdquo; his own once more.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

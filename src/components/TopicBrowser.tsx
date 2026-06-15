@@ -2404,6 +2404,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 37 Chapter": "psalm-37-guide",
   "Delight Yourself Lord Desires Heart": "psalm-37-guide",
   "Fret Not Evil Doers Wicked Psalm": "psalm-37-guide",
+  "Philippians 1 Chapter": "philippians-1-guide",
+  "To Live Is Christ To Die Is Gain Paul": "philippians-1-guide",
+  "Joy Suffering Philippians Prison Letter": "philippians-1-guide",
+  "2 Samuel 5 Chapter": "2-samuel-5-guide",
+  "David Anointed King Jerusalem Zion City": "2-samuel-5-guide",
+  "Fortress Zion David Conquers Jerusalem": "2-samuel-5-guide",
+  "Hebrews 1 Chapter": "hebrews-1-guide",
+  "Son Superior Angels Hebrews Radiance Glory": "hebrews-1-guide",
+  "Heir All Things Creator Worlds Hebrews": "hebrews-1-guide",
+  "Luke 3 Chapter": "luke-3-guide",
+  "John Baptist Ministry Repentance Baptism Luke": "luke-3-guide",
+  "Voice Crying Wilderness Prepare Way Luke": "luke-3-guide",
 };
 
 
@@ -3474,6 +3486,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Acts 14 Chapter" },
   { label: "Isaiah 43 Chapter" },
   { label: "Psalm 37 Chapter" },
+  { label: "Philippians 1 Chapter" },
+  { label: "2 Samuel 5 Chapter" },
+  { label: "Hebrews 1 Chapter" },
+  { label: "Luke 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

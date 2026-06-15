@@ -2272,6 +2272,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Revelation 3 Chapter": "revelation-3-guide",
   "Letters Philadelphia Laodicea Church": "revelation-3-guide",
   "Lukewarm Church Spit Out Mouth": "revelation-3-guide",
+  "Genesis 32 Chapter": "genesis-32-guide",
+  "Jacob Wrestles God Peniel Angel": "genesis-32-guide",
+  "Israel New Name Jacob Struggle": "genesis-32-guide",
+  "2 Chronicles 34 Chapter": "2-chronicles-34-guide",
+  "Josiah Reforms Book Law Discovered": "2-chronicles-34-guide",
+  "Josiah Tears Robes Reads Torah": "2-chronicles-34-guide",
+  "1 Samuel 24 Chapter": "1-samuel-24-guide",
+  "David Spares Saul Cave En Gedi": "1-samuel-24-guide",
+  "David Cuts Robe Saul Lord Anointed": "1-samuel-24-guide",
+  "1 Corinthians 12 Chapter": "1-corinthians-12-guide",
+  "Body of Christ Spiritual Gifts Unity": "1-corinthians-12-guide",
+  "One Spirit Many Members Church Body": "1-corinthians-12-guide",
 };
 
 
@@ -3298,6 +3310,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 7 Chapter" },
   { label: "1 John 5 Chapter" },
   { label: "Revelation 3 Chapter" },
+  { label: "Genesis 32 Chapter" },
+  { label: "2 Chronicles 34 Chapter" },
+  { label: "1 Samuel 24 Chapter" },
+  { label: "1 Corinthians 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

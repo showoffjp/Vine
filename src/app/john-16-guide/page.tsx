@@ -1,0 +1,185 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Holy Spirit",
+  "Grief to Joy",
+  "Asking in My Name",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "John 16 &mdash; Overview",
+    reference: "John 16:1&ndash;33",
+    paragraphs: [
+      "John 16 forms the final movement of Jesus&rsquo;s Upper Room Discourse, the longest sustained teaching of Jesus recorded anywhere in Scripture. Chapters 13&ndash;17 constitute a farewell address delivered on the night of the Last Supper, and chapter 16 brings the heart of that discourse to a crescendo. Jesus knows that within hours he will be arrested, tried, and crucified, and so he speaks with urgent tenderness, equipping his frightened disciples for the days ahead.",
+      "The chapter divides into three broad movements. First, Jesus warns the disciples of coming persecution, telling them plainly that those who kill his followers will believe they are offering service to God (vv. 1&ndash;4). He offers this warning not to discourage but to prepare: &ldquo;I have said all these things to you to keep you from falling away&rdquo; (v. 1). The disciples must know that suffering does not mean God has abandoned them &mdash; it was foretold.",
+      "Second, and most extensively, Jesus explains the coming of the Holy Spirit, calling him the &lsquo;Helper&rsquo; or &lsquo;Advocate&rsquo; &mdash; the Greek word is <em>Parakletos</em>, the one called alongside (vv. 5&ndash;15). The Spirit&rsquo;s coming depends on Jesus&rsquo;s going: &ldquo;It is to your advantage that I go away, for if I do not go away, the Helper will not come to you. But if I go, I will send him to you&rdquo; (v. 7). The Spirit will convict the world of sin, righteousness, and judgment; he will guide the disciples into all truth; he will glorify Jesus by taking what is his and declaring it to them.",
+      "Third, Jesus addresses the disciples&rsquo; grief and confusion about his departure, giving them the stunning promise that their sorrow will be turned into joy &mdash; the same way that a woman&rsquo;s birth-pains give way to the joy of new life (vv. 16&ndash;24). He assures them that in that day they will ask the Father directly in his name and receive, so that their joy may be full. The chapter closes with Jesus&rsquo;s triumphant declaration: &ldquo;I have overcome the world&rdquo; (v. 33).",
+      "The theological density of John 16 is extraordinary. It is the primary New Testament passage on the person and work of the Holy Spirit as Jesus&rsquo;s successor and gift to the church. It addresses the nature of Christian suffering, the transformation of grief into resurrection joy, the privilege of prayer in Jesus&rsquo;s name, and the peace that Jesus bequeaths to his people even in the midst of tribulation. To read John 16 carefully is to be given equipment for the whole of the Christian life.",
+      "Context matters enormously here. The disciples are about to face the shattering trauma of the cross. Everything they had hoped and staked their lives upon seemed about to be destroyed. Jesus does not minimize the coming darkness; rather, he speaks into it with the clarity of one who can already see the other side. &ldquo;In the world you will have tribulation,&rdquo; he says without flinching &mdash; and then immediately adds, &ldquo;But take heart; I have overcome the world&rdquo; (v. 33). That single sentence brackets the entire experience of Christian life between honest realism and unshakeable hope.",
+    ],
+  },
+  {
+    id: "The Holy Spirit",
+    heading: "The Paraclete &mdash; The Holy Spirit as Advocate and Guide",
+    reference: "John 16:5&ndash;15",
+    paragraphs: [
+      "No passage in all of Scripture gives a richer or more concentrated account of the Holy Spirit&rsquo;s ministry than John 16:5&ndash;15. Jesus has already introduced the &lsquo;Helper&rsquo; (<em>Parakletos</em>) in John 14 and 15, promising one who will be &ldquo;another Helper&rdquo; &mdash; the word &lsquo;another&rsquo; here meaning another of the same kind, indicating that the Spirit will be to the disciples what Jesus himself has been to them. Now in chapter 16, with the hour of departure drawing near, Jesus develops the Spirit&rsquo;s role in fullest detail.",
+      "The Greek word <em>Parakletos</em> carries a rich semantic range that no single English word fully captures. It means advocate, intercessor, counselor, comforter, and helper. In the ancient legal world, a <em>parakletos</em> was one called alongside a defendant to speak on their behalf. Jesus uses the word here to describe someone who will stand with the disciples in a hostile world, giving them the words to speak and the truth to live by. When the world prosecutes, the Paraclete pleads the cause of Jesus.",
+      "The most striking claim Jesus makes is that the Spirit&rsquo;s coming is contingent on his own departure: &ldquo;It is to your advantage that I go away&rdquo; (v. 7). For the disciples, who could not imagine anything better than keeping Jesus physically present with them, this must have seemed incomprehensible. Yet Jesus insists on it. Why? Because the Spirit&rsquo;s coming would bring a presence not limited to one location or one body &mdash; the Spirit would indwell every believer everywhere simultaneously. The transition from the incarnate, localized Jesus to the poured-out Spirit was, in God&rsquo;s economy, an advance, not a retreat.",
+      "Jesus describes the Spirit&rsquo;s threefold ministry to the world in verses 8&ndash;11: he will &ldquo;convict the world concerning sin and righteousness and judgment.&rdquo; The conviction of sin is not primarily about individual moral failures but about the fundamental sin of unbelief: &ldquo;concerning sin, because they do not believe in me&rdquo; (v. 9). The Spirit makes the rejection of Jesus visible for what it truly is &mdash; the supreme human transgression. The conviction of righteousness is linked to Jesus&rsquo;s going to the Father (v. 10): the resurrection and ascension vindicate Jesus&rsquo;s claims and expose the world&rsquo;s judgment of him as false. The conviction of judgment is tied to the defeat of the &lsquo;ruler of this world&rsquo; (v. 11): the cross, which looked like Jesus&rsquo;s defeat, was in fact the judgment of the devil and the powers.",
+      "The Spirit&rsquo;s ministry to the disciples themselves is equally rich. He will &ldquo;guide you into all the truth&rdquo; (v. 13) &mdash; a promise that undergirds the church&rsquo;s confidence in Scripture and the ongoing illumination of the Spirit in every age of the church. The Spirit does not speak on his own authority but declares what he hears from the Father and the Son, maintaining the trinitarian unity of revelation. He &ldquo;will glorify me,&rdquo; Jesus says (v. 14) &mdash; this is the Spirit&rsquo;s defining characteristic and the test by which the Spirit&rsquo;s work can always be recognized: true Spirit-activity always points to Jesus, always magnifies the Son.",
+      "Verse 15 contains one of the most profound statements about the Trinity in the entire New Testament: &ldquo;All that the Father has is mine; therefore I said that he will take what is mine and declare it to you.&rdquo; The perfect sharing of all things between Father and Son is the basis of the Spirit&rsquo;s ministry. The Spirit does not bring a new or independent revelation but opens up to believers the inexhaustible wealth of what belongs to the Son &mdash; and through him, to the Father. Every insight into Christ, every deepening of faith, every illumination of Scripture is the Spirit doing exactly this: taking what belongs to Christ and making it real for those who belong to him.",
+      "The practical implication is enormous for the Christian life. The Holy Spirit is not a supplement to Christ or a second thought in the plan of redemption; he is the one through whom all of Christ&rsquo;s saving work becomes personally, experientially real. Without the Spirit, the cross would remain a historical fact and no more. Through the Spirit, the death and resurrection of Jesus become the transforming power at the center of a believer&rsquo;s life. To grieve the Spirit, resist the Spirit, or quench the Spirit is therefore not a minor matter &mdash; it is to cut oneself off from the living channel through which all of Christ&rsquo;s gifts flow.",
+    ],
+  },
+  {
+    id: "Grief to Joy",
+    heading: "Grief Turned to Joy &mdash; The Birth-Pains Analogy",
+    reference: "John 16:16&ndash;24",
+    paragraphs: [
+      "The disciples are troubled and confused. Jesus has been speaking of going away, and they do not understand what he means. Among themselves they whisper, &ldquo;What is this that he says to us?&rdquo; (v. 17). Their bewilderment is understandable: the one they had left everything to follow is telling them he is about to leave. Into this confusion Jesus speaks one of the most beautiful and hope-laden paragraphs in all of Scripture.",
+      "&ldquo;Truly, truly, I say to you, you will weep and lament, but the world will rejoice. You will be sorrowful, but your sorrow will turn into joy&rdquo; (v. 20). Notice the precision of Jesus&rsquo;s language: he does not say their sorrow will be replaced by joy, as though one emotion simply succeeds another. He says it will &lsquo;turn into&rsquo; joy &mdash; the Greek word suggests a transformation of the very same material, a metamorphosis. The sorrow itself becomes the raw material out of which joy is fashioned. This is a resurrection pattern: the cross does not vanish; it is transfigured into glory.",
+      "Jesus then reaches for one of the most universal and primal human experiences to illuminate this mystery: the birth of a child. &ldquo;When a woman is giving birth, she has sorrow because her hour has come, but when she has delivered the baby, she no longer remembers the anguish, for joy that a human being has been born into the world&rdquo; (v. 21). The analogy is perfect in several ways. The pain is real &mdash; Jesus does not minimize the coming anguish. The pain is purposeful &mdash; it is not meaningless suffering but travail that is heading somewhere. The joy on the far side is not merely consolation for the pain but a joy so complete that the pain is swallowed up and no longer &lsquo;remembered&rsquo; in the sense of remaining as an oppressive weight.",
+      "The imagery of birth-pains carries profound Old Testament resonance. The prophets used this image for the sufferings that would precede the coming of the messianic age &mdash; the labor pains of a new creation coming to birth (Isaiah 26:17&ndash;18; Micah 5:3; Jeremiah 22:23). Jesus is placing his own death and resurrection within that cosmic frame: what is about to happen is the birth of the new age, the delivery of a renewed humanity. The disciples&rsquo; three days of grief correspond to the anguish of labor, and the resurrection corresponds to the moment when the child is born.",
+      "The specific joy Jesus promises has a character and permanence unlike ordinary human joy: &ldquo;So also you have sorrow now, but I will see you again, and your hearts will rejoice, and no one will take your joy from you&rdquo; (v. 22). The guarantee that this joy cannot be taken away is anchored in the resurrection. Human joys are always vulnerable &mdash; they can be taken by death, by loss, by change. But a joy rooted in the living, risen Christ cannot be taken because the one who gives it cannot be taken. The resurrection is the basis of a joy the world has no power to extinguish.",
+      "Verses 23&ndash;24 then connect this resurrection joy to the new dimension of prayer that will open up: &ldquo;In that day you will ask nothing of me. Truly, truly, I say to you, whatever you ask of the Father in my name, he will give it to you. Until now you have asked nothing in my name. Ask, and you will receive, that your joy may be full.&rdquo; The phrase &lsquo;in that day&rsquo; points to the new era inaugurated by the resurrection and the giving of the Spirit. In the era now beginning, prayer takes on a new character: the disciples will pray to the Father directly, but in the name of the Son, and the Father will answer on the basis of who that Son is. The fullness of joy that Jesus promises is not only a felt experience but a life of answered prayer in the new age of the Spirit.",
+      "There is also an implied eschatological horizon to all of this. The full turning of sorrow to joy, begun at the resurrection, will reach its completion only at the return of Christ. Paul takes up this same birth-pains imagery in Romans 8, speaking of the whole creation groaning as in the pains of childbirth (Rom. 8:22&ndash;23). The Christian&rsquo;s experience of joy amid present sorrow is therefore a foretaste and guarantee of the final joy that awaits when the last pangs are ended, when what is mortal is swallowed up by life, and when God himself wipes away every tear.",
+    ],
+  },
+  {
+    id: "Asking in My Name",
+    heading: "Prayer in Jesus&rsquo;s Name &mdash; &ldquo;I Have Overcome the World&rdquo;",
+    reference: "John 16:23&ndash;33",
+    paragraphs: [
+      "The closing section of John 16 gathers together the themes of the whole chapter and brings them to a double climax: the new era of prayer in Jesus&rsquo;s name, and the triumphant declaration that closes the discourse. Jesus has been preparing his disciples for a radically new relationship with God &mdash; one made possible by his death, resurrection, and ascension, and sustained by the indwelling Spirit. In verses 23&ndash;28 he spells out one of the most significant dimensions of this new relationship: direct access to the Father through the Son&rsquo;s name.",
+      "The repeated phrase &lsquo;in my name&rsquo; is not a formula or a closing flourish to be appended to prayers. In biblical thought, a &lsquo;name&rsquo; represents the whole person &mdash; their character, their authority, their standing. To ask &lsquo;in Jesus&rsquo;s name&rsquo; means to ask as one who stands in Jesus&rsquo;s place, on the basis of his merit, covered by his righteousness, backed by his relationship with the Father. It is not the words &lsquo;in Jesus&rsquo;s name&rsquo; that give prayer its power; it is the one those words name &mdash; the Son in whom the Father is well pleased.",
+      "Jesus draws a striking contrast: &ldquo;Until now you have asked nothing in my name&rdquo; (v. 24). The disciples had prayed throughout their time with Jesus &mdash; to the Father, following the pattern Jesus himself had taught them (Matt. 6:9&ndash;13). But they had not yet prayed in Jesus&rsquo;s name in the full sense, because that name had not yet been given its full weight of completed redemption. After the cross and resurrection, &lsquo;the name of Jesus&rsquo; would carry the entirety of what Christ had accomplished &mdash; propitiation, justification, adoption, the gift of the Spirit. Prayer in that name is prayer lodged in the completed work of salvation.",
+      "Verse 26 adds a further nuance that might seem puzzling: &ldquo;In that day you will ask in my name, and I do not say to you that I will ask the Father on your behalf; for the Father himself loves you.&rdquo; Jesus is not withdrawing his intercession &mdash; he is elsewhere described as our perpetual intercessor (Heb. 7:25; 1 John 2:1). Rather, he is correcting a possible misunderstanding: the disciples might imagine that they must approach a reluctant Father through a sympathetic Son. But the Father himself is not an obstacle to be overcome; he himself loves those who love the Son. The access Jesus opens to the Father is not access to a stranger but a welcome into the arms of one who has been the Father&rsquo;s beloved all along.",
+      "In verse 28 Jesus gives a compressed summary of the entire Gospel in a single sentence: &ldquo;I came from the Father and have come into the world, and now I am leaving the world and going to the Father.&rdquo; This four-part movement &mdash; from the Father, into the world, leaving the world, returning to the Father &mdash; is the shape of the incarnation, the cross, and the ascension. It is the arc of redemption. The disciples respond with sudden confidence: &ldquo;Now you are speaking plainly and not using figurative speech!&rdquo; (v. 29). For a moment they feel they understand.",
+      "But Jesus gently punctures their overconfidence. &ldquo;Do you now believe? Behold, the hour is coming, indeed it has come, when you will be scattered, each to his own home, and will leave me alone&rdquo; (vv. 31&ndash;32). The disciples will all abandon him &mdash; Peter will deny him three times. Their faith, real as it is, is not yet the tested, resurrection-proved faith it will become after Pentecost. Jesus tells them this not to shame them but to prepare them, and to assure them that even in their failure and his apparent abandonment, he is not truly alone: &ldquo;Yet I am not alone, for the Father is with me.&rdquo;",
+      "Then comes the verse that sounds like a door swinging open onto eternity: &ldquo;I have said these things to you, that in me you may have peace. In the world you will have tribulation. But take heart; I have overcome the world&rdquo; (v. 33). These words are perfectly calibrated. They do not promise an easy path &mdash; tribulation (<em>thlipsis</em>, meaning pressure, oppression, affliction) in the world is presented as certain. The peace Jesus gives is not the peace of circumstances resolved but the peace of a Savior who has already gone through every darkness and come out the other side victorious.",
+      "The verb &lsquo;I have overcome&rsquo; is in the perfect tense in Greek, indicating a completed action with ongoing effects. From where Jesus stands at the supper table, the victory is already accomplished in the divine plan, even though the cross is still hours away. This is the perspective of faith that John&rsquo;s Gospel repeatedly invites: to see from the vantage point of what God has already accomplished in Christ, not merely from the vantage point of present circumstances. The disciples are about to face what looks like total defeat. Jesus tells them: from the vantage point that matters, the battle is already won. &ldquo;Take heart.&rdquo;",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "mxzAXHQTbNc", title: "BibleProject - Overview of John 1-12" },
+  { videoId: "kpJCJVblMWI", title: "BibleProject - Overview of John 13-21" },
+  { videoId: "8-3pV5JI5No", title: "The Holy Spirit in John 14-16 Explained" },
+  { videoId: "L6MBdNIQ_Nk", title: "Jesus Overcomes the World - John 16 Teaching" },
+];
+
+export default function John16GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 16 &mdash; The Spirit, Grief, and Victory
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus&rsquo;s final Upper Room teaching promises the Holy Spirit as Advocate and Guide, transforms grief into resurrection joy through the birth-pains analogy, opens the new era of prayer in his name, and closes with the triumphant declaration: &ldquo;I have overcome the world.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of John 16 through visual teaching on the Holy Spirit, the Upper Room Discourse, grief turned to joy, and Jesus&rsquo;s victory over the world.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Take Heart &mdash; He Has Overcome</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 16 is Jesus&rsquo;s gift to every generation of believers who face tribulation: the Advocate has come, sorrow is in labor not in death, prayer has full access to the Father&rsquo;s love, and the one who speaks these words has already overcome the world. In him, peace is not the absence of trouble but the presence of the Victor.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

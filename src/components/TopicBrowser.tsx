@@ -2368,6 +2368,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Samuel 7 Chapter": "1-samuel-7-guide",
   "Samuel Ebenezer Stone Here Help God": "1-samuel-7-guide",
   "Israel Repents Philistines Defeated": "1-samuel-7-guide",
+  "Luke 11 Chapter": "luke-11-guide",
+  "Ask Seek Knock Persistence Prayer Luke": "luke-11-guide",
+  "Friend at Midnight Parable Luke": "luke-11-guide",
+  "Judges 7 Chapter": "judges-7-guide",
+  "Gideon Three Hundred Warriors Victory": "judges-7-guide",
+  "Torches Jars Trumpets Midianites Rout": "judges-7-guide",
+  "John 16 Chapter": "john-16-guide",
+  "Holy Spirit Guide All Truth John": "john-16-guide",
+  "Grief Turns Joy Birth Pains John": "john-16-guide",
+  "2 Chronicles 6 Chapter": "2-chronicles-6-guide",
+  "Solomon Dedicates Temple Prayer Chronicles": "2-chronicles-6-guide",
+  "Heaven Heavens Cannot Contain God Solomon": "2-chronicles-6-guide",
 };
 
 
@@ -3426,6 +3438,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 50 Chapter" },
   { label: "Matthew 22 Chapter" },
   { label: "1 Samuel 7 Chapter" },
+  { label: "Luke 11 Chapter" },
+  { label: "Judges 7 Chapter" },
+  { label: "John 16 Chapter" },
+  { label: "2 Chronicles 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

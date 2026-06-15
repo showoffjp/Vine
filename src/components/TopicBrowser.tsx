@@ -2476,6 +2476,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ephesians 5 Chapter": "ephesians-5-guide",
   "Husbands Love Wives Christ Church Mystery": "ephesians-5-guide",
   "Walk in Love Light Wisdom Ephesians": "ephesians-5-guide",
+  "Romans 11 Chapter": "romans-11-guide",
+  "Olive Tree Grafted Remnant Israel Romans": "romans-11-guide",
+  "All Israel Saved Mystery Romans Doxology": "romans-11-guide",
+  "1 Samuel 2 Chapter": "1-samuel-2-guide",
+  "Hannah Song Praise Lord Exalts Humble": "1-samuel-2-guide",
+  "Eli Sons Wickedness Samuel Grows 1 Samuel": "1-samuel-2-guide",
+  "Psalm 73 Chapter": "psalm-73-guide",
+  "Asaph Prosperity Wicked Slippery Places": "psalm-73-guide",
+  "Whom Have I Heaven Earth But God Psalm": "psalm-73-guide",
+  "2 Kings 2 Chapter": "2-kings-2-guide",
+  "Elijah Elisha Whirlwind Chariots Fire": "2-kings-2-guide",
+  "Double Portion Spirit Elisha Mantle": "2-kings-2-guide",
 };
 
 
@@ -3570,6 +3582,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 5 Chapter" },
   { label: "1 John 2 Chapter" },
   { label: "Ephesians 5 Chapter" },
+  { label: "Romans 11 Chapter" },
+  { label: "1 Samuel 2 Chapter" },
+  { label: "Psalm 73 Chapter" },
+  { label: "2 Kings 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

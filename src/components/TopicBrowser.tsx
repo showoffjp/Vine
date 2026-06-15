@@ -2692,6 +2692,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 9 Chapter": "1-corinthians-9-guide",
   "Paul Rights as Apostle Forgo Reward Gospel": "1-corinthians-9-guide",
   "All Things to All People Run to Win Prize": "1-corinthians-9-guide",
+  "Matthew 23 Chapter": "matthew-23-guide",
+  "Seven Woes to Scribes and Pharisees Hypocrites": "matthew-23-guide",
+  "Whitewashed Tombs Lament over Jerusalem Matthew": "matthew-23-guide",
+  "Luke 21 Chapter": "luke-21-guide",
+  "Widow Two Mites Offering Luke Temple": "luke-21-guide",
+  "Signs of the End Age Luke Olivet Watchful": "luke-21-guide",
+  "2 Kings 23 Chapter": "2-kings-23-guide",
+  "Josiah Reforms Book of Law Covenant Renewed": "2-kings-23-guide",
+  "Josiah Passover Destroys Idols High Places Kings": "2-kings-23-guide",
+  "Genesis 44 Chapter": "genesis-44-guide",
+  "Silver Cup Benjamin Sack Joseph Test Genesis": "genesis-44-guide",
+  "Judah Pleads Offers Himself for Benjamin Genesis": "genesis-44-guide",
 };
 
 
@@ -3858,6 +3870,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Acts 28 Chapter" },
   { label: "Genesis 43 Chapter" },
   { label: "1 Corinthians 9 Chapter" },
+  { label: "Matthew 23 Chapter" },
+  { label: "Luke 21 Chapter" },
+  { label: "2 Kings 23 Chapter" },
+  { label: "Genesis 44 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

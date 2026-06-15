@@ -2776,6 +2776,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 1 Chapter": "isaiah-1-guide",
   "Come Let Us Reason Together Isaiah Scarlet White Snow": "isaiah-1-guide",
   "Rebellious Nation Daughter Zion Sodom Gomorrah Isaiah": "isaiah-1-guide",
+  "Mark 5 Chapter": "mark-5-guide",
+  "Gerasene Demoniac Legion Healed Pigs Mark 5": "mark-5-guide",
+  "Jairus Daughter Raised Bleeding Woman Healed Mark": "mark-5-guide",
+  "1 Kings 16 Chapter": "1-kings-16-guide",
+  "Elah Zimri Omri Ahab Israel Kings 16": "1-kings-16-guide",
+  "Ahab Marries Jezebel Baal Worship Israel Omri": "1-kings-16-guide",
+  "Isaiah 2 Chapter": "isaiah-2-guide",
+  "Mountain of the LORD Swords Plowshares Zion Isaiah": "isaiah-2-guide",
+  "Come Let Us Go Up Mountain of Lord Isaiah Nations": "isaiah-2-guide",
+  "Proverbs 9 Chapter": "proverbs-9-guide",
+  "Wisdom Has Built Her House Seven Pillars Proverbs 9": "proverbs-9-guide",
+  "Folly Calls Stolen Water Sweet Proverbs 9 Contrast": "proverbs-9-guide",
 };
 
 
@@ -3970,6 +3982,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 15 Chapter" },
   { label: "Proverbs 8 Chapter" },
   { label: "Isaiah 1 Chapter" },
+  { label: "Mark 5 Chapter" },
+  { label: "1 Kings 16 Chapter" },
+  { label: "Isaiah 2 Chapter" },
+  { label: "Proverbs 9 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

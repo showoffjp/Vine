@@ -2344,6 +2344,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Chronicles 20 Chapter": "2-chronicles-20-guide",
   "Jehoshaphat Battle Praise Victory Moab": "2-chronicles-20-guide",
   "Stand Firm and See Salvation Battle": "2-chronicles-20-guide",
+  "Exodus 32 Chapter": "exodus-32-guide",
+  "Golden Calf Aaron Moses Tablets Broken": "exodus-32-guide",
+  "Moses Intercedes Israel Anger God": "exodus-32-guide",
+  "1 Kings 4 Chapter": "1-kings-4-guide",
+  "Solomon Wisdom Kingdom Officials List": "1-kings-4-guide",
+  "Solomon Three Thousand Proverbs Wisdom": "1-kings-4-guide",
+  "1 Corinthians 10 Chapter": "1-corinthians-10-guide",
+  "Israel Wilderness Warning Idolatry Paul": "1-corinthians-10-guide",
+  "Eat Drink Idols Flee Temptation": "1-corinthians-10-guide",
+  "John 13 Chapter": "john-13-guide",
+  "Jesus Washes Disciples Feet Upper Room": "john-13-guide",
+  "New Commandment Love One Another John": "john-13-guide",
 };
 
 
@@ -3394,6 +3406,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hebrews 9 Chapter" },
   { label: "1 Samuel 3 Chapter" },
   { label: "2 Chronicles 20 Chapter" },
+  { label: "Exodus 32 Chapter" },
+  { label: "1 Kings 4 Chapter" },
+  { label: "1 Corinthians 10 Chapter" },
+  { label: "John 13 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

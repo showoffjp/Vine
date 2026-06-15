@@ -1,0 +1,244 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Healing at Bethesda",
+  "The Son and the Father",
+  "Witnesses to Jesus",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "John 5 &mdash; Overview",
+    reference: "John 5:1&ndash;47",
+    paragraphs: [
+      "John 5 is one of the most theologically concentrated chapters in the entire Gospel, moving in a single dramatic arc from the healing of a paralyzed man at a Jerusalem pool to one of the most elevated discourses on the relationship between the Son and the Father that the New Testament contains. The chapter begins at water and ends with Scripture; it begins with a body made whole and ends with an indictment of those whose hearts remain closed. In between, Jesus makes claims about himself that the religious authorities recognize immediately as a direct assertion of divine prerogative &mdash; and that recognition ignites a conflict that will shadow the rest of the Gospel.",
+      "The setting is a feast in Jerusalem &mdash; the text does not specify which one (5:1) &mdash; and John takes his readers to the Pool of Bethesda, whose description (five colonnades or porticoes) has been confirmed by archaeologists who discovered the remains of the pool in the nineteenth century beneath the streets of the Old City. The pool was surrounded by a multitude of &ldquo;invalids &mdash; blind, lame, and paralyzed&rdquo; (5:3), waiting for what they believed to be the healing movement of the waters. Among them lay a man who had been in this condition for thirty-eight years.",
+      "Jesus heals the man with a word and a command &mdash; &ldquo;Get up, take up your bed, and walk&rdquo; (5:8) &mdash; and the healing triggers a Sabbath controversy that Jesus transforms into a teaching opportunity of the highest order. When the Jewish authorities challenge Jesus for telling the healed man to carry his mat on the Sabbath, Jesus responds not with a defense of Sabbath-law interpretation but with a claim that reframes the entire discussion: &ldquo;My Father is working until now, and I am working&rdquo; (5:17). The implication is unmistakable &mdash; Jesus is claiming the same unceasing activity that belongs to God alone &mdash; and the authorities understand it as such: &ldquo;This was why the Jews were seeking all the more to kill him, because not only was he breaking the Sabbath, but he was even calling God his own Father, making himself equal with God&rdquo; (5:18).",
+      "The long discourse that follows (5:19&ndash;47) is Jesus&rsquo; response to that charge, and it is extraordinary. Far from retreating from the claim, Jesus presses it further and explains it more fully. He speaks of the Son seeing what the Father does and doing likewise; of the Father having entrusted all judgment to the Son; of eternal life belonging to those who hear the Son&rsquo;s voice; of a coming resurrection of both the righteous and the wicked. He then calls four witnesses to testify on his behalf: John the Baptist, the works Jesus has performed, the Father himself, and the Scriptures &mdash; which, he tells his hearers, &ldquo;bear witness about me&rdquo; (5:39). The chapter closes with a solemn and sobering word: Moses himself, in whom they have placed their hope, will be their accuser, for Moses wrote of Jesus &mdash; and if they do not believe Moses&rsquo; writings, how will they believe Jesus&rsquo; words?",
+      "John 5 thus holds together in one chapter both the most compassionate act (healing a helpless man who has suffered for decades) and the most exalted theological discourse (the Son sharing the Father&rsquo;s life-giving and judging authority). The chapter refuses to let us separate the Jesus who heals from the Jesus who claims to be the Son of God. The miracle is not just an act of kindness &mdash; it is a sign, a window into the identity of the one who performed it. And the discourse is not merely abstract theology &mdash; it is the explanation of why Jesus could do what he did at the pool. In John&rsquo;s Gospel, what Jesus does and who Jesus is are always inseparable.",
+    ],
+  },
+  {
+    id: "Healing at Bethesda",
+    heading: "The Healing at the Pool of Bethesda",
+    reference: "John 5:1&ndash;16",
+    paragraphs: [
+      "The Pool of Bethesda was a well-known landmark in first-century Jerusalem, and John&rsquo;s description &mdash; &ldquo;a pool in Jerusalem by the Sheep Gate&rdquo; with &ldquo;five roofed colonnades&rdquo; (5:2) &mdash; is now confirmed by archaeology. The site, excavated beneath the Church of Saint Anne in the nineteenth century, shows two large pools separated by a dam, with colonnades on all four sides and one running along the dam, producing exactly the five porticoes John describes. This detail is one of many in the Gospel of John that point toward an eyewitness or Jerusalem-based source underlying the narrative. The pool was evidently associated with healing &mdash; the popular belief being that when the water &ldquo;moved&rdquo; or was &ldquo;troubled,&rdquo; the first person in would be cured of whatever ailment they suffered.",
+      "Into this scene of suffering and hope &mdash; crowds of the sick, the blind, and the paralyzed gathered around the water &mdash; Jesus walks, and he singles out one man. The selection is not explained; we are not told why this man among all the others. We are only told that Jesus &ldquo;knew that he had already been there a long time&rdquo; (5:6). Thirty-eight years is an enormous span &mdash; almost certainly longer than most people at the pool had been alive. It is a number that evokes the thirty-eight years Israel spent wandering in the wilderness (Deuteronomy 2:14), though John does not draw this connection explicitly. The man&rsquo;s situation is one of profound, deep-rooted helplessness.",
+      "Jesus&rsquo; opening question to the man is startling: &ldquo;Do you want to be healed?&rdquo; (5:6). On the surface this seems almost unkind &mdash; why else would a sick man be lying beside a healing pool? But the question is deeper than it appears. Thirty-eight years of illness can settle into a kind of identity; chronic suffering can become what one knows and, in a perverse way, what one needs. The question &ldquo;Do you want to be healed?&rdquo; is a question about desire, will, and readiness for change. It is a question Jesus still asks, in different forms, of every person he encounters.",
+      "The man&rsquo;s answer is revealing: he does not say yes. He explains why he cannot be healed: &ldquo;Sir, I have no one to put me into the pool when the water is stirred up, and while I am going another steps down before me&rdquo; (5:7). He is stuck in the logic of the pool &mdash; convinced that the only path to healing is the competitive scramble into the water, and that he has already been disqualified from that path by his aloneness and his slowness. He cannot imagine any form of healing other than the one he has been waiting for and failing to obtain. In this he stands for every person who, through long disappointment, has stopped being able to imagine that grace might come from an entirely unexpected direction.",
+      "Jesus does not engage with the man&rsquo;s explanation. He simply commands: &ldquo;Get up, take up your bed, and walk&rdquo; (5:8). Three imperatives, each one requiring the man to do what he could not do. The healing is immediate: &ldquo;At once the man was healed, and he took up his bed and walked&rdquo; (5:9). There is no ceremony, no gradual recovery, no supervised rehabilitation. The word of Jesus is sufficient. The power is entirely in the one who speaks, not in anything the man contributed. And the day on which this happened was the Sabbath.",
+      "The Sabbath controversy that erupts is instructive. The Jewish authorities who challenge the healed man are not monsters; they are people taking the law of God seriously, as they understood it. The rabbinic tradition had developed detailed regulations about what constituted &ldquo;work&rdquo; on the Sabbath, and carrying a mat fell clearly within the prohibited category. Their question &mdash; &ldquo;It is the Sabbath, and it is not lawful for you to take up your bed&rdquo; (5:10) &mdash; is a genuine legal challenge from within a framework that took the Sabbath commandment with tremendous seriousness. But they have misread both the purpose of the Sabbath and the identity of the one who gave the command. The Sabbath was made for man, not man for the Sabbath &mdash; and the Lord of the Sabbath has acted. When the man later identifies Jesus as his healer, the authorities seek to persecute Jesus, which sets the stage for the great discourse that follows.",
+    ],
+  },
+  {
+    id: "The Son and the Father",
+    heading: "The Son and the Father &mdash; Equal Authority",
+    reference: "John 5:17&ndash;30",
+    paragraphs: [
+      "When Jesus says &ldquo;My Father is working until now, and I am working&rdquo; (5:17), he is invoking a principle well-known in Jewish theological discussion. The question of how God &ldquo;rested&rdquo; on the Sabbath when Scripture also describes God as sustaining the universe without ceasing had been addressed by various Jewish thinkers: God&rsquo;s &ldquo;rest&rdquo; was not inactivity but a different kind of activity. Jesus takes this theological insight and applies it to himself: the same unceasing divine work in which the Father is perpetually engaged, the Son is also perpetually engaged. This is not the claim of a subordinate agent carrying out orders &mdash; it is the claim of one who shares the very mode of being of the Father.",
+      "The authorities understand the claim immediately and correctly: Jesus was &ldquo;making himself equal with God&rdquo; (5:18). This is often cited as evidence that the Johannine &ldquo;high Christology&rdquo; is a later development imposed on simpler traditions, but the opposite is arguably true &mdash; the very fact that those who opposed Jesus grasped the implication of his words suggests that the claim was explicit and unmistakable from the beginning. Jesus did not correct them or soften the statement. He pressed it further.",
+      "The discourse on the Son and the Father (5:19&ndash;30) is structured around a series of parallel claims: the Son can do nothing of himself but only what he sees the Father doing (5:19); the Father shows the Son all that he is doing, and the Son will do greater works than the healing at the pool (5:20); as the Father raises the dead and gives them life, so also the Son gives life to whom he wills (5:21); the Father has given all judgment to the Son so that all may honor the Son as they honor the Father (5:22&ndash;23). The logic is one of perfect correspondence and shared authority &mdash; not the subordination of a servant but the unity of one who shares the Father&rsquo;s own nature and prerogatives.",
+      "The key soteriological statement of the passage comes in verse 24: &ldquo;Truly, truly, I say to you, whoever hears my word and believes him who sent me has eternal life. He does not come into judgment, but has passed from death to life.&rdquo; The double &ldquo;truly, truly&rdquo; (Amen, amen) is John&rsquo;s marker for a statement of supreme importance. Three things are packed into this sentence: first, the condition (hearing Jesus&rsquo; word and believing the Father); second, the gift (eternal life, which belongs to the age to come but is available now); and third, the verdict (not condemnation but passage from death into life, already accomplished). The judgment that might have fallen has been removed; the life that belongs to the resurrection age has been brought forward into the present.",
+      "Jesus then speaks of two resurrections in the same passage, creating a striking double horizon. First, there is a present spiritual resurrection: &ldquo;Truly, truly, I say to you, an hour is coming, and is now here, when the dead will hear the voice of the Son of God, and those who hear will live&rdquo; (5:25). This is the resurrection that happens in the moment of faith, when spiritually dead human beings are made alive by the word of Jesus. Then there is a future bodily resurrection: &ldquo;An hour is coming when all who are in the tombs will hear his voice and come out, those who have done good to the resurrection of life, and those who have done evil to the resurrection of judgment&rdquo; (5:28&ndash;29). The same voice that commanded the paralyzed man at Bethesda to rise and walk will one day command all humanity from their graves. The healing at the pool was not merely an act of compassion; it was a preview of the eschatological power Jesus holds.",
+      "The subordinationist-sounding statements in the discourse (&ldquo;the Son can do nothing of himself,&rdquo; &ldquo;I seek not my own will but the will of him who sent me&rdquo;) have been read in two ways. Some have taken them as evidence that John presents a Jesus who is less than fully divine; others have argued that they describe the eternal relationship of the Son to the Father within the Godhead &mdash; a relationship of perfect love and perfect conformity of will, not a hierarchy of greater and lesser being. The church&rsquo;s careful reading across centuries has been that the statements about the Son doing &ldquo;only what he sees the Father doing&rdquo; describe the inner life of the Trinity rather than a diminution of the Son&rsquo;s divine status. The same Son who &ldquo;can do nothing of himself&rdquo; is also the one to whom all judgment has been entrusted and who gives life to whom he wills &mdash; prerogatives belonging to God alone.",
+    ],
+  },
+  {
+    id: "Witnesses to Jesus",
+    heading: "The Fourfold Witness to Jesus",
+    reference: "John 5:31&ndash;47",
+    paragraphs: [
+      "In the ancient legal tradition that Jesus and his hearers shared, a single witness was not sufficient to establish a matter &mdash; at least two or three witnesses were required (Deuteronomy 19:15). Jesus acknowledges this principle directly: &ldquo;If I alone bear witness about myself, my testimony is not deemed true&rdquo; (5:31). He then calls four independent witnesses who together constitute an overwhelming case for his identity and authority. These four witnesses &mdash; John the Baptist, the works, the Father, and the Scriptures &mdash; address different kinds of evidence and together cover the breadth of available testimony.",
+      "The first witness is John the Baptist. Jesus is careful about how he frames this: &ldquo;You sent to John, and he has borne witness to the truth. Not that the testimony that I receive is from man, but I say these things so that you may be saved&rdquo; (5:33&ndash;34). Jesus does not depend on human testimony for his identity, but he appeals to John because his hearers had trusted John, had gone out to him in great numbers, had treated him as a prophet. John was &ldquo;a burning and shining lamp, and you were willing to rejoice for a while in his light&rdquo; (5:35). The Baptist&rsquo;s entire ministry, from the Jordan to the prison cell, was directional &mdash; pointing beyond himself to the one who was coming after him. If they believed John, they should follow the direction of his pointing.",
+      "The second witness is the works themselves &mdash; the miracles Jesus performed, of which the healing at Bethesda is only the latest example. &ldquo;The works that the Father has given me to accomplish, the very works that I am doing, bear witness about me that the Father has sent me&rdquo; (5:36). John&rsquo;s Gospel calls the miracles &ldquo;signs&rdquo; precisely because they are not mere displays of power but meaningful revelations of who Jesus is and what he has come to do. Each sign in the Gospel points beyond itself: the healing of the paralyzed man at Bethesda points to Jesus as the one who gives life; the feeding of the five thousand points to Jesus as the bread from heaven; the raising of Lazarus points to Jesus as the resurrection and the life. The works are not a distraction from the theological claims &mdash; they are the evidence for them.",
+      "The third witness is the Father himself: &ldquo;And the Father who sent me has himself borne witness about me&rdquo; (5:37). This witness is not immediately visible or audible in the way that John&rsquo;s testimony was &mdash; Jesus acknowledges that his hearers have &ldquo;never heard his voice or seen his form&rdquo; (5:37). The Father&rsquo;s witness comes through the inner work of the Spirit in the receptive heart, through the recognition that what Jesus says and does carries the weight and authority of the living God. But Jesus also implies that the Father has borne witness through the Scriptures &mdash; for the Word of God and the testimony of the Father are not ultimately separable. Those who have truly received the word of God into themselves will recognize in Jesus the one to whom that word has always pointed.",
+      "The fourth and final witness is Scripture itself &mdash; and here Jesus drives home his most pointed charge: &ldquo;You search the Scriptures because you think that in them you have eternal life; and it is they that bear witness about me, yet you refuse to come to me that you may have life&rdquo; (5:39&ndash;40). The Scriptures are not wrong; they do indeed bear witness to Jesus. The problem is not the Scriptures but the reading of the Scriptures. His hearers have approached the text as an end in itself rather than as a witness pointing beyond itself. They have treated the map as the destination and missed the territory it was describing. Every passage of Moses, every psalm of David, every oracle of the prophets was moving, in ways both obvious and hidden, toward this moment &mdash; toward the one standing before them.",
+      "The chapter closes with one of the most sobering statements in the Gospel: &ldquo;Do not think that I will accuse you to the Father. There is one who accuses you: Moses, on whom you have set your hope. For if you believed Moses, you would believe me; for he wrote of me. But if you do not believe his writings, how will you believe my words?&rdquo; (5:45&ndash;47). The irony is devastating. Moses, the supreme figure of Jewish religious identity, the lawgiver, the one who spoke with God face to face &mdash; Moses wrote of Jesus. The very texts they revere are the ones that testify against their rejection of Jesus. To reject Jesus is, in the end, to reject Moses. The chapter that began with healing at a pool ends with the weight of rejected testimony &mdash; and an urgent, still-open invitation to hear the voice of the Son and have life.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "MRzwEzBJfKo", title: "John 5 &mdash; The Healing at Bethesda and the Son of God" },
+  { videoId: "WiSIw1-YzN8", title: "The Son and the Father &mdash; John 5 Discourse Explained" },
+  { videoId: "zPMZk0F1CUs", title: "Eternal Life and Resurrection &mdash; John 5:24&ndash;29" },
+  { videoId: "8oaYXCKQADo", title: "The Four Witnesses to Jesus &mdash; John 5:31&ndash;47" },
+];
+
+export default function John5GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}33`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 5 &mdash; Bethesda, the Son of God &amp; Four Witnesses
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            A paralyzed man healed after thirty-eight years, a Sabbath controversy that erupts into the highest Christological discourse of the Gospel, and a fourfold testimony to Jesus from John the Baptist, the works, the Father, and the Scriptures &mdash; John 5 holds together the most compassionate miracle with the most exalted theology.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>He Who Hears My Word Has Passed from Death to Life</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 5 traces the same arc that the whole Gospel follows: from a specific, physical act of mercy to the theological reality that act reveals. The man who lay helpless for thirty-eight years stands as the face of every human being whose spiritual condition is one of paralysis &mdash; unable to help themselves, waiting for something they cannot obtain by their own effort. Jesus walks toward that helplessness with a question (&ldquo;Do you want to be healed?&rdquo;) and a command (&ldquo;Get up and walk&rdquo;). The same one whose voice healed at Bethesda is the one whose voice will one day call the dead from their tombs. To hear him is to live.
+          </p>
+        </div>
+
+        <div style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
+            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Signs and Identity</div>
+            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+              Every miracle in John is a &ldquo;sign&rdquo; &mdash; not a proof that compels belief, but a window into who Jesus is. The healing at Bethesda is a sign of the Son&rsquo;s life-giving authority. To see the sign without seeing what it points to is to miss the point entirely.
+            </p>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
+            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Realized Eschatology</div>
+            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+              The life of the age to come is available now for those who believe. John 5:24 is one of the clearest statements of realized eschatology in Scripture: those who believe have &ldquo;passed from death to life&rdquo; &mdash; past tense, present reality, not merely future hope.
+            </p>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
+            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
+            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Scripture as Witness</div>
+            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+              Jesus charges his hearers with reading the Scriptures as an end in themselves rather than as a witness. Moses wrote of Jesus. The Old Testament is not a self-contained system but a voice crying, page after page, &ldquo;Look to the one who is coming.&rdquo;
+            </p>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>The Four Witnesses &mdash; A Legal Case for Christ</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
+              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>1. John the Baptist (John 5:33&ndash;35)</div>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;He was a burning and shining lamp.&rdquo; John the Baptist&rsquo;s whole ministry was a finger pointing beyond himself. His testimony at the Jordan (&ldquo;Behold, the Lamb of God who takes away the sin of the world&rdquo;) and his insistence that he must decrease while Jesus increases &mdash; all of this constitutes a powerful witness. Jesus appeals to John not because he depends on human testimony but because his hearers had trusted John. If they believed the lamp, they should follow the direction of its light.</p>
+            </div>
+            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
+              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>2. The Works (John 5:36)</div>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;The very works that I am doing bear witness about me.&rdquo; The miracles Jesus performed were not merely humanitarian acts but revelatory signs. They testified that the Father had sent him. Greater than John&rsquo;s testimony, the works speak with divine authority &mdash; no merely human agent could consistently heal the blind, raise the dead, and feed thousands with five loaves. The works invite the question: where does this power come from?</p>
+            </div>
+            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
+              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>3. The Father (John 5:37&ndash;38)</div>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;The Father who sent me has himself borne witness about me.&rdquo; The Father&rsquo;s witness came at Jesus&rsquo; baptism (&ldquo;This is my beloved Son, with whom I am well pleased&rdquo;), through the Scriptures the Father inspired, and through the inner witness of the Spirit in receptive hearts. To have God&rsquo;s word truly dwelling in oneself is to be prepared to recognize the Son when he appears.</p>
+            </div>
+            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
+              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>4. The Scriptures &mdash; and Moses (John 5:39&ndash;47)</div>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;It is they that bear witness about me.&rdquo; The entire Hebrew Bible is, for Jesus, a body of testimony pointing to him. Moses, who wrote the Torah they revered, wrote of Jesus. The prophets spoke of him. The Psalms anticipated him. To use the Scriptures as a closed system of religious obligation while missing the one to whom every page pointed is one of the most tragic misreadings possible &mdash; and yet one of the most common. Moses himself becomes the accuser of those who reject his Lord.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>Key Verses of John 5</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;Get up, take up your bed, and walk.&rdquo;</p>
+              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:8 &mdash; The Command That Healed</div>
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>Three imperatives directed at a man who had not walked in thirty-eight years. The power was entirely in the one who spoke. No preparation, no gradual steps, no conditions to be met &mdash; only the word of Jesus, and immediate restoration.</p>
+            </div>
+            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;My Father is working until now, and I am working.&rdquo;</p>
+              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:17 &mdash; Equal Activity with the Father</div>
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>The statement that ignited the Sabbath controversy into something far larger. Jesus is not claiming merely to work on a Sabbath; he is claiming to share in the unceasing activity of God himself. His opponents heard him correctly &mdash; and were horrified.</p>
+            </div>
+            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;Truly, truly, I say to you, whoever hears my word and believes him who sent me has eternal life. He does not come into judgment, but has passed from death to life.&rdquo;</p>
+              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:24 &mdash; Eternal Life Now</div>
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>One of the most sweeping soteriological statements in the Gospel. Eternal life is not only future; it begins at the moment of faith. The verdict of the final judgment &mdash; &ldquo;not guilty&rdquo; &mdash; is handed down in the present. The believer has already crossed the line from death to life.</p>
+            </div>
+            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;You search the Scriptures because you think that in them you have eternal life; and it is they that bear witness about me, yet you refuse to come to me that you may have life.&rdquo;</p>
+              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:39&ndash;40 &mdash; Scripture Points to a Person</div>
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>Perhaps the most searching challenge Jesus ever directed at religious people. The Scriptures are not the source of life &mdash; they are the witness to the one who is. Searching the text without coming to the person is like studying a map of a country and refusing to go there.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,175 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Devoted to Prayer",
+  "Walking in Wisdom",
+  "Personal Greetings",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Colossians 4: Prayer, Wisdom, and Faithful Ministry",
+    reference: "Colossians 4:1&ndash;18",
+    paragraphs: [
+      "Colossians 4 is the final chapter of what many consider Paul&rsquo;s most concentrated theological letter &mdash; a letter written from prison to a congregation he had never personally visited, to warn them against a seductive &ldquo;philosophy&rdquo; that threatened to displace Christ from his supreme place. The chapter does not develop new theological arguments; it concludes the letter with the practical, relational, and missional implications of all that has come before. Yet even in its concluding character, Colossians 4 is rich with insight into how the early church actually functioned, prayed, spoke, and held together.",
+      "The chapter opens with a crisp instruction to masters (v. 1) that completes the household code begun in 3:18, then pivots immediately to a call for devoted, watchful, thankful prayer (vv. 2&ndash;4). Paul asks the Colossians to pray specifically for open doors for the word and for clarity in proclaiming the mystery of Christ &mdash; all the more striking because he writes from chains. The man asking for open doors is himself in prison, which is precisely why open doors must be sought from God rather than secured by human cunning.",
+      "Verses 5&ndash;6 give one of the most memorable summaries of Christian witness in the Pauline letters: walking in wisdom toward outsiders, redeeming the time, and speaking with grace seasoned with salt, knowing how to answer each person. This is not a formula for rote evangelism but a call to the kind of thoughtful, attentive, winsome engagement with the world that only a wisdom-shaped life can produce.",
+      "The remainder of the chapter (vv. 7&ndash;18) is a rich mosaic of personal greetings that, far from being a dry list of names, opens a window into the texture of Paul&rsquo;s missionary network. We meet Tychicus the faithful minister, Onesimus the beloved brother (almost certainly the same man as the subject of the letter to Philemon), Aristarchus the fellow prisoner, Mark the cousin of Barnabas now evidently restored to good standing, Jesus-Justus (the only appearance of this figure in the New Testament), Epaphras the wrestler in prayer, Luke the beloved physician, and Demas. Each name tells a piece of the story of the early church.",
+      "The chapter closes with Paul&rsquo;s autograph and a final poignant word: &ldquo;Remember my chains. Grace be with you&rdquo; (v. 18). The man who has written the most exalted christology in the New Testament &mdash; the one in whom all the fullness of God dwells bodily, before whom every authority and power has been disarmed &mdash; closes by asking his readers to remember that he is a prisoner. The chains are not a contradiction of the message but a confirmation of it: the gospel of the crucified and exalted Christ is carried into the world by people who share in his weakness.",
+    ],
+  },
+  {
+    id: "Devoted to Prayer",
+    heading: "Devoted to Prayer, Watchful and Thankful",
+    reference: "Colossians 4:1&ndash;4",
+    paragraphs: [
+      "Before the call to prayer in verse 2, Paul completes the household code with a single verse directed at masters: &ldquo;Masters, treat your bondservants justly and fairly, knowing that you also have a Master in heaven&rdquo; (v. 1). This verse belongs with the instructions of 3:22&ndash;25 to slaves, and together they form a remarkable unit. In a culture where the absolute power of the master over the slave was unquestioned, Paul inserts a vertical constraint: the master himself has a Master. The one who gives orders also receives orders, and those orders require justice and fairness toward those in his care. The hierarchy of the household is enclosed within a higher hierarchy of accountability to God.",
+      "&ldquo;Continue steadfastly in prayer, being watchful in it with thanksgiving&rdquo; (v. 2). The word translated &ldquo;continue steadfastly&rdquo; (proskartereo) is a compound that means to be strong toward something, to adhere to it, to give constant attention to it. It is the same word used in Acts 2:42 for the early Jerusalem church that devoted itself to the apostles&rsquo; teaching, fellowship, breaking of bread, and prayers. Paul is not calling the Colossians to add prayer to their to-do list; he is calling them to a fundamental orientation of their common life toward God.",
+      "Three qualities shape this devoted prayer. The first is the steadfastness already mentioned &mdash; persistence, constancy, unwillingness to give up. This is the prayer that keeps coming to God not because it has not yet received an answer but because it knows that all of life is lived in dependence on God. The second quality is &ldquo;being watchful&rdquo; (gregorountes). Watchfulness in prayer is the opposite of spiritual drowsiness &mdash; the kind of dull, routine prayer that speaks words without attending to what it is doing. The watchful pray-er is alert to what God is doing, alert to the spiritual realities at stake, alert to the needs of the community being brought before God. The disciples were commanded to watch and pray in Gethsemane and failed; Paul calls the Colossians to the vigilance that Gethsemane required.",
+      "The third quality is thanksgiving. Paul&rsquo;s letters are saturated with thanksgiving, and Colossians in particular has thanksgiving as one of its great themes (1:3, 1:12, 2:7, 3:15, 3:16, 3:17, and here). In Colossians, thanksgiving is not an emotion that arises when things go well; it is a settled posture of the person who has understood the gospel. The one who knows that God has &ldquo;qualified you to share in the inheritance of the saints in light&rdquo; and &ldquo;delivered us from the domain of darkness and transferred us to the kingdom of his beloved Son&rdquo; (1:12&ndash;13) has an inexhaustible supply of reasons to give thanks, regardless of circumstances. Thanksgiving in prayer is the overflow of a theological understanding that has grasped what God has already done in Christ.",
+      "Verses 3&ndash;4 contain Paul&rsquo;s specific prayer request, and it is one of the most revealing passages about his sense of calling. He asks not for release from prison, not for safety, not even for the strengthening of the Colossian church. He asks for open doors for the word: &ldquo;praying also for us, that God may open to us a door for the word, to declare the mystery of Christ, on account of which I am in prison, that I may make it clear, which is how I ought to speak&rdquo; (vv. 3&ndash;4).",
+      "The phrase &ldquo;the mystery of Christ&rdquo; is central to Colossians. In 1:26&ndash;27 Paul has already defined it as &ldquo;Christ in you, the hope of glory&rdquo; &mdash; the mystery hidden for ages but now revealed: that the God of Israel has made the nations coheirs of the promise through the Messiah. This is the message for which Paul is in chains. And what he prays for is not escape from the chains but clarity in proclaiming the mystery despite them. The chains are the very proof that the message is costly and real; what remains to be sought in prayer is an open door and a clear voice. Paul&rsquo;s imprisonment does not slow the gospel; it testifies to its seriousness.",
+    ],
+  },
+  {
+    id: "Walking in Wisdom",
+    heading: "Walking in Wisdom Toward Outsiders",
+    reference: "Colossians 4:5&ndash;6",
+    paragraphs: [
+      "&ldquo;Walk in wisdom toward outsiders, making the best use of the time&rdquo; (v. 5). This two-clause verse is one of the most compact and penetrating descriptions of Christian witness in the New Testament. The word &ldquo;walk&rdquo; (peripateo) is Paul&rsquo;s characteristic metaphor for the whole pattern of a life &mdash; how one moves through the world day by day. To &ldquo;walk in wisdom toward outsiders&rdquo; is to let the wisdom of Christ shape every interaction, every conversation, every decision, every posture toward the people who have not yet believed.",
+      "The phrase &ldquo;toward outsiders&rdquo; (pros tous exo) was a standard Jewish way of referring to non-Jews &mdash; those outside the covenant community. Paul adopts it for the church: those outside the community of believers. The call is not to avoid them, not to condemn them at every opportunity, and not to be so conformed to their patterns that no difference is visible. It is to be present among them, engaged with them, walking wisely in every encounter. Wisdom in Paul&rsquo;s letters is not merely intellectual sagacity; it is the practical knowledge of how to live in a way that reflects the truth of the gospel, shaped by the fear of God and the mind of Christ.",
+      "The second clause &mdash; &ldquo;making the best use of the time&rdquo; (ton kairon exagorazomenoi) &mdash; is sometimes translated &ldquo;redeeming the time&rdquo; (Ephesians 5:16 has the same phrase). The word &ldquo;kairos&rdquo; refers not to clock-time (chronos) but to the quality of a moment, a decisive opportunity. The word &ldquo;exagorazomenoi&rdquo; means to buy up, to purchase out of, to take full possession of. Together the image is of a merchant who sees a valuable commodity and moves decisively to acquire it before the opportunity passes. Every encounter with an outsider is a potential kairos &mdash; a moment that will not come again &mdash; and wisdom uses it well.",
+      "Verse 6 moves from the pattern of life to the medium of encounter: speech. &ldquo;Let your speech always be gracious, seasoned with salt, so that you may know how to answer each person.&rdquo; The word &ldquo;always&rdquo; is characteristic of Paul&rsquo;s absoluteness: not sometimes, not when you feel like it, not only with people you like. Always. The grace that has been shown to the believer in the gospel is to overflow into the quality of speech directed toward others. Gracious speech is not spineless speech; it does not avoid truth or suppress conviction. But its manner is shaped by the grace of the one who is its source.",
+      "The qualifier &ldquo;seasoned with salt&rdquo; is one of the most discussed phrases in Colossians. In the ancient world salt was associated with wit, piquancy, and intelligence &mdash; the Latin &ldquo;sal&rdquo; (salt) was a near-synonym for &ldquo;wit.&rdquo; Gracious speech seasoned with salt is not bland or insipid; it has substance, interest, and the ability to hold attention. It is also preservative &mdash; salt keeps things from decay. Christian speech should preserve the dignity of both speaker and hearer, should carry the weight of truth without the bitterness of contempt.",
+      "The final phrase of verse 6 &mdash; &ldquo;so that you may know how to answer each person&rdquo; &mdash; is a remarkable statement of what might be called personalized apologetics. The one-size-fits-all answer to every question about the faith is not what Paul has in mind. The Colossians are called to know each person &mdash; to attend to who they are, what they are actually asking, what drives their question, what their real concern is &mdash; and to answer that person in a way that is shaped by wisdom, grace, and attentiveness. This requires the kind of genuine relationship with outsiders that a community turned inward on itself can never develop.",
+      "Taken together, verses 5&ndash;6 sketch a vision of Christian presence in the world that is neither withdrawal nor assimilation. It is engaged, wise, speech-shaped, time-conscious engagement &mdash; the life of a community that knows the gospel is for the whole world and is actively, prayerfully, graciously present to the world for that reason. The prayer of verses 2&ndash;4 and the walk of verses 5&ndash;6 are two sides of the same coin: the church that prays for open doors also walks wisely through the doors that open.",
+    ],
+  },
+  {
+    id: "Personal Greetings",
+    heading: "A Fellowship of Faithful Ministers",
+    reference: "Colossians 4:7&ndash;18",
+    paragraphs: [
+      "The long list of greetings in Colossians 4:7&ndash;18 is sometimes passed over in biblical study as if it were merely a social courtesy at the end of a letter. In fact it is one of the richest windows into the actual texture of Paul&rsquo;s missionary world &mdash; the network of relationships, the shared suffering, the diversity of personality and background, and the remarkably high estimation Paul extends to his co-workers, many of whom he describes with language of deep affection and theological significance.",
+      "Tychicus receives the most extended description (vv. 7&ndash;8). He is identified as &ldquo;a beloved brother and faithful minister and fellow servant in the Lord,&rdquo; and he is being sent to Colossae specifically &ldquo;that he may encourage your hearts.&rdquo; This is the same Tychicus mentioned in Ephesians 6:21&ndash;22 as the carrier of that letter. He carries Paul&rsquo;s letters; he carries his personal news; and he carries the pastoral commission to strengthen and encourage the congregations Paul cannot reach in person. He is the link between the imprisoned apostle and the living churches &mdash; a role of enormous trust and responsibility.",
+      "Onesimus is introduced as &ldquo;our faithful and beloved brother, who is one of you&rdquo; (v. 9). The simplicity of this description is astonishing when set alongside the letter to Philemon, where Onesimus is identified as the runaway slave of a prominent Colossian believer. Here, in the letter to the whole congregation, Paul introduces him with no explanation of his past but simply as a beloved brother from their own city. If this reading of the connection is correct, the congregation at Colossae was being asked to receive back as &ldquo;one of them&rdquo; a man whose legal status was that of a slave. The social implication of &ldquo;in Christ&rdquo; is showing itself in practice.",
+      "Aristarchus is called a &ldquo;fellow prisoner&rdquo; (v. 10) &mdash; either he is literally imprisoned with Paul or the word is used metaphorically of one who has given himself up as a prisoner of Christ in his service. Mark, cousin of Barnabas, receives a specific commendation: &ldquo;if he comes to you, welcome him.&rdquo; This is the same Mark whose departure from Paul&rsquo;s first missionary journey caused the rupture between Paul and Barnabas (Acts 15:36&ndash;39). Whatever had estranged them appears to have been resolved: Mark is now recommended without reservation. The gospel community is a community that restores its wounded.",
+      "Jesus-Justus (v. 11) appears nowhere else in the New Testament. Paul notes that these three &mdash; Aristarchus, Mark, and Jesus-Justus &mdash; are the only Jewish believers among his co-workers, and that they &ldquo;have been a comfort to me.&rdquo; The word for comfort (par&ecirc;goria) appears only here in the Greek New Testament; it is a medical term for a soothing remedy. In the loneliness of imprisonment, the fellowship of these few Jewish brothers has been a kind of medicine to Paul&rsquo;s soul.",
+      "Epaphras receives a description that sets him apart even in this remarkable company: &ldquo;always struggling on your behalf in his prayers, that you may stand mature and fully assured in all the will of God&rdquo; (v. 12). The word &ldquo;struggling&rdquo; (agonizomenos) is the Greek root for &ldquo;agony&rdquo; &mdash; the same word used of Jesus in Gethsemane (Luke 22:44). Epaphras wrestles in prayer for the Colossians. His prayer is not casual petition but strenuous, costly intercession focused on their theological and spiritual maturity. Paul adds that Epaphras &ldquo;has worked hard for you and for those in Laodicea and in Hierapolis&rdquo; (v. 13) &mdash; a reminder that the letter&rsquo;s concerns extend beyond Colossae to the entire Lycus Valley church cluster.",
+      "Luke appears simply as &ldquo;the beloved physician&rdquo; (v. 14), one of the most personally warm descriptions in Paul&rsquo;s letters. This is almost certainly the same Luke who wrote the Gospel of Luke and Acts &mdash; a Gentile author of two-thirds of the New Testament, traveling with and caring for the imprisoned apostle. Demas is mentioned without commendation here; in 2 Timothy 4:10 Paul records that &ldquo;Demas, in love with this present world, has deserted me.&rdquo; The contrast between Luke and Demas &mdash; separated only by a comma in this verse, but eventually by a lifetime of choices &mdash; is one of the sobering subtexts of the New Testament.",
+      "The chapter concludes with three particulars of striking interest. First, the greetings to Laodicea and to Nympha and the church in her house (v. 15) &mdash; a reminder that the early church gathered in homes and that women served as hosts of those house churches, a position of significant practical and social importance. Second, the instruction to exchange letters with Laodicea (v. 16): both letters are to be read in both congregations, suggesting that Paul writes not for a single reading but for the ongoing catechetical formation of the church. Third, the charge to Archippus: &ldquo;See that you fulfill the ministry that you have received in the Lord&rdquo; (v. 17). We do not know what ministry this was; what we do know is that Paul considers the public accountability of ministry to be a congregational matter &mdash; the whole church is charged to see that Archippus completes what he has been given to do.",
+      "Then the autograph: &ldquo;I, Paul, write this greeting with my own hand. Remember my chains. Grace be with you&rdquo; (v. 18). Ancient letters were typically dictated to a secretary (amanuensis); Paul&rsquo;s habit was to take the pen at the end and write a few words in his own hand as authentication. Here those words are: remember my chains. Not &ldquo;do not worry about my chains.&rdquo; Not &ldquo;my chains are not really so bad.&rdquo; Remember them. They are real. They cost something. And the grace that Paul pronounces over the community &mdash; the same grace that opens the letter in 1:2 &mdash; is the grace of a God who is at work in and through and despite those chains, carrying his mystery into the whole world.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "jIyS4aP7LuI", title: "Colossians 4 - Prayer, Wisdom, and Paul's Companions" },
+  { videoId: "Rm8mMzj4hVA", title: "Devoted to Prayer - What Colossians 4:2 Teaches" },
+  { videoId: "kVXrh_aq3xU", title: "Walking in Wisdom Toward Outsiders - Colossians 4:5-6" },
+  { videoId: "9WvObBrY9fc", title: "Paul's Co-Workers and the Fellowship of Ministry - Colossians 4" },
+];
+
+export default function Colossians4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Colossians 4
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Devote yourselves to prayer &mdash; watchful and thankful &mdash; walk in wisdom toward outsiders making the most of every opportunity, let your speech be gracious seasoned with salt, and see the richness of faithful ministry in the fellowship of Paul&rsquo;s extraordinary band of co-workers.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Remember My Chains &mdash; Grace Be With You</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Colossians 4 closes the letter with the practical outworking of its exalted christology: devoted prayer for open doors, wise and gracious engagement with a watching world, and the fellowship of ordinary men and women &mdash; a physician, a freed slave, a restored runaway, a wrestling prayer-warrior &mdash; through whom the mystery of Christ is being carried into the whole world. The chains are real. The grace is greater.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

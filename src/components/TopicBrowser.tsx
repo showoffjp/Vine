@@ -2428,6 +2428,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 20 Chapter": "acts-20-guide",
   "Paul Farewell Ephesus Miletus Elders": "acts-20-guide",
   "Eutychus Falls Window Paul Raises Acts": "acts-20-guide",
+  "Matthew 1 Chapter": "matthew-1-guide",
+  "Virgin Birth Joseph Mary Immanuel Matthew": "matthew-1-guide",
+  "Abraham David Jesus Christ Genealogy Matthew": "matthew-1-guide",
+  "John 5 Chapter": "john-5-guide",
+  "Healing Pool Bethesda Paralyzed Man John": "john-5-guide",
+  "Son Does What Father Does Honor Jesus": "john-5-guide",
+  "1 Peter 4 Chapter": "1-peter-4-guide",
+  "Fiery Trial Do Not Be Surprised Suffering Peter": "1-peter-4-guide",
+  "Arm Yourselves Christ Suffered Flesh 1 Peter": "1-peter-4-guide",
+  "Colossians 4 Chapter": "colossians-4-guide",
+  "Devote Yourselves Prayer Colossians Watchful": "colossians-4-guide",
+  "Walk Wisdom Outsiders Redeeming Time Colossians": "colossians-4-guide",
 };
 
 
@@ -3506,6 +3518,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Exodus 12 Chapter" },
   { label: "2 Kings 22 Chapter" },
   { label: "Acts 20 Chapter" },
+  { label: "Matthew 1 Chapter" },
+  { label: "John 5 Chapter" },
+  { label: "1 Peter 4 Chapter" },
+  { label: "Colossians 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

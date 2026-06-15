@@ -1,0 +1,176 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "God Is My Refuge",
+  "You Will Not Abandon Me",
+  "Fullness of Joy",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Psalm 16 &mdash; A Miktam of David",
+    reference: "Psalm 16:1&ndash;11",
+    paragraphs: [
+      "Psalm 16 is one of the most luminous poems in all of Scripture &mdash; a short lyric of only eleven verses that moves from a cry for refuge to a declaration of unshakeable security, from delight in the community of God&rsquo;s people to confidence that even death cannot hold the one whose hope is in the LORD. It is headed &ldquo;A Miktam of David,&rdquo; a term whose precise meaning is debated but whose effect is unmistakable: this is a poem of quiet trust, shaped with care, carrying great weight in small compass.",
+      "David opens with petition and immediately grounds it in commitment: &ldquo;Preserve me, O God, for in you I take refuge&rdquo; (v.1). The prayer is not the desperate cry of a man caught off guard but the settled confidence of one who has already made his choice. He turns to God not because all other options have failed but because he has already recognized that God alone is the source of all good: &ldquo;I say to the LORD, You are my Lord; I have no good apart from you&rdquo; (v.2). This is the psalm&rsquo;s theological center of gravity, and everything else radiates from it.",
+      "The psalm then moves through a series of contrasts. In verses 3 and 4 David speaks of the &ldquo;holy ones in the land,&rdquo; those in whom he delights, and sets them against those who run after other gods, whose sorrows multiply. The contrast is stark: delight versus multiplication of sorrows, faithful community versus idolatrous pursuit. David refuses to pour out libations to other gods or even to take their names upon his lips &mdash; an act of deliberate disassociation from the whole culture of polytheism that surrounded Israel.",
+      "The center of the psalm, verses 5 through 8, is a celebration of inheritance. &ldquo;The LORD is my chosen portion and my cup; you hold my lot&rdquo; (v.5). The imagery is drawn from the distribution of the promised land among the tribes of Israel, where each clan received its allotted portion. David applies that imagery personally and spiritually: his &ldquo;portion&rdquo; is not land or livestock or honor &mdash; it is the LORD himself. And the LORD holds his lot; the distribution is in safe hands.",
+      "Verse 6 rings out with satisfaction: &ldquo;The lines have fallen for me in pleasant places; indeed, I have a beautiful inheritance.&rdquo; The surveyor&rsquo;s measuring lines have traced a boundary that David cannot help but marvel at. This is not naive optimism but the fruit of having chosen God as his portion &mdash; when the LORD is your inheritance, the inheritance is always beautiful. Verse 7 adds the dimension of ongoing relationship: the LORD gives counsel by day and the heart instructs in the night. The guidance is constant, intimate, and unbroken.",
+      "The psalm closes on the horizon of eternity. Beginning with bodily security (&ldquo;my body also dwells secure,&rdquo; v.9), it opens outward to the soul itself: &ldquo;For you will not abandon my soul to Sheol, or let your holy one see corruption&rdquo; (v.10). This verse, seemingly too large for one man&rsquo;s individual hope, became the cornerstone of the earliest Christian proclamation. Peter on the Day of Pentecost and Paul at Antioch both cite it as proof of the resurrection of Jesus, arguing that David himself did not rise from the grave but foresaw the One who would. The psalm ends with a vision of life in God&rsquo;s presence that transcends any earthly measure: &ldquo;You make known to me the path of life; in your presence there is fullness of joy; at your right hand are pleasures forevermore&rdquo; (v.11).",
+    ],
+  },
+  {
+    id: "God Is My Refuge",
+    heading: "God Is My Refuge",
+    reference: "Psalm 16:1&ndash;6",
+    paragraphs: [
+      "The psalm&rsquo;s opening word is &ldquo;Preserve&rdquo; &mdash; a verb that means to guard, to keep, to watch over. It is not a shout but a quiet request, offered by someone who already knows where safety lies. &ldquo;Preserve me, O God, for in you I take refuge&rdquo; (v.1). The word for refuge (&lt;em&gt;hasah&lt;/em&gt;) appears throughout the Psalter and always carries the sense of flying to a shelter, of placing oneself deliberately under protection. David is not hedging his bets; he is staking everything on the character of God.",
+      "The confession of verse 2 deepens this: &ldquo;I say to the LORD, You are my Lord; I have no good apart from you.&rdquo; This is a statement of exclusive devotion that would have been culturally countercultural in the ancient Near East, where the gods of a region were assumed to control its soil, its rain, its fertility, its warfare. David strips all of that away. The LORD is not merely the greatest among competing deities; he is the source of all good, and nothing that could be called good exists outside of him. To know this is to be free from every form of spiritual anxiety.",
+      "Verses 3 and 4 set up a contrast between two kinds of people and two kinds of devotion. The &ldquo;holy ones in the land&rdquo; of verse 3 are the people of God &mdash; the covenant community in whom David takes his delight. The phrase &ldquo;the noble, in whom is all my delight&rdquo; describes a genuine and joyful solidarity with other believers. David&rsquo;s faith is not a solitary affair; it is embedded in a community of people who share his commitment to the LORD, and he finds in them a source of genuine pleasure.",
+      "Verse 4 describes the opposite path: &ldquo;The sorrows of those who run after another god shall multiply.&rdquo; The verb &ldquo;run after&rdquo; is vivid &mdash; an eager, energetic pursuit of what cannot satisfy. The more devoted the idolater, the more their sorrows multiply, because they are multiplying their dependencies on things that cannot deliver. David draws a firm line: &ldquo;Their drink offerings of blood I will not pour out or take their names on my lips.&rdquo; This is total disengagement from the worship of false gods, not merely intellectual rejection but ritual and verbal abstention.",
+      "The climax of this first movement comes in verses 5 and 6 with the inheritance language. In Israel the land was divided among the tribes by lot; each family received its &ldquo;portion.&rdquo; Priests and Levites received no land allotment &mdash; their portion was the LORD himself (Numbers 18:20, Deuteronomy 10:9). David, though a king who owns much, speaks here as one who belongs to that priestly category: &ldquo;The LORD is my chosen portion and my cup; you hold my lot.&rdquo; The word &ldquo;chosen&rdquo; is significant &mdash; this is not a portion assigned by necessity but one David has embraced with desire. And then the wonder of verse 6: &ldquo;The lines have fallen for me in pleasant places; indeed, I have a beautiful inheritance.&rdquo; The surveyor&rsquo;s measuring cord has drawn around something magnificent. This is the testimony of a man who, having found God as his portion, discovers that the portion is more than enough.",
+      "The theological move here is one of the most important in the entire Psalter. It refuses to separate God&rsquo;s gifts from God himself. David does not say &ldquo;God gave me a beautiful inheritance&rdquo; as though the gifts and the giver could be distinguished. He says &ldquo;the LORD is my portion&rdquo; and then, because the LORD is his portion, the inheritance turns out to be beautiful. This is the pattern of genuine faith: God first, gifts second, and the gifts received as expressions of the God who gives them. When the LORD himself is your inheritance, you are already infinitely wealthy regardless of your earthly circumstances.",
+    ],
+  },
+  {
+    id: "You Will Not Abandon Me",
+    heading: "You Will Not Abandon Me",
+    reference: "Psalm 16:7&ndash;10",
+    paragraphs: [
+      "Verses 7 and 8 introduce the dimension of ongoing relationship with God that makes the entire confidence of this psalm possible. The LORD is not merely a theological proposition or a religious category &mdash; he is a counselor who actively guides: &ldquo;I bless the LORD who gives me counsel; in the night also my heart instructs me&rdquo; (v.7). The night is often the time of fear and of doubt, when the mind turns over its anxieties and the future seems darkest. But David reports that even in the night his &ldquo;heart&rdquo; &mdash; his innermost self, perhaps his conscience or his spirit illumined by God &mdash; gives instruction. The counsel of the LORD reaches him even in the dark hours.",
+      "Verse 8 states the posture that makes this possible: &ldquo;I have set the LORD always before me; because he is at my right hand, I shall not be shaken.&rdquo; The phrase &ldquo;I have set&rdquo; implies a deliberate act of the will. David has arranged his inner life so that God is never out of view. This is the ancient Hebrew discipline of practicing the presence of God &mdash; not a passive drift toward God in moments of crisis but an active, ongoing orientation. The &ldquo;right hand&rdquo; is the place of greatest strength and support; a warrior stood at your right hand to protect your shield arm. With the LORD at his right hand, David cannot be shaken.",
+      "Verses 9 and 10 describe the result of this unshakeable security as a gladness that reaches into the body itself. &ldquo;Therefore my heart is glad, and my whole being rejoices; my flesh also dwells secure&rdquo; (v.9). This is not disembodied spiritual joy but a wholeness that encompasses the physical person. The word &ldquo;secure&rdquo; here is &lt;em&gt;betach&lt;/em&gt;, which means to rest in confidence, to be free from the anxiety of threat. David&rsquo;s body itself rests easy because his soul is settled in God. Body and soul are not in tension here; they share in the same peace.",
+      "Then comes verse 10, the most theologically explosive verse in the psalm and one of the most important texts in the entire Old Testament: &ldquo;For you will not abandon my soul to Sheol, or let your holy one see corruption.&rdquo; Sheol is the realm of the dead in Hebrew thought &mdash; not precisely hell but the shadowy underworld to which all the dead descended. To be &ldquo;abandoned to Sheol&rdquo; would be to be left there without hope, without return, without redemption. And &ldquo;corruption&rdquo; is the decay that the body undergoes in the grave.",
+      "The promise of verse 10 is staggering in its scope. David is not merely saying &ldquo;God will preserve my life in this present danger.&rdquo; He is asserting that God will not let his &ldquo;holy one&rdquo; &mdash; his beloved, his faithful one, his devoted servant &mdash; see the final victory of death and decay. This language reaches beyond any ordinary deliverance. It is a hope that outstrips the horizon of natural life. And it is precisely this overreach that made the verse so explosive when the apostles took it up.",
+      "On the Day of Pentecost, Peter cited Psalm 16:8&ndash;11 in full (Acts 2:25&ndash;28) and then made his argument: &ldquo;Brothers, I may say to you with confidence about the patriarch David that he both died and was buried, and his tomb is with us to this day. Being therefore a prophet, and knowing that God had sworn with an oath to him that he would set one of his descendants on his throne, he foresaw and spoke about the resurrection of the Christ, that he was not abandoned to Hades, nor did his flesh see corruption&rdquo; (Acts 2:29&ndash;31). Paul made the identical argument at Antioch in Pisidia (Acts 13:34&ndash;35), citing Psalm 16:10 as proof that the resurrection of Jesus was the fulfillment of David&rsquo;s prophecy. The logic is tight: David died and was buried and his body did see corruption; therefore this promise was not ultimately about David but about the One David foresaw &mdash; Jesus, raised on the third day.",
+    ],
+  },
+  {
+    id: "Fullness of Joy",
+    heading: "Fullness of Joy",
+    reference: "Psalm 16:11",
+    paragraphs: [
+      "The final verse of Psalm 16 is one of the most magnificent single lines in all of Scripture: &ldquo;You make known to me the path of life; in your presence there is fullness of joy; at your right hand are pleasures forevermore&rdquo; (v.11). It arrives as the destination toward which the whole psalm has been moving &mdash; from petition and commitment, through the rejection of idolatry, through the inheritance language, through the confidence of an unshakeable heart, to this: an unending, overflowing life in the presence of God himself.",
+      "The verse has three movements. First: &ldquo;You make known to me the path of life.&rdquo; Life here is not mere biological existence but the full, flourishing, resurrection life that the Hebrew &lt;em&gt;chayyim&lt;/em&gt; gestures toward &mdash; life in its deepest and most abundant sense. And God makes it known. This is revelation: the path to this life is not discoverable by unaided human reason; it must be disclosed. David does not find his way to this life by heroic effort or accumulated wisdom; God shows him the path.",
+      "Second: &ldquo;In your presence there is fullness of joy.&rdquo; The word &ldquo;fullness&rdquo; (&lt;em&gt;sova&lt;/em&gt;) means satiety, completeness, the satisfaction of having more than enough. This joy is not partial or provisional &mdash; it is full. And it is located not in any circumstance or achievement but in the presence of God himself. The Psalter is full of longing for the face of God, for nearness to him, for the sanctuary where he dwells. Here David gives the reason: in his presence is the fullness of what every human heart is searching for when it pursues joy through any other means.",
+      "Third: &ldquo;At your right hand are pleasures forevermore.&rdquo; In verse 8 the LORD stood at David&rsquo;s right hand to support him. Here David stands at God&rsquo;s right hand &mdash; the place of honor, of intimacy, of unfailing provision. And what is there? Pleasures. The word is &lt;em&gt;ne&rsquo;imot&lt;/em&gt;, related to the word for pleasantness and delight. These are not thin or sanitized joys but real, rich, abundant delights &mdash; and they are &ldquo;forevermore.&rdquo; The Hebrew &lt;em&gt;netsach&lt;/em&gt; means perpetually, enduringly, without end. This is not a pleasure that peaks and fades; it is a pleasure that has no ceiling and no conclusion.",
+      "The Christological fulfillment of this verse, taken together with verse 10, is one of the great insights of apostolic preaching. Peter and Paul argue that Jesus is the &ldquo;holy one&rdquo; who was not abandoned to death and whose body did not see corruption. But the resurrection was not merely a reversal of death &mdash; it was an entrance into the very life that verse 11 describes. When Jesus was raised and ascended to sit at the Father&rsquo;s right hand, he entered the fullness of joy in the presence of God, the pleasures that are forevermore. Psalm 16:11, in this reading, is not merely a verse about heaven in general; it is a description of the exalted state of the risen Christ, who as the firstfruits of the resurrection opens the same path of life to all who are united to him.",
+      "For the reader of Psalm 16 today, the verse functions as both promise and invitation. The path of life has been made known in Jesus. The fullness of joy is available in his presence now, partially and by faith, and will be available in full at the resurrection. The pleasures forevermore are not a reward for religious performance but the inheritance that comes with knowing the LORD as your chosen portion. This is where the psalm began &mdash; &ldquo;I have no good apart from you&rdquo; &mdash; and this is where it ends: in you there is fullness. The circle is complete, and it is beautiful.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "JnBmC2sgdl4", title: "BibleProject &mdash; Psalm 16 Overview" },
+  { videoId: "TjL4cYFrHUE", title: "Psalm 16 &mdash; You Will Not Abandon Me to Sheol" },
+  { videoId: "mMkGh-GQ1_g", title: "The Resurrection in the Psalms &mdash; Acts 2 and Psalm 16" },
+  { videoId: "UfMi_Zpe4aw", title: "Fullness of Joy &mdash; In Your Presence, Psalm 16:11" },
+];
+
+export default function Psalm16GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Psalm 16
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            A Miktam of David &mdash; &ldquo;Preserve me, O God, for in you I take refuge.&rdquo; A short lyric of eleven verses that moves from petition to unshakeable confidence, from the beauty of God as an inheritance to the resurrection promise that the LORD will not abandon his holy one to Sheol &mdash; the text that Peter and Paul both cite to proclaim the resurrection of Jesus.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", marginBottom: "2rem" }}>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, margin: "0 0 1.25rem", color: TEXT }}>Video Teaching</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>In Your Presence There Is Fullness of Joy</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Psalm 16 distills the whole of biblical faith into eleven verses: God alone is good, God alone is the inheritance worth having, God alone can keep his holy one from the final power of death. What David foresaw in hope, Jesus accomplished in history &mdash; raised from the dead and ascended to the right hand of the Father where pleasures are forevermore. The path of life he walked is the path now open to all who take refuge in him.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

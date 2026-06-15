@@ -2500,6 +2500,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Leviticus 16 Chapter": "leviticus-16-guide",
   "Day of Atonement Scapegoat Azazel Yom Kippur": "leviticus-16-guide",
   "Two Goats High Priest Holy of Holies Blood": "leviticus-16-guide",
+  "2 Samuel 1 Chapter": "2-samuel-1-guide",
+  "David Lament Jonathan Saul How Mighty Fallen": "2-samuel-1-guide",
+  "Amalekite Kills Saul Crown David Mourns": "2-samuel-1-guide",
+  "1 Kings 5 Chapter": "1-kings-5-guide",
+  "Solomon Hiram Temple Cedars Lebanon Materials": "1-kings-5-guide",
+  "Forced Labor Thirty Thousand Solomon Temple": "1-kings-5-guide",
+  "Psalm 16 Chapter": "psalm-16-guide",
+  "You Will Not Abandon Soul Sheol Psalm David": "psalm-16-guide",
+  "Fullness of Joy Pleasures Forevermore Psalm": "psalm-16-guide",
+  "Acts 11 Chapter": "acts-11-guide",
+  "Peter Reports Gentiles Cornelius Antioch Christians": "acts-11-guide",
+  "Barnabas Antioch First Called Christians": "acts-11-guide",
 };
 
 
@@ -3602,6 +3614,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "John 2 Chapter" },
   { label: "Genesis 4 Chapter" },
   { label: "Leviticus 16 Chapter" },
+  { label: "2 Samuel 1 Chapter" },
+  { label: "1 Kings 5 Chapter" },
+  { label: "Psalm 16 Chapter" },
+  { label: "Acts 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

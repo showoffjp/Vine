@@ -1,0 +1,175 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Peter Explains to Jerusalem",
+  "The Church at Antioch",
+  "First Called Christians",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Acts 11 &mdash; The Gospel Breaks Every Boundary",
+    reference: "Acts 11:1&ndash;30",
+    paragraphs: [
+      "Acts 11 is one of the hinge chapters of the entire New Testament. In thirty verses it accomplishes three things of enormous consequence: it brings Peter back to Jerusalem to give account for his visit to the household of Cornelius and so compels the Jerusalem church to formally receive the news that God has opened the door of repentance to Gentiles; it records the founding of the church at Antioch in Syria, which will become the great center of Gentile Christianity and the base of Paul&rsquo;s missionary journeys; and it introduces the name by which the followers of Jesus will be known to the world for the next two thousand years &mdash; Christians.",
+      "The chapter grows directly out of Acts 10, which narrated the Cornelius episode in full: the Roman centurion&rsquo;s vision, Peter&rsquo;s rooftop vision of the great sheet lowered from heaven with unclean animals on it and the command &ldquo;What God has made clean, do not call common,&rdquo; the Spirit&rsquo;s instruction to go with Cornelius&rsquo;s messengers without hesitation, and the astonishing moment when the Holy Spirit fell on all who heard the word just as the Spirit had fallen on the disciples at Pentecost. The Gentile Pentecost had happened before anyone could argue against it, and Peter had baptized them. Now he must explain himself.",
+      "The first half of the chapter (vv. 1&ndash;18) is Peter&rsquo;s defense before the circumcision party in Jerusalem. His method is to retell the entire sequence of events in order, making plain that each step was directed by God &mdash; the vision, the Spirit&rsquo;s command, the angel&rsquo;s appearance to Cornelius, the falling of the Spirit as Peter spoke. His conclusion is unanswerable: &ldquo;Who was I that I could stand in God&rsquo;s way?&rdquo; (v.17). The Jerusalem church is silenced and then moves to praise: &ldquo;Then to the Gentiles also God has granted repentance that leads to life&rdquo; (v.18).",
+      "The second half of the chapter (vv. 19&ndash;30) moves to Antioch. Scattered believers, driven from Jerusalem by the persecution following Stephen&rsquo;s death, had been carrying the word northward and westward. Most spoke only to Jews. But some men from Cyprus and Cyrene arrived in Antioch and did something unprecedented: they preached to Hellenists &mdash; Greek-speaking Gentiles. The Lord&rsquo;s hand was with them, and a great number believed. Jerusalem sent Barnabas to investigate. He arrived, saw the grace of God with his own eyes, and was glad. He then went to Tarsus to find Saul, brought him to Antioch, and for a whole year the two of them taught a great multitude. It was in Antioch that the disciples were first called Christians.",
+      "The chapter ends with a brief note about Agabus, a prophet from Jerusalem who foretells a great famine coming over the whole world &mdash; fulfilled in the time of the Emperor Claudius. The response of the Antioch church is immediate and practical: they take up a collection for the relief of the believers in Judea and send it by the hands of Barnabas and Saul. The newest, most Gentile, most geographically distant community in the story is also the first to practice cross-cultural financial generosity toward the mother church in Jerusalem. Acts 11 presents the expansion of the gospel not as a human program but as the unstoppable work of the Holy Spirit, who goes ahead of every boundary and draws people from every nation into the one body of Christ.",
+    ],
+  },
+  {
+    id: "Peter Explains to Jerusalem",
+    heading: "Peter Explains to Jerusalem",
+    reference: "Acts 11:1&ndash;18",
+    paragraphs: [
+      "The news traveled faster than Peter did. By the time the apostle returned to Jerusalem, the circumcision party already knew: &ldquo;The apostles and the brothers who were throughout Judea heard that the Gentiles also had received the word of God&rdquo; (v.1). But what they heard raised an immediate objection. When Peter came up to the city, the circumcision party confronted him &mdash; not with congratulations but with a charge: &ldquo;You went to uncircumcised men and ate with them&rdquo; (v.3). The scandal was not merely theological; it was social and ritual. Eating with Gentiles was, for a faithful Jew, to cross a boundary that defined the people of God.",
+      "Peter does not argue from principle or cite Scripture in the abstract. Instead he does something more powerful: he tells the story. &ldquo;Peter began and explained it to them in order&rdquo; (v.4). The word &ldquo;in order&rdquo; (&lt;em&gt;kathexes&lt;/em&gt;) signals that this is a careful, sequential account meant to show that each step was not Peter&rsquo;s initiative but God&rsquo;s leading. He tells them about the vision in Joppa &mdash; the great sheet let down from heaven by its four corners, containing every kind of animal, reptile, and bird, and the voice telling him three times, &ldquo;What God has made clean, do not call common.&rdquo;",
+      "He tells them about the three men sent from Caesarea who arrived at the exact moment the vision ended, and the Spirit&rsquo;s instruction to go with them &ldquo;without hesitation&rdquo; (v.12) &mdash; the same word used in Acts 10:20. He mentions that six brothers from Joppa accompanied him as witnesses, a detail that matters legally: he is not reporting something he alone experienced. Then he tells them what Cornelius had reported: an angel had appeared to him and told him to send for Peter, who &ldquo;will declare to you a message by which you will be saved, you and all your household&rdquo; (v.14).",
+      "The decisive moment in Peter&rsquo;s account comes in verse 15: &ldquo;As I began to speak, the Holy Spirit fell on them just as on us at the beginning.&rdquo; The phrase &ldquo;at the beginning&rdquo; is a reference to Pentecost &mdash; to the foundational, unrepeatable event by which the church came into being. Peter is saying that what happened in the upper room in Jerusalem happened again in the house of a Roman soldier in Caesarea. The pattern of Pentecost recurred, and this recurrence was not planned by any human agent. God interrupted Peter&rsquo;s sermon mid-sentence.",
+      "This prompted Peter to remember the words of Jesus: &ldquo;John baptized with water, but you will be baptized with the Holy Spirit&rdquo; (v.16, cf. Acts 1:5). If God gave the same gift to the Gentiles as he gave to the disciples at Pentecost, who was Peter to stand in God&rsquo;s way? &ldquo;Who was I that I could stand in God&rsquo;s way?&rdquo; (v.17). This question is one of the most important sentences in the book of Acts. It is not false humility; it is the recognition that the mission of God is larger than any human guardian can contain, that the Spirit moves where he wills, and that human beings can either cooperate or resist &mdash; but they cannot stop what God intends.",
+      "The response of the circumcision party is immediate and complete: they fell silent, and then they glorified God, saying, &ldquo;Then to the Gentiles also God has granted repentance that leads to life&rdquo; (v.18). The phrase &ldquo;that leads to life&rdquo; echoes the language of Acts 3:15 and 5:20, where life is the gift of the risen Jesus. The Jerusalem church did not merely tolerate the inclusion of the Gentiles; they praised God for it. This formal reception of the news is a watershed in the history of the early church &mdash; the recognition, by the mother community, that the covenant family of God now extends beyond ethnic Israel to include all who receive repentance through Jesus.",
+    ],
+  },
+  {
+    id: "The Church at Antioch",
+    heading: "The Church at Antioch",
+    reference: "Acts 11:19&ndash;26",
+    paragraphs: [
+      "Verse 19 takes the narrative back to a moment earlier in time: &ldquo;Now those who were scattered because of the persecution that arose over Stephen traveled as far as Phoenicia and Cyprus and Antioch, speaking the word to no one except Jews.&rdquo; The phrase &ldquo;scattered because of the persecution over Stephen&rdquo; connects this development directly to Acts 8:1, where the great scattering of the Jerusalem church began. Luke is showing that what looked like a disaster &mdash; the stoning of Stephen and the persecution that followed &mdash; was in fact the mechanism by which the gospel was carried out of Jerusalem into the wider world.",
+      "These scattered believers followed a predictable and understandable pattern: they spoke to Jews. They went to the synagogues, which existed in Jewish communities throughout the diaspora, and they proclaimed Jesus as the Messiah of Israel. This was culturally natural; they shared scripture, heritage, language, and the hope of Israel with their audiences. The mission to Gentiles that Peter had just conducted was still exceptional, still surprising, not yet the normal pattern.",
+      "But then something shifts, and Luke marks it carefully. Some men &mdash; unnamed, from Cyprus and Cyrene &mdash; came to Antioch and did something new: &ldquo;they spoke to the Hellenists also, preaching the Lord Jesus&rdquo; (v.20). The word &ldquo;Hellenists&rdquo; here likely refers to Greek-speaking Gentiles rather than Greek-speaking Jews (the same word in Acts 6:1 refers to Greek-speaking Jewish believers, but the contrast with &ldquo;speaking to no one except Jews&rdquo; in v.19 makes clear that these are Gentiles). These anonymous missionaries from Cyprus and Cyrene are, in a real sense, the founders of Gentile Christianity as a sustained enterprise.",
+      "The result was remarkable: &ldquo;The hand of the Lord was with them, and a great number who believed turned to the Lord&rdquo; (v.21). The expression &ldquo;the hand of the Lord&rdquo; is a Hebrew idiom for the active power of God at work, the same expression used in the Old Testament to describe God&rsquo;s deeds of deliverance and judgment. Luke is saying that this breakthrough at Antioch was not a human innovation but a divine initiative. The men from Cyprus and Cyrene provided the willingness; God provided the power and the harvest.",
+      "News of this reached Jerusalem, and the church there sent Barnabas to Antioch. The choice of Barnabas was wise: he was himself a Cypriot (Acts 4:36), a man of the diaspora, someone who could understand the Hellenistic world and evaluate what was happening there without the reflexive suspicion of a Jerusalem insider. When Barnabas arrived and &ldquo;saw the grace of God, he was glad&rdquo; (v.23). This is a beautiful sentence. Barnabas did not arrive with a checklist of doctrinal requirements to verify. He arrived and saw &mdash; and what he saw was grace. And the sight of grace made him glad. Luke then adds his own editorial note about Barnabas: &ldquo;he was a good man, full of the Holy Spirit and of faith&rdquo; (v.24). The goodness, the fullness of Spirit, and the faith together explain both why he saw grace when others might have seen danger and why, as a result, &ldquo;a great many people were added to the Lord.&rdquo;",
+      "Barnabas then did something that reveals his depth of character. Rather than managing the Antioch situation himself, he went to Tarsus to look for Saul (v.25). He had to search (&lt;em&gt;anazet&ecirc;sai&lt;/em&gt;, to seek up, implying some effort), but he found him and brought him back to Antioch. Barnabas had been Saul&rsquo;s advocate before the Jerusalem apostles when no one else would trust the former persecutor (Acts 9:27). Now he recruits him because the scale of the work in Antioch demands the gifts Saul alone can bring. For a whole year the two of them taught a large number of people in Antioch, and the result was a community large and visible enough to attract a nickname: &ldquo;The disciples were first called Christians at Antioch&rdquo; (v.26).",
+    ],
+  },
+  {
+    id: "First Called Christians",
+    heading: "First Called Christians",
+    reference: "Acts 11:26&ndash;30",
+    paragraphs: [
+      "The single sentence at the end of verse 26 &mdash; &ldquo;And in Antioch the disciples were first called Christians&rdquo; &mdash; is one of the most historically significant statements in the New Testament. The word &ldquo;Christian&rdquo; (&lt;em&gt;Christianos&lt;/em&gt;) appears only three times in the New Testament (here, in Acts 26:28, and in 1 Peter 4:16), and the passive voice &ldquo;were called&rdquo; suggests that the name was given to the community from outside rather than adopted by the believers themselves. It was a label applied by the surrounding pagan population of Antioch to identify this distinctive group.",
+      "The name is built on the Greek &lt;em&gt;Christos&lt;/em&gt;, the translation of the Hebrew &ldquo;Messiah,&rdquo; meaning &ldquo;Anointed One.&rdquo; The suffix &lt;em&gt;-ianos&lt;/em&gt; was a Latin-style formation used to designate the partisans or household members of a particular person &mdash; as in &ldquo;Herodians&rdquo; (supporters of Herod) or &ldquo;Caesariani&rdquo; (soldiers of Caesar). To call these people &ldquo;Christians&rdquo; was to identify them as the people of the Christ &mdash; as belonging to Jesus. What may have started as a nickname, perhaps with a mocking edge, became the identity by which the movement would be known across the centuries.",
+      "Why did this name first arise in Antioch rather than Jerusalem? The composition of the Antioch church offers an answer. In Jerusalem the believers were all Jewish, and within the Jewish community they could be described simply as a sect &mdash; &ldquo;the Nazarenes&rdquo; or &ldquo;the Way.&rdquo; But in Antioch, for the first time in sustained and significant numbers, Jews and Gentiles were worshiping together in a single community. They no longer fit neatly into Jewish categories. The pagan city needed a new word for this new thing, and it found one: Christians. The very existence of the name testifies to the social novelty of what was happening in Antioch &mdash; a community that crossed the deepest social divide in the ancient world.",
+      "The chapter closes with a brief but telling narrative about Agabus. In verse 27, prophets from Jerusalem come down to Antioch &mdash; itself a sign of the growing bond between the two communities. One of them, Agabus, stood up and &ldquo;foretold by the Spirit that there would be a great famine over all the world&rdquo; (v.28). Luke adds the historical note: &ldquo;this took place in the days of Claudius.&rdquo; The Emperor Claudius reigned from AD 41 to 54, and ancient sources (including the historian Suetonius and the Jewish writer Josephus) record significant famines during his reign. Luke is anchoring his narrative in verifiable history.",
+      "The response of the Antioch church to this prophecy is immediate and generous: &ldquo;So the disciples determined, every one according to his ability, to send relief to the brothers living in Judea. And they did so, sending it to the elders by the hand of Barnabas and Saul&rdquo; (vv.29&ndash;30). The phrase &ldquo;every one according to his ability&rdquo; anticipates the principle Paul will later articulate in 2 Corinthians 8&ndash;9. The new Gentile church does not wait to be asked; it acts on a prophecy, pooling its resources and sending them through trusted leaders to a community it has never met.",
+      "This collection is one of the most quietly revolutionary acts in Acts 11. The Antioch church is younger than the Jerusalem church, less theologically trained, less ethnically connected to the promises of Israel. Yet it is the first to give sacrificially to another community in need. The flow of money reverses the expected direction: from Gentile outpost to Jewish mother church, from newly formed community to established apostolic center. And it travels by the hands of Barnabas and Saul &mdash; who, when they return from Jerusalem, will bring with them John Mark (Acts 12:25) and set out on what we call the First Missionary Journey. The relief mission to Jerusalem is, in retrospect, the launching pad for the mission to the world. Acts 11 shows us a God who provides for his people through their solidarity with one another, and a Spirit who is always ahead of every human plan, drawing disciples from every nation into a single family called by the name of Jesus.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "0bQQzwBCjHQ", title: "BibleProject &mdash; Book of Acts Overview" },
+  { videoId: "PkFJNqY7_Vk", title: "Acts 11 &mdash; Gentiles Receive the Spirit and the Church at Antioch" },
+  { videoId: "lFPDJJQtS50", title: "Peter&rsquo;s Defense Before Jerusalem &mdash; Acts 11 Explained" },
+  { videoId: "K5heBl0GknQ", title: "First Called Christians &mdash; Antioch and the Name That Stuck" },
+];
+
+export default function Acts11GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 11
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Peter defends his visit to Cornelius before the Jerusalem church &mdash; &ldquo;Who was I that I could stand in God&rsquo;s way?&rdquo; The church at Antioch is founded by unnamed missionaries from Cyprus and Cyrene. Barnabas and Saul teach for a whole year. And in Antioch the disciples are first called Christians.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", marginBottom: "2rem" }}>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, margin: "0 0 1.25rem", color: TEXT }}>Video Teaching</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Who Was I That I Could Stand in God&rsquo;s Way?</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 11 shows the gospel crossing every boundary it was expected to respect &mdash; ethnic, ritual, geographic. Peter&rsquo;s question to Jerusalem is the question every generation of the church faces when the Spirit moves in unexpected places among unexpected people. The same God who opened the door to the Gentiles through a Roman soldier&rsquo;s household opened a church in Antioch through unnamed missionaries, and gave that church a name that would outlast every empire: Christian.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

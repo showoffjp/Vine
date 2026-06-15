@@ -2524,6 +2524,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 12 Chapter": "acts-12-guide",
   "Peter Prison Angel Rescues Herod Agrippa James": "acts-12-guide",
   "Rhoda Peter Knocks Herod Eaten Worms Acts Twelve": "acts-12-guide",
+  "Luke 8 Chapter": "luke-8-guide",
+  "Parable Sower Soils Lamp Stand Luke": "luke-8-guide",
+  "Jairus Daughter Bleeding Woman Legion Luke": "luke-8-guide",
+  "John 12 Chapter": "john-12-guide",
+  "Mary Anoints Jesus Feet Nard Bethany": "john-12-guide",
+  "Grain of Wheat Falls Dies Bears Fruit John": "john-12-guide",
+  "1 Kings 6 Chapter": "1-kings-6-guide",
+  "Solomon Builds Temple Jerusalem Seven Years": "1-kings-6-guide",
+  "Most Holy Place Cherubim Gold Overlay Temple": "1-kings-6-guide",
+  "Numbers 11 Chapter": "numbers-11-guide",
+  "Manna Quail Israel Complains Wilderness": "numbers-11-guide",
+  "Seventy Elders Spirit Moses Burden Numbers": "numbers-11-guide",
 };
 
 
@@ -3634,6 +3646,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 11 Chapter" },
   { label: "1 Corinthians 2 Chapter" },
   { label: "Acts 12 Chapter" },
+  { label: "Luke 8 Chapter" },
+  { label: "John 12 Chapter" },
+  { label: "1 Kings 6 Chapter" },
+  { label: "Numbers 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

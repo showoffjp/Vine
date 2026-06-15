@@ -2728,6 +2728,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 90 Chapter": "psalm-90-guide",
   "Prayer of Moses Lord Our Dwelling Place Generations": "psalm-90-guide",
   "Teach Us to Number Our Days Wisdom Psalm": "psalm-90-guide",
+  "Matthew 27 Chapter": "matthew-27-guide",
+  "Judas Remorse Barabbas Pilate Washes Hands Matthew": "matthew-27-guide",
+  "Crucifixion of Jesus Darkness Temple Veil Torn": "matthew-27-guide",
+  "Genesis 47 Chapter": "genesis-47-guide",
+  "Jacob Before Pharaoh Joseph Settles Goshen": "genesis-47-guide",
+  "Joseph Famine Land of Egypt Acquires Genesis": "genesis-47-guide",
+  "1 Kings 12 Chapter": "1-kings-12-guide",
+  "Rehoboam Folly Kingdom Divided Jeroboam Israel": "1-kings-12-guide",
+  "Jeroboam Golden Calves Bethel Dan Idolatry": "1-kings-12-guide",
+  "John 21 Chapter": "john-21-guide",
+  "Breakfast by the Sea Miraculous Catch Fish John": "john-21-guide",
+  "Do You Love Me Feed My Sheep Peter Restored": "john-21-guide",
 };
 
 
@@ -3906,6 +3918,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 46 Chapter" },
   { label: "Ezekiel 34 Chapter" },
   { label: "Psalm 90 Chapter" },
+  { label: "Matthew 27 Chapter" },
+  { label: "Genesis 47 Chapter" },
+  { label: "1 Kings 12 Chapter" },
+  { label: "John 21 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

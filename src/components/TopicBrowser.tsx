@@ -2644,6 +2644,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 6 Chapter": "1-corinthians-6-guide",
   "Lawsuits Among Believers Judge Angels Paul": "1-corinthians-6-guide",
   "Body Temple of Holy Spirit Flee Immorality": "1-corinthians-6-guide",
+  "Matthew 19 Chapter": "matthew-19-guide",
+  "Divorce Marriage One Flesh Eunuchs Matthew": "matthew-19-guide",
+  "Rich Young Ruler Camel Needle Eye Matthew": "matthew-19-guide",
+  "Luke 17 Chapter": "luke-17-guide",
+  "Ten Lepers Healed One Returns Thanks Luke": "luke-17-guide",
+  "Kingdom of God Within Coming Son of Man Luke": "luke-17-guide",
+  "2 Kings 19 Chapter": "2-kings-19-guide",
+  "Hezekiah Prays Isaiah Assyria Sennacherib Falls": "2-kings-19-guide",
+  "Angel Strikes Assyrian Camp Jerusalem Delivered": "2-kings-19-guide",
+  "Acts 25 Chapter": "acts-25-guide",
+  "Festus Paul Appeals to Caesar Roman Justice": "acts-25-guide",
+  "Paul Before King Agrippa Festus Acts Twenty Five": "acts-25-guide",
 };
 
 
@@ -3794,6 +3806,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Kings 18 Chapter" },
   { label: "Acts 24 Chapter" },
   { label: "1 Corinthians 6 Chapter" },
+  { label: "Matthew 19 Chapter" },
+  { label: "Luke 17 Chapter" },
+  { label: "2 Kings 19 Chapter" },
+  { label: "Acts 25 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2656,6 +2656,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 25 Chapter": "acts-25-guide",
   "Festus Paul Appeals to Caesar Roman Justice": "acts-25-guide",
   "Paul Before King Agrippa Festus Acts Twenty Five": "acts-25-guide",
+  "Matthew 20 Chapter": "matthew-20-guide",
+  "Laborers in the Vineyard Eleventh Hour Wages": "matthew-20-guide",
+  "Whoever Would Be Great Servant Ransom Many": "matthew-20-guide",
+  "2 Kings 20 Chapter": "2-kings-20-guide",
+  "Hezekiah Sickness Healed Sundial Shadow Back": "2-kings-20-guide",
+  "Babylon Envoys Hezekiah Treasures Isaiah Warning": "2-kings-20-guide",
+  "Acts 26 Chapter": "acts-26-guide",
+  "Paul Defense Before Agrippa Conversion Testimony": "acts-26-guide",
+  "Almost You Persuade Me Christian Agrippa Paul": "acts-26-guide",
+  "1 Corinthians 7 Chapter": "1-corinthians-7-guide",
+  "Marriage Singleness Concession Paul Corinthians": "1-corinthians-7-guide",
+  "Remain in Condition Called Unmarried Widows Paul": "1-corinthians-7-guide",
 };
 
 
@@ -3810,6 +3822,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 17 Chapter" },
   { label: "2 Kings 19 Chapter" },
   { label: "Acts 25 Chapter" },
+  { label: "Matthew 20 Chapter" },
+  { label: "2 Kings 20 Chapter" },
+  { label: "Acts 26 Chapter" },
+  { label: "1 Corinthians 7 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

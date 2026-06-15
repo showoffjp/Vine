@@ -2440,6 +2440,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Colossians 4 Chapter": "colossians-4-guide",
   "Devote Yourselves Prayer Colossians Watchful": "colossians-4-guide",
   "Walk Wisdom Outsiders Redeeming Time Colossians": "colossians-4-guide",
+  "Proverbs 1 Chapter": "proverbs-1-guide",
+  "Fear of Lord Beginning Wisdom Proverbs": "proverbs-1-guide",
+  "Lady Wisdom Calls in Street Proverbs": "proverbs-1-guide",
+  "Daniel 9 Chapter": "daniel-9-guide",
+  "Daniel Seventy Weeks Prophecy Gabriel": "daniel-9-guide",
+  "Daniel Confesses Sin Prays Jerusalem Restored": "daniel-9-guide",
+  "1 Kings 2 Chapter": "1-kings-2-guide",
+  "David Charges Solomon Be Strong Man God": "1-kings-2-guide",
+  "Solomon Establishes Kingdom Joab Shimei": "1-kings-2-guide",
+  "2 Corinthians 3 Chapter": "2-corinthians-3-guide",
+  "Ministry of Spirit Glory Letter Kills": "2-corinthians-3-guide",
+  "Veil Moses Removed Christ 2 Corinthians": "2-corinthians-3-guide",
 };
 
 
@@ -3522,6 +3534,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "John 5 Chapter" },
   { label: "1 Peter 4 Chapter" },
   { label: "Colossians 4 Chapter" },
+  { label: "Proverbs 1 Chapter" },
+  { label: "Daniel 9 Chapter" },
+  { label: "1 Kings 2 Chapter" },
+  { label: "2 Corinthians 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

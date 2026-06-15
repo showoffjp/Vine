@@ -1,0 +1,229 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Letters Written on Hearts",
+  "The Veil of Moses",
+  "Spirit Gives Life",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 2 Corinthians 3",
+    reference: "2 Corinthians 3:1&ndash;18",
+    paragraphs: [
+      "Second Corinthians 3 is one of the most theologically dense and exegetically rich chapters in the entire Pauline corpus. In eighteen verses Paul moves through a breathtaking arc: from a defense of his apostolic credentials, through a meditation on Exodus 34, to a climactic statement about Spirit-wrought transformation that has shaped Christian theology for two millennia. The chapter is not a theoretical essay but a pastoral argument &mdash; Paul is defending both himself and the gospel he preaches against those who would reduce Christian ministry to a matter of letters of recommendation and outward credentials.",
+      "The immediate context is crucial. Paul is writing to the church at Corinth, a community he founded but who had become estranged from him through the influence of rival teachers. Those teachers appear to have carried letters of commendation &mdash; the standard ancient practice of providing written endorsements from respected authorities. Paul, they apparently suggested, lacked such credentials. His apostleship was therefore suspect. Paul&rsquo;s response reframes the entire question of what counts as a genuine credential in the new covenant age.",
+      "The chapter falls into two main movements. Verses 1&ndash;6 address the question of credentials directly, arguing that the Corinthian church itself is Paul&rsquo;s letter of recommendation, and then broadening into a statement about the difference between the old and new covenants: &ldquo;the letter kills, but the Spirit gives life.&rdquo; Verses 7&ndash;18 develop a sustained comparison between the glory of Moses&rsquo; ministry at Sinai and the surpassing glory of the ministry of the Spirit, using Exodus 34:29&ndash;35 as the scriptural foundation.",
+      "Throughout the chapter Paul is not disparaging the Torah or the old covenant per se. He explicitly says the ministry that came through Moses came &ldquo;with glory&rdquo; (v.7). The Sinai revelation was genuine, the law was holy, and the glory on Moses&rsquo; face was real. What Paul is doing is making a typological and eschatological argument: the glory of the old was real but temporary, a pointer toward the greater and permanent glory of the new. The veil that Moses wore over his fading glory now becomes a metaphor for the spiritual blindness that prevents Israel from seeing that the old covenant pointed all along toward Christ.",
+      "The Old Testament background is essential reading for this chapter. The allusion in verse 3 to Ezekiel 36:26 (&ldquo;I will remove the heart of stone from your flesh and give you a heart of flesh&rdquo;) and Jeremiah 31:33 (&ldquo;I will put my law within them, and I will write it on their hearts&rdquo;) places Paul&rsquo;s argument squarely within the prophetic tradition of a coming new covenant. The central claim of 2 Corinthians 3 is that this promised new covenant has now been inaugurated in Christ and is being enacted by the Spirit through the apostolic ministry.",
+      "The chapter closes with one of the most majestic verses in all of Scripture: &ldquo;And we all, with unveiled face, beholding the glory of the Lord, are being transformed into the same image from one degree of glory to another. For this comes from the Lord who is the Spirit&rdquo; (v.18). The progressive, ongoing nature of the transformation &mdash; &ldquo;from glory to glory&rdquo; &mdash; is not a description of sinless perfection but of the direction and dynamic of the Christian life under the new covenant. Every believer, not just Moses on the mountain, stands before the glory of the Lord and is being changed by what they behold.",
+    ],
+  },
+  {
+    id: "Letters Written on Hearts",
+    heading: "Letters Written on Hearts",
+    reference: "2 Corinthians 3:1&ndash;6",
+    paragraphs: [
+      "Paul opens with a rhetorical question that doubles as a self-defense: &ldquo;Are we beginning to commend ourselves again? Or do we need, as some do, letters of recommendation to you, or from you?&rdquo; (v.1). The &ldquo;some&rdquo; who carry such letters are clearly the rival apostles or teachers who have been undermining Paul&rsquo;s authority in Corinth. In the Greco-Roman world, letters of commendation were a serious social and professional currency. Without them, a traveler or teacher had no established credentials in a new city. The implied charge against Paul is that he is self-authorized &mdash; he shows up, claims apostolic authority, but produces no documentation.",
+      "Paul&rsquo;s response is brilliant in its pastoral logic. He does not simply say &ldquo;I don&rsquo;t need letters.&rdquo; He says the Corinthian church itself is his letter &mdash; and then he says something even more remarkable: it is a letter written not by Paul but by Christ. &ldquo;You yourselves are our letter of recommendation, written on our hearts, to be known and read by all. And you show that you are a letter from Christ delivered by us, written not with ink but with the Spirit of the living God, not on tablets of stone but on tablets of human hearts&rdquo; (vv.2&ndash;3).",
+      "The phrase &ldquo;tablets of stone&rdquo; is, of course, an unmistakable reference to the giving of the law at Sinai. The Ten Commandments were written on tablets of stone by the finger of God (Exod 31:18; 32:15&ndash;16). But Ezekiel had prophesied a day when the law would be written differently: &ldquo;I will give you a new heart, and a new spirit I will put within you. And I will remove the heart of stone from your flesh and give you a heart of flesh&rdquo; (Ezek 36:26). And Jeremiah: &ldquo;I will put my law within them, and I will write it on their hearts, and I will be their God, and they shall be my people&rdquo; (Jer 31:33). Paul is claiming, in effect, that the existence of the Corinthian church &mdash; Gentiles who have turned from idols to serve the living God &mdash; is the fulfillment of those ancient prophecies.",
+      "The &ldquo;letter written on our hearts&rdquo; (v.2) also has a double meaning. It is written on Paul&rsquo;s heart in the sense that the Corinthians themselves are his joy and crown (cf. Phil 4:1), the people whose conversion is the proof that God has worked through his ministry. And it is written on the Corinthians&rsquo; hearts in the sense that the Spirit has done a transforming work within them that no external document can replicate. The authenticity of the new covenant is inward, not merely outward &mdash; which is precisely Jeremiah&rsquo;s point.",
+      "Verse 4&ndash;5 contain a crucial self-correction: &ldquo;Such is the confidence that we have through Christ toward God. Not that we are sufficient in ourselves to claim anything as coming from us, but our sufficiency is from God.&rdquo; This is not Paul being falsely modest. It is a theological statement about the nature of new covenant ministry. The old covenant produced ministers who, however faithfully they served, were always ministering something external to the people &mdash; a written law that could not of itself transform the heart. The new covenant minister works in the strength of the One who has sent him, and the work he does is God&rsquo;s work: writing on hearts, giving life, creating the community that is itself the credential.",
+      "Verse 6 delivers the climax of the first movement: &ldquo;who has made us sufficient to be ministers of a new covenant, not of the letter but of the Spirit. For the letter kills, but the Spirit gives life.&rdquo; The &ldquo;letter&rdquo; here is not the Bible in general, nor even the Torah as such. The contrast is between the written code standing over the people as an external standard of judgment, and the Spirit working within the people as a power of transformation. The law, applied to fallen human nature without the Spirit, can only condemn &mdash; it reveals the gap between what God requires and what we are. The Spirit closes that gap by changing what we are. This is not a critique of the law but a statement about where its power ends and the Spirit&rsquo;s power begins.",
+    ],
+  },
+  {
+    id: "The Veil of Moses",
+    heading: "The Veil of Moses",
+    reference: "2 Corinthians 3:7&ndash;16",
+    paragraphs: [
+      "In verses 7&ndash;18 Paul turns to a sustained meditation on Exodus 34:29&ndash;35, the account of Moses descending from Sinai after receiving the law the second time, his face shining so brightly that the Israelites were afraid to come near him. Moses wore a veil over his face when he spoke to the people, and removed it only when he went in before the Lord. This text, probably familiar to the Corinthians from Paul&rsquo;s synagogue teaching, becomes the vehicle for his most profound argument in this letter.",
+      "Paul draws his first contrast at the level of the two ministries: &ldquo;Now if the ministry of death, carved in letters on stone, came with such glory that the Israelites could not gaze at Moses&rsquo; face because of its glory, which was being brought to an end, will not the ministry of the Spirit have even more glory?&rdquo; (vv.7&ndash;8). The ministry of death does not mean the law was evil. It means the law&rsquo;s function, applied to sinners who cannot keep it, is condemnation. As Paul has already said in verse 6, the letter kills. But the death-producing character of the Mosaic ministry did not stop it from being glorious. Moses&rsquo; face shone with the glory of God. The law reveals the holiness of God, and that revelation is itself glorious.",
+      "The logic of Paul&rsquo;s argument is &ldquo;how much more.&rdquo; If the ministry that brings condemnation had glory, how much more must the ministry of the Spirit have glory? If the ministry of condemnation came with glory, how much more does the ministry of righteousness &mdash; a ministry that actually imparts righteousness rather than merely measuring it &mdash; overflow with glory (v.9)? The comparison is not between a glorious old covenant and a dull new one, but between a finite glory and an overwhelming one: &ldquo;Indeed, in this case, what once had glory has come to have no glory at all, because of the glory that surpasses it&rdquo; (v.10). The moon is glorious &mdash; until the sun rises.",
+      "Verse 11 introduces the permanence theme: &ldquo;For if what was being brought to an end came with glory, much more will what is permanent have glory.&rdquo; The word translated &ldquo;being brought to an end&rdquo; (&ldquo;katargeo&rdquo; in Greek) is the same word Paul uses to describe the fading of the glory on Moses&rsquo; face in verse 7. The glory was real but temporary &mdash; it was fading as Moses came back down the mountain. This physical detail becomes a theological metaphor: the old covenant ministry was glorious but transitory, always pointing beyond itself to something more permanent.",
+      "Verses 12&ndash;13 apply this to Paul&rsquo;s own boldness: &ldquo;Since we have such a hope, we are very bold, not like Moses, who would put a veil over his face so that the Israelites might not gaze at the outcome of what was being brought to an end.&rdquo; Paul is reading the veil in a specific way. Moses wore the veil not primarily to protect the people from the unbearable brightness &mdash; though that was part of it &mdash; but so that they would not see the glory fading. The veil concealed the transitory nature of the old covenant. In contrast, Paul proclaims the new covenant openly, boldly, without a veil, because the glory of the new covenant does not fade.",
+      "Verses 14&ndash;15 make the metaphor explicit: &ldquo;But their minds were hardened. For to this day, when they read the old covenant, that same veil remains unlifted, because only through Christ is it taken away. Yes, to this day whenever Moses is read a veil lies over their hearts.&rdquo; Paul has shifted the veil from Moses&rsquo; face to the readers&rsquo; hearts. The problem is not the text of the Torah &mdash; Paul deeply reveres it. The problem is reading the Torah without recognizing that it points forward to Christ. Seen through Christ, the veil is lifted and the coherence of the whole becomes clear; read apart from Christ, the Torah&rsquo;s ultimate meaning remains obscured.",
+      "Verse 16 is the pivot: &ldquo;But when one turns to the Lord, the veil is removed.&rdquo; This directly echoes Exodus 34:34: &ldquo;Whenever Moses went in before the LORD to speak with him, he would remove the veil.&rdquo; The Lord in Paul&rsquo;s statement is Christ &mdash; and the act of turning is the act of conversion and faith. When a person, whether Jew or Gentile, turns in faith to Jesus as Lord, the veil is removed. What was obscure becomes clear. The old covenant, once a letter that could only condemn, is now seen in its true light as a revelation that led, inevitably, to the coming of the Son.",
+    ],
+  },
+  {
+    id: "Spirit Gives Life",
+    heading: "Spirit Gives Life",
+    reference: "2 Corinthians 3:17&ndash;18 and the New Covenant Vision",
+    paragraphs: [
+      "The final two verses of the chapter contain some of the most concentrated theological content in the entire New Testament. Verse 17: &ldquo;Now the Lord is the Spirit, and where the Spirit of the Lord is, there is freedom.&rdquo; This statement has generated considerable discussion. Paul is not straightforwardly identifying the second and third persons of the Trinity as though they were the same being. He is making a more specific point in context: the &ldquo;Lord&rdquo; of verse 16, to whom one turns for the veil to be removed, is the Spirit &mdash; it is the Spirit who actualizes the turning, who lifts the veil, who gives life. The Spirit and the glorified Lord are so inseparably linked in the new covenant economy that to speak of the Spirit&rsquo;s work is to speak of the risen Lord&rsquo;s work.",
+      "The freedom Paul speaks of is the freedom from condemnation, from the old covenant&rsquo;s function as a ministry of death over those who cannot keep it. It is the freedom of those who are no longer &ldquo;under the law&rdquo; as an external constraint but who have the law written on their hearts by the Spirit &mdash; so that what the law required externally is now fulfilled from within (Rom 8:4). This connects back to the Ezekiel 36 background: God gives a new heart and a new spirit, puts his own Spirit within his people, and causes them to walk in his statutes. The freedom is not freedom from righteousness but freedom to be righteous in the deepest sense.",
+      "Verse 18 is the climax of the entire chapter: &ldquo;And we all, with unveiled face, beholding the glory of the Lord, are being transformed into the same image from one degree of glory to another. For this comes from the Lord who is the Spirit.&rdquo; Every word carries weight. &ldquo;We all&rdquo; &mdash; not just Moses on the mountain, not just apostles or spiritual specialists, but every believer in the new covenant community. In the old covenant, Moses alone was admitted to the presence of God; he came back shining, and the people could not look at his face. In the new covenant, all believers have access to the glory of God (cf. Heb 10:19&ndash;22).",
+      "The word &ldquo;beholding&rdquo; (Greek: katoptrizomenoi) has been variously translated as &ldquo;beholding&rdquo; or &ldquo;reflecting&rdquo; &mdash; like a mirror. The image may intentionally be double: we behold the glory of the Lord as in a mirror, and in beholding it we reflect it back, as a mirror reflects light. What we gaze upon shapes what we become; what we become radiates what we have seen. The transforming power of the gospel is not merely informational but formational &mdash; not just the communication of true propositions about God but the encounter with the living God who changes those who meet him.",
+      "The phrase &ldquo;from one degree of glory to another&rdquo; (literally &ldquo;from glory to glory&rdquo;) establishes the progressive, ongoing character of Christian transformation. Paul does not say we will be transformed at some future point; he says we &ldquo;are being transformed&rdquo; &mdash; present tense, continuous action. The direction is always upward and onward: from whatever degree of glory we have been brought to, toward a greater degree yet. This is not the triumphalism that ignores suffering &mdash; Paul has already spoken of being perplexed, struck down, carrying the dying of Jesus in his body (4:8&ndash;10, just ahead). It is the confidence that underneath and within all the suffering, a real transformation is underway that nothing can reverse.",
+      "The new covenant community described in 2 Corinthians 3 is thus a community of ongoing encounter, ongoing transformation, and ongoing mission. It is a community whose credential is not a letter of commendation but the life of the Spirit written on its members&rsquo; hearts. It is a community that reads the old covenant and sees, with unveiled faces, that it all pointed here &mdash; to the ministry of the Spirit, the ministry of righteousness, the permanent glory that surpasses the fading glory of Sinai. And it is a community that is, at this very moment, being changed into the image of the One it beholds.",
+      "For contemporary readers, 2 Corinthians 3 carries several urgent pastoral implications. First, it roots Christian transformation in encounter rather than in effort. We do not transform ourselves by trying harder; we are transformed by beholding. The means of grace &mdash; Scripture, prayer, worship, the Lord&rsquo;s Supper, the community of the church &mdash; are instruments through which we behold the glory of the Lord and so are changed. Second, it insists on the sufficiency of God rather than human resources: &ldquo;our sufficiency is from God.&rdquo; Ministry and Christian witness are not finally dependent on human credentials, eloquence, or cultural capital, but on the Spirit who gives life. Third, it presents transformation as communal and not merely individual: &ldquo;we all&rdquo; are being transformed. The church as a whole is the living letter, the epistle of Christ to the world, and the measure of its authenticity is not its programs or its size but the degree to which the Spirit has written the love of God on its people&rsquo;s hearts.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "VsChV5jtRSk", title: "2 Corinthians 3 Explained - New Covenant Glory" },
+  { videoId: "JaX7x3PJKLE", title: "The Letter vs. the Spirit - Paul and the Law of Moses" },
+  { videoId: "F7mHdaWvMaI", title: "Moses' Veil and the Glory of the New Covenant" },
+  { videoId: "lFAIVWKz0tI", title: "Transformed from Glory to Glory - 2 Corinthians 3:18" },
+];
+
+export default function Corinthians3GuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => setLoaded(true), []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament &mdash; 2 Corinthians
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Corinthians 3: New Covenant, Spirit and Letter
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The surpassing glory of the new covenant &mdash; letters of stone versus hearts of flesh, the letter that kills versus the Spirit that gives life, Moses&rsquo; fading glory versus the permanent glory of Christ, and the transformation of all believers from one degree of glory to another.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>
+            Beholding the Glory of the Lord
+          </h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 1rem" }}>
+            Second Corinthians 3 makes a staggering claim: every believer now stands where Moses once stood alone &mdash; unveiled before the glory of God &mdash; and is being changed by that encounter into the image of Christ. The veil that kept Israel from seeing the end of the old covenant has been removed by the Spirit for all who turn to the Lord.
+          </p>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            The transformation Paul describes is not the fruit of greater effort but of greater beholding. The community of the new covenant is the living letter of Christ to the world, written not with ink but with the Spirit of the living God &mdash; not on stone but on human hearts.
+          </p>
+        </div>
+
+        <div style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Key Verse</div>
+            <p style={{ color: TEXT, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
+              &ldquo;And we all, with unveiled face, beholding the glory of the Lord, are being transformed into the same image from one degree of glory to another. For this comes from the Lord who is the Spirit.&rdquo;
+            </p>
+            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>2 Corinthians 3:18</p>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Letter vs. Spirit</div>
+            <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
+              &ldquo;He has made us sufficient to be ministers of a new covenant, not of the letter but of the Spirit. For the letter kills, but the Spirit gives life.&rdquo;
+            </p>
+            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>2 Corinthians 3:6</p>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Where the Spirit Is</div>
+            <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
+              &ldquo;Now the Lord is the Spirit, and where the Spirit of the Lord is, there is freedom.&rdquo; The freedom of the new covenant is not from righteousness but freedom to live righteously from a transformed heart.
+            </p>
+            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>2 Corinthians 3:17</p>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 2rem" }}>
+          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Cross-References and Background</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Exod 34:29&ndash;35</span>
+              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>Moses&rsquo; face shining after receiving the law; the veil he wore before the people &mdash; the direct scriptural background for Paul&rsquo;s veil meditation in vv.7&ndash;16.</span>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Jer 31:31&ndash;34</span>
+              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The new covenant promise: God will write his law on hearts, not on stone. Paul applies this directly when he speaks of the Corinthians as a letter written on &ldquo;tablets of human hearts.&rdquo;</span>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Ezek 36:26&ndash;27</span>
+              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>God promises a new heart, a heart of flesh replacing a heart of stone &mdash; the prophetic background for Paul&rsquo;s contrast between tablets of stone and tablets of human hearts (v.3).</span>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Rom 8:1&ndash;4</span>
+              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The Spirit accomplishes what the law could not do in sinful flesh &mdash; the requirement of the law is fulfilled in those who walk according to the Spirit. Directly parallel to the letter/Spirit contrast here.</span>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Heb 10:19&ndash;22</span>
+              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The confidence to enter the holy places &mdash; what Moses alone did at Sinai is now the privilege of all believers through the blood of Jesus, the same democratization of access that underlies Paul&rsquo;s &ldquo;we all.&rdquo;</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

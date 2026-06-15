@@ -2176,6 +2176,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Kings 5 Chapter": "2-kings-5-guide",
   "Naaman Leprosy Healing": "2-kings-5-guide",
   "Dip Seven Times Jordan": "2-kings-5-guide",
+  "Matthew 26 Chapter": "matthew-26-guide",
+  "Gethsemane Matthew": "matthew-26-guide",
+  "Judas Betrayal Matthew": "matthew-26-guide",
+  "Luke 23 Chapter": "luke-23-guide",
+  "Crucifixion of Jesus Luke": "luke-23-guide",
+  "Father Forgive Them Luke": "luke-23-guide",
+  "Acts 7 Chapter": "acts-7-guide",
+  "Stephen Sermon and Stoning": "acts-7-guide",
+  "First Christian Martyr": "acts-7-guide",
+  "Genesis 41 Chapter": "genesis-41-guide",
+  "Joseph Interprets Pharaoh Dreams": "genesis-41-guide",
+  "Seven Years Famine Joseph": "genesis-41-guide",
 };
 
 
@@ -3170,6 +3182,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Philippians 3 Chapter" },
   { label: "Genesis 39 Chapter" },
   { label: "2 Kings 5 Chapter" },
+  { label: "Matthew 26 Chapter" },
+  { label: "Luke 23 Chapter" },
+  { label: "Acts 7 Chapter" },
+  { label: "Genesis 41 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

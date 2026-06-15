@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Pharaoh Dreams",
+  "Joseph Interprets the Dreams",
+  "Seven Years of Abundance and Famine",
+  "Joseph Exalted Over Egypt",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Genesis 41",
+    reference: "Genesis 41:1&ndash;57",
+    paragraphs: [
+      "Genesis 41 is the pivot of the Joseph narrative &mdash; the chapter in which the long, descending arc of betrayal, slavery, and imprisonment suddenly reverses and Joseph rises from the dungeon to the second chariot of Pharaoh. It has been two years since the cupbearer, whom Joseph helped in prison, forgot him and left him to languish in confinement. Then Pharaoh has dreams that no one in Egypt can interpret, and the cupbearer remembers Joseph. In a single day Joseph goes from prisoner to prime minister. The hand that brought Joseph down through his brothers&rsquo; treachery and Potiphar&rsquo;s wife&rsquo;s lie now moves in the opposite direction with equal speed.",
+      "The chapter divides into four movements. First, Pharaoh dreams (vv. 1&ndash;8): two dreams, each featuring seven fat specimens followed by seven lean ones that devour them, leaving no trace of the abundance that preceded. Pharaoh&rsquo;s spirit is troubled. His magicians and wise men can offer nothing. Second, the cupbearer speaks and Joseph is summoned (vv. 9&ndash;24): Pharaoh recounts his dreams to Joseph. Third, Joseph interprets (vv. 25&ndash;36): the dreams mean seven years of great plenty throughout Egypt followed by seven years of famine so severe that the plenty will be forgotten. Joseph counsels Pharaoh to appoint a wise man to store one-fifth of the harvest during the good years. Fourth, Pharaoh acts (vv. 37&ndash;57): amazed by Joseph, Pharaoh appoints him over all Egypt, gives him a wife, and watches the plan unfold exactly as Joseph said.",
+      "The theological center of the chapter is the repeated attribution of Joseph&rsquo;s interpretive gift to God. Joseph refuses the credit three times: &ldquo;It is not in me; God will give Pharaoh a favorable answer&rdquo; (41:16); &ldquo;God has revealed to Pharaoh what he is about to do&rdquo; (41:25); &ldquo;The thing is fixed by God, and God will shortly bring it about&rdquo; (41:32). Joseph is not presenting himself as a clever interpreter; he is functioning as a prophet, declaring that the God of Israel is revealing his purposes to the ruler of the world&rsquo;s greatest empire. And Pharaoh, like Potiphar before him, recognizes that something divine is at work: &ldquo;Can we find a man like this, in whom is the Spirit of God?&rdquo; (41:38).",
+      "Genesis 41 also marks the fulfillment of the dreams Joseph himself had as a seventeen-year-old boy &mdash; dreams in which the sheaves of his brothers bowed down to his sheaf, and the sun, moon, and stars bowed to him. Those dreams cost him everything. His brothers threw him into a pit because of them. He was sold, enslaved, and imprisoned. Now, thirteen years later, God&rsquo;s word to Joseph in those early dreams is being accomplished. Not because Joseph manipulated events toward their fulfillment, but because God who gave the dreams is the God who governs history &mdash; including the dreams of Egyptian pharaohs and the forgotten prisoners who can interpret them.",
+      "The chapter also has a remarkable universality to it. Joseph&rsquo;s rise does not serve only Israel; it serves the whole world. The famine is global: &ldquo;Moreover, all the earth came to Egypt to Joseph to buy grain&rdquo; (41:57). Joseph&rsquo;s stewardship of the grain of Egypt during the famine is an instrument of God&rsquo;s provision not just for the covenant people but for all nations. The Abrahamic promise &mdash; &ldquo;in you all the families of the earth shall be blessed&rdquo; (Genesis 12:3) &mdash; is being fulfilled in the storage barns of Egypt, through a Hebrew prisoner who gives all credit to God.",
+      "The birth of Joseph&rsquo;s two sons before the famine begins is the personal coda to the chapter. He names the firstborn Manasseh, meaning &ldquo;God has made me forget all my hardship and all my father&rsquo;s house,&rdquo; and the second Ephraim, meaning &ldquo;God has made me fruitful in the land of my affliction.&rdquo; The two names are a theology of the Joseph story in miniature: God can bring forgetfulness of suffering and fruitfulness in suffering. The land of affliction becomes the land of fruitfulness. Egypt, which was the place of slavery and imprisonment, has become the place of exaltation and family and abundance. All of this is God&rsquo;s doing.",
+    ],
+  },
+  {
+    id: "Pharaoh Dreams",
+    heading: "Pharaoh Dreams",
+    reference: "Genesis 41:1&ndash;24",
+    paragraphs: [
+      "Two full years pass after the cupbearer&rsquo;s release from prison. The text measures them exactly &mdash; &ldquo;After two whole years&rdquo; (41:1) &mdash; as if to underscore the weight of the waiting. Joseph has been forgotten. He sits in the prison where the keeper has entrusted him with everything, where he flourishes under God&rsquo;s favor, but where he remains a prisoner nonetheless. Then Pharaoh dreams. The dreams come at night, in the way that divine communication regularly comes in Genesis: to Abimelech (20:3), to Jacob at Bethel (28:12) and at Mahanaim (32:1), to Laban (31:24). The God who speaks in dreams has something to say, and he begins with the ruler of Egypt.",
+      "The first dream is set by the Nile &mdash; the river on which all Egyptian life depended, the source of the annual flooding that made the land fertile. Pharaoh stands by the Nile and sees seven cows come up out of the river, attractive and fat, and they graze in the reed grass. Then seven other cows come up, ugly and thin, and stand beside the fat cows on the bank of the Nile. The ugly, thin cows eat the seven attractive, fat cows. Then Pharaoh wakes up. The imagery is precise: the Nile, the cattle, the reed grass &mdash; all are images from the natural world of Egypt. God is speaking to Pharaoh in the language of Pharaoh&rsquo;s own world.",
+      "Pharaoh falls asleep again and dreams a second time. Seven ears of grain, plump and good, grow on a single stalk. Then seven ears, thin and blighted by the east wind, sprout after them. The thin ears swallow the seven plump, full ears. Pharaoh wakes a second time and realizes it was a dream. The doubling is significant: in Joseph&rsquo;s interpretation, the fact that the dream came twice means that the thing is fixed by God and will happen soon. God does not repeat himself carelessly. Two dreams with the same meaning is divine insistence on a coming reality.",
+      "In the morning, Pharaoh&rsquo;s spirit is troubled. The Egyptian word for the kind of dream Pharaoh has had &mdash; the kind that troubles the spirit upon waking &mdash; is the same kind of dream that Joseph himself had as a boy. Pharaoh sends for all the magicians and wise men of Egypt. These are the professional interpreters of the ancient world &mdash; men trained in the reading of omens, the interpretation of dreams, the consultation of divine texts. Egypt had an elaborate tradition of dream interpretation. And none of them could interpret the dreams. The resources of the greatest civilization on earth are exhausted by two dreams. The stage is set for a man in whom is the Spirit of God.",
+      "The cupbearer finally speaks. His confession is both an acknowledgment of his failure &mdash; &ldquo;I remember my offenses today&rdquo; (41:9) &mdash; and an opening for Joseph. He tells Pharaoh about the Hebrew youth in the prison who interpreted both his dream and the baker&rsquo;s dream correctly. The description he gives of Joseph is striking: a young man, a Hebrew, a servant of the captain of the guard. Every detail marks Joseph as an outsider, a slave, a prisoner. The most unlikely person imaginable is the one about to interpret the dreams of the most powerful man in the world.",
+      "Pharaoh sends for Joseph. He is quickly brought out of the dungeon. He shaves and changes his clothes &mdash; a detail that honors the Egyptian context; appearing before Pharaoh required ritual cleanliness &mdash; and comes before Pharaoh. Pharaoh tells him he has heard that Joseph can interpret dreams. Joseph&rsquo;s first words are the ones that define the chapter: &ldquo;It is not in me; God will give Pharaoh a favorable answer&rdquo; (41:16). Before a single detail of the dream has been shared, Joseph has already displaced himself from the center and placed God there. He will interpret not because he is clever but because God will speak through him.",
+    ],
+  },
+  {
+    id: "Joseph Interprets the Dreams",
+    heading: "Joseph Interprets the Dreams",
+    reference: "Genesis 41:25&ndash;36",
+    paragraphs: [
+      "Joseph&rsquo;s interpretation of Pharaoh&rsquo;s dreams is delivered with a confidence that itself bears witness to the divine source of the interpretation. He does not hedge or offer multiple possibilities; he declares: &ldquo;The dreams of Pharaoh are one; God has revealed to Pharaoh what he is about to do&rdquo; (41:25). The two dreams have a single meaning because they come from a single source &mdash; the God who governs history and who is revealing his purpose to the ruler of Egypt. Joseph&rsquo;s opening claim is itself remarkable: the God of a Hebrew slave is telling Pharaoh what is about to happen to his empire.",
+      "The interpretation is clear and symmetrical: the seven fat cows and the seven plump ears of grain are seven years of great plenty throughout all the land of Egypt. The seven thin, ugly cows and the seven empty ears blighted by the east wind are seven years of famine. &ldquo;There will come seven years of great plenty throughout all the land of Egypt, but after them there will arise seven years of famine, and all the plenty will be forgotten in the land of Egypt. The famine will consume the land, and the plenty will be unknown in the land by reason of the famine that will follow, for it will be very severe&rdquo; (41:29&ndash;31). The plenty will not merely be followed by famine; it will be swallowed by it, as the thin cows swallowed the fat ones.",
+      "The reason the dream was given twice, Joseph explains, is that &ldquo;the thing is fixed by God, and God will shortly bring it about&rdquo; (41:32). This is not a probability or a possibility; it is a certainty. The repetition is divine emphasis: this will happen. The God who is revealing this to Pharaoh through the medium of dreams is the same God who controls the annual flooding of the Nile, the fertility of the land, and the weather patterns that determine whether the harvest is plentiful or blighted. Pharaoh may rule Egypt, but the God who gives dreams rules Pharaoh&rsquo;s world.",
+      "Joseph then moves beyond interpretation to counsel &mdash; a bold move from a man who came from a prison cell. &ldquo;Now therefore let Pharaoh select a discerning and wise man, and set him over the land of Egypt. Let Pharaoh proceed to appoint overseers over the land and take one-fifth of the produce of the land of Egypt during the seven plentiful years. And let them gather all the food of these good years that are coming and store up grain under the authority of Pharaoh for food in the cities, and let them keep it. That food shall be a reserve for the land against the seven years of famine that are to occur in the land of Egypt, so that the land may not perish through the famine&rdquo; (41:33&ndash;36).",
+      "The counsel is practical and brilliant: store one-fifth of the annual harvest during the seven good years, creating a reserve of grain in fortified storage cities that will sustain the population through the seven years of famine. One-fifth might seem modest, but over seven years of great plenty it would amount to an enormous store. The key is the discerning and wise man who would oversee the operation &mdash; a man with both the wisdom to administer such a complex system and the authority to enforce compliance. Joseph has just described himself, though he is careful not to say so. He allows the logic of the counsel to point to the need; it is for Pharaoh to connect that need to the man standing before him.",
+      "What Joseph&rsquo;s interpretation and counsel together reveal is a man who understands both the word of God and the wisdom required to act on it. He does not interpret the dream and then leave Pharaoh to figure out what to do. He interprets and then counsels, connecting divine revelation to practical governance. This combination &mdash; the prophetic gift of knowing what God is doing in history and the administrative wisdom to respond faithfully &mdash; is a rare and powerful combination. It is the combination that will make Joseph not merely a prophet but a ruler, and not merely a ruler but a savior &mdash; the one through whom God preserves life.",
+    ],
+  },
+  {
+    id: "Seven Years of Abundance and Famine",
+    heading: "Seven Years of Abundance and Famine",
+    reference: "Genesis 41:46&ndash;57",
+    paragraphs: [
+      "Joseph is thirty years old when he stands before Pharaoh &mdash; thirteen years after the dreams of his youth, thirteen years of slavery and imprisonment. He goes out from Pharaoh&rsquo;s presence and goes through all the land of Egypt, beginning the administrative work that Pharaoh has appointed him to do. The seven years of plenty begin exactly as the interpretation said they would: &ldquo;During the seven plentiful years the earth produced abundantly, and he gathered up all the food of these seven years, which occurred in the land of Egypt, and put the food in the cities. He put in every city the food from the fields around it&rdquo; (41:47&ndash;48). Joseph is methodical and thorough, storing grain in the cities closest to the fields that produced it.",
+      "The abundance of those years is captured in a striking image: &ldquo;And Joseph stored up grain in great abundance, like the sand of the sea, until he ceased to measure it, for it could not be measured&rdquo; (41:49). The comparison to sand &mdash; the language of the Abrahamic promises, where God says he will make Abraham&rsquo;s offspring as numerous as the sand of the sea &mdash; is surely intentional. The grain that Joseph stores is the instrument of the Abrahamic blessing reaching the nations. The uncountable abundance points toward uncountable provision; God&rsquo;s purposes of blessing through Abraham&rsquo;s seed are taking shape in the warehouses of Egypt.",
+      "Before the famine years come, Joseph&rsquo;s two sons are born. Asenath, daughter of Potiphera the priest of On, bears him Manasseh and Ephraim. The naming of the sons is one of the most theologically rich moments in the chapter. Manasseh means &ldquo;making to forget&rdquo; &mdash; &ldquo;For God has made me forget all my hardship and all my father&rsquo;s house.&rdquo; Ephraim means &ldquo;fruitful&rdquo; &mdash; &ldquo;For God has made me fruitful in the land of my affliction.&rdquo; The two names together tell the story of what God has done with Joseph&rsquo;s suffering: he has brought both healing of memory and fruitfulness in adversity. Egypt, the land of affliction, has become the land of fruit.",
+      "Then the seven years of plenty ended and the seven years of famine began, &ldquo;as Joseph had said&rdquo; (41:54). The fulfillment of the word through Joseph is emphasized: what God revealed came to pass exactly. There was famine in all lands. Egypt alone had bread, because Joseph had opened the storehouses and sold grain to the Egyptians. When the famine spread throughout Egypt, the people cried to Pharaoh for bread, and Pharaoh directed them to Joseph: &ldquo;Go to Joseph. What he says to you, do&rdquo; (41:55). The phrasing is remarkable: Pharaoh, the most powerful ruler on earth, directs his own people to a Hebrew former prisoner and tells them to do whatever he says.",
+      "The famine was severe over all the face of the earth. When the people of all the earth came to buy grain, &ldquo;Joseph opened all the storehouses and sold to the Egyptians, for the famine was severe in the land of Egypt. Moreover, all the earth came to Egypt to Joseph to buy grain, because the famine was severe over all the earth&rdquo; (41:56&ndash;57). The scope is global. It is the nations of the earth coming to Joseph for bread. And it is through Joseph &mdash; through this son of Abraham, son of Isaac, son of Jacob &mdash; that all the families of the earth are being fed. The promise of Genesis 12 is being fulfilled in the storehouses of Egypt by a man who was sold by his brothers for twenty pieces of silver.",
+      "The seven years of famine also prepare the stage for the final act of the Joseph narrative: the coming of his brothers to Egypt to buy grain (Genesis 42). The famine is global, which means it will reach Canaan, which means Jacob will send his sons to Egypt, which means they will stand before Joseph without knowing who he is, which means the long process of reunion, revelation, and reconciliation will begin. Everything Joseph has done in Genesis 41 &mdash; the storing, the organization, the administration of grain across the whole land &mdash; has positioned him to be the man through whom God will preserve both Egypt and his own family, through whom the covenant family will survive the famine that could have destroyed them.",
+    ],
+  },
+  {
+    id: "Joseph Exalted Over Egypt",
+    heading: "Joseph Exalted Over Egypt",
+    reference: "Genesis 41:37&ndash;45",
+    paragraphs: [
+      "Pharaoh&rsquo;s response to Joseph&rsquo;s interpretation and counsel is immediate and total. &ldquo;This proposal pleased Pharaoh and all his servants. And Pharaoh said to his servants, &lsquo;Can we find a man like this, in whom is the Spirit of God?&rsquo;&rdquo; (41:37&ndash;38). The question is rhetorical and its answer is no. Pharaoh, who commands the wisdom resources of the greatest civilization of the ancient world &mdash; the magicians, the wise men, the dream interpreters &mdash; recognizes that what he has just heard from this Hebrew prisoner surpasses anything his own court can offer. The Spirit of God is not a category from Egyptian religion; it is a category from Joseph&rsquo;s God. Pharaoh is confessing the inadequacy of all his resources before the revelation of the God of Israel.",
+      "Pharaoh addresses Joseph directly: &ldquo;Since God has shown you all this, there is none so discerning and wise as you are. You shall be over my house, and all my people shall order themselves as you command. Only as regards the throne will I be greater than you&rdquo; (41:39&ndash;40). The appointment is absolute: Joseph is second only to Pharaoh himself. The man who has spent thirteen years in the positions of slave and prisoner is now given authority over the most powerful nation on earth. The reversal is total, and it is accomplished not by Joseph&rsquo;s scheming but by the sovereign purpose of God working through Pharaoh&rsquo;s dreams and the forgetfulness and then the memory of a released cupbearer.",
+      "The investiture is ceremonial and public. Pharaoh takes his signet ring from his hand and puts it on Joseph&rsquo;s hand &mdash; the ring that bears the royal seal, enabling Joseph to act with the authority of Pharaoh himself. He dresses him in garments of fine linen and puts a gold chain around his neck. He makes him ride in his second chariot, and they cry before him, &ldquo;Bow the knee!&rdquo; Joseph is set over all the land of Egypt. Everything that was done in Egyptian royal investiture is done for Joseph. He is not merely given a title; he is given the visible, public marks of power that the Egyptian world recognized as genuine authority.",
+      "Pharaoh gives Joseph a new name &mdash; Zaphenath-paneah &mdash; and a wife, Asenath, the daughter of Potiphera, priest of On. The new name and the Egyptian wife locate Joseph within Egyptian society in a way that will allow him to function as its second-in-command without the daily friction of being a foreigner without social standing. Some scholars suggest the name means &ldquo;God speaks, and he lives&rdquo; or &ldquo;the revealer of hidden things&rdquo; &mdash; either interpretation suits the man who has just declared what God is doing in history. The Egyptian integration is real; Joseph is genuinely embedded in the Egyptian world.",
+      "The exaltation of Joseph is one of the great fulfillment-of-promise moments in Genesis, but it comes through a path no one could have predicted or would have chosen: betrayal, slavery, false accusation, imprisonment, and two years of forgotten waiting. The God who gave Joseph dreams of greatness at seventeen put him through thirteen years of suffering before accomplishing those dreams. There is no shortcut in the Joseph story from the promise to its fulfillment. The path runs through the pit, through Potiphar&rsquo;s house, through the dungeon, and only then to the palace. This is not despite God&rsquo;s sovereignty but because of it: the God who governs history governs it in ways that form character and reveal glory in the long arc of faithfulness.",
+      "The dream Joseph had as a boy is now more than fulfilled. He dreamed that his brothers&rsquo; sheaves bowed down to his sheaf; now all the nations bow before him as he distributes bread. He dreamed that the sun, moon, and stars bowed to him; Pharaoh himself says that all his people shall order themselves as Joseph commands. The word of God that Joseph received in his youth, the word that cost him so much, has proven more durable than the jealousy of his brothers, the lust of Potiphar&rsquo;s wife, and the forgetfulness of the cupbearer. The word of the LORD stands forever, and all that was said about Joseph has come to pass.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Genesis 41 Today",
+    reference: "Genesis 41 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Genesis 41 speaks with particular force to anyone who has waited a long time for what God has promised. Joseph waits two years after the cupbearer&rsquo;s release for anything to change. He has been waiting thirteen years in total since the day his brothers threw him into the pit. The chapter does not explain why God waited so long; it simply records that God&rsquo;s timing was perfect. Pharaoh&rsquo;s dream happens at the right moment. The cupbearer remembers at the right moment. The interpretation is given at the right moment. For anyone in a long season of waiting &mdash; waiting for God&rsquo;s word to be fulfilled, waiting for circumstances to change, waiting for recognition or restoration &mdash; Genesis 41 offers not an explanation but a demonstration: God&rsquo;s delays are not deferrals of his promises.",
+      "The way Joseph responds to his exaltation is as instructive as the exaltation itself. Three times in the course of his interaction with Pharaoh he deflects the credit from himself to God. When Pharaoh says he has heard that Joseph can interpret dreams, Joseph says, &ldquo;It is not in me; God will give Pharaoh a favorable answer.&rdquo; When he delivers the interpretation he frames it as &ldquo;God has revealed to Pharaoh what he is about to do.&rdquo; When Pharaoh calls him discerning and wise, the appointment flows from the recognition of God&rsquo;s Spirit in him, not from Joseph&rsquo;s own self-promotion. The man who is about to become the second most powerful person in the world is consistently directing attention away from himself and toward God. Exaltation and humility coexist in Joseph without contradiction.",
+      "Joseph&rsquo;s counsel to Pharaoh also models the integration of divine wisdom and practical action. He does not interpret the dreams and then leave the practical response in God&rsquo;s hands as if human planning were faithless. He interprets and then counsels a specific, detailed, practical plan: appoint a wise man, collect one-fifth, store in cities, build a reserve. The God who reveals the future also expects his servants to act wisely in response to what he reveals. Faith and planning are not opposites in Genesis 41; they are partners. The man who says &ldquo;God has revealed&rdquo; is the same man who says &ldquo;let Pharaoh do this&rdquo; &mdash; and both sentences are expressions of his relationship with the God who governs history and calls his servants to faithful action within it.",
+      "The naming of Joseph&rsquo;s sons deserves extended reflection. Manasseh and Ephraim are named for what God has done in Joseph&rsquo;s suffering: made him forget the hardship, made him fruitful in the land of affliction. The two names together constitute a testimony that God can redeem suffering &mdash; not by erasing it, but by bringing both healing and fruitfulness out of it. For anyone who has experienced prolonged suffering and wonders whether it has been wasted, the names of Joseph&rsquo;s sons are a pastoral word: God can bring a Manasseh from your pain and an Ephraim from your wilderness. The land of affliction can become the land of fruit.",
+      "The global scope of the famine and Joseph&rsquo;s administration of grain for &ldquo;all the earth&rdquo; (41:57) speaks to the universal ambition of God&rsquo;s purposes through his covenant people. Joseph is not only the savior of Israel; he is the savior of nations. The bread that comes from his storehouses feeds Egyptians, Canaanites, and all the peoples of the surrounding regions. The blessing of Abraham is blessing the world through Joseph. For the church, which is the community of those who are in Christ, the seed of Abraham (Galatians 3:29), this pattern is calling: the blessing received from God is never only for the blessed. It is meant to flow through them to the nations that are still without bread.",
+      "Finally, Genesis 41 stands in the New Testament&rsquo;s field of vision as a type of Christ. Stephen, in his speech in Acts 7, describes Joseph as one whom &ldquo;God was with him and rescued him out of all his afflictions and gave him favor and wisdom before Pharaoh, king of Egypt, who made him ruler over Egypt and over all his household&rdquo; (Acts 7:9&ndash;10). The pattern &mdash; rejected by brothers, exalted by God, made the savior of all &mdash; is the pattern of Jesus, rejected by his own people, crucified, raised, and exalted to the right hand of God, from which he dispenses the bread of life to all who come to him. Pharaoh said of Joseph, &ldquo;Go to Joseph. What he says to you, do.&rdquo; The Father says of the Son, &ldquo;This is my beloved Son; listen to him.&rdquo; The invitation in both cases is to come to the one God has appointed over his storehouse, and to receive life from his hand.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "XqBTMsILkJ8", title: "BibleProject - Overview of Genesis Part 2 (Chapters 12-50)" },
+  { videoId: "K9mv2L5RMGU", title: "Joseph Interprets Pharaoh's Dreams - Genesis 41 Study" },
+  { videoId: "JuNmEv4R4pU", title: "Genesis 41 - From Prison to Palace: Joseph Exalted in Egypt" },
+  { videoId: "pXGbMSLMnwk", title: "The Story of Joseph - Genesis 37 to 50 Overview" },
+];
+
+export default function Genesis41GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Genesis 41 &mdash; Pharaoh Dreams, Joseph Rises
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Two years after the cupbearer forgets Joseph, Pharaoh dreams of seven fat cows devoured by seven thin ones. No one can interpret. Joseph is summoned. He declares: &ldquo;God has revealed to Pharaoh what he is about to do.&rdquo; Seven years of plenty, then seven of famine. Pharaoh marvels: &ldquo;Can we find a man like this, in whom is the Spirit of God?&rdquo; Joseph is made second over all Egypt.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Genesis 41 through these video teachings on Pharaoh&rsquo;s dreams, Joseph&rsquo;s interpretation, the seven years of plenty and famine, and the remarkable exaltation of the Hebrew prisoner to ruler over all Egypt.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Can We Find a Man Like This?</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Genesis 41 is the chapter of the great reversal &mdash; from dungeon to palace, from prisoner to prime minister, from forgotten to ruler over all Egypt. God&rsquo;s delays are not deferrals. The land of affliction becomes the land of fruitfulness. The rejected son becomes the savior of the nations. All of this is the work of the God who gives dreams and then fulfills them, in his time, through the faithful servant who always gives him the glory.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -2824,6 +2824,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 5 Chapter": "daniel-5-guide",
   "Belshazzar Feast Writing on the Wall Mene Tekel Daniel": "daniel-5-guide",
   "Weighed in the Balances Found Wanting Babylon Falls Daniel": "daniel-5-guide",
+  "Mark 12 Chapter": "mark-12-guide",
+  "Parable of the Wicked Tenants Render to Caesar Mark 12": "mark-12-guide",
+  "Greatest Commandment Widow Mite Resurrection Mark 12": "mark-12-guide",
+  "Isaiah 8 Chapter": "isaiah-8-guide",
+  "Maher-shalal-hash-baz Immanuel Stone of Stumbling Isaiah 8": "isaiah-8-guide",
+  "Fear the LORD of Hosts Sanctuary Snare Law and Testimony Isaiah": "isaiah-8-guide",
+  "Proverbs 13 Chapter": "proverbs-13-guide",
+  "Hope Deferred Makes the Heart Sick Tree of Life Proverbs 13": "proverbs-13-guide",
+  "Walk with the Wise Become Wise Spares the Rod Proverbs": "proverbs-13-guide",
+  "Daniel 8 Chapter": "daniel-8-guide",
+  "Vision of the Ram and the Goat Little Horn Daniel 8": "daniel-8-guide",
+  "2300 Evenings Mornings Sanctuary Cleansed Gabriel Daniel": "daniel-8-guide",
 };
 
 
@@ -4034,6 +4046,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 5 Chapter" },
   { label: "Proverbs 12 Chapter" },
   { label: "Daniel 5 Chapter" },
+  { label: "Mark 12 Chapter" },
+  { label: "Isaiah 8 Chapter" },
+  { label: "Proverbs 13 Chapter" },
+  { label: "Daniel 8 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

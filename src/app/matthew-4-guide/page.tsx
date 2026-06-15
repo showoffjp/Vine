@@ -1,0 +1,181 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Temptation in the Wilderness",
+  "The Kingdom Begins",
+  "Calling the Disciples",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Matthew 4 &mdash; Overview",
+    reference: "Matthew 4:1&ndash;25",
+    paragraphs: [
+      "Matthew 4 marks the beginning of Jesus&rsquo; public ministry and does so with extraordinary density. In the span of a single chapter, the Son of God faces the full assault of Satan in the wilderness, announces the arrival of the kingdom of heaven, calls his first disciples away from their livelihoods, and launches a healing ministry that draws enormous crowds from across the ancient Near East. The chapter is a kind of compressed manifesto: it shows who Jesus is, what he has come to do, and what it costs to follow him.",
+      "The chapter falls into four distinct movements. First comes the temptation &mdash; forty days and forty nights in the Judean wilderness, where Satan tests the newly baptized Son of God on three fronts: physical need, spectacular proof of divine protection, and the seductive offer of all the world&rsquo;s kingdoms at the price of one act of worship. Second is the withdrawal to Galilee after John&rsquo;s arrest, which Matthew reads as the fulfillment of Isaiah&rsquo;s prophecy about a great light dawning on a people who lived in the shadow of death. Third is the proclamation that launches the whole Gospel: &ldquo;Repent, for the kingdom of heaven is at hand.&rdquo; And fourth is the rapid, decisive calling of four fishermen &mdash; Simon, Andrew, James, and John &mdash; who leave everything immediately at the word of Jesus.",
+      "Running through the whole chapter is the question of authority. Satan holds out authority over kingdoms; the synagogues of Galilee are the recognized centers of Jewish religious authority; the scribes and Pharisees represent the established teaching tradition. But Matthew notes that the crowds were astonished because Jesus &ldquo;taught them as one who had authority, and not as their scribes&rdquo; (7:29 &mdash; looking ahead). The authority on display in Matthew 4 is not argued for but simply enacted &mdash; in the desert, on the shore, in the synagogue, in the healing of every disease.",
+      "Matthew&rsquo;s narrative is deeply shaped by the Hebrew Scriptures at every point. Jesus&rsquo; forty days in the wilderness recapitulate Israel&rsquo;s forty years; his three responses to Satan are all quotations from Deuteronomy, the book Moses gave to Israel on the threshold of the promised land. The move to Galilee is the fulfillment of Isaiah 9:1&ndash;2. Even the names of the first disciples &mdash; Simon, Andrew, James, John, all Jewish names &mdash; root the story in the covenant people. Matthew 4 is a story about a new Exodus, a new Israel, a new beginning for the people of God under a leader who, unlike Moses, succeeds where Israel failed.",
+      "Theologically, the chapter establishes two things that the rest of Matthew will unpack. First: Jesus is the obedient Son of God who does not grasp at what belongs to him by rights but instead walks the long road of faithfulness through suffering to glory. Second: the kingdom he announces is not a political program or a religious renovation project &mdash; it is a new creation that is breaking into the existing order, calling people out of their old lives and into an entirely new allegiance. The fishermen leaving their nets is not a subplot; it is the kingdom in miniature.",
+    ],
+  },
+  {
+    id: "Temptation in the Wilderness",
+    heading: "Temptation in the Wilderness",
+    reference: "Matthew 4:1&ndash;11",
+    paragraphs: [
+      "The account of Jesus&rsquo; temptation begins with one of the most theologically charged phrases in the Gospels: &ldquo;Then Jesus was led up by the Spirit into the wilderness to be tempted by the devil&rdquo; (v.1). The same Spirit who descended on Jesus at his baptism &mdash; the Spirit of the Father&rsquo;s pleasure and anointing &mdash; is the one who leads him into this confrontation. The temptation is not an accident or an ambush; it is a divinely orchestrated proving of the Son. This is how Luke frames it as well: Jesus returns from the Jordan &ldquo;full of the Holy Spirit&rdquo; and is led by the Spirit in the wilderness for forty days.",
+      "The forty days and forty nights of fasting in Matthew 4:2 are unmistakably Mosaic. Moses fasted forty days and forty nights on Mount Sinai when he received the law (Exodus 34:28; Deuteronomy 9:9, 18). Elijah walked forty days and forty nights to the mountain of God at Horeb, sustained by the bread an angel gave him (1 Kings 19:8). Both Moses and Elijah were men of the wilderness, men who stood at the intersection of heaven and earth and received God&rsquo;s word. Jesus stands in that same lineage &mdash; and exceeds it. He is not just receiving the word; he is the Word made flesh, now being tested as to whether he will live by it.",
+      "When Jesus is hungry, the tempter comes with his first assault: &ldquo;If you are the Son of God, command these stones to become loaves of bread&rdquo; (v.3). The &ldquo;if&rdquo; is not a genuine question about Jesus&rsquo; identity &mdash; it is a dare, an invitation to prove his Sonship through self-provision. The temptation is to use divine power for personal comfort, to short-circuit the suffering of hunger that ordinary humanity endures. Jesus answers from Deuteronomy 8:3: &ldquo;Man shall not live by bread alone, but by every word that comes from the mouth of God.&rdquo; Where Israel in the wilderness grumbled for food and was given manna to teach exactly this lesson, Jesus, genuinely hungry, embraces the same teaching: the word of God is more foundational than physical sustenance. He refuses to be his own provider apart from the Father.",
+      "The second temptation shifts to Jerusalem and to the pinnacle of the Temple. Satan now cites Scripture himself &mdash; Psalm 91:11&ndash;12, which promises angelic protection for God&rsquo;s servant. &ldquo;If you are the Son of God, throw yourself down, for he will command his angels concerning you&rdquo; (v.6). The temptation here is to force a spectacular divine rescue &mdash; to put God&rsquo;s fidelity to the test, to demand proof of the Father&rsquo;s love and protection. Jesus responds with Deuteronomy 6:16: &ldquo;You shall not put the Lord your God to the test.&rdquo; The context of Deuteronomy 6:16 is Israel&rsquo;s testing of God at Massah, where the people demanded water and essentially demanded that God prove himself. Jesus refuses to reduce his relationship with the Father to a transaction in which miraculous rescue is the currency of proof.",
+      "The third temptation is the most breathtaking in its scope. Satan takes Jesus to a very high mountain and shows him all the kingdoms of the world and their glory &mdash; &ldquo;All these I will give you, if you will fall down and worship me&rdquo; (v.9). The kingdoms of the world are indeed going to be given to the Son of Man (Daniel 7:13&ndash;14); the Book of Revelation ends with their becoming &ldquo;the kingdom of our Lord and of his Christ&rdquo; (Revelation 11:15). But the temptation is to receive them now, through an act of devil-worship, bypassing the cross. Jesus&rsquo; answer is the most direct of the three &mdash; a command: &ldquo;Be gone, Satan!&rdquo; followed by Deuteronomy 6:13: &ldquo;You shall worship the Lord your God and him only shall you serve.&rdquo; The kingdoms will come &mdash; but through the path of obedience, suffering, and resurrection, not through a shortcut that trades away the worship due to God alone.",
+      "The temptation narrative ends with the devil departing and angels coming to minister to Jesus (v.11). It is a scene of exquisite beauty: the Son of God, having refused every offer of self-serving provision and false power, is now served by the messengers of heaven. The passage is also a theology of substitutionary faithfulness. Jesus has succeeded precisely where Israel failed &mdash; in the wilderness, with food, with testing God, and with the temptation to serve other masters. He is the true Israel, the obedient Son, and because he passed through this test without sin, he is qualified to be the representative of all who failed before him and will fail after him. His victory in the desert is the firstfruits of the redemption that the cross will accomplish.",
+    ],
+  },
+  {
+    id: "The Kingdom Begins",
+    heading: "The Kingdom Begins",
+    reference: "Matthew 4:12&ndash;17",
+    paragraphs: [
+      "Matthew 4:12 records the moment that triggers Jesus&rsquo; public ministry: &ldquo;Now when he heard that John had been arrested, he withdrew into Galilee.&rdquo; The arrest of John the Baptist &mdash; which will be recounted more fully in Matthew 14 &mdash; was not a setback to be waited out; it was a signal that the next phase of God&rsquo;s redemptive plan was beginning. John was the voice crying in the wilderness, preparing the way; now the one whose way he prepared steps forward. The forerunner&rsquo;s imprisonment marks the end of one epoch and the dawn of another.",
+      "Jesus leaves Nazareth, the town where he had grown up, and settles in Capernaum, on the shore of the Sea of Galilee, in the territory of Zebulun and Naphtali. This geographical move is not incidental. Matthew immediately reads it through the lens of Isaiah 9:1&ndash;2 in one of his most striking fulfillment quotations: &ldquo;The land of Zebulun and the land of Naphtali, the way of the sea, beyond the Jordan, Galilee of the Gentiles &mdash; the people dwelling in darkness have seen a great light, and for those dwelling in the region and shadow of death, on them a light has dawned&rdquo; (vv.15&ndash;16). Zebulun and Naphtali were the northernmost tribes of Israel, the first to be overrun by the Assyrian conquest in 733 BC, the most exposed to Gentile influence, the most despised by Jerusalem&rsquo;s religious establishment. Isaiah had prophesied that the darkness of that region would be the first place to see the dawning of God&rsquo;s light.",
+      "The theological weight of the Isaiah quotation cannot be overstated. In Isaiah 9, the &ldquo;great light&rdquo; is the birth of the child whose government will be on his shoulder, the Wonderful Counselor, the Mighty God, the Everlasting Father, the Prince of Peace. Matthew is saying: that child is here. The one born in Bethlehem, baptized in the Jordan, and tested in the desert has now taken up residence in the northernmost outpost of the land, and his very presence there is the fulfillment of one of the most luminous promises in all of Scripture. The people in the shadow of death are about to meet the one who is the resurrection and the life.",
+      "From this settlement in Capernaum, Jesus &ldquo;began to preach&rdquo; (v.17). The first word of his public message is &ldquo;Repent&rdquo; &mdash; the same word with which John began his preaching (3:2). But where John&rsquo;s preaching was preparatory, pointing forward to one who was coming, Jesus&rsquo; preaching is declaratory: &ldquo;Repent, for the kingdom of heaven is at hand.&rdquo; The kingdom is not merely approaching from a distance; it has arrived in the person and presence of the king. The Greek word translated &ldquo;is at hand&rdquo; (engiken) carries the sense of something that has already drawn near, already come close enough to touch. The kingdom that Israel had been waiting for &mdash; the rule of God breaking into history to set all things right &mdash; was now present in Jesus himself.",
+      "The call to repentance in this context is not simply a call to feel sorry for sins. The Greek word metanoia means a fundamental reorientation of mind, direction, and allegiance. To repent in response to the arrival of the kingdom is to turn from every other loyalty, every competing claim on your life, and to reorder your whole existence around the King who has come. It is the cognitive and volitional dimension of what the disciples will physically enact in the very next paragraph when they leave their nets. Repentance is not an emotional experience; it is a change of direction, and the arrival of the kingdom is the reason for it.",
+      "Jesus&rsquo; later ministry in Galilee would stir controversy precisely because Galilee was not the expected location for the Messiah&rsquo;s work. The Pharisees would later sniff: &ldquo;Search and see that no prophet arises from Galilee&rdquo; (John 7:52). But Matthew&rsquo;s point is exactly the reverse: the fact that the light appeared in Galilee of the Gentiles, in the land of darkness and shadow, is not a scandal &mdash; it is the fulfillment of prophecy. God in his sovereign mercy chose to begin the new age in the place least expected, among the people least honored. This pattern &mdash; God working where nobody expects, through people nobody esteems &mdash; runs through the entire Gospel and reaches its climax at the cross.",
+    ],
+  },
+  {
+    id: "Calling the Disciples",
+    heading: "Calling the Disciples",
+    reference: "Matthew 4:18&ndash;25",
+    paragraphs: [
+      "The calling of the first disciples in Matthew 4:18&ndash;22 is among the most compressed and powerful stories in all of the Gospels. Matthew gives us four fishermen, two boats, two calls, and two pairs of brothers who leave everything behind. The narrative is deliberately stark, stripped of the psychological preparation or gradual acquaintance that Luke&rsquo;s account (Luke 5) fills in. Matthew&rsquo;s point is not the historical reconstruction of how these relationships developed but the sheer sovereign authority of the word of Jesus: he speaks, and they follow.",
+      "Walking by the Sea of Galilee, Jesus sees Simon (who is called Peter) and his brother Andrew casting a net into the sea, for they were fishermen. The call is immediate and direct: &ldquo;Follow me, and I will make you fishers of men&rdquo; (v.19). The phrase is a stroke of genius. Jesus does not ask them to abandon their identity and vocation entirely &mdash; he reorients it. They are fishermen; they will still be fishermen. But instead of dragging fish from the deep, they will be pulling human beings into the kingdom of God. The metaphor transforms the ordinary into the sacred and gives the disciples a continuity of identity even within a radical change of mission.",
+      "The response is equally immediate: &ldquo;Immediately they left their nets and followed him&rdquo; (v.20). The word &ldquo;immediately&rdquo; (eutheos in Greek, rendered &ldquo;straightway&rdquo; in older translations) is Matthew&rsquo;s characteristic word for the speed and decisiveness with which things happen when the kingdom arrives. The nets are not mended and stored; they are simply left. The fishing trade &mdash; which in the ancient world represented not just a job but a family business, a social identity, a livelihood passed down through generations &mdash; is abandoned in a moment. This is what Jesus had described as leaving all for the kingdom (19:29), and here it happens before he has even taught that doctrine.",
+      "Going on from there, Jesus sees James the son of Zebedee and John his brother, in the boat with Zebedee their father, mending their nets. He calls them, and &ldquo;immediately they left the boat and their father and followed him&rdquo; (v.22). The addition of &ldquo;and their father&rdquo; is Matthew&rsquo;s sharpest detail. Zebedee is not called; he is left behind. The disciples leave not just their equipment and their occupation but their family obligation &mdash; the duty to the father that was among the most sacred bonds in the ancient Mediterranean world. Commenting on a parallel passage, Jesus will later say that he has come to set a man against his father (10:35), and that anyone who loves father or mother more than him is not worthy of him (10:37). The calling of James and John is the first dramatic instance of exactly that costly priority.",
+      "Matthew 4:23&ndash;25 then provides a sweeping summary of Jesus&rsquo; early Galilean ministry that reads like a panoramic camera shot pulling back from the individual fishing boats to encompass the whole region and beyond. Jesus went throughout all Galilee, teaching in their synagogues, proclaiming the gospel of the kingdom, and healing every disease and every affliction among the people. Three activities are named &mdash; teaching, proclaiming, healing &mdash; and Matthew will devote the next large block of the Gospel (chapters 5&ndash;9) to showing all three in detail. The Sermon on the Mount is the teaching; chapters 8&ndash;9 are the healing.",
+      "The fame that results from this ministry spreads &ldquo;throughout all Syria,&rdquo; and people bring to Jesus those afflicted with various diseases and pains, demoniacs, epileptics, and paralytics. The list of conditions &mdash; diseases, pains, demoniacs, epileptics, paralytics &mdash; reads like an inventory of human suffering in all its dimensions: physical, mental, spiritual. And Jesus heals them all. The crowds that follow him come from Galilee, the Decapolis (the ten Greek cities east of the Jordan), Jerusalem, Judea, and from beyond the Jordan. The geography is enormous, encompassing both Jewish and Gentile territories. Matthew is already anticipating the Great Commission of chapter 28: the gathering of the nations around Jesus begins not at the end of the Gospel but at its very beginning, here on the shores of the Sea of Galilee.",
+      "The chapter thus ends where it began: with the activity of the Spirit bringing order out of chaos &mdash; in the desert, in Galilee, on the lake, in the synagogues. The one who resisted every temptation to grasp at power or provision on his own terms is now freely pouring out power and provision on everyone who comes to him. The kingdom he refused to seize through devil-worship is now being established through service, healing, and the patient calling of ordinary people into an extraordinary life. It is the logic of the cross already operating before the cross has been mentioned: death to self, life for others, glory through suffering.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "dYpkLV-mWmQ", title: "Matthew 4 - Temptation of Jesus in the Wilderness" },
+  { videoId: "8f3NL3PEbOU", title: "The Kingdom of Heaven is at Hand - Matthew 4 Study" },
+  { videoId: "7Xl3KkLOQXU", title: "Calling of the First Disciples - Matthew 4 Explained" },
+  { videoId: "JhA0ek6eHy4", title: "Fishers of Men - The Meaning of Discipleship in Matthew" },
+];
+
+export default function Matthew4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 4 &mdash; Temptation, Kingdom, and Call
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus is led by the Spirit into the wilderness, withstands Satan&rsquo;s three temptations by the word of God alone, proclaims the arrival of the kingdom of heaven in Galilee, and calls his first disciples away from their fishing nets to become fishers of men.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Matthew 4 through visual teaching on the temptation of Jesus, the proclamation of the kingdom of heaven, and the calling of the first disciples on the shores of the Sea of Galilee.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Man Shall Not Live by Bread Alone</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 4 reveals the character of the Son of God before a single public miracle has been performed: he is the obedient Israel, the one who trusts his Father&rsquo;s word over his own hunger, who refuses to test God&rsquo;s faithfulness by demanding signs, and who will worship no one but the Lord. The kingdom he announces and the disciples he calls are the first fruits of a new creation that his death and resurrection will secure.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

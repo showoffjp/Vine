@@ -2488,6 +2488,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Kings 2 Chapter": "2-kings-2-guide",
   "Elijah Elisha Whirlwind Chariots Fire": "2-kings-2-guide",
   "Double Portion Spirit Elisha Mantle": "2-kings-2-guide",
+  "Matthew 4 Chapter": "matthew-4-guide",
+  "Temptation Jesus Wilderness Satan Matthew": "matthew-4-guide",
+  "Follow Me Fishermen Kingdom Heaven Matthew": "matthew-4-guide",
+  "John 2 Chapter": "john-2-guide",
+  "Wedding Cana Water Wine First Sign John": "john-2-guide",
+  "Cleansing Temple Money Changers Jesus John": "john-2-guide",
+  "Genesis 4 Chapter": "genesis-4-guide",
+  "Cain Abel Murder Am I Brother Keeper": "genesis-4-guide",
+  "Sin Crouching Door Cain Offering Rejected": "genesis-4-guide",
+  "Leviticus 16 Chapter": "leviticus-16-guide",
+  "Day of Atonement Scapegoat Azazel Yom Kippur": "leviticus-16-guide",
+  "Two Goats High Priest Holy of Holies Blood": "leviticus-16-guide",
 };
 
 
@@ -3586,6 +3598,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Samuel 2 Chapter" },
   { label: "Psalm 73 Chapter" },
   { label: "2 Kings 2 Chapter" },
+  { label: "Matthew 4 Chapter" },
+  { label: "John 2 Chapter" },
+  { label: "Genesis 4 Chapter" },
+  { label: "Leviticus 16 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

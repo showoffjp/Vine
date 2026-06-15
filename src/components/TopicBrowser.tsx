@@ -2608,6 +2608,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "John 19 Chapter": "john-19-guide",
   "Behold the Man Pilate Crucifixion John": "john-19-guide",
   "It Is Finished Jesus Dies Side Pierced John": "john-19-guide",
+  "Matthew 16 Chapter": "matthew-16-guide",
+  "Peter Confession You Are the Christ Keys Kingdom": "matthew-16-guide",
+  "Get Behind Me Satan Take Up Cross Matthew": "matthew-16-guide",
+  "Luke 14 Chapter": "luke-14-guide",
+  "Parable of the Great Banquet Invited Guests Luke": "luke-14-guide",
+  "Count the Cost Tower Builder King War Luke": "luke-14-guide",
+  "Acts 22 Chapter": "acts-22-guide",
+  "Paul Defense Hebrew Damascus Road Testimony": "acts-22-guide",
+  "Paul Roman Citizen Tribune Acts Twenty Two": "acts-22-guide",
+  "1 Corinthians 4 Chapter": "1-corinthians-4-guide",
+  "Stewards of the Mysteries of God Faithful Paul": "1-corinthians-4-guide",
+  "Fools for Christ Apostles Spectacle Corinthians": "1-corinthians-4-guide",
 };
 
 
@@ -3746,6 +3758,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 29 Chapter" },
   { label: "Acts 21 Chapter" },
   { label: "John 19 Chapter" },
+  { label: "Matthew 16 Chapter" },
+  { label: "Luke 14 Chapter" },
+  { label: "Acts 22 Chapter" },
+  { label: "1 Corinthians 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

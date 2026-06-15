@@ -1,0 +1,188 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Bronze Serpent",
+  "Victory at Hormah",
+  "Songs of the Journey",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Numbers 21: Overview",
+    reference: "Numbers 21:1&ndash;35",
+    paragraphs: [
+      "Numbers 21 stands at a pivotal hinge in the wilderness narrative. Israel has been wandering for nearly forty years since the catastrophic episode at Kadesh-Barnea, where the ten faithless spies turned the hearts of the people away from the land of promise. A whole generation has died in the desert under the sentence of God&rsquo;s just displeasure. Now, as the chapter opens, the community is on the move again &mdash; pressing toward Canaan by way of the Negeb in the south, then circling around Edom to approach from the east. This chapter contains both stunning grace and sobering judgment, both military victories that prefigure the conquest to come and a bitter episode of rebellion that calls down one of God&rsquo;s most terrifying disciplines.",
+      "The chapter falls into four broad movements. First, there is the encounter at Hormah, where the Canaanite king of Arad attacks Israel, and the people respond not with despair but with a vow of consecrated warfare, and God gives them a decisive victory. Second, and most theologically weighty, comes the episode of the fiery serpents &mdash; the people complain bitterly about the bread of angels and the lack of water, God sends venomous snakes among them, Moses intercedes, and God provides healing through the strange instrument of a bronze serpent lifted on a pole. Third, the text gives us the itinerary of the march around Edom, including the beautiful Song of the Well. Fourth, Israel wins crushing victories over the Amorite kings Sihon and Og, clearing the Transjordan for settlement and demonstrating that the living God is mightier than the great powers of the ancient Near East.",
+      "For the Christian reader, Numbers 21 is uniquely illuminated by Jesus himself. In his nighttime conversation with Nicodemus, Jesus draws the comparison that unlocks the whole meaning of the bronze serpent episode: &ldquo;And as Moses lifted up the serpent in the wilderness, so must the Son of Man be lifted up, that whoever believes in him may have eternal life&rdquo; (John 3:14&ndash;15). What was foreshadowed in desert dust and hammered bronze would be fulfilled on a hill outside Jerusalem where the sinless Son of God was lifted on a cross, bearing the serpent&rsquo;s curse so that all who look to him in faith might be healed of the venom of sin and death.",
+      "The chapter also repays close attention for what it reveals about the character of God in his dealings with his people. He is at once a God of holy intolerance toward grumbling and ingratitude, and a God of remarkable mercy who hears his people&rsquo;s cries and provides deliverance even in the midst of disciplinary judgment. The same God who sends the serpents also provides the serpent on the pole. This is not contradiction but the deep logic of covenant love: God disciplines those he loves (Proverbs 3:11&ndash;12; Hebrews 12:5&ndash;6), and even in judgment he does not abandon his redemptive purpose.",
+      "The military victories at the end of the chapter serve a double purpose in the narrative. They vindicate the faith of the generation that is about to enter the land, demonstrating that trust in the Lord leads to triumph where unbelief had led to paralysis. And they establish Israel&rsquo;s foothold on the east bank of the Jordan, the staging ground from which Joshua will lead the crossing. The ancient poem celebrating Sihon&rsquo;s defeat (vv. 27&ndash;30) is quoted from a collection called &ldquo;the Book of the Wars of the Lord&rdquo; (v. 14), reminding readers that Israel&rsquo;s history is inseparable from the story of God&rsquo;s own warfare on behalf of his covenant people.",
+      "Numbers 21 thus compresses an enormous range of spiritual experience into a single chapter: the discipline of complaining hearts, the mercy of substitutionary healing, the joy of answered prayer at a well in the desert, and the thunder of divine victory over entrenched opposition. In each movement the same God is at work: the Lord of the covenant who neither slumbers nor sleeps, who holds together holiness and mercy, severity and grace, in the outworking of his great redemptive plan.",
+    ],
+  },
+  {
+    id: "The Bronze Serpent",
+    heading: "The Bronze Serpent: Judgment, Intercession, and Healing",
+    reference: "Numbers 21:4&ndash;9",
+    paragraphs: [
+      "The episode of the fiery serpents is among the most striking in all of the Pentateuch, and it is the one portion of Numbers 21 that receives explicit New Testament commentary from the lips of Jesus himself. To understand what Jesus said to Nicodemus, we must first sit with what actually happened in the desert of Edom as Israel attempted to travel around the hostile territory that blocked the direct road to Canaan.",
+      "The journey south and east around Edom was disheartening. The direct route had been denied them, the land around them was barren, and the people&rsquo;s patience gave way to a familiar collapse. &ldquo;And the people spoke against God and against Moses, &lsquo;Why have you brought us up out of Egypt to die in the wilderness? For there is no food and no water, and we loathe this worthless food&rsquo;&rdquo; (Numbers 21:5). The bitter irony is that while complaining there is &ldquo;no food,&rdquo; they in the same breath call the manna &ldquo;worthless food.&rdquo; The bread of angels &mdash; which Psalm 78:25 calls &ldquo;the grain of heaven&rdquo; &mdash; had become contemptible in their eyes. This is the sin the text highlights: not just impatience or fatigue, but ingratitude that curdles into slander against God&rsquo;s provision.",
+      "The divine response is immediate and terrifying. &ldquo;Then the Lord sent fiery serpents among the people, and they bit the people, so that many people of Israel died&rdquo; (v. 6). The Hebrew word for &ldquo;fiery&rdquo; here is &lsquo;seraphim&rsquo; &mdash; the same word used in Isaiah 6 for the burning celestial beings who surround God&rsquo;s throne. Whether it refers to the appearance of the snakes, the burning sensation of their venom, or a deeper spiritual resonance, the word signals something that goes beyond ordinary natural disaster. This is covenant discipline, the painful consequence of despising the gifts of a holy and generous God.",
+      "The people recognize the judgment for what it is. They come to Moses with a confession that is simple, corporate, and unambiguous: &ldquo;We have sinned, for we have spoken against the Lord and against you. Pray to the Lord, that he take away the serpents from us&rdquo; (v. 7). Notice the threefold acknowledgment: we have sinned, we have sinned against God, and we have sinned against Moses, God&rsquo;s appointed mediator. This is genuine repentance &mdash; not merely a wish to escape consequences, but an acknowledgment of the real moral failure that brought the judgment.",
+      "Moses prays for the people, and God answers &mdash; but not in the way anyone might have expected. God does not simply remove the serpents. Instead he instructs Moses to make a bronze serpent and set it on a pole, so that anyone who was bitten could look at it and live. The Hebrew word for &lsquo;pole&rsquo; here is &lsquo;nes,&rsquo; a word that also means &lsquo;banner&rsquo; or &lsquo;standard&rsquo; &mdash; something lifted up as a rallying point, a visible sign to which the eye is drawn. The healing comes not by removing the serpents, not by medical intervention, not by any human cleverness, but by a single act of faith expressed in the act of looking.",
+      "The theology embedded in this provision is rich and strange. The very image of the thing that brought death became the instrument of healing when lifted up before the people. The serpent on the pole was not an idol to be worshiped &mdash; it had no power in itself &mdash; but it was a God-ordained sign of divine mercy toward those who trusted God&rsquo;s word. Tragically, by the time of Hezekiah, the bronze serpent (which the people had named &lsquo;Nehushtan&rsquo;) had become an object of incense offerings, and the godly king had to destroy it (2 Kings 18:4). Even God&rsquo;s gracious provision can be corrupted into idolatry by the human heart.",
+      "But the full meaning of the bronze serpent is unlocked only when Jesus claims it as his own type and pattern. &ldquo;As Moses lifted up the serpent in the wilderness, so must the Son of Man be lifted up, that whoever believes in him may have eternal life&rdquo; (John 3:14&ndash;15). The Apostle Paul provides the theological key: &ldquo;For our sake he made him to be sin who knew no sin, so that in him we might become the righteousness of God&rdquo; (2 Corinthians 5:21). As the bronze serpent took the form of the very thing that was killing the people, Jesus took on the form of sinful flesh (Romans 8:3), was &lsquo;made a curse for us&rsquo; (Galatians 3:13), and was lifted up on the cross. And as the bitten Israelite who looked at the serpent in faith was healed of physical death, so the sinner who looks in faith to the crucified Christ is healed of spiritual death and given eternal life. The act of looking, in both cases, is the act of faith trusting God&rsquo;s appointed means of deliverance, however strange it may appear.",
+      "Numbers 21:4&ndash;9 thus becomes one of the most luminous Old Testament windows onto the doctrine of substitutionary atonement. The penalty for sin was not simply removed; it was borne by a substitute lifted up before the eyes of the people. Grace did not bypass judgment but satisfied it, transforming the very instrument of death into the means of life. This is the gospel in desert bronze, inscribed in the wilderness sand more than a thousand years before Calvary.",
+    ],
+  },
+  {
+    id: "Victory at Hormah",
+    heading: "Victory at Hormah and the Amorite Kingdoms",
+    reference: "Numbers 21:1&ndash;3, 21&ndash;35",
+    paragraphs: [
+      "Numbers 21 opens not with complaint but with war. The Canaanite king of Arad, who lived in the Negeb, &ldquo;heard that Israel was coming by the way of Atharim&rdquo; and attacked them, taking some captives (v. 1). This unprovoked assault presented Israel with a choice: shrink in fear, as the previous generation had done at Kadesh, or trust the God who had delivered them from Egypt and brought them through the Red Sea. The new generation, schooled by forty years of wilderness, chose faith.",
+      "Their response took the form of a vow: &ldquo;If you will indeed give this people into my hand, then I will devote their cities to destruction&rdquo; (v. 2). The word translated &lsquo;devote to destruction&rsquo; is &lsquo;herem&rsquo; &mdash; the consecration of something utterly to the Lord, setting it apart for destruction so that no human benefit could be derived from it. It was the most solemn form of warfare in Israel, understood as a giving back to God of what belonged to him by right of conquest. The vow was a declaration that this was not military adventure for Israel&rsquo;s aggrandizement, but holy war conducted in dependence on the Lord.",
+      "&ldquo;And the Lord heeded the voice of Israel and gave over the Canaanites, and they devoted them and their cities to destruction. So the name of the place was called Hormah&rdquo; (v. 3). The place-name &lsquo;Hormah&rsquo; means &lsquo;devotion&rsquo; or &lsquo;destruction,&rsquo; a permanent memorial to the day Israel fought not in their own strength but in consecration to the Lord. The contrast with Numbers 14:45, where the Israelites had been &lsquo;chased&rsquo; even to Hormah in defeat after their presumptuous attempt to take the land without God&rsquo;s blessing, is pointed and intentional. The same place that was the scene of humiliating defeat for the faithless generation becomes the site of stunning victory for the trusting generation.",
+      "The greater military victories of the chapter come at its close, in the encounters with the Amorite kings Sihon of Heshbon and Og of Bashan. These were not small tribal chieftains; they were major powers of the Transjordan. Sihon had himself conquered territory from a previous Moabite king (v. 26), and Og of Bashan was remembered in later tradition for his enormous stature &mdash; Deuteronomy 3:11 notes that his bed was made of iron and was nine cubits long.",
+      "When Israel sent messengers to Sihon of Heshbon requesting safe passage through his territory, Sihon refused and marched out to fight against Israel at Jahaz. &ldquo;And Israel defeated him with the edge of the sword and took possession of his land from the Arnon to the Jabbok, as far as to the Ammonites, for the border of the Ammonites was strong&rdquo; (v. 24). The cities were taken, Israel settled in them, and the ancient taunt-song (vv. 27&ndash;30) was appropriated by Israel as a celebration of their own victory: the very song that had once mocked the conquered Moabites now testified to the conquest of the conqueror.",
+      "The defeat of Og followed swiftly. God&rsquo;s word to Moses before the battle is remarkable in its certainty: &ldquo;Do not fear him, for I have given him into your hand, and all his people, and his land&rdquo; (v. 34). The outcome is announced before the battle is joined. This is the pattern of faith warfare throughout the Old Testament: God declares the victory, the people act in faith on that declaration, and the declared victory becomes historical reality. &ldquo;So they defeated him and his sons and all his people, until he had no survivor left. And they possessed his land&rdquo; (v. 35).",
+      "These victories had an enormous psychological significance for Israel entering Canaan. The later books of the Old Testament return to Sihon and Og repeatedly as paradigmatic examples of God&rsquo;s faithfulness. Deuteronomy 1:4, Psalm 135:11, Psalm 136:19&ndash;20, and Nehemiah 9:22 all recall these victories as evidence that the God of Israel is mightier than the great kings of the earth. When the two spies report back to Joshua after scouting Jericho, Rahab tells them that the entire land has melted in fear because of what God did to Sihon and Og (Joshua 2:10). The victories of Numbers 21 thus rippled forward through Israel&rsquo;s history as a foundation of national confidence in divine faithfulness.",
+      "For the Christian reader, these victories also illuminate the nature of spiritual warfare. The victories came not through superior Israelite military power &mdash; this was a company of ex-slaves with forty years in the desert &mdash; but through dependence on the God who had pledged to give them the land. Fear was the great enemy to overcome before any external foe could be faced. And when God said &ldquo;do not fear,&rdquo; he was not dismissing the real danger but assuring his people of a real presence more powerful than the danger. Faith, in Numbers 21, is not optimism but obedience to the God who has promised.",
+    ],
+  },
+  {
+    id: "Songs of the Journey",
+    heading: "Songs of the Journey: The Well and the Taunt",
+    reference: "Numbers 21:10&ndash;20, 27&ndash;30",
+    paragraphs: [
+      "Numbers 21 is punctuated by two ancient poems that illuminate the spiritual texture of Israel&rsquo;s wilderness journey. Neither is well known to the average reader of the Old Testament, but both reward careful attention, both for what they reveal about the shape of Israel&rsquo;s faith and for the window they open onto the literary world of the ancient Near East.",
+      "The first poem, and the more theologically charged, is the Song of the Well (vv. 17&ndash;18). The narrative context is the arrival of Israel at Beer &mdash; a Hebrew word meaning simply &lsquo;well.&rsquo; The Lord commands Moses to gather the people and he will give them water. No rod is struck against a rock; no dramatic confrontation with Moses&rsquo;s anger as at Meribah in Numbers 20. This time, God simply tells his people that the well is there, and the people respond with a song. &ldquo;Spring up, O well! &mdash; Sing to it! &mdash; the well that the princes made, that the nobles of the people dug, with the scepter and with their staffs&rdquo; (vv. 17&ndash;18).",
+      "The song is brief but beautiful in its simplicity. The people call to the well to spring up, inviting it to overflow with the water that God has promised. Leaders and ordinary people alike participated in the digging &mdash; &lsquo;princes&rsquo; and &lsquo;nobles&rsquo; with their staffs of office, working side by side. There is in this image a picture of joyful communal participation in God&rsquo;s provision: nobody was too exalted for the work, and the gift that came from God was received through human hands working together. The contrast with the grumbling of just a few verses earlier (vv. 4&ndash;5) could hardly be more stark. There the people despised God&rsquo;s provision of manna; here they sing over a well of water. The difference is the posture of the heart &mdash; gratitude versus complaint, expectant faith versus jaded familiarity.",
+      "The rabbinic tradition treated this well as a recurring supernatural provision throughout the wilderness journey, and the Apostle Paul may be drawing on this tradition when he writes that &lsquo;the Rock that followed them was Christ&rsquo; (1 Corinthians 10:4). Whether or not the well of Beer is the same water source that accompanied Israel through their travels, Paul&rsquo;s point is that the spiritual nourishment of the exodus generation came from the pre-incarnate Christ. The water in the wilderness, like the manna from heaven, was a sign of the living water that Jesus would offer to a Samaritan woman by another well centuries later: &ldquo;Whoever drinks of the water that I will give him will never be thirsty again&rdquo; (John 4:14).",
+      "The journey itinerary in verses 10&ndash;20 reads at first like a dry list of campsite names, but each name carried memory. Oboth, Iye-abarim, the Valley of Zered, the banks of the Arnon &mdash; these were not just geographical waypoints but the accumulated history of a people shaped by years of wandering into the pilgrim community that would enter the land. The book of Numbers has been called the book of &lsquo;journeying toward&rsquo; &mdash; the whole narrative is structured around movement, departure and arrival, the not-yet and the almost-there. The itinerary of chapter 21 is Israel&rsquo;s final wilderness march, the last leg before the crossing of the Jordan.",
+      "The second poem is the taunt-song quoted from &ldquo;the Book of the Wars of the Lord&rdquo; in verses 27&ndash;30. This is a fascinating literary moment: the narrator of Numbers reaches outside the text of Scripture itself and quotes an ancient collection of battle poetry to celebrate the victory over Sihon. The taunt-song was originally composed by the Amorites to mock the defeated Moabites &mdash; &ldquo;Come to Heshbon, let it be built; let the city of Sihon be established&rdquo; &mdash; but now Israel appropriates it to celebrate the defeat of those same Amorites. The conqueror has been conquered; the song of triumph has become a song of judgment. The literary irony is sharp and deliberate.",
+      "Together these two songs capture something essential about Israel&rsquo;s identity as a singing people. From the Song of the Sea in Exodus 15 to the Psalms of Ascent, Israel processed their relationship with God through song. Joy at God&rsquo;s provision, wonder at his mighty acts, lament in the valley of difficulty, trust in the dark &mdash; all of these were expressed in poetry and music. The desert, for all its hardship, was not a silent place for Israel. It was a place where God spoke and his people sang back. This call-and-response between divine action and human praise is a pattern that runs from the wilderness all the way to the Book of Revelation, where the redeemed multitude &ldquo;sing the song of Moses, the servant of God, and the song of the Lamb&rdquo; (Revelation 15:3).",
+      "The theological takeaway from these wilderness songs is this: the antidote to grumbling is not merely better circumstances but a reorientation of the heart toward the God who provides. When Israel sang at the well, they were not in an easy place &mdash; they were still in the wilderness, still surrounded by enemies, still far from the land of promise. But they had learned, at least in this moment, to receive God&rsquo;s gifts with eyes open and voices raised. Numbers 21, in the end, is a chapter about the difference between a heart that despises what God gives and a heart that sings over it. Christ himself, the living water and the bread of life, invites us into the second posture every day.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "4vTGhq_1VhU", title: "BibleProject: Numbers Overview" },
+  { videoId: "3r6m2Y_yXlE", title: "The Bronze Serpent and John 3:14 Explained" },
+  { videoId: "KFMuGlZxsVE", title: "Israel in the Wilderness: Numbers 21 Teaching" },
+  { videoId: "BRj3mRJUiyc", title: "The Bronze Serpent as a Type of Christ" },
+];
+
+export default function Numbers21GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Numbers 21
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Israel&rsquo;s complaints and God&rsquo;s discipline, the bronze serpent lifted on a pole for healing, victories over Canaanite and Amorite kings, and the wilderness songs that point forward to Christ &mdash; &ldquo;As Moses lifted up the serpent in the wilderness, so must the Son of Man be lifted up&rdquo; (John 3:14).
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Numbers 21 through visual teaching on the bronze serpent, Israel&rsquo;s wilderness journey, and the chapter&rsquo;s profound typological connection to Christ in John 3:14.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>As Moses Lifted Up the Serpent</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Numbers 21 carries within its ancient verses the seed of the gospel: a people undone by their own sinful grumbling, brought low by the consequences of despising God&rsquo;s provision, lifted again by a merciful God who provides healing through a lifted sign. Jesus claimed that sign as his own type, declaring that his own lifting up on the cross would be the antitype to which the bronze serpent only pointed. The invitation of Numbers 21 is the invitation of the whole gospel: look to the one God has provided, and live.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

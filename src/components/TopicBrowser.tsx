@@ -2380,6 +2380,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Chronicles 6 Chapter": "2-chronicles-6-guide",
   "Solomon Dedicates Temple Prayer Chronicles": "2-chronicles-6-guide",
   "Heaven Heavens Cannot Contain God Solomon": "2-chronicles-6-guide",
+  "Titus 1 Chapter": "titus-1-guide",
+  "Elder Qualifications Sound Doctrine Titus": "titus-1-guide",
+  "Paul Titus Crete False Teachers": "titus-1-guide",
+  "1 Kings 21 Chapter": "1-kings-21-guide",
+  "Ahab Naboth Vineyard Jezebel": "1-kings-21-guide",
+  "Elijah Confronts Ahab Murder Coveting": "1-kings-21-guide",
+  "Numbers 21 Chapter": "numbers-21-guide",
+  "Bronze Serpent Pole Wilderness Numbers": "numbers-21-guide",
+  "Israel Complains Fiery Serpents Healing": "numbers-21-guide",
+  "Genesis 2 Chapter": "genesis-2-guide",
+  "Garden Eden Creation Man Woman Marriage": "genesis-2-guide",
+  "Bone of My Bone Flesh Marriage Genesis": "genesis-2-guide",
 };
 
 
@@ -3442,6 +3454,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Judges 7 Chapter" },
   { label: "John 16 Chapter" },
   { label: "2 Chronicles 6 Chapter" },
+  { label: "Titus 1 Chapter" },
+  { label: "1 Kings 21 Chapter" },
+  { label: "Numbers 21 Chapter" },
+  { label: "Genesis 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

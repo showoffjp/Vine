@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Naboth's Vineyard",
+  "Jezebel's Plot",
+  "Elijah's Confrontation",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 1 Kings 21",
+    reference: "1 Kings 21:1&ndash;29",
+    paragraphs: [
+      "First Kings 21 is one of the most morally concentrated chapters in all of Scripture. In the space of a single narrative, it exposes the corruption of covetousness, the mechanics of political murder, the prophetic courage to speak truth to power, and the astonishing grace of God toward a repentant sinner. Its central figures &mdash; the sulking king Ahab, the ruthless queen Jezebel, the faithful vineyard keeper Naboth, and the thundering prophet Elijah &mdash; have become archetypes of moral failure and prophetic witness that have echoed through centuries of literature, law, and theology.",
+      "The chapter takes place during the reign of Ahab over the northern kingdom of Israel, the most notorious of the kings the text condemns as having done &ldquo;more evil in the eyes of the Lord than any of those before him&rdquo; (16:30). Ahab&rsquo;s wickedness was not merely personal but systemic: under the influence of his Phoenician wife Jezebel, Baal worship became state religion in Israel, and the prophets of the Lord were hunted down and killed. The story of 1 Kings 21 shows this corruption reaching into the everyday lives of ordinary Israelite citizens through the abuse of royal power.",
+      "The chapter unfolds in four clear movements. First, Ahab desires Naboth&rsquo;s vineyard and makes a reasonable-sounding request that Naboth refuses on principled grounds (vv. 1&ndash;4). Second, Jezebel takes control of the situation and engineers Naboth&rsquo;s judicial murder through a conspiracy of false witnesses and corrupt officials (vv. 5&ndash;16). Third, Elijah is sent by the Lord to confront Ahab over the crime, pronouncing a devastating judgment on his house and on Jezebel personally (vv. 17&ndash;24). Fourth, and most surprisingly, Ahab humbles himself before God, and the Lord responds by delaying the judgment &mdash; revealing a divine mercy that is as astonishing as the preceding justice (vv. 25&ndash;29).",
+      "Theologically, this chapter addresses questions of property rights, covenantal fidelity, the abuse of power, and divine justice. The particular horror of what happens to Naboth is not merely that he is killed &mdash; innocent people are killed throughout the ancient world &mdash; but that he is killed by means of the very legal system that was meant to protect him. The covenant community of Israel had been given laws precisely to prevent this kind of abuse. When those laws are weaponized by the powerful against the vulnerable, it is not only a crime against Naboth; it is an act of covenant treachery against the God who gave those laws.",
+      "The chapter also stands as a profound meditation on the relationship between divine patience and divine justice. God&rsquo;s response to Ahab&rsquo;s repentance in verses 27&ndash;29 is one of the most unexpected moments in the Elijah narrative. A man who has done more evil than any king before him tears his clothes, puts on sackcloth, and fasts &mdash; and the Lord sees it, acknowledges it, and postpones the judgment. This is not soft on sin; Elijah&rsquo;s pronouncement of judgment stands and will be fulfilled. But it reveals the character of the God who &ldquo;takes no pleasure in the death of the wicked, but rather that they turn from their ways and live&rdquo; (Ezek 33:11).",
+      "For the church reading this chapter today, 1 Kings 21 is both warning and comfort. It warns against the Ahab-spirit of covetousness that cannot accept the rightful limits on its desires, and against the Jezebel-spirit that treats law and religion as mere tools of power. It comforts with the knowledge that God sees every injustice, that no Naboth dies unnoticed, and that the word of the Lord through his prophets will not return void. The chapter ends not with Elijah triumphant or Ahab fully destroyed, but with a God who is working all things &mdash; even the sins of wicked kings &mdash; toward his just and merciful purposes.",
+    ],
+  },
+  {
+    id: "Naboth's Vineyard",
+    heading: "Naboth&rsquo;s Vineyard and the Law of Inheritance",
+    reference: "1 Kings 21:1&ndash;4",
+    paragraphs: [
+      "The story begins with a piece of land. Naboth the Jezreelite owned a vineyard adjacent to the palace of Ahab in Jezreel, and Ahab wanted it for a vegetable garden. The king&rsquo;s request is, on its surface, not entirely unreasonable: he offers Naboth either a better vineyard elsewhere or its full market value in silver. This is the kind of transaction that would be unremarkable in any ordinary commercial context &mdash; a powerful man offering fair compensation for a desirable piece of property.",
+      "But Naboth&rsquo;s refusal is principled and grounded in the Mosaic law: &ldquo;The Lord forbid that I should give you the inheritance of my fathers&rdquo; (21:3). The word &ldquo;inheritance&rdquo; (<em>nahalah</em> in Hebrew) is the key to understanding why this is not simply stubbornness or sentiment. Under the covenant legislation of Leviticus 25, ancestral land in Israel was not simply private property to be bought and sold at will. It was a family inheritance given by God and to be retained within the family across generations. Even if sold under economic duress, it was to be returned to the original family in the year of Jubilee. Land was a covenant gift, not a commodity.",
+      "This means Naboth&rsquo;s refusal is not a personal insult to the king; it is an act of covenant faithfulness. He is not being awkward or sentimental about an old field. He is doing what the Torah requires: maintaining the integrity of his family&rsquo;s divinely assigned inheritance. To sell it permanently to the crown, even at a good price, would be to undo what God had established. In this light, Naboth is a portrait of covenant fidelity &mdash; a man who takes the word of God seriously even when a powerful king stands before him making attractive offers.",
+      "Ahab&rsquo;s response reveals the depth of his spiritual poverty. &ldquo;Ahab went home sullen and angry because Naboth the Jezreelite had said, &lsquo;I will not give you the inheritance of my fathers.&rsquo; He lay on his bed sulking and refused to eat&rdquo; (21:4). The picture is almost comical in its petulance: the most powerful man in Israel, lying on his bed pouting over a vineyard he cannot have. But it is also profoundly revealing. Covetousness &mdash; the ungoverned desire for what belongs to another &mdash; has a way of making powerful people miserable. Ahab has everything a king could want, and yet Naboth&rsquo;s little vineyard has become the one thing he cannot endure going without.",
+      "The tenth commandment, &ldquo;You shall not covet your neighbor&rsquo;s house&rsquo; &hellip; nor anything that belongs to your neighbor&rdquo; (Exod 20:17), is the commandment that James and Paul both identify as the root of so much external wrongdoing (Jas 4:2; Rom 7:7). It is the inward disorder that precedes the outward crime. In Ahab&rsquo;s case, the covetousness in his heart has not yet produced action &mdash; Naboth has refused, and for the moment that refusal stands. But the petulant king lying on his bed is the portrait of a heart already sick, already vulnerable to whatever means of satisfying its desire will present itself.",
+      "The contrast between Naboth and Ahab could hardly be sharper. Naboth stands in the full sunshine of the covenant, a man who knows who he is and what he holds in trust from God, and who is willing to say no to a king rather than betray that trust. Ahab wallows in the darkness of an appetite he cannot master, in a palace full of everything except the peace that comes from contentment. This contrast sets the moral stage for everything that follows. The question the chapter raises is not just whether Naboth will get justice &mdash; it is whether Israel, under its king, has any covenant conscience left at all.",
+    ],
+  },
+  {
+    id: "Jezebel's Plot",
+    heading: "Jezebel&rsquo;s Plot and the Murder of Naboth",
+    reference: "1 Kings 21:5&ndash;16",
+    paragraphs: [
+      "Jezebel&rsquo;s entrance into the story is brisk and businesslike. She finds Ahab sulking and asks a single pointed question: &ldquo;Is this how you act as king over Israel? Get up and eat! Cheer up. I&rsquo;ll get you the vineyard of Naboth the Jezreelite&rdquo; (21:7). The rhetorical question is crucial. Jezebel does not share Ahab&rsquo;s hesitation about overriding Naboth&rsquo;s refusal. She comes from a Phoenician royal tradition in which kings owned everything within their territory by right. The Israelite conception of covenant inheritance, of land held from God that even the king cannot compel a subject to sell, is simply foreign to her. Her contempt for this idea shapes everything that follows.",
+      "Jezebel&rsquo;s plot is a masterpiece of institutional corruption. She writes letters in Ahab&rsquo;s name, seals them with his seal, and sends them to the elders and nobles of Jezreel. The instructions are chillingly precise: proclaim a fast, seat Naboth in a prominent place, and seat two scoundrels opposite him to testify that he &ldquo;cursed both God and the king&rdquo; (21:10). Then take him out and stone him.",
+      "The evil here is compounded by the way it uses the very structures of Israelite justice against an innocent man. Fasting was a religious practice associated with covenant solemnity and public crisis. The requirement for two witnesses before a capital conviction was a safeguard built into Mosaic law (Deut 17:6; 19:15) precisely to prevent unjust condemnations. The charge of blasphemy and cursing the king (Lev 24:10&ndash;16; Exod 22:28) carried the death penalty. Jezebel is not inventing an entirely novel mechanism of murder &mdash; she is taking existing legal and religious structures and weaponizing them against the very person they were designed to protect.",
+      "The elders and nobles of Jezreel comply without recorded objection. &ldquo;So the elders and nobles who lived in Naboth&rsquo;s city did as Jezebel directed in the letters she had written to them&rdquo; (21:11). This compliance is its own indictment. The local leaders &mdash; the men who were supposed to be guardians of justice within their community &mdash; become accessories to murder because they lack the courage to resist royal pressure. The entire judicial system of Jezreel becomes complicit in a frame-up.",
+      "The two false witnesses testify, Naboth is condemned, and he is taken outside the city and stoned to death. The text is matter-of-fact about the killing, which only increases its horror. A man who had done nothing wrong except to insist on his covenant rights before his king is dead, judicially murdered by the apparatus of the very law that was meant to be his protection. And the text notes &mdash; with a detail 2 Kings 9:26 will later confirm &mdash; that Naboth&rsquo;s sons were also killed, presumably to eliminate any heirs who might later reclaim the vineyard.",
+      "When word reaches Jezebel that Naboth is dead, she tells Ahab: &ldquo;Get up and take possession of the vineyard of Naboth the Jezreelite that he refused to sell you. He is no longer alive; he is dead&rdquo; (21:15). The blunt repetition &mdash; &ldquo;he is no longer alive; he is dead&rdquo; &mdash; reads like the callousness of someone for whom a human being is simply an obstacle that has been removed. Ahab gets up and goes to take possession of the vineyard. The chapter has traveled in sixteen verses from sulking to murder to possession, with the covenant law of Israel trampled at every step.",
+      "The theological weight of this section is immense. It depicts a world in which the powerful can use religion, law, and community leaders as instruments of oppression against the vulnerable. Yet the narrator is not despairing. The very specificity with which the crime is described &mdash; the letters, the fast, the false witnesses, the stoning &mdash; suggests that nothing is hidden. God sees every step of Jezebel&rsquo;s plot. And what God sees, God will address. The account of the murder is also, implicitly, the indictment that will be read out when Elijah arrives.",
+    ],
+  },
+  {
+    id: "Elijah's Confrontation",
+    heading: "Elijah&rsquo;s Confrontation and the Divine Verdict",
+    reference: "1 Kings 21:17&ndash;29",
+    paragraphs: [
+      "The turn of the chapter is introduced with a phrase that recurs throughout the Elijah narrative as a signal of divine initiative: &ldquo;Then the word of the Lord came to Elijah the Tishbite&rdquo; (21:17). God has seen what has happened in Jezreel. He has seen Jezebel&rsquo;s letters, the corrupt fast, the false witnesses, Naboth&rsquo;s stoning, and Ahab walking into the vineyard to take possession. And now he sends his prophet. The word of the Lord does not arrive after a delay; the text places it immediately after Ahab takes possession. Divine justice does not sleep.",
+      "The Lord&rsquo;s charge to Elijah is pointed: &ldquo;Go down to meet Ahab king of Israel, who rules in Samaria. He is now in Naboth&rsquo;s vineyard, where he has gone to take possession of it. Say to him, &lsquo;This is what the Lord says: Have you not murdered a man and seized his property?&rsquo;&rdquo; (21:18&ndash;19). The question is rhetorical &mdash; God does not need Elijah to gather evidence &mdash; but it is devastating. It cuts through all the legal scaffolding Jezebel had constructed and names the reality underneath: murder and theft.",
+      "Elijah meets Ahab in the vineyard itself. The king&rsquo;s first words reveal his awareness of guilt: &ldquo;Have you found me, my enemy?&rdquo; (21:20). Ahab knows what the prophet&rsquo;s arrival means. Elijah&rsquo;s answer does not soften the confrontation: &ldquo;I have found you, because you have sold yourself to do evil in the eyes of the Lord.&rdquo; The phrase &ldquo;sold yourself&rdquo; is striking &mdash; the same economic language Naboth had used about his vineyard is now applied to Ahab&rsquo;s soul. The king who wanted to buy a vineyard has instead sold himself into the bondage of evil.",
+      "The judgment Elijah pronounces is specific and terrible. In the same place where the dogs licked up Naboth&rsquo;s blood, dogs will lick up Ahab&rsquo;s own blood (21:19). Ahab&rsquo;s house will be swept away like the houses of Jeroboam and Baasha &mdash; both of which were annihilated because of their sins against the Lord. Every male in his line will be cut off. The punishment fits the crime with a precision that goes beyond poetic justice: the place of Naboth&rsquo;s death becomes the site of Ahab&rsquo;s judgment, and the dynasty he has built by evil means will end as violently as it has lived.",
+      "For Jezebel, the prophet reserves a particularly grim prophecy: &ldquo;Dogs will devour Jezebel by the wall of Jezreel&rdquo; (21:23). In the ancient Near East, to be left unburied and consumed by scavenging animals was the ultimate dishonor &mdash; the denial of the decent burial that ancient peoples considered essential to human dignity. Jezebel, who had shown Naboth no dignity in his death, will receive none in her own. This prophecy will be fulfilled with chilling precision in 2 Kings 9:30&ndash;37, when Jehu comes to Jezreel and Jezebel is thrown from a window, her body eaten by dogs so thoroughly that when they come to bury her, they find only her skull, her feet, and the palms of her hands.",
+      "Verse 25 offers the narrator&rsquo;s own damning summary: &ldquo;There was never anyone like Ahab, who sold himself to do evil in the eyes of the Lord, urged on by Jezebel his wife.&rdquo; The partnership of Ahab and Jezebel represents the worst kind of leadership failure: a weak man whose covetousness makes him susceptible to the schemes of a ruthless partner, resulting in crimes far worse than either might have committed alone. Ahab did not plan Naboth&rsquo;s murder, but he accepted its fruits and bears the guilt.",
+      "Then comes the stunning reversal. When Elijah speaks the words of judgment, Ahab does something entirely unexpected: &ldquo;When Ahab heard these words, he tore his clothes, put on sackcloth and fasted. He lay in sackcloth and went around meekly&rdquo; (21:27). Tearing one&rsquo;s clothes and wearing sackcloth were the classic external signs of grief, mourning, and repentance in ancient Israel. Ahab, for all his wickedness, is broken by what the prophet says. He does not deflect, deny, or retaliate. He mourns.",
+      "And the Lord responds &mdash; not by canceling the judgment, but by delaying it: &ldquo;Because he has humbled himself before me, I will not bring this disaster in his day, but I will bring it on his house in the days of his son&rdquo; (21:29). This response is one of the most theologically important moments in the Elijah narrative. It shows that God is not a mechanical dispenser of reward and punishment but a personal God who sees, responds to, and is moved by human repentance &mdash; even the repentance of a thoroughly wicked king. The judgment will come; Naboth will be avenged; the prophecy will stand. But God delays its execution in response to Ahab&rsquo;s humility, giving the dynasty one more generation before the axe falls.",
+      "For Christian readers, 1 Kings 21 is a chapter saturated with theological significance. It grounds property rights in the covenant relationship between God and his people, insisting that what God has given cannot be simply seized by the powerful. It demonstrates that God is the champion of the poor and vulnerable against those who abuse their power. It shows prophetic courage as the willingness to confront the most powerful person in the land with the truth they need to hear. And it reveals a God who judges with perfect justice and yet remains open to the broken heart of even the worst offender, offering repentance as the door through which the most guilty may find mercy.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "MlxTxTVYVSo", title: "1 Kings 21 - Naboth's Vineyard Explained" },
+  { videoId: "FYbR6lnMcXo", title: "Ahab and Jezebel - Power, Corruption, and Covenant Justice" },
+  { videoId: "0KKn5aIqpxo", title: "Elijah Confronts Ahab - Prophet and King in 1 Kings 21" },
+  { videoId: "qc8JHiTlj5s", title: "Divine Justice and Mercy in the Ahab Narrative" },
+];
+
+export default function Kings21GuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            1 Kings 21 &mdash; Ahab, Naboth, and Justice
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            One of Scripture&rsquo;s most morally concentrated chapters: Ahab covets a vineyard he cannot buy, Jezebel engineers its owner&rsquo;s judicial murder, and Elijah is sent by God to pronounce judgment on the house of Ahab &mdash; while the divine response to Ahab&rsquo;s unexpected repentance reveals the astonishing mercy at the heart of God&rsquo;s justice.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: 1 }}>
+            Video Teaching
+          </h3>
+          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.8, margin: "0 0 1.5rem" }}>
+            Explore the story of Naboth&rsquo;s vineyard through these video teachings on Ahab&rsquo;s covetousness, Jezebel&rsquo;s corruption of justice, Elijah&rsquo;s prophetic confrontation, and the theology of divine judgment and mercy in 1 Kings 21.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "10px 14px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Have You Murdered and Also Taken Possession?</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            First Kings 21 reminds every generation that God sees the Naboths of the world &mdash; those whose rights are trampled by the powerful, whose voices are silenced by false witnesses, whose inheritance is seized by those who have everything but want more. The word of the Lord through Elijah still sounds: &ldquo;Have you murdered and also taken possession?&rdquo; No injustice is invisible to God, no repentance too late for his mercy, and no prophecy of his too small to be fulfilled.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

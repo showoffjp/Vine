@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Elder Qualifications",
+  "Sound Doctrine",
+  "False Teachers",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Titus 1",
+    reference: "Titus 1:1&ndash;16",
+    paragraphs: [
+      "Titus 1 opens one of the most practically focused letters in the New Testament. Paul writes to Titus, his trusted co-worker, whom he has left on the island of Crete with a difficult but essential commission: &ldquo;straighten out what was left unfinished and appoint elders in every town&rdquo; (1:5). The chapter is dense with instruction, moving swiftly from Paul&rsquo;s grand theological introduction through qualifications for church leadership and into a sharp confrontation with the false teachers disrupting the Cretan congregations.",
+      "The letter fits into the broader context of the Pastoral Epistles &mdash; 1 Timothy, 2 Timothy, and Titus &mdash; which address the concerns of established churches in need of sound order, godly leadership, and doctrinal fidelity. Paul&rsquo;s missionary journeys had planted churches across the Mediterranean world, and the letters to Timothy and Titus represent the next phase of his apostolic concern: ensuring that what was planted would be nurtured, protected, and handed on faithfully to the next generation of believers.",
+      "Crete was a large island in the eastern Mediterranean with a population known in the ancient world for a certain rough moral reputation. Paul himself quotes the Cretan poet Epimenides (sixth century BC), whose line &ldquo;Cretans are always liars, evil brutes, lazy gluttons&rdquo; (1:12) had become proverbial. The churches Titus was shepherding had emerged from this cultural soil, and they faced particular pressures &mdash; both from within, where false teachers were spreading confusion, and from without, where the surrounding culture&rsquo;s values stood in sharp contrast to the gospel.",
+      "The structure of Titus 1 can be understood in three movements. First, Paul&rsquo;s greeting and self-description establish the theological foundations of his apostleship (vv. 1&ndash;4). Second, the bulk of the chapter lays out the qualifications required of those who will serve as elders and overseers in the Cretan churches (vv. 5&ndash;9). Third, the chapter closes with an incisive description and rebuke of the false teachers who are &ldquo;ruining whole households by teaching things they ought not to teach&rdquo; (v. 11).",
+      "What makes this chapter remarkable is the way Paul weaves theology and practice together inseparably. The qualifications for elders are not merely managerial competencies &mdash; they are marks of a life transformed by the gospel. The attack on false teachers is not merely a matter of institutional tidiness &mdash; it is a defense of the truth that sets people free. Throughout, Paul assumes that right belief and right living cannot finally be separated, that a healthy church requires both sound doctrine and visible godliness in its leaders and its people.",
+      "Titus 1 rewards careful reading for every generation of the church. Its instruction on leadership remains the standard by which churches select their overseers. Its call for sound doctrine challenges every congregation to examine whether what it teaches conforms to &ldquo;the trustworthy message as it has been taught&rdquo; (v. 9). And its portrait of false teachers serves as a perennial warning that wolves do not always come from outside the flock &mdash; sometimes they arise from within, teaching profitable falsehoods that hollow out the faith of families and communities.",
+    ],
+  },
+  {
+    id: "Elder Qualifications",
+    heading: "Qualifications for Elders and Overseers",
+    reference: "Titus 1:5&ndash;9",
+    paragraphs: [
+      "Paul&rsquo;s instruction on elder qualifications in Titus 1 is among the most important passages in the New Testament on the subject of church leadership. It parallels the similar list in 1 Timothy 3 while adapting the emphasis for the particular challenges of the Cretan context. What emerges is a portrait not so much of professional competency as of character &mdash; the elder is to be a living demonstration that the gospel actually produces the kind of person it promises.",
+      "The word translated &ldquo;elder&rdquo; (Greek: <em>presbyteros</em>) and the word translated &ldquo;overseer&rdquo; or &ldquo;bishop&rdquo; (Greek: <em>episkopos</em>) appear to be used interchangeably here (compare 1:5 and 1:7), referring to the same office considered from different angles &mdash; the elder title emphasizing maturity and dignity, the overseer title emphasizing function and responsibility. This usage is consistent with other Pauline texts (Acts 20:17, 28; 1 Pet 5:1&ndash;2) and is significant for understanding the early church&rsquo;s leadership structure.",
+      "The first and overarching requirement is that the elder must be &ldquo;blameless&rdquo; (Greek: <em>anegkletos</em>, literally &ldquo;not able to be accused&rdquo;). This is not a claim to sinless perfection but to a life that, upon examination, yields no well-founded accusation of serious moral failure or doctrinal error. It is the foundational requirement from which all the others flow: a man whose life is an open book, whose reputation among insiders and outsiders alike is one of integrity.",
+      "The phrase &ldquo;faithful to his wife&rdquo; (ESV: &ldquo;husband of one wife&rdquo;; Greek: <em>mias gunaikos andra</em>, literally &ldquo;a one-woman man&rdquo;) has generated significant discussion. The phrase most naturally points to a man whose sexual and relational fidelity is beyond question &mdash; one who is devoted, in heart and in practice, to his wife alone. In a Roman world where infidelity, concubinage, and serial divorce were common even among respectable men, this requirement was a counter-cultural mark of the gospel&rsquo;s transforming power.",
+      "The requirement that the elder&rsquo;s &ldquo;children believe and are not open to the charge of debauchery or insubordination&rdquo; (1:6) has also prompted debate. The concern seems to be that a man who cannot exercise loving, faithful leadership in his household is not yet ready to exercise it in the congregation. This is not a rigid test demanding that all his children be converted Christians, but a reasonable expectation that his home reflects the kind of ordered, faithful life that will characterize his pastoral oversight.",
+      "The positive qualities Paul then lists in verses 7&ndash;8 &mdash; hospitable, a lover of good, self-controlled, upright, holy, and disciplined &mdash; are the marks of a man whose character has genuinely been shaped by the Spirit of God. Hospitality in the ancient world was a practical ministry of opening one&rsquo;s home to traveling missionaries, poor members of the congregation, and strangers in need. Self-control (<em>enkrates</em>) speaks to a man who has mastered his own passions rather than being mastered by them &mdash; essential in any leader who must navigate the pressures, temptations, and conflicts of pastoral life.",
+      "The negative disqualifications in verse 7 are equally instructive: not arrogant, not quick-tempered, not a drunkard, not violent, not pursuing dishonest gain. These are not exotic vices but the ordinary failures of character that disqualify a man from trust. Arrogance in a pastor crushes the sheep rather than serving them. A quick temper renders him unable to exercise the patient wisdom that counseling and conflict require. The prohibition of &ldquo;pursuing dishonest gain&rdquo; guards against the corruption that can enter any organization where financial power is held by leaders who lack integrity.",
+      "The climactic requirement of verse 9 ties everything together: the elder must hold &ldquo;firm to the trustworthy word as taught, so that he may be able to give instruction in sound doctrine and also to rebuke those who contradict it.&rdquo; Here Paul reveals the deepest reason why character matters: it is in service of a doctrinal mission. The elder is not merely a community organizer or a social worker; he is a guardian and teacher of the truth. His life must be above reproach so that his teaching will have authority, and his grasp of &ldquo;the trustworthy word&rdquo; must be sure so that he can both build up the faithful and confront those who would lead them astray.",
+    ],
+  },
+  {
+    id: "Sound Doctrine",
+    heading: "Sound Doctrine and the Cretan Context",
+    reference: "Titus 1:9&ndash;12",
+    paragraphs: [
+      "The phrase &ldquo;sound doctrine&rdquo; (Greek: <em>didaskalia hygiainouse</em>, literally &ldquo;healthy teaching&rdquo;) is one of the distinctive marks of the Pastoral Epistles. The medical metaphor is deliberate and striking: doctrine can be healthy or diseased, life-giving or corrupting. Sound doctrine is teaching that corresponds to reality as God has revealed it &mdash; teaching that, when received and practiced, produces spiritual health in individuals and communities.",
+      "Paul establishes the need for sound doctrine in Crete by grounding it in his own apostolic calling. In the opening verses of the letter (1:1&ndash;3) he describes himself as &ldquo;a servant of God and an apostle of Jesus Christ&rdquo; for the sake of &ldquo;the faith of God&rsquo;s elect and their knowledge of the truth that leads to godliness.&rdquo; The link between truth and godliness is programmatic for the whole letter: right doctrine is not an academic luxury but the indispensable foundation of a holy life. You cannot live well by false lights.",
+      "The particular doctrinal crisis in Crete involved those who were &ldquo;teaching things they ought not to teach&rdquo; (1:11) &mdash; specifically, the text mentions &ldquo;Jewish myths and the commands of people who have turned away from the truth&rdquo; (1:14). This suggests a form of Jewish-Christian syncretism, perhaps involving elaborate genealogies, purity regulations, or speculative interpretations of the Old Testament that had no basis in the apostolic gospel. Such teaching was not merely theologically confused; it was practically corrupting, &ldquo;upsetting the faith&rdquo; (1:11) of whole households.",
+      "Paul&rsquo;s appeal to the Cretan cultural context in verse 12 is one of the more striking moments in his letters. He quotes Epimenides of Knossos, a Cretan prophet of the sixth century BC, who wrote of his own people: &ldquo;Cretans are always liars, evil brutes, lazy gluttons.&rdquo; This is what logicians call the &ldquo;Liar&rsquo;s Paradox&rdquo; &mdash; a Cretan calling all Cretans liars. But Paul&rsquo;s point is not philosophical but pastoral: he is acknowledging that the cultural context Titus faces is a genuinely difficult one. The very soil from which these believers have come is saturated with habits of deception and self-indulgence.",
+      "And yet this makes sound doctrine more necessary, not less. The fact that Cretan culture was morally challenging is precisely the argument for the urgency of Titus&rsquo;s mission. The gospel does not float above culture; it enters into specific cultural contexts and does transforming work there. But it can only do that work if it is faithfully taught and carefully guarded. A church that accommodates itself to the moral habits of its surrounding culture &mdash; embracing its deceptions and its indulgences &mdash; has lost its power to transform anything.",
+      "The verse &ldquo;To the pure, all things are pure, but to the defiled and unbelieving, nothing is pure; but both their minds and their consciences are defiled&rdquo; (1:15) is one of the most theologically rich in the chapter. Paul is confronting the false teachers who had apparently instituted a system of ritual purity regulations &mdash; distinctions between clean and unclean foods or practices &mdash; as a condition of genuine godliness. Paul&rsquo;s response is to turn the logic back on them: purity is not primarily a matter of external ritual observance but of inward transformation. A person whose mind and conscience have been renewed by the gospel can engage the created world freely and gratefully. But those whose hearts are unrenewed will find that no amount of external regulation produces genuine holiness &mdash; because the problem is not outside them but within them.",
+      "Sound doctrine, then, is not about imposing a set of behavioral rules that define the in-group. It is about announcing the truth that transforms people from the inside out &mdash; the truth about God, about human sin and need, about the grace of Jesus Christ, and about the new life the Spirit produces in those who believe. Churches that lose this center, drifting toward either moral laxity or rigid externalism, have in both cases abandoned the sound doctrine that alone can produce genuine, lasting godliness.",
+    ],
+  },
+  {
+    id: "False Teachers",
+    heading: "Confronting False Teachers",
+    reference: "Titus 1:10&ndash;16",
+    paragraphs: [
+      "The closing section of Titus 1 pivots sharply from the qualifications of faithful elders to the threat posed by unfaithful teachers. The contrast is deliberate and pointed: the elder who holds firm to sound doctrine and can rebuke those who contradict it (1:9) is precisely the man Crete needs, because there are &ldquo;many who are insubordinate, empty talkers and deceivers&rdquo; (1:10) already at work in the churches there.",
+      "Paul describes the false teachers with a cluster of damning phrases. They are &ldquo;insubordinate&rdquo; &mdash; unwilling to submit to apostolic authority or the established order of the church. They are &ldquo;empty talkers&rdquo; &mdash; their speech has the form of religious instruction but is hollow at its center, producing heat but no light. They are &ldquo;deceivers&rdquo; &mdash; their speech is not merely confused but actively misleading, drawing people away from the truth toward error. And they come &ldquo;especially those of the circumcision group&rdquo; (1:10) &mdash; a faction insisting on the continued binding force of Jewish ceremonial law as a condition of salvation or full standing before God.",
+      "The economic dimension of the false teachers&rsquo; activity is explicitly named: they are teaching &ldquo;for shameful gain&rdquo; (1:11). This is a recurring concern in the Pastoral Epistles (1 Tim 6:5; 2 Tim 3:2) and in Peter&rsquo;s warnings about false prophets (2 Pet 2:3). The false teacher is not simply doctrinally mistaken; he has allowed financial self-interest to corrupt his ministry. He teaches what people want to hear, or what will attract followers and their financial support, rather than what is true. The love of money is not merely a personal vice here but an ecclesial corrupting force &mdash; it produces a ministry shaped by market demand rather than divine revelation.",
+      "Paul&rsquo;s prescribed response is blunt and, to modern ears, perhaps jarring: &ldquo;They must be silenced&rdquo; (1:11) and &ldquo;rebuke them sharply&rdquo; (1:13). The Greek word for &ldquo;sharply&rdquo; (<em>apotom&ocirc;s</em>) means curtly, severely, with the kind of cutting directness that leaves no room for equivocation. This is not the spirit of modern therapeutic conflict-avoidance. Paul is drawing on a tradition of prophetic directness &mdash; the same tradition as Elijah confronting the prophets of Baal, or Nathan confronting David, or Jesus denouncing the scribes and Pharisees. Some errors are so destructive, some deceptions so soul-endangering, that they require a sharp and public rebuke.",
+      "The purpose of the rebuke, however, is not punitive but restorative: &ldquo;rebuke them sharply, so that they will be sound in the faith&rdquo; (1:13). Paul does not abandon hope for the false teachers. The goal of discipline is correction, not condemnation. The sharp rebuke is the medicine administered in the hope of producing health &mdash; consistent with the medical language of &ldquo;sound&rdquo; doctrine throughout the letter. A good doctor does not hide a diagnosis to spare the patient&rsquo;s feelings; he tells the truth precisely because he wants the patient to get well.",
+      "Verse 16 delivers one of the most chilling verdicts in the letter: &ldquo;They claim to know God, but by their actions they deny him. They are detestable, disobedient and unfit for doing anything good.&rdquo; This is the ultimate expose of the false teacher: the profession of faith without the practice of it. They have the language of religion &mdash; they &ldquo;claim to know God&rdquo; &mdash; but their lives give the lie to their profession. The word translated &ldquo;detestable&rdquo; (<em>bdelyktos</em>) is a strong term, used in the Septuagint for things the Lord considers an abomination. Paul is not pulling his punches.",
+      "The lasting lesson of this passage is that the church must take doctrine seriously enough to defend it. A leadership that cannot or will not confront false teaching is not being gracious &mdash; it is being negligent. The sheep under its care are being exposed to teaching that will unsettle their faith and corrupt their lives. Paul&rsquo;s charge to Titus is ultimately a charge to every generation of church leaders: know the truth well enough to recognize what contradicts it, love the flock enough to say so plainly, and trust that God&rsquo;s truth, faithfully proclaimed, is more than sufficient to defeat every counterfeit.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "c6_mFhFALN0", title: "BibleProject - Overview of Titus" },
+  { videoId: "H3sOSwBgWKA", title: "Titus 1 - Elder Qualifications Explained" },
+  { videoId: "nBF8DKGCUQE", title: "Sound Doctrine and False Teachers in Titus" },
+  { videoId: "xGlAnSqH6Yg", title: "The Letter to Titus - In-Depth Study" },
+];
+
+export default function Titus1GuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Titus 1 &mdash; Elder Qualifications and Sound Doctrine
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Paul&rsquo;s letter to Titus opens with a foundational charge: appoint qualified elders, guard sound doctrine, and confront the false teachers who are unsettling whole households in Crete. Titus 1 lays the groundwork for everything that follows &mdash; showing that a healthy church requires both godly character in its leaders and faithfulness to the trustworthy word of the gospel.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: 1 }}>
+            Video Teaching
+          </h3>
+          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.8, margin: "0 0 1.5rem" }}>
+            Deepen your study of Titus 1 through these video teachings covering Paul&rsquo;s instructions on elder qualifications, the call for sound doctrine, and the challenge of false teachers in the early church.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "10px 14px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Hold Firm to the Trustworthy Word</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Titus 1 stands as a perennial call to the church to take both character and doctrine seriously. An elder who holds firm to the trustworthy word, whose life is above reproach, and who is willing to rebuke false teaching with loving directness is not merely a good administrator &mdash; he is a steward of the truth that sets people free. May every church be blessed with such leaders, and may every believer be rooted in the sound doctrine that leads to genuine godliness.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

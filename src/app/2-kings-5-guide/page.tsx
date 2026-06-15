@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Naaman the Mighty Leper",
+  "The Servant Girl's Faith",
+  "Elisha Sends Instructions",
+  "Seven Dips in the Jordan",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 2 Kings 5",
+    reference: "2 Kings 5:1&ndash;27",
+    paragraphs: [
+      "Second Kings 5 is one of the most memorable healing narratives in the entire Old Testament, and one of the most theologically rich. Its protagonist is not an Israelite; he is Naaman, the commander of the Syrian army, a man of great power, valor, and reputation &mdash; and a leper. The chapter traces his journey from the heights of military honor to the muddy waters of the Jordan River, and from the Jordan to his confession that &ldquo;there is no God in all the earth but in Israel&rdquo; (5:15). It is a story about the sovereignty of the God of Israel, the unexpected channels through which grace flows, and the danger of attaching conditions to divine instruction.",
+      "The chapter is structured around five main movements. First, Naaman is introduced as a great man with a great problem (vv. 1&ndash;2). Second, an unnamed Israelite servant girl points him toward the prophet in Samaria (vv. 3&ndash;5). Third, Naaman arrives in Israel with a diplomatic letter and rich gifts, approaches the king, and is directed to Elisha&rsquo;s door (vv. 6&ndash;9). Fourth, Elisha&rsquo;s instruction &mdash; wash in the Jordan seven times &mdash; and Naaman&rsquo;s furious reaction, followed by his servants&rsquo; gentle persuasion and his obedience and healing (vv. 10&ndash;14). Fifth, Naaman&rsquo;s confession and request for pardon, Elisha&rsquo;s refusal of gifts, and Gehazi&rsquo;s sin and punishment (vv. 15&ndash;27).",
+      "The chapter is organized around three characters of low social standing whose words prove decisive for the great: the servant girl who speaks up in vv. 3&ndash;4, Elisha&rsquo;s unnamed messenger who delivers the instruction in v. 10, and Naaman&rsquo;s servants who persuade him to obey in vv. 13&ndash;14. In each case, the wisdom and the word of God come through those who have no power by the world&rsquo;s reckoning. The commanders and kings are helpless; the servants move the story forward.",
+      "Theologically, 2 Kings 5 extends the reach of Israel&rsquo;s God beyond Israel&rsquo;s borders in the most dramatic way possible. The LORD who heals Naaman is not a tribal deity bound by geography. He is the God who controls the armies of Syria, who uses a captive girl to direct a Syrian general, who heals a leper in a foreign army, and who receives the confession of a pagan military officer. Jesus himself will later point to this story in his sermon at Nazareth as evidence that God&rsquo;s grace has never been limited to those who considered themselves God&rsquo;s people (Luke 4:27).",
+      "The chapter also carries a warning in its final section. Gehazi, Elisha&rsquo;s own servant, watches his master refuse the gifts of a grateful Naaman and immediately decides to correct what he sees as an error. He runs after Naaman, lies about Elisha&rsquo;s needs, collects silver and clothing, hides them, and returns to stand before Elisha. Elisha knows everything: &ldquo;Did I not go with you in spirit when the man turned from his chariot to meet you?&rdquo; (5:26). The leprosy of Naaman &mdash; from which Naaman has just been cleansed &mdash; now clings to Gehazi and his descendants forever. The chapter that begins with grace and healing ends with judgment on greed.",
+      "For the reader of the New Testament, the structure of 2 Kings 5 anticipates the gospel pattern: the great man brought low by a disease he cannot cure by his own power, directed to a prophet he has no reason to trust, commanded to do something undignified and simple, and healed when he obeys in humility. Naaman&rsquo;s healing is a type of the grace that comes to those who lay down their dignity and receive the gift of God on God&rsquo;s own terms. The Jordan River, in which Naaman washes and is made clean, becomes in the New Testament the river in which John baptizes &mdash; the river of new beginnings, of death to the old self and emergence into new life.",
+    ],
+  },
+  {
+    id: "Naaman the Mighty Leper",
+    heading: "Naaman the Mighty Leper",
+    reference: "2 Kings 5:1",
+    paragraphs: [
+      "The opening verse of 2 Kings 5 is a masterpiece of ironic compression: &ldquo;Naaman, commander of the army of the king of Syria, was a great man with his master and in high favor, because by him the LORD had given victory to Syria. He was a mighty man of valor, but he was a leper&rdquo; (5:1). The verse builds a portrait of honor and power and then punctures it with those four words at the end. Great man, high favor, mighty valor &mdash; but. The &ldquo;but&rdquo; is everything. No human achievement, no military glory, no royal favor can undo the condition that the &ldquo;but&rdquo; introduces.",
+      "The description of Naaman as a man through whom &ldquo;the LORD had given victory to Syria&rdquo; is theologically arresting. The LORD &mdash; the God of Israel &mdash; is credited with giving military victory to a foreign nation, through a foreign commander who serves a foreign king. This is a direct statement of the sovereignty of Israel&rsquo;s God over the history of the nations. He is not a deity who works only within Israel&rsquo;s borders and only for Israel&rsquo;s benefit. He works in and through the armies of Syria for his own purposes. The narrator&rsquo;s identification of the LORD as the source of Naaman&rsquo;s victories is the first hint that this man is not outside God&rsquo;s reach or God&rsquo;s concern.",
+      "Leprosy in the ancient Near Eastern world was a category of skin disease that could include a range of conditions &mdash; the Hebrew tzara&rsquo;at covered various eruptions, scaling disorders, and discoloration of the skin. What is certain from the text is that Naaman&rsquo;s condition, whatever its precise medical nature, is incurable by ordinary means. He has access to the finest physicians in Syria. He has the resources of a military commander and the patronage of a king. None of it has helped. The disease that has attached itself to this man of power is a daily reminder that power has limits.",
+      "The contrast the verse constructs is the structural engine of the entire chapter. Naaman has everything: honor, position, success, the king&rsquo;s favor, military glory. He lacks one thing: health. And the one thing he lacks cannot be purchased or commanded or won in battle. It can only be received as a gift, through a channel he would never have chosen, by obeying an instruction that affronts his dignity. The chapter is about whether Naaman can lay down his greatness long enough to receive what his greatness cannot obtain.",
+      "The reader who encounters this opening verse is being trained to see the world in a particular way: the great are not self-sufficient; the mighty have vulnerabilities; the man of honor can be reduced to begging for health. This is not a mean-spirited observation. It is a theologically precise one. Naaman&rsquo;s leprosy is the crack in the armor through which grace can enter. If he were well, he would have no reason to listen to a captive girl or travel to a foreign prophet or wash in a river he considers inferior to the rivers of Damascus. His need is the opening through which God reaches him.",
+      "The word &ldquo;great&rdquo; (Hebrew gadol) appears four times in this chapter &mdash; in verse 1 of Naaman himself, in verse 13 in the phrase &ldquo;a great thing,&rdquo; and in the repeated acknowledgment of what has happened to him. The irony is that the truly great thing done in this chapter is done not by Naaman but to him, and not through his own resources but through the word of a prophet who sends a messenger with a simple instruction. Naaman&rsquo;s greatness is rearranged by this chapter: he arrives as a great commander who is a leper, and he leaves as a healed man who confesses the greatness of Israel&rsquo;s God.",
+    ],
+  },
+  {
+    id: "The Servant Girl's Faith",
+    heading: "The Servant Girl&rsquo;s Faith",
+    reference: "2 Kings 5:2&ndash;5",
+    paragraphs: [
+      "The pivot of the entire chapter rests on a single sentence spoken by a person who has no name, no status, and no power: &ldquo;Now the Syrians on one of their raids had carried off a little girl from the land of Israel, and she worked in the service of Naaman&rsquo;s wife. She said to her mistress, &lsquo;Would that my lord were with the prophet who is in Samaria! He would cure him of his leprosy&rsquo;&rdquo; (5:2&ndash;3). Two verses, and the whole story is set in motion. The unnamed girl, taken from her homeland in an act of violence, becomes the unexpected instrument of grace for the man who commands the army responsible for her captivity.",
+      "The faith displayed by this girl is remarkable on multiple levels. She has been seized from her family and country, taken to a foreign land, and made a slave in the household of a Syrian military commander. She has every reason to be bitter, silent, or indifferent to the suffering of her captors&rsquo; household. Instead she speaks &mdash; and what she speaks is a word of hope, directed toward the healing of the man who represents the power that enslaved her. Her faith is not diminished by her suffering; it is expressed through and despite her suffering.",
+      "The content of her faith is equally important. She does not say &ldquo;the prophet in Samaria might be able to help.&rdquo; She says &ldquo;he would cure him.&rdquo; It is a statement of confident hope in the power of God&rsquo;s prophet, spoken without qualification, in a household where the God of Israel has no official standing. She is a theological witness in an improbable context, and the credibility of her witness is sufficient to move an entire chain of events: Naaman tells his master the king, the king writes a letter, and a Syrian diplomatic mission to Israel is launched on the strength of a captive girl&rsquo;s word.",
+      "The social dynamics of this moment deserve attention. The girl is as low in the social hierarchy of the ancient world as a person can be: a child, a foreigner, a slave, a female. Naaman is near the top: an adult male, a national hero, the commander of the army, in the personal favor of the king. The word of grace travels from the bottom of the social order to the top, and it is believed and acted upon. This is a pattern that recurs throughout the Bible: the barren woman, the younger son, the least of the tribes, the fishermen of Galilee. God&rsquo;s decisive words regularly come through the ones whom the powerful are most likely to ignore.",
+      "The girl&rsquo;s anonymity is worth noting. She is not named anywhere in the text. Her name was not important to the ancient narrator, or perhaps not known, or perhaps deliberately omitted to underscore that what matters is not who she is but what she says and the faith behind it. She disappears from the story after verse 4; she never learns the outcome of her recommendation. But her word sets in motion the healing of a great man, the confession of a pagan general, and a story that Jesus will still be telling in Nazareth centuries later as a paradigm of God&rsquo;s grace extending beyond Israel&rsquo;s borders.",
+      "For the Christian reader, the servant girl is a figure of the kind of witness that the New Testament calls every believer to: speaking the truth about where healing and hope can be found, regardless of one&rsquo;s social standing, regardless of the personal cost of being in a situation of vulnerability, regardless of whether one will live to see the outcome of the word spoken. The girl cannot force Naaman to go to Elisha. She can only say where healing is available. The rest is up to Naaman, and to God.",
+    ],
+  },
+  {
+    id: "Elisha Sends Instructions",
+    heading: "Elisha Sends Instructions",
+    reference: "2 Kings 5:6&ndash;14",
+    paragraphs: [
+      "The chain of events set in motion by the servant girl reaches a crisis point when Naaman arrives at the palace of the king of Israel with a letter of introduction from the king of Syria: &ldquo;When this letter reaches you, know that I have sent to you Naaman my servant, that you may cure him of his leprosy&rdquo; (5:6). The king of Israel reads the letter and tears his garments &mdash; the gesture of distress and grief. &ldquo;Am I God, to kill and to make alive, that this man sends word to me to cure a man of his leprosy? Only consider, and see how he is seeking a quarrel with me&rdquo; (5:7). The king sees the request as an impossible diplomatic trap. He cannot produce the healing; the failure will be a pretext for war.",
+      "Elisha hears of the king&rsquo;s distress and sends a message: &ldquo;Let him come now to me, that he may know that there is a prophet in Israel&rdquo; (5:8). The prophet&rsquo;s confidence is total and his purpose is explicit: the healing of Naaman is not primarily a diplomatic event or even a personal blessing. It is a demonstration that the God of Israel is present and active in his prophet, and that his power extends even to a Syrian commander. Elisha&rsquo;s invitation is both pastoral and evangelistic. He is not healing Naaman merely to be kind; he is healing him so that Naaman may know there is a prophet in Israel &mdash; and, by extension, a God in Israel.",
+      "Naaman arrives at Elisha&rsquo;s door with his horses and chariot and considerable retinue &mdash; the full display of a Syrian military commander on an official mission. What happens next deflates the occasion completely. Elisha does not come to the door. He sends a messenger with a simple instruction: &ldquo;Go and wash in the Jordan seven times, and your flesh shall be restored, and you shall be clean&rdquo; (5:10). The prophet who can cure leprosy does not even grant Naaman a personal audience. He sends a subordinate with a two-sentence prescription.",
+      "Naaman&rsquo;s reaction is furious and revealing: &ldquo;Behold, I thought that he would surely come out to me and stand and call upon the name of the LORD his God, and wave his hand over the place and cure the leper&rdquo; (5:11). Naaman had constructed in advance what a genuine healing should look like &mdash; the prophet appearing in person, invoking his God with a ceremony, a gesture, a dramatic moment. The Jordan River, the most ordinary of instructions, delivered through a servant without ceremony, does not match his expectations. And then: &ldquo;Are not Abana and Pharpar, the rivers of Damascus, better than all the waters of Israel? Could I not wash in them and be clean?&rdquo; (5:12). He turns and goes away in a rage.",
+      "The objection is not irrational from Naaman&rsquo;s perspective. The rivers of Damascus were indeed greater in volume and reputation than the Jordan. His question &mdash; could I not wash in the rivers of my own country? &mdash; is the question of a man who wants the benefit without the submission. He wants to be healed on terms he finds acceptable. He wants a healing that respects his dignity as a great man. The Jordan is beneath him. The instruction to wash in it seven times is, to him, an insult dressed up as a prescription.",
+      "It is Naaman&rsquo;s own servants who break the impasse. &ldquo;My father, it is a great word the prophet has spoken to you; will you not do it? Has he actually said to you, &lsquo;Wash, and be clean&rsquo;?&rdquo; (5:13). The logic is gentle and irresistible: if the prophet had demanded something difficult and costly, would you not have done it? How much more when he says simply &ldquo;wash and be clean&rdquo;? Naaman listens. He goes down and dips himself in the Jordan seven times. And the miracle happens: &ldquo;his flesh was restored like the flesh of a little child, and he was clean&rdquo; (5:14).",
+    ],
+  },
+  {
+    id: "Seven Dips in the Jordan",
+    heading: "Seven Dips in the Jordan",
+    reference: "2 Kings 5:14&ndash;27",
+    paragraphs: [
+      "The healing of Naaman is described in a single verse, but it is theologically loaded in every word: &ldquo;So he went down and dipped himself seven times in the Jordan, according to the word of the man of God, and his flesh was restored like the flesh of a little child, and he was clean&rdquo; (5:14). Three phrases deserve attention. &ldquo;According to the word of the man of God&rdquo; &mdash; the healing comes through obedience to the prophetic word, not through any inherent property of the water. The Jordan heals Naaman not because it is special water but because the prophet of Israel&rsquo;s God said to wash in it. The word is the instrument; the water is the medium; God is the healer.",
+      "The number seven &mdash; the number of completeness and divine perfection in Hebrew thought &mdash; is not incidental. Naaman must dip seven times. He cannot dip three or four and expect the result; he must complete the number prescribed. The obedience required is exact, patient, and complete. There is something humbling about the image: the great Syrian commander, who arrived with horses and chariots and royal letters, repeatedly lowering himself into a river that his national pride had already dismissed as inferior, counting to seven. The wholeness of the healing is proportional to the completeness of the obedience.",
+      "The description of the healed flesh as being &ldquo;like the flesh of a little child&rdquo; is poignant and symbolic. Naaman did not merely recover his previous condition; his flesh was made new. The texture of the healing is renewal, not restoration to the status quo. What God does for the sick and broken is not merely a return to baseline but a new beginning. The man who comes up from the Jordan the seventh time is not Naaman minus leprosy; he is Naaman made fresh, made young in his skin, beginning again. The Jordan is both the place of death &mdash; his old leprous skin &mdash; and of new life.",
+      "The response of the healed Naaman is immediate and wholehearted: he returns to Elisha with his entire company and makes the confession that is the theological climax of the entire chapter: &ldquo;Behold, I know that there is no God in all the earth but in Israel&rdquo; (5:15). This is a remarkable statement in the ancient world. Naaman is not an Israelite; he has been raised within a polytheistic culture. His confession of Israel&rsquo;s God as the only God in all the earth is a genuine theological conversion, rooted in his experience of healing. He does not merely say that Israel&rsquo;s God is powerful; he says there is no other God. The healing produces a monotheistic confession.",
+      "Naaman then offers Elisha a gift &mdash; the rich gifts of silver and gold and garments he brought from Syria. Elisha refuses with an oath: &ldquo;As the LORD lives, before whom I stand, I will receive nothing&rdquo; (5:16). The refusal is not rudeness; it is theological precision. Elisha will not allow the grace of God to be transformed into a commercial transaction. Naaman has received a gift from God through God&rsquo;s prophet; to accept payment would imply that the gift was earned or that the prophet&rsquo;s services are for sale. Naaman has two requests: to take home as much Israelite soil as a pair of mules can carry, and to be pardoned when he accompanies his master to the temple of Rimmon and bows there with him. Elisha sends him in peace.",
+      "The chapter&rsquo;s final section is the story of Gehazi, and it functions as a sobering counterweight to Naaman&rsquo;s story. Gehazi watches Elisha refuse the gifts and immediately decides to pursue Naaman and acquire them for himself. He catches up with Naaman, tells a lie about two young prophets who need silver and garments, receives them, hides them at home, and returns to stand before Elisha. Elisha&rsquo;s question is devastating: &ldquo;Where have you been, Gehazi?&rdquo; Gehazi lies again: &ldquo;Your servant went nowhere.&rdquo; Elisha knows the truth through divine knowledge, and pronounces judgment: the leprosy of Naaman shall cling to Gehazi and his descendants forever. The grace that cleansed Naaman now marks Gehazi. The servant of the prophet who healed a pagan general through the word of God is himself struck with the pagan general&rsquo;s former disease through the word of God. The chapter ends in a stark and terrible symmetry.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying 2 Kings 5 Today",
+    reference: "2 Kings 5 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Second Kings 5 is one of the most theologically generous chapters in the Old Testament in its picture of the reach of God&rsquo;s grace. Naaman is a Syrian, a pagan, a member of a nation often hostile to Israel, and the commander of the army that carried Israelite children into captivity. He is, by every measure, an outsider. Yet the God of Israel reaches him through a captive girl, heals him through a prophet, and receives his confession. The gospel pattern &mdash; that God&rsquo;s grace extends to those who have no claim on it by birth, rank, or covenant membership &mdash; is visible in full clarity in this chapter.",
+      "Jesus points explicitly to this story in his sermon at Nazareth (Luke 4:27): &ldquo;And there were many lepers in Israel in the time of the prophet Elisha, and none of them was cleansed, but only Naaman the Syrian.&rdquo; The congregation&rsquo;s response is fury; they try to throw him off a cliff. Jesus is saying something deeply provocative: God&rsquo;s grace has always run beyond the borders of those who consider themselves his people. Naaman is not a peripheral figure in Israel&rsquo;s story; he is a paradigm. The one who is healed in 2 Kings 5 is the one who had no reason to expect healing &mdash; and that is precisely the point.",
+      "The healing of Naaman also teaches the church something about the nature of divine instruction. Naaman wanted a cure that matched his dignity &mdash; the prophet appearing in person, a grand ceremony, a healing that honored his status as a great man. What he received was an instruction from a messenger: wash seven times in the Jordan. The instruction was simple, undignified, and specific. The choice Naaman faced was whether to receive the gift on God&rsquo;s terms or not at all. The church regularly faces the same choice. The means of grace &mdash; baptism, the Lord&rsquo;s Supper, the reading of Scripture, the assembly of ordinary people &mdash; may appear to our Naaman-shaped expectations as insufficiently grand. The question is always whether we will receive the gift on the terms offered.",
+      "The seven dips in the Jordan speak to the nature of obedience in the life of faith. Naaman dips once &mdash; nothing. Twice &mdash; nothing. Three times &mdash; nothing. The healing does not come after a single act of compliance; it comes with the completion of what was asked. This is not a picture of salvation by works but of the kind of patient, complete obedience that trusts the word of God even when the evidence has not yet materialized. The church fathers saw in the seven dips a figure of baptism &mdash; the washing that does not save through its own power but through the word of promise attached to it. Naaman comes up from the Jordan the seventh time not because the water itself is magical but because the word of God&rsquo;s prophet has declared it the means of his healing.",
+      "The contrast between Naaman and Gehazi is the moral warning at the heart of the chapter. Naaman comes as an outsider, full of pride and foreign expectations, and is humbled into healing. Gehazi serves as an insider, the personal servant of God&rsquo;s prophet, a witness to the miracle, and chooses to make personal profit from the grace that has just been freely given. The sin of Gehazi is not simply greed; it is the commercialization of grace, the attempt to convert the gift of God into a private gain. He lies twice &mdash; once to Naaman and once to Elisha. The leprosy that comes upon him is the judgment of God on a man who watched grace heal a pagan and then used that grace for his own enrichment.",
+      "The servant girl who begins the story and Gehazi who ends it are the two poles of the chapter&rsquo;s moral world. The girl, who has every reason to be bitter and closed, speaks an open and generous word of hope. Gehazi, who has every reason to be grateful and generous, closes his fist around what was freely given. The church is always choosing which character to resemble: the one who points others toward the grace of God without regard for personal cost or benefit, or the one who handles the things of God for private advantage. Second Kings 5 makes the outcome of each choice unmistakably clear.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "vmx4UjRFp0M", title: "BibleProject - Overview of 1 Kings 12 to 2 Kings 25" },
+  { videoId: "AR8o7E8lYXc", title: "Naaman and Elisha - 2 Kings 5 Explained" },
+  { videoId: "oPCMOHdp2H8", title: "2 Kings 5 - Naaman, the Jordan River, and the Grace of God" },
+  { videoId: "HSBCe34SLOs", title: "Elisha and Naaman - Humility, Healing, and the God of Israel" },
+];
+
+export default function TwoKings5GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Kings 5 &mdash; Naaman and Elisha
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Naaman, commander of the Syrian army, is mighty but a leper. A captive Israelite servant girl points him to Elisha. Elisha sends word: wash in the Jordan seven times. Naaman is furious, then persuaded, then healed &mdash; and confesses: &ldquo;There is no God in all the earth but in Israel.&rdquo; Gehazi&rsquo;s greed brings Naaman&rsquo;s leprosy upon himself.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 2 Kings 5 through these video teachings on Naaman the leper, the servant girl&rsquo;s faith, Elisha&rsquo;s instructions, the seven dips in the Jordan, and Gehazi&rsquo;s sin and judgment.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>There Is No God in All the Earth But in Israel</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Second Kings 5 is a chapter about the grace that crosses every border &mdash; national, ethnic, religious, social. The God of Israel reaches a Syrian general through a captive girl, heals him through a prophet&rsquo;s word, and receives from him the confession of a converted heart. He comes up from the Jordan a new man, with flesh like a little child&rsquo;s. The gift cannot be bought; it can only be received &mdash; on the terms given, through the means appointed, in the humility of the dip.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

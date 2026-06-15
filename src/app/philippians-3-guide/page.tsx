@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Confidence in the Flesh",
+  "All as Loss for Christ",
+  "The Resurrection and Sufferings",
+  "Press On Toward the Goal",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Philippians 3",
+    reference: "Philippians 3:1&ndash;21",
+    paragraphs: [
+      "Philippians 3 is one of the most autobiographical passages in Paul&rsquo;s letters and one of the most searching treatments of Christian identity in the New Testament. The chapter opens with a double warning: Paul tells his beloved Philippian congregation to &ldquo;rejoice in the Lord&rdquo; and then pivots to an urgent alert about those he calls &ldquo;dogs,&rdquo; &ldquo;evildoers,&rdquo; and the &ldquo;mutilation&rdquo; &mdash; Jewish-Christian teachers who were insisting that Gentile converts must be circumcised and adopt the full practice of Torah observance in order to be right with God. Against this threat, Paul deploys not philosophical argument but his own story: if anyone had reason to place confidence in the flesh, it was Paul himself, and he has concluded that all of it is loss.",
+      "The movement of the chapter follows a clear arc. Paul first establishes his credentials, listing his Jewish heritage and his own religious achievements in terms that would have been recognized as impeccable by any first-century Jew: circumcised on the eighth day, of the tribe of Benjamin, a Hebrew of Hebrews, as to the law a Pharisee, as to zeal a persecutor of the church, as to righteousness under the law blameless. He then performs a dramatic accounting: all of these assets he has reclassified as liabilities. Not merely as neutral, not merely as insufficient, but as &ldquo;rubbish&rdquo; &mdash; a word in the Greek that is deliberately strong and even offensive &mdash; compared to the surpassing worth of knowing Christ Jesus his Lord.",
+      "Paul&rsquo;s desire in Philippians 3 is expressed in one of the great sentences of the New Testament: he wants to &ldquo;know him and the power of his resurrection, and may share his sufferings, becoming like him in his death, that by any means possible I may attain the resurrection from the dead&rdquo; (3:10&ndash;11). This is the goal of Paul&rsquo;s life: not religious achievement, not status within the community of Israel, not even the blameless moral record he had built up as a Pharisee, but the intimate, transforming knowledge of the risen Christ, with all that such knowledge requires and costs.",
+      "The second half of the chapter turns to the posture of ongoing Christian life. Paul has not yet arrived at the goal; he has not yet been made perfect. But he does one thing: forgetting what lies behind and straining forward to what lies ahead, he presses on toward the goal for the prize of the upward call of God in Christ Jesus. He invites the mature in the Philippian community to share this mind, and he warns against those whose mind is set on earthly things. Their end is destruction; their god is their belly; their glory is in their shame.",
+      "Against this picture of those who are heading for destruction, Paul sets the Christian&rsquo;s true identity: &ldquo;But our citizenship is in heaven, and from it we await a Savior, the Lord Jesus Christ, who will transform our lowly body to be like his glorious body, by the power that enables him even to subject all things to himself&rdquo; (3:20&ndash;21). The chapter closes with the eschatological horizon that gives meaning to everything else in it: the return of Christ, the resurrection of the body, and the final conformity of the believer to the glorious humanity of the risen Lord. Philippians 3 is, from beginning to end, a sustained argument for a Christianity that knows where its identity comes from, what its treasure is, and where it is heading.",
+    ],
+  },
+  {
+    id: "Confidence in the Flesh",
+    heading: "Confidence in the Flesh",
+    reference: "Philippians 3:1&ndash;6",
+    paragraphs: [
+      "Paul&rsquo;s warning in Philippians 3:2 is startling in its intensity: &ldquo;Look out for the dogs, look out for the evildoers, look out for those who mutilate the flesh.&rdquo; The triple command &ldquo;look out for&rdquo; signals a serious threat. The people Paul is describing are almost certainly Jewish-Christian missionaries who have been teaching that Gentile converts to Christianity must also be circumcised and observe the Torah in order to be fully right with God. Paul calls circumcision, when it is required as a condition of standing before God, not &ldquo;circumcision&rdquo; (peritome) but &ldquo;mutilation&rdquo; (katatome) &mdash; a savage play on words that signals his conviction that this teaching has perverted the very sign it claims to honor.",
+      "The term &ldquo;dogs&rdquo; is particularly arresting. In Jewish usage, dogs were unclean animals, and the term was sometimes applied by Jews to Gentiles as those who were outside the covenant. Paul inverts the label entirely: it is the teachers who insist on circumcision who are the &ldquo;dogs,&rdquo; the &ldquo;evildoers.&rdquo; Those who have placed their confidence in the flesh &mdash; in ethnic identity, in religious rite, in accumulated religious achievement &mdash; are the ones outside the true covenant community. True circumcision, Paul counters, is spiritual: &ldquo;we are the circumcision, who worship by the Spirit of God and glory in Christ Jesus and put no confidence in the flesh&rdquo; (3:3).",
+      "Paul then establishes his authority to speak on this matter. If anyone could make a case for confidence in the flesh, it is he: &ldquo;Though I myself have reason for confidence in the flesh also&rdquo; (3:4). He proceeds to enumerate his credentials in what reads like a formal resume of Jewish distinction. He was circumcised on the eighth day &mdash; a sign given at the correct time, not as an adult convert or a proselyte but from birth. He is of the people of Israel &mdash; a full member of the covenant nation. He is of the tribe of Benjamin &mdash; the tribe of the first king, Saul, and the tribe that remained loyal to the Davidic monarchy at the division of the kingdom.",
+      "He is a Hebrew born of Hebrews &mdash; a distinction in a world of Greek-speaking diaspora Jews, suggesting that Paul&rsquo;s family maintained its Hebrew language and customs in the Hellenistic environment of Tarsus. As to the law, a Pharisee &mdash; the most rigorous of the Jewish sects in terms of Torah observance, devoted to the oral tradition as well as the written law. As to zeal, a persecutor of the church &mdash; his commitment to the purity of Judaism was so intense that he had actively hunted down and imprisoned followers of the Jesus movement. As to righteousness under the law, blameless &mdash; by his own pre-conversion assessment and by the assessment of his community, he had met the standard of Torah-defined righteousness.",
+      "The list is comprehensive and deliberate. Paul is not speaking from a position of ignorance about the value of Jewish identity and religious achievement. He has been inside the system; he has excelled at it; he knows exactly what it offers and what it costs. His subsequent dismissal of all of this as &ldquo;loss&rdquo; is therefore not the dismissal of an outsider who never understood the tradition. It is the judgment of someone who was at the top of the system and found, when Christ appeared to him on the road to Damascus, that the entire calculus had to be rethought from the ground up.",
+      "The category of &ldquo;confidence in the flesh&rdquo; is broader than Jewish religious achievement. It includes any human qualification, moral record, social status, or religious performance that a person relies upon for their standing before God. The question Philippians 3 asks of every reader is the same question it asked its first recipients: on what is your confidence actually resting? Not what you say it rests on, but where your deepest assurance of acceptance actually comes from. Paul&rsquo;s answer to that question, after cataloguing his most impressive credentials, is unequivocal: the flesh offers nothing that cannot be reclassified as loss the moment it is compared to knowing Christ.",
+    ],
+  },
+  {
+    id: "All as Loss for Christ",
+    heading: "All as Loss for Christ",
+    reference: "Philippians 3:7&ndash;9",
+    paragraphs: [
+      "The pivot of Philippians 3 comes in verse 7: &ldquo;But whatever gain I had, I counted as loss for the sake of Christ.&rdquo; The accounting metaphor is deliberate. Paul has been speaking of credentials and achievements in the language of profit and gain &mdash; the things he would have put in the credit column of a religious ledger. Now he performs a reclassification. Not merely does he count them less important than Christ; he counts them as loss. The assets have become liabilities. The credits have been moved to the debit column. Something has happened that has reversed the entire accounting.",
+      "What has happened, of course, is the encounter with the risen Jesus on the road to Damascus (Acts 9). Paul does not narrate that event in Philippians 3, but it is the presupposition of every sentence. A man who was blameless under the law and zealous for God to the point of persecuting the church was confronted by the one he was persecuting, and the categories by which he had organized his entire life were shattered. The Jesus whom Paul was hunting as a blasphemer and a false messiah turned out to be the risen Son of God. And in the light of that revelation, everything else looked different.",
+      "The reclassification deepens in verse 8: &ldquo;Indeed, I count everything as loss because of the surpassing worth of knowing Christ Jesus my Lord.&rdquo; It is not just the Jewish credentials that are loss; it is &ldquo;everything.&rdquo; The word &ldquo;surpassing&rdquo; (huperechon) suggests that the worth of knowing Christ so far exceeds any other worth that comparison barely makes sense. Paul uses a word for &ldquo;rubbish&rdquo; (skybala) that is deliberately coarse &mdash; it refers to refuse, to scraps thrown to dogs, to dung. The things that once constituted his identity and his claim to God&rsquo;s favor are now, by comparison to Christ, rubbish.",
+      "The purpose of this reclassification is stated in verse 8: &ldquo;that I may gain Christ.&rdquo; There is an irony here that Paul certainly intends. He has counted everything as loss &mdash; and by doing so, he has gained the one thing that is worth having. The man who accumulated religious achievements in order to gain standing before God now says that standing before God is found only through losing everything in order to know Christ. The economy of grace runs exactly contrary to the economy of religious achievement.",
+      "Verse 9 specifies what it means to be &ldquo;found in him&rdquo; at the final judgment: &ldquo;not having a righteousness of my own that comes from the law, but that which comes through faith in Christ, the righteousness from God that depends on faith.&rdquo; Paul has distinguished two kinds of righteousness: one that he generates by his own performance of the law (&ldquo;a righteousness of my own&rdquo;) and one that comes from God and is received through faith in Christ. His pre-conversion life was organized around the former; his entire post-Damascus life is organized around the latter. The righteous standing he could not achieve by blameless Pharisaic observance is given freely to the one who trusts in Christ.",
+      "Philippians 3:7&ndash;9 is therefore a compressed statement of the doctrine of justification by faith. But it is not an abstract doctrinal statement; it is Paul&rsquo;s autobiography. This is what happened to him. This is what he has staked his life on. He is not arguing for a theological position; he is testifying to the revolution that the risen Christ performed in the ledger of his soul. The man who counted his credentials as gain now counts them as loss &mdash; and has gained something so much greater that he has never once regretted the exchange.",
+    ],
+  },
+  {
+    id: "The Resurrection and Sufferings",
+    heading: "The Resurrection and Sufferings",
+    reference: "Philippians 3:10&ndash;11",
+    paragraphs: [
+      "The goal of Paul&rsquo;s life, once all the religious credits have been reclassified as loss, is stated in one of the most compressed and powerful sentences in his letters: &ldquo;that I may know him and the power of his resurrection, and may share his sufferings, becoming like him in his death, that by any means possible I may attain the resurrection from the dead&rdquo; (3:10&ndash;11). The sentence is structured as a single sustained yearning, and its structure is important: Paul places the knowledge of Christ and his resurrection power first, the sharing of his sufferings second, and the final resurrection of the dead at the end as the ultimate goal toward which everything else is directed.",
+      "The word for &ldquo;know&rdquo; here is not the Greek word for factual knowledge (gnosis) but the word for intimate, relational, experiential knowledge (epignosis and, in this context, ginosko). Paul is not asking to know more facts about Jesus. He is asking for the deepening of a personal relationship that he began on the road to Damascus and that has been the organizing center of his life ever since. He wants to know Christ in the way that two people who have shared everything know each other &mdash; through experience, through suffering, through the kind of trust that has been tested by fire.",
+      "The phrase &ldquo;the power of his resurrection&rdquo; reaches back to the earliest Christian proclamation: God raised Jesus from the dead, and this resurrection is not merely a historical event but an ongoing reality. The same power that raised Jesus is available to those who are in him. Paul has already spoken of this in Ephesians 1:19&ndash;20, where he prays that believers would know &ldquo;what is the immeasurable greatness of his power toward us who believe, according to the working of his great might that he worked in Christ when he raised him from the dead.&rdquo; Resurrection power is not reserved for the last day; it is the power that operates in the life of the believer now, through the Spirit.",
+      "But Paul insists on placing the sharing of Christ&rsquo;s sufferings alongside the power of his resurrection &mdash; indeed, in a sense, before it in the experience of this life. The Greek phrase &ldquo;becoming like him in his death&rdquo; (symmorphizomenos to thanato autou) is rare and striking. Paul is not merely saying that he is willing to suffer for Christ; he is saying that he wants his death &mdash; his daily dying to self, and if necessary his physical death &mdash; to be conformed to the shape of Christ&rsquo;s death. The cross is the pattern, and conformity to it is not an unfortunate cost but a desired participation in the life of the one he loves.",
+      "The final phrase &mdash; &ldquo;that by any means possible I may attain the resurrection from the dead&rdquo; &mdash; is often misread as expressing uncertainty about Paul&rsquo;s salvation. It is better read as an expression of the seriousness with which he takes the goal. He does not allow himself to presume upon it; he strains toward it with everything he has. The resurrection from the dead is the concrete, bodily, final form of the salvation that is already begun in union with Christ. It is not spiritual survival but physical transformation &mdash; the mortal body made immortal, conformed at last to the glorious resurrection body of Jesus himself.",
+      "Philippians 3:10&ndash;11 establishes the pattern of Christian experience that Paul will develop in the remainder of the chapter: resurrection power and suffering are not alternatives but companions. The Christian life is not a straight line from conversion to glory; it passes through the valley of conformity to Christ&rsquo;s death before arriving at the resurrection. But the destination is sure, and the power of the risen Christ is at work in the journey. Paul&rsquo;s longing to know Christ in his resurrection and his sufferings is not the longing of a man who is uncertain of the outcome; it is the longing of a man who knows exactly where he is going and wants every step of the way to look like his Lord.",
+    ],
+  },
+  {
+    id: "Press On Toward the Goal",
+    heading: "Press On Toward the Goal",
+    reference: "Philippians 3:12&ndash;21",
+    paragraphs: [
+      "Having described the goal of knowing Christ in his resurrection and sufferings, Paul immediately corrects any misunderstanding that he has already arrived: &ldquo;Not that I have already obtained this or am already perfect, but I press on to make it my own, because Christ Jesus has made me his own&rdquo; (3:12). The verb &ldquo;press on&rdquo; (dioko) is the same word used for pursuing or chasing something. It is athletic, urgent, forward-moving language. Paul is not resting in a state of achieved spirituality; he is running after something that is still ahead of him. The grounds for his pursuit is not his own effort but the fact that Christ has already &ldquo;made him his own&rdquo; &mdash; Christ&rsquo;s claim on Paul is the basis for Paul&rsquo;s pursuit of Christ.",
+      "The famous athletic image of verse 13&ndash;14 is one of the most vivid in Paul&rsquo;s letters: &ldquo;Brothers, I do not consider that I have made it my own. But one thing I do: forgetting what lies behind and straining forward to what lies ahead, I press on toward the goal for the prize of the upward call of God in Christ Jesus.&rdquo; The image is of a runner in a race who cannot afford to look back over his shoulder &mdash; even to admire how far he has come &mdash; but must fix his gaze on the finish line. &ldquo;Forgetting what lies behind&rdquo; does not mean pretending the past did not happen; it means refusing to let either past achievements or past failures define the pace and direction of the present.",
+      "The phrase &ldquo;the prize of the upward call of God in Christ Jesus&rdquo; is rich with eschatological meaning. In the Greek games, the victor was called up to the judge&rsquo;s stand to receive the prize. Paul sees the final resurrection and transformation of the believer as a &ldquo;call upward&rdquo; &mdash; the culminating summons of God to the believer to receive what Christ has won for them. This upward call is the goal of all Christian striving. It is not a reward earned by superior religious effort; it is the prize of the one whose race was run in dependence on the power of Christ&rsquo;s resurrection.",
+      "Paul invites those who are &ldquo;mature&rdquo; (teleioi) in the congregation to share this mind (3:15). He is not being exclusive; he is distinguishing between those who understand that they have not yet arrived and those who think they have. The mature Christian, paradoxically, is the one who does not think himself perfect. And if the Philippians think differently on any point, Paul is confident that God will reveal that to them as well. He asks only that they hold to what they have already attained. The posture of the ongoing Christian life is not complacency but forward-straining trust.",
+      "Against the forward-pressing posture Paul commends, he sets a devastating portrait of those who are headed in the opposite direction: &ldquo;For many, of whom I have often told you and now tell you even with tears, walk as enemies of the cross of Christ. Their end is destruction, their god is their belly, and they glory in their shame, with minds set on earthly things&rdquo; (3:18&ndash;19). Paul speaks of these people with tears &mdash; not with contempt but with grief. Their error is not that they lack religious seriousness; it is that their minds are set on earthly things rather than on the upward call of God. Their ultimate allegiance is to what they can enjoy in this present age, and the end of that road is destruction.",
+      "The chapter closes with one of the most beautiful eschatological affirmations in Paul&rsquo;s letters: &ldquo;But our citizenship is in heaven, and from it we await a Savior, the Lord Jesus Christ, who will transform our lowly body to be like his glorious body, by the power that enables him even to subject all things to himself&rdquo; (3:20&ndash;21). In the Roman world, citizenship was a matter of the highest significance, conferring legal status, protection, and identity. Paul declares that the Christian&rsquo;s true citizenship is not in Rome, not in Jerusalem, not in any earthly polis, but in heaven. And from that heavenly commonwealth, the Savior is coming. He will transform the body of humiliation into the body of glory. All things will be subjected to him. This is the end of the race, and it is entirely worth the running.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Philippians 3 Today",
+    reference: "Philippians 3 &mdash; For the Life of the Church",
+    paragraphs: [
+      "Philippians 3 begins with a warning that is as necessary in the twenty-first century as it was in the first: watch out for those who put confidence in the flesh. The flesh, in Paul&rsquo;s usage, refers to any human qualification or achievement that a person relies upon for their standing before God &mdash; and the church in every generation has been tempted to add something to the finished work of Christ. The additions change from era to era: sometimes they are ethnic or social, sometimes they are theological sophistication or moral achievement or church membership or political alignment. Philippians 3 asks every believer: on what is your confidence actually resting? And it will not let you answer abstractly.",
+      "The inventory Paul takes of his own credentials in Philippians 3:4&ndash;6 is an invitation to the reader to take a similar inventory. What would be on your list? What are the things about your background, your achievements, your family history, your moral record, your doctrinal correctness that quietly function as the grounds of your confidence before God? Paul does not deny that these things are real. He simply asks you to look at them in the light of Christ and then decide what column they belong in. His own answer is unambiguous. But he arrived at that answer through a shattering encounter with the risen Jesus, and he has never rethought it. The question is whether you have arrived there too.",
+      "The yearning of Philippians 3:10 &mdash; to know Christ and the power of his resurrection, and the fellowship of his sufferings &mdash; is a model for Christian prayer and aspiration that has shaped the spirituality of the church across centuries. It refuses to separate resurrection power from conformity to the cross. Many Christians want the power of the resurrection without the fellowship of the sufferings. Paul insists that the two are inseparable: you cannot know the risen Christ while avoiding the pattern of his death. Dying to self, dying to the approval of others, dying to the accumulation of religious prestige &mdash; this is the shape of the Christian life, and it is also the path to knowing Christ most deeply.",
+      "The image of pressing on in Philippians 3:12&ndash;14 is a permanent corrective to two equal and opposite errors in Christian experience. The first error is self-satisfaction &mdash; the feeling that you have arrived spiritually, that your growth is essentially complete, that your understanding is secure and your character is formed. The second error is despair over past failure &mdash; the sense that because of what lies behind, you cannot run well going forward. Paul&rsquo;s one thing is forgetting what lies behind &mdash; both the achievements that tempt toward pride and the failures that tempt toward paralysis &mdash; and straining forward. The race is still being run. The prize is still ahead. Press on.",
+      "The weeping of Paul in Philippians 3:18 as he describes those who walk as enemies of the cross is a model for the church&rsquo;s posture toward those who are headed for destruction. He does not describe them with contempt or with the satisfaction of someone who is confident he is on the right side. He describes them with tears. The church that has genuinely received the message of Philippians 3 &mdash; that all its own confidence in the flesh has been counted as loss, that it depends entirely on the grace of God in Christ &mdash; cannot look at those who are perishing with anything other than grief. Tears, not smugness, are the mark of a community that actually believes what Paul is saying.",
+      "The closing declaration of citizenship in Philippians 3:20&ndash;21 is the foundation of Christian identity in a world that constantly demands primary allegiance to earthly powers and projects. Our citizenship is in heaven. This does not mean indifference to earthly life; Paul is writing from prison, deeply engaged with the communities he has founded and the gospel that has cost him everything. But it means that the fundamental category by which we understand ourselves is not our nationality, our political affiliation, our socioeconomic status, or our cultural identity &mdash; it is our belonging to the commonwealth of heaven, whose Savior is coming. We wait, we run, we press on. And the one who is coming will transform everything.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "8OIBrZ8-F_M", title: "BibleProject - Overview of Philippians" },
+  { videoId: "TjHGnFxdoD4", title: "Philippians 3 - All as Loss for Christ" },
+  { videoId: "ZT_4Gw9jMKA", title: "Press On Toward the Goal - Philippians 3 Bible Study" },
+  { videoId: "3L2eknH3LVQ", title: "Our Citizenship Is in Heaven - Philippians 3:20-21" },
+];
+
+export default function Philippians3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Philippians 3 &mdash; All as Loss for Christ
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Paul warns against placing confidence in the flesh and counts all his credentials as rubbish compared to the surpassing worth of knowing Christ Jesus his Lord. He presses on toward the goal for the prize of the upward call of God, awaiting the Savior who will transform our lowly bodies to be like his glorious body.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Philippians 3 through these video teachings on confidence in the flesh, counting all as loss for Christ, pressing on toward the goal, and the hope of the resurrection.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Press On Toward the Goal</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Philippians 3 is the apostle Paul&rsquo;s testimony that everything he once counted as gain he has counted as loss for the sake of Christ &mdash; and he has never regretted the exchange. Our citizenship is in heaven, the Savior is coming, and the race is worth the running.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

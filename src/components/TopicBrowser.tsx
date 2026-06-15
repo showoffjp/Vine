@@ -2164,6 +2164,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 61 Chapter": "isaiah-61-guide",
   "Year of the Lord Favor": "isaiah-61-guide",
   "Bind Up the Brokenhearted": "isaiah-61-guide",
+  "Luke 19 Chapter": "luke-19-guide",
+  "Zacchaeus Tax Collector": "luke-19-guide",
+  "Today Salvation Has Come": "luke-19-guide",
+  "Philippians 3 Chapter": "philippians-3-guide",
+  "Press Toward the Goal": "philippians-3-guide",
+  "Count All Things Loss for Christ": "philippians-3-guide",
+  "Genesis 39 Chapter": "genesis-39-guide",
+  "Joseph and Potiphar": "genesis-39-guide",
+  "Joseph Refused and Fled": "genesis-39-guide",
+  "2 Kings 5 Chapter": "2-kings-5-guide",
+  "Naaman Leprosy Healing": "2-kings-5-guide",
+  "Dip Seven Times Jordan": "2-kings-5-guide",
 };
 
 
@@ -3154,6 +3166,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 37 Chapter" },
   { label: "Colossians 2 Chapter" },
   { label: "Isaiah 61 Chapter" },
+  { label: "Luke 19 Chapter" },
+  { label: "Philippians 3 Chapter" },
+  { label: "Genesis 39 Chapter" },
+  { label: "2 Kings 5 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

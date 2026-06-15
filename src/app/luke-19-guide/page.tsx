@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Zacchaeus Seeks Jesus",
+  "Today Salvation Has Come",
+  "The Parable of the Ten Minas",
+  "The Triumphal Entry",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Luke 19",
+    reference: "Luke 19:1&ndash;48",
+    paragraphs: [
+      "Luke 19 is one of the most compressed and theologically dense chapters in the Gospel of Luke, moving in rapid succession through three scenes that together define the nature of the kingdom Jesus brings. The chapter opens in Jericho with the remarkable conversion of Zacchaeus, a chief tax collector and a rich man who climbs a sycamore-fig tree to catch a glimpse of Jesus passing through the city. It continues with the Parable of the Ten Minas, spoken by Jesus to correct a misunderstanding about the timing and nature of the kingdom. And it reaches its climax with the Triumphal Entry into Jerusalem, the long-awaited arrival of the king that the prophets had foreseen. Luke 19 is the pivot on which the entire Gospel turns: the journey to Jerusalem that began in chapter 9 ends here with Jesus entering the holy city.",
+      "The three movements of the chapter share a common thread: the question of who truly receives Jesus and what it looks like to do so. Zacchaeus receives Jesus joyfully and is transformed by the encounter. The crowds that welcome Jesus into Jerusalem shout his praises, but within days they will call for his crucifixion. The religious leaders who grumble at Jesus&rsquo;s association with Zacchaeus are the same ones who will not answer his question about John&rsquo;s baptism. Luke&rsquo;s portrait of Jesus in chapter 19 is of a king who arrives precisely where the establishment does not expect him &mdash; at the house of a sinner, on a donkey, weeping over a city that does not know the time of its visitation.",
+      "The chapter also introduces the theme of economic responsibility that Luke has been developing throughout the Gospel. Jesus has already warned about the danger of riches in the story of the rich young ruler (18:18&ndash;23) and in the parable of the Rich Man and Lazarus (16:19&ndash;31). In Zacchaeus, we see a wealthy man who responds to Jesus exactly as Jesus has called the rich to respond &mdash; by giving freely to the poor and making restitution for wrongs done. And in the Parable of the Ten Minas, Jesus addresses the question of faithful stewardship during the time between his departure and his return, calling his servants to active engagement rather than passive waiting.",
+      "Geographically, Luke 19 marks the end of the long travel narrative (9:51&ndash;19:44) in which Jesus has been journeying to Jerusalem. The mood shifts dramatically as Jesus arrives. He weeps over the city, pronouncing its coming destruction because it did not recognize the time of God&rsquo;s coming to it. Then he enters the Temple and drives out those who are selling there, declaring it a house of prayer that has been made a den of robbers. Every day he teaches in the Temple, and the chief priests and scribes are seeking to destroy him &mdash; but they cannot find a way, because all the people hang on his words. The confrontation that will lead to the cross has begun.",
+      "To read Luke 19 well is to read it as Luke intends it &mdash; as the arrival of the king of a kingdom that overturns every assumption about who belongs in it and how it comes. The lost are found. The despised are welcomed. A donkey carries a king. And the stones would cry out if the disciples were silent. This is the Jesus of Luke 19: sovereign, compassionate, sorrowful over unbelief, and determined to accomplish the redemption of the world through the cross that now stands before him.",
+    ],
+  },
+  {
+    id: "Zacchaeus Seeks Jesus",
+    heading: "Zacchaeus Seeks Jesus",
+    reference: "Luke 19:1&ndash;7",
+    paragraphs: [
+      "The story of Zacchaeus opens with a detail of geography that carries theological weight: &ldquo;He entered Jericho and was passing through&rdquo; (19:1). Jericho is the last city on the road to Jerusalem, set in the Jordan Valley some fifteen miles from the holy city and nearly a thousand feet below it. Jesus is almost at the end of his journey. And in this final city before Jerusalem, he stops &mdash; not at the synagogue, not at the house of a respected citizen, but at the home of a man the community regards as a notorious sinner.",
+      "Zacchaeus is introduced with unusual specificity: he is &ldquo;a chief tax collector and was rich&rdquo; (19:2). Tax collectors in first-century Judea were agents of the Roman occupation, collecting not only what Rome required but whatever they could extract for their own profit. A chief tax collector &mdash; someone who oversaw other tax collectors in a district &mdash; would have been wealthy, powerful, and deeply despised by the Jewish population. Jericho, lying on major trade routes, was a lucrative posting. Zacchaeus had done well by the standards of the world. He had done so at the expense of his neighbors.",
+      "The physical detail of Zacchaeus climbing the sycamore-fig tree is one of the most vivid in the Gospels. He is short; the crowd is pressing in from every side; he cannot see Jesus from ground level. So he runs ahead and climbs a sycamore-fig tree to get a view as Jesus passes below. The image of a wealthy, powerful, and undoubtedly dignified official scrambling up a tree like a child is at once comic and deeply human. Zacchaeus wants to see Jesus enough to make himself look ridiculous. The text does not speculate on his motives; it simply shows a man who goes to extraordinary lengths to catch a glimpse of the one passing through.",
+      "What happens next is the reversal that defines the entire passage. It is not Zacchaeus who seeks out Jesus &mdash; or rather, it turns out that Zacchaeus&rsquo;s seeking is itself a response to a prior seeking. Jesus looks up at the man in the tree and says, &ldquo;Zacchaeus, hurry and come down, for I must stay at your house today&rdquo; (19:5). Jesus knows his name. Jesus initiates. Jesus declares that he must stay &mdash; the same Greek word (dei) used throughout Luke for the divine necessity of the cross. The Son of Man came to seek and to save the lost (19:10): here is that seeking in action, Jesus looking up at a man in a tree and calling him by name.",
+      "Zacchaeus receives this with joy. He comes down &ldquo;quickly&rdquo; and receives Jesus &ldquo;joyfully&rdquo; (19:6). The crowd, however, responds with grumbling: &ldquo;He has gone in to be the guest of a man who is a sinner&rdquo; (19:7). The word for &ldquo;grumbled&rdquo; is the same word used in the parable of the prodigal son for the older brother&rsquo;s response to the father&rsquo;s welcome of the returning son. The crowd sees in Zacchaeus only what he has done &mdash; his collaboration with Rome, his extortion, his years of profiting from his neighbors&rsquo; misery. Jesus sees a lost son coming home.",
+      "The contrast between the crowd&rsquo;s response and Zacchaeus&rsquo;s response captures the two possible postures before the grace of God. The crowd, standing at ground level, judges. Zacchaeus, high in a tree and then descending quickly, receives. The grace that the crowd refuses to extend &mdash; the grace of welcome to the sinner &mdash; is precisely the grace that Zacchaeus has just received from Jesus. And it is the grace that is about to transform him entirely. The tree-climbing tax collector and the grumbling crowd together illustrate the central tension of Luke&rsquo;s Gospel: the religious insiders who will not receive the kingdom, and the outsiders who receive it with joy.",
+    ],
+  },
+  {
+    id: "Today Salvation Has Come",
+    heading: "Today Salvation Has Come",
+    reference: "Luke 19:8&ndash;10",
+    paragraphs: [
+      "The centerpiece of the Zacchaeus story is not the tree, or the crowd&rsquo;s grumbling, or even Jesus&rsquo;s initiative &mdash; it is what happens when Zacchaeus stands up and speaks. &ldquo;And Zacchaeus stood and said to the Lord, &lsquo;Behold, Lord, the half of my goods I give to the poor. And if I have defrauded anyone of anything, I restore it fourfold&rsquo;&rdquo; (19:8). These two sentences represent one of the most dramatic demonstrations of repentance and restitution in the entire Gospel narrative.",
+      "The fourfold restitution that Zacchaeus pledges goes beyond what the Jewish law required. Leviticus 5 required restitution of the principal plus a fifth. The fourfold return appears in Exodus 22 as the penalty for stealing and slaughtering an ox. Zacchaeus is applying to himself a penalty reserved for aggravated theft, publicly acknowledging that his methods of collection have amounted to robbery. And he does this voluntarily, spontaneously, without being asked. The presence of Jesus in his house has produced a confession of sin and a commitment to restitution that no amount of religious pressure from the crowd had ever generated.",
+      "The giving of half his goods to the poor is equally striking in a Lukan context. Earlier in Luke, Jesus had told a rich young ruler to sell all that he had and give to the poor (18:22), and the man had gone away sad. Zacchaeus does something similar &mdash; not identical, since he gives half rather than everything, but the direction of movement is the same. Where the rich ruler could not part with his wealth, Zacchaeus gives freely and joyfully. The difference is not one of moral superiority; it is the difference between an encounter with Jesus that has not changed you and one that has.",
+      "Jesus&rsquo; response to Zacchaeus&rsquo;s declaration is the theological summit of the passage: &ldquo;Today salvation has come to this house, since he also is a son of Abraham&rdquo; (19:9). The word &ldquo;today&rdquo; echoes through Luke&rsquo;s Gospel as a marker of the decisive present moment of God&rsquo;s saving action. &ldquo;Today&rdquo; is the day the Savior is born (2:11). &ldquo;Today&rdquo; is when Scripture is fulfilled in the hearing of the Nazareth synagogue (4:21). &ldquo;Today&rdquo; is when the dying thief will be with Jesus in paradise (23:43). Each &ldquo;today&rdquo; in Luke is the arrival of the kingdom in a specific life. Here it arrives in the house of Zacchaeus.",
+      "The declaration that Zacchaeus &ldquo;also is a son of Abraham&rdquo; is a pointed correction to the crowd&rsquo;s assessment. The crowd sees a sinner; Jesus sees a son of Abraham. The promises made to Abraham &mdash; that he would be the father of a great nation, that in him all the families of the earth would be blessed &mdash; are realized not through ethnic purity or religious respectability but through faith. Zacchaeus&rsquo;s faith, demonstrated in his repentance and restitution, identifies him as a true child of the covenant. The crowd&rsquo;s grumbling about Jesus visiting a sinner has entirely missed what is happening in this house.",
+      "Jesus closes the episode with the verse that serves as the interpretive key to his entire ministry: &ldquo;For the Son of Man came to seek and to save the lost&rdquo; (19:10). This programmatic statement defines his mission in terms of a searching shepherd, a sweeping woman, a running father &mdash; the parables of chapter 15. The lost sheep is found; the lost coin is found; the lost son comes home. Now the lost tax collector in a tree is found, called down, welcomed, and transformed. The statement also prepares for the parable that immediately follows: the Son of Man will go away and return, and in the meantime his servants must be about the business of seeking the lost as he has sought them.",
+    ],
+  },
+  {
+    id: "The Parable of the Ten Minas",
+    heading: "The Parable of the Ten Minas",
+    reference: "Luke 19:11&ndash;27",
+    paragraphs: [
+      "Luke introduces the Parable of the Ten Minas with an explicit statement of its occasion and purpose: &ldquo;As they heard these things, he proceeded to tell a parable, because he was near to Jerusalem, and because they supposed that the kingdom of God was to appear immediately&rdquo; (19:11). The disciples and the crowds have been following Jesus on the road to Jerusalem, and the excitement is building. Perhaps Jesus&rsquo; arrival in the holy city will be the moment when the kingdom of God appears in its fullness, when the long-awaited restoration of Israel is accomplished. The parable is told to correct this misunderstanding.",
+      "The parable involves a nobleman who goes to a far country to receive a kingdom and then return. Before leaving, he calls ten servants and gives each one mina &mdash; a sum of money equivalent to about three months&rsquo; wages &mdash; and says, &ldquo;Engage in business until I come&rdquo; (19:13). The nobleman is absent for a significant period. During his absence, his citizens hate him and send a message after him: &ldquo;We do not want this man to reign over us&rdquo; (19:14). When he returns as king, he calls his servants to account and deals with his enemies.",
+      "The accounting scene contrasts two servants whose faithful engagement with the nobleman&rsquo;s resources and one servant who does nothing with his. The first servant reports that his one mina has earned ten more; the nobleman commends him warmly and gives him authority over ten cities. The second reports five more minas and receives five cities. But the third servant has kept his mina wrapped in a cloth, explaining that he was afraid because the nobleman is &ldquo;a severe man&rdquo; who &ldquo;takes what you did not deposit, and reaps what you did not sow&rdquo; (19:21).",
+      "The nobleman&rsquo;s response to the fearful servant is devastating: &ldquo;I will condemn you with your own words, you wicked servant! You knew that I was a severe man, taking what I did not deposit and reaping what I did not sow? Why then did you not put my money in the bank, and at my coming I might have collected it with interest?&rdquo; (19:22&ndash;23). Even by the servant&rsquo;s own logic, his inaction was unjustifiable. He knew what was expected; he simply refused to act on that knowledge. The mina is taken from him and given to the one who has ten.",
+      "The parable is an extended meditation on the period between Jesus&rsquo; departure and his return &mdash; the age in which the church now lives. The nobleman who goes to receive a kingdom and returns is Jesus himself, who will ascend to the Father and come again as king. The servants are those who have received something from him &mdash; the gospel, spiritual gifts, financial resources, time, opportunity &mdash; and are called to engage actively with what they have been given until he returns. Passive waiting, fearful hoarding, and disengaged religion are not options that the parable endorses. Faithful stewardship during the absence of the king is what he will examine at his return.",
+      "The subplot of the citizens who hate the nobleman and refuse his kingship (19:14, 27) adds a note that connects the parable directly to the Jerusalem narrative that follows. Within days, the religious leaders of Jerusalem will refuse the kingship of Jesus, hand him over to the Romans, and call for his crucifixion. The parable foresees this rejection and pronounces its consequence. But it also foresees the return of the king in glory, and the final vindication of those who have been faithful stewards of what he has entrusted to them. Luke 19:11&ndash;27 is, in miniature, the entire drama of the present age of the church.",
+    ],
+  },
+  {
+    id: "The Triumphal Entry",
+    heading: "The Triumphal Entry",
+    reference: "Luke 19:28&ndash;44",
+    paragraphs: [
+      "After the parable, Luke narrates Jesus&rsquo; deliberate and orchestrated entry into Jerusalem as its king. As he approaches Bethphage and Bethany at the Mount of Olives, he sends two disciples ahead with specific instructions: they will find a colt that has never been ridden, tied at the entrance to the village. They are to untie it and bring it. If anyone asks why, they are to say, &ldquo;The Lord needs it&rdquo; (19:34). Everything proceeds exactly as Jesus says. The precision of the instructions and the fulfillment of every detail signal that this is not an improvised event but a staged royal act under divine direction.",
+      "The disciples spread their cloaks on the colt; Jesus rides it. As he descends the Mount of Olives toward the city, the whole multitude of his disciples begins to rejoice and praise God with a loud voice for all the mighty works they have seen: &ldquo;Blessed is the King who comes in the name of the Lord! Peace in heaven and glory in the highest!&rdquo; (19:38). The words echo Psalm 118, the great processional psalm of the Passover pilgrimage, now applied to Jesus as the one who comes in the name of the Lord. The disciples&rsquo; acclamation is a recognition of who Jesus is: the king of Israel, the one who fulfills the covenant promises.",
+      "The Pharisees in the crowd demand that Jesus rebuke his disciples for this acclamation. His answer is one of the most striking in the Gospels: &ldquo;I tell you, if these were silent, the very stones would cry out&rdquo; (19:40). The arrival of the king is not a human event that can be suppressed by human objection. It is a cosmic event, the fulfillment of prophecy and the arrival of the one for whom all creation has been waiting. Even the inanimate stones would give voice to what the Pharisees want silenced. The Triumphal Entry is unstoppable because it is the working out of the will of God.",
+      "Yet Luke immediately follows the disciples&rsquo; shout of praise with one of the most heartbreaking scenes in the Gospels. As Jesus draws near to the city and sees it, he weeps over it: &ldquo;Would that you, even you, had known on this day the things that make for peace! But now they are hidden from your eyes&rdquo; (19:42). The king who arrives in triumph weeps over the city that will reject him. He goes on to pronounce its coming destruction: enemies will surround it, dash to the ground its children, and leave not one stone upon another &mdash; all because it did not know the time of its visitation. Jesus weeps because Jerusalem has missed the moment of its salvation.",
+      "The entry into Jerusalem ends at the Temple. Jesus enters and begins to drive out those who are selling there, quoting Isaiah 57 and Jeremiah 7: &ldquo;My house shall be a house of prayer, but you have made it a den of robbers&rdquo; (19:46). The Temple has become a commercial enterprise in the outer courts, and Jesus reclaims it as the house of the Lord. Every day after this he is teaching in the Temple, and the chief priests, the scribes, and the principal men of the people are seeking to destroy him. The confrontation that will lead to Calvary is now fully engaged. The king has arrived in his city, and the city is deciding what to do with him.",
+      "Luke 19:28&ndash;44 fulfills the prophecy of Zechariah 9:9: &ldquo;Behold, your king is coming to you; righteous and having salvation is he, humble and mounted on a donkey, on a colt, the foal of a donkey.&rdquo; Jesus enters not as a conquering general on a warhorse but as a king of peace on a donkey&rsquo;s colt. The humble mode of entry is itself the message: this is a kingdom that comes not by military power but by the death and resurrection of the king. The Triumphal Entry is the beginning of Holy Week, and it enters the city under the shadow of the cross that waits on the other side of it.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Luke 19 Today",
+    reference: "Luke 19 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The story of Zacchaeus in Luke 19 confronts every generation of believers with the same searching question: where is Jesus looking? The chief tax collector expects to observe Jesus from a safe distance, from the anonymity of a crowd, from the concealment of a tree. He does not expect to be seen, called by name, and invited to host the Son of God. But this is exactly what happens. The Jesus of Luke 19 is not passive. He seeks. He looks up. He knows the name of the person in the tree. And he declares that he must come to that person&rsquo;s house. Whatever you have done, whatever the crowd says about you, Jesus is still looking up at the tree.",
+      "The transformation of Zacchaeus illustrates the shape of genuine conversion in Luke&rsquo;s Gospel. It is not primarily a change of feelings or a private inner shift; it manifests in economic reordering. Half his goods go to the poor. Fourfold restitution goes to those he has defrauded. The man who spent years extracting wealth from others is now giving it away. This is not the precondition for salvation &mdash; Jesus announces salvation before Zacchaeus makes any promise. It is the fruit of salvation, the natural outcome of an encounter with the one who is himself the poor man&rsquo;s friend and the sinner&rsquo;s host. Where Jesus has truly come to live, generosity and justice follow.",
+      "The Parable of the Ten Minas addresses the church in the age between the Ascension and the Second Coming. Jesus has gone to receive his kingdom; he will return. In the meantime, his servants have been given something &mdash; the gospel, the gifts of the Spirit, time, opportunity, relationships, resources &mdash; and they are accountable for what they do with it. The parable leaves no room for the servant who says, &ldquo;I was waiting for the Lord to come back before I did anything significant.&rdquo; The question at the return of the king will be: what did you do with what I gave you? Not: how long did you wait patiently while keeping everything safe?",
+      "The weeping of Jesus over Jerusalem is one of the most profound passages in the Gospel for a church that lives in a world full of cities that do not know the time of their visitation. Jesus does not view unbelief with cold detachment or righteous contempt. He weeps over it. The one who is about to be crucified by the inhabitants of Jerusalem weeps because they are missing the very salvation that has come to their gates. Pastoral ministry, evangelism, and intercession are meant to be shaped by this posture: not triumph over the lost, not contempt for the spiritually blind, but the grief of one who loves a city enough to weep before entering it.",
+      "The declaration of the disciples on the road &mdash; &ldquo;Blessed is the King who comes in the name of the Lord!&rdquo; &mdash; and Jesus&rsquo; response that the stones would cry out if they were silent, calls the church to unbounded praise. There are always Pharisees in the crowd telling the church to be quiet, to moderate its claims about Jesus, to stop saying he is the King. But the Triumphal Entry established once for all that the kingship of Jesus is not a matter of human permission or social approval. It is the bedrock reality of the universe. If the church falls silent, the stones cry out. Let the church not be silenced.",
+      "Luke 19 as a whole calls its readers to receive Jesus where he is actually coming &mdash; not where we expect him, not where we would prefer him, but where he is. He comes to the house of Zacchaeus, not to the house of the respectable. He rides a donkey, not a warhorse. He weeps, not conquers, on his arrival at the holy city. He drives out the sellers and teaches in the Temple while the authorities plot against him. To follow this Jesus is to follow him into the uncomfortable and unexpected, to welcome him in the neighbor we have dismissed, to praise him when the crowd tells us to be quiet, and to weep over what breaks his heart.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "os5PPKSXNQU", title: "BibleProject - Overview of Luke 14-24" },
+  { videoId: "26z_KhwNdD8", title: "Zacchaeus - Luke 19 Bible Study" },
+  { videoId: "R0VNUe0Gn-Q", title: "The Triumphal Entry into Jerusalem - Luke 19" },
+  { videoId: "fJmFnMscKoQ", title: "The Parable of the Ten Minas Explained" },
+];
+
+export default function Luke19GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Luke 19 &mdash; Zacchaeus, the Ten Minas, and the Triumphal Entry
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus passes through Jericho and calls Zacchaeus, a chief tax collector, down from a sycamore-fig tree. &ldquo;Today salvation has come to this house.&rdquo; He tells the Parable of the Ten Minas, then enters Jerusalem as king on a donkey amid the disciples&rsquo; shouts of praise &mdash; weeping over the city that does not know the time of its visitation.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Luke 19 through these video teachings on Zacchaeus in Jericho, the Parable of the Ten Minas, the Triumphal Entry into Jerusalem, and Jesus&rsquo; weeping over the city.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Son of Man Came to Seek and to Save the Lost</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Luke 19 traces the final approach of the king to his city &mdash; stopping for a man in a tree, weeping over a city in the grip of blindness, and riding in on a donkey while the stones hold their breath. Today salvation still comes to houses, and the Son of Man is still seeking the lost.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

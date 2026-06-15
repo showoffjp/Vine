@@ -2764,6 +2764,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Mark 2 Chapter": "mark-2-guide",
   "Mark Paralytic Through Roof Healed Forgiven": "mark-2-guide",
   "Levi Called New Wineskins Lord of the Sabbath Mark": "mark-2-guide",
+  "Mark 3 Chapter": "mark-3-guide",
+  "Jesus Heals Withered Hand Twelve Apostles Called Mark": "mark-3-guide",
+  "Beelzebul Controversy Unforgivable Sin Mother Brothers Mark": "mark-3-guide",
+  "1 Kings 15 Chapter": "1-kings-15-guide",
+  "Abijam Asa Judah Nadab Israel Kings 15": "1-kings-15-guide",
+  "Asa Removes Idols Maacah Queen Mother Reform Judah": "1-kings-15-guide",
+  "Proverbs 8 Chapter": "proverbs-8-guide",
+  "Wisdom Cries Aloud at the Gates Proverbs 8": "proverbs-8-guide",
+  "Wisdom Present at Creation Before the World Proverbs": "proverbs-8-guide",
+  "Isaiah 1 Chapter": "isaiah-1-guide",
+  "Come Let Us Reason Together Isaiah Scarlet White Snow": "isaiah-1-guide",
+  "Rebellious Nation Daughter Zion Sodom Gomorrah Isaiah": "isaiah-1-guide",
 };
 
 
@@ -3954,6 +3966,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 14 Chapter" },
   { label: "2 Corinthians 9 Chapter" },
   { label: "Mark 2 Chapter" },
+  { label: "Mark 3 Chapter" },
+  { label: "1 Kings 15 Chapter" },
+  { label: "Proverbs 8 Chapter" },
+  { label: "Isaiah 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

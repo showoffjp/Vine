@@ -1,0 +1,204 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Confession and Worship",
+  "From Abraham to Exodus",
+  "Wilderness Wandering",
+  "Settling the Land",
+  "Theological Themes",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Nehemiah 9",
+    reference: "Nehemiah 9:1&ndash;38",
+    paragraphs: [
+      "Nehemiah 9 contains one of the longest and most comprehensive prayers in all of Scripture &mdash; a sweeping survey of Israel&rsquo;s entire history with God, from the call of Abraham through the Exodus, the wilderness, the conquest, the era of the judges, the kingdom, the exile, and down to the moment of the prayer itself. It is prayed by the Levites before the assembled people of Jerusalem, who have gathered in fasting and sackcloth and earth on their heads, publicly confessing the sins of Israel and praising the Lord who has been faithful through it all.",
+      "The context is crucial. The events of Nehemiah 9 take place just two days after the great reading of the Law described in Nehemiah 8 &mdash; a seven-day feast of Booths during which Ezra read from the Book of the Law morning after morning and the Levites explained its meaning to the people. That reading had produced deep emotion among the hearers: weeping, mourning, and also celebration as the people grasped afresh the word of God. Now, as the feast ends, the people assemble once more, but this time the mood is one of penitence. The celebration of the feast has given way to the hard work of corporate confession.",
+      "The prayer is remarkable for what it does not do. It does not excuse Israel or soften the record of their failures. It does not blame the Canaanites, or Pharaoh, or the nations, or the weakness of human nature in general. It names Israel&rsquo;s sin as Israel&rsquo;s sin, clearly and repeatedly &mdash; they acted presumptuously, stiffened their necks, refused to listen, appointed a leader to return to their bondage, made a golden calf, committed great blasphemies, killed the prophets who warned them. The confession is thorough and unsparing.",
+      "At the same time, the prayer equally does not excuse God of any failure toward Israel. At every point in the narrative where Israel sinned and might have expected divine abandonment, the prayer records instead that God did not forsake them &mdash; &ldquo;But you are a God ready to forgive, gracious and merciful, slow to anger and abounding in steadfast love, and did not forsake them&rdquo; (v. 17). The contrast between Israel&rsquo;s faithlessness and God&rsquo;s faithfulness is the structural spine of the entire prayer. They rebelled; he did not abandon. They forgot; he remembered. They stiffened their necks; he bore with them for many years.",
+      "The theological weight of Nehemiah 9 is enormous. It is arguably the most complete summary of salvation history in the Hebrew Bible outside of Psalms 78 and 105&ndash;106. It demonstrates that Israel&rsquo;s covenant relationship with God is not a relationship of equals in which one party&rsquo;s faithfulness depends on the other&rsquo;s, but a relationship in which the faithfulness of God persists through every failure of his people. The prayer ends not with despair at the record of sin but with a renewed commitment to the covenant, signed by the leaders of the community, as the people resolve once again to walk in the ways of the Lord.",
+    ],
+  },
+  {
+    id: "Confession and Worship",
+    heading: "The Assembly of Confession and Worship",
+    reference: "Nehemiah 9:1&ndash;8",
+    paragraphs: [
+      "The assembly described in the opening verses of Nehemiah 9 is one of the most vivid scenes in the book. On the twenty-fourth day of the seventh month &mdash; two days after the feast of Booths concluded &mdash; the people of Israel gathered with fasting, with sackcloth, and with earth on their heads. These were the classic postures of mourning and penitence in the ancient Near East: fasting expressed the inward reality of grief and contrition; sackcloth, the coarse cloth worn next to the skin, expressed a willingness to set aside comfort; and the sprinkling of earth on the head communicated the humbling of oneself before God and before the watching community. The whole body was enrolled in the act of repentance.",
+      "The Israelites separated themselves from all foreigners (v. 2) before they stood to make their confession. This separation was not ethnic hostility but covenantal clarity: the confession they were about to make was a confession on behalf of those who stood within the covenant community, the people who had heard the Law read and who now owned their failure to keep it. They had to know whose sins they were confessing. The assembly stood and confessed their sins and the iniquities of their fathers &mdash; a remarkable phrase that links the present generation to the entire chain of failure that the prayer is about to narrate. Their sins and their ancestors&rsquo; sins are not separated; they are part of one continuous story of covenant unfaithfulness.",
+      "The Levites lead the assembly in worship with a call that spans heaven and earth: &ldquo;Stand up and bless the Lord your God from everlasting to everlasting. Blessed be your glorious name, which is exalted above all blessing and praise&rdquo; (v. 5). Before a word of confession is spoken, a word of praise goes up. The God to whom the confession is offered is first acknowledged as the everlasting one, the one whose glory exceeds all the praise that could ever be offered to him. Confession that does not begin with adoration risks becoming mere self-examination; the Levites ground the entire prayer in the character and greatness of the God who is being addressed.",
+      "Verse 6 opens the great historical survey with creation: &ldquo;You are the Lord, you alone. You have made heaven, the heaven of heavens, with all their host, the earth and all that is on it, the seas and all that is in them; and you preserve all of them; and the host of heaven worships you.&rdquo; The ground of Israel&rsquo;s covenant with God is not merely the Exodus or the Sinai encounter but creation itself. The God who chose Israel is the God who made everything that exists and sustains it moment by moment. His claim on Israel is not a late or local claim; it is the claim of the Creator on the creature, prior to every other relationship and every other obligation.",
+      "With verse 7 the prayer moves from creation to covenant: &ldquo;You are the Lord, the God who chose Abram and brought him out of Ur of the Chaldeans and gave him the name Abraham. You found his heart faithful before you, and made with him the covenant to give to his offspring the land of the Canaanite, the Hittite, the Amorite, the Perizzite, the Jebusite, and the Girgashite. And you have kept your promise, for you are righteous.&rdquo; The whole prayer is set within the frame of covenant promise and covenant fulfillment. God made a promise to Abraham; God has been keeping it ever since. This is the lens through which all of Israel&rsquo;s subsequent history &mdash; including their rebellions and God&rsquo;s patience &mdash; must be read.",
+    ],
+  },
+  {
+    id: "From Abraham to Exodus",
+    heading: "From Abraham to the Exodus",
+    reference: "Nehemiah 9:7&ndash;15",
+    paragraphs: [
+      "The covenant God made with Abraham is the theological foundation on which the entire prayer of Nehemiah 9 is built. God chose Abraham, brought him out of Ur, found his heart faithful, and made with him the covenant of the land. The language is deliberate: God found Abraham&rsquo;s heart faithful &mdash; the faithfulness of Abraham is real, but it is a faithfulness that God saw and responded to, not a faithfulness that Abraham generated independently of God. The whole movement is from God to Abraham, from divine initiative to human response, not the reverse.",
+      "The Exodus section (vv. 9&ndash;11) is among the most powerful passages in the prayer: &ldquo;And you saw the affliction of our fathers in Egypt and heard their cry at the Red Sea, and performed signs and wonders against Pharaoh and all his servants and all the people of his land, for you knew that they acted arrogantly against our fathers. And you made a name for yourself, as it is to this day. And you divided the sea before them, so that they went through the midst of the sea on dry land, and you cast their pursuers into the depths, as a stone into mighty waters.&rdquo; The Exodus is narrated as an act of divine perception and action: God saw, God heard, God acted. The affliction did not escape his notice; the cry did not fall unheard.",
+      "The prayer emphasizes that the Exodus was not merely about Israel&rsquo;s liberation but about God&rsquo;s reputation: &ldquo;you made a name for yourself, as it is to this day.&rdquo; The great acts of the Exodus were simultaneously acts of revelation &mdash; God declaring who he is by what he does. The plagues and the crossing of the sea are not merely extraordinary historical events; they are divine self-disclosure, making God known to Israel, to Egypt, and through the tradition to every nation that heard of them. Moses knew this, and negotiated with God on the basis of it: if you destroy this people, what will the nations say of your name?",
+      "Verses 12&ndash;15 describe the guidance given in the wilderness &mdash; the pillar of cloud by day and pillar of fire by night, the descent to Mount Sinai, the giving of the Law, the commandment of the Sabbath, the provision of bread from heaven and water from the rock. These verses frame the wilderness period not primarily as a time of Israel&rsquo;s failure but as a time of God&rsquo;s lavish provision. The cloud and fire meant that God himself was guiding; the Law and the Sabbath meant that God was ordering the life of the community around his own character and rhythms; the manna and water meant that God was feeding and sustaining them day by day. Before the prayer catalogs Israel&rsquo;s failures in the wilderness, it catalogs God&rsquo;s gifts.",
+      "The giving of the Law at Sinai is described in verse 13 as the gift of &ldquo;right rules and true laws, good statutes and commandments.&rdquo; Each adjective is loaded: the rules are right (just, aligned with the character of God); the laws are true (reliable, corresponding to reality as God has made it); the statutes are good (beneficial for those who keep them, conducive to flourishing). The Law is not presented as a burden but as a gift &mdash; the gracious instruction of a God who wants his people to know how to live well in the world he made. The failure of Israel in the wilderness was not the failure of the Law but the failure to embrace the gift.",
+    ],
+  },
+  {
+    id: "Wilderness Wandering",
+    heading: "Wilderness Wandering and Rebellion",
+    reference: "Nehemiah 9:16&ndash;25",
+    paragraphs: [
+      "The wilderness section of the prayer (vv. 16&ndash;25) is structured as a repeated contrast: Israel acts, God responds with grace. &ldquo;But they and our fathers acted presumptuously and stiffened their necks and did not obey your commandments. They refused to obey and were not mindful of the wonders that you performed among them, but they stiffened their necks and appointed a leader to return to their slavery in Egypt. But you are a God ready to forgive, gracious and merciful, slow to anger and abounding in steadfast love, and did not forsake them&rdquo; (vv. 16&ndash;17). The contrast could not be more stark: stiff-necked rebellion answered by readiness to forgive.",
+      "The sin of the golden calf, the greatest act of apostasy in the wilderness period, is named explicitly in verse 18: &ldquo;Even when they had made for themselves a golden calf and said, &lsquo;This is your God who brought you up out of Egypt,&rsquo; and had committed great blasphemies &mdash; you in your great mercies did not forsake them in the wilderness. The pillar of cloud to lead them in the way did not depart from them by day, nor the pillar of fire by night to light for them the way by which they should go.&rdquo; Even the golden calf did not end God&rsquo;s guidance. Even after that ultimate provocation, the cloud remained and the fire burned. The mercy of God absorbs what no human mercy could absorb.",
+      "Verse 20 adds a detail not prominent in the Exodus narrative but deeply important: &ldquo;You gave your good Spirit to instruct them and did not withhold your manna from their mouth and gave them water for their thirst.&rdquo; The Spirit of God was at work in the wilderness &mdash; instructing, teaching, sustaining the inner life of the community as the manna sustained the outer life. The gift of the Spirit is not a New Testament novelty; it is the continuation of a pattern of divine presence and inner instruction that begins at creation and runs through the whole of Israel&rsquo;s history. What Pentecost inaugurates is not the beginning of the Spirit&rsquo;s work but its eschatological fullness.",
+      "The prayer&rsquo;s account of the wilderness years (forty years, named in v. 21) is one of extravagant divine provision in the face of repeated human failure. &ldquo;Forty years you sustained them in the wilderness, and they lacked nothing. Their clothes did not wear out and their feet did not swell.&rdquo; For a generation that had been faithless and rebellious, God provided food, water, guidance, the Spirit, and even maintained their clothing and physical health. The wilderness was not a punishment but a provision &mdash; a generation-long act of patient care for people who did not deserve it. This is the scandalous generosity of the God who is slow to anger and abounding in steadfast love.",
+      "The transition to entering the land in verses 22&ndash;25 is marked by a surge of divine action: God subdued kingdoms and peoples before Israel, gave them the land of Sihon and Og, allowed them to take cities and houses and cisterns and vineyards and olive orchards they did not build or plant &mdash; and they &ldquo;ate and were filled and became fat and delighted themselves in your great goodness&rdquo; (v. 25). The generous language here is almost excessive in its abundance: filled, fat, delighted in goodness. These are not the words of mere survival but of lavish divine blessing. God did not grudgingly honor his covenant; he poured out abundance on a people who had not earned it.",
+    ],
+  },
+  {
+    id: "Settling the Land",
+    heading: "Settling the Land and Repeated Cycles",
+    reference: "Nehemiah 9:26&ndash;37",
+    paragraphs: [
+      "The account of Israel in the land (vv. 26&ndash;37) introduces the cyclical pattern that dominates the book of Judges and the history of the monarchy: sin, oppression, cry, deliverance, rest &mdash; and then sin again. &ldquo;Nevertheless, they were disobedient and rebelled against you and cast your law behind their back and killed your prophets, who had warned them in order to turn them back to you, and they committed great blasphemies. Therefore you gave them into the hand of their enemies, who made them suffer. And in the time of their suffering they cried out to you and you heard them from heaven, and according to your great mercies you gave them saviors who saved them from the hand of their enemies&rdquo; (vv. 26&ndash;27).",
+      "The killing of the prophets is a sobering detail. The prophets were not killed by foreign enemies or pagan opponents; they were killed by Israel &mdash; by the people to whom they were sent, the people they were trying to save. The God of Israel is a God who sends prophets, messengers, warnings &mdash; he does not give up and leave people without testimony. But the same people who rejected the law rejected the law&rsquo;s interpreters, and stopped up the channel of divine instruction by which they might have turned back. This pattern of rejecting the prophets becomes a major theme in the later prophetic literature and is named by Jesus himself as the defining sin of Jerusalem (Matthew 23:37).",
+      "The prayer names the cycle with painful clarity: after each deliverance they would rest for a while, then return to doing evil, then be given again into the hand of enemies, then cry again, then be delivered again. &ldquo;Many times you delivered them,&rdquo; the prayer says, and the phrase carries a note of wonder &mdash; wonder that God would deliver them not once or twice but many times, in cycle after cycle of faithlessness and mercy. Divine patience is not passive; it is active, costly, persistent. The God who delivers many times is the God who will not give up on a people who keep giving up on him.",
+      "Verses 30&ndash;31 bring the historical survey to its climax in the exile: &ldquo;Many years you bore with them and warned them by your Spirit through your prophets. Yet they would not give ear. Therefore you gave them into the hand of the peoples of the lands. Nevertheless, in your great mercies you did not make an end of them or forsake them, for you are a gracious and merciful God.&rdquo; Even the exile &mdash; the greatest catastrophe in Israel&rsquo;s history, the loss of the land, the temple, the Davidic throne, everything that defined Israel as a people &mdash; did not produce abandonment. God bore with them for many years; God warned them through the prophets; when the exile came it came as the fulfillment of prophetic warning, not as divine surprise; and even in exile, God did not make an end of them.",
+      "The prayer closes its historical survey with a frank description of the post-exilic situation (vv. 32&ndash;37): &ldquo;Now, therefore, our God, the great, the mighty, and the awesome God, who keeps covenant and steadfast love, let not all the hardship seem little to you that has come upon us, upon our kings, our princes, our priests, our prophets, our fathers, and all your people, since the time of the kings of Assyria until this day. Yet you have been righteous in all that has come upon us, for you have dealt faithfully and we have acted wickedly.&rdquo; The community is still under foreign rule, still in a condition that feels like diminishment, still living on land that belongs technically to the Persian empire. But they are still there. God has not made an end of them. The covenant holds.",
+    ],
+  },
+  {
+    id: "Theological Themes",
+    heading: "Theological Themes in Nehemiah 9",
+    reference: "Nehemiah 9 &mdash; Major Themes",
+    paragraphs: [
+      "The most theologically significant pattern in Nehemiah 9 is the asymmetry between human faithlessness and divine faithfulness. The prayer goes out of its way to insist that this asymmetry is not accidental but structural &mdash; it is what God is like. The formula &ldquo;gracious and merciful, slow to anger and abounding in steadfast love&rdquo; (v. 17) is drawn directly from God&rsquo;s self-declaration to Moses after the golden calf (Exodus 34:6&ndash;7), one of the most cited self-descriptions of God in the entire Old Testament. It is quoted precisely at the moment in Nehemiah 9 when Israel has just committed the golden calf apostasy, as if to say: this is exactly when that self-description most needs to be heard and believed.",
+      "The theology of corporate identity and corporate confession that Nehemiah 9 embodies is deeply countercultural in individualistic modern societies. The Levites and the people confess &ldquo;our sins and the iniquities of our fathers&rdquo; &mdash; they do not limit confession to what they personally have done but claim solidarity with the entire history of their people. This is not unfair guilt by association; it is the recognition that communities are formed by histories, that the sins of one generation shape the possibilities of the next, and that healing requires naming the whole story, not only the most recent chapter. The people of Nehemiah&rsquo;s generation are not personally guilty of killing the prophets of the eighth century; but they are part of the same covenanted community, and the story belongs to them.",
+      "The prayer&rsquo;s repeated use of the word &ldquo;but&rdquo; &mdash; &ldquo;but you did not forsake them,&rdquo; &ldquo;but you in your great mercies,&rdquo; &ldquo;but you bore with them&rdquo; &mdash; is a stylistic key to its theology. Every time the narrative seems about to end in judgment, a &ldquo;but&rdquo; intervenes and the story turns. This pattern reflects the biblical understanding of grace: grace is not the absence of consequence but the persistence of divine presence and love through and beyond consequence. Israel suffered in the wilderness, was given into the hand of enemies, went into exile &mdash; but God did not abandon them. The &ldquo;buts&rdquo; are the hinge-points of salvation history.",
+      "The doctrine of creation as the foundation of covenant is woven through the opening of the prayer (v. 6) and carries important theological implications. The God who chose Israel is not a tribal deity with limited jurisdiction; he is the maker of heaven and earth, the sustainer of all things, the one worshiped by the host of heaven. His covenant with Israel is not a local arrangement between a people and their regional god; it is the Creator&rsquo;s particular relationship with a particular people for the benefit of all peoples. This universalizing foundation means that Israel&rsquo;s story is never merely their own story &mdash; it is a story with implications for the whole created order.",
+      "The Holy Spirit appears twice in Nehemiah 9 in ways that anticipate New Testament pneumatology. In verse 20, the Spirit is said to have instructed Israel in the wilderness; in verse 30, the Spirit is said to have spoken through the prophets. Both functions &mdash; inner instruction and prophetic proclamation &mdash; are central to what the New Testament says the Spirit does in and through the church. Nehemiah 9 thus witnesses to the continuity of the Spirit&rsquo;s work across the two testaments: the same Spirit who guided Israel in the wilderness and spoke through Isaiah and Jeremiah is the Spirit poured out at Pentecost and at work in every believer today.",
+      "The ending of the prayer (vv. 36&ndash;38) is not despair but honest realism that opens into renewed commitment. The people are slaves in the land their ancestors received as a gift; the fruit of that land goes to the foreign kings who rule them; they are in great distress. And yet &mdash; that word again &mdash; they are making a firm covenant, writing it down, sealing it with the names of their leaders. The response to an honest reckoning with failure and grace is not paralysis but recommitment. The God who has been faithful through every cycle of rebellion and mercy is worth trusting again. The covenant is renewed not because Israel has earned it but because the God of the covenant has never let it go.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Rp7mNqLx9Bc", title: "Nehemiah 9 - The Great Prayer of Confession Explained" },
+  { videoId: "wKs4TdHpLmQ", title: "Corporate Confession in Nehemiah 9 - Sermon Study" },
+  { videoId: "zYnBwJe8KpV", title: "God's Steadfast Love in Nehemiah 9 - Covenant Faithfulness" },
+  { videoId: "cXqMrFd2NwA", title: "Israel's History with God - Walking Through Nehemiah 9" },
+];
+
+export default function Nehemiah9GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Nehemiah 9 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The great prayer of confession &mdash; the Levites lead Israel in a sweeping review of their history with God, from Abraham through the Exodus, the wilderness, and the land, confessing repeated rebellion and praising the Lord who is &ldquo;gracious and merciful, slow to anger and abounding in steadfast love.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Nehemiah 9 through these video teachings on Israel&rsquo;s great prayer of confession, God&rsquo;s covenant faithfulness through every cycle of rebellion, and the renewal of corporate commitment to the Lord.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>You Are Gracious and Merciful</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Nehemiah 9 is a masterclass in corporate honesty before God &mdash; neither minimizing Israel&rsquo;s sin nor despairing of divine mercy. The God who heard their cry in Egypt, guided them through the wilderness, bore with them through every cycle of rebellion and repentance, and refused to abandon them even in exile is the same God who invites his people in every generation to return to him, confess honestly, and trust the covenant that he himself will never let go.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

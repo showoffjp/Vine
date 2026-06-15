@@ -2212,6 +2212,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ruth 4 Chapter": "ruth-4-guide",
   "Boaz Kinsman Redeemer Ruth": "ruth-4-guide",
   "Naomi Ruth Obed Genealogy": "ruth-4-guide",
+  "2 Samuel 22 Chapter": "2-samuel-22-guide",
+  "David Song of Praise Deliverance": "2-samuel-22-guide",
+  "David Rock Fortress Deliverer": "2-samuel-22-guide",
+  "Nehemiah 9 Chapter": "nehemiah-9-guide",
+  "Great Prayer Confession Ezra Levites": "nehemiah-9-guide",
+  "Israelites Confess Sins History God": "nehemiah-9-guide",
+  "1 Corinthians 3 Chapter": "1-corinthians-3-guide",
+  "Building on Foundation Christ Paul": "1-corinthians-3-guide",
+  "Apollos Paul Divisions Corinth": "1-corinthians-3-guide",
+  "Mark 1 Chapter": "mark-1-guide",
+  "Jesus Baptism Galilee Ministry Begin": "mark-1-guide",
+  "Fishermen Follow Me Jesus Call": "mark-1-guide",
 };
 
 
@@ -3218,6 +3230,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Samuel 1 Chapter" },
   { label: "Acts 1 Chapter" },
   { label: "Ruth 4 Chapter" },
+  { label: "2 Samuel 22 Chapter" },
+  { label: "Nehemiah 9 Chapter" },
+  { label: "1 Corinthians 3 Chapter" },
+  { label: "Mark 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

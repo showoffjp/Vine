@@ -1,0 +1,204 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "David's Refuge in God",
+  "God's Mighty Deliverance",
+  "God's Righteousness",
+  "Victories and Kingship",
+  "Theological Themes",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 2 Samuel 22",
+    reference: "2 Samuel 22:1&ndash;51",
+    paragraphs: [
+      "Second Samuel 22 is one of the longest and most majestic poems in all of Scripture &mdash; a song of praise that David composed when the Lord delivered him from the hand of all his enemies and from the hand of Saul. The chapter spans fifty-one verses and stands as a literary and theological mountain near the close of the books of Samuel. It is nearly identical to Psalm 18, where it appears again in the Psalter as a permanent fixture of Israel&rsquo;s corporate worship, which tells us that this song was treasured not only as a personal memoir but as a timeless expression of what the God of Israel does for those who trust in him.",
+      "The poem moves through several distinct movements. It opens with an extended meditation on God as refuge and fortress (vv. 2&ndash;7), then breaks into a stunning theophany &mdash; a description of God coming in cosmic power to rescue his servant (vv. 8&ndash;20). Following the rescue comes a passage of careful theological reflection in which David attributes his deliverance to the righteousness God saw in him (vv. 21&ndash;30). The song then shifts into a celebration of the military victories God has given (vv. 31&ndash;46), before closing with a doxology that looks both back at God&rsquo;s covenant faithfulness and forward to the eternal dynasty promised to David and his seed (vv. 47&ndash;51).",
+      "Reading 2 Samuel 22 demands that we understand something of David&rsquo;s life. He had spent years as a fugitive hunted by a jealous King Saul, years more fighting Philistines and surrounding nations, and the final chapters of 2 Samuel recount yet more wars and upheavals &mdash; the rebellion of Absalom, the pursuit by enemies on every side. The song is not the celebration of a man who avoided suffering but of a man who went through the deepest waters and found God to be everything he claimed to be. The images of deliverance in the poem are earned images, soaked in the blood and dust of an entire lifetime of faith tested by fire.",
+      "The theological significance of 2 Samuel 22 extends beyond David&rsquo;s own experience. The New Testament authors understand David&rsquo;s song in light of David&rsquo;s greater Son. The language of rescue from Sheol, of the Lord&rsquo;s anointed triumphing over all enemies, of God exalting his king above the nations &mdash; these themes find their ultimate fulfillment not in David himself but in Jesus the Messiah, who was delivered from death itself and exalted to the right hand of the Father. Second Samuel 22 is thus a poem that spans the testaments, anchored in David&rsquo;s history and pointing forward to the greater David who would make all its promises come true in ways David could only dimly have imagined.",
+      "The chapter is a monument to the conviction that God hears the cries of those who call upon him. Whatever the extremity &mdash; whether Saul&rsquo;s armies, the cords of Sheol, or the torrents of destruction &mdash; the God of Israel sees, descends, and delivers. David&rsquo;s song is an invitation to trust that same God through every valley the reader may face, confident that the one who heard David&rsquo;s cry will hear theirs.",
+    ],
+  },
+  {
+    id: "David's Refuge in God",
+    heading: "David's Refuge in God",
+    reference: "2 Samuel 22:2&ndash;7",
+    paragraphs: [
+      "The opening verses of 2 Samuel 22 are a cascade of images for God as refuge and protector, piled one upon another with an intensity that communicates the totality of David&rsquo;s reliance on the Lord. &ldquo;The Lord is my rock, and my fortress, and my deliverer, my God, my rock, in whom I take refuge, my shield, and the horn of my salvation, my stronghold and my refuge, my savior; you save me from violence&rdquo; (vv. 2&ndash;3). Eight or nine distinct images in two verses &mdash; rock, fortress, deliverer, shield, horn of salvation, stronghold, refuge, savior &mdash; each one a facet of the same jewel: God is the one place of absolute safety for the one who runs to him.",
+      "These are not abstract theological propositions. They arise from a man who literally hid in caves, who literally fled into the wilderness, who literally faced armies and assassins and the long relentless pursuit of a king who would not rest until David was dead. The images of rock and fortress are drawn from the actual landscape of Judean deserts and wilderness strongholds where David took shelter during the years of Saul&rsquo;s persecution. When David calls God his rock, he is remembering every physical rock that sheltered him, and saying that God was the deeper reality behind them all. The Lord was his true fortress when every stone fortress might fall.",
+      "The cry of verse 7 is one of the most arresting moments in the poem: &ldquo;In my distress I called upon the Lord; to my God I called. From his temple he heard my voice, and my cry came to his ears.&rdquo; David cried out, and God heard. This is the simple transaction at the heart of prayer &mdash; the creature in distress, the Creator in his temple, and the cry that crosses the distance between them. That God&rsquo;s ears receive David&rsquo;s cry is presented not as miraculous exception but as the established pattern of the covenant relationship. The God of Israel is the God who hears.",
+      "The threefold naming of God as &ldquo;my rock&rdquo; (vv. 2&ndash;3, with the Hebrew tsur and sela appearing in parallel) is significant in the theology of the Old Testament. Rock language for God emphasizes his immovability, his permanence, his reliability in contrast to the unstable and treacherous world. Enemies come and go; armies rise and fall; kings and kingdoms crumble. But the Lord is the rock that does not shift. David&rsquo;s entire life &mdash; a life of extraordinary instability, constant movement, relentless threat &mdash; was anchored to this one unmovable reality. The rock did not move when everything else did.",
+      "The phrase &ldquo;horn of my salvation&rdquo; draws on the imagery of an animal whose horns are its strength and defense. The horn in the ancient world was a symbol of power &mdash; the power that defends and the power that overthrows enemies. When David calls God the horn of his salvation, he is saying that all the power he needs for deliverance is found in God alone. His own strength, his weapons, his strategies &mdash; these are real and David used them &mdash; but they were instruments in the hand of the one who was the true horn, the ultimate source of every victory. The salvation David received was divine salvation, and the power behind it was divine power.",
+    ],
+  },
+  {
+    id: "God's Mighty Deliverance",
+    heading: "God's Mighty Deliverance",
+    reference: "2 Samuel 22:8&ndash;20",
+    paragraphs: [
+      "The theophany of verses 8&ndash;16 is one of the most spectacular passages in all of Old Testament poetry. When God hears David&rsquo;s cry and comes to deliver him, the language breaks into cosmic imagery drawn from the storm, the earthquake, and the fire &mdash; because nothing less than cosmic language can adequately describe the intervention of the Almighty in the affairs of his servant. The earth trembles and quakes; the foundations of the heavens shake; the mountains smoke because God is angry on behalf of his own. The physical world convulses when its Creator moves to act.",
+      "Smoke goes up from God&rsquo;s nostrils and devouring fire from his mouth; coals are kindled by it. He bows the heavens and comes down with thick darkness under his feet. He rides on a cherub and flies; he is seen on the wings of the wind. He makes darkness his canopy around him, thick clouds massed with water. Out of the brightness before him, coals of fire flared up. The Lord thunders from heaven, and the Most High utters his voice. He sends out arrows and scatters the enemies; he shoots lightning bolts and routs them. The imagery is borrowed from the great storm-theophany traditions of the ancient Near East, but here it is radically reappropriated: the storm-god of Canaan, Baal, is displaced by the God of Israel who is incomparably greater, the true master of thunder and lightning, hail and storm.",
+      "What makes the theophany so striking is what it is for. God unleashes the forces of the cosmos not in some grand act of world-judgment but in response to one man&rsquo;s cry for help. The scale of the divine response to David&rsquo;s distress is staggering: the earth shakes, the heavens bow, the lightnings fly &mdash; all because the Lord cares for the one who called upon him. This is the extravagance of divine love made visible in poetic form. The God of Israel does not send a minor angel when his servant cries; he comes himself, in all his terrible splendor, and bends the whole created order to the rescue of the one he loves.",
+      "Verses 17&ndash;20 move from the cosmic theophany to the intimate moment of rescue: &ldquo;He sent from on high, he took me; he drew me out of many waters. He rescued me from my strong enemy, from those who hated me, for they were too mighty for me. They confronted me in the day of my calamity, but the Lord was my support. He brought me out into a broad place; he rescued me, because he delighted in me.&rdquo; The imagery of being drawn out of many waters echoes Moses being drawn from the Nile &mdash; the great act of rescue from a watery death &mdash; and places David&rsquo;s deliverance in the line of the great saving acts of God in Israel&rsquo;s history.",
+      "The final phrase of this section &mdash; &ldquo;he rescued me, because he delighted in me&rdquo; &mdash; is theologically momentous. The ground of David&rsquo;s rescue is not his own achievement or merit; it is the delight of God. The Hebrew word chaphets, delight or pleasure, describes a freely given affection, an uncoerced love that God bears toward David and that becomes the motive of divine action. God acts for David because he loves David. This is grace in its root form: not the repayment of a debt but the action of a love that chose to delight and, because it delights, moves to save.",
+    ],
+  },
+  {
+    id: "God's Righteousness",
+    heading: "God's Righteousness and David's",
+    reference: "2 Samuel 22:21&ndash;30",
+    paragraphs: [
+      "The section beginning at verse 21 has puzzled and sometimes troubled readers: &ldquo;The Lord dealt with me according to my righteousness; according to the cleanness of my hands he rewarded me. For I have kept the ways of the Lord and have not wickedly departed from my God.&rdquo; Read in isolation and without canonical context, these verses can sound like David is claiming a moral perfection he notoriously did not have. The man who committed adultery with Bathsheba and arranged the murder of Uriah is here speaking of clean hands and keeping the ways of the Lord?",
+      "The difficulty resolves when we understand the specific context David has in mind. The song was composed in the aftermath of deliverance from Saul and from David&rsquo;s enemies. In that specific conflict, David repeatedly refused to raise his hand against Saul &mdash; even when Saul was literally within his reach in the cave at En-gedi and again at the camp at Gibeah. David maintained his integrity in his relationship with Saul, refusing to take matters into his own hands against the Lord&rsquo;s anointed. The righteousness David claims here is real and specific: he walked with integrity in the particular test that God set before him in those years of pursuit.",
+      "The section also functions theologically as a statement about the covenant relationship between God and his people. Blessing and righteousness, curse and wickedness, are genuinely connected in the covenant framework of the Old Testament. God is not arbitrary; he does not bless the unrighteous and curse the righteous interchangeably. When David says the Lord rewarded him according to his righteousness, he is not boasting of personal perfection but affirming the moral order that God has built into the covenant: faithfulness is met with faithfulness. This is the theological principle that Proverbs, Deuteronomy, and much of the Psalter are built upon.",
+      "The climax of this section comes in verse 26&ndash;28: &ldquo;With the merciful you show yourself merciful; with the blameless man you show yourself blameless; with the pure you show yourself pure, and with the crooked you make yourself seem tortuous. You save a humble people, but your eyes are on the haughty to bring them down.&rdquo; These verses describe God&rsquo;s way of responding to human orientation. The God who is infinitely holy deals with the proud in the severity their pride demands, and with the humble in the mercy their humility opens them to receive. God is the same; what changes is what we bring to him.",
+      "Verse 29 introduces a luminous metaphor that will reappear across the entire biblical canon: &ldquo;For you are my lamp, O Lord, and my God lightens my darkness.&rdquo; The lamp in the darkness is a picture of guidance, of seeing the path, of being able to move forward when the way is obscure. David has walked through much darkness &mdash; literal dark caves, the darkness of Saul&rsquo;s persecution, the darkness of his own sin and its consequences &mdash; and through it all the Lord has been the light that made navigation possible. The lamp metaphor is deeply personal: it is my lamp, the Lord is my particular light, not merely a general illumination but a light provided for this particular walker on this particular path.",
+    ],
+  },
+  {
+    id: "Victories and Kingship",
+    heading: "Victories and Kingship",
+    reference: "2 Samuel 22:31&ndash;51",
+    paragraphs: [
+      "With verse 31 the song moves into a sustained celebration of the military victories God has enabled David to achieve over his enemies. &ldquo;This God &mdash; his way is perfect; the word of the Lord proves true; he is a shield for all those who take refuge in him. For who is God, but the Lord? And who is a rock, except our God?&rdquo; The rhetorical question is one of the most confident declarations of monotheism in the Old Testament. Not merely &ldquo;the Lord is better than other gods&rdquo; but &ldquo;who is God but the Lord?&rdquo; &mdash; a dismissal of the very category of other gods as legitimate rivals to the God of Israel.",
+      "The military imagery that follows (vv. 33&ndash;46) is vivid and specific: God girds David with strength and makes his way blameless; he makes his feet like the deer and sets him secure on the heights; he trains his hands for war and his arms to bend a bow of bronze. God is presented as the one who equips David for battle &mdash; not replacing David&rsquo;s strength but supplying and undergirding it. The victories are genuinely David&rsquo;s victories, fought with real weapons by real skill, and they are genuinely God&rsquo;s victories, enabled by divine equipment and divine support. The two are not in tension; the God who calls his servant to fight also arms him for the fight.",
+      "&ldquo;You gave me a wide place for my steps under me, and my feet did not slip. I pursued my enemies and destroyed them, and did not turn back until they were consumed&rdquo; (vv. 37&ndash;38). There is a confident energy in these verses &mdash; the forward momentum of a warrior who knows that God is with him and therefore does not falter or turn aside. The phrase &ldquo;my feet did not slip&rdquo; echoes the prayer of the Psalms that God would keep the feet of his people from stumbling. Here David testifies that this prayer was answered in his experience: through every battle and crisis, the ground under his feet was made firm by the God who holds all things stable.",
+      "Verses 44&ndash;46 describe the scope of David&rsquo;s dominion: foreign peoples submit to him, strangers come cringing from their strongholds, a king who was nobody much in his own tribe becomes the head of nations. This is the astonishing arc of David&rsquo;s story &mdash; from a youngest son tending sheep on the hills of Bethlehem to a king whose fame has spread to the nations. And David is careful to attribute this entirely to God: &ldquo;For this I will praise you, O Lord, among the nations.&rdquo; The victories are not self-made. They are the gift of the God who chose him.",
+      "The song closes in verses 47&ndash;51 with a doxology of sustained praise. &ldquo;The Lord lives, and blessed be my rock, and exalted be my God, the rock of my salvation &mdash; the God who gave me vengeance and brought down peoples under me.&rdquo; The declaration &ldquo;The Lord lives&rdquo; stands in conscious contrast to the dead idols of the nations &mdash; those who are not God, who cannot hear, who have no power to save. But the Lord lives, and because he lives, David&rsquo;s song of praise will never exhaust its object. The final verse brings the poem to its climax: &ldquo;Great salvation he brings to his king, and shows steadfast love to his anointed, to David and his offspring forever.&rdquo; The covenant with David &mdash; the promise of an eternal dynasty &mdash; is the bedrock beneath the whole song.",
+    ],
+  },
+  {
+    id: "Theological Themes",
+    heading: "Theological Themes in 2 Samuel 22",
+    reference: "2 Samuel 22 &mdash; Major Themes",
+    paragraphs: [
+      "The most fundamental theological affirmation of 2 Samuel 22 is the sovereign power and the personal care of the God of Israel. These two qualities, which might seem to stand in tension, are held together throughout the poem with striking force. The God who bends the heavens and rides the wind also bends down to draw one man out of many waters because he delights in him. The God whose voice thunders from heaven also tends to the lamp in one servant&rsquo;s darkness. The enormous and the intimate are not competing descriptions of God; they are complementary facets of the God who is both infinitely great and infinitely personal.",
+      "The theme of steadfast love &mdash; hesed in Hebrew &mdash; appears explicitly in the final verse (v. 51) but underlies the entire poem. Hesed is the covenant faithfulness that binds God to his people, the loyal love that does not waver when circumstances change, that does not give up when its object fails, that persists through every trial and crisis and remains when everything else has been stripped away. David&rsquo;s entire song is a testimony to hesed in action &mdash; the many-waters rescue, the theophany, the equipping for battle, the broad place of freedom &mdash; all are expressions of the love God pledged to David and to his offspring forever.",
+      "The Messianic trajectory of the poem is one of its most important theological dimensions. The final verse speaks of God showing steadfast love to &ldquo;his anointed, to David and his offspring forever.&rdquo; The Hebrew word for anointed is meshiach &mdash; messiah. Within the canonical shape of Scripture, this verse points forward to the one who is the ultimate meshiach, the Son of David who fulfills all that the Davidic covenant promises. The rescue from death in verse 5&ndash;6, the vindication of the righteous anointed one, the extension of the kingdom to all nations &mdash; these themes find their deepest fulfillment in the resurrection and exaltation of Jesus, who is the offspring of David in whom every promise lands.",
+      "The poem also develops a careful theology of prayer. David&rsquo;s cry in verse 7 is answered by God&rsquo;s cosmic action in verses 8&ndash;16 &mdash; the cry and the coming are directly connected. This is not a coincidence but the poem&rsquo;s deliberate theology: prayer is the means by which the distress of the creature reaches the ears of the Creator and sets in motion the divine response. The God who made the heavens and the earth has appointed prayer as the channel through which his power flows to his people. David did not storm heaven by his own strength; he called upon the Lord, and the Lord came. The whole theology of prayer in the Bible is present in seed form in that simple transaction.",
+      "The poem wrestles honestly with the question of divine justice, and the answer it gives is not simplistic. God rewards the righteous &mdash; but David is not claiming absolute righteousness; he is claiming specific faithfulness in a specific test. The poem does not pretend that life always goes well for the righteous or that the wicked always suffer promptly. What it does affirm is that God is not indifferent, that he sees the orientation of the heart, and that over the arc of a life &mdash; and in the ultimate perspective of eternity &mdash; the righteous are not abandoned and the crooked are not vindicated. This is the theodicy not of easy answers but of sustained trust.",
+      "Second Samuel 22 as poetry also communicates something that prose argument cannot. The accumulation of images, the rhythm of the lines, the movement from distress to theophany to rescue to praise &mdash; all of this shapes not just the intellect but the imagination and the affections. The reader who prays with this song begins to see God differently: not as an abstraction but as a rock, a fortress, a deliverer on the wings of the wind. The poem does theology by doing something only poetry can do: it does not just teach us about God; it trains us to perceive him.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "FkPzN8Kv3tA", title: "2 Samuel 22 - David's Song of Praise Explained" },
+  { videoId: "mHJ7Lp9qRwE", title: "Psalm 18 and 2 Samuel 22 - God as Rock and Deliverer" },
+  { videoId: "xQr4BcNdToY", title: "The Theophany of 2 Samuel 22 - God Comes to Rescue" },
+  { videoId: "bWs2Zm9KpUc", title: "David's Covenant and the Messianic King - 2 Samuel 22" },
+];
+
+export default function TwoSamuel22GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Samuel 22 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            David&rsquo;s Song of Praise &mdash; a triumphant psalm of thanksgiving for God&rsquo;s deliverance from Saul and all his enemies, celebrating the Lord as Rock, Fortress, and Deliverer who comes on the wings of the wind to rescue those who cry to him.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 2 Samuel 22 through these video teachings on David&rsquo;s song of praise, the theophany of God&rsquo;s deliverance, and the Messianic themes that point forward to Christ.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Lord Lives and Is My Rock</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Second Samuel 22 stands as one of the great summits of Old Testament praise &mdash; a king who went through every kind of danger looking back and finding the Lord faithful at every point. The God who bent the heavens to rescue David is the same God who bent history to send his Son, and the steadfast love shown to David and his offspring forever finds its ultimate expression in the resurrection of Jesus, the promised offspring in whom every word of this ancient song comes fully true.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

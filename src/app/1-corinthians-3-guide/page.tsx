@@ -1,0 +1,207 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Spiritual Immaturity",
+  "God's Field and Building",
+  "Christ the Foundation",
+  "The Builder's Test",
+  "Theological Themes",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 1 Corinthians 3",
+    reference: "1 Corinthians 3:1&ndash;23",
+    paragraphs: [
+      "First Corinthians 3 stands at the heart of Paul&rsquo;s extended response to the crisis of division tearing the Corinthian church apart. The congregation had fractured along lines of personality and pride, with factions forming around Paul, Apollos, and Cephas, and perhaps a fourth group claiming allegiance to Christ alone as a mark of superiority. Paul has already begun addressing this in chapters 1 and 2, confronting the Corinthians&rsquo; infatuation with human wisdom and eloquence. In chapter 3 he arrives at a devastating diagnosis: their divisions are not a sign of spiritual depth but of spiritual immaturity.",
+      "The chapter unfolds in three interlocking movements. First, Paul confronts the Corinthians&rsquo; spiritual condition directly: they are &ldquo;fleshly&rdquo; (sarkinos) rather than spiritual, still infants who require milk rather than solid food (3:1&ndash;4). Their jealousy and strife are the proof. Second, he corrects their misunderstanding of church leaders by reframing Paul and Apollos as mere servants &mdash; God&rsquo;s field-hands and building-workers whose labor matters only because God gives the growth (3:5&ndash;15). Third, he delivers a thunderclap of theological warning: the Corinthians themselves are God&rsquo;s temple, indwelt by the Holy Spirit, and anyone who destroys this temple will be destroyed by God (3:16&ndash;17).",
+      "Running through the entire chapter is a contest between two kinds of wisdom. Human wisdom &mdash; the kind the Corinthians prize, tied to rhetorical skill and philosophical sophistication &mdash; is exposed as foolishness before God. Divine wisdom, centered on the cross of Christ, is the only foundation on which anything of eternal worth can be built. Paul&rsquo;s pastoral concern in chapter 3 is not merely theoretical; he is fighting for the unity and holiness of a congregation he loves, and he marshals every theological resource at his disposal to accomplish that goal.",
+      "The chapter concludes with a sweeping statement of the believers&rsquo; inheritance: &ldquo;all things are yours, whether Paul or Apollos or Cephas or the world or life or death or the present or the future &mdash; all are yours, and you are Christ&rsquo;s, and Christ is God&rsquo;s&rdquo; (3:21&ndash;23). The Corinthians who thought they were enriching themselves by aligning with the most impressive teacher had actually impoverished themselves. Those who belong to Christ possess all things; to settle for a faction is to exchange a vast inheritance for a petty rivalry.",
+      "Understanding 1 Corinthians 3 requires keeping its pastoral context in view. Paul is not writing an abstract treatise on church leadership or eschatology. He is writing to a congregation in crisis, shaped by the values of a culture that celebrated self-promotion, oratorical brilliance, and status competition. His gospel of the crucified Christ was offensive to that culture, and the Corinthians&rsquo; divisions were in large part the result of their failure to let the cross reshape their values. Chapter 3 is Paul&rsquo;s sustained effort to accomplish that reshaping.",
+    ],
+  },
+  {
+    id: "Spiritual Immaturity",
+    heading: "Spiritual Immaturity: Milk vs. Solid Food",
+    reference: "1 Corinthians 3:1&ndash;4",
+    paragraphs: [
+      "Paul opens chapter 3 with a confession of pastoral frustration that is also a theological diagnosis. When he came to Corinth, he had to address them &ldquo;as people of the flesh, as infants in Christ&rdquo; (3:1). He fed them with milk, not solid food &mdash; the elementary teaching appropriate to new converts, not the deeper wisdom he speaks among the mature (see 2:6). At the time of his founding visit, this was appropriate; they were newborns in the faith and could not yet bear the weight of mature teaching.",
+      "The shock of Paul&rsquo;s next line is unmistakable: &ldquo;even now you are not yet ready, for you are still of the flesh&rdquo; (3:2&ndash;3). Years have passed since Paul founded the church. The Corinthians pride themselves on their spiritual gifts, their wisdom, their knowledge. They are enthusiastic, gifted, and deeply impressed with their own spiritual attainments. And yet they remain infants. The proof is their behavior: &ldquo;while there is jealousy and strife among you, are you not of the flesh and behaving only in a human way?&rdquo; (3:3).",
+      "The word translated &ldquo;flesh&rdquo; (sarx) here does not mean simply &ldquo;human&rdquo; in a neutral sense. It carries the weight of fallen human nature operating independently of God&rsquo;s Spirit &mdash; the self-centered, status-seeking orientation that the gospel is meant to transform. The Corinthians&rsquo; divisions are not a sign that they have advanced beyond ordinary Christianity; they are a sign that the ordinary patterns of fallen human society have not yet been crucified in them. Jealousy and strife are the hallmarks of worldly culture, not the fruit of the Spirit.",
+      "The specific example Paul gives is telling: &ldquo;When one says, &lsquo;I follow Paul,&rsquo; and another, &lsquo;I follow Apollos,&rsquo; are you not being merely human?&rdquo; (3:4). The factions at Corinth bear the names of their chosen teachers, as if the Christian faith were a philosophical school and the goal were to attach oneself to the most impressive mind. This is precisely the pattern of Greco-Roman intellectual culture, where rival schools competed for followers and honor attached to those who aligned with the winning side. The Corinthians have imported this competitive logic into the church, and Paul finds it not sophisticated but infantile.",
+      "Paul&rsquo;s diagnosis has enduring relevance. Churches in every generation can mistake the acquisition of knowledge, the development of doctrinal sophistication, or the enthusiasm of spiritual gifts for genuine spiritual maturity. But Paul locates maturity not in intellectual achievement or charismatic experience but in the transformation of relational character &mdash; the replacement of jealousy and strife with love, humility, and unity. The criterion is fruit, not fluency. A congregation that knows its theology but is riddled with faction and competition has revealed, in Paul&rsquo;s terms, that it is still on milk.",
+      "The milk-and-solid-food metaphor also implies a positive vision. Paul is not simply scolding the Corinthians; he is calling them to grow up. There is solid food to be had &mdash; a depth and richness of understanding available to those who are mature in Christ. The tragedy is not that beginners need milk; it is that these believers who should have grown are still infants. The invitation embedded in Paul&rsquo;s rebuke is an invitation to the kind of growth that comes through the cross: dying to status-seeking, pride, and the need to win, and being raised to the freedom of those who know they are God&rsquo;s children, not competitors in a spiritual tournament.",
+    ],
+  },
+  {
+    id: "God's Field and Building",
+    heading: "God's Field and Building",
+    reference: "1 Corinthians 3:5&ndash;9",
+    paragraphs: [
+      "Having diagnosed the Corinthians&rsquo; immaturity, Paul addresses its root cause: a misunderstanding of what church leaders actually are. The factions had formed because people were attaching excessive honor and identity to particular teachers. Paul&rsquo;s corrective is blunt: &ldquo;What then is Apollos? What is Paul? Servants through whom you believed, as the Lord assigned to each&rdquo; (3:5). The question is rhetorical and slightly deflating &mdash; not &ldquo;who&rdquo; are Paul and Apollos, as if they were celebrities, but &ldquo;what,&rdquo; as if they were instruments.",
+      "The first metaphor Paul reaches for is agricultural: &ldquo;I planted, Apollos watered, but God gave the growth&rdquo; (3:6). Paul was the founding missionary who first brought the gospel to Corinth. Apollos came later, an Alexandrian Jew of great learning and eloquence who built on what Paul had begun. Their roles were genuinely different, but the metaphor reduces both to the status of farm laborers. A man who plants a seed and a man who irrigates a field are both necessary and neither can take credit for the life that springs from the ground. Only God gives life; only God produces growth.",
+      "The logic of the metaphor has an equalizing effect that Paul makes explicit: &ldquo;He who plants and he who waters are one, and each will receive his wages according to his labor&rdquo; (3:8). Paul and Apollos are &ldquo;one&rdquo; in the sense of being fellow servants of the same master, working toward the same end, neither superior to the other. The Corinthians who are championing one at the expense of the other have fundamentally misread the situation. There is no rivalry between the planters and the waterers; the rivalry the Corinthians perceive exists only in their own status-anxious imaginations.",
+      "The wages each servant will receive &mdash; addressed at length in the builder-and-fire passage that follows &mdash; will correspond to the quality of their labor, not to the size of their following or the eloquence of their speech. This is a quiet warning that cuts against the Corinthian culture of evaluating teachers by their rhetorical performance. God does not grade on the curve of human popularity. The servant who faithfully does the small, unglamorous work of planting or watering will receive the same divine recognition as the one whose ministry produced visible results.",
+      "Paul then shifts from agriculture to architecture with a transition that feels almost breathless: &ldquo;For we are God&rsquo;s fellow workers. You are God&rsquo;s field, God&rsquo;s building&rdquo; (3:9). The two metaphors &mdash; field and building &mdash; belong together because both make the same point: the Corinthian congregation is not the property or the achievement of any human leader. It is God&rsquo;s. Paul and Apollos are co-laborers with God, not independent contractors building their own empires. The community itself is the field God is cultivating, the building God is constructing &mdash; and its value and identity derive from its relationship to the divine Owner and Architect, not from the reputation of the servants who do the work.",
+    ],
+  },
+  {
+    id: "Christ the Foundation",
+    heading: "Christ the Only Foundation",
+    reference: "1 Corinthians 3:10&ndash;15",
+    paragraphs: [
+      "With the building metaphor established, Paul now develops it into one of the most theologically rich passages in the entire letter. He describes himself as a &ldquo;skilled master builder&rdquo; (sophos architekton) who laid the foundation at Corinth, on which others &mdash; including Apollos &mdash; are now building. The grace of God that enabled him to lay this foundation is his only ground for confidence; it is not his own wisdom or eloquence that established the Corinthian church, but the gift of God working through him.",
+      "The foundation itself is identified with unmistakable clarity: &ldquo;For no one can lay a foundation other than that which is laid, which is Jesus Christ&rdquo; (3:11). This is not a casual statement. In the context of a letter that has been relentlessly critiquing human wisdom, rhetorical sophistication, and personality cults, the identification of Christ &mdash; and specifically the crucified Christ (see 1:23&ndash;24, 2:2) &mdash; as the one and only foundation is a theological claim with pastoral teeth. No teacher, however gifted; no doctrine, however refined; no tradition, however ancient &mdash; nothing can serve as the church&rsquo;s foundation except Christ himself.",
+      "On this unalterable foundation, various builders are at work, and their work will be evaluated according to its quality. Paul introduces the contrast between two categories of building material: gold, silver, and precious stones on one hand; wood, hay, and straw on the other (3:12). The contrast is not between luxury and poverty but between durability and combustibility. When the day of testing comes, fire will reveal the quality of each builder&rsquo;s work. What is built of gold, silver, and precious stone will endure the fire; what is built of wood, hay, and straw will be consumed.",
+      "The &ldquo;Day&rdquo; that will bring this testing is the Day of the Lord &mdash; the eschatological judgment that stands at the end of history, when all things will be exposed before God. Paul does not specify exactly what the gold and precious stones represent versus the wood and straw, but the most natural reading in context connects them to the quality of gospel ministry: teaching that is faithful to Christ and his cross versus teaching that flatters human wisdom, celebrates human eloquence, or builds community loyalty around personalities rather than around Christ.",
+      "The passage reaches a striking pastoral conclusion: if a builder&rsquo;s work survives the fire, he receives a reward; if it burns up, he suffers loss &mdash; but he himself &ldquo;will be saved, but only as through fire&rdquo; (3:15). There is a class of builder whose life&rsquo;s ministry ultimately amounts to nothing of eternal worth, and yet who is not condemned. The salvation of the person does not depend on the quality of the ministry; it depends on the foundation. But the waste of a life spent building with combustible materials is a sobering prospect, and Paul uses it as a warning to anyone who might be tempted to build the church on the glittering materials of human culture rather than the enduring substance of the gospel.",
+      "This passage has historically generated significant theological discussion about purgatory, judgment, and the evaluation of Christian ministry. Whatever one&rsquo;s tradition, the core point is clear: what matters in the long run is not the size, the reputation, or the cultural sophistication of the ministry, but whether it is faithfully built on the one foundation that God has laid in the death and resurrection of his Son. The fire of God&rsquo;s judgment is not cruel; it is clarifying &mdash; burning away everything that does not partake of Christ&rsquo;s own enduring life.",
+    ],
+  },
+  {
+    id: "The Builder's Test",
+    heading: "The Temple of God and the Builder's Warning",
+    reference: "1 Corinthians 3:16&ndash;23",
+    paragraphs: [
+      "Paul now delivers the chapter&rsquo;s most solemn warning, introduced with his characteristic &ldquo;Do you not know?&rdquo; that implies the Corinthians ought already to have understood this: &ldquo;you are God&rsquo;s temple and that God&rsquo;s Spirit dwells in you&rdquo; (3:16). The &ldquo;you&rdquo; here is plural &mdash; not the individual believer&rsquo;s body (that is the concern of chapter 6) but the community as a whole. The congregation gathered in Corinth is God&rsquo;s temple, the place where the Spirit of God takes up residence in the world.",
+      "This identification carries enormous weight. In the Old Testament, the Temple in Jerusalem was the designated meeting-place of heaven and earth, the place where God&rsquo;s presence was localized among his people. Solomon&rsquo;s prayer at the Temple&rsquo;s dedication (1 Kings 8) and the cloud of divine glory that filled the inner sanctuary at its completion (1 Kings 8:10&ndash;11) made clear that the Temple was not merely a religious building but the dwelling of the living God. Now Paul declares that this function &mdash; the localization of the divine presence in the world &mdash; has been transferred to the community of those united to Christ by his Spirit.",
+      "The consequence is severe: &ldquo;If anyone destroys God&rsquo;s temple, God will destroy him. For God&rsquo;s temple is holy, and you are that temple&rdquo; (3:17). The language of destruction is the strongest in the chapter, and it is directed at those who damage the community through divisive teaching, personality-cult building, or any other activity that tears apart what God&rsquo;s Spirit has brought together. Paul does not identify any specific individual as guilty of this offense, but the warning is unmistakable: the unity and holiness of the congregation are not peripheral matters. They are the holiness of God&rsquo;s own dwelling place, and those who vandalize that dwelling place do so at their peril.",
+      "Paul then returns to the wisdom-versus-folly theme with which the letter began, delivering a pair of sharp aphorisms: &ldquo;Let no one deceive himself. If anyone among you thinks that he is wise in this age, let him become a fool that he may become wise&rdquo; (3:18). The &ldquo;wisdom of this age&rdquo; &mdash; the rhetorical sophistication, philosophical cleverness, and status-conscious thinking that the Corinthians prize &mdash; must be unlearned before true wisdom can be received. The cross has upended the evaluative framework that the Corinthians inherited from their culture. Entrance into God&rsquo;s wisdom requires the willingness to appear foolish by the world&rsquo;s standards.",
+      "The scriptural citations that follow (from Job 5:13 and Psalm 94:11) reinforce the point: God catches the wise in their craftiness, and the Lord knows that the thoughts of the wise are futile (3:19&ndash;20). These are not gentle observations; they are declarations of the bankruptcy of human wisdom when set against the wisdom of God. The Corinthians who are boasting in their teachers are boasting in precisely the kind of human cleverness that God regards as futile. They are investing their pride in a currency that has no value in the economy of heaven.",
+      "The chapter closes with a magnificent reversal of the Corinthians&rsquo; impoverished perspective: &ldquo;So let no one boast in men. For all things are yours, whether Paul or Apollos or Cephas or the world or life or death or the present or the future &mdash; all are yours, and you are Christ&rsquo;s, and Christ is God&rsquo;s&rdquo; (3:21&ndash;23). By attaching themselves to a single teacher, the Corinthians have traded an astounding inheritance for a petty factional identity. Those who belong to Christ inherit everything &mdash; all teachers, all history, all the forces of life and death &mdash; because all things belong to Christ, and Christ belongs to God. The boasting to which the Corinthians are entitled is not boasting in Paul or Apollos; it is the quiet, confident boasting of those who know they belong to the Lord of all.",
+    ],
+  },
+  {
+    id: "Theological Themes",
+    heading: "Theological Themes in 1 Corinthians 3",
+    reference: "1 Corinthians 3:1&ndash;23 &mdash; Key Themes",
+    paragraphs: [
+      "The relationship between spiritual maturity and communal behavior is a foundational theme of the chapter. Paul locates evidence of the Spirit&rsquo;s work not primarily in extraordinary gifts or profound theological knowledge but in the quality of a community&rsquo;s relationships. Jealousy, strife, and faction are not neutral matters; they are diagnostic signs of a community still operating according to fallen human patterns rather than the pattern of the cross. The Spirit&rsquo;s fruit &mdash; love, joy, peace, patience, kindness &mdash; is the measure of maturity, not the impressiveness of one&rsquo;s teacher or the depth of one&rsquo;s doctrinal system.",
+      "The sovereignty of God in the growth of the church is a second central theme. Paul&rsquo;s repeated insistence that &ldquo;God gave the growth&rdquo; (3:6&ndash;7) is not false modesty or a rhetorical device; it is a theological conviction about the nature of Christian ministry. Human servants plant and water, but they cannot manufacture life. The church grows because God grows it. This conviction relativizes all human contributions &mdash; not by making them unimportant, but by placing them in the correct order. Servants matter; their labor matters; their faithfulness matters. But the temptation to attribute to the servant what belongs to the Lord &mdash; which is exactly what the Corinthian factions were doing &mdash; is a form of idolatry.",
+      "The irreplaceable uniqueness of Jesus Christ as the church&rsquo;s foundation is perhaps the chapter&rsquo;s most important theological contribution. In a religious marketplace crowded with competing wisdom traditions, philosophical schools, and charismatic teachers, Paul&rsquo;s insistence that no other foundation can be laid is a radical claim. It means that the church&rsquo;s identity, its unity, and its hope all depend entirely on Christ &mdash; not on the cultural packaging of the gospel, not on the personality of its leaders, not on the quality of its programming. Whatever is built must be built on him, or it will not survive the fire of divine judgment.",
+      "The temple theology of verses 16&ndash;17 represents a major development in biblical thinking about the presence of God. If the congregation is God&rsquo;s temple and the Spirit of God dwells in it, then the destruction of congregational unity is not merely a pastoral problem &mdash; it is a sacrilege. This elevates the stakes of Paul&rsquo;s concern for the Corinthian divisions enormously. He is not simply trying to smooth over interpersonal friction or maintain institutional efficiency. He is defending the holiness of God&rsquo;s own dwelling place in the world. The church&rsquo;s unity is a theological matter of the first order.",
+      "The eschatological dimension of the chapter &mdash; the fire of judgment that will test every builder&rsquo;s work &mdash; introduces a future horizon that relativizes all present concerns. The question that matters is not &ldquo;Which teacher is most impressive now?&rdquo; but &ldquo;What will survive the Day of the Lord?&rdquo; This eschatological perspective is characteristic of Paul&rsquo;s ethical reasoning throughout his letters: the coming judgment is not a distant threat but an ever-present frame of reference that should shape every present decision. Ministry that is faithful to the crucified Christ will endure; ministry that flatters human culture will burn up, regardless of how impressive it appeared in the moment.",
+      "Finally, the closing vision of 3:21&ndash;23 articulates a theology of Christian freedom and inheritance that subverts every form of spiritual poverty and factional smallness. The person who belongs to Christ belongs to the one through whom and for whom all things were made (Colossians 1:16). All teachers, all eras of history, all the powers of existence &mdash; life, death, the present, the future &mdash; are the inheritance of those who are in Christ. This is not a call to arrogance but to contentment: the Christian who knows this has no need to fight over teachers, because all teachers are already theirs. The rivalry that tears communities apart is revealed, in light of this inheritance, to be an argument over pennies by people who own the universe.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "KRqFGG3Xl2Y", title: "1 Corinthians 3 - Building on the Foundation of Christ" },
+  { videoId: "Wm7e9vPdRqA", title: "Spiritual Maturity and Division - 1 Corinthians 3 Explained" },
+  { videoId: "PnT4cLqMz8X", title: "God's Temple and the Builder's Test - 1 Corinthians 3" },
+  { videoId: "Lx2sVbHnqJk", title: "Christ the Only Foundation - Verse by Verse Study" },
+];
+
+export default function Corinthians3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            1 Corinthians 3 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Paul exposes the spiritual immaturity behind the Corinthian factions &mdash; calling the church to recognize Christ as the only foundation, to understand its leaders as servants rather than celebrities, and to embrace its identity as God&rsquo;s holy temple indwelt by the Holy Spirit.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 1 Corinthians 3 through these video teachings on spiritual maturity, the divisions at Corinth, Christ as the only foundation, and the church as God&rsquo;s holy temple.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>No Other Foundation</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            First Corinthians 3 calls every generation of the church back to the one thing that matters: Christ crucified, the only foundation that can bear the weight of the building God intends to construct. In a world that celebrates cleverness, eloquence, and status, Paul&rsquo;s word endures &mdash; all things are yours because you are Christ&rsquo;s, and Christ is God&rsquo;s.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

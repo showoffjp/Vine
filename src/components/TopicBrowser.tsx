@@ -2248,6 +2248,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Revelation 20 Chapter": "revelation-20-guide",
   "Millennium Thousand Years Satan Bound": "revelation-20-guide",
   "Great White Throne Judgment Books": "revelation-20-guide",
+  "1 Kings 8 Chapter": "1-kings-8-guide",
+  "Solomon Temple Dedication Prayer": "1-kings-8-guide",
+  "Glory of God Fills the Temple": "1-kings-8-guide",
+  "John 10 Chapter": "john-10-guide",
+  "Jesus Good Shepherd Sheep Gate": "john-10-guide",
+  "I Give Them Eternal Life Jesus": "john-10-guide",
+  "Genesis 6 Chapter": "genesis-6-guide",
+  "Noah Ark Flood Corruption Earth": "genesis-6-guide",
+  "God Sees Wickedness Commands Ark": "genesis-6-guide",
+  "Numbers 13 Chapter": "numbers-13-guide",
+  "Twelve Spies Canaan Caleb Joshua": "numbers-13-guide",
+  "Grasshoppers Bad Report Promised Land": "numbers-13-guide",
 };
 
 
@@ -3266,6 +3278,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 28 Chapter" },
   { label: "James 2 Chapter" },
   { label: "Revelation 20 Chapter" },
+  { label: "1 Kings 8 Chapter" },
+  { label: "John 10 Chapter" },
+  { label: "Genesis 6 Chapter" },
+  { label: "Numbers 13 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

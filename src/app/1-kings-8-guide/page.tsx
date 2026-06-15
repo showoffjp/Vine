@@ -1,0 +1,205 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Ark Brought In",
+  "God's Glory Fills the Temple",
+  "Solomon's Prayer",
+  "Hearing from Heaven",
+  "The Dedication Feast",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 1 Kings 8",
+    reference: "1 Kings 8:1&ndash;66",
+    paragraphs: [
+      "First Kings 8 stands as one of the most majestic chapters in the entire Old Testament &mdash; a chapter in which the great project of Solomon&rsquo;s reign reaches its ordained climax. The Temple has been built, its walls lined with cedar, its sanctuary overlaid with gold, its inner chamber housing two great cherubim of olivewood. But a building, however magnificent, is only stone and timber until the Lord himself takes up residence in it. Chapter 8 narrates the moment when the living God moved into his house.",
+      "The chapter unfolds in three great movements. The first is the processional: the elders of Israel, the heads of the tribes, and the chiefs of the fathers&rsquo; houses are assembled in Jerusalem, and together they bring up the ark of the covenant of the Lord from the city of David to its permanent resting place in the Most Holy Place beneath the wings of the great cherubim. When the priests come out, the glory cloud of the Lord fills the house so completely that they cannot stand to minister &mdash; the living God has arrived.",
+      "The second movement is Solomon&rsquo;s prayer of dedication, the longest prayer in the Old Testament and one of the most theologically rich passages in all of Scripture. Solomon kneels before the altar of the Lord with his hands spread out toward heaven and prays for seven different situations in which God&rsquo;s people might cry out toward this house: the oath, the military defeat, the drought, the famine, the foreigner, the battle, and the exile. In every case the plea is the same: hear from heaven, forgive, and act.",
+      "The third movement is the blessing of the people and the great dedication feast, which lasts fourteen days &mdash; seven days for the dedication of the altar and seven days for the Feast of Booths. The people depart joyful and glad of heart, having witnessed what no generation before them had seen: the permanent dwelling of the glory of the Lord among his people in a house that would stand at the center of Israel&rsquo;s life for centuries to come.",
+      "For the Christian reader, 1 Kings 8 is charged with typological significance. The Temple was always meant to point forward &mdash; to the greater presence of God in the person of Jesus Christ, who declared himself the true temple (John 2:19&ndash;21), and ultimately to the new creation in which God will dwell with his people forever with no veil, no mediation, and no glory cloud required, because &ldquo;the Lord God Almighty and the Lamb are its temple&rdquo; (Revelation 21:22).",
+    ],
+  },
+  {
+    id: "The Ark Brought In",
+    heading: "The Ark Brought Into the Temple",
+    reference: "1 Kings 8:1&ndash;9",
+    paragraphs: [
+      "The chapter opens with a great assembly. Solomon summons the elders of Israel, the heads of the tribes, and the chiefs of the fathers&rsquo; houses to Jerusalem for the solemn transfer of the ark of the covenant from the City of David &mdash; the tent David had pitched for it on Zion &mdash; to the completed Temple on Mount Moriah. The gathering takes place in the month of Ethanim, the seventh month, the month of the great Feast of Booths, which is perhaps deliberately chosen to evoke the memory of the wilderness wanderings when Israel had lived in tents with the ark in a tent among them.",
+      "The ark is carried by the priests and Levites, just as the Law prescribed. With it come the tent of meeting and all the sacred vessels that had been in the tabernacle &mdash; the entire sacred inventory of Israel&rsquo;s wilderness worship now converging on Solomon&rsquo;s Temple. The sacrificial procession is overwhelming in scale: &ldquo;King Solomon and all the congregation of Israel, who had assembled before him, were with him before the ark, sacrificing so many sheep and oxen that they could not be counted or numbered&rdquo; (8:5). The transfer is not a quiet administrative event but a national act of worship.",
+      "The priests bring the ark into the inner sanctuary &mdash; the Most Holy Place &mdash; and set it beneath the outstretched wings of the great cherubim, whose combined wingspan spans the entire twenty-foot width of the room. The cherubim cover the ark and its poles from above, their wings sheltering the mercy seat where God had promised to meet with Israel. The poles are so long that their ends can be seen from the outer sanctuary, but they cannot be seen from outside &mdash; detail that the text preserves carefully, as though every physical arrangement has theological significance.",
+      "Then comes the note that grounds the reader in history: &ldquo;There was nothing in the ark except the two tablets of stone that Moses put there at Horeb, where the Lord made a covenant with the people of Israel, when they came out of the land of Egypt&rdquo; (8:9). The golden jar of manna and Aaron&rsquo;s budded staff that the writer to the Hebrews mentions (9:4) may have been lost or removed at some earlier point. What remains in the ark is the most foundational thing: the covenant itself, the two tablets of the law given at Sinai. The ark is the vessel of the covenant word, and it is this that now rests at the heart of the Temple.",
+      "The moment carries enormous weight for Israel&rsquo;s collective memory. The ark had traveled with them through the wilderness, had crossed the Jordan on dry ground, had circled Jericho, had been captured by the Philistines and returned, had rested at Shiloh and Kiriath-jearim, and had been brought to Jerusalem by David with dancing and rejoicing. Now it comes to its final, permanent home. The long journey of the ark is complete, and its arrival in the Temple signals that the long journey of Israel &mdash; from Sinai to the Promised Land to the City of David to the Temple Mount &mdash; has reached its appointed destination.",
+    ],
+  },
+  {
+    id: "God's Glory Fills the Temple",
+    heading: "The Glory of the Lord Fills the Temple",
+    reference: "1 Kings 8:10&ndash;13",
+    paragraphs: [
+      "The moment the priests withdraw from the Holy Place, heaven answers earth. &ldquo;And when the priests came out of the Holy Place, a cloud filled the house of the Lord, so that the priests could not stand to minister because of the cloud, for the glory of the Lord filled the house of the Lord&rdquo; (8:10&ndash;11). The same glory cloud that had descended on the tabernacle at its completion (Exodus 40:34&ndash;35) now descends on the Temple. The parallel is unmistakable and deliberate: the God who dwelt among Israel in the wilderness now dwells among Israel in the permanent house his servant has built.",
+      "The Hebrew word for glory here is kavod, which carries the sense of weight, substance, and overwhelming presence. This is not a diffuse spiritual influence or a subjective religious feeling; it is the thick, luminous manifestation of the divine being, so dense that trained priests who have ministered in sacred spaces their entire lives simply cannot stand in it. The cloud is both the vehicle of God&rsquo;s coming and the necessary veil of his coming &mdash; for no human being can look upon the unshielded face of God and live. The cloud both reveals and conceals.",
+      "Solomon&rsquo;s response in verses 12&ndash;13 is one of the most theologically precise statements in the Old Testament: &ldquo;The Lord has said that he would dwell in thick darkness. I have indeed built you an exalted house, a place for you to dwell in forever.&rdquo; Solomon understands what has happened. The thick darkness is the same darkness in which the Lord dwelt at Sinai (Exodus 20:21), the impenetrable presence that approaches and yet remains unapproachable. God condescends to dwell in a house built by human hands &mdash; and yet the act of condescension does not diminish his majesty; it magnifies it.",
+      "The glory cloud carries a rich background in Israel&rsquo;s experience. It had led them through the wilderness as a pillar of cloud by day and pillar of fire by night. It had settled on Sinai when Moses went up to receive the law. It had filled the tabernacle when Moses set it up. Now it fills the Temple. In each case, the cloud marks the intersection of heaven and earth, the point where the infinite God makes himself present to finite creatures. The cloud is God&rsquo;s address in the world, his chosen way of being found among his people.",
+      "For the New Testament reader, the glory cloud of 1 Kings 8 points forward to a more direct and intimate coming. John&rsquo;s Gospel declares that &ldquo;the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth&rdquo; (John 1:14). The word translated &ldquo;dwelt&rdquo; (Greek: eskenos) is the word for pitching a tent &mdash; the divine tabernacling in a new and final form. The glory that filled the Temple now walked among men in a human body. And at the transfiguration, the disciples experienced the glory cloud again &mdash; the same kavod that had silenced the priests now overshadowing them on the mountain (Matthew 17:5).",
+    ],
+  },
+  {
+    id: "Solomon's Prayer",
+    heading: "Solomon's Prayer of Dedication",
+    reference: "1 Kings 8:22&ndash;53",
+    paragraphs: [
+      "Having blessed the congregation and recounted God&rsquo;s faithfulness in keeping his promises to David, Solomon turns to prayer. He stands before the altar of the Lord, spreads his hands toward heaven, and offers what is often called the longest prayer in the Old Testament and one of the greatest prayers in all of Scripture. It begins with adoration of God&rsquo;s incomparable faithfulness: &ldquo;O Lord, God of Israel, there is no God like you, in heaven above or on earth beneath, keeping covenant and showing steadfast love to your servants who walk before you with all their heart&rdquo; (8:23).",
+      "Then comes a moment of profound theological humility that stops the prayer in its tracks: &ldquo;But will God indeed dwell on the earth? Behold, heaven and the highest heaven cannot contain you; how much less this house that I have built!&rdquo; (8:27). It is a remarkable moment of self-awareness. Solomon has just finished building the most magnificent structure in the ancient Near Eastern world and filling it with gold and cedar and the finest craftsmanship of two nations &mdash; and he acknowledges, in the very act of dedicating it, that it cannot contain the God for whom it was built. The Temple is not a container for God but a focal point for prayer, a place where heaven and earth are meant to meet.",
+      "The body of the prayer is organized around seven petitions, each describing a situation in which an Israelite might cry out toward the Temple and asking God to hear from heaven and respond. The number seven is not accidental; it is the number of completeness, signaling that Solomon is praying for the full range of human need. The first petition concerns a neighbor wronged, where an oath is sworn before the altar (8:31&ndash;32). The second concerns military defeat resulting from sin (8:33&ndash;34). The third concerns drought (8:35&ndash;36). The fourth covers famine, pestilence, and any affliction (8:37&ndash;40).",
+      "The fifth petition is perhaps the most striking in its scope: &ldquo;Likewise, when a foreigner, who is not of your people Israel, comes from a far country for your name&rsquo;s sake &mdash; for they shall hear of your great name and your mighty hand and your outstretched arm &mdash; when he comes and prays toward this house, hear in heaven your dwelling place and do according to all for which the foreigner calls to you, in order that all the peoples of the earth may know your name and fear you, as do your people Israel&rdquo; (8:41&ndash;43). The Temple was never meant to be a private sanctuary for Israel alone; it was to be a house of prayer for all nations, a magnetic center drawing worshipers from the ends of the earth.",
+      "The sixth petition concerns Israel going out to battle (8:44&ndash;45), and the seventh and climactic petition concerns the devastating situation of exile &mdash; Israel taken captive to a foreign land because of sin (8:46&ndash;51). It is the most extended and emotionally urgent of all seven petitions, and it ends with a plea of breathtaking tenderness: &ldquo;For they are your people and your heritage, which you brought out of Egypt, from the midst of the iron furnace. Let your eyes be open to the plea of your servant and to the plea of your people Israel, giving ear to them whenever they call to you&rdquo; (8:51&ndash;52). Solomon prays for a people who have not yet sinned, against a catastrophe that has not yet come, knowing the human heart well enough to know that it will.",
+      "The theological vision of Solomon&rsquo;s prayer is the vision of a God who is both transcendent &mdash; dwelling in the highest heaven where no human eye can reach &mdash; and intimately attentive &mdash; ready to hear and respond to the prayers of the humblest suppliant who turns toward this house. &ldquo;And listen to the plea of your servant and of your people Israel, when they pray toward this place. And listen in heaven your dwelling place, and when you hear, forgive&rdquo; (8:30). Three verbs &mdash; listen, hear, forgive &mdash; that sum up the entire theology of prayer and the entire hope of a covenant people.",
+    ],
+  },
+  {
+    id: "Hearing from Heaven",
+    heading: "Hear in Heaven and Forgive",
+    reference: "1 Kings 8:30, 34, 36, 39, 43, 45, 49",
+    paragraphs: [
+      "Seven times in Solomon&rsquo;s prayer the same refrain rises toward heaven: &ldquo;hear in heaven your dwelling place and when you hear, forgive&rdquo; (or a near equivalent). This sevenfold repetition is not rhetorical laziness or liturgical padding; it is the structural backbone of the prayer, the heartbeat that drives every petition forward. The God whom the Temple is dedicated to is a God who hears from heaven &mdash; who is not bound to the building, not imprisoned in the cedar and gold, not limited to the geography of Jerusalem, but who bends his ear from his heavenly throne to the prayers lifted toward this earthly focal point.",
+      "The phrase &ldquo;hear in heaven your dwelling place&rdquo; is theologically careful in a way that later generations of readers, tempted to think of God as locked in the Jerusalem Temple, would have needed to remember. The Temple is not God&rsquo;s home; heaven is. The Temple is the place where heaven and earth intersect, the address where prayers go up and God&rsquo;s answers come down. This distinction is crucial: destroying the Temple does not evict God from his home, and praying toward the Temple does not require God&rsquo;s physical proximity. It requires only his attentive hearing &mdash; which Solomon believes, passionately and concretely, that he will give.",
+      "Forgiveness is the recurring response Solomon requests. Of the seven petitions, five explicitly ask for forgiveness of sin. This is not incidental; it reflects a clear-eyed understanding of why Israel will need to pray. They will need to pray because they will sin &mdash; against their neighbors, against God&rsquo;s commands, against the covenant itself. The Temple is not primarily a place for celebrating Israel&rsquo;s righteousness; it is a place for receiving God&rsquo;s mercy in the face of Israel&rsquo;s inevitable failures. &ldquo;There is no one who does not sin&rdquo; (8:46) &mdash; Solomon&rsquo;s frank acknowledgment of universal human frailty is the premise on which the entire prayer rests.",
+      "The connection between prayer toward the Temple and the later practice of Daniel and the exiles is not incidental. When Daniel, in Babylon, opens his windows toward Jerusalem and prays three times a day (Daniel 6:10), he is living out exactly what Solomon prayed for in the sixth and seventh petitions. The captive people, far from their land, cannot come to the Temple &mdash; but they can pray toward it, and Solomon has asked God to hear them when they do. The Temple&rsquo;s function as a prayer anchor survives even the Temple&rsquo;s physical destruction, because God&rsquo;s ear is not housed in stone.",
+      "For the Christian reader, the hearing God of 1 Kings 8 is fully revealed in the New Testament. Jesus teaches his disciples to pray to &ldquo;our Father in heaven&rdquo; &mdash; the same heaven from which Solomon asked God to hear. The writer to the Hebrews describes Jesus as the great High Priest who has passed through the heavens (4:14), who is able to sympathize with our weakness, and through whom we are invited to draw near with confidence to the throne of grace, &ldquo;that we may receive mercy and find grace to help in time of need&rdquo; (4:16). The hearing that Solomon asked for &mdash; attentive, forgiving, responsive &mdash; is precisely what we have in Christ, whose intercession never ceases.",
+    ],
+  },
+  {
+    id: "The Dedication Feast",
+    heading: "The Dedication Feast: 14 Days of Joy",
+    reference: "1 Kings 8:54&ndash;66",
+    paragraphs: [
+      "When Solomon finishes praying, he rises from his knees &mdash; the text notes that he had been kneeling with his hands spread toward heaven before the altar, a posture of complete humility and dependence. He stands and turns to face the assembly of Israel, and the first thing he does is bless them, his voice lifted in praise of the God who has kept every word of his promise to David. &ldquo;Blessed be the Lord who has given rest to his people Israel, according to all that he promised. Not one word has failed of all his good promise, which he spoke by Moses his servant&rdquo; (8:56). Promise made; promise kept. Every word.",
+      "Solomon then shifts from praise to petition on behalf of the people, asking that God would keep their hearts inclined toward him, that they would walk in his ways and keep his commandments, &ldquo;that all the peoples of the earth may know that the Lord is God; there is no other&rdquo; (8:60). This is the missionary vision embedded in the dedication &mdash; Israel&rsquo;s faithfulness to God is not merely for Israel&rsquo;s benefit but for the sake of the knowledge of God spreading to all the nations. The Temple dedication is, at its heart, an act with a worldwide horizon.",
+      "The scale of the dedicatory sacrifices is staggering. Solomon and all Israel with him offered twenty-two thousand oxen and one hundred and twenty thousand sheep. These were the peace offerings, the fellowship sacrifices in which portions were returned to the worshipers to be eaten in rejoicing before the Lord. The entire Temple courtyard was consecrated for the occasion because the bronze altar in front of the Temple was too small to hold the volume of burnt offerings and grain offerings and the fat pieces of the peace offerings. The worship was bodily, communal, and joyful &mdash; not an intellectual exercise but a full-throated national celebration.",
+      "The feast lasted fourteen days in total: &ldquo;seven days and seven days, fourteen days&rdquo; (8:65). The first seven were the dedication of the altar, and the second seven coincided with the Feast of Booths, the great harvest festival that commemorated Israel&rsquo;s wilderness years. The combination is rich with meaning: the completion of the Temple and the memory of the wilderness are held together in a single extended celebration, reminding the people that the God who traveled with them in the tent now dwells with them in the house, and that his presence has always been the point, not the building.",
+      "The chapter ends with the people going home: &ldquo;And on the eighth day he sent the people away, and they blessed the king and went to their homes joyful and glad of heart for all the goodness that the Lord had shown to David his servant and to Israel his people&rdquo; (8:66). The last word of the chapter is &ldquo;people&rdquo; &mdash; and the governing emotion is joy. Not the satisfaction of a project completed, not the relief of a duty discharged, but genuine, heartfelt gladness at what God has done. He has kept his word. He has come to dwell among his people. He has turned his face toward them and their prayers. There is nothing left to do but go home full of joy.",
+      "The dedication feast of 1 Kings 8 finds its ultimate fulfillment in the marriage supper of the Lamb, when God&rsquo;s people from every nation gather around the throne in a celebration that will never end. The fourteen days of joy in Jerusalem were a foretaste and a shadow of the eternal feast &mdash; the day when the dwelling of God is fully and permanently with his people, when every tear is wiped away, and when the prayer of 1 Kings 8 is answered not partially but completely and forever: God heard from heaven. God came down. God dwells with man.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Kp3R8mX2qJY", title: "1 Kings 8 - Solomon Dedicates the Temple" },
+  { videoId: "Tn7Wq4BdR6s", title: "The Glory of God Fills the Temple - 1 Kings 8 Study" },
+  { videoId: "Hv5dLcX9pMk", title: "Solomon's Prayer of Dedication - 1 Kings 8 Explained" },
+  { videoId: "Fg2NbRsT4Kw", title: "The Ark of the Covenant Enters the Temple - 1 Kings 8" },
+];
+
+export default function Kings8GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            1 Kings 8 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Solomon dedicates the Temple &mdash; the ark of the covenant is brought in, the glory cloud of the Lord fills the house, Solomon offers the longest prayer in the Old Testament asking God to hear from heaven, and the people celebrate with fourteen days of joy.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 1 Kings 8 through these video teachings on Solomon&rsquo;s dedication of the Temple, the ark of the covenant, the glory cloud, and the great prayer of dedication.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Heaven and Earth Meet in the House of the Lord</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            First Kings 8 is the high-water mark of Israel&rsquo;s national life &mdash; the moment when God moved into his house, when the glory cloud that had led Israel through the wilderness came to rest in the Most Holy Place, and when a king on his knees with hands spread toward heaven asked the God of all creation to bend his ear to the prayers of his people. Every promise of the Temple finds its fulfillment in Christ, the true temple, in whom the fullness of God dwells bodily and through whom the way to the Father stands open forever.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

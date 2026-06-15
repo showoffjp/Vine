@@ -2308,6 +2308,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Luke 13 Chapter": "luke-13-guide",
   "Narrow Door Bent Woman Healed Sabbath": "luke-13-guide",
   "Fig Tree Given One More Year Luke": "luke-13-guide",
+  "Zechariah 9 Chapter": "zechariah-9-guide",
+  "King Comes Riding Donkey Zion": "zechariah-9-guide",
+  "Your King Gentle Righteous Donkey": "zechariah-9-guide",
+  "2 Kings 6 Chapter": "2-kings-6-guide",
+  "Elisha Army Angels Fiery Chariots": "2-kings-6-guide",
+  "Open His Eyes Lord Mountain Fire": "2-kings-6-guide",
+  "Romans 3 Chapter": "romans-3-guide",
+  "All Have Sinned Fall Short Glory": "romans-3-guide",
+  "Justified by Faith Apart from Law": "romans-3-guide",
+  "Numbers 22 Chapter": "numbers-22-guide",
+  "Balaam Donkey Speaks Angel Road": "numbers-22-guide",
+  "Balak Moab Curse Israel Balaam": "numbers-22-guide",
 };
 
 
@@ -3346,6 +3358,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 15 Chapter" },
   { label: "1 Chronicles 16 Chapter" },
   { label: "Luke 13 Chapter" },
+  { label: "Zechariah 9 Chapter" },
+  { label: "2 Kings 6 Chapter" },
+  { label: "Romans 3 Chapter" },
+  { label: "Numbers 22 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

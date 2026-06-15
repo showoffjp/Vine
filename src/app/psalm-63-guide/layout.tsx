@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Psalm 63 Guide - Christian Study",
+  description: "A deep guide to Psalm 63 - David's thirst for God in the wilderness of Judah, seeking God earnestly at dawn, being satisfied as with rich food, beholding God's power and glory in the sanctuary, and clinging to God whose right hand upholds.",
+  openGraph: { title: "Psalm 63 Guide - Vine", description: "A guide to Psalm 63 - thirsting for God, earnest seeking, and the soul satisfied in God's steadfast love.", images: ["/api/og?title=Psalm+63+Guide"] },
+  twitter: { card: "summary_large_image", title: "Psalm 63 Guide - Vine", description: "A deep guide to Psalm 63.", images: ["/api/og?title=Psalm+63+Guide"] },
+};
+export default function Layout({ children }: { children: React.ReactNode }) { return <>{children}</>; }

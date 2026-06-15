@@ -2536,6 +2536,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Numbers 11 Chapter": "numbers-11-guide",
   "Manna Quail Israel Complains Wilderness": "numbers-11-guide",
   "Seventy Elders Spirit Moses Burden Numbers": "numbers-11-guide",
+  "Matthew 9 Chapter": "matthew-9-guide",
+  "Paralytic Forgiven Lowered Roof Jesus Heals": "matthew-9-guide",
+  "Matthew Tax Collector Called New Wineskins": "matthew-9-guide",
+  "Romans 13 Chapter": "romans-13-guide",
+  "Submit Governing Authorities Romans Paul": "romans-13-guide",
+  "Love Fulfills Law Owe No One Romans": "romans-13-guide",
+  "Psalm 63 Chapter": "psalm-63-guide",
+  "Soul Thirsts God Dry Weary Land Psalm": "psalm-63-guide",
+  "Your Love Better Than Life Psalm David": "psalm-63-guide",
+  "1 Kings 7 Chapter": "1-kings-7-guide",
+  "Solomon Palace Bronze Sea Two Pillars Temple": "1-kings-7-guide",
+  "Hiram Bronze Work Temple Furnishings Kings": "1-kings-7-guide",
 };
 
 
@@ -3650,6 +3662,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "John 12 Chapter" },
   { label: "1 Kings 6 Chapter" },
   { label: "Numbers 11 Chapter" },
+  { label: "Matthew 9 Chapter" },
+  { label: "Romans 13 Chapter" },
+  { label: "Psalm 63 Chapter" },
+  { label: "1 Kings 7 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2620,6 +2620,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 4 Chapter": "1-corinthians-4-guide",
   "Stewards of the Mysteries of God Faithful Paul": "1-corinthians-4-guide",
   "Fools for Christ Apostles Spectacle Corinthians": "1-corinthians-4-guide",
+  "Matthew 17 Chapter": "matthew-17-guide",
+  "Transfiguration Matthew Moses Elijah Mountain": "matthew-17-guide",
+  "Faith Like Mustard Seed Coin in Fish Tax": "matthew-17-guide",
+  "2 Kings 17 Chapter": "2-kings-17-guide",
+  "Fall of Samaria Assyria Exiles Northern Israel": "2-kings-17-guide",
+  "Why Israel Was Exiled Idolatry Samaritans Kings": "2-kings-17-guide",
+  "Acts 23 Chapter": "acts-23-guide",
+  "Paul Before Sanhedrin Pharisees Sadducees Resurrection": "acts-23-guide",
+  "Plot to Kill Paul Nephew Transferred Caesarea": "acts-23-guide",
+  "1 Corinthians 5 Chapter": "1-corinthians-5-guide",
+  "Expel the Immoral Brother Church Discipline Paul": "1-corinthians-5-guide",
+  "Cleanse Out the Old Leaven Christ Our Passover": "1-corinthians-5-guide",
 };
 
 
@@ -3762,6 +3774,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 14 Chapter" },
   { label: "Acts 22 Chapter" },
   { label: "1 Corinthians 4 Chapter" },
+  { label: "Matthew 17 Chapter" },
+  { label: "2 Kings 17 Chapter" },
+  { label: "Acts 23 Chapter" },
+  { label: "1 Corinthians 5 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

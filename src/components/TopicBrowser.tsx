@@ -2200,6 +2200,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Kings 17 Chapter": "1-kings-17-guide",
   "Elijah Ravens and Brook": "1-kings-17-guide",
   "Widow of Zarephath Elijah": "1-kings-17-guide",
+  "Matthew 28 Chapter": "matthew-28-guide",
+  "Great Commission Go Baptize": "matthew-28-guide",
+  "Resurrection Jesus Appears Galilee": "matthew-28-guide",
+  "1 Samuel 1 Chapter": "1-samuel-1-guide",
+  "Hannah Prayer Weeping Shiloh": "1-samuel-1-guide",
+  "Hannah Asks God for Son": "1-samuel-1-guide",
+  "Acts 1 Chapter": "acts-1-guide",
+  "Jesus Ascension Holy Spirit Promise": "acts-1-guide",
+  "Disciples Wait Jerusalem Power": "acts-1-guide",
+  "Ruth 4 Chapter": "ruth-4-guide",
+  "Boaz Kinsman Redeemer Ruth": "ruth-4-guide",
+  "Naomi Ruth Obed Genealogy": "ruth-4-guide",
 };
 
 
@@ -3202,6 +3214,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 45 Chapter" },
   { label: "2 Corinthians 5 Chapter" },
   { label: "1 Kings 17 Chapter" },
+  { label: "Matthew 28 Chapter" },
+  { label: "1 Samuel 1 Chapter" },
+  { label: "Acts 1 Chapter" },
+  { label: "Ruth 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

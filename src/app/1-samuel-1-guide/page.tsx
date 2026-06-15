@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Hannah's Sorrow",
+  "Her Prayer",
+  "Eli's Response",
+  "Samuel's Birth",
+  "Theological Themes",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 1 Samuel 1",
+    reference: "1 Samuel 1:1&ndash;28",
+    paragraphs: [
+      "First Samuel 1 is one of the most moving chapters in the entire Old Testament &mdash; the story of a barren woman&rsquo;s anguish, her desperate prayer at the tabernacle, and the miraculous birth of the son who will reshape the history of Israel. The chapter introduces us to Hannah, one of two wives of Elkanah of Ephraim, who suffers the double grief of childlessness and the taunting of Peninnah, the other wife, who has children. Her story is set against the backdrop of the annual pilgrimage to Shiloh where the ark of the Lord dwells, and its theological center is the discovery that the God of Israel hears the prayers of the desperate and the overlooked.",
+      "The chapter unfolds in four movements. The first (vv. 1&ndash;8) establishes the situation: Elkanah&rsquo;s household, the pilgrimage to Shiloh, the portions given at the feast, the special portion given to Hannah, Peninnah&rsquo;s provocation, and Hannah&rsquo;s weeping and refusal to eat. The second movement (vv. 9&ndash;18) is the heart of the chapter: Hannah&rsquo;s prayer at the tabernacle, her vow to give her son back to the Lord if he opens her womb, the encounter with Eli the priest who mistakes her grief-driven prayer for drunkenness, and the resolution in which Eli blesses her and she departs in peace. The third movement (vv. 19&ndash;20) is brief but glorious: the Lord remembers Hannah, and she conceives and bears a son whom she names Samuel &mdash; heard of God. The fourth movement (vv. 21&ndash;28) narrates the fulfillment of Hannah&rsquo;s vow: she weans the child and brings him to Shiloh, presenting him to Eli with the declaration, &ldquo;I have lent him to the Lord.&rdquo;",
+      "The chapter is remarkable for what it reveals about prayer. Hannah&rsquo;s prayer is not the polished public prayer of the religious establishment; it is the raw, inward, wordless cry of a woman in bitter anguish. She prays in her heart &mdash; her lips moving but her voice not heard. This silent prayer, so easily mistaken for disorder by the religious professional who observes it from the outside, is the prayer that God hears and honors above all others in the chapter. The contrast between the apparently orderly ministry of Eli and the disorderly grief of Hannah will prove prophetic: Hannah&rsquo;s prayer inaugurates the next stage of Israel&rsquo;s history, while Eli&rsquo;s priestly house stands on the verge of judgment.",
+      "First Samuel 1 also introduces the theme of vow and dedication that will mark Samuel&rsquo;s entire life. Hannah does not simply ask God for a son; she makes a covenant with God &mdash; if you give me a son, I will give him back to you all the days of his life, and no razor shall touch his head (a Nazirite vow). The child she receives is therefore not hers to keep; he is lent to the Lord, given back to the one who gave him. Samuel&rsquo;s life is shaped from before his birth by his mother&rsquo;s prayer and promise. He will grow up in the tabernacle, ministering before the Lord, and become the great prophet who will anoint both Saul and David as kings of Israel.",
+      "The chapter ends on the extraordinary note of Hannah presenting the child to Eli: &ldquo;For this child I prayed, and the Lord has granted me my petition that I made to him. Therefore I have lent him to the Lord. As long as he lives, he is lent to the Lord&rdquo; (vv. 27&ndash;28). The Hebrew wordplay on the name Samuel (shemu&rsquo;el &mdash; name of God, or heard of God) and the word for asking (sha&rsquo;al) runs through the narrative. The child is living proof that God answers prayer; his very name testifies to the God who hears. Every time his name is spoken in the chapters and books that follow, it will echo the prayer of his mother at Shiloh and the faithfulness of the God who granted it.",
+    ],
+  },
+  {
+    id: "Hannah's Sorrow",
+    heading: "Hannah's Sorrow",
+    reference: "1 Samuel 1:1&ndash;8",
+    paragraphs: [
+      "The chapter opens with the genealogy of Elkanah, a man from Ramathaim-zophim in the hill country of Ephraim. He had two wives &mdash; Hannah and Peninnah. Peninnah had children; Hannah had none. This opening sentence is as simple and as devastating as anything in the Old Testament. In the world of ancient Israel, a woman&rsquo;s identity, security, and social standing were bound up almost entirely in her children. To be barren was to lack the most fundamental form of participation in the promise of God to Abraham, who had himself been promised offspring as numerous as the stars.",
+      "Elkanah went up year by year from his city to worship and to sacrifice at Shiloh, where the two sons of Eli &mdash; Hophni and Phinehas &mdash; were priests. On the day when he sacrificed, he would give portions to Peninnah and to all her sons and daughters. But to Hannah he gave a double portion, because he loved her, though the Lord had closed her womb (v. 5). Elkanah&rsquo;s love for Hannah is evident and genuine. His giving her a double portion is an act of tender compensation for what she lacks. But the pathos of the verse is inescapable: no husband&rsquo;s love, however generous, can supply what only God can give.",
+      "And her rival used to provoke her grievously to irritate her, because the Lord had closed her womb (v. 6). Peninnah is not given a motive more complex than this; the narrator describes a pattern of deliberate, repeated cruelty. The word translated &ldquo;provoke&rdquo; suggests making someone thunder &mdash; provoking to anger, to grief. Peninnah&rsquo;s taunting was not occasional but systematic: it happened year by year, at Shiloh, at the very time and place that was meant to be the family&rsquo;s moment of worship and celebration. She chose the sacred season to inflict the deepest wound.",
+      "So it went on year by year. As often as she went up to the house of the Lord, she used to provoke her. Therefore Hannah wept and would not eat (v. 7). The cumulative weight of the word &ldquo;year by year&rdquo; is important. This is not a single moment of crisis but a prolonged ordeal spanning many years. Hannah&rsquo;s barrenness and Peninnah&rsquo;s cruelty together constitute a suffering that has become the steady background of her life. She has learned to anticipate the grief; every annual pilgrimage, which should have been a high point of devotion and celebration, has become a season of fresh anguish.",
+      "Elkanah speaks to Hannah with words that are kind but reveal a husband&rsquo;s limits: &ldquo;Hannah, why do you weep? And why do you not eat? And why is your heart sad? Am I not more to you than ten sons?&rdquo; (v. 8). It is not an unreasonable question. He has given her his love, his double portion, his attention. He clearly does not understand why this is not enough. But the question itself &mdash; &ldquo;Am I not more to you than ten sons?&rdquo; &mdash; reveals how completely he fails to enter her experience. No husband, however devoted, is &ldquo;more than ten sons&rdquo; to a woman who has longed for a child. Elkanah can comfort but cannot remedy. Only God can open the womb.",
+      "The setting of Hannah&rsquo;s suffering at Shiloh &mdash; at the very house of the Lord &mdash; is theologically charged. The place where God&rsquo;s name dwells and where sacrifice is offered is also the place where Hannah&rsquo;s grief is most acute and most public. The tabernacle is not a place from which pain is excluded; it is the place to which pain is brought, in the hope that the God who dwells there will hear. Hannah has not yet prayed &mdash; that comes in the next movement &mdash; but she is already at the right place. The movement of her story is from the weeping of verse 7 to the prayer of verse 11, from grief without words to grief given words before God.",
+    ],
+  },
+  {
+    id: "Her Prayer",
+    heading: "Hannah's Prayer",
+    reference: "1 Samuel 1:9&ndash;16",
+    paragraphs: [
+      "After they had eaten and drunk at Shiloh, Hannah rose. Now Eli the priest was sitting on the seat beside the doorpost of the temple of the Lord. She was deeply distressed and prayed to the Lord and wept bitterly (vv. 9&ndash;10). The detail that they had &ldquo;eaten and drunk&rdquo; is significant: it suggests that Hannah had managed to participate in the feast, that the surface of the occasion was maintained, even as her inner distress remained unresolved. Then she rises. The movement from the table to the tabernacle is the decisive movement of the chapter &mdash; from the domestic to the divine, from the place where human comfort had reached its limit to the place where the prayer of the desperate is heard.",
+      "And she vowed a vow and said, &ldquo;O Lord of hosts, if you will indeed look on the affliction of your servant and remember me and not forget your servant, but will give to your servant a son, then I will give him to the Lord all the days of his life, and no razor shall touch his head&rdquo; (v. 11). Several features of this prayer are remarkable. Hannah addresses God as &ldquo;Lord of hosts&rdquo; &mdash; Yahweh Sabaoth &mdash; a title that occurs here for the first time in Scripture. The God of all the armies of heaven and earth is the one Hannah turns to in her powerlessness. She speaks to the sovereign Lord not with polished theology but with the raw need of a woman in bitter anguish.",
+      "The structure of Hannah&rsquo;s prayer is a conditional vow: &ldquo;If you will give me a son, I will give him back to you.&rdquo; This is not a transaction in which Hannah bargains with God; it is a commitment that comes from a heart already surrendered to God&rsquo;s purposes. She is not trying to manipulate the Almighty; she is aligning her deepest desire with the God who gives life and to whom all life belongs. The vow to give her son as a Nazirite &mdash; consecrated to God, set apart by the uncut hair &mdash; signals that she intends the child not for her own satisfaction but for God&rsquo;s purposes. She is asking God for a son she already intends to give back.",
+      "As she continued praying before the Lord, Eli observed her mouth. Hannah was speaking in her heart; only her lips moved, and her voice was not heard. Therefore Eli took her to be a drunken woman (vv. 12&ndash;13). The misreading of Hannah&rsquo;s prayer by the priest is one of the chapter&rsquo;s most poignant moments. The intensity of her grief-driven prayer &mdash; silent, internal, moving only her lips &mdash; looks disordered to the external observer. Eli, from his seat by the doorpost, sees what appears to be a woman who has had too much wine at the feast. He intervenes to rebuke her: &ldquo;How long will you go on being drunk? Put your wine away from you&rdquo; (v. 14).",
+      "Hannah&rsquo;s response to Eli&rsquo;s accusation is a masterpiece of dignified self-defense: &ldquo;No, my lord, I am a woman troubled in spirit. I have drunk neither wine nor strong drink, but I have been pouring out my soul before the Lord. Do not regard your servant as a worthless woman, for all along I have been speaking out of my great anxiety and vexation&rdquo; (vv. 15&ndash;16). She does not capitulate to the misreading; she corrects it clearly and firmly. &ldquo;Pouring out my soul before the Lord&rdquo; is one of the richest descriptions of prayer in the entire Bible &mdash; an image of complete self-disclosure before God, of bringing everything that is inside oneself and laying it open before the one who sees and knows and hears.",
+      "The phrase &ldquo;troubled in spirit&rdquo; &mdash; literally &ldquo;hard of spirit&rdquo; &mdash; is the Hebrew expression for the condition of the deeply afflicted. Hannah is not mildly sad; she is in anguish. But she has not descended into despair or bitterness against God; she has brought her anguish directly to God in prayer. This is the spiritual posture that the Psalms commend and that the Lord honors: not the suppression of grief, not the denial of pain, but the turning of pain into prayer, the speaking of anguish before the God who is able to transform it. Hannah at the tabernacle is doing what the Psalms describe when they speak of crying out to God from the depths.",
+    ],
+  },
+  {
+    id: "Eli's Response",
+    heading: "Eli's Response and Hannah's Peace",
+    reference: "1 Samuel 1:17&ndash;20",
+    paragraphs: [
+      "When Eli hears Hannah&rsquo;s correction of his misreading, he responds with a priestly blessing: &ldquo;Go in peace, and the God of Israel grant your petition that you have made to him&rdquo; (v. 17). Eli&rsquo;s words are significant, even though they do not know what they know. He has not been given a specific word of prophecy; he does not know what Hannah has prayed for. He blesses her in a general way, entrusting her petition &mdash; whatever it is &mdash; to the God of Israel. But the blessing of a priest carries weight in the theological world of 1 Samuel. Eli&rsquo;s words, even if spoken without precise foreknowledge, are God&rsquo;s vehicle of assurance to Hannah.",
+      "The effect of the encounter on Hannah is immediately visible: &ldquo;And the woman went her way and ate, and her face was no longer sad&rdquo; (v. 18). She had arrived at the tabernacle weeping and unable to eat; she leaves at peace and able to eat. Nothing has changed in her outward circumstances: she is still barren; Peninnah is still her rival; the feast is the same feast. But something has changed at the level of her soul. She has prayed, she has been heard by the priest (however imperfectly), she has received a blessing, and she goes away in peace. Prayer has done what Elkanah&rsquo;s love and Eli&rsquo;s feast portions could not do: it has given her peace in the midst of unfulfilled longing.",
+      "The theological significance of Hannah&rsquo;s peace before the answer comes is profound. She does not leave Shiloh with the answer in hand; she leaves with the prayer offered and received. The peace she experiences is not the peace of fulfillment but the peace of having truly prayed &mdash; of having brought her burden to God and left it there. This is the pattern of biblical peace that Paul will later describe: &ldquo;Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus&rdquo; (Philippians 4:6&ndash;7). Hannah demonstrates this peace a thousand years before Paul writes it.",
+      "Then they rose early in the morning and worshiped before the Lord and then went back to their house at Ramah. And Elkanah knew Hannah his wife, and the Lord remembered her (v. 19). The phrase &ldquo;the Lord remembered her&rdquo; is one of the great redemptive phrases of the Old Testament. It appears when God is about to act on behalf of his people: he remembered Noah (Genesis 8:1), he remembered Abraham in the deliverance of Lot (Genesis 19:29), he remembered Rachel and opened her womb (Genesis 30:22). Divine remembering is not the end of forgetfulness; God does not forget. It is the moment when God&rsquo;s sovereign attentiveness to a person moves into active intervention on their behalf. The Lord who had closed Hannah&rsquo;s womb now moves to open it.",
+      "And in due time Hannah conceived and bore a son, and she called his name Samuel, for she said, &ldquo;I have asked for him from the Lord&rdquo; (v. 20). The name Samuel carries a rich cluster of meanings in Hebrew. The root sha&rsquo;al means &ldquo;to ask&rdquo; or &ldquo;to request,&rdquo; and the name can be understood as &ldquo;asked of God,&rdquo; &ldquo;heard of God,&rdquo; or even related to the divine name El, &ldquo;name of God.&rdquo; Hannah names her son out of her experience of prayer: he is the child she asked for, the child God granted. His very name testifies to the faithfulness of the God who hears. Every time someone in the subsequent history of Israel calls out &ldquo;Samuel,&rdquo; they are, in a sense, pronouncing the answer to a mother&rsquo;s prayer.",
+      "The birth of Samuel is not narrated with elaborate detail; a single verse records it. But the simplicity of the birth notice intensifies the theological weight it carries. After years of barrenness, after Peninnah&rsquo;s provocations, after the annual grief at Shiloh, after the prayer that was mistaken for drunkenness, after the blessing, after the peace &mdash; the Lord remembered Hannah, and she bore a son. The God who governs the opening and closing of wombs has acted. History is about to change. The child born in this verse will grow up to anoint the first two kings of Israel, to stand before God&rsquo;s people as the last and greatest of the judges, and to model what it means to hear and obey the word of the Lord.",
+    ],
+  },
+  {
+    id: "Samuel's Birth",
+    heading: "Samuel Dedicated to the Lord",
+    reference: "1 Samuel 1:21&ndash;28",
+    paragraphs: [
+      "The man Elkanah and all his house went up to offer to the Lord the yearly sacrifice and to pay his vow. But Hannah did not go up, for she said to her husband, &ldquo;As soon as the child is weaned, I will bring him, so that he may appear in the presence of the Lord and dwell there forever&rdquo; (vv. 21&ndash;22). Hannah&rsquo;s decision to stay home until Samuel is weaned, rather than attend the annual pilgrimage, is a mark of her intentionality. She is preparing for the moment of dedication with care. The child is still nursing; he is not yet ready to be left at Shiloh. Hannah will not fulfill her vow hastily; she will wait until the child is ready to make the transition from her arms to the tabernacle.",
+      "Elkanah&rsquo;s response to Hannah&rsquo;s plan is generous: &ldquo;Do what seems best to you; wait until you have weaned him; only, may the Lord establish his word&rdquo; (v. 23). His blessing &mdash; &ldquo;may the Lord establish his word&rdquo; &mdash; may be a reference to Eli&rsquo;s blessing or to the general sense that God&rsquo;s purposes will be fulfilled. Either way, Elkanah entrusts the child and the vow to God. He does not assert control over when or how the vow is to be fulfilled; he defers to Hannah and to God. His generosity in stepping back from control at this moment mirrors Hannah&rsquo;s generosity in giving the child she longed for back to the Lord.",
+      "When she had weaned him, she took him up with her, along with a three-year-old bull, an ephah of flour, and a skin of wine, and she brought him to the house of the Lord at Shiloh. And the child was young (v. 24). The offering Hannah brings reflects the seriousness of the occasion. This is not a token presentation; it is a full dedicatory offering. Ancient Near Eastern weaning could occur as late as three years of age, and if Samuel was approximately three years old, Hannah has had three years of holding, nursing, and loving this child before bringing him to Shiloh. The sacrifice she brings accompanies the greater sacrifice she is making: the giving up of the very thing she most desired.",
+      "Then they brought the child to Eli. And she said, &ldquo;Oh, my lord! As you live, my lord, I am the woman who was standing here in your presence, praying to the Lord. For this child I prayed, and the Lord has granted me my petition that I made to him. Therefore I have lent him to the Lord. As long as he lives, he is lent to the Lord&rdquo; (vv. 25&ndash;28). Hannah presents herself to Eli and identifies herself as the praying woman he had mistaken for a drunkard. She does not say this with any trace of reproach; she says it to close the narrative circle. The same encounter that began with misunderstanding now ends with the fulfillment of what that prayer obtained.",
+      "The declaration &ldquo;For this child I prayed, and the Lord has granted me my petition&rdquo; is one of the purest expressions of answered prayer in all of Scripture. Hannah is not boasting; she is witnessing. She is testifying before the priest, before the household, before the gathered worshipers at Shiloh, that the child standing before them is living proof that God hears prayer. The petition she poured out in bitter anguish, the prayer mistaken for drunkenness, the vow she made in desperation &mdash; God granted it all. Samuel is the answer. His presence at Shiloh is the testimony.",
+      "The phrase &ldquo;I have lent him to the Lord&rdquo; carries a depth of meaning that the English translation partly obscures. The Hebrew word sha&rsquo;al appears here, the same word root that informs Samuel&rsquo;s name. Hannah is making a wordplay: she asked (sha&rsquo;al) for the child, and now she is giving him back (sha&rsquo;al) to the Lord. The asking and the giving are bound together by the same word, as if to say that the God who grants a petition owns the gift and receives it back gladly. Hannah understands her relationship to Samuel clearly: he was never finally hers. She received him from the Lord; she returns him to the Lord. This is the posture of a woman who has learned that the giver of all good things remains the owner of all good things, and that the most faithful response to grace received is grace returned.",
+    ],
+  },
+  {
+    id: "Theological Themes",
+    heading: "Theological Themes in 1 Samuel 1",
+    reference: "1 Samuel 1 &mdash; Major Themes",
+    paragraphs: [
+      "The sovereignty of God over the womb is the foundational theological claim of 1 Samuel 1. The narrator is explicit: &ldquo;the Lord had closed her womb&rdquo; (vv. 5&ndash;6). Hannah&rsquo;s barrenness is not presented as a natural misfortune or a failure of Elkanah; it is the direct act of God. This attribution, which seems harsh to modern sensibilities, carries within it a profound theological implication: if God closes the womb, God can open it. The same sovereignty that permits barrenness is the sovereignty that can reverse it. Hannah&rsquo;s prayer is addressed to the right party, because the one she is praying to is the one who holds the power over what she is praying about. Biblical hope for the barren is grounded precisely in this conviction.",
+      "Hannah is not the first barren woman in the biblical narrative to be remembered by God and given a child. Sarah, Rebekah, Rachel, the wife of Manoah who bore Samson &mdash; each in their own way walks the same path: the grief of barrenness, the prayer or divine announcement, the miraculous conception, the child who will play a decisive role in Israel&rsquo;s story. Hannah stands in this company, and her son Samuel stands among those miraculous children who mark the turning points of redemptive history. The pattern of barrenness-to-birth is not merely a literary device; it is a theological claim about the God who brings life out of deadness and who places his decisive acts of salvation in the hands of the unexpected.",
+      "The character of Hannah&rsquo;s prayer illuminates the nature of authentic prayer in the biblical tradition. She prays in her heart, not with public performance. She is deeply distressed, not composed and ceremonially appropriate. She pours out her soul before the Lord &mdash; she brings everything she has to God without editing or packaging. She names her condition honestly: &ldquo;I have been speaking out of my great anxiety and vexation.&rdquo; This is prayer that does not hide behind religious language or pretend to a peace that is not yet present. The Psalms of lament operate in the same register: they bring the raw reality of human suffering before God with the confidence that God can bear to hear it and is faithful to respond.",
+      "The vow Hannah makes introduces the theme of consecration that will shape Samuel&rsquo;s entire identity. A Nazirite vow in Israel meant separation to God &mdash; no wine, no contact with the dead, and above all no razor on the head as a visible sign of consecration. The most famous Nazirite before Samuel was Samson, whose strength was bound up with his uncut hair. But Samuel&rsquo;s Nazirite status points to something deeper than physical strength; it points to his absolute dedication to the word of the Lord. He grows up in the tabernacle as one whose whole life, from before birth, has been pledged to God&rsquo;s service. His later ministry as a prophet who speaks God&rsquo;s word without compromise is rooted in this dedication.",
+      "The contrast between Hannah&rsquo;s authentic prayer and Eli&rsquo;s superficial religious perception is one of the chapter&rsquo;s sharpest theological edges. Eli is the high priest, the religious professional, the man who sits by the door of the tabernacle in a position of authority and oversight. But he cannot read what is in front of him: a woman praying with her whole heart. He mistakes the deepest prayer in the building for drunkenness. The coming chapters will make clear that Eli&rsquo;s house is under judgment, that his sons are corrupt, and that God is about to speak through a child rather than through the established priestly family. Chapter 1 anticipates this by showing Eli as the man who cannot discern what God is doing in the woman weeping at the doorpost of his own temple.",
+      "The name Samuel &mdash; heard of God, asked of God &mdash; functions as a standing testimony to the answering of prayer. He is a living sermon, a walking sign that God hears the prayers of the afflicted. As Samuel grows in the chapters that follow and becomes the great prophet who hears the voice of God and speaks it to Israel, his very identity will be saturated with the truth of his origin: he is a heard child, a given child, a child whose existence is the answer to a mother&rsquo;s prayer. The God who heard Hannah&rsquo;s cry in the darkness of barrenness is the same God who will speak to Samuel in the darkness of the night at Shiloh and say, &ldquo;Samuel, Samuel.&rdquo; The God who heard a woman&rsquo;s prayer becomes the God who speaks to the child that prayer produced.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "hNP8tD3CQPA", title: "1 Samuel 1 - Hannah's Prayer and the Birth of Samuel" },
+  { videoId: "wR8ZkMNZv2c", title: "BibleProject - Overview of 1 Samuel" },
+  { videoId: "Yq3MZnBvT5k", title: "Hannah's Vow - Fervent Prayer and God's Faithfulness" },
+  { videoId: "nL7JpXW2mRs", title: "The God Who Remembers - 1 Samuel 1 Sermon" },
+];
+
+export default function Samuel1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            1 Samuel 1 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Hannah&rsquo;s anguish, her fervent prayer at the tabernacle, Eli&rsquo;s blessing, and the miraculous birth of Samuel &mdash; a child asked of God, given to God, whose very name proclaims that the Lord hears the desperate prayers of the overlooked and afflicted.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 1 Samuel 1 through these video teachings on Hannah&rsquo;s prayer, the birth of Samuel, and the God who hears the desperate cries of his people.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The God Who Remembers</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            First Samuel 1 tells the story of a woman whose grief was too deep for words, whose prayer was too raw for the religious establishment to recognize, and whose God was faithful enough to hear and remember her. Hannah poured out her soul before the Lord and left the tabernacle in peace before the answer came. The child born of that prayer carried in his very name &mdash; Samuel, heard of God &mdash; the testimony that the Lord does not forget the afflicted, and that the prayers offered in the darkness of unanswered longing are heard by the God who holds all life in his hands.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

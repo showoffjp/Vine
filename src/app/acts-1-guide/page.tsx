@@ -1,0 +1,204 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Ascension",
+  "Promise of the Spirit",
+  "Waiting in Jerusalem",
+  "Matthias Chosen",
+  "Theological Themes",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Acts 1",
+    reference: "Acts 1:1&ndash;26",
+    paragraphs: [
+      "The book of Acts opens at a moment of extraordinary transition. Luke addresses his second volume to Theophilus with a direct backward glance at his Gospel &mdash; &ldquo;the first book&rdquo; recording &ldquo;all that Jesus began to do and teach&rdquo; (1:1). The word &ldquo;began&rdquo; is significant: the Gospel was only the beginning. Acts is the continuation of what Jesus does and teaches, now through his Spirit-empowered witnesses spread from Jerusalem to the ends of the earth. Chapter 1 functions as a carefully constructed bridge between the resurrection narratives of the Gospel and the Pentecost narrative of chapter 2.",
+      "The forty days between the resurrection and the Ascension occupy the opening verses. During this period Jesus presents himself alive to the apostles &ldquo;by many proofs&rdquo; (1:3), a phrase suggesting repeated, verifiable appearances designed to establish beyond doubt that the resurrection was a bodily reality. He eats with them; he speaks to them; he opens their understanding to the Scriptures. The disciples are not asked to believe on the basis of an impression or a spiritual feeling but on the basis of repeated, tangible encounters with the risen Lord.",
+      "The central instruction Jesus gives during these forty days concerns the kingdom of God and the coming of the Holy Spirit. The disciples are commanded to remain in Jerusalem and wait for the promise of the Father &mdash; the baptism of the Holy Spirit that is imminent. Their question about the restoration of the kingdom to Israel (1:6) reveals that their eschatological expectations are still being shaped; Jesus does not rebuke the question but redirects it, placing the timing of such things entirely in the Father&rsquo;s authority and calling the disciples to a different kind of attention: the power they are about to receive and the witness they are about to bear.",
+      "The Ascension (1:9&ndash;11) is one of the defining theological moments of the New Testament. Jesus is taken up into a cloud, and two angels appear to assure the astonished disciples that &ldquo;this Jesus, who was taken up from you into heaven, will come in the same way as you saw him go into heaven&rdquo; (1:11). The Ascension is not an ending but an enthronement &mdash; Jesus goes to the Father to receive all authority and to send the promised Spirit. The disciples return to Jerusalem not in grief but in great joy (Luke 24:52), obedient to the command, waiting for the power that will equip them for their global mission.",
+      "The chapter closes with the community gathered in prayer and the practical matter of replacing Judas. Peter stands and addresses the assembled believers &mdash; about one hundred and twenty of them &mdash; interpreting the events surrounding Judas through two psalms. The choice of Matthias is not a hasty improvisation; it is a deliberate reconstitution of the Twelve as the symbolic leadership of the restored Israel, echoing the twelve patriarchs and positioning the apostolic community as the nucleus of the new covenant people of God. Acts 1 sets the stage for everything that follows: the Spirit&rsquo;s arrival, the church&rsquo;s expansion, and the worldwide mission that will unfold across the rest of the book.",
+    ],
+  },
+  {
+    id: "The Ascension",
+    heading: "The Ascension of Jesus",
+    reference: "Acts 1:9&ndash;11",
+    paragraphs: [
+      "The Ascension is described with remarkable economy. Luke does not dwell on spectacular visual detail; he records simply that &ldquo;as they were looking on, he was lifted up, and a cloud took him out of their sight&rdquo; (1:9). The cloud is the cloud of divine presence &mdash; the shekinah glory that once filled the tabernacle and the Temple, the cloud that overshadowed the transfiguration. Jesus does not merely disappear; he is received into the visible glory of the Father. The disciples are not left staring at an empty sky; they are confronted with a sign of divine majesty.",
+      "The theological significance of the Ascension can scarcely be overstated. Throughout the Gospels, Jesus repeatedly spoke of going to the Father, of being glorified, of sending the Paraclete from the Father&rsquo;s presence. The Ascension is the fulfillment of those promises. Jesus goes to take his place at the right hand of the Father &mdash; the position of supreme authority described in Psalm 110:1, the text cited more often in the New Testament than any other Old Testament passage. He ascends not to rest but to reign, not to be absent but to be exalted to the place from which he sends the Spirit and intercedes for his people.",
+      "The two angels who appear &mdash; &ldquo;two men in white robes&rdquo; (1:10) &mdash; address the disciples&rsquo; upward gaze with a gentle reproof and a firm promise. Their question, &ldquo;Men of Galilee, why do you stand looking into heaven?&rdquo; (1:11), is not a rebuke of wonder but a redirection of attention. There is work to do; the disciples cannot remain gazing at the sky. And the promise &mdash; that Jesus will return in the same way he departed, visibly and bodily, in glory &mdash; gives the church both its forward hope and its present urgency. The one who ascended will descend; the one who was taken up will come back.",
+      "For Luke, the Ascension is the necessary precondition for Pentecost. Jesus himself had said, &ldquo;It is to your advantage that I go away, for if I do not go away, the Helper will not come to you&rdquo; (John 16:7). The sending of the Spirit is tied directly to the exaltation of the Son. Peter will make this explicit in his Pentecost sermon: &ldquo;Being therefore exalted at the right hand of God, and having received from the Father the promise of the Holy Spirit, he has poured out this that you yourselves are seeing and hearing&rdquo; (Acts 2:33). The Ascension and Pentecost belong together; the departure of Jesus in his bodily presence is the condition for the arrival of the Spirit in his universal presence.",
+      "The Ascension also marks a decisive shift in the mode of Christ&rsquo;s relationship to his people. Before the resurrection, Jesus was physically present with a small group of followers in one place at one time. After the Ascension, through the Spirit, he is present with all his people in all places at all times. The limitation of a single human body located in first-century Palestine gives way to the universal presence of the exalted Lord through his Spirit. This is why the disciples return to Jerusalem with joy rather than sorrow: they have not lost Jesus; they have received the one who is now Lord of all, present everywhere his people gather in his name.",
+    ],
+  },
+  {
+    id: "Promise of the Spirit",
+    heading: "Promise of the Holy Spirit",
+    reference: "Acts 1:4&ndash;8",
+    paragraphs: [
+      "Before the Ascension, Jesus gives the apostles a command and a promise bound together: they are not to depart from Jerusalem but to wait for &ldquo;the promise of the Father, which you heard from me&rdquo; (1:4). The promise is identified as the baptism of the Holy Spirit, which will come upon them &ldquo;not many days from now&rdquo; (1:5). This is no new announcement; Jesus had spoken of the coming Paraclete throughout the upper room discourse in John&rsquo;s Gospel. But here at the threshold of the new age, the promise is made concrete and imminent.",
+      "The contrast between John&rsquo;s baptism of water and the coming baptism of the Holy Spirit (1:5) is not a contrast between something inferior and something superior in the sense of replacing it. John himself had announced that the one coming after him would baptize with the Holy Spirit and fire (Luke 3:16). The contrast is between the preparatory work of repentance and the inaugurating work of the Spirit &mdash; between the forerunner&rsquo;s ministry and the arrival of the kingdom age that the forerunner announced. What John pointed to from a distance, the disciples are about to enter.",
+      "The disciples&rsquo; question &mdash; &ldquo;Lord, will you at this time restore the kingdom to Israel?&rdquo; (1:6) &mdash; is sometimes read as a misunderstanding that Jesus corrects. But Jesus does not tell them their expectation is wrong; he tells them that the timing of such events is not theirs to know. The Father has set that by his own authority (1:7). What they are given instead is a description of their mission: &ldquo;You will receive power when the Holy Spirit has come upon you, and you will be my witnesses in Jerusalem and in all Judea and Samaria, and to the end of the earth&rdquo; (1:8).",
+      "Acts 1:8 is the structural key to the entire book of Acts. It is not merely a promise but an outline. The mission moves from Jerusalem (chapters 1&ndash;7) to Judea and Samaria (chapters 8&ndash;12) to the ends of the earth (chapters 13&ndash;28), with Paul&rsquo;s arrival in Rome as the symbolic fulfillment of that final phrase. Every expansion of the gospel in Acts is driven by the power of the Spirit poured out at Pentecost. The disciples are not simply told to go; they are told to wait for the equipment that will make the going effective. Mission without the Spirit is inconceivable in Luke&rsquo;s theology.",
+      "The phrase &ldquo;to the end of the earth&rdquo; carries enormous weight. It echoes Isaiah 49:6, where the Servant of the Lord is appointed as &ldquo;a light for the nations, that my salvation may reach to the end of the earth.&rdquo; Luke has already identified Jesus as this Servant (Luke 2:32; 4:18&ndash;21). Now the mission of the Servant is extended to his witnesses &mdash; they are to carry the light of the gospel to the uttermost boundaries of the inhabited world. The promise of the Spirit is therefore not merely personal empowerment for individual believers; it is the fuel for a worldwide mission that will be nothing less than the fulfillment of Israel&rsquo;s ancient vocation to be a light to the nations.",
+    ],
+  },
+  {
+    id: "Waiting in Jerusalem",
+    heading: "Waiting in Jerusalem",
+    reference: "Acts 1:12&ndash;14",
+    paragraphs: [
+      "After the Ascension, the disciples return to Jerusalem from the Mount of Olives &mdash; Luke notes with precision that it is a Sabbath day&rsquo;s journey away (1:12), grounding the narrative in real geography and real time. They go to an upper room, almost certainly the same room where the Last Supper had been held, and the community gathers. Luke gives us a careful list of the Eleven &mdash; all twelve original apostles named, with the gap where Judas stood &mdash; and notes that the women, Mary the mother of Jesus, and his brothers are all present.",
+      "The activity of this waiting community is prayer: &ldquo;All these with one accord were devoting themselves to prayer&rdquo; (1:14). The phrase &ldquo;with one accord&rdquo; (homothumadon) appears ten times in Acts and is one of Luke&rsquo;s characteristic descriptions of the early community. It does not mean they agreed on every point or had no differences; it means they were united in their fundamental orientation &mdash; toward God, toward one another, toward the mission they had been given. The waiting is not passive; it is active waiting, filling the days with corporate prayer.",
+      "The presence of Mary in the upper room is the last time she appears in the New Testament. She is among the praying community, not elevated above it. The brothers of Jesus &mdash; who during his ministry had not believed in him (John 7:5) &mdash; are now present in the company of his disciples. Their presence is a quiet but powerful testimony to the reality of the resurrection. Something had happened to transform unbelieving family members into devoted followers. James, one of these brothers, would become a pillar of the Jerusalem church. The resurrection that convinced the Twelve also convinced James, and Paul records this encounter explicitly (1 Corinthians 15:7).",
+      "The ten days of waiting between the Ascension and Pentecost (counting by Jewish reckoning from the day after Passover to the day of Pentecost) are not a gap in the story but a preparation. The disciples are being formed into the community that will bear the Spirit. They are learning to pray together, to wait together, to trust together. The Spirit will not fall on a scattered, individualistic collection of isolated believers; the Spirit will fall on a community shaped by prayer, united in hope, and committed to one another. The upper room prayer meeting is the seedbed from which the church of Pentecost will grow.",
+      "There is also a numerological significance to the one hundred and twenty gathered. In Jewish legal tradition, one hundred and twenty was the minimum number required to establish a local council &mdash; a sanhedrin. Luke&rsquo;s note that &ldquo;the company of persons was in all about 120&rdquo; (1:15) may signal that the community is now constituted as a legitimate governing body, sufficient in number to carry out the kind of communal decision-making &mdash; such as the replacement of Judas &mdash; that will follow. The gathered company is not a mob or a movement; it is an ordered community with leadership, decision-making processes, and a sense of its own identity rooted in the purposes of God.",
+    ],
+  },
+  {
+    id: "Matthias Chosen",
+    heading: "Matthias Chosen to Replace Judas",
+    reference: "Acts 1:15&ndash;26",
+    paragraphs: [
+      "Peter rises in the midst of the gathered brothers &mdash; about one hundred and twenty in all &mdash; and addresses the necessity of filling the place left vacant by Judas. His speech is a model of early Christian biblical interpretation. He reads the story of Judas not as a random tragedy or a scandalous accident but as the outworking of Scripture. Two psalms are cited: one referring to Judas&rsquo; fate (&ldquo;Let his homestead become desolate,&rdquo; Psalm 69:25) and one to his replacement (&ldquo;Let another take his office,&rdquo; Psalm 109:8). The early church&rsquo;s instinct to read the Psalms messianically and to see the life of their community foretold in Israel&rsquo;s sacred poetry is already fully operative.",
+      "Luke&rsquo;s account of Judas&rsquo; end (1:18&ndash;19) differs in detail from Matthew&rsquo;s (Matthew 27:3&ndash;10) and has generated considerable discussion. Luke describes Judas using the money to acquire a field, where he &ldquo;falling headlong he burst open in the middle and all his bowels gushed out&rdquo; (1:18). Matthew says the chief priests bought the field after Judas returned the money and hanged himself. These accounts are not necessarily contradictory &mdash; early harmonizers suggested the body fell after the hanging &mdash; but what they share is the note of judgment: the field acquired through blood money becomes a place associated permanently with death and shame, named Akeldama, Field of Blood.",
+      "The qualifications for Judas&rsquo; replacement are precise and theologically significant: the candidate must be someone who had accompanied the apostles from the baptism of John through the Ascension (1:21&ndash;22), and he must be &ldquo;a witness with us of his resurrection&rdquo; (1:22). Apostolic authority, in Luke&rsquo;s understanding, is grounded in personal eyewitness testimony to the earthly ministry and risen Lord. This is not a function that can be filled by someone who merely has spiritual gifts or community standing; it requires the specific historical foundation of having seen and heard Jesus in the flesh.",
+      "Two candidates meet the qualifications: Joseph called Barsabbas (also known as Justus) and Matthias. The community does not decide by vote or by the wisdom of a committee. They pray &mdash; acknowledging that the Lord who knows all hearts must make the choice &mdash; and then they cast lots. The use of lots in this context has puzzled some readers. This is the last time lots appear in the New Testament for decision-making; after Pentecost, the Spirit guides the church through more direct means. But here, on the threshold of the new age, before the Spirit has been poured out, the ancient Israelite practice of seeking divine direction through lots is entirely appropriate.",
+      "Matthias is chosen and numbered with the eleven apostles. The reconstitution of the Twelve is complete. The significance of this number cannot be overstated in Luke&rsquo;s narrative world. Jesus had chosen twelve apostles deliberately, in conscious echo of the twelve tribes of Israel. At the Last Supper he had spoken of them sitting on twelve thrones judging the twelve tribes (Luke 22:30). The existence of a complete Twelve is essential to the identity of the community as the reconstituted people of God, the nucleus of restored Israel around which the nations will gather as the gospel spreads. With Matthias in place, Acts 1 concludes &mdash; and the stage is set for the fire of Pentecost.",
+    ],
+  },
+  {
+    id: "Theological Themes",
+    heading: "Theological Themes in Acts 1",
+    reference: "Acts 1:1&ndash;26 &mdash; Key Themes",
+    paragraphs: [
+      "The continuity of Jesus&rsquo; ministry is the first and foundational theme of Acts 1. Luke&rsquo;s reference to his Gospel as what Jesus &ldquo;began to do and teach&rdquo; implies that Acts is the continuation of the same story. Jesus is not an absent figure memorialized by a new movement; he is an active Lord who continues to work through his Spirit and his witnesses. The entire book of Acts can be read as the story of what the exalted Christ does through his church &mdash; the miracles, the preaching, the expansion of the gospel are all attributed ultimately to him. Acts is not a human success story; it is the story of divine initiative carried out through human instruments.",
+      "The role of Scripture in the community&rsquo;s self-understanding is a second major theme. Peter&rsquo;s speech about Judas demonstrates that the earliest followers of Jesus read the Hebrew Scriptures as a coherent narrative pointing to and being fulfilled in the events surrounding Jesus and his community. The psalms of David are not merely ancient poetry; they are prophetic testimony to what God is doing in the last days. This hermeneutical instinct &mdash; reading all of Scripture in light of Christ and reading current events in light of Scripture &mdash; will characterize the preaching of Acts throughout. The community knows who it is because it knows whose story it inhabits.",
+      "The theology of the Holy Spirit in Acts 1 sets up everything that follows. The Spirit is not an optional addition to Christian life or a supplement to the church&rsquo;s natural capacities; the Spirit is the power without which the mission is impossible. The disciples are commanded to wait precisely because they are not yet equipped. The promise of the Spirit is the promise of divine empowerment for a task that is humanly impossible &mdash; bearing credible witness to the resurrection of a crucified man, to all nations, to the end of the earth. Luke&rsquo;s theology of the Spirit is always missionary: the Spirit is given for witness, for boldness, for the crossing of boundaries that separate people from the gospel.",
+      "The theme of witness structures the entire chapter. &ldquo;You will be my witnesses&rdquo; (1:8) is not merely a job description; it is an identity statement. The disciples are not primarily teachers, organizers, or leaders, though they may be all those things. They are witnesses &mdash; people whose testimony to what they have seen and heard is the ground of the community&rsquo;s existence and the content of its message. This witnessing vocation requires both the historical foundation (personal encounter with the risen Jesus) and the supernatural equipment (the power of the Holy Spirit). Neither alone is sufficient; both together constitute the apostolic mission.",
+      "The Ascension&rsquo;s eschatological dimension opens a theological arc that will not be closed until the return of Christ. The promise of the angels &mdash; that Jesus will return as he departed, visibly and bodily and in glory &mdash; means that the church lives between two advents. The first advent established the community; the second advent will consummate it. In between, the church waits and works, prays and witnesses, holding together the confidence that Christ reigns at the Father&rsquo;s right hand and the longing for his visible return. Acts 1 teaches the church its posture: not gazing idly into heaven, not absorbed by the distractions of the present, but active and expectant, doing the work of witnesses until the one who ascended appears again.",
+      "Finally, Acts 1 establishes the communal nature of the Christian mission. The Spirit will be poured out on a community, not merely on individuals. The waiting is done together; the prayer is corporate; the decision about Matthias is made by the whole assembly. The upper room is not a solo retreat; it is the gathering of a people being formed into the body through which the Spirit will work. The mission that begins at Pentecost is not the mission of heroic individuals; it is the mission of a community shaped by prayer, structured by apostolic teaching, and empowered by the Spirit poured out on all &mdash; sons and daughters, young and old, servants male and female &mdash; as Joel had promised (Joel 2:28&ndash;29; Acts 2:17&ndash;18).",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "AH4kmwMTRhc", title: "Acts 1 - The Ascension and the Promise of the Holy Spirit" },
+  { videoId: "BibleProjectActs", title: "BibleProject - Overview of Acts 1-12" },
+  { videoId: "Xk9mPqL7rWs", title: "Acts Chapter 1 - Verse by Verse Bible Study" },
+  { videoId: "Dv3NpTq8MnL", title: "The Ascension of Jesus - Acts 1 Explained" },
+];
+
+export default function Acts1GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 1 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The risen Jesus spends forty days with his disciples, promises the Holy Spirit, and ascends to the Father&rsquo;s right hand &mdash; leaving his witnesses to wait in Jerusalem, pray together, and choose Matthias to complete the Twelve before the fire of Pentecost descends.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Acts 1 through these video teachings on the Ascension, the promise of the Holy Spirit, the waiting community in Jerusalem, and the choosing of Matthias to complete the Twelve.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>You Will Be My Witnesses</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 1 sets the entire trajectory of the church&rsquo;s mission: empowered by the promised Spirit, grounded in the eyewitness testimony to the risen Lord, and directed outward from Jerusalem to the ends of the earth. The disciples who watched Jesus ascend were not left without direction &mdash; they were commissioned as witnesses and given the promise that equipped them for a task that would change the world.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

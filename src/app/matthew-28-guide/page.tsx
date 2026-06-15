@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Resurrection",
+  "Great Commission",
+  "Appearances",
+  "Theological Themes",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Matthew 28",
+    reference: "Matthew 28:1&ndash;20",
+    paragraphs: [
+      "Matthew 28 is the triumphant conclusion of the First Gospel &mdash; the chapter in which the death and burial of Jesus give way to the astonishing news that he has risen from the dead, and in which the risen Lord commissions his disciples to carry the good news to every nation on earth. The entire narrative of Matthew has been building toward this moment: the one who was born of a virgin, announced as Emmanuel, baptized in the Jordan, tempted in the wilderness, and crucified on Calvary now stands alive on the other side of the grave.",
+      "The chapter divides into three movements. The first (vv. 1&ndash;10) narrates the discovery of the empty tomb: two Marys arrive at dawn, an earthquake shakes the ground, an angel descends and rolls back the stone, the guards fall as dead men, and the women are commissioned by the angel to tell the disciples that Jesus has risen and has gone before them to Galilee. The risen Jesus himself appears to the women on the road, and they clasp his feet and worship him. The second movement (vv. 11&ndash;15) is the dark counterpoint: the chief priests bribe the guard to spread the lie that the disciples stole the body, a slander Matthew notes was still circulating in his own day.",
+      "The third and climactic movement (vv. 16&ndash;20) is the Great Commission &mdash; one of the most consequential passages in the entire New Testament. The eleven disciples go to the mountain in Galilee that Jesus had appointed. When they see him they worship, though some doubted. Jesus then speaks words of breathtaking scope and authority: all authority in heaven and on earth has been given to him; therefore they are to go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe everything he has commanded. He closes with the promise that sustains the whole mission: &ldquo;And behold, I am with you always, to the end of the age.&rdquo;",
+      "Matthew 28 is not merely the ending of a story but the launching of a movement. The resurrection of Jesus is the vindication of everything he claimed and taught. His authority, which he exercised throughout the Gospel in ways that astonished crowds and provoked authorities, is now disclosed in its full cosmic scope: &ldquo;All authority in heaven and on earth.&rdquo; The disciples who had fled, denied, and doubted are now enrolled as agents of a worldwide mission, sustained by the continuing presence of the one who has conquered death. The Gospel that began with God with us (1:23) ends with the promise that he will remain with us forever.",
+      "The chapter rewards careful theological reading. Every phrase of the Great Commission carries weight: the universal scope (&ldquo;all nations&rdquo;), the Trinitarian name, the ongoing instruction (&ldquo;teaching them to observe all that I have commanded you&rdquo;), and the eschatological horizon (&ldquo;to the end of the age&rdquo;). Matthew 28 does not read as the conclusion of Jesus&rsquo;s ministry but as the beginning of the church&rsquo;s &mdash; a beginning grounded in resurrection, authorized by the risen Lord, and sustained by his inexhaustible presence.",
+    ],
+  },
+  {
+    id: "The Resurrection",
+    heading: "The Empty Tomb",
+    reference: "Matthew 28:1&ndash;10",
+    paragraphs: [
+      "After the Sabbath, as the first day of the week was dawning, Mary Magdalene and the other Mary came to see the tomb. Matthew does not tell us their precise purpose &mdash; whether to complete burial rites or simply to grieve at the place where Jesus lay &mdash; but their faithfulness in coming stands in sharp contrast to the scattering of the male disciples. These women had followed Jesus from Galilee, ministering to him; they had stood at the cross; they had watched him be laid in the tomb; and now, in the early morning dark, they return. They are the first witnesses of the resurrection.",
+      "The opening of the tomb is attended by a violent earthquake &mdash; seismos megas, a great shaking &mdash; and by the descent of an angel of the Lord from heaven. The angel rolls back the stone and sits upon it, and his appearance is like lightning and his clothing white as snow. The guards, posted precisely to prevent any interference with the tomb, shake with fear and become like dead men. The irony is total: the soldiers appointed to guard the dead are struck down as if dead, while the one they were guarding rises to life. Human power, organized to keep Jesus in the tomb, is undone in an instant.",
+      "The angel addresses the women with the most significant words in the chapter: &ldquo;Do not be afraid, for I know that you seek Jesus who was crucified. He is not here, for he has risen, as he said. Come, see the place where he lay. Then go quickly and tell his disciples that he has risen from the dead, and behold, he is going before you to Galilee; there you will see him&rdquo; (vv. 5&ndash;7). The angel&rsquo;s announcement does three things: it removes fear, it confirms the resurrection as the fulfillment of Jesus&rsquo;s own predictions, and it immediately commissions the women as messengers. Resurrection and mission are inseparable from the first moment.",
+      "The phrase &ldquo;as he said&rdquo; is of enormous theological significance. Jesus had repeatedly predicted his resurrection &mdash; on the third day he would rise (16:21, 17:23, 20:19). The empty tomb is not a surprise; it is a confirmation. The angel points the women back to the word of Jesus himself, to the predictions that seemed impossible when he made them and now prove to be entirely reliable. The resurrection vindicates not only the person of Jesus but the trustworthiness of his every word. If this most impossible of his predictions came true, then all his words carry the same weight.",
+      "As the women leave the tomb with fear and great joy, Jesus himself meets them on the road. &ldquo;Greetings!&rdquo; he says &mdash; the ordinary Greek salutation chairete, now charged with extraordinary meaning. They fall at his feet and grasp them and worship him. The physicality of this encounter is important: they touch him, they hold his feet. This is no vision or apparition but the bodily risen Lord. Jesus then repeats the commission the angel gave: go and tell the brothers to go to Galilee. The risen Christ himself confirms and reinforces the message of the angel, sending the women as the first proclaimers of the resurrection.",
+      "The response of the women &mdash; fear and great joy &mdash; captures the only adequate response to resurrection. These are not contradictory emotions; they are the natural consequence of encountering the impossible made actual. The God who made the world out of nothing has reversed the irreversible and brought his Son back from the dead. Awe at the magnitude of this event and joy at its merciful meaning are inseparable. The women who carry this news to the disciples carry not only information but a transformed reality: everything has changed, because the one who died is alive.",
+    ],
+  },
+  {
+    id: "Great Commission",
+    heading: "The Great Commission",
+    reference: "Matthew 28:16&ndash;20",
+    paragraphs: [
+      "The eleven disciples travel to the mountain in Galilee that Jesus had designated &mdash; fulfilling the instruction given both by the angel and by Jesus himself to the women. The mountain setting is characteristically Matthean: throughout the Gospel, mountains are places of divine encounter and instruction (the Sermon on the Mount, the Transfiguration). Here the final mountain gathering marks the ultimate divine instruction, the commissioning words that will send the disciples &mdash; and through them the whole church &mdash; out into the world.",
+      "The disciples worship when they see Jesus, but Matthew adds an honest detail that has troubled interpreters and encouraged honest believers ever since: &ldquo;but some doubted&rdquo; (v. 17). The Greek verb distaz&omacron; means to waver, to be uncertain. Even in the presence of the risen Lord, on the appointed mountain, some within the circle of the eleven were not yet fully resolved in their confidence. Matthew does not explain this or resolve it; he simply includes it. The Great Commission, it turns out, is given not to perfect faith but to wavering, wondering, imperfect disciples. The mission does not wait for doubt to be fully overcome.",
+      "&ldquo;All authority in heaven and on earth has been given to me&rdquo; (v. 18). This is the foundation of everything that follows. The authority Jesus claims is not partial, not limited to one domain, not provisional. It is total: heaven and earth, the spiritual and the material, the seen and the unseen. The passive &ldquo;has been given&rdquo; points to the Father as the one who confers this authority &mdash; the same Father who called Jesus &ldquo;my beloved Son&rdquo; at his baptism and transfiguration. The resurrection is the moment at which this universal authority is formally disclosed and declared. The crucified one has been vindicated; the Son to whom all judgment has been entrusted (John 5:22) now receives the authority to deploy that judgment through mission.",
+      "&ldquo;Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe all that I have commanded you&rdquo; (vv. 19&ndash;20). The main verb is &ldquo;make disciples&rdquo; &mdash; matheteusate &mdash; and it governs three participles: going, baptizing, teaching. Discipleship is the goal; going, baptizing, and teaching are the means. The scope is &ldquo;all nations&rdquo; &mdash; panta ta ethn&emacron; &mdash; which in Matthew&rsquo;s language refers to all the Gentile peoples of the world. The mission that began in Israel now extends to every human people group on earth.",
+      "The Trinitarian baptismal formula &mdash; &ldquo;in the name of the Father and of the Son and of the Holy Spirit&rdquo; &mdash; is the earliest explicit Trinitarian formula in the New Testament. Baptism is not performed in three names but in one name that has three personal designations. This formula identifies the community of disciples with the life of God himself &mdash; a life that is, even within itself, a fellowship of persons. The church that goes in this name goes in the name of the God who is love within himself, and the mission it carries is to bring human beings into relationship with that love.",
+      "&ldquo;And behold, I am with you always, to the end of the age&rdquo; (v. 20). The Gospel that began with Emmanuel, God with us (1:23), ends with this promise of the continuing presence of the risen Lord. The mission is not one from which Jesus absents himself; it is one he accompanies. Every disciple who goes in obedience to the Great Commission goes in the company of the one who has all authority. The end of the age &mdash; the eschatological horizon of the whole mission &mdash; frames the commission as the work of the entire period between resurrection and return. Until that end, the promise holds: I am with you, always.",
+    ],
+  },
+  {
+    id: "Appearances",
+    heading: "Resurrection Appearances",
+    reference: "Matthew 28:8&ndash;10; 28:16&ndash;17",
+    paragraphs: [
+      "Matthew records two appearances of the risen Jesus in chapter 28: to the women on the road from the tomb (vv. 9&ndash;10) and to the eleven disciples on the Galilean mountain (vv. 16&ndash;17). These two appearances, while brief compared to the extended accounts in Luke and John, carry enormous theological weight. Together they establish the pattern of resurrection appearance that runs through the New Testament: the risen Lord appears, speaks words of commission and comfort, and sends his witnesses out into the world.",
+      "The appearance to the women is remarkable for its simplicity and warmth. Jesus meets them with a greeting &mdash; the ordinary word chairete, &ldquo;rejoice&rdquo; or &ldquo;greetings&rdquo; &mdash; that is now transfigured by the fact that the one speaking it has risen from the dead. The women clasp his feet and worship him. Jesus allows this physical contact, which is significant: it distinguishes the resurrection appearance from a purely spiritual vision. The feet they clasp are real feet, the feet of a bodily risen Lord. He then speaks to them words of reassurance and sends them to his brothers &mdash; a tender term that suggests that despite their failures, the disciples are still family, still brothers of the risen Lord.",
+      "The appearance to the eleven on the mountain is the culminating appearance of the Gospel and the most significant for the life of the church. The disciples who see Jesus worship him, but Matthew&rsquo;s inclusion of doubt is pastorally significant. Doubt in the presence of the risen Lord is not treated as disqualifying. Jesus does not address the doubters separately or rebuke them; he simply speaks the commission to the gathered company, doubters included. The Great Commission is given to people who are still working out what they believe, still coming to terms with the astonishing reality before them.",
+      "Matthew&rsquo;s resurrection appearances are notably briefer than those in Luke and John. Luke emphasizes the risen Jesus eating with his disciples, opening the Scriptures, and ascending from Bethany. John records the appearances to Mary Magdalene in the garden, to the disciples in the locked room, to Thomas a week later, and to the disciples at the Sea of Tiberias. Matthew&rsquo;s brevity is not a sign of a less developed tradition; it reflects his theological focus. Matthew is less interested in cataloguing the resurrection appearances than in reaching the Great Commission. The appearances serve the commission; the commission is the point.",
+      "The two Matthean appearances also bracket the dark interlude of the guard&rsquo;s bribery (vv. 11&ndash;15). The priests and elders, hearing the soldiers&rsquo; report, manufacture an alternative explanation and pay to have it circulated. This episode is unique to Matthew and reflects the earliest stage of the Jewish-Christian controversy over the resurrection. Matthew&rsquo;s inclusion of the bribery narrative, and his note that the story was &ldquo;spread among the Jews to this day&rdquo; (v. 15), suggests he is aware of an ongoing apologetic context in which the resurrection is being contested. The confession &ldquo;he is risen&rdquo; was from the very beginning a contested claim that required courage to make and wisdom to defend.",
+      "The appearances in Matthew 28 establish an important theological principle: the resurrection is a witnessed event, not an inward spiritual experience. The women see Jesus; they touch his feet; they hear him speak. The eleven see him on the mountain and hear his commission. The resurrection of Jesus is presented as something that happened in the public, physical world &mdash; something that left an empty tomb, terrified soldiers, and transformed disciples in its wake. The Christian faith is not grounded in a feeling or a doctrine but in an event &mdash; the event of which these women and these eleven are the appointed witnesses.",
+    ],
+  },
+  {
+    id: "Theological Themes",
+    heading: "Theological Themes in Matthew 28",
+    reference: "Matthew 28 &mdash; Major Themes",
+    paragraphs: [
+      "The resurrection of Jesus is the central theological claim of Matthew 28, and indeed of the entire New Testament. Matthew presents the resurrection not as a resuscitation &mdash; a return to ordinary mortal life &mdash; but as a transformation into a new mode of existence: the risen Lord who walks with women on a road, who is touched and worshiped, who speaks with authority over heaven and earth, is not subject to the ordinary conditions of mortality. He has passed through death and come out the other side. This is the first-fruits of the new creation that Paul will later expound in 1 Corinthians 15 &mdash; the beginning of God&rsquo;s ultimate renewal of all things, inaugurated in the body of Jesus.",
+      "The theme of authority runs throughout the chapter. The soldiers are posted by authority of the governor; the chief priests exercise their authority to bribe the guard; but towering over all human authority is the declaration of verse 18: all authority in heaven and on earth belongs to the risen Christ. The resurrection is the public vindication of Jesus&rsquo;s authority, which his opponents had tried to silence through crucifixion. Death, the ultimate power deployed by earthly authorities, has proven insufficient to contain him. The one who was executed as a criminal and buried under a sealed stone now holds universal authority. No power in the universe stands outside the scope of his reign.",
+      "The universalism of the Great Commission represents a decisive theological development within the Gospel of Matthew. Jesus&rsquo;s earthly ministry was primarily to Israel &mdash; he instructed his disciples not to go among the Gentiles (10:5) and described himself as sent to the lost sheep of the house of Israel (15:24). But the resurrection changes the scope of the mission entirely. &ldquo;All nations&rdquo; now means every people, every ethnicity, every tongue. The particularity of the covenant with Israel has not been abandoned; it has been fulfilled and opened outward. The blessing promised to Abraham &mdash; that through him all families of the earth would be blessed (Genesis 12:3) &mdash; now finds its agent in the risen Messiah who sends his disciples to every family on the earth.",
+      "The Trinitarian name in verse 19 introduces the most compact Trinitarian formula in the New Testament. The disciples are to baptize in &ldquo;the name&rdquo; (singular) of Father, Son, and Holy Spirit &mdash; three persons, one name. This formula reflects the developing Trinitarian understanding of the early church, grounded in the experience of knowing Jesus as Lord, receiving the Spirit, and confessing the Father. The Great Commission is not only a missionary mandate; it is a Trinitarian theology in miniature, a statement about who God is and what relationship with God involves: entry into the communion of Father, Son, and Spirit through the washing of baptism.",
+      "The Emmanuel theme, announced in 1:23 and fulfilled in 28:20, forms an inclusio that brackets the entire Gospel. Matthew opens by naming Jesus as Emmanuel &mdash; God with us &mdash; and closes with the promise that this same presence will never be withdrawn: &ldquo;I am with you always, to the end of the age.&rdquo; The presence of God with his people is the central promise of the Old Testament, woven through the Psalms and the Prophets: &ldquo;I will be your God and you will be my people.&rdquo; In Jesus, this promise takes on a radically personal form &mdash; not merely God dwelling in a tent or a temple, but the incarnate Son accompanying his people in their mission until history reaches its appointed end.",
+      "The eschatological horizon of the final verse &mdash; &ldquo;to the end of the age&rdquo; &mdash; locates the Great Commission within the apocalyptic framework that runs through Matthew&rsquo;s Gospel. The mission is bounded by an end-point: the age will conclude, the Son of Man will return in glory, and the present commission will give way to the final judgment. The same Jesus who promises presence &ldquo;always&rdquo; is the Jesus who will return as judge. The church lives between the resurrection and the return, sustained by the promise of presence, impelled by the commission, and oriented toward the consummation. Matthew 28 is not a static endpoint but a launching pad pointing the church forward into history and beyond.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Matthew 28 Today",
+    reference: "Matthew 28 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The Great Commission is addressed to the eleven disciples on a Galilean mountain, but Matthew intends it to be heard by every subsequent generation of Jesus&rsquo;s followers. The promise &ldquo;I am with you always, to the end of the age&rdquo; extends the scope of the commission across all of history. No generation of Christians since the first century has been exempt from the call to make disciples, and none has been left to attempt it without the accompanying presence of the risen Lord. The church that takes Matthew 28 seriously is the church that understands itself as permanently commissioned and permanently accompanied.",
+      "The foundation of mission in Matthew 28 is the authority of the risen Christ, not the competence or confidence of the missionaries. Jesus does not say &ldquo;Go because you are ready&rdquo; or &ldquo;Go because the world is receptive&rdquo; or &ldquo;Go because you understand the strategy.&rdquo; He says &ldquo;Go therefore&rdquo; &mdash; the &ldquo;therefore&rdquo; grounded in his authority, not theirs. This is a liberating foundation for the church, because it means that the mission does not depend on human adequacy. The disciples to whom the commission was first given were &mdash; some of them, at least &mdash; still doubting when they received it. Authority was sufficient where faith was imperfect.",
+      "The content of the Great Commission &mdash; making disciples, baptizing, and teaching &mdash; implies that the church&rsquo;s task is not merely evangelism in a narrow sense but the full formation of human beings into the pattern of Jesus. &ldquo;Teaching them to observe all that I have commanded you&rdquo; is an enormous and lifelong undertaking. Everything Jesus taught in the Sermon on the Mount, every parable, every confrontation with religious hypocrisy, every instruction about forgiveness and prayer and generosity and anxiety &mdash; all of this is the curriculum of disciple-making. The church that takes Matthew 28 seriously cannot settle for decisions without formation, or conversions without catechesis.",
+      "The inclusion of doubters in the Great Commission offers particular encouragement to honest believers. Matthew does not record that Jesus waited for full faith before commissioning his disciples. He gave the commission while some were still doubting. This suggests that the church&rsquo;s mission does not require the elimination of doubt before participation. Doubt and worship can coexist on the same mountain; the commission is given to the gathered company, wavering and worshiping together. The honest question-asker, the one who prays &ldquo;I believe; help my unbelief,&rdquo; is as fully included in the Great Commission as the one whose faith is most settled.",
+      "The universal scope of &ldquo;all nations&rdquo; is both a charge and a corrective. It is a charge because it rules out any comfortable retreat into ministry only to people who are culturally familiar or socially close. It is a corrective to every tendency of the church to become an ethnic club, a cultural preserve, or a community of the comfortable. The risen Lord sends his disciples to every people group, every language, every culture. The church that does not have a real and costly engagement with the nations &mdash; through sending, giving, welcoming, and learning &mdash; has contracted its mission below what the risen Christ commissioned.",
+      "The closing promise &mdash; &ldquo;I am with you always&rdquo; &mdash; is the pastoral heart of the chapter for individuals as well as communities. Every Christian who undertakes the hard work of disciple-making does so in the company of the one who makes it possible. Every missionary who leaves home and family, every pastor who preaches when the congregation is small and skeptical, every believer who bears witness to a hostile neighbor &mdash; all do so with the same promise ringing in their ears: &ldquo;I am with you always, to the end of the age.&rdquo; The mission of Jesus is not a solo endeavor; it is a collaboration between the risen Lord and his sent people, in which his presence is the unchanging constant.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "mT4nNBTJ5oA", title: "Matthew 28 - The Resurrection and the Great Commission" },
+  { videoId: "K9mv2L5RMGU", title: "The Empty Tomb - Easter Sunday Sermon on Matthew 28" },
+  { videoId: "Pb8J6HQKN7e", title: "Go and Make Disciples - Expository Study of Matthew 28:18-20" },
+  { videoId: "xNqTZibObyM", title: "All Authority - The Great Commission in the Gospel of Matthew" },
+];
+
+export default function Matthew28GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 28 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The Resurrection of Jesus, the empty tomb, and the Great Commission &mdash; &ldquo;All authority in heaven and on earth has been given to me. Go therefore and make disciples of all nations&hellip; and behold, I am with you always, to the end of the age.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Matthew 28 through these video teachings on the resurrection of Jesus, the empty tomb, and the Great Commission to go and make disciples of all nations.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Am With You Always</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 28 is not the end of a story but the beginning of a mission. The risen Jesus &mdash; clothed with all authority in heaven and on earth &mdash; commissions his people to go to every nation, make disciples, baptize them into the Trinitarian life of God, and teach them everything he commanded. And lest the magnitude of the task overwhelm those who are sent, he closes with the promise that has sustained the church through every century: &ldquo;I am with you always, to the end of the age.&rdquo;
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

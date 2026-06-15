@@ -2584,6 +2584,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 18 Chapter": "acts-18-guide",
   "Paul Corinth Aquila Priscilla Tentmakers": "acts-18-guide",
   "Gallio Apollos Ephesus Paul Acts Eighteen": "acts-18-guide",
+  "Luke 12 Chapter": "luke-12-guide",
+  "Parable of the Rich Fool Barns Luke": "luke-12-guide",
+  "Do Not Worry Seek First Kingdom Luke": "luke-12-guide",
+  "2 Kings 1 Chapter": "2-kings-1-guide",
+  "Ahaziah Falls Baal-zebub Elijah Fire Heaven": "2-kings-1-guide",
+  "Fifty Men Consumed Elijah King Messengers": "2-kings-1-guide",
+  "Acts 19 Chapter": "acts-19-guide",
+  "Paul Ephesus Holy Spirit Disciples Baptism": "acts-19-guide",
+  "Riot of Artemis Silversmiths Demetrius Ephesus": "acts-19-guide",
+  "John 18 Chapter": "john-18-guide",
+  "Jesus Arrested Garden Peter Denies John": "john-18-guide",
+  "Jesus Before Pilate My Kingdom Not of World": "john-18-guide",
 };
 
 
@@ -3714,6 +3726,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 16 Chapter" },
   { label: "1 Kings 11 Chapter" },
   { label: "Acts 18 Chapter" },
+  { label: "Luke 12 Chapter" },
+  { label: "2 Kings 1 Chapter" },
+  { label: "Acts 19 Chapter" },
+  { label: "John 18 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

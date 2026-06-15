@@ -2320,6 +2320,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Numbers 22 Chapter": "numbers-22-guide",
   "Balaam Donkey Speaks Angel Road": "numbers-22-guide",
   "Balak Moab Curse Israel Balaam": "numbers-22-guide",
+  "Jeremiah 29 Chapter": "jeremiah-29-guide",
+  "Plans Prosper You Not Harm Future Hope": "jeremiah-29-guide",
+  "Seek Peace City Captivity Jeremiah": "jeremiah-29-guide",
+  "Matthew 14 Chapter": "matthew-14-guide",
+  "Feeding Five Thousand Loaves Fish": "matthew-14-guide",
+  "Jesus Walks on Water Storm Peter": "matthew-14-guide",
+  "2 Samuel 6 Chapter": "2-samuel-6-guide",
+  "David Ark Jerusalem Dancing Worship": "2-samuel-6-guide",
+  "Uzzah Ark Michal David Celebration": "2-samuel-6-guide",
+  "Daniel 1 Chapter": "daniel-1-guide",
+  "Daniel Refuses Babylonian Food Wine": "daniel-1-guide",
+  "Shadrach Meshach Abednego Daniel Pulse": "daniel-1-guide",
 };
 
 
@@ -3362,6 +3374,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Kings 6 Chapter" },
   { label: "Romans 3 Chapter" },
   { label: "Numbers 22 Chapter" },
+  { label: "Jeremiah 29 Chapter" },
+  { label: "Matthew 14 Chapter" },
+  { label: "2 Samuel 6 Chapter" },
+  { label: "Daniel 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

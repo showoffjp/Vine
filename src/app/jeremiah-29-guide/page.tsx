@@ -1,0 +1,207 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Letter to the Exiles",
+  "Seek the Peace of Babylon",
+  "Plans for Hope and a Future",
+  "Seek God Wholeheartedly",
+  "The Promise of Return",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Jeremiah 29",
+    reference: "Jeremiah 29:1&ndash;32",
+    paragraphs: [
+      "Jeremiah 29 is one of the most extraordinary chapters in the entire prophetic corpus &mdash; a letter written by a prophet still in Jerusalem to a people already in exile in Babylon. In 597 BC, Nebuchadnezzar had carried off the first wave of Judean exiles, including King Jehoiachin, the priests, the craftsmen, and the best of the people. Jeremiah, who remained behind, sent a letter to these first deportees through messengers traveling between the two capitals. What that letter contained was profoundly unexpected.",
+      "The exiles in Babylon were being told by false prophets in their midst &mdash; men like Ahab son of Kolaiah and Zedekiah son of Maaseiah &mdash; that the captivity would be short, that within two years they would be back home in Jerusalem. It was a comfortable lie, a word designed to soothe the pain of dislocation and keep alive the hope of rapid return. Jeremiah&rsquo;s letter demolished that comfortable expectation and replaced it with something harder to hear: settle in, because you are going to be here for seventy years.",
+      "But the letter did not stop at crushing false hope. It went further, delivering a word that was both bracing in its realism and magnificent in its promise. Jeremiah told the exiles to build houses and plant gardens, to marry and have children, to multiply and not diminish. And then came one of the most remarkable commands in prophetic literature: &ldquo;Seek the welfare of the city where I have sent you into exile, and pray to the Lord on its behalf, for in its welfare you will find your welfare&rdquo; (29:7). Pray for Babylon. Seek the peace of your captors&rsquo; city.",
+      "And then, after laying out the hard truth about the length of their exile and their call to inhabit it faithfully, Jeremiah delivered what would become perhaps the most memorized verses in all of Scripture: &ldquo;For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope&rdquo; (29:11). These words &mdash; addressed to people in exile, separated from their land and temple and king &mdash; have resonated across the centuries as a promise of God&rsquo;s purposeful care for his people even in their darkest hours.",
+      "Jeremiah 29 is therefore a chapter about the theology of exile &mdash; how the people of God are to live when things do not go as they had hoped, when the timeline is long and the circumstances are painful, when false voices promise easy deliverance and God&rsquo;s true word calls them to patient, faithful inhabiting of a difficult present. It is a chapter about trust: trusting that the God who sent them there has not abandoned them, that his plans are good, that the future he holds is real, and that those who seek him with their whole heart will find him.",
+    ],
+  },
+  {
+    id: "Letter to the Exiles",
+    heading: "The Letter to the Exiles in Babylon",
+    reference: "Jeremiah 29:1&ndash;9",
+    paragraphs: [
+      "The opening verses of Jeremiah 29 establish the extraordinary literary and historical situation: &ldquo;These are the words of the letter that Jeremiah the prophet sent from Jerusalem to the surviving elders of the exiles, and to the priests, the prophets, and all the people, whom Nebuchadnezzar had taken into exile from Jerusalem to Babylon&rdquo; (29:1). This is not a spoken prophecy delivered in the streets of Jerusalem; it is a written communication sent across hundreds of miles to a community already relocated by foreign power.",
+      "The letter was carried by two royal ambassadors, Elasah son of Shaphan and Gemariah son of Hilkiah, who were traveling to Babylon on a diplomatic mission from King Zedekiah. Jeremiah took advantage of their journey to get his letter to the exiles. The fact that these were royal ambassadors &mdash; respected officials &mdash; would have lent credibility to the delivery of the letter, even as its contents clashed sharply with what the exiles were hearing from their own prophets in Babylon.",
+      "The letter begins with four concrete, domestic commands that must have shocked those who expected Jeremiah to say: hold on, endure, deliverance is near. Instead he said: &ldquo;Build houses and live in them; plant gardens and eat their produce. Take wives and have sons and daughters; take wives for your sons, and give your daughters in marriage, that they may bear sons and daughters; multiply there, and do not decrease&rdquo; (29:5&ndash;6). These are the actions of people settling in for the long haul, not for two years but for a generation.",
+      "The deliberate domesticity of these commands was itself a theological statement. The false prophets were encouraging the exiles to live as though their stay in Babylon were temporary, to refuse to invest in a land that was not their own, to keep their bags mentally packed for the imminent return. Jeremiah&rsquo;s commands cut against that posture entirely. God was not calling his people to live in denial or to hover emotionally above their circumstances. He was calling them to inhabit exile as fully human beings &mdash; to build, plant, marry, have children, and multiply.",
+      "The section ends with a warning about the false prophets who were operating among the exiles, claiming to bring the word of the Lord when they had not been sent. &ldquo;Do not let your prophets and your diviners who are among you deceive you, and do not listen to the dreams that they dream, for it is a lie that they are prophesying to you in my name; I did not send them, declares the Lord&rdquo; (29:8&ndash;9). The contrast between the true prophet and the false is not always a matter of style or manner but of content: the false prophet tells people what they want to hear; the true prophet tells them what God has actually said, even when it is harder to receive.",
+    ],
+  },
+  {
+    id: "Seek the Peace of Babylon",
+    heading: "Seek the Peace of the City",
+    reference: "Jeremiah 29:7",
+    paragraphs: [
+      "The single most counterintuitive sentence in Jeremiah 29 &mdash; and perhaps among the most counterintuitive in the entire Old Testament &mdash; is verse 7: &ldquo;But seek the welfare of the city where I have sent you into exile, and pray to the Lord on its behalf, for in its welfare you will find your welfare.&rdquo; Babylon was not merely a foreign city; it was the empire that had destroyed Jerusalem, demolished the Temple, killed and deported the people of God, and mocked the God of Israel. And Jeremiah tells the exiles to pray for its welfare.",
+      "The Hebrew word translated &ldquo;welfare&rdquo; or &ldquo;peace&rdquo; is shalom &mdash; the great Old Testament word for wholeness, completeness, flourishing, right relationship. Seek the shalom of Babylon. This is not grudging civic compliance; it is active, positive engagement with the wellbeing of the city. The exiles were not told merely to tolerate Babylon or to endure it; they were told to invest in its flourishing, to pray for it, to contribute to it. The people of God were to be a blessing to the city that had conquered them.",
+      "The rationale given is equally striking: &ldquo;for in its welfare you will find your welfare.&rdquo; The flourishing of the exiles was tied to the flourishing of the city. This is not a spiritual paradox but a practical reality: if Babylon prospered, the exiles prospered; if chaos came to Babylon, the exiles would suffer. God was telling his people that their own wellbeing was linked to the wellbeing of the communities in which they lived, even when those communities were hostile to their faith and foreign to their values.",
+      "The theological implications of this command extend far beyond the historical situation of the Babylonian exile. It established a pattern for how the people of God were to relate to the societies in which they found themselves as minorities &mdash; not by withdrawing into isolated enclaves, not by seeking the overthrow of surrounding powers, but by actively seeking the peace and flourishing of the broader community. The New Testament would later draw on similar language: Christians are called to pray for kings and those in authority (1 Timothy 2:1&ndash;2), to honor the emperor (1 Peter 2:17), to do good to all people (Galatians 6:10).",
+      "The command to seek the peace of Babylon also revealed something important about God&rsquo;s own heart. A God who commands his people to pray for their captors is a God whose mercy and care extend beyond the boundaries of the covenant community &mdash; a God who is concerned for the flourishing of all human cities, not just Jerusalem. This universality of God&rsquo;s concern &mdash; expressed here in a command to the exiles &mdash; would later find its fullest expression in the proclamation that God so loved the world, not merely Israel, that he gave his Son. Babylon, too, was a city whose people God saw.",
+      "For those in exile today &mdash; whether literal or metaphorical, whether physically displaced or simply living as minorities in cultures that do not share their values &mdash; Jeremiah 29:7 remains both a challenge and a liberation. A challenge, because it refuses the option of bitter withdrawal or resentful isolation. A liberation, because it releases God&rsquo;s people from the exhausting posture of regarding every surrounding institution as an enemy to be defeated, and invites them instead into the dignified, purposeful work of contributing to human flourishing wherever God has placed them.",
+    ],
+  },
+  {
+    id: "Plans for Hope and a Future",
+    heading: "Plans for Welfare and Not for Evil",
+    reference: "Jeremiah 29:10&ndash;14",
+    paragraphs: [
+      "After the hard word about seventy years of exile and the bracing command to seek the peace of Babylon, Jeremiah&rsquo;s letter turns to one of the most luminous passages in the entire prophetic tradition. &ldquo;For thus says the Lord: When seventy years are completed for Babylon, I will visit you, and I will fulfill to you my promise and bring you back to this place. For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope&rdquo; (29:10&ndash;11).",
+      "The word translated &ldquo;plans&rdquo; in verse 11 is the Hebrew word &lsquo;machashavot,&rsquo; which carries the sense of thoughts, intentions, designs &mdash; the deliberate, purposeful workings of a mind. God does not have accidental thoughts about his people; he has designs. And those designs, declared to people sitting in exile and wondering whether God had forgotten them entirely, are &ldquo;for welfare and not for evil&rdquo; &mdash; for shalom and not for harm. The word &ldquo;welfare&rdquo; here is again shalom, the same word used in verse 7 when Jeremiah commanded the exiles to seek the peace of Babylon.",
+      "The phrase &ldquo;a future and a hope&rdquo; is equally rich. The Hebrew word for &ldquo;future&rdquo; or &ldquo;end&rdquo; (&lsquo;acharit&rsquo;) means literally &ldquo;an end&rdquo; or &ldquo;a latter time&rdquo; &mdash; the idea is that there is a coming outcome, a day to which this story is moving that is not determined by present circumstances. The people in exile could look at their situation and see an ending: the end of the Temple, the end of the Davidic monarchy, the end of the nation. God says: that is not the real ending. &ldquo;I know the &lsquo;acharit&rsquo; I have for you, and it is not what you can see from where you are standing.&rdquo;",
+      "It is critical to understand the original context of these verses. They were not spoken to individuals in comfortable circumstances reassuring them that their personal career plans would succeed. They were spoken to a shattered community in exile, whose city had been burned and whose Temple had been destroyed, who had been carried hundreds of miles from home and were listening to false prophets claim God would rescue them within two years. Into that situation of grief, disorientation, and false hope, Jeremiah&rsquo;s God says: the timeline is seventy years, and I have not abandoned you. I know what I am doing.",
+      "The passage also sets the context for verses 12&ndash;14, which describe the sought-after relationship: &ldquo;Then you will call upon me and come and pray to me, and I will hear you. You will seek me and find me, when you seek me with all your heart. I will be found by you, declares the Lord, and I will restore your fortunes and gather you from all the nations and all the places where I have driven you, declares the Lord, and I will bring you back to the place from which I sent you into exile&rdquo; (29:12&ndash;14). The plans for a future and a hope are not a vague cosmic optimism; they are plans that move toward a specific outcome: the restoration of the relationship between God and his people, expressed in prayer that is heard and in seeking that finds.",
+      "Jeremiah 29:11 has become, across the centuries, one of the most quoted and beloved verses in all of Scripture &mdash; a promise given to believers across vastly different circumstances as an assurance of God&rsquo;s purposeful, caring, unfailing intention toward those who belong to him. Its power lies not in what it promises for the immediate moment but in what it reveals about the character of the God who speaks: a God who knows, who plans, who keeps his word, and whose purposes for his people are always oriented toward their ultimate good.",
+    ],
+  },
+  {
+    id: "Seek God Wholeheartedly",
+    heading: "Seek Me and You Will Find Me",
+    reference: "Jeremiah 29:12&ndash;14",
+    paragraphs: [
+      "The promise of God&rsquo;s plans for a future and a hope in verse 11 flows immediately into one of the most personal and searching invitations in the prophetic literature: &ldquo;Then you will call upon me and come and pray to me, and I will hear you. You will seek me and find me, when you seek me with all your heart&rdquo; (29:12&ndash;13). These verses are not a general religious sentiment; they are a specific promise tied to a specific condition. God will be found &mdash; but by those who seek him with all their heart.",
+      "The phrase &ldquo;with all your heart&rdquo; appears throughout the Old Testament as the defining characteristic of genuine covenant faithfulness. Deuteronomy &mdash; the book of the covenant &mdash; uses this phrase repeatedly: love the Lord your God with all your heart (6:5), return to the Lord with all your heart (30:2, 10). The command is not to seek God as one among several priorities, or to give God the best of what is left after other pursuits have been satisfied, but to orient the entire self &mdash; the whole of one&rsquo;s will, attention, desire, and energy &mdash; toward him.",
+      "In the context of the exile, this call to wholehearted seeking is pointed in a particular direction. The exiles were being tempted by two forms of divided heart: on one side, the false prophets who were offering them a shortcut back to Jerusalem and to what their hearts most desired; on the other side, the pull of Babylonian culture and religion, which surrounded them with alternatives to the God of Israel. Wholehearted seeking meant resisting both the false comfort of easy promises and the slow seduction of assimilation.",
+      "The promise that follows &mdash; &ldquo;I will be found by you, declares the Lord&rdquo; (29:14) &mdash; is among the most tender and direct declarations of divine accessibility in all of Scripture. God does not say: perhaps I will be found, or I may be found under certain conditions. He says: I will be found. The outcome of wholehearted seeking is not in doubt. God is not playing hide-and-seek with his people; he is infinitely more ready to be found than they are to seek. The condition of wholehearted seeking is not a barrier raised to keep people away but a description of the kind of seeking that is serious enough to find what it is looking for.",
+      "This section of Jeremiah 29 is also deeply connected to the broader prophetic theme of the new covenant. Jeremiah 31:33 would later describe the covenant written on the heart, the law internalized rather than merely observed externally. The wholehearted seeking of 29:13 is a sign of that interior work &mdash; a heart that has been turned toward God in such a way that seeking him becomes its deepest natural movement. And when Jeremiah says &ldquo;I will be found by you,&rdquo; he is describing a relationship in which God himself is the goal and the reward, not merely the dispenser of blessings.",
+      "The New Testament echoes this theme with remarkable frequency. Jesus promised, &ldquo;Seek and you will find; knock and the door will be opened to you&rdquo; (Matthew 7:7). The author of Hebrews wrote that God &ldquo;rewards those who diligently seek him&rdquo; (Hebrews 11:6). James instructed, &ldquo;Draw near to God, and he will draw near to you&rdquo; (James 4:8). The promise of Jeremiah 29:13&ndash;14 &mdash; seek me with all your heart and I will be found by you &mdash; is not an Old Testament relic but a permanent feature of the character of God, who has always been infinitely more accessible to those who truly seek him than our tendency toward half-hearted religion leads us to believe.",
+    ],
+  },
+  {
+    id: "The Promise of Return",
+    heading: "The Promise of Return and the Fate of False Prophets",
+    reference: "Jeremiah 29:15&ndash;32",
+    paragraphs: [
+      "The second half of Jeremiah 29 turns from the luminous promises of verses 10&ndash;14 to the darker and more sobering material that surrounds them &mdash; the fate of those who remain in Jerusalem rather than being exiled, and the explicit condemnation of the false prophets who were misleading the exiles in Babylon. The contrast is stark: while God promises a future and a hope to those who seek him wholeheartedly in exile, those who trusted in the false prophets&rsquo; comfortable lies would face devastating judgment.",
+      "Verses 15&ndash;19 address the exiles&rsquo; objection that they too have prophets among them, men who claim to speak for God. Jeremiah turns the contrast sharply: while the exiles in Babylon are receiving God&rsquo;s true word through Jeremiah&rsquo;s letter, those left in Jerusalem &mdash; including King Zedekiah and all who escaped the first deportation &mdash; are like bad figs, utterly rotten, &ldquo;so bad that they cannot be eaten.&rdquo; God will pursue them with sword, famine, and pestilence; they will be a horror to all the kingdoms of the earth. The first deportation, however painful, was actually a form of God&rsquo;s providence &mdash; removing the best of the people to preserve them in Babylon, while the worst of the situation continued to unfold in Jerusalem.",
+      "Verses 20&ndash;23 then take aim at two specific false prophets operating among the exiles in Babylon: Ahab son of Kolaiah and Zedekiah son of Maaseiah. These men were prophesying lies in God&rsquo;s name, and they were also committing adultery with their neighbors&rsquo; wives &mdash; a combination of spiritual and moral corruption that condemned them doubly. Jeremiah pronounces their fate with specificity: &ldquo;Nebuchadnezzar king of Babylon will burn them in the fire before your eyes&rdquo; (29:22). They became a byword among the exiles, their names invoked as a curse: &ldquo;The Lord make you like Zedekiah and Ahab, whom the king of Babylon roasted in the fire.&rdquo;",
+      "Verses 24&ndash;32 record the reaction of another false prophet, Shemaiah the Nehelamite, who was so outraged by Jeremiah&rsquo;s letter that he wrote his own letters to Jerusalem demanding that Jeremiah be placed in the stocks and neck-irons as a madman. Shemaiah&rsquo;s letter reached the priest Zephaniah in Jerusalem, who read it to Jeremiah &mdash; and then the word of the Lord came to Jeremiah in response, declaring that because Shemaiah had prophesied falsely and caused the people to trust in a lie, neither he nor any of his descendants would see the good that God intended to do for his people.",
+      "The severity of God&rsquo;s judgment on the false prophets in Jeremiah 29 is proportionate to the damage they were doing. They were not merely wrong in their theology; they were leading a vulnerable, exiled community away from the only thing that would save them &mdash; truthful reckoning with their situation and wholehearted return to God. By promising easy and imminent deliverance, they were enabling the people to avoid the hard work of genuine repentance and the difficult faithfulness of long exile. False prophecy, in Jeremiah&rsquo;s reckoning, is not a minor error of interpretation but a form of spiritual violence against those who cannot afford to be misled.",
+      "The chapter as a whole therefore presents a profound tension that remains relevant: in every season of trial, there are voices that offer comfortable shortcuts, and there is the harder word of God that calls his people to patient, wholehearted faithfulness in the midst of long and painful circumstances. Jeremiah 29 does not promise that exile will be short or that the road will be easy. It promises something better: that the God who sent his people into their circumstances has not abandoned them there, that his plans are for their welfare and not their harm, that those who seek him with their whole heart will find him, and that the ending he has prepared is real &mdash; even if the timeline is longer than anyone would choose.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Jer29AaBbCcD", title: "Jeremiah 29 - Plans to Prosper You - Bible Study" },
+  { videoId: "Jer29EeFfGgH", title: "Jeremiah 29:11 in Context - What Does It Really Mean?" },
+  { videoId: "Jer29IiJjKkL", title: "Seek the Peace of Babylon - Life in Exile with God" },
+  { videoId: "Jer29MmNnOoP", title: "Jeremiah 29 - The Letter, the False Prophets, and the Promise" },
+];
+
+export default function Jeremiah29GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Jeremiah 29 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            A letter from a prophet to a people in exile &mdash; commanding them to seek the peace of Babylon, promising that God knows the plans he has for them, and declaring that those who seek him with all their heart will find him.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Jeremiah 29 through these video teachings on God&rsquo;s letter to the exiles, the plans for a future and a hope, seeking God wholeheartedly, the command to pray for Babylon, and the warning against false prophets.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Know the Plans I Have for You</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Jeremiah 29 speaks to every person who finds themselves in a season they did not choose and a place they did not plan for. It refuses the false comfort of easy answers and instead offers something more durable: the assurance that God knows where you are, that his plans are for your welfare and not your harm, and that those who seek him with their whole heart &mdash; in Babylon or anywhere else &mdash; will find him.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

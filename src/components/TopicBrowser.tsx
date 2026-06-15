@@ -2572,6 +2572,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Genesis 27 Chapter": "genesis-27-guide",
   "Jacob Steals Esau Blessing Isaac Deceived": "genesis-27-guide",
   "Esau Weeps Blessing Rebekah Plot Genesis": "genesis-27-guide",
+  "Matthew 12 Chapter": "matthew-12-guide",
+  "Lord of the Sabbath Plucking Grain Healing": "matthew-12-guide",
+  "Blasphemy Against the Spirit Unforgivable Sin": "matthew-12-guide",
+  "Romans 16 Chapter": "romans-16-guide",
+  "Phoebe Deacon Cenchreae Commended Romans": "romans-16-guide",
+  "Paul Final Greetings Coworkers Romans": "romans-16-guide",
+  "1 Kings 11 Chapter": "1-kings-11-guide",
+  "Solomon Foreign Wives Idolatry Heart Turned": "1-kings-11-guide",
+  "Adversaries Jeroboam Kingdom Torn Solomon": "1-kings-11-guide",
+  "Acts 18 Chapter": "acts-18-guide",
+  "Paul Corinth Aquila Priscilla Tentmakers": "acts-18-guide",
+  "Gallio Apollos Ephesus Paul Acts Eighteen": "acts-18-guide",
 };
 
 
@@ -3698,6 +3710,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 15 Chapter" },
   { label: "1 Kings 10 Chapter" },
   { label: "Genesis 27 Chapter" },
+  { label: "Matthew 12 Chapter" },
+  { label: "Romans 16 Chapter" },
+  { label: "1 Kings 11 Chapter" },
+  { label: "Acts 18 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2416,6 +2416,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Luke 3 Chapter": "luke-3-guide",
   "John Baptist Ministry Repentance Baptism Luke": "luke-3-guide",
   "Voice Crying Wilderness Prepare Way Luke": "luke-3-guide",
+  "Romans 9 Chapter": "romans-9-guide",
+  "Potter Clay Predestination Election Romans": "romans-9-guide",
+  "Jacob Have I Loved Esau Hated Romans": "romans-9-guide",
+  "Exodus 12 Chapter": "exodus-12-guide",
+  "Passover Lamb Blood Doorposts Egypt": "exodus-12-guide",
+  "Death Angel Passes Over Israel Exodus": "exodus-12-guide",
+  "2 Kings 22 Chapter": "2-kings-22-guide",
+  "Hilkiah Finds Book of Law Josiah Temple": "2-kings-22-guide",
+  "Josiah Humbles Himself Huldah Prophetess": "2-kings-22-guide",
+  "Acts 20 Chapter": "acts-20-guide",
+  "Paul Farewell Ephesus Miletus Elders": "acts-20-guide",
+  "Eutychus Falls Window Paul Raises Acts": "acts-20-guide",
 };
 
 
@@ -3490,6 +3502,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Samuel 5 Chapter" },
   { label: "Hebrews 1 Chapter" },
   { label: "Luke 3 Chapter" },
+  { label: "Romans 9 Chapter" },
+  { label: "Exodus 12 Chapter" },
+  { label: "2 Kings 22 Chapter" },
+  { label: "Acts 20 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

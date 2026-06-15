@@ -1,0 +1,187 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Healing the Blind Man",
+  "Who Sinned?",
+  "Spiritual Sight and Blindness",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of John 9",
+    reference: "John 9:1&ndash;41",
+    paragraphs: [
+      "John 9 stands as one of the most carefully constructed narratives in the entire Gospel of John &mdash; a chapter that begins with mud on the eyes of a blind man and ends with a devastating verdict on the spiritual blindness of the religious elite. From its opening question about sin to its closing statement about guilt, the chapter is a masterwork of Johannine irony, unfolding a double story: the physical healing of a man born blind, and the spiritual unmasking of those who claim to see but cannot.",
+      "The chapter follows seven distinct scenes, moving the drama from the roadside where Jesus encounters the blind man, through the neighborhood, the synagogue, the confrontation with the Pharisees, and finally to a quiet one-on-one conversation where Jesus reveals himself as the Son of Man and the man offers his complete trust. Along the way the healed man&rsquo;s testimony grows bolder with each interrogation: he begins by describing the one who healed him as &ldquo;a man called Jesus,&rdquo; progresses to calling him &ldquo;a prophet,&rdquo; and eventually insists that Jesus must come from God. When he finally stands face to face with Jesus himself, he confesses, &ldquo;Lord, I believe&rdquo; (v.38) and worships him.",
+      "The healing takes place on the Sabbath &mdash; a deliberate provocation on John&rsquo;s part that immediately creates a religious problem for the Pharisees. The question they face is: can a sinner perform such a sign? This question splits them and reveals that they are unable to accept both truths at once: that Jesus healed on the Sabbath and that his power demonstrates divine origin. They choose their traditions over the evidence before their eyes.",
+      "The role of the man&rsquo;s parents is a poignant sidebar: called to testify, they confirm that their son was indeed born blind and that he is now able to see, but they refuse to say how, because they fear being put out of the synagogue. Excommunication from the Jewish community &mdash; spiritual, social, and economic exclusion &mdash; is a greater threat to them than the obligation to bear witness to a miracle. Their silence throws the courage of their son into sharp relief.",
+      "The chapter ends with a reversal that crystallizes the Gospel&rsquo;s central paradox. Jesus says, &ldquo;For judgment I came into this world, that those who do not see may see, and those who see may become blind&rdquo; (v.39). The Pharisees, hearing this, ask if they are blind too. Jesus&rsquo; answer is not what they expect: if they were blind, they would have no guilt; but because they claim to see, their guilt remains. The tragedy of John 9 is not the man born blind &mdash; he comes to sight, both physical and spiritual. The tragedy is those who were never blind and therefore never sought the Light.",
+      "Theologically, the chapter is a controlled meditation on light (the dominant image in John 1&ndash;12), on the nature of faith and doubt, on the cost of discipleship when it means losing social standing, and on the meaning of Jesus&rsquo; claim in 9:5: &ldquo;As long as I am in the world, I am the light of the world.&rdquo; The man born blind becomes, in John&rsquo;s hands, an icon of every person who comes to faith through an encounter with Jesus &mdash; often at the cost of comfort, community, and approval.",
+    ],
+  },
+  {
+    id: "Healing the Blind Man",
+    heading: "Healing the Man Born Blind",
+    reference: "John 9:1&ndash;12",
+    paragraphs: [
+      "The encounter begins simply enough: &ldquo;As he passed by, he saw a man blind from birth&rdquo; (v.1). Jesus is walking with his disciples and notices this man. The Greek word translated &ldquo;saw&rdquo; (eiden) is significant; throughout John&rsquo;s Gospel Jesus&rsquo; sight is active and purposeful. He does not stumble across the blind man &mdash; he sees him with intention, the same way the father in Luke 15 sees the returning son while he is still far off.",
+      "The disciples&rsquo; question reveals a common assumption of Second Temple Judaism: &ldquo;Rabbi, who sinned, this man or his parents, that he was born blind?&rdquo; (v.2). The assumption embedded in the question is that suffering and disability are always punishment for specific sin. This framework &mdash; sometimes called a retributive theology of suffering &mdash; had deep roots, and though it sometimes reflected biblical truth (Deuteronomy&rsquo;s blessings and curses), it could also become a rigid system that assigned guilt without compassion and explained pain without mercy.",
+      "Jesus&rsquo; answer dismantles the disciples&rsquo; framework without dismissing the connection between sin and suffering in general: &ldquo;It was not that this man sinned, or his parents, but that the works of God might be displayed in him&rdquo; (v.3). This is not a claim that the man was sinless or that his parents lived perfectly &mdash; it is a redirection of the theological question entirely. The cause of his blindness is not the right question; the purpose now being worked out in his life is. God&rsquo;s works are about to be displayed, and this man is the canvas.",
+      "What follows is a sequence of remarkably physical, earthy actions. Jesus &ldquo;spat on the ground and made mud with the saliva. Then he anointed the man&rsquo;s eyes with the mud&rdquo; (v.6). The use of mud and saliva was not unprecedented in ancient healing stories, but John draws attention to the action in a way that echoes Genesis: the Creator who formed man from the dust of the ground now remakes a man&rsquo;s eyes from dust. The act is a new creation sign, performed by the one in whom &ldquo;all things were made&rdquo; (1:3).",
+      "The man is then sent to wash &mdash; not given an explanation, not asked to believe a doctrinal statement, not invited to a seminar. He is simply told to go wash in the pool of Siloam. John adds a parenthetical note of great significance: &ldquo;(which means Sent)&rdquo; (v.7). The name of the pool is a mirror of Jesus himself, who throughout the Gospel of John is the one &ldquo;sent&rdquo; by the Father. The man obeys, washes, and comes back seeing. Faith here precedes understanding; action precedes explanation. He goes without fully knowing who has healed him.",
+      "The neighborhood&rsquo;s reaction is confusion. Some say &ldquo;Is this not the man who used to sit and beg?&rdquo; &mdash; others say it looks like him but cannot be the same person. The once-blind man&rsquo;s refrain is simple and unwavering: &ldquo;I am the man&rdquo; (v.9). When asked how, he gives a perfectly accurate account: the man called Jesus made mud, anointed my eyes, told me to wash, I washed, and I received my sight. He does not embellish, theologize, or argue. He reports what happened. And what happened is undeniable. This is the testimony of a witness: not sophisticated interpretation, but plain report of experienced reality. It is precisely this kind of testimony that the Pharisees will be unable to refute &mdash; they can only attack the messenger.",
+      "The healing raises a question the man himself leaves open: &ldquo;Where is he?&rdquo; they ask. &ldquo;He said, I do not know&rdquo; (v.12). The healed man does not yet know where Jesus is or fully who he is. His understanding will deepen through the ordeal ahead. This is often the pattern of discipleship in John: an initial encounter with Jesus that is real but incomplete, followed by a process of deepening understanding through difficulty, question, and revelation. The man born blind does not start with full Christological understanding &mdash; he ends there, refined by fire.",
+    ],
+  },
+  {
+    id: "Who Sinned?",
+    heading: "Who Sinned? The Pharisees&rsquo; Interrogations",
+    reference: "John 9:13&ndash;34",
+    paragraphs: [
+      "The longest portion of John 9 is devoted not to the miracle itself but to its aftermath: two separate interrogations by the Pharisees, the calling of the man&rsquo;s parents, and the escalating conflict between the healed man&rsquo;s plain testimony and the religious authorities&rsquo; determined refusal to believe. This section is one of the great dramatic courtroom scenes of ancient literature, full of irony and rising tension.",
+      "The trouble is immediately apparent: the healing happened on the Sabbath. Making mud &mdash; kneading clay &mdash; was one of the thirty-nine categories of forbidden work in the rabbinic tradition. Jesus has healed a man in a way that deliberately transgresses the Sabbath law as the Pharisees understood it. For them, this is disqualifying. A man who breaks the Sabbath cannot be from God, no matter what he does. The sign is real, but they have decided in advance that its source cannot be righteous.",
+      "The first investigation is relatively straightforward: how did you receive your sight? The man&rsquo;s answer is the same as before. Some of the Pharisees conclude, &ldquo;This man is not from God, for he does not keep the Sabbath.&rdquo; But others push back: &ldquo;How can a man who is a sinner do such signs?&rdquo; (v.16). The word &ldquo;signs&rdquo; here is important in Johannine theology &mdash; signs (semeia) in John are not merely miracles but pointers to deeper reality, to who Jesus is. Even among the Pharisees, some recognize that signs carry theological weight. The division (schisma) among them is significant: the evidence before them demands a verdict but does not compel agreement.",
+      "They turn back to the healed man and ask his opinion: what do you say about him, since he opened your eyes? His answer is direct: &ldquo;He is a prophet&rdquo; (v.17). This is a step forward in his understanding from &ldquo;the man called Jesus.&rdquo; He has not yet said Jesus is the Messiah or the Son of God, but he is following the evidence. A prophet is a man through whom God speaks and acts. The man born blind reasons from what he has experienced to what must be true about the one who healed him. It is a model of honest, evidence-following reasoning.",
+      "Unable to dismiss the testimony of the healed man outright, the Pharisees call his parents. The parents confirm the essential facts: this is our son, he was indeed born blind. But they refuse to explain the healing: &ldquo;Ask him; he is of age, he will speak for himself&rdquo; (v.21). John&rsquo;s editorial comment is devastating: &ldquo;His parents said these things because they feared the Jews, for the Jews had already agreed that if anyone should confess Jesus to be Christ, he was to be put out of the synagogue&rdquo; (v.22). The threat of excommunication &mdash; cherem, social and religious death in the community &mdash; is enough to silence the parents. They choose safety over truth.",
+      "The second interrogation is far more hostile. The Pharisees summon the man a second time and demand he &ldquo;give glory to God&rdquo; (v.24) &mdash; a phrase used in Joshua 7:19 when Achan was confronted with his sin, meaning: confess the truth. They tell him, &ldquo;We know that this man is a sinner.&rdquo; His response has become one of the most famous single lines in the Fourth Gospel: &ldquo;Whether he is a sinner I do not know. One thing I do know, that though I was blind, now I see&rdquo; (v.25). It is the testimony of personal experience set against institutional certainty. They know with the assurance of established authority; he knows with the assurance of transformed life.",
+      "Pressed further, the healed man begins to turn the tables. He asks, with barely concealed irony, whether they want to become Jesus&rsquo; disciples too (v.27). When they revile him &mdash; &ldquo;You are his disciple, but we are disciples of Moses&rdquo; &mdash; he presses the theological logic: &ldquo;If this man were not from God, he could do nothing&rdquo; (v.33). He has now gone from &ldquo;a man called Jesus&rdquo; to &ldquo;a prophet&rdquo; to &ldquo;a man from God.&rdquo; Each interrogation, far from breaking him, has deepened his conviction and his courage. The Pharisees, rather than being persuaded, are infuriated. &ldquo;You were born in utter sin, and would you teach us?&rdquo; &mdash; and they cast him out.",
+      "The cruel irony is complete. The man was born blind, which the disciples assumed was because of sin. The Pharisees, who believe he was born in sin, now excommunicate him for telling the truth. They have used his supposed sinfulness as a reason to dismiss his testimony, but the testimony is irrefutable. All they have left is power: the power to exclude, to silence, to punish. It is the response of a system that has confused institutional authority with spiritual truth.",
+    ],
+  },
+  {
+    id: "Spiritual Sight and Blindness",
+    heading: "Spiritual Sight and Blindness",
+    reference: "John 9:35&ndash;41",
+    paragraphs: [
+      "When Jesus hears that the man has been cast out, he seeks him out. This detail is deeply significant: Jesus does not wait for the man to come back to him but goes looking for him. The initiative belongs to Jesus throughout John 9. He saw the man at the beginning; he finds him at the end. In between, the man has been put through an ordeal he did not ask for, lost his place in the synagogue, and been abandoned by his parents. The first person to show him active care after all of this is Jesus.",
+      "Jesus asks a question that is itself a form of gift: &ldquo;Do you believe in the Son of Man?&rdquo; (v.35). The man&rsquo;s response is honest and urgent: &ldquo;And who is he, sir, that I may believe in him?&rdquo; (v.36). He does not pretend to know. He is not performing belief; he is asking for the object of it. This is the posture of genuine faith &mdash; a hunger for the one in whom to trust, not a performance of piety without content. Jesus&rsquo; answer is electrifying in its directness: &ldquo;You have seen him, and it is he who is speaking to you&rdquo; (v.37). For the first time in the chapter, the man sees Jesus &mdash; truly sees him, with eyes that can now perceive both the physical man and his identity. The response is immediate: &ldquo;Lord, I believe,&rdquo; and he worships him.",
+      "The word &ldquo;worships&rdquo; (prosekunesen) is a strong term in John&rsquo;s Gospel, used for the worship offered to God. The healed man does not merely accept Jesus as a good teacher or useful healer; he falls before him in an act of divine worship. John intends for the reader to see this as the proper response to encountering the true identity of Jesus. The movement from blindness to sight, from &ldquo;a man called Jesus&rdquo; to &ldquo;Lord, I believe,&rdquo; is a compressed image of Christian conversion: an encounter that begins in ordinary life, passes through confusion and conflict, and arrives at personal faith expressed in worship.",
+      "Jesus then delivers the summary statement of the entire chapter: &ldquo;For judgment I came into this world, that those who do not see may see, and those who see may become blind&rdquo; (v.39). The word &ldquo;judgment&rdquo; (krisis) here does not refer primarily to condemnation but to the crisis, the division, the sorting that Jesus&rsquo; presence inevitably brings. He does not arrive as a neutral presence; he arrives as the light (1:4&ndash;5), and light by its nature exposes what was hidden and creates distinction between what is illuminated and what remains in shadow.",
+      "The reversal Jesus announces is radical and disturbing: those who do not see &mdash; people who know their blindness, who have not deceived themselves about their spiritual condition &mdash; will receive sight. Those who see &mdash; people who are confident in their own spiritual clarity, who judge others from a position of assumed rightness &mdash; will become blind. The man born blind embodied the first category: he could not have deceived himself about his condition. The Pharisees embody the second: they are so certain of their sight that they have become impervious to the light.",
+      "The Pharisees, hearing Jesus&rsquo; words about blindness, ask with something between sarcasm and genuine unease: &ldquo;Are we also blind?&rdquo; (v.40). Jesus&rsquo; answer completes the chapter&rsquo;s devastating logic: &ldquo;If you were blind, you would have no guilt; but now that you say, &lsquo;We see,&rsquo; your guilt remains&rdquo; (v.41). Their problem is not that they lack information; they have seen the sign. Their problem is that they have chosen their own verdict in advance and refused to revise it in the face of evidence. They have said, &lsquo;We see,&rsquo; and in saying so they have closed themselves off from the One who is the light of the world.",
+      "This final exchange carries enormous pastoral weight. It does not condemn honest doubt or genuine searching. The man born blind did not know who Jesus was and said so freely; he was met with revelation. The chapter&rsquo;s condemnation falls on those who have stopped searching because they have already decided they have arrived. Religious pride &mdash; the confidence that one already possesses God&rsquo;s truth and need not be questioned or corrected &mdash; is, in John&rsquo;s Gospel, the most dangerous form of blindness. It forecloses the very openness through which light could enter.",
+      "The theological arc of John 9 thus mirrors the arc of the entire Gospel: the Light came into the world, the world did not recognize him, but those who received him were given the right to become children of God (1:10&ndash;12). The man born blind is a picture of that reception &mdash; not despite his weakness and outsider status but because of the honesty they produced in him. His testimony is simple, unadorned, and repeated: &ldquo;I was blind, now I see.&rdquo; No argument can overturn it, because it is the report of a changed life. And no sophistication of religious learning can substitute for the willingness to kneel before the one who is &ldquo;the light of the world&rdquo; (9:5) and say, &ldquo;Lord, I believe.&rdquo;",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "XRMfTK0lJRs", title: "John 9 - Man Born Blind - BibleProject Overview" },
+  { videoId: "8h6tC4FDXVI", title: "Who Sinned? - Exploring John 9" },
+  { videoId: "4u9dpLuq8ng", title: "Spiritual Sight and Blindness in John 9" },
+  { videoId: "sX_DEEJsxlQ", title: "I Was Blind, Now I See - John 9 Teaching" },
+];
+
+export default function John9GuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            John 9 &mdash; The Man Born Blind
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            A masterwork of Johannine irony &mdash; the healing of a man born blind, Jesus answering who sinned, the mud and the pool of Siloam, the Pharisees&rsquo; interrogation, the man&rsquo;s growing faith, and Jesus revealing himself as the Light of the World while exposing the deepest blindness of all: religious pride.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2
+                style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }}
+                dangerouslySetInnerHTML={{ __html: currentSection.heading }}
+              />
+            </div>
+            <div
+              style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }}
+              dangerouslySetInnerHTML={{ __html: currentSection.reference }}
+            />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>
+            I Was Blind, Now I See
+          </h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            John 9 traces the journey of a man from physical blindness to full-throated faith &mdash; and simultaneously exposes the spiritual blindness of those who were certain they could already see. The chapter&rsquo;s final verdict still echoes: those who know their blindness are open to the light, while those who insist on their own sight remain in the dark. &ldquo;If you were blind, you would have no guilt &mdash; but now that you say, &lsquo;We see,&rsquo; your guilt remains&rdquo; (v.41).
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

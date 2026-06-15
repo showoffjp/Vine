@@ -2452,6 +2452,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Corinthians 3 Chapter": "2-corinthians-3-guide",
   "Ministry of Spirit Glory Letter Kills": "2-corinthians-3-guide",
   "Veil Moses Removed Christ 2 Corinthians": "2-corinthians-3-guide",
+  "Genesis 18 Chapter": "genesis-18-guide",
+  "Abraham Three Visitors Laughing Sarah": "genesis-18-guide",
+  "Is Anything Too Hard Lord Abraham": "genesis-18-guide",
+  "Matthew 3 Chapter": "matthew-3-guide",
+  "John Baptist Baptism Repentance Wilderness": "matthew-3-guide",
+  "Baptism Jesus Jordan Spirit Dove Voice": "matthew-3-guide",
+  "John 9 Chapter": "john-9-guide",
+  "Man Born Blind Healed Siloam Pool John": "john-9-guide",
+  "Who Sinned Parents Born Blind Jesus": "john-9-guide",
+  "Acts 6 Chapter": "acts-6-guide",
+  "Stephen Chosen Seven Deacons Widows Acts": "acts-6-guide",
+  "Stephen Full Faith Spirit Power Great Wonders": "acts-6-guide",
 };
 
 
@@ -3538,6 +3550,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Daniel 9 Chapter" },
   { label: "1 Kings 2 Chapter" },
   { label: "2 Corinthians 3 Chapter" },
+  { label: "Genesis 18 Chapter" },
+  { label: "Matthew 3 Chapter" },
+  { label: "John 9 Chapter" },
+  { label: "Acts 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

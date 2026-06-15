@@ -1,0 +1,222 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "John the Baptist",
+  "Baptism of Jesus",
+  "Fruit of Repentance",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Matthew 3: The Kingdom Announced",
+    reference: "Matthew 3:1&ndash;17",
+    paragraphs: [
+      "Matthew 3 is one of the most theologically dense chapters in the New Testament. In seventeen verses it introduces John the Baptist, the forerunner promised by the prophets; it records the confrontation of the religious establishment with the demand for genuine repentance; it narrates the baptism of Jesus in the Jordan River; and it closes with a revelation of the Trinity in which the Father speaks, the Son stands in the water, and the Spirit descends as a dove. The chapter marks the beginning of Jesus&rsquo;s public ministry and frames everything that follows.",
+      "The chapter opens with a scene drawn deliberately from Israel&rsquo;s memory. John the Baptist appears in the wilderness of Judea &mdash; the same wilderness where Israel wandered for forty years, where Elijah fled from Jezebel, where the Essene community at Qumran was awaiting God&rsquo;s intervention. The wilderness was not merely a geographical location; it was a theological symbol of the place where God meets his people in stripping circumstances and prepares them for something new. John appears there announcing that the kingdom of heaven is at hand.",
+      "Matthew&rsquo;s first move is to identify John through the lens of prophecy. He quotes Isaiah 40:3: &ldquo;The voice of one crying in the wilderness: &lsquo;Prepare the way of the Lord; make his paths straight.&rsquo;&rdquo; This is a stunning interpretive claim. Isaiah 40 is the great chapter of consolation to Israel in exile, announcing that &ldquo;your God comes&rdquo; and that the glory of the LORD will be revealed. By applying this verse to John, Matthew is saying that the God whose coming Isaiah promised is now coming &mdash; and John is his herald. The question then is unavoidable: if John is the one who prepares the way of the LORD, who is the one coming after him?",
+      "The chapter falls into three movements. The first (vv. 1&ndash;12) is the ministry of John: his appearance, his message, his confrontation with the Pharisees and Sadducees, and his announcement of the one who comes after him. The second (vv. 13&ndash;17) is the baptism of Jesus. The third is the trinitarian revelation at the moment the Spirit descends &mdash; the Father&rsquo;s voice from heaven identifying the Son in language drawn from Psalm 2 and Isaiah 42.",
+      "Matthew 3 is carefully positioned in the Gospel as a whole. Jesus has not yet spoken a word in the narrative of his public ministry. The last time Matthew showed him, he was a child brought back from Egypt (2:20). Now he appears as a grown man coming from Galilee. The chapter serves as an installation and commissioning, in which Jesus is publicly identified, ritually consecrated, and divinely confirmed. After this chapter, he will be led into the wilderness to be tested &mdash; and then his ministry will begin in full.",
+      "The theological weight of Matthew 3 cannot be overstated. It establishes the eschatological urgency of the gospel &mdash; the axe is at the root, the winnowing fork is in his hand, the fire is coming. It establishes the nature of genuine conversion &mdash; not descent from Abraham, not religious pedigree, but fruit in keeping with repentance. And it establishes the identity of Jesus in the most authoritative terms possible: the beloved Son, approved by the Father, anointed by the Spirit &mdash; the one in whom all three persons of the Trinity are present and active.",
+    ],
+  },
+  {
+    id: "John the Baptist",
+    heading: "John the Baptist: Voice in the Wilderness",
+    reference: "Matthew 3:1&ndash;12",
+    paragraphs: [
+      "John the Baptist is one of the most striking figures in all of Scripture &mdash; a man who seems to step out of the Old Testament and into the pages of Matthew. His clothing was camel&rsquo;s hair with a leather belt around his waist, and his food was locusts and wild honey (v.4). This description is not incidental detail; it is a carefully constructed identification. The leather belt in particular evokes 2 Kings 1:8, where Elijah the Tishbite is described as a hairy man with a leather belt around his waist. John is presented as an Elijah-figure, the forerunner whom Malachi had promised: &ldquo;Behold, I will send you Elijah the prophet before the great and awesome day of the LORD comes&rdquo; (Malachi 4:5). Jesus himself will later confirm this identification explicitly (Matthew 11:14, 17:12).",
+      "John&rsquo;s message was a single, urgent sentence: &ldquo;Repent, for the kingdom of heaven is at hand&rdquo; (v.2). The word &ldquo;repent&rdquo; in Greek is &ldquo;metanoeite&rdquo; &mdash; a call to a change of mind, a turning, a reorientation of the whole person toward God. John does not say &ldquo;improve yourself&rdquo; or &ldquo;try harder.&rdquo; He says turn around, because the kingdom of heaven is arriving and the direction you are facing matters. The urgency of his message is inseparable from the nearness of the kingdom. This is not a distant eschatological warning; it is an immediate alarm: the moment has come.",
+      "People came to John from Jerusalem and all Judea and all the region about the Jordan (v.5). They were baptized by him in the Jordan River, confessing their sins. The baptism John administered was a baptism of repentance &mdash; a public, physical act of identification with the need for cleansing and the expectation of what God was about to do. The Jordan was not a random location. It was the river Israel had crossed under Joshua to enter the promised land. To wade into the Jordan in repentance and come out the other side was a symbolic re-entering of the story of God&rsquo;s people &mdash; a new beginning, a second crossing.",
+      "But not everyone who came to John came with genuine intent. The Pharisees and Sadducees &mdash; the two dominant religious parties of first-century Judaism, often opposed to each other but united here in their approach to John &mdash; came to his baptism. John&rsquo;s response is fierce: &ldquo;You brood of vipers! Who warned you to flee from the wrath to come?&rdquo; (v.7). The image of a viper fleeing a brushfire is vivid &mdash; snakes driven out of the undergrowth by advancing flames, scrambling for safety without any genuine change of heart. John sees through the religious performance to the motive beneath: they want the benefit of baptism without the transformation it requires.",
+      "His challenge to them cuts to the heart of their self-understanding: &ldquo;Do not presume to say to yourselves, &lsquo;We have Abraham as our father,&rsquo; for I tell you, God is able from these stones to raise up children to Abraham&rdquo; (v.9). Descent from Abraham was the bedrock of Jewish identity and the basis of their confidence in God&rsquo;s favor. John declares it insufficient. What matters is not biological heritage but spiritual fruit: &ldquo;Bear fruit in keeping with repentance&rdquo; (v.8). Genuine repentance produces visible, tangible change in how one lives. The axe, he says, is already laid to the root of the trees (v.10). The judgment has begun; the criterion is fruit.",
+      "John then turns to speak of the one coming after him, and the contrast he draws is staggering: &ldquo;I baptize you with water for repentance, but he who is coming after me is mightier than I, whose sandals I am not worthy to carry. He will baptize you with the Holy Spirit and fire&rdquo; (v.11). Water baptism, however powerful as a symbol, belongs to the order of human administration. The baptism of the Spirit and fire belongs to a different order altogether. The &ldquo;fire&rdquo; here is not simply the fire of judgment but also the fire of purification &mdash; the same fire that refines silver, that burns the chaff from the wheat. And the winnowing fork is in his hand: he will thoroughly clear his threshing floor, gathering the wheat into the barn and burning the chaff with unquenchable fire (v.12). The coming one will complete what John has only begun.",
+    ],
+  },
+  {
+    id: "Baptism of Jesus",
+    heading: "The Baptism of Jesus: The Trinity Revealed",
+    reference: "Matthew 3:13&ndash;17",
+    paragraphs: [
+      "Jesus came from Galilee to the Jordan to be baptized by John (v.13). The distance was roughly sixty miles &mdash; a journey that speaks of intentionality and purpose. Jesus had not yet been baptized by John; he had been living in Nazareth in Galilee, in what theologians call the &ldquo;hidden years.&rdquo; Now he comes deliberately to the place where God&rsquo;s new work is happening, to the prophet who is preparing the way, and he presents himself for baptism. The arrival of the one whose coming John has been announcing is not triumphant or dramatic; it is quiet and purposeful. He comes to be baptized.",
+      "John&rsquo;s protest is immediate and understandable: &ldquo;I need to be baptized by you, and do you come to me?&rdquo; (v.14). This is the confession of a man who knows what baptism signifies &mdash; repentance from sin, confession, cleansing &mdash; and who recognizes that the one standing before him is without sin and therefore has no need of what John offers. John&rsquo;s own need is in the other direction: he needs what Jesus alone can give. The protest is theologically acute. It is also the last word John gets to say; Jesus will give the definitive response.",
+      "Jesus answers: &ldquo;Let it be so now, for thus it is fitting for us to fulfill all righteousness&rdquo; (v.15). This is one of the most carefully weighted sentences in the Gospel. &ldquo;Let it be so now&rdquo; does not mean &ldquo;this is a temporary concession&rdquo; but rather &ldquo;this is precisely the right moment for this action.&rdquo; &ldquo;Fulfill all righteousness&rdquo; has been debated by interpreters for centuries. The most coherent reading is that Jesus, in presenting himself for baptism, is identifying with the people he has come to save &mdash; not because he needs to repent, but because he is taking his place among those who do. He enters the water not to be cleansed but as the one who will cleanse. He fulfills the righteousness that the whole ritual of repentance and preparation points toward. John relents and baptizes him.",
+      "What happens next is the turning point of the chapter and one of the most theologically significant moments in the New Testament. &ldquo;And when Jesus was baptized, immediately he went up from the water, and behold, the heavens were opened to him, and he saw the Spirit of God descending like a dove and coming to rest on him; and behold, a voice from heaven said, &lsquo;This is my beloved Son, with whom I am well pleased.&rsquo;&rdquo; (vv. 16&ndash;17). Three things happen simultaneously: the heavens open, the Spirit descends, and the Father speaks. The three persons of the Trinity are present and active in the same moment.",
+      "The Spirit descending &ldquo;like a dove&rdquo; is language drawn from the creation narrative, where the Spirit of God hovered over the waters (Genesis 1:2). The word translated &ldquo;hovering&rdquo; in the Septuagint is the same word used in Deuteronomy 32:11 of an eagle hovering over its young. The Spirit&rsquo;s descent on Jesus as he comes up from the water echoes the new-creation theme: Jesus is the beginning of God&rsquo;s new creation, and the Spirit who brooded over the first creation now rests on the one through whom all things will be made new.",
+      "The Father&rsquo;s words are a composite quotation. &ldquo;This is my beloved Son&rdquo; echoes Psalm 2:7, the royal psalm in which God addresses the Davidic king: &ldquo;You are my Son.&rdquo; &ldquo;With whom I am well pleased&rdquo; echoes Isaiah 42:1, the first Servant Song: &ldquo;Behold my servant, whom I uphold, my chosen, in whom my soul delights.&rdquo; In a single sentence the Father declares that Jesus is both the royal Son of David and the Servant who will suffer for the people &mdash; King and Servant held together, the identity that will define everything Jesus does in the chapters to come. This is who Jesus is. The rest of Matthew is the story of what this means.",
+    ],
+  },
+  {
+    id: "Fruit of Repentance",
+    heading: "Fruit in Keeping with Repentance",
+    reference: "Matthew 3:7&ndash;12",
+    paragraphs: [
+      "The phrase &ldquo;bear fruit in keeping with repentance&rdquo; (v.8) is one of the most practically important statements in Matthew 3, and it stands as the centerpiece of John&rsquo;s confrontation with the religious establishment. John is not interested in a repentance that is verbal, ceremonial, or genealogical. He is interested in the kind of repentance that shows itself &mdash; that produces something visible and tangible in the life of the one who claims to have turned. Fruit is not the cause of repentance but its evidence. A tree is known by what it produces; a person&rsquo;s claim of repentance is known by the same test.",
+      "The target of the challenge was specific: the Pharisees and Sadducees who came to John&rsquo;s baptism. These two groups were in many ways theological opposites &mdash; the Pharisees were strict Torah-observants who believed in resurrection and the authority of oral tradition, while the Sadducees were the priestly aristocracy who accepted only the written Torah and rejected the resurrection. What united them in this passage was a shared approach to religious life that prioritized external conformity over internal transformation, and institutional prestige over genuine accountability before God.",
+      "John&rsquo;s use of the phrase &ldquo;brood of vipers&rdquo; (v.7) would have been shocking to its first hearers. These were the religious authorities of the day &mdash; educated, respected, socially powerful. To call them a brood of vipers was to identify them not as the teachers of God&rsquo;s people but as the offspring of the serpent, the enemy of God. Jesus will use the same phrase in his confrontations with the Pharisees in Matthew 12:34 and 23:33, suggesting that John&rsquo;s language is not exaggerated polemic but accurate theological diagnosis: the problem with the religious establishment is not merely that they need to improve but that they are actively opposed to the work of God.",
+      "The appeal to Abrahamic descent in verse 9 gets at the deepest layer of the problem. The confidence of the Pharisees and Sadducees was not primarily in their own moral achievement but in their status as the people of the covenant. They were children of Abraham; God had made promises to Abraham; therefore God was bound to them in a way that could not simply be voided. John denies this reading of the covenant. The covenant was never about bloodline alone; it was always about faith &mdash; and the father of the faith, Abraham himself, was a Gentile when God called him. God can raise up children to Abraham from the stones of the Jordan valley. What marks the true children of Abraham is not DNA but the faith that produces the fruit of righteousness.",
+      "The imagery of the axe and the tree (v.10) draws on deep roots in Old Testament prophetic tradition. Isaiah speaks of cutting down the proud trees of Lebanon (Isaiah 2:13, 10:33&ndash;34); Jeremiah uses the image of fruit-bearing as a test of covenant faithfulness (Jeremiah 17:7&ndash;8); Ezekiel speaks of God cutting off the branches that do not bear fruit (Ezekiel 15, 17). John places himself in this prophetic tradition and announces that the moment of judgment is not coming &mdash; it has arrived. &ldquo;Even now the axe is laid to the root of the trees&rdquo; (v.10). The decision about the trees has been made; the cutting will follow.",
+      "The winnowing image that closes John&rsquo;s speech (v.12) is equally vivid and eschatologically charged. A winnowing fork was used to toss the harvested grain into the air; the wind would carry away the light chaff while the heavier wheat fell back to the threshing floor. The wheat was gathered into the barn; the chaff was burned. The imagery assumes that the final separation has already begun and that the criterion of separation is the same as the criterion of the tree: fruit-bearing, substance, genuine weight of character formed by repentance. Those who have the substance of genuine faith will be gathered; those whose religion is all surface and no substance will be consumed.",
+      "The pastoral application of this passage is not primarily about judgment but about the nature of genuine faith. The church in every generation faces the same temptation that faced the Pharisees and Sadducees: to substitute religious identity for genuine transformation, to point to heritage or church membership or doctrinal correctness as evidence of standing before God. Matthew 3 will not allow this substitution. The question John puts to the religious leaders he puts to everyone: What fruit is your repentance producing? What is visibly different in how you live because of your encounter with the living God? These are not comfortable questions, but they are the questions that genuine gospel preaching cannot avoid.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "d7RdyAvxGoY", title: "BibleProject - John the Baptist and the Baptism of Jesus" },
+  { videoId: "2PLT5X0VBUY", title: "Matthew 3 Explained - The Baptism of Christ" },
+  { videoId: "oC1BeBgIWCc", title: "Who Was John the Baptist? - Gospel of Matthew" },
+  { videoId: "6rU0b5vEFbU", title: "Repentance and the Kingdom of Heaven - Matthew 3 Teaching" },
+];
+
+export default function Matthew3GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Matthew 3
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            John the Baptist preaches repentance in the wilderness, confronts the Pharisees and Sadducees with the demand for genuine fruit, and announces the one coming after him who will baptize with the Holy Spirit and fire. Then Jesus arrives from Galilee &mdash; and at his baptism, the Trinity is revealed.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem", marginBottom: "2.5rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: 13, textTransform: "uppercase", letterSpacing: 1 }}>Key Verse</h3>
+          <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 0.5rem", fontSize: "1.1rem", fontStyle: "italic" }}>
+            &ldquo;And when Jesus was baptized, immediately he went up from the water, and behold, the heavens were opened to him, and he saw the Spirit of God descending like a dove and coming to rest on him; and behold, a voice from heaven said, &lsquo;This is my beloved Son, with whom I am well pleased.&rsquo;&rdquo;
+          </p>
+          <p style={{ color: ACCENT, fontSize: 13, fontWeight: 700, margin: 0 }}>Matthew 3:16&ndash;17</p>
+        </div>
+
+        <div style={{ marginBottom: "2.5rem" }}>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, margin: "0 0 1rem" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 1.5rem" }}>
+            Explore Matthew 3 through video teaching on John the Baptist, the call to repentance, the baptism of Jesus in the Jordan, and the trinitarian revelation at the start of his ministry.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: "2.5rem" }}>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Theological Themes</h4>
+            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
+              <li>Repentance and the kingdom</li>
+              <li>Fruit as evidence of faith</li>
+              <li>Fulfillment of prophecy</li>
+              <li>The identity of Jesus</li>
+              <li>The Trinity revealed</li>
+              <li>Judgment and mercy</li>
+            </ul>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Old Testament Connections</h4>
+            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
+              <li dangerouslySetInnerHTML={{ __html: "Isaiah 40:3 &mdash; voice in the wilderness" }} />
+              <li dangerouslySetInnerHTML={{ __html: "Malachi 4:5 &mdash; Elijah to come" }} />
+              <li dangerouslySetInnerHTML={{ __html: "Psalm 2:7 &mdash; You are my Son" }} />
+              <li dangerouslySetInnerHTML={{ __html: "Isaiah 42:1 &mdash; my chosen servant" }} />
+              <li dangerouslySetInnerHTML={{ __html: "2 Kings 1:8 &mdash; Elijah&rsquo;s leather belt" }} />
+            </ul>
+          </div>
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
+            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Key Figures</h4>
+            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
+              <li>John the Baptist &mdash; the forerunner</li>
+              <li>Jesus &mdash; the beloved Son</li>
+              <li>The Pharisees &mdash; confronted</li>
+              <li>The Sadducees &mdash; confronted</li>
+              <li>The Spirit &mdash; descending as a dove</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "1rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>This Is My Beloved Son</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Matthew 3 does not merely record a historical event; it announces an identity. The voice from heaven at the Jordan declares who Jesus is in the most authoritative terms possible: the royal Son of Psalm 2 and the suffering Servant of Isaiah 42, held together in one person. Everything that follows in Matthew&rsquo;s Gospel is the unfolding of what it means that this one &mdash; and no other &mdash; is the beloved Son with whom the Father is well pleased.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

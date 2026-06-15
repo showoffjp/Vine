@@ -1,0 +1,186 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Seven Chosen",
+  "Stephen's Ministry",
+  "False Accusations",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Acts 6",
+    reference: "Acts 6:1&ndash;15",
+    paragraphs: [
+      "Acts 6 is a transitional chapter of enormous importance &mdash; a hinge in the narrative of the early church that swings open onto a new phase of expansion and conflict. The chapter divides cleanly into two parts: the appointment of the Seven to oversee the daily distribution (vv. 1&ndash;7) and the rise and arrest of Stephen, one of those Seven, whose ministry and death will occupy chapters 6&ndash;7 in full. Together these two parts show a church that is simultaneously maturing in its internal structures and intensifying its collision with the religious establishment.",
+      "The opening verses reveal that the Jerusalem church is large enough to have logistics problems. The &ldquo;Hellenistic Jews&rdquo; &mdash; Greek-speaking Jewish believers who had come to faith in Jesus but whose background was the diaspora rather than the Palestinian heartland &mdash; are complaining against the &ldquo;Hebraic Jews&rdquo; because their widows are being overlooked in the daily distribution of food. This is a practical, institutional failure, but it also has overtones of cultural tension: the two groups represent different worlds within first-century Judaism, and the fault line between them is becoming visible even inside the community of believers.",
+      "The Twelve&rsquo;s response is a model of wise leadership: they call the whole community together, name the problem clearly, and propose a structural solution. Their reasoning is not self-protective but missional: &ldquo;It would not be right for us to neglect the ministry of the Word of God in order to wait on tables&rdquo; (v.2). They are not claiming that table-service is beneath them &mdash; the Greek word diakonein covers both the ministry of the Word and the service of tables. Both are acts of service. But the Twelve have a particular calling that cannot be abandoned without cost to the whole body.",
+      "Seven men are selected, all of them bearing Greek names &mdash; a detail that may indicate the church intentionally chose men from the aggrieved community to oversee the distribution. The qualifications are striking: not administrative competence or social standing, but &ldquo;full of the Spirit and of wisdom&rdquo; (v.3). Luke makes clear that even the practical work of the church requires Spirit-filled leadership. The Seven are not a lower tier of ministry; they are servants of the same Lord, equipped by the same Spirit.",
+      "The effect of this wise administration is explosive growth: &ldquo;The word of God continued to increase, and the number of the disciples multiplied greatly in Jerusalem, and a great many of the priests became obedient to the faith&rdquo; (v.7). The inclusion of priests is remarkable; these are men whose professional and religious identity was tied to the Temple system that was coming into conflict with the movement. Their faith is a sign that the gospel is reaching deep into the heart of Judaism&rsquo;s institutional life.",
+      "The second half of the chapter shifts focus entirely to Stephen. He is described in terms that are almost identical to the description of the apostles: full of grace and power, doing great wonders and signs among the people (v.8). From the very beginning, Stephen is presented not merely as a table-server but as a full participant in the apostolic mission. The conflict that develops around him will prove to be the engine that drives the gospel out of Jerusalem and into the wider world &mdash; making Acts 6&ndash;7 one of the most consequential passages in the entire book.",
+    ],
+  },
+  {
+    id: "The Seven Chosen",
+    heading: "The Seven Chosen",
+    reference: "Acts 6:1&ndash;7",
+    paragraphs: [
+      "The complaint in verse 1 is the first recorded internal dispute in the Jerusalem church, and it is handled with a transparency and structural creativity that sets a pattern for ecclesial problem-solving across the centuries. The &ldquo;Hellenists&rdquo; &mdash; diaspora Jews who spoke Greek as their primary language and had often lived outside Judea &mdash; are complaining that their widows are being neglected in the &ldquo;daily distribution.&rdquo; The daily distribution (diakonia) was apparently an organized system of care for the poor within the community, rooted in the Jewish practice of caring for widows, orphans, and the vulnerable. The church had taken up this responsibility as part of its life together.",
+      "The &ldquo;Hebraic Jews&rdquo; against whom the Hellenists complain were Aramaic-speaking Palestinian Jews &mdash; those whose cultural, linguistic, and geographic roots were in the land of Israel. The two groups shared faith in Jesus but came from distinct cultural worlds. The Hellenists may have had fewer social networks in Jerusalem to advocate for them; their widows may have been more easily overlooked, whether through explicit prejudice or simple institutional inertia. Luke does not adjudicate between the groups; he simply reports the problem and the solution.",
+      "The Twelve call the full community together and make their case. The phrase &ldquo;it would not be right for us to give up preaching the word of God to serve tables&rdquo; (v.2) has sometimes been read as a hierarchy of ministries, with preaching above serving. But this misreads Luke&rsquo;s Greek: the word for &ldquo;serve&rdquo; is diakonein, the same root that describes the apostles&rsquo; own ministry of the Word (v.4 uses diakonia for the apostles&rsquo; preaching). The argument is not about dignity but about differentiation of calling. The Twelve have been specifically appointed to preach; to abandon that for administration, however necessary, would leave the core mission unstaffed.",
+      "The solution proposed is elegant: &ldquo;Pick out from among you seven men of good repute, full of the Spirit and of wisdom, whom we will appoint to this duty&rdquo; (v.3). Several features deserve notice. First, the selection comes from the community itself &mdash; the apostles trust the congregation to identify the right people. Second, the qualifications are entirely spiritual and moral: good repute, full of the Spirit, full of wisdom. Third, the authority of appointment remains with the apostles through the laying on of hands, while the identification of candidates belongs to the whole body. This balance of congregational participation and apostolic authority becomes a template.",
+      "The seven men named are: Stephen, Philip, Prochorus, Nicanor, Timon, Parmenas, and Nicolas a proselyte from Antioch. Every one of these names is Greek rather than Hebrew or Aramaic. This is almost certainly deliberate: by choosing men with Greek names, many of whom were presumably from the Hellenistic Jewish community, the church is not only solving a practical problem but making a statement about inclusion and trust. The very community whose widows were being overlooked is now being given leadership responsibility over the distribution.",
+      "The rite of installation is brief but profound: &ldquo;These they set before the apostles, and they prayed and laid their hands on them&rdquo; (v.6). The laying on of hands in the Jewish tradition conveyed blessing, identification, and commission; it was used when Joshua was appointed to succeed Moses (Num. 27:18&ndash;23) and when Levites were consecrated for service (Num. 8:10). Here it signals that the Seven are not merely employees solving a logistics problem but servants consecrated for God&rsquo;s work, set apart by the community&rsquo;s prayer and the apostles&rsquo; authorization.",
+      "The immediate result reported in verse 7 is striking and worth pausing on: the word of God increased, and the number of disciples multiplied greatly, and a great many of the priests became obedient to the faith. Luke is making a causal connection: when the church organizes itself wisely so that each calling is properly resourced, the mission flourishes. The internal health of the community is not separate from its external effectiveness. A church distracted by unresolved internal conflicts cannot give its full energy to its mission; a church that resolves those conflicts wisely finds its mission accelerating.",
+    ],
+  },
+  {
+    id: "Stephen's Ministry",
+    heading: "Stephen&rsquo;s Ministry",
+    reference: "Acts 6:8&ndash;10",
+    paragraphs: [
+      "When Luke introduces Stephen in verse 8 &mdash; &ldquo;And Stephen, full of grace and power, was doing great wonders and signs among the people&rdquo; &mdash; he is using language that up to this point has been reserved for the apostles themselves. In Acts 2:43, the apostles performed &ldquo;wonders and signs.&rdquo; In Acts 4:33, the apostles gave &ldquo;testimony with great power.&rdquo; Stephen is now described in identical terms, suggesting that the anointing of the Spirit is not restricted to the Twelve but flows freely to those who are truly filled with it, regardless of their formal role in the community&rsquo;s structure.",
+      "The description &ldquo;full of grace and power&rdquo; is layered. Grace (charis) here likely refers not primarily to God&rsquo;s favor in the abstract but to the gracious, attractive quality of Stephen&rsquo;s ministry &mdash; the way his life and work drew people toward God. Power (dunamis) refers to the active, effective energy of the Spirit working through him to accomplish what natural human ability alone could not. Together they describe a ministry that was both winsome and potent, drawing crowds and producing results that could not be explained by human talent alone.",
+      "Stephen&rsquo;s signs and wonders took place &ldquo;among the people&rdquo; &mdash; in the public life of Jerusalem, not merely behind closed doors in the community of believers. The early church under Acts was not a private religious society retreating from public life but a community whose life spilled into the streets, the synagogues, and the public spaces of the city. Stephen&rsquo;s ministry was visible, public, and effective. This visibility is precisely what attracted opposition.",
+      "The opposition comes from specific synagogues: members of the Synagogue of the Freedmen (also called Libertines) &mdash; Jews who had been freed from Roman slavery and their descendants &mdash; as well as men from Cyrene, Alexandria, Cilicia, and Asia. These are geographically diverse communities of diaspora Jews who had synagogues in Jerusalem where they gathered for worship and study. Cilicia, notably, was the home region of Saul of Tarsus, and it is possible that Saul himself was present in one of these synagogue debates. Luke will be careful to connect Saul to Stephen&rsquo;s death in chapter 7.",
+      "What the synagogue members do is debate Stephen. They &ldquo;rose up and disputed with Stephen&rdquo; (v.9). The word suggests sustained, formal argument &mdash; not a casual disagreement but organized theological opposition. These were men who knew their Scripture, their tradition, and their arguments. They had presumably encountered the early church&rsquo;s claims before and had their counter-arguments prepared. Stephen was one man against an established institutional network of learned opponents.",
+      "The result is the most significant detail of this brief section: &ldquo;But they could not withstand the wisdom and the Spirit with which he was speaking&rdquo; (v.10). They could not withstand him. The word (antistenai) means to stand against, to resist, to hold one&rsquo;s ground. These capable, experienced debaters find they cannot answer Stephen. The wisdom and the Spirit by which he speaks are beyond their capacity to refute. Jesus had promised his disciples that when they were brought before authorities and opponents, they would be given &ldquo;a mouth and wisdom, which none of your adversaries will be able to withstand or contradict&rdquo; (Luke 21:15). Stephen is the fulfilment of that promise in real time.",
+      "The response to this inability is not concession but escalation. When argument fails, they reach for other means. What begins as a theological dispute in the synagogues of Jerusalem will, within a few verses, become a legal proceeding before the Sanhedrin and, shortly after, a mob execution. The pattern is both ancient and painfully familiar: when the evidence cannot be answered, attack the witness. Stephen&rsquo;s ministry was too effective to be answered honestly, so it would be answered dishonestly.",
+    ],
+  },
+  {
+    id: "False Accusations",
+    heading: "False Accusations Against Stephen",
+    reference: "Acts 6:11&ndash;15",
+    paragraphs: [
+      "When the synagogue disputants find they cannot defeat Stephen in open argument, they change tactics in a way that echoes the strategy used against Jesus himself. They &ldquo;secretly instigated men who said, &lsquo;We have heard him speak blasphemous words against Moses and God&rsquo;&rdquo; (v.11). The word translated &ldquo;secretly instigated&rdquo; (hupoballo) literally means to throw under &mdash; to plant, to suborn. They found men who were willing to be false witnesses and arranged for them to make public accusations. The parallels with the trial of Jesus (Mark 14:55&ndash;59) are unmistakable and surely intentional on Luke&rsquo;s part.",
+      "The charge of blasphemy against Moses and God is explosive. In Jewish law, blasphemy &mdash; speaking against God &mdash; was a capital offense (Lev. 24:16). Speaking against Moses would have been understood as undermining the entire framework of Israel&rsquo;s covenant life: the Torah, the temple, the priesthood, the sacrificial system. The accusation is framed to be maximally inflammatory, to trigger precisely the kind of outrage that would override careful legal deliberation and produce a swift, severe response.",
+      "The suborned witnesses then &ldquo;stirred up the people and the elders and the scribes, and they came upon him and seized him and brought him before the council&rdquo; (v.12). Luke&rsquo;s language here describes a coordinated campaign of provocation: the people (the general public), the elders (community leaders), and the scribes (legal experts and scholars) are all worked up before Stephen even appears. By the time he stands before the Sanhedrin, the verdict has already been shaped by manufactured outrage.",
+      "Before the council, the false witnesses repeat their accusations in more specific terms: &ldquo;This man never ceases to speak words against this holy place and the law, for we have heard him say that this Jesus of Nazareth will destroy this place and will change the customs that Moses delivered to us&rdquo; (vv.13&ndash;14). The accusation has two components: that Stephen said Jesus would destroy the Temple (&ldquo;this holy place&rdquo;), and that Jesus would change the customs (customs = the oral Torah, the traditions of the elders). Both components represent a profound threat to the identity and continuity of Judaism as the accusers understood it.",
+      "There is a complex truth beneath the false testimony. Stephen had not made the precise claims attributed to him, but he may well have taught things from which those claims could be distorted. His great speech in chapter 7 will suggest that he understood the Temple&rsquo;s significance differently from the Temple establishment &mdash; that God&rsquo;s presence is not confined to any building made by human hands, and that the law&rsquo;s deepest intention has been fulfilled and surpassed in Jesus. These were provocative ideas, even if they were true. The false witnesses twisted genuine teaching into seditious blasphemy.",
+      "The phrase &ldquo;Jesus of Nazareth&rdquo; in verse 14 is itself a legal and cultural marker. Nazareth was a backwater, associated with nothing of religious prestige. To say &ldquo;Jesus of Nazareth will destroy this place&rdquo; was to combine two shocks: the destruction of the most sacred site in Judaism, predicted by a Galilean peasant executed as a criminal by Rome. From the Sanhedrin&rsquo;s perspective, this is beyond blasphemy &mdash; it is cultural and theological suicide. Their reaction is visceral and almost inevitable, given the framing the false witnesses have constructed.",
+      "Yet the chapter ends on a note of quiet, unanswerable glory. As all who sat in the council fixed their eyes on Stephen, &ldquo;they saw that his face was like the face of an angel&rdquo; (v.15). This detail is one of the most luminous in the book of Acts. Whatever was said about Stephen, whatever accusations had been leveled, whatever outrage had been manufactured &mdash; when the council looked at his face, they saw something that could not be faked, could not be explained, and could not be dismissed. The word &ldquo;angel&rdquo; in biblical usage often denotes the messengers of God who stand in the divine presence and bear the radiance of that presence into the world. Stephen&rsquo;s face, under the assault of false accusation, shone like the face of one who has been with God.",
+      "This detail functions as Luke&rsquo;s own testimony about Stephen&rsquo;s character and standing before God. The institutional machinery of power &mdash; false witnesses, manipulated crowds, the Sanhedrin itself &mdash; has been brought to bear against this man. And yet his face shines. The reader is being prepared for chapter 7&rsquo;s great speech and chapter 8&rsquo;s martyrdom with the assurance that Stephen is not a victim of historical accident but a man held by God in the very moment of his greatest trial. The face of an angel is not a decorative detail; it is a theological statement about who has the last word.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "n-87G9JVWjM", title: "Acts 6 - The Seven Deacons and Stephen - Overview" },
+  { videoId: "IK0vbTJ_2_M", title: "The First Deacons - Acts 6 Explained" },
+  { videoId: "JLSN9-t6M8g", title: "Stephen Full of Grace and Power - Acts 6 Teaching" },
+  { videoId: "6PJdV_TUFNA", title: "Stephen's Arrest and Face of an Angel - Acts 6" },
+];
+
+export default function Acts6GuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Acts 6 &mdash; The Seven Deacons and Stephen
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The early church&rsquo;s first structural crisis, the appointment of the Seven to care for overlooked widows, Stephen&rsquo;s ministry of wonders and wisdom, and the false accusations that bring him before the Sanhedrin &mdash; where his face shines like the face of an angel.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2
+                style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }}
+                dangerouslySetInnerHTML={{ __html: currentSection.heading }}
+              />
+            </div>
+            <div
+              style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }}
+              dangerouslySetInnerHTML={{ __html: currentSection.reference }}
+            />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {videoItems.map((v) => (
+            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <VideoEmbed videoId={v.videoId} title={v.title} />
+              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>
+            The Face of an Angel
+          </h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Acts 6 shows the early church at its best and under its sharpest pressure: resolving internal conflict with wisdom, Spirit, and structural creativity; and then, in Stephen, showing what it looks like when a person is so filled with grace and power that even a mob of false accusers cannot extinguish the light on his face. The chapter ends not with Stephen&rsquo;s defeat but with his glory &mdash; a foretaste of the vision that will sustain him through the storm ahead.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

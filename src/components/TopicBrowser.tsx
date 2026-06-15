@@ -2704,6 +2704,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Genesis 44 Chapter": "genesis-44-guide",
   "Silver Cup Benjamin Sack Joseph Test Genesis": "genesis-44-guide",
   "Judah Pleads Offers Himself for Benjamin Genesis": "genesis-44-guide",
+  "Matthew 24 Chapter": "matthew-24-guide",
+  "Olivet Discourse Matthew Signs of the End Age": "matthew-24-guide",
+  "Abomination of Desolation Coming Son of Man Clouds": "matthew-24-guide",
+  "2 Kings 24 Chapter": "2-kings-24-guide",
+  "Nebuchadnezzar Besieges Jerusalem First Deportation": "2-kings-24-guide",
+  "Jehoiakim Jehoiachin Babylon Exile Judah Kings": "2-kings-24-guide",
+  "Jeremiah 1 Chapter": "jeremiah-1-guide",
+  "Call of Jeremiah Before I Formed You I Knew You": "jeremiah-1-guide",
+  "Almond Branch Boiling Pot Jeremiah Vision": "jeremiah-1-guide",
+  "Ezekiel 1 Chapter": "ezekiel-1-guide",
+  "Ezekiel Vision Living Creatures Wheels Chariot": "ezekiel-1-guide",
+  "Glory of the Lord Throne Rainbow Ezekiel": "ezekiel-1-guide",
 };
 
 
@@ -3874,6 +3886,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 21 Chapter" },
   { label: "2 Kings 23 Chapter" },
   { label: "Genesis 44 Chapter" },
+  { label: "Matthew 24 Chapter" },
+  { label: "2 Kings 24 Chapter" },
+  { label: "Jeremiah 1 Chapter" },
+  { label: "Ezekiel 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

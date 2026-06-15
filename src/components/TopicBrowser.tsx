@@ -2560,6 +2560,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Kings 9 Chapter": "1-kings-9-guide",
   "God Appears Solomon Second Time Covenant": "1-kings-9-guide",
   "Solomon Cities Forced Labor Ships Ophir Gold": "1-kings-9-guide",
+  "Psalm 19 Chapter": "psalm-19-guide",
+  "Heavens Declare Glory of God Psalm": "psalm-19-guide",
+  "Law of Lord Perfect Reviving Soul Psalm": "psalm-19-guide",
+  "Romans 15 Chapter": "romans-15-guide",
+  "Bear Failings of Weak Christ Did Not Please Himself": "romans-15-guide",
+  "Paul Minister to Gentiles Hope Romans": "romans-15-guide",
+  "1 Kings 10 Chapter": "1-kings-10-guide",
+  "Queen of Sheba Visits Solomon Wisdom Wealth": "1-kings-10-guide",
+  "Solomon Gold Throne Ivory Riches Kings": "1-kings-10-guide",
+  "Genesis 27 Chapter": "genesis-27-guide",
+  "Jacob Steals Esau Blessing Isaac Deceived": "genesis-27-guide",
+  "Esau Weeps Blessing Rebekah Plot Genesis": "genesis-27-guide",
 };
 
 
@@ -3682,6 +3694,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 14 Chapter" },
   { label: "Luke 9 Chapter" },
   { label: "1 Kings 9 Chapter" },
+  { label: "Psalm 19 Chapter" },
+  { label: "Romans 15 Chapter" },
+  { label: "1 Kings 10 Chapter" },
+  { label: "Genesis 27 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

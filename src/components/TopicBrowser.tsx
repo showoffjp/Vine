@@ -2296,6 +2296,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "John 7 Chapter": "john-7-guide",
   "Jesus Feast Tabernacles Living Water": "john-7-guide",
   "Streams Living Water Holy Spirit John": "john-7-guide",
+  "2 Samuel 9 Chapter": "2-samuel-9-guide",
+  "David Mephibosheth Covenant Kindness": "2-samuel-9-guide",
+  "Kindness for Jonathan's Sake David": "2-samuel-9-guide",
+  "Genesis 15 Chapter": "genesis-15-guide",
+  "Abram Covenant Stars Descendants Count": "genesis-15-guide",
+  "Smoking Firepot Flaming Torch Covenant": "genesis-15-guide",
+  "1 Chronicles 16 Chapter": "1-chronicles-16-guide",
+  "David Psalm Praise Ark Brought Jerusalem": "1-chronicles-16-guide",
+  "Give Thanks to the Lord Psalm David": "1-chronicles-16-guide",
+  "Luke 13 Chapter": "luke-13-guide",
+  "Narrow Door Bent Woman Healed Sabbath": "luke-13-guide",
+  "Fig Tree Given One More Year Luke": "luke-13-guide",
 };
 
 
@@ -3330,6 +3342,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Acts 15 Chapter" },
   { label: "Ephesians 4 Chapter" },
   { label: "John 7 Chapter" },
+  { label: "2 Samuel 9 Chapter" },
+  { label: "Genesis 15 Chapter" },
+  { label: "1 Chronicles 16 Chapter" },
+  { label: "Luke 13 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

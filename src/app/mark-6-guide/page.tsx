@@ -1,0 +1,182 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Feeding Five Thousand",
+  "Walking on Water",
+  "Death of John the Baptist",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Mark 6: Power, Rejection, and the Bread of Life",
+    reference: "Mark 6:1&ndash;56",
+    paragraphs: [
+      "Mark 6 is one of the most theologically dense chapters in the entire Gospel of Mark. Within its fifty-six verses the reader encounters a prophet rejected in his own hometown, the Twelve sent out on mission with radical dependence upon God, the brutal beheading of John the Baptist at the hands of a weak king and a scheming queen, the miraculous feeding of five thousand people with five loaves and two fish, and Jesus walking on the sea in the dead of night while his disciples cower in terror. It is a chapter that stretches the reader between the heights of divine power and the depths of human unbelief.",
+      "The chapter opens with a scene of profound pathos. Jesus returns to Nazareth, his hometown, and teaches in the synagogue. The crowd is astonished at his wisdom and his mighty works &mdash; but their astonishment curdles quickly into offense. &ldquo;Is not this the carpenter, the son of Mary?&rdquo; they say (6:3). They know his family, his trade, his neighborhood. They cannot reconcile what they see with what they know, or rather, what they think they know. Their familiarity becomes a stumbling block to faith.",
+      "The rejection at Nazareth sets the theological tone for everything that follows. Jesus is the one whom even the wind and the sea obey (4:41), yet in his own hometown he &ldquo;could do no mighty work there, except that he laid his hands on a few sick people and healed them&rdquo; (6:5). Mark adds the arresting detail: &ldquo;And he marveled because of their unbelief&rdquo; (6:6). It is one of only two places in the Gospels where Jesus is said to marvel &mdash; and here it is at unbelief. Faith is the hand that reaches out to receive what God freely gives; unbelief closes the hand and goes away empty.",
+      "The sending of the Twelve (6:7&ndash;13) represents the first major deployment of Jesus&rsquo; disciples in mission. He gives them authority over unclean spirits and sends them out two by two with instructions that emphasize trust and vulnerability: no bag for provisions, no extra tunic, sandals but no staff of their own making for provision beyond what is given. If a place will not receive them, they are to shake the dust off their feet as a testimony. The disciples go out preaching repentance, casting out many demons, and anointing the sick with oil &mdash; a Christlike ministry flowing from a Christlike commissioning.",
+      "Mark then inserts the account of John the Baptist&rsquo;s death, a narrative told in flashback as Herod, hearing reports of Jesus, begins to wonder if John has been raised from the dead. This insertion, known as a Markan &lsquo;sandwich,&rsquo; frames the disciples&rsquo; mission between the sending out and the return: while they are at work in the world, death is also at work &mdash; the death of the forerunner who prepared the way. John&rsquo;s death prefigures the death of Jesus himself.",
+      "The chapter climaxes in two closely linked miracle accounts: the feeding of the five thousand and the walking on water. Both narratives are drenched in Old Testament imagery &mdash; the shepherd feeding the sheep in the wilderness, the God of Israel walking upon the waters of chaos. Together they reveal the identity of Jesus as the one in whom all the hopes of Israel find their fulfillment, and they press the disciples and the reader toward the one question that the whole Gospel of Mark insists upon: &ldquo;Who then is this?&rdquo; (4:41).",
+    ],
+  },
+  {
+    id: "Feeding Five Thousand",
+    heading: "Feeding the Five Thousand: Bread in the Wilderness",
+    reference: "Mark 6:30&ndash;44",
+    paragraphs: [
+      "When the apostles return from their mission, Jesus invites them to come apart to a desolate place and rest awhile. The pace of ministry has been relentless &mdash; so many people coming and going that they had not even had time to eat (6:31). Jesus cares for his disciples not only as missionaries but as human beings who need food, rest, and solitude. The invitation to rest is itself an act of pastoral tenderness.",
+      "But the crowds see them departing and run ahead on foot, arriving before the boat. When Jesus steps ashore, he sees the great crowd and has compassion on them, &ldquo;because they were like sheep without a shepherd&rdquo; (6:34). The image is thick with Old Testament resonance. In Numbers 27:17, Moses prays for a successor so that the congregation of Israel would not be &ldquo;as sheep that have no shepherd.&rdquo; Ezekiel 34 pronounces judgment on the false shepherds of Israel and promises that God himself will come to shepherd his people. In seeing the crowd as sheep without a shepherd, Jesus is making a claim &mdash; he is the one the prophets promised, the true Shepherd of Israel.",
+      "Jesus begins to teach them, and so great is the teaching that the day runs on until evening. The disciples come to Jesus with a practical problem: they are in a desolate place, it is late, and the crowd needs to eat. They suggest dismissing the crowd so the people can go buy food. The response of Jesus is one of the great imperatives of the Gospels: &ldquo;You give them something to eat&rdquo; (6:37). The disciples balk: it would take two hundred denarii &mdash; roughly eight months of a laborer&rsquo;s wages &mdash; to buy enough bread for all these people.",
+      "Jesus asks them what they have, and the disciples come back with a report both meager and specific: five loaves and two fish. He commands the crowd to sit down in groups on the green grass &mdash; another pastoral echo, this time of Psalm 23:2, where the Lord makes his sheep lie down in green pastures. The groups are arranged in hundreds and fifties, an organizational pattern that recalls the structure Moses imposed on Israel in the wilderness. Every detail points beyond itself, situating this meal within the great story of God feeding his people.",
+      "Jesus takes the five loaves and the two fish, looks up to heaven, gives thanks, and breaks the loaves. He gives them to the disciples to set before the people, and he divides the two fish among them all. &ldquo;And they all ate and were satisfied&rdquo; (6:42). The word for &lsquo;satisfied&rsquo; is the word used for animals that have eaten their fill &mdash; this is not polite sufficiency but abundant fullness. When they gather up the fragments, they fill twelve baskets &mdash; one for each of the twelve tribes, perhaps, or one for each of the twelve disciples who had doubted. The miracle of the manna in the wilderness has been repeated, and more than repeated: it has been fulfilled.",
+      "The Eucharistic overtones of this passage are unmistakable and were recognized by the earliest Christians. The fourfold action &mdash; Jesus took, blessed (gave thanks), broke, and gave &mdash; is the same fourfold pattern that appears at the Last Supper (14:22&ndash;23) and in the post-resurrection meal at Emmaus (Luke 24:30). The feeding of the five thousand is not merely a spectacular miracle; it is a sign of the meal that Jesus would establish on the night before his crucifixion, when he would take bread, give thanks, break it, and give it to his disciples as the bread of the new covenant. In the wilderness, bread is multiplied; at the table, the bread is Christ himself.",
+      "There is a perpetual challenge embedded in this passage for the Church. &ldquo;You give them something to eat.&rdquo; Jesus does not ignore the hunger of the crowd; he does not spiritualize their need or dismiss it as irrelevant. He takes seriously the physical needs of human beings and enlists his disciples in meeting those needs. The disciples&rsquo; resource is absurdly small in proportion to the need &mdash; five loaves and two fish for five thousand men, besides women and children. But when placed in the hands of Jesus, the inadequate becomes more than sufficient. This is the pattern of all Christian ministry: our five loaves and two fish, surrendered to Christ, become the means by which multitudes are fed.",
+    ],
+  },
+  {
+    id: "Walking on Water",
+    heading: "Walking on Water: It Is I, Do Not Be Afraid",
+    reference: "Mark 6:45&ndash;52",
+    paragraphs: [
+      "Immediately after the feeding, Jesus compels his disciples to get into the boat and go ahead to Bethsaida while he dismisses the crowd. He then withdraws to the mountain to pray. The detail that Jesus sends the disciples away and goes to pray is significant. John&rsquo;s Gospel tells us that the crowd, moved by the miracle of the bread, was about to come and take Jesus by force to make him king (John 6:15). Jesus will not be made king on human terms; he retreats to pray, maintaining his orientation toward the Father rather than toward the crowd&rsquo;s expectations.",
+      "Evening comes and the boat is out on the sea. Jesus is alone on the land &mdash; and from the mountain he can see them. The disciples are &ldquo;making headway painfully, for the wind was against them&rdquo; (6:48). The Greek word for &lsquo;making headway painfully&rsquo; (basanizomenous) carries the sense of being tormented or tortured. This is not a slight inconvenience; this is hard labor, strain in the dark, progress measured in yards against an opposing wind. The disciples had been sent out by Jesus into exactly this situation &mdash; into the storm, into the night, into the laboring sea.",
+      "About the fourth watch of the night &mdash; between three and six in the morning &mdash; Jesus comes to them, walking on the sea. Mark adds a detail that has puzzled readers across the centuries: &ldquo;He meant to pass by them&rdquo; (6:48). This is no accident of translation. The Greek word for &lsquo;pass by&rsquo; (parelthein) is used in the Old Testament for the divine self-disclosure &mdash; when the Lord &lsquo;passed by&rsquo; Moses on the mountain (Exodus 33:19, 22) and when he &lsquo;passed by&rsquo; Elijah at Horeb (1 Kings 19:11). Jesus is not trying to sneak past; he is staging an epiphany, a revelation of his divine identity.",
+      "The disciples, seeing a figure walking on the water, cry out in terror, thinking they are seeing a ghost (6:49). Their response is pure human fear &mdash; the instinctive recoil from the uncanny. But Jesus immediately speaks: &ldquo;Take heart; it is I. Do not be afraid&rdquo; (6:50). The Greek for &lsquo;it is I&rsquo; is ego eimi &mdash; &ldquo;I AM.&rdquo; This is the divine name by which God identified himself to Moses at the burning bush: &ldquo;I AM WHO I AM&rdquo; (Exodus 3:14). In the darkness and the storm, the disciples receive a revelation of who Jesus truly is: not a ghost, not merely a wonder-working rabbi, but the I AM of Israel, the God who walks upon the waters of chaos.",
+      "He gets into the boat with them, and the wind ceases. The disciples are utterly astounded &mdash; and Mark gives us the reason for their astonishment in one of the most revealing verses in the chapter: &ldquo;for they did not understand about the loaves, but their hearts were hardened&rdquo; (6:52). The feeding of the five thousand and the walking on water are not two separate events; they are two parts of one revelation. The same divine power that multiplied the loaves walks upon the sea. The disciples had witnessed the bread miracle but had not seen through it to its meaning; had they understood the loaves, they would not have been astonished at the walking on water.",
+      "The hardening of the disciples&rsquo; hearts is a sobering theme in Mark. The language of hardened hearts is elsewhere used of Israel&rsquo;s chronic unbelief &mdash; in Exodus, in Isaiah, in Jeremiah. That Mark applies it to the Twelve is startling and humbling. These are not the enemies of Jesus; these are the men he has chosen, trained, and sent. Yet they too are susceptible to the hardness that comes from seeing without perceiving, from witnessing miracle after miracle without integrating what those miracles reveal. Spiritual blindness is not cured automatically by proximity to Jesus. It requires a work of grace, and even the closest disciples needed their eyes opened.",
+      "The episode ends on a note of healing and reception. Jesus and the disciples reach Gennesaret, and wherever he goes people recognize him and bring the sick. Those who touched even the fringe of his garment were made well. The power that walked upon the water and stilled the storm is also the power that reaches down to touch the individual sick person in a village square. The same Lord who reveals his divine &lsquo;I AM&rsquo; in the dramatic darkness of the sea bends low to heal each person who reaches out to him in faith.",
+    ],
+  },
+  {
+    id: "Death of John the Baptist",
+    heading: "The Death of John the Baptist: Herod&rsquo;s Guilty Conscience",
+    reference: "Mark 6:14&ndash;29",
+    paragraphs: [
+      "The account of John the Baptist&rsquo;s death is inserted into the chapter as a narrative flashback, triggered by Herod&rsquo;s troubled reaction to reports about Jesus. Herod Antipas, tetrarch of Galilee and Perea, hears what is being said and offers his own theory: &ldquo;John the Baptist has been raised from the dead. That is why these miraculous powers are at work in him&rdquo; (6:14). The rumor reveals the state of Herod&rsquo;s conscience. He is haunted by the man he had killed &mdash; and the rumors about Jesus bring that guilt flooding back.",
+      "Mark then steps back in time to explain how John came to be in Herod&rsquo;s power. Herod had arrested John because John had been declaring to him: &ldquo;It is not lawful for you to have your brother&rsquo;s wife&rdquo; (6:18). Herodias was originally married to Herod&rsquo;s half-brother Philip before Herod divorced his own wife to take her. This was a flagrant violation of Levitical law (Leviticus 18:16), and John, true to his calling as a prophet, refused to be silent about it.",
+      "The moral and political dynamics of this story are richly observed. Herod fears John, knowing him to be a righteous and holy man, and so he keeps him safe rather than killing him. He is &ldquo;greatly perplexed&rdquo; when he hears him, yet he hears him gladly (6:20). Herod is a man caught between two pressures: Herodias&rsquo;s hatred of John and his own grudging fascination with the prophet. He is neither good enough to release John and repent, nor decisive enough to destroy him without occasion. He is a weak man in a powerful position &mdash; perhaps the most dangerous kind.",
+      "Herodias waits for her opportunity. It comes at Herod&rsquo;s birthday banquet, a great feast for his nobles, military commanders, and the leading men of Galilee. Her daughter comes in and dances before the assembly, pleasing Herod and his guests so greatly that Herod makes a rash oath: &ldquo;Ask me for whatever you wish, and I will give it to you &hellip; up to half of my kingdom&rdquo; (6:22&ndash;23). The girl goes to her mother, and Herodias strikes without hesitation: the head of John the Baptist, brought on a platter, right now.",
+      "The daughter returns to the king with her chilling request. Mark notes that Herod is deeply grieved (6:26) &mdash; but he does not repent. He does not find the moral courage to break his oath and refuse. Instead he hides behind the logic of honor: he cannot break his oath in front of all his guests. The man who was fascinated by a righteous prophet chooses the approval of his peers over the life of the man he knew to be holy. He sends an executioner to the prison; the head is brought on a platter; Salome gives it to her mother.",
+      "The disciples of John, hearing of it, come and take his body and lay it in a tomb. The burial of John anticipates the burial of Jesus. John is not the last righteous man to be killed by a weak ruler under political pressure. The pattern of the prophets &mdash; bearing witness, suffering rejection, dying at the hands of those who should have heard &mdash; will reach its ultimate expression on a cross outside Jerusalem.",
+      "The story of John&rsquo;s death functions in the Gospel as a mirror held up to every reader. Herod is not a uniquely evil man. He is a profoundly recognizable one &mdash; a man who heard the word of God, was stirred by it, was fascinated by it, but in the end could not bring himself to act on it when the cost became clear. The word came, was imprisoned, and was finally silenced &mdash; not because it had no power, but because Herod preferred the praise of men to the righteousness of God. The question the story leaves hanging in the air is whether we will do the same.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "xAFKGBEXReg", title: "Mark 6 Overview - Jesus Feeds 5000 and Walks on Water" },
+  { videoId: "mJ0Yb8tQwXY", title: "The Feeding of the Five Thousand Explained" },
+  { videoId: "q6FnvYyUNok", title: "Jesus Walking on Water - Mark 6 Bible Study" },
+  { videoId: "ItXcL5V4Dl8", title: "John the Baptist - His Life, Message, and Death" },
+];
+
+export default function Mark6GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Mark 6: Rejected Prophet, Risen Power
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Jesus rejected at Nazareth, the Twelve sent out on mission, John the Baptist beheaded by Herod, five thousand fed with five loaves and two fish, and the Son of God walking on water in the darkness of night &mdash; revealing himself as the great I&nbsp;AM.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>Video Teaching</h3>
+          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.8, margin: "0 0 1.5rem" }}>
+            Deepen your study of Mark 6 through visual teaching covering Jesus rejected at Nazareth, the mission of the Twelve, the death of John the Baptist, and the great miracles of the loaves and the sea.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>&ldquo;It Is I; Do Not Be Afraid&rdquo;</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Mark 6 invites us into the full range of human experience in the presence of Jesus &mdash; rejection and wonder, feasting and beheading, storm and stillness. At its center stands the one who multiplies bread in the wilderness and walks upon the sea, who silences storms with a word and heals with a touch, and who identifies himself with the ancient name of God: I&nbsp;AM. The question the chapter presses upon every reader is the same question it pressed upon the disciples in the boat: will we harden our hearts, or will we receive what the loaves and the water are trying to teach us?
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

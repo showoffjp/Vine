@@ -2392,6 +2392,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Genesis 2 Chapter": "genesis-2-guide",
   "Garden Eden Creation Man Woman Marriage": "genesis-2-guide",
   "Bone of My Bone Flesh Marriage Genesis": "genesis-2-guide",
+  "Mark 6 Chapter": "mark-6-guide",
+  "Feeding Five Thousand Walking Water Mark": "mark-6-guide",
+  "Jesus Walks on Sea of Galilee": "mark-6-guide",
+  "Acts 14 Chapter": "acts-14-guide",
+  "Paul Barnabas Lystra Iconium Miracles": "acts-14-guide",
+  "Gods Who Come Down Paul Barnabas Zeus": "acts-14-guide",
+  "Isaiah 43 Chapter": "isaiah-43-guide",
+  "Fear Not I Have Redeemed You Isaiah": "isaiah-43-guide",
+  "New Exodus Wilderness Waters Isaiah": "isaiah-43-guide",
+  "Psalm 37 Chapter": "psalm-37-guide",
+  "Delight Yourself Lord Desires Heart": "psalm-37-guide",
+  "Fret Not Evil Doers Wicked Psalm": "psalm-37-guide",
 };
 
 
@@ -3458,6 +3470,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 21 Chapter" },
   { label: "Numbers 21 Chapter" },
   { label: "Genesis 2 Chapter" },
+  { label: "Mark 6 Chapter" },
+  { label: "Acts 14 Chapter" },
+  { label: "Isaiah 43 Chapter" },
+  { label: "Psalm 37 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

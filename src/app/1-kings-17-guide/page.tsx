@@ -1,0 +1,205 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3a7d56";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Elijah Before Ahab",
+  "Ravens Feed Elijah",
+  "The Widow of Zarephath",
+  "The Son Raised to Life",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 1 Kings 17",
+    reference: "1 Kings 17:1&ndash;24",
+    paragraphs: [
+      "First Kings 17 is one of the most dramatic chapters in the entire Old Testament. Into the darkness of Ahab&rsquo;s reign &mdash; the worst the northern kingdom had yet seen, marked by Baal worship, the influence of Jezebel, and the official abandonment of the God of Israel &mdash; steps a prophet who appears without warning, without genealogy, and without introduction. &ldquo;Elijah the Tishbite, of Tishbe in Gilead&rdquo; (v. 1) is all we are told. His entrance is as sudden as a lightning strike, and his first word is a declaration of war against the storm-god Baal.",
+      "The chapter falls into three scenes, each building on the one before. In the first, Elijah stands before the king and announces a drought &mdash; a direct challenge to Baal, whose domain was supposed to be the rain and the storm. In the second, God provides for his prophet in the wilderness by an extraordinary means: ravens bring him bread and meat at the brook Cherith, morning and evening. In the third &mdash; the longest and most theologically rich &mdash; God sends Elijah to a widow in Zarephath, a Gentile city in the very heartland of Baal worship, where the miraculous provision of flour and oil sustains three lives, and where Elijah raises a dead boy to life.",
+      "What unites these three scenes is the character of the God they reveal. Baal was worshiped as the lord of the storm, the one who gave or withheld rain, the guarantor of agricultural abundance. First Kings 17 systematically dismantles that claim by showing that the God of Israel is the true lord of rain and drought, the true provider of food, and &mdash; most dramatically &mdash; the true lord of life and death. When the widow of Zarephath declares at the end of the chapter, &ldquo;Now I know that you are a man of God, and that the word of the Lord in your mouth is truth&rdquo; (v. 24), she is not merely making a personal confession. She is verifying what the whole chapter has been demonstrating: the Lord, not Baal, is God.",
+      "The chapter is also the story of a prophet being formed in the wilderness. Before Elijah can stand on Mount Carmel before all Israel and call down fire from heaven, he must learn to trust God in a ravine nobody knows, fed by birds, dependent on a widow&rsquo;s last meal. The great confrontations of faith are usually preceded by hidden seasons of radical dependence, and 1 Kings 17 is the hidden season of one of Israel&rsquo;s greatest prophets. The God who will answer by fire on Carmel is first revealing himself as the God who is faithful in the forgotten places.",
+      "The chapter is also remarkable for its reach beyond Israel. Zarephath belongs to Sidon &mdash; the Sidonian homeland, the very country from which Jezebel came. The God of Israel sends his prophet not to a faithful widow in Israel but to a pagan widow in the heartland of the enemy. Jesus himself highlights this in Luke 4:25&ndash;26, pointing out that there were many widows in Israel during the famine, yet Elijah was sent to none of them but to a woman of Sidon. The mercy of God is not bounded by nationality, and the ministry of Elijah in 1 Kings 17 anticipates the universal reach of the gospel that will one day be announced to all nations.",
+    ],
+  },
+  {
+    id: "Elijah Before Ahab",
+    heading: "Elijah Before Ahab",
+    reference: "1 Kings 17:1",
+    paragraphs: [
+      "The chapter opens with a single electrifying verse. Elijah appears before Ahab, king of Israel, with no narrative buildup, no introduction, and no diplomatic preamble: &ldquo;As the Lord the God of Israel lives, before whom I stand, there shall be neither dew nor rain these years, except by my word&rdquo; (v. 1). The abruptness is literary and theological. Ahab has been introduced in chapter 16 as the worst king Israel has yet had &mdash; he married Jezebel, built a temple to Baal, and &ldquo;did more to provoke the Lord, the God of Israel, to anger than all the kings of Israel who were before him&rdquo; (16:33). Into this concentrated wickedness, Elijah simply appears and speaks.",
+      "The oath that opens Elijah&rsquo;s declaration &mdash; &ldquo;As the Lord the God of Israel lives&rdquo; &mdash; is a solemn formula invoking the living God as witness and guarantor of what is about to be said. Elijah is not expressing a pious hope; he is making a prophetic announcement backed by the authority of the God who stands behind his word. And the word is devastating in its precision: no dew and no rain. Dew and rain together covered all the sources of natural moisture in the ancient Near East; to withhold both was to declare a total drought.",
+      "The drought is a theological statement aimed directly at the central claim of Baal worship. Baal was the storm-god, the one the nations of Canaan credited with bringing the rains and making the earth fruitful. Ahab and Jezebel had imported this religion into Israel precisely because of its appeal &mdash; a god of fertility and abundance in an agricultural society. Elijah&rsquo;s announcement is a direct confrontation: the Lord, not Baal, controls the rain. While Baal&rsquo;s prophets and priests carry on their rituals at the high places, the skies will be silent. There will be no rain until the God of Israel says so.",
+      "The phrase &ldquo;before whom I stand&rdquo; is equally striking. To stand before someone in the ancient world was the posture of a servant or a courtier in the presence of a king. Elijah is describing his relationship to the Lord of Israel with the same language a royal official would use of his sovereign. He stands in the heavenly court; Ahab&rsquo;s throne room, imposing as it may be, is not the court that matters. This is the source of Elijah&rsquo;s confidence: he does not answer to Ahab. He is sent by a higher king, and his message carries that king&rsquo;s authority. The prophet who can say &ldquo;before whom I stand&rdquo; about the Lord of heaven and earth does not tremble before any earthly monarch.",
+      "The brevity of this scene is itself significant. Elijah says one verse and apparently departs. There is no record of Ahab&rsquo;s immediate response, no royal decree, no attempt to arrest Elijah &mdash; at least not yet. The silence of the sky will speak more eloquently than any argument. The word has been spoken; now it will come to pass. The God who commands the weather has announced what he will do, and the king who has filled Israel with the worship of the storm-god will have to watch as his adopted god proves impotent. The confrontation that Elijah opens with a single sentence will not be resolved until the fire falls on Carmel in chapter 18.",
+    ],
+  },
+  {
+    id: "Ravens Feed Elijah",
+    heading: "Ravens Feed Elijah at the Brook Cherith",
+    reference: "1 Kings 17:2&ndash;7",
+    paragraphs: [
+      "Immediately after Elijah speaks, God speaks to him: &ldquo;Depart from here and turn eastward and hide yourself by the brook Cherith, which is east of the Jordan. You shall drink from the brook, and I have commanded the ravens to feed you there&rdquo; (vv. 2&ndash;4). The command is to hide &mdash; to go into concealment, out of the reach of Ahab and Jezebel who will soon be searching for him. The location is the wilderness east of the Jordan, the empty country beyond the river, away from Ahab&rsquo;s territory. It is a place of complete dependence on God.",
+      "The provision God announces is startling in its specificity. Not only will there be water from the brook; there will be food &mdash; brought by ravens. Ravens are unclean birds under the Mosaic law (Leviticus 11:15; Deuteronomy 14:14), and they are predators, not domesticated servants. Yet God has &ldquo;commanded&rdquo; them &mdash; the same word used for royal decrees &mdash; to bring food to his prophet. The point is unmistakable: the God of Israel commands all of creation, clean and unclean alike, wild and domestic alike. No part of the natural world lies outside his authority, and none of the usual assumptions about how provision works constrain him.",
+      "Elijah obeys immediately and completely. &ldquo;So he went and did according to the word of the Lord. He went and lived by the brook Cherith that is east of the Jordan. And the ravens brought him bread and meat in the morning, and bread and meat in the evening, and he drank from the brook&rdquo; (vv. 5&ndash;6). The text gives no indication of how long this provision went on, but verse 7 suggests it was long enough for the drought to take effect: &ldquo;And after a while the brook dried up, because there was no rain in the land.&rdquo; Elijah had announced the drought; now he lived inside it, sustained by God while the land dried up around him.",
+      "The scene at Cherith is a picture of radical trust. There is no strategy here, no network of contacts, no backup plan. There is a man, a brook, and ravens bringing bread and meat twice a day. The prophet who will confront hundreds of false prophets and call down fire from heaven is first formed in a place where his only resource is God&rsquo;s daily provision. This is not incidental to Elijah&rsquo;s story; it is essential to it. The confidence that will sustain him on Carmel is the confidence that has been built one morning and one evening at a time, in a ravine nobody knows, as the ravens arrive with extraordinary faithfulness.",
+      "The drying of the brook is the pivot of the scene. God does not extend the Cherith provision indefinitely; the brook dries up, and with it the first chapter of Elijah&rsquo;s wilderness hiding. But the drying of the brook is not an abandonment; it is a transition. God is about to send his prophet to a new place of dependence and a new demonstration of his power. The God who commanded the ravens will now command a widow, and the miracle that sustained one man at a brook will be extended to sustain a widow, her son, and the prophet together through the remainder of the drought. The brook drying is not the end of provision; it is the occasion for a greater provision.",
+    ],
+  },
+  {
+    id: "The Widow of Zarephath",
+    heading: "The Widow of Zarephath",
+    reference: "1 Kings 17:8&ndash;16",
+    paragraphs: [
+      "When the brook dries up, God speaks again: &ldquo;Arise, go to Zarephath, which belongs to Sidon, and dwell there. Behold, I have commanded a widow there to feed you&rdquo; (v. 9). The destination is unexpected to the point of being provocative. Zarephath is in Sidon &mdash; the Phoenician coast, Jezebel&rsquo;s home country, the very heartland of Baal worship. God is sending his prophet not to a place of safety in Israel but deeper into the territory of the enemy. And the one he has appointed to sustain his prophet is a widow &mdash; the most economically vulnerable member of ancient society.",
+      "Elijah arrives at the gate of the city and sees a widow gathering sticks. He asks her for water and then food. Her response is devastating in its simplicity: &ldquo;As the Lord your God lives, I have nothing baked, only a handful of flour in a jar and a little oil in a jug. And now I am gathering a couple of sticks that I may go in and prepare it for myself and my son, that we may eat it and die&rdquo; (v. 12). She is preparing her last meal. After this, she expects to starve. She is not merely poor; she is at the end of her rope, and she knows it.",
+      "Elijah&rsquo;s response to her desperation is the response of a man who knows the character of the God he serves: &ldquo;Do not fear. Go and do as you have said. But first make me a little cake of it and bring it to me, and afterward make something for yourself and your son. For thus says the Lord, the God of Israel: The jar of flour shall not be spent, and the jug of oil shall not be empty, until the day that the Lord sends rain upon the earth&rdquo; (vv. 13&ndash;14). The command sounds almost absurd from a human perspective: your last food, give it to me first. But it is grounded in a specific word from the Lord, and Elijah delivers it with the authority of one who has already seen God provide at Cherith.",
+      "The widow obeys. She goes and does as Elijah has said. And the miracle happens exactly as the word of the Lord promised: &ldquo;The jar of flour was not spent, neither did the jug of oil become empty, according to the word of the Lord that he spoke by Elijah&rdquo; (v. 16). The text says nothing dramatic about the mechanics of the miracle. The flour does not multiply in a visible heap; the oil does not overflow. It simply does not run out. Each day, when the widow reaches into the jar, there is flour. Each day, when she tips the jug, there is oil. The miracle is quiet, domestic, daily, and absolutely reliable &mdash; the same kind of faithfulness that brought bread and meat twice a day at Cherith, now extended through the drought.",
+      "The location of the miracle is theologically loaded. In Zarephath, the domain of Baal, where Jezebel was born and where Baal worship was the native religion, the God of Israel is quietly sustaining life. The woman who worships &mdash; or at least lives among the worshipers of &mdash; Baal is being fed by the God of Israel, through the mediation of Israel&rsquo;s prophet. The miracle is not occurring in the Temple in Jerusalem or at a recognized Israelite holy site. It is occurring in a Gentile widow&rsquo;s kitchen, day after day, for the duration of the drought. The God who controls the rain controls the flour jar and the oil jug as well, and he extends his provision beyond the borders of Israel to those who receive his messenger with faith.",
+    ],
+  },
+  {
+    id: "The Son Raised to Life",
+    heading: "The Son Raised to Life",
+    reference: "1 Kings 17:17&ndash;24",
+    paragraphs: [
+      "After the miracle of the flour and oil, the narrative takes a devastating turn. The widow&rsquo;s son falls ill and his illness worsens until &ldquo;there was no breath left in him&rdquo; (v. 17). The boy is dead. And the widow&rsquo;s response is not simple grief but anguished accusation: &ldquo;What have you against me, O man of God? You have come to me to bring my sin to remembrance and to cause the death of my son!&rdquo; (v. 18). Her cry reveals a theology common in the ancient world &mdash; and one that echoes throughout the Old Testament: suffering is punishment. The presence of this holy man of God has exposed her to divine scrutiny, and now her son is dead.",
+      "Elijah does not answer her theology. He takes the dead boy from her arms and carries him up to the upper room where he was lodging and lays him on his own bed. Then he cries out to the Lord in prayer: &ldquo;O Lord my God, have you brought calamity even upon the widow with whom I sojourn, by killing her son?&rdquo; (v. 20). It is a remarkable prayer &mdash; frank to the point of wrestling with God, bringing the distress of the situation directly to God rather than offering a composed and dignified intercession. Elijah is not pretending the situation is other than what it is. He is bringing his bewilderment and his grief before the God who sent him here.",
+      "&ldquo;Then he stretched himself upon the child three times and cried to the Lord, O Lord my God, let this child&rsquo;s life come into him again&rdquo; (v. 21). The physical gesture of stretching himself over the child is the act of a man pouring himself into his intercession, placing himself between death and life, asking God to act in the most intimate possible way. Three times he does it. The number may simply indicate persistence, or it may indicate a kind of intensification &mdash; the prophet pressing his prayer upon God with everything he has.",
+      "&ldquo;And the Lord listened to the voice of Elijah. And the life of the child came into him again, and he revived&rdquo; (v. 22). The sentence is quiet, almost understated. Death is reversed. Life returns. The boy revives. Elijah carries him downstairs and gives him to his mother: &ldquo;See, your son lives.&rdquo; In those three words &mdash; &ldquo;your son lives&rdquo; &mdash; the prophet delivers the most precious possible word to a mother who had held her dead child. The God who controlled the rain and the flour jar and the oil jug also holds the keys of life and death, and he gives back what death had taken.",
+      "The widow&rsquo;s response brings the chapter to its theological conclusion: &ldquo;Now I know that you are a man of God, and that the word of the Lord in your mouth is truth&rdquo; (v. 24). The word &ldquo;now&rdquo; is significant. She had seen the flour and the oil sustained for many days. That was remarkable. But it was the resurrection of her son that broke through her defenses and produced the confession: now I know. The miracle of provision had demonstrated God&rsquo;s faithfulness; the miracle of resurrection demonstrated his lordship over the ultimate enemy. And the instrument of both miracles was the word of the Lord in the mouth of his prophet &mdash; a word that, like its author, has power over death.",
+      "This resurrection in 1 Kings 17 is the first resurrection narrative in the Old Testament, and it anticipates a long biblical pattern that reaches its culmination in the resurrection of Jesus. Elijah raises a dead child; Elisha will raise the Shunammite&rsquo;s son (2 Kings 4). Jesus raises the widow of Nain&rsquo;s son &mdash; a scene Luke narrates in language that echoes this very chapter (Luke 7:11&ndash;17). The God who tells Elijah &ldquo;the life of this child came into him again&rdquo; is the same God who will declare of his own Son, raised from the dead, that death could not hold him. First Kings 17 is not merely a remarkable story; it is a chapter in the long narrative by which God reveals himself as the one who gives life to the dead.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying 1 Kings 17 Today",
+    reference: "1 Kings 17 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The opening scene of Elijah before Ahab carries a challenge for every generation of believers who live in the shadow of powerful cultural forces hostile to the God of Scripture. Ahab represents not merely individual wickedness but a whole system of cultural power organized around the worship of something other than the Lord. Elijah&rsquo;s word before Ahab was not delivered with diplomatic softness; it was a direct announcement that the Lord, not Baal, controls what the culture most depends on. Christians who take 1 Kings 17 seriously will ask themselves what it looks like to stand before the cultural powers of their moment with the quiet authority of those who stand before the Lord.",
+      "The season at Cherith is one of the most important images in the Bible for the formation of faith. Before Elijah&rsquo;s public confrontation on Carmel, there was a private season of utter dependence &mdash; a season in which no crowds heard him, no victories were celebrated, and the only evidence of God&rsquo;s faithfulness was bread in the morning and bread in the evening. Many Christians experience long seasons of hidden dependence that seem to have no purpose and produce no visible fruit. First Kings 17 suggests that these seasons are not wasted; they are formative. The character that sustains public faithfulness is built in private dependence.",
+      "The miracle of the flour and oil in Zarephath speaks to the nature of provision for those who trust God. The miracle was not dramatic or visible in the usual sense; it was quiet and domestic and daily. The jar did not overflow; it simply did not empty. The jug did not gush; it simply sustained. This is a picture of manna-provision &mdash; the kind of daily, unspectacular faithfulness that requires the receiver to trust God not for a stockpile but for sufficient supply each day. The Christian&rsquo;s prayer for daily bread (Matthew 6:11) reflects exactly this posture: not asking for abundance accumulated against future anxiety, but trusting for provision each day from a God who has already demonstrated his faithfulness.",
+      "The widow&rsquo;s act of giving her last food to Elijah before feeding herself and her son is one of the great acts of faith in the Old Testament. She had nothing to fall back on; she was acting entirely on the word of a stranger who claimed to speak for the God of Israel. Jesus commends this very widow in Luke 4 as a model of the faith that receives God&rsquo;s grace. For the church today, the widow&rsquo;s act is an image of the kind of generous, trusting giving that takes God at his word before it can verify the outcome. The woman who gave her last meal is the forerunner of the widow who gave her last two coins (Mark 12:41&ndash;44), and both are icons of the faith that releases what it has into God&rsquo;s hands.",
+      "Elijah&rsquo;s intercession over the dead boy &mdash; stretching himself over the child three times, praying with raw honesty (&ldquo;Have you brought calamity even upon the widow with whom I sojourn?&rdquo;) &mdash; is a model of intercessory prayer that does not prettify the situation. He did not pray polished prayers; he brought his bewilderment and his urgency to God. He persisted. He placed himself, physically and spiritually, between the death and the life he was asking God to give. This is the kind of prayer that the New Testament calls for from those who intercede for others &mdash; not formal petitions but the wrestling of a heart that has taken the need seriously enough to press it upon God without apology.",
+      "Finally, the resurrection of the widow&rsquo;s son points forward to the ultimate answer to the problem that death presents. When the widow says &ldquo;Now I know that the word of the Lord in your mouth is truth,&rdquo; she is confessing that the God who speaks through his prophet is the God who has power over death itself. The church today proclaims a gospel centered on a resurrection &mdash; not the temporary resuscitation of Zarephath but the permanent, death-defeating resurrection of Jesus, who &ldquo;was declared to be the Son of God in power according to the Spirit of holiness by his resurrection from the dead&rdquo; (Romans 1:4). First Kings 17 is the beginning of a biblical thread that reaches its culmination in the empty tomb, where the God who gave the widow&rsquo;s son back to her gave his own Son back to the world, and in doing so defeated death for all who are in him.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "BGd2WGS-2us", title: "BibleProject - Overview - 1 Kings 1-11" },
+  { videoId: "QHob2J5JHyg", title: "Elijah and the Widow of Zarephath - 1 Kings 17 Study" },
+  { videoId: "rjT_FrHQXFs", title: "Elijah the Prophet - Ministry and Miracles in 1 Kings" },
+  { videoId: "JU2sjkVx0lA", title: "Elijah and the Prophets of Baal at Mount Carmel" },
+];
+
+export default function OneKingsSeventeenGuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            1 Kings 17 &mdash; Elijah, the Widow, and the Son Raised to Life
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Elijah appears before Ahab and declares drought. Ravens feed him at the brook Cherith. The brook dries up and God sends him to a widow in Zarephath &mdash; her jar of flour and jug of oil do not run out through the famine. Then her son dies, and Elijah stretches himself over the boy and prays. The boy lives. &ldquo;Now I know that you are a man of God, and that the word of the Lord in your mouth is truth.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 1 Kings 17 through these video teachings on Elijah&rsquo;s confrontation with Ahab, the miracle at Cherith, the widow of Zarephath, and the resurrection of her son.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Word of the Lord in Your Mouth Is Truth</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            First Kings 17 reveals the God of Israel as the true lord of rain, provision, and life &mdash; not Baal. Elijah is formed in hiddenness at Cherith before his public ministry. A Gentile widow&rsquo;s faith in the word of an Israelite prophet is rewarded with daily provision and the life of her son. The chapter is a foretaste of the gospel&rsquo;s universal reach, and a picture of the God who gives life to the dead.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

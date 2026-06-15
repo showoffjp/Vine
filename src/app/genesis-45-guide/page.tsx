@@ -1,0 +1,209 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#0D9488";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Joseph Reveals Himself",
+  "Do Not Be Distressed",
+  "God Sent Me Before You",
+  "Come to Me in Egypt",
+  "Application",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Genesis 45",
+    reference: "Genesis 45:1&ndash;28",
+    paragraphs: [
+      "Genesis 45 is the emotional and theological climax of the Joseph narrative &mdash; perhaps the most moving scene in the book of Genesis and one of the most powerful moments of reconciliation in all of Scripture. After decades of separation, after the treachery of the pit, the years of slavery, the false accusation and the long imprisonment, after the testing of his brothers across two visits to Egypt, Joseph can no longer contain himself. He sends his Egyptian attendants out of the room and reveals himself to his brothers with tears that can be heard throughout the house of Pharaoh. &ldquo;I am Joseph! Is my father still alive?&rdquo; (45:3). The question that breaks the silence of more than twenty years asks not about the fate of his betrayers but about the welfare of his father. The first word of the reunion is an inquiry of love.",
+      "The chapter divides into four movements. First (vv. 1&ndash;3), the revelation itself: Joseph&rsquo;s self-disclosure, his brothers&rsquo; stunned dismay, his question about Jacob. Second (vv. 4&ndash;13), the interpretation: Joseph explains to his brothers that their act of selling him into Egypt was, within the sovereign purposes of God, the means by which God sent him ahead to preserve life &mdash; theirs, Egypt&rsquo;s, and the world&rsquo;s. He explicitly releases them from guilt and reframes what happened as God&rsquo;s providential design. Third (vv. 14&ndash;15), the embraces: Joseph falls on Benjamin&rsquo;s neck weeping, then kisses each of his brothers, and they speak together at last. Fourth (vv. 16&ndash;28), the practical outcome: Pharaoh hears and responds generously; the brothers are sent back to Canaan with wagons and provisions; Jacob is told and believes, and resolves to go see Joseph before he dies.",
+      "The theological center of the chapter is the three-times repeated declaration that God sent Joseph to Egypt (vv. 5, 7, 8). This is not a passive claim about what happened to Joseph; it is an active claim about what God did through what happened to Joseph. The brothers did not merely put Joseph in a pit &mdash; God was active in their action, directing it toward a purpose they could not see. The suffering was real; the betrayal was real; the injustice was real. But behind and through all of it, God was directing events toward a moment of preservation that would save not only the covenant family but the nations around them.",
+      "Genesis 45 is also a study in the grace of forgiveness. Joseph does not wait for his brothers to confess or apologize or make restitution before he reveals himself. He reveals himself first, weeps first, embraces first. The initiative in reconciliation belongs entirely to the one who was wronged. His brothers are dismayed before him (v. 3) &mdash; not repentant, not immediately relieved, but stunned and afraid. Joseph meets their fear not with accusation but with an interpretive gift: he gives them a theological framework within which to understand what they did, a framework that does not excuse the wrong but places it within a larger story of God&rsquo;s mercy. This is not cheap grace; it is costly grace offered freely by one who has suffered greatly.",
+      "The chapter also marks the completion of the brothers&rsquo; transformation. Through the testing of Genesis 42&ndash;44, they have been led to a place where Judah is willing to give his own life as a substitute for Benjamin (44:33). Joseph has seen enough of their character to know that they are not the same men who threw him into the pit. The forgiveness he extends is not naive; it is the forgiveness of one who has watched his brothers become different men, and who now offers them a future that is shaped by grace rather than judgment. The story of Israel is a story of family forged in failure and restored by grace.",
+      "Looking toward the New Testament, Genesis 45 carries unmistakable typological resonances with the gospel. Joseph, rejected by his brothers, sold for silver, becoming through his suffering the savior of the world &mdash; this is a pattern that the New Testament writers recognized as pointing toward Jesus. The tearful self-revelation &mdash; &ldquo;I am Joseph&rdquo; &mdash; echoes in the encounter of the risen Christ with Mary, with the disciples on the road to Emmaus, with Thomas. In every case the one who was rejected and suffered reveals himself to those who had abandoned him, and the revelation is one of grace, not retribution. The gospel is the story of the one God sent before us to preserve our life, now making himself known to us with tears.",
+    ],
+  },
+  {
+    id: "Joseph Reveals Himself",
+    heading: "Joseph Reveals Himself",
+    reference: "Genesis 45:1&ndash;3",
+    paragraphs: [
+      "The moment of revelation is triggered by the speech of Judah in Genesis 44 &mdash; the most eloquent and self-sacrificial speech in the entire Joseph narrative, in which Judah offers to remain as Joseph&rsquo;s slave in place of Benjamin. Judah has become a different man from the one who proposed selling Joseph to the Midianites. He is now willing to bear the weight of his father&rsquo;s grief and to substitute himself for his brother. Joseph, who has been watching his brothers through interpreters and through a series of carefully designed tests, has now seen enough. The man who once sold his brother has become the man who will give himself for his brother. The transformation is complete.",
+      "&ldquo;Then Joseph could not control himself before all those who stood by him. He cried, &lsquo;Make everyone go out from me.&rsquo; So no one stayed with him when Joseph made himself known to his brothers&rdquo; (45:1). The verb translated &ldquo;control himself&rdquo; suggests the restraint of a powerful emotion that can no longer be contained &mdash; a breaking through of what has been held back through all the careful, strategic management of the preceding chapters. Joseph has been in control throughout Genesis 42&ndash;44: controlling the interrogations, the grain distribution, the seating at table, the hidden silver and the planted cup. Now control is gone. The emotion is stronger than the strategy. He sends everyone else out, and in the privacy of that moment, Joseph and his brothers are alone for the first time since the day at the pit.",
+      "&ldquo;And he wept aloud, so that the Egyptians heard it, and the household of Pharaoh heard it&rdquo; (45:2). The weeping is loud &mdash; not quiet, not contained, not private in the sense of soft and controlled. It is the weeping of a man who has held everything together for years and now lets it all out. The sound of it carries through the palace walls. The entire household of Pharaoh, the courts of the most powerful ruler in the world, hear the sobbing of the prime minister of Egypt. What causes that sound is not grief in the ordinary sense but the explosion of relief, love, longing, and release that comes when a wound that has been carried for more than twenty years finally begins to heal.",
+      "&ldquo;And Joseph said to his brothers, &lsquo;I am Joseph! Is my father still alive?&rsquo; But his brothers could not answer him, for they were dismayed at his presence&rdquo; (45:3). The Hebrew word translated &ldquo;dismayed&rdquo; is bahal &mdash; a word that means to be terrified, to be thrown into sudden alarm. The brothers are not simply surprised; they are afraid. Twenty-plus years of guilt have not left them, and now the one they wronged stands before them as the second most powerful man in Egypt, with the power of life and death in his hands. Their inability to speak is not merely the silence of shock; it is the silence of men who feel, in this moment, the full weight of what they did.",
+      "Joseph&rsquo;s first words after his name are a question about Jacob: &ldquo;Is my father still alive?&rdquo; The brothers have already answered this question in the course of the interrogations &mdash; they have reported multiple times that their father is an old man, still living. But the question here is not an information request; it is a cry of the heart. Joseph has been separated from his father for more than twenty years. Every time the brothers mentioned Jacob in the preceding chapters, Joseph was moved &mdash; he had to leave the room to weep when they spoke of their father and the grief of losing Joseph. Now that the dam has broken, the first thing that comes out is not an accusation but a longing: is my father still alive? The revelation of himself flows immediately into love for the one he has missed most.",
+      "The scene is carefully crafted to hold together revelation and vulnerability, power and grief, the formal and the deeply personal. Joseph is the most powerful man his brothers have ever stood before. And yet in this moment he is weeping so loudly that the palace can hear him, and asking about his father with the vulnerability of a child. The revelation of himself is a revelation of his heart &mdash; and what is in his heart, after all that happened, is not bitterness or resentment or the calculation of revenge, but love for his father and, it will become clear, love for the very brothers who wronged him.",
+    ],
+  },
+  {
+    id: "Do Not Be Distressed",
+    heading: "Do Not Be Distressed",
+    reference: "Genesis 45:4&ndash;5",
+    paragraphs: [
+      "Joseph sees his brothers&rsquo; dismay and does something remarkable: he moves toward them. &ldquo;So Joseph said to his brothers, &lsquo;Come near to me, please.&rsquo; And they came near. And he said, &lsquo;I am your brother, Joseph, whom you sold into Egypt&rsquo;&rdquo; (45:4). The invitation to come near is an act of mercy in itself. The brothers are frozen with terror; Joseph calls them closer. He does not stand at a safe distance and deliver a verdict; he draws them in. The physical movement &mdash; brothers drawing near to the brother they sold &mdash; enacts something about the nature of the reconciliation itself: it is an approach, a closing of the distance that the betrayal had opened.",
+      "The second identification &mdash; &ldquo;I am your brother, Joseph, whom you sold into Egypt&rdquo; &mdash; is different from the first. The first was simply &ldquo;I am Joseph.&rdquo; This one names the relationship and the wrong in the same breath: your brother, whom you sold. Joseph does not pretend the event did not happen. He does not smooth over the wrong in his eagerness for reconciliation. He names what they did with calm, clear precision &mdash; &ldquo;whom you sold into Egypt&rdquo; &mdash; and yet he names it without accusation, without the anger that would be entirely understandable. The naming of the wrong is in service of the gift that follows: a theological interpretation that will free the brothers from the crushing weight of what they did.",
+      "&ldquo;And now do not be distressed or angry with yourselves because you sold me here, for God sent me before you to preserve life&rdquo; (45:5). The turn of the sentence is one of the most theologically loaded moments in Genesis. Joseph has just named the wrong: you sold me. Now he says: do not be distressed or angry with yourselves because of it. He is not excusing what they did or declaring it acceptable. He is something rarer and more astonishing: he is releasing them from the crippling self-condemnation that their guilt might produce. He does not want his brothers to spend the rest of their lives crushed under the weight of what they did to him. He offers them freedom from that weight, not because the wrong was small, but because God was larger than the wrong.",
+      "The prohibition against being distressed and angry &mdash; directed at the brothers themselves, not at Joseph &mdash; is an act of pastoral care as much as it is an act of forgiveness. Joseph has been through the suffering they caused. He knows the cost of what happened. And having come through it to the other side, his primary concern in this moment is not to vindicate himself or to watch his brothers suffer the guilt they deserve. His concern is their welfare. He looks at the terror on their faces and his instinct is to release them. This is an extraordinary portrait of what mature, God-centered forgiveness looks like: it is other-directed even in the moment of the wronged person&rsquo;s greatest emotional release.",
+      "The phrase &ldquo;for God sent me before you to preserve life&rdquo; is not an explanation that minimizes what the brothers did; it is a theological truth that sets what they did within a larger frame. God&rsquo;s sending and the brothers&rsquo; selling are held together in the same verse without contradiction. Both are true simultaneously: they sold him, and God sent him. The brothers&rsquo; act was guilty; the outcome was God&rsquo;s purpose. The text does not resolve this into a simple formula. It simply holds both statements together and lets the mystery of divine providence stand: God is able to work through the guilty acts of human beings toward ends that they could not see and did not intend, without thereby excusing those acts or removing their moral weight.",
+      "The promise to preserve life that Joseph announces at the end of verse 5 points forward to the full explanation he will give in the verses that follow. The word &ldquo;life&rdquo; here is not merely biological survival; in the context of the covenant promises to Abraham, Isaac, and Jacob, it includes the survival of the covenant family through whom God has promised to bless all the nations of the earth. The famine that threatens to destroy the family of Jacob is also a threat to the entire trajectory of God&rsquo;s redemptive purposes. Joseph standing as prime minister of Egypt, positioned to distribute grain, is God&rsquo;s answer to that threat &mdash; an answer that began with a treacherous act by jealous brothers twenty-plus years earlier.",
+    ],
+  },
+  {
+    id: "God Sent Me Before You",
+    heading: "God Sent Me Before You",
+    reference: "Genesis 45:6&ndash;9",
+    paragraphs: [
+      "Joseph now gives his brothers the full theological interpretation of his story, repeating three times in four verses the claim that God sent him. &ldquo;For the famine has been in the land these two years, and there are yet five years in which there will be neither plowing nor harvest. And God sent me before you to preserve for you a remnant on earth, and to keep alive for you many survivors&rdquo; (45:6&ndash;7). The first sending (v. 5) was to preserve life in a general sense; the second sending (v. 7) is specifically for the covenant family &mdash; to preserve &ldquo;a remnant on earth&rdquo; and &ldquo;many survivors.&rdquo; The language of remnant is significant: it is the vocabulary of God&rsquo;s faithfulness to his covenant people through catastrophe. God preserves a remnant even when everything seems to be threatening the whole.",
+      "The third statement of the sending is the most comprehensive: &ldquo;So it was not you who sent me here, but God. He has made me a father to Pharaoh, and lord of all his house and ruler over all the land of Egypt&rdquo; (45:8). The emphatic negation &mdash; &ldquo;it was not you who sent me here, but God&rdquo; &mdash; does not erase the brothers&rsquo; agency or their guilt. It asserts that behind and through their act, God was the one who was truly at work. This is the doctrine of divine providence at its most daring: God is not merely present in the good that happens; he is sovereignly directing even the evil acts of sinful human beings toward his saving purposes, without thereby becoming the author of their sin.",
+      "The titles Joseph gives himself &mdash; &ldquo;a father to Pharaoh, and lord of all his house and ruler over all the land of Egypt&rdquo; &mdash; serve a rhetorical purpose in the speech. Joseph is not boasting; he is underscoring the magnitude of what God has done and the resources now available to his family. The same God who allowed Joseph to be thrown into a pit has made him the man who dispenses bread to the world. The same God who allowed him to be sold as a slave has given him authority over the household of the world&rsquo;s most powerful ruler. The contrast between the pit and the palace, between the slave and the ruler, is the measure of God&rsquo;s sovereign purpose working through the whole sequence of events.",
+      "Joseph urges his brothers to act quickly: &ldquo;Hurry and go up to my father and say to him, &lsquo;Thus says your son Joseph, God has made me lord of all Egypt. Come down to me; do not tarry. You shall dwell in the land of Goshen, and you shall be near me, you and your children and your children&rsquo;s children, and your flocks, your herds, and all that you have. There I will provide for you, for there are yet five years of famine to come, so that you and your household, and all that you have, do not come to poverty&rsquo;&rdquo; (45:9&ndash;11). The urgency is pastoral and practical: five more years of famine remain. The family needs to move now.",
+      "The offer of Goshen is significant. Goshen is not merely a place of refuge; it is a fertile district in the eastern Nile Delta where sheep and cattle can graze. Joseph is not offering his family a marginal existence on the edges of Egyptian society; he is offering them the best available land, near enough for him to provide for them personally, good enough for their flocks and herds to thrive. The settlement in Goshen will become the context for the growth of Israel from a family into a nation &mdash; the &ldquo;four hundred and thirty years&rdquo; of Egypt that will eventually lead to the Exodus. Joseph&rsquo;s gift of land for his family is not merely a personal act of generosity; it is the setting of the stage for the next great act of God&rsquo;s covenant history.",
+      "The repeated emphasis on God&rsquo;s sending &mdash; three times in four verses &mdash; is designed to do something specific in the brothers&rsquo; hearts. Joseph wants them to go back to Canaan and to Jacob not merely as men who have been forgiven by their brother but as men who have been given a new interpretive framework for their own history. They did not merely sell a brother and get away with it; they were unknowing participants in a divine plan of rescue that exceeded anything they could have imagined. The guilt they carry is real, but it is guilt that God has woven into a story of grace. Joseph&rsquo;s theology does not eliminate their responsibility; it places it within a narrative of redemption that is larger than their sin.",
+    ],
+  },
+  {
+    id: "Come to Me in Egypt",
+    heading: "Come to Me in Egypt",
+    reference: "Genesis 45:9&ndash;28",
+    paragraphs: [
+      "The practical section of the chapter (vv. 9&ndash;28) unfolds in two movements: the sending of the brothers back to Canaan (vv. 9&ndash;24) and the reception of the news by Jacob (vv. 25&ndash;28). Joseph&rsquo;s instructions to his brothers are detailed and urgent: go quickly, tell my father that God has made me lord of all Egypt, come down to me without delay, bring the whole family and everything they own, and settle in Goshen where I can provide for them during the five remaining years of famine. The man who once lay at the bottom of a dry cistern while his brothers ate bread is now the man who will feed his entire family for five years from the storehouses of Egypt.",
+      "Before the brothers leave, two deeply human scenes take place. First, Joseph falls on the neck of his brother Benjamin &mdash; his full brother, the only other son of Rachel &mdash; and weeps. And Benjamin weeps on his neck. Then Joseph kisses all his brothers and weeps over them, and after that his brothers talk with him. The sequence is important: embrace first, tears first, and only then conversation. The reconciliation is enacted in the body before it is expressed in words. The weeping that could be heard through the palace walls in verse 2 continues in these embraces. Joseph does not hold himself apart; he holds his brothers close, one after another, the very brothers who sold him.",
+      "Pharaoh hears the news and responds with characteristic generosity. &ldquo;When the report was heard in Pharaoh&rsquo;s house, &lsquo;Joseph&rsquo;s brothers have come,&rsquo; it pleased Pharaoh and his servants&rdquo; (45:16). Pharaoh tells Joseph to have his brothers take wagons from Egypt for their little ones and their wives and to bring their father and come. &ldquo;Do not be concerned about your goods, for the best of all the land of Egypt is yours&rdquo; (45:20). Pharaoh&rsquo;s welcome extends the scope of God&rsquo;s provision: not only has God made Joseph great in Egypt, but God has given Joseph favor before the ruler of Egypt so that Pharaoh himself commands the relocation of the whole covenant family and promises them the best of the land.",
+      "Joseph provides his brothers with wagons, with provisions for the journey, and with changes of clothing for each of them. To Benjamin he gives three hundred shekels of silver and five changes of clothing. To his father he sends ten male donkeys loaded with the good things of Egypt, and ten female donkeys loaded with grain, bread, and provision for Jacob on the journey. The generosity of the provision mirrors the generosity of the forgiveness. Joseph does not send his brothers away empty; he sends them with abundance. The extravagance of the gifts is the material expression of the extravagance of his love.",
+      "As the brothers leave, Joseph gives them a final word: &ldquo;Do not quarrel on the way&rdquo; (45:24). The command is both practical and ironic. Practical, because the journey back to Canaan will give the brothers ample opportunity to argue about what they have just experienced, to assign blame, to jostle over how to tell the story to their father. Ironic, because the last time they were together on a journey &mdash; the journey from Dothan &mdash; they threw Joseph into a pit. Joseph knows his brothers. He has watched them carefully through the testing of Genesis 42&ndash;44. He loves them enough to know their weaknesses, and he addresses those weaknesses directly as they leave. The word is a pastoral gift wrapped in a command.",
+      "The chapter ends with Jacob. When his sons tell him &ldquo;Joseph is still alive, and he is ruler over all the land of Egypt,&rdquo; the old man&rsquo;s heart goes numb. He does not believe them. But when he sees the wagons that Joseph sent to carry him, &ldquo;the spirit of their father Jacob revived. And Israel said, &lsquo;It is enough; Joseph my son is still alive. I will go and see him before I die&rsquo;&rdquo; (45:27&ndash;28). The wagons are the proof. The abundance that Joseph has sent is the evidence that cannot be fabricated by sons who still do not tell their father how Joseph came to be in Egypt. Jacob is revived. The man who said he would go down to Sheol mourning his son now says he will go to Egypt to see him. The word of resurrection &mdash; &ldquo;Joseph my son is still alive&rdquo; &mdash; revives the father who has been mourning for more than twenty years.",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Applying Genesis 45 Today",
+    reference: "Genesis 45 &mdash; For the Life of the Church",
+    paragraphs: [
+      "The most fundamental application of Genesis 45 is also the most radical: Joseph forgives before his brothers confess. He does not wait for them to make the first move, to grovel, to make restitution, or to offer an adequate apology. He cannot control himself; he reveals himself; he weeps; he draws them near; he releases them from guilt before any of them have said a word. The initiative belongs entirely to the one who was wronged. This is the pattern of the gospel: while we were still sinners, Christ died for us (Romans 5:8). Reconciliation does not wait for the offender to make himself worthy; it is offered by the one who was offended, from a position of power and love. The church that follows this pattern is the church that takes Genesis 45 seriously.",
+      "Joseph&rsquo;s theology of providence &mdash; &ldquo;God sent me before you&rdquo; &mdash; is one of the most powerful pastoral resources in all of Scripture for people who have suffered unjustly at the hands of others. It does not tell us that what was done to us was good or acceptable. It tells us that God is able to work through what was done to us toward purposes that we could not see at the time. The suffering was real. The betrayal was real. The injustice was real. And God was also real &mdash; present, active, directing even the evil actions of sinful people toward his saving purposes. This is not a formula for minimizing pain. It is a testimony about the kind of God we have: a God who is never absent even in the worst that human beings do to one another.",
+      "The three-times repeated claim that God sent Joseph also speaks to anyone who has experienced what feels like an abandonment by God in the midst of suffering. Joseph went into the pit, into slavery, into the dungeon, and at no point in those years does the text record Joseph receiving a word from God or being told that it would all work out. He had his early dreams and then silence. He had to live faithfully through thirteen years of suffering without a divine explanation or a promised timeline. The God who sent him did not explain himself until Genesis 45. The faith that sustains through suffering is not the faith that demands explanations; it is the faith that trusts the character of the God who has not yet said everything he intends to say.",
+      "Joseph&rsquo;s words &ldquo;do not be distressed or angry with yourselves&rdquo; model a dimension of forgiveness that is rarely discussed: the willingness to release the person you have forgiven from the crushing weight of their own guilt. When we forgive someone, we often do it while still leaving them to deal with the consequences of their own self-condemnation. Joseph goes further. He actively addresses his brothers&rsquo; self-directed anguish and tells them to let it go. He does not want them to spend the rest of their lives under the shadow of what they did to him. This is not enabling or excusing; it is the fullness of forgiveness, which extends not only to releasing the debt but to releasing the debtor from the internal prison of guilt that the debt created.",
+      "The picture of the whole family being gathered to Joseph in Goshen speaks to the gathered nature of the church as the family of God. Joseph does not merely forgive his brothers in a private, individual transaction; he gathers the whole family into one place, near him, provided for by him, sustained by his resources during the years of famine. The church is not a collection of individually forgiven individuals; it is a family gathered around the one who forgave them and provides for them. The five remaining years of famine require the whole family to be together and near Joseph. The age in which we live requires the whole family of God to be together and near Christ.",
+      "Finally, the image of Jacob revived by the news that Joseph is alive carries an unmistakable resonance with Easter. The father who has been mourning his son as dead is told that the son is alive and reigning. The old man&rsquo;s spirit revives; he says he will go to see his son before he dies. For the Christian reading this text after the resurrection, the echo is irresistible: the Father whose Son was given up for dead, delivered over to the hands of those who rejected and killed him, has received him back alive and exalted at his right hand. The news that &ldquo;Joseph my son is still alive&rdquo; is the type of which &ldquo;He is risen&rdquo; is the antitype. And as the wagons proved to Jacob that the news was true, the empty tomb, the appearances, the community of the Spirit-filled church prove to the world that the resurrection is not a story the disciples invented, but the central reality of the new creation.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "XqBTMsILkJ8", title: "BibleProject - Overview of Genesis Part 2 (Chapters 12-50)" },
+  { videoId: "pXGbMSLMnwk", title: "The Story of Joseph - Genesis 37 to 50 Overview" },
+  { videoId: "JuNmEv4R4pU", title: "Genesis 45 - Joseph Reveals Himself to His Brothers" },
+  { videoId: "K9mv2L5RMGU", title: "God Sent Me Before You - Providence in the Joseph Story" },
+];
+
+export default function Genesis45GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Genesis 45 &mdash; I Am Joseph
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Joseph can no longer control himself. He sends everyone out and weeps aloud &mdash; so loudly the household of Pharaoh hears it. &ldquo;I am Joseph! Is my father still alive?&rdquo; His brothers are dismayed. Then the word that changes everything: &ldquo;Do not be distressed or angry with yourselves because you sold me here, for God sent me before you to preserve life.&rdquo;
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Genesis 45 through these video teachings on Joseph&rsquo;s revelation to his brothers, God&rsquo;s sovereign providence through suffering, and the remarkable reconciliation that became the salvation of the covenant family.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>God Sent Me Before You to Preserve Life</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Genesis 45 is the climax of the Joseph story &mdash; a chapter about the God who works through the worst that human beings do to one another to accomplish purposes of mercy that neither the perpetrators nor the victim could have imagined. Joseph&rsquo;s words to his brothers are not a denial of the wrong they did; they are a testimony to the God who is larger than the wrong. The weeping, the embraces, the provision, the invitation to come &mdash; all of it flows from a heart that has been shaped by suffering into the likeness of a God who saves not by avoiding pain but by working through it.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -2188,6 +2188,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Genesis 41 Chapter": "genesis-41-guide",
   "Joseph Interprets Pharaoh Dreams": "genesis-41-guide",
   "Seven Years Famine Joseph": "genesis-41-guide",
+  "1 Kings 3 Chapter": "1-kings-3-guide",
+  "Solomon Asks for Wisdom": "1-kings-3-guide",
+  "Give Me Understanding Heart": "1-kings-3-guide",
+  "Genesis 45 Chapter": "genesis-45-guide",
+  "Joseph Reveals Himself Brothers": "genesis-45-guide",
+  "God Sent Me Ahead of You": "genesis-45-guide",
+  "2 Corinthians 5 Chapter": "2-corinthians-5-guide",
+  "Ambassadors for Christ Paul": "2-corinthians-5-guide",
+  "New Creation in Christ Paul": "2-corinthians-5-guide",
+  "1 Kings 17 Chapter": "1-kings-17-guide",
+  "Elijah Ravens and Brook": "1-kings-17-guide",
+  "Widow of Zarephath Elijah": "1-kings-17-guide",
 };
 
 
@@ -3186,6 +3198,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Luke 23 Chapter" },
   { label: "Acts 7 Chapter" },
   { label: "Genesis 41 Chapter" },
+  { label: "1 Kings 3 Chapter" },
+  { label: "Genesis 45 Chapter" },
+  { label: "2 Corinthians 5 Chapter" },
+  { label: "1 Kings 17 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

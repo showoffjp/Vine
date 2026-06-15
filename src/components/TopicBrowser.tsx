@@ -2260,6 +2260,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Numbers 13 Chapter": "numbers-13-guide",
   "Twelve Spies Canaan Caleb Joshua": "numbers-13-guide",
   "Grasshoppers Bad Report Promised Land": "numbers-13-guide",
+  "Deuteronomy 28 Chapter": "deuteronomy-28-guide",
+  "Blessings and Curses Obedience Moses": "deuteronomy-28-guide",
+  "Covenant Blessings Deuteronomy Law": "deuteronomy-28-guide",
+  "Luke 7 Chapter": "luke-7-guide",
+  "John Baptist Question Are You One": "luke-7-guide",
+  "Woman Anoints Jesus Feet Tears": "luke-7-guide",
+  "1 John 5 Chapter": "1-john-5-guide",
+  "Overcoming World Born of God Faith": "1-john-5-guide",
+  "Eternal Life Assurance Believers John": "1-john-5-guide",
+  "Revelation 3 Chapter": "revelation-3-guide",
+  "Letters Philadelphia Laodicea Church": "revelation-3-guide",
+  "Lukewarm Church Spit Out Mouth": "revelation-3-guide",
 };
 
 
@@ -3282,6 +3294,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "John 10 Chapter" },
   { label: "Genesis 6 Chapter" },
   { label: "Numbers 13 Chapter" },
+  { label: "Deuteronomy 28 Chapter" },
+  { label: "Luke 7 Chapter" },
+  { label: "1 John 5 Chapter" },
+  { label: "Revelation 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

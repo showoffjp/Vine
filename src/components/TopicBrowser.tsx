@@ -2800,6 +2800,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 2 Chapter": "daniel-2-guide",
   "Nebuchadnezzar Dream Statue Gold Silver Bronze Iron Daniel": "daniel-2-guide",
   "Stone Cut Without Hands Kingdom That Shall Never End Daniel": "daniel-2-guide",
+  "Mark 8 Chapter": "mark-8-guide",
+  "Feeding Four Thousand Leaven of Pharisees Mark 8": "mark-8-guide",
+  "Peter Confession Christ Take Up Your Cross Mark 8": "mark-8-guide",
+  "Isaiah 4 Chapter": "isaiah-4-guide",
+  "Branch of the LORD Beautiful Glorious Isaiah 4": "isaiah-4-guide",
+  "Cloud by Day Fire by Night Canopy Shelter Zion Isaiah": "isaiah-4-guide",
+  "Proverbs 11 Chapter": "proverbs-11-guide",
+  "False Balance Abomination Just Weight Delight Proverbs 11": "proverbs-11-guide",
+  "Generous Soul Made Rich Watered Also Himself Proverbs": "proverbs-11-guide",
+  "Daniel 4 Chapter": "daniel-4-guide",
+  "Nebuchadnezzar Dream of the Tree Madness Daniel 4": "daniel-4-guide",
+  "King Humbled Eats Grass Heaven Rules Daniel Restored": "daniel-4-guide",
 };
 
 
@@ -4002,6 +4014,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 3 Chapter" },
   { label: "Proverbs 10 Chapter" },
   { label: "Daniel 2 Chapter" },
+  { label: "Mark 8 Chapter" },
+  { label: "Isaiah 4 Chapter" },
+  { label: "Proverbs 11 Chapter" },
+  { label: "Daniel 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2740,6 +2740,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "John 21 Chapter": "john-21-guide",
   "Breakfast by the Sea Miraculous Catch Fish John": "john-21-guide",
   "Do You Love Me Feed My Sheep Peter Restored": "john-21-guide",
+  "Genesis 48 Chapter": "genesis-48-guide",
+  "Jacob Blesses Ephraim Manasseh Crossed Hands": "genesis-48-guide",
+  "Joseph Two Sons Adopted Israel Blessing Genesis": "genesis-48-guide",
+  "1 Kings 13 Chapter": "1-kings-13-guide",
+  "Man of God Cries Against Bethel Altar Jeroboam": "1-kings-13-guide",
+  "Disobedient Prophet Killed by Lion Kings": "1-kings-13-guide",
+  "1 Corinthians 14 Chapter": "1-corinthians-14-guide",
+  "Tongues and Prophecy Edify the Church Paul": "1-corinthians-14-guide",
+  "All Things Done Decently and in Order Worship": "1-corinthians-14-guide",
+  "Proverbs 4 Chapter": "proverbs-4-guide",
+  "Get Wisdom Get Insight Above All Else Proverbs": "proverbs-4-guide",
+  "Guard Your Heart Springs of Life Path Righteous": "proverbs-4-guide",
 };
 
 
@@ -3922,6 +3934,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 47 Chapter" },
   { label: "1 Kings 12 Chapter" },
   { label: "John 21 Chapter" },
+  { label: "Genesis 48 Chapter" },
+  { label: "1 Kings 13 Chapter" },
+  { label: "1 Corinthians 14 Chapter" },
+  { label: "Proverbs 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2596,6 +2596,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "John 18 Chapter": "john-18-guide",
   "Jesus Arrested Garden Peter Denies John": "john-18-guide",
   "Jesus Before Pilate My Kingdom Not of World": "john-18-guide",
+  "Matthew 15 Chapter": "matthew-15-guide",
+  "Tradition of Elders Defilement Heart Matthew": "matthew-15-guide",
+  "Canaanite Woman Great Faith Feeding Four Thousand": "matthew-15-guide",
+  "Genesis 29 Chapter": "genesis-29-guide",
+  "Jacob Meets Rachel Well Laban Genesis": "genesis-29-guide",
+  "Leah Rachel Jacob Married Sons Genesis": "genesis-29-guide",
+  "Acts 21 Chapter": "acts-21-guide",
+  "Paul Journeys Jerusalem Agabus Belt Prophecy": "acts-21-guide",
+  "Paul Arrested Temple Roman Tribune Acts": "acts-21-guide",
+  "John 19 Chapter": "john-19-guide",
+  "Behold the Man Pilate Crucifixion John": "john-19-guide",
+  "It Is Finished Jesus Dies Side Pierced John": "john-19-guide",
 };
 
 
@@ -3730,6 +3742,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Kings 1 Chapter" },
   { label: "Acts 19 Chapter" },
   { label: "John 18 Chapter" },
+  { label: "Matthew 15 Chapter" },
+  { label: "Genesis 29 Chapter" },
+  { label: "Acts 21 Chapter" },
+  { label: "John 19 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

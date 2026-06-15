@@ -2236,6 +2236,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Timothy 4 Chapter": "2-timothy-4-guide",
   "I Have Fought Good Fight Paul": "2-timothy-4-guide",
   "Paul Final Charge Timothy Preach": "2-timothy-4-guide",
+  "Psalm 119 Chapter": "psalm-119-guide",
+  "God Word Lamp Unto My Feet": "psalm-119-guide",
+  "Longest Psalm Scripture Meditation": "psalm-119-guide",
+  "Genesis 28 Chapter": "genesis-28-guide",
+  "Jacob Ladder Bethel Dream Angels": "genesis-28-guide",
+  "God Covenant Jacob Stairway Heaven": "genesis-28-guide",
+  "James 2 Chapter": "james-2-guide",
+  "Faith Without Works Is Dead James": "james-2-guide",
+  "Abraham Rahab Faith and Works": "james-2-guide",
+  "Revelation 20 Chapter": "revelation-20-guide",
+  "Millennium Thousand Years Satan Bound": "revelation-20-guide",
+  "Great White Throne Judgment Books": "revelation-20-guide",
 };
 
 
@@ -3250,6 +3262,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Ezra 3 Chapter" },
   { label: "1 Peter 2 Chapter" },
   { label: "2 Timothy 4 Chapter" },
+  { label: "Psalm 119 Chapter" },
+  { label: "Genesis 28 Chapter" },
+  { label: "James 2 Chapter" },
+  { label: "Revelation 20 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

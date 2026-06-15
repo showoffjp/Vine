@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#D97706";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Delight in God's Word",
+  "The Lamp and Light",
+  "Seeking God's Ways",
+  "Affliction and Growth",
+  "The Eternal Word",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Psalm 119",
+    reference: "Psalm 119:1&ndash;176",
+    paragraphs: [
+      "Psalm 119 stands alone in all of Scripture as the longest chapter in the Bible, stretching across 176 verses and organized as an elaborate acrostic poem in the Hebrew alphabet. Each of its twenty-two stanzas corresponds to a successive letter of the Hebrew alphabet, and each of the eight verses within every stanza begins with that same letter. This extraordinary structure is not a mere literary game; it is a declaration that praise and meditation on God&rsquo;s Word is as complete and comprehensive as the alphabet itself &mdash; that from aleph to taw, from beginning to end, the whole range of human experience finds its meaning in God&rsquo;s revealed truth.",
+      "The central subject of the psalm is the Torah &mdash; the instruction, law, word, and testimony of God. Eight synonyms for God&rsquo;s Word appear throughout the psalm in a steady, almost liturgical rotation: law (torah), word (dabar), precepts (piqqudim), statutes (chuqqim), commandments (mitzvot), decrees (edot), ordinances (mishpatim), and promises (imrah). In virtually every one of the 176 verses, at least one of these terms appears. The psalmist is not obsessed with legalistic rules; he is overwhelmed by the glory of a God who speaks, who reveals himself, and who calls his people into life-giving relationship through his Word.",
+      "The psalm does not read as the work of a man who has lived a comfortable, trouble-free life. Throughout its stanzas the psalmist speaks of persecution by princes and powerful enemies, of being a stranger in the earth, of almost perishing in affliction, of suffering that has driven him repeatedly to cry out to God for help and understanding. Yet through all of it his orientation remains unchanged: &ldquo;I have chosen the way of faithfulness; I set your rules before me&rdquo; (119:30). The joy and delight he finds in God&rsquo;s Word is not the joy of one who has never suffered but of one who has found God&rsquo;s Word sufficient in the midst of suffering.",
+      "Most scholars believe the psalm comes from the post-exilic period, though its precise authorship is unknown. It breathes the air of a community for whom the written scriptures have become the central means of encounter with God, now that the Temple and the monarchy are no longer at the center of national life. The psalm teaches that God&rsquo;s Word is not merely a set of rules to obey but a living companion to walk with, a lamp to see by, a comfort to return to in distress, and a source of joy that surpasses all earthly treasure.",
+      "To read Psalm 119 slowly and attentively is to be drawn into a conversation with a soul who has found in God&rsquo;s Word everything that the human heart longs for: direction in confusion, comfort in grief, light in darkness, strength in weakness, and the incomparable joy of knowing and being known by the living God. It is a psalm for a lifetime &mdash; and many who have prayed it regularly for decades find that its depths have still not been exhausted.",
+    ],
+  },
+  {
+    id: "Delight in God's Word",
+    heading: "Delight in God's Word",
+    reference: "Psalm 119:14&ndash;16, 47&ndash;48, 97&ndash;103, 111&ndash;112, 162&ndash;163",
+    paragraphs: [
+      "One of the most striking and countercultural features of Psalm 119 is its insistence on delight. The psalmist does not merely tolerate God&rsquo;s commands or submit to them grudgingly as an external constraint &mdash; he delights in them. &ldquo;I delight in the way of your testimonies&rdquo; (119:14); &ldquo;I will delight in your statutes; I will not forget your word&rdquo; (119:16); &ldquo;I delight in your commandments, which I love&rdquo; (119:47). The language of delight, love, and longing runs through the psalm like a refrain, reframing the whole relationship between the believer and God&rsquo;s revealed will.",
+      "The psalmist compares his delight in God&rsquo;s Word to the delight of finding great spoil: &ldquo;I rejoice at your word like one who finds great spoil&rdquo; (119:162). This is the joy of unexpected abundance, the exhilaration of discovering treasure where none was expected. In another place he declares that God&rsquo;s words are sweeter to his palate than honey: &ldquo;How sweet are your words to my taste, sweeter than honey to my mouth!&rdquo; (119:103). These are not the images of a man performing a duty; they are the images of a man who has tasted something extraordinary and cannot stop returning to it.",
+      "The stanza beginning with the Hebrew letter mem (vv. 97&ndash;104) is perhaps the most famous passage in the psalm on this theme: &ldquo;Oh how I love your law! It is my meditation all the day&rdquo; (119:97). The psalmist claims that this continuous meditation on God&rsquo;s Word has made him wiser than his enemies, given him more insight than all his teachers, and made him more understanding than the aged. This is not arrogance; it is testimony to the transformative power of a mind habitually nourished by divine wisdom. The Word does not merely inform &mdash; it forms the person who dwells in it.",
+      "It is important to understand what the psalmist means when he speaks of delight. He is not speaking of a feeling that arrives automatically or that can be conjured up by willpower. Rather, the delight is the fruit of a practice &mdash; specifically, the practice of meditation. The Hebrew word for meditate (hagah) denotes a low murmuring, the sound of a person reading aloud to themselves and turning words over in the mouth. The delight is the result of slow, repeated, attentive engagement with the text, not a quick read that passes over the surface. The psalmist&rsquo;s delight is the delight of the person who has lingered long enough to taste what is there.",
+      "The psalm also shows that delight in God&rsquo;s Word is not diminished but deepened by suffering. In the stanza of ayin (vv. 121&ndash;128), the psalmist cries out for God&rsquo;s intervention in his distress, but even in that cry he declares: &ldquo;Therefore I love your commandments above gold, above fine gold&rdquo; (119:127). And in the stanza of pe (vv. 129&ndash;136), weeping over those who do not keep God&rsquo;s law, he nonetheless returns to the theme of longing: &ldquo;I open my mouth and pant, because I long for your commandments&rdquo; (119:131). Affliction has not cooled his love; it has intensified it, because in affliction he has found God&rsquo;s Word to be the one constant in an unstable world.",
+      "The delight that Psalm 119 describes is ultimately a relational delight. The psalmist is not enamored with an abstract legal code; he is in love with the God who speaks. Every statute and decree is a word from the living God, and the psalmist knows that to delight in the word is to draw near to the one who spoke it. &ldquo;You are my portion, O Lord!&rdquo; (119:57) &mdash; this is the ground of all his delight. Because God himself is his treasure, God&rsquo;s words are precious beyond all earthly wealth.",
+    ],
+  },
+  {
+    id: "The Lamp and Light",
+    heading: "Your Word Is a Lamp to My Feet",
+    reference: "Psalm 119:105, 130",
+    paragraphs: [
+      "The most quoted verse of Psalm 119 is almost certainly verse 105: &ldquo;Your word is a lamp to my feet and a light to my path.&rdquo; This simple, luminous image has become one of the defining metaphors of the biblical understanding of Scripture&rsquo;s role in human life. It is worth dwelling on carefully, because the image says more than is often noticed. The lamp is not a floodlight that illuminates the landscape to the horizon; it is the kind of lamp carried by a traveler at night, giving enough light to see the next step, and then the step after that, without necessarily revealing the destination.",
+      "The image is personal and practical. The psalmist is not making an abstract claim about the epistemological authority of Scripture; he is making a deeply personal testimony about navigation in a dark world. He has been a traveler in a dark land &mdash; surrounded by enemies, beset by affliction, uncertain of the way forward &mdash; and he has found that God&rsquo;s Word has provided what he needed: not all the answers, but enough light for the next step. This is a different claim than many modern readers bring to the verse, and it is a more honest and ultimately more comforting one.",
+      "The companion verse, 119:130, extends the image: &ldquo;The unfolding of your words gives light; it imparts understanding to the simple.&rdquo; The word &ldquo;unfolding&rdquo; or &ldquo;entrance&rdquo; (Hebrew: pethach, opening) suggests that light comes as the Word is opened &mdash; as it is read, heard, received, and entered into. The light is not static but dynamic; it comes in the act of engaging with the text. And it is given specifically to the simple &mdash; not the learned, not the powerful, not those who have achieved some advanced spiritual state, but the humble, the open, the willing to receive.",
+      "The light metaphor in Psalm 119 is part of a broader pattern in Scripture. The Torah is described in Proverbs 6:23 as a &ldquo;lamp&rdquo; and &ldquo;light.&rdquo; The prophet Isaiah speaks of the servant of the Lord as a &ldquo;light to the nations&rdquo; (42:6). The Gospel of John opens with the declaration that the Word of God &mdash; the Logos made flesh in Jesus &mdash; is the &ldquo;true light, which gives light to everyone&rdquo; (John 1:9). The lamp of Psalm 119 finds its ultimate fulfillment in the one who declared, &ldquo;I am the light of the world. Whoever follows me will not walk in darkness, but will have the light of life&rdquo; (John 8:12). The lamp of God&rsquo;s Word is, in its fullest expression, the person of Jesus Christ.",
+      "For the original hearers of the psalm, the image of a lamp at night would have carried immediate resonance. Ancient Palestine was genuinely dark at night; travel was dangerous and disorienting without light. The oil lamp &mdash; small, precious, requiring constant care and refueling &mdash; was an essential tool for anyone moving in darkness. The psalmist is saying that God&rsquo;s Word is not a luxury or an ornament but a survival necessity for the person who must navigate a world that has lost its way. Without it, we stumble; with it, we can walk.",
+      "The practical implication of the lamp metaphor is not passive; a lamp must be lit and carried. The psalmist does not simply possess God&rsquo;s Word in the abstract &mdash; he meditates on it, prays over it, treasures it in his heart (119:11), runs in the way of God&rsquo;s commandments (119:32), and clings to God&rsquo;s testimonies (119:31). The lamp must be carried. The light is given in the act of walking with the Word, not in setting it on a shelf and admiring it from a distance.",
+    ],
+  },
+  {
+    id: "Seeking God's Ways",
+    heading: "Seeking God Wholeheartedly",
+    reference: "Psalm 119:1&ndash;10, 145&ndash;152",
+    paragraphs: [
+      "The opening stanza of Psalm 119 &mdash; the aleph stanza (vv. 1&ndash;8) &mdash; announces the psalm&rsquo;s governing vision in its very first verses: &ldquo;Blessed are those whose way is blameless, who walk in the law of the Lord! Blessed are those who keep his testimonies, who seek him with their whole heart&rdquo; (119:1&ndash;2). The double blessing that opens the psalm connects the blameless life with wholehearted seeking of God. This is not the description of a perfected saint but of a soul whose fundamental orientation &mdash; whose whole heart &mdash; is turned toward the living God.",
+      "The word &ldquo;wholehearted&rdquo; (Hebrew: kol-lev, the whole heart) is a recurring motif in Psalm 119 and in the Hebrew scriptures more broadly. It contrasts with the divided heart that is so often condemned in the prophets &mdash; the heart that serves God with one portion while reserving another portion for idols, for worldly security, for self-interest. The whole heart is the heart that has been unified in its allegiance, that does not try to serve two masters. The psalmist&rsquo;s prayer in verse 10 is both an affirmation and a plea: &ldquo;With my whole heart I seek you; let me not wander from your commandments.&rdquo;",
+      "Seeking God in Psalm 119 is not primarily a mystical quest for inner experience; it is a practical orientation of life toward God&rsquo;s revealed will. The psalmist seeks God by seeking God&rsquo;s statutes, by walking in God&rsquo;s commandments, by meditating on God&rsquo;s precepts. The Word is the primary medium through which the living God is encountered, obeyed, and known. This does not collapse into mere moralism, because the seeking is relational at its core &mdash; the psalmist is seeking a Person, not merely a code &mdash; but the relationship is expressed through and shaped by engagement with the written Word.",
+      "The qoph stanza (vv. 145&ndash;152) shows the psalmist&rsquo;s seeking at its most urgent: &ldquo;With my whole heart I cry; answer me, O Lord! I will keep your statutes. I call to you; save me, that I may observe your testimonies. I rise before dawn and cry for help; I hope in your words. My eyes are awake before the watches of the night, that I may meditate on your promise&rdquo; (119:145&ndash;148). This is a picture of a man who does not wait for convenient hours to seek God but who rises before dawn, who cries out in the night watches, whose whole heart is engaged in the pursuit of God&rsquo;s presence and promise.",
+      "The psalmist&rsquo;s wholehearted seeking is marked by three practical habits that recur throughout the psalm. First, prayer: he cries out to God constantly, asking for understanding, help, deliverance, and the grace to keep God&rsquo;s Word. Second, meditation: he turns God&rsquo;s words over in his mind throughout the day and night, allowing them to sink into his consciousness and shape his perspective. Third, obedience: he is committed to walking in what God has revealed, not merely knowing it. These three habits form a pattern of wholehearted discipleship that is not a ladder to merit but a response of love to a God who has already spoken and already acted.",
+      "Perhaps the most remarkable aspect of the psalmist&rsquo;s seeking is its persistence in the face of discouragement. Again and again he confesses that he has strayed and needs to be brought back; again and again he cries out for help when his resolve falters. &ldquo;I have gone astray like a lost sheep; seek your servant, for I do not forget your commandments&rdquo; (119:176) &mdash; these are the psalm&rsquo;s final words, and they are the words of a man who knows both his wandering and his longing. Wholehearted seeking does not mean sinless perfection; it means returning, again and again, to the God who waits to be found.",
+    ],
+  },
+  {
+    id: "Affliction and Growth",
+    heading: "Affliction as Teacher",
+    reference: "Psalm 119:67, 71, 75, 92&ndash;93",
+    paragraphs: [
+      "One of the most theologically profound themes in Psalm 119 is the relationship between suffering and spiritual formation. The psalmist does not avoid the reality of affliction or explain it away; he faces it directly and draws from it a remarkable conclusion: &ldquo;It is good for me that I was afflicted, that I might learn your statutes&rdquo; (119:71). This is not the forced cheerfulness of someone trying to look on the bright side; it is the considered reflection of a person who has been through the fire and come out knowing something he could not have known otherwise.",
+      "Two adjacent verses in the yod stanza lay out the pattern clearly. First, the before: &ldquo;Before I was afflicted I went astray, but now I keep your word&rdquo; (119:67). The psalmist is honest that his affliction was, at least in part, the fruit of his own wandering &mdash; he had strayed from God&rsquo;s ways, and the affliction turned him back. Then, the conclusion: &ldquo;It is good for me that I was afflicted&rdquo; (119:71). He is not saying that suffering is pleasant or that God delights in pain. He is saying that the affliction accomplished what nothing else had managed to accomplish: it drove him back to God&rsquo;s Word and secured a faithfulness that prosperity had not produced.",
+      "Verse 75 goes further in a direction that requires deep faith to receive: &ldquo;I know, O Lord, that your rules are righteous, and that in faithfulness you have afflicted me.&rdquo; The word &ldquo;faithfulness&rdquo; here (Hebrew: emunah) is striking. The psalmist does not merely accept his affliction as an unavoidable fact of life in a broken world; he reads it as an expression of God&rsquo;s faithfulness. The God who afflicts him is the God who is committed to his wholeness and growth, the God who loves him too much to leave him comfortably straying. Affliction in this frame is not divine abandonment but divine commitment.",
+      "The naph stanza (vv. 92&ndash;93) provides a window into the emotional reality of the psalmist&rsquo;s suffering: &ldquo;If your law had not been my delight, I would have perished in my affliction. I will never forget your precepts, for by them you have given me life.&rdquo; These are the words of a man who has genuinely come close to the edge &mdash; who has been in a place where survival was not certain &mdash; and who credits God&rsquo;s Word with keeping him alive. The delight he has cultivated in God&rsquo;s statutes has not been a fair-weather hobby; it has been a lifeline.",
+      "The testimony of Psalm 119 about affliction is not that God causes every specific suffering as a precise punishment for a specific sin, or that suffering is always immediately instructive. The psalmist experiences affliction from enemies who persecute him without cause (119:86), and he cries out to God for vindication and deliverance. The relationship between suffering and growth is neither mechanical nor simple. But the overall testimony is consistent: those who are anchored in God&rsquo;s Word find that affliction, whatever its cause, can become the occasion for deeper roots, greater dependence on God, and a more unshakeable trust in his faithfulness.",
+      "The Christian reader finds in Psalm 119&rsquo;s testimony on affliction a deep resonance with the New Testament&rsquo;s teaching. The apostle Paul writes, &ldquo;We rejoice in our sufferings, knowing that suffering produces endurance, and endurance produces character, and character produces hope&rdquo; (Romans 5:3&ndash;4). James opens his letter: &ldquo;Count it all joy, my brothers, when you meet trials of various kinds, for you know that the testing of your faith produces steadfastness&rdquo; (James 1:2&ndash;3). The psalmist arrived at this same wisdom centuries earlier, not through theological reasoning but through lived experience &mdash; the experience of a man who went astray, was afflicted, and came home.",
+    ],
+  },
+  {
+    id: "The Eternal Word",
+    heading: "Forever, O Lord, Your Word Is Firmly Fixed",
+    reference: "Psalm 119:89&ndash;96, 152, 160",
+    paragraphs: [
+      "The lamedh stanza (vv. 89&ndash;96) stands at the very center of Psalm 119 &mdash; literally so, being the twelfth of twenty-two stanzas &mdash; and it announces what may be the psalm&rsquo;s most foundational claim: &ldquo;Forever, O Lord, your word is firmly fixed in the heavens&rdquo; (119:89). The word translated &ldquo;firmly fixed&rdquo; (Hebrew: nitsav) carries the sense of something standing upright, immovable, planted like a pillar. God&rsquo;s word does not evolve, does not expire, does not bend to the shifting winds of human opinion or the passage of time. It stands in heaven as surely and permanently as the Lord himself.",
+      "The psalmist grounds this claim in creation: &ldquo;Your faithfulness endures to all generations; you have established the earth, and it stands fast&rdquo; (119:90). The reliability of the physical creation &mdash; the sunrise and sunset, the seasons, the faithful turning of the world &mdash; is evidence of the faithfulness of the God who created it and who sustains it by his word. &ldquo;By your appointment they stand to this day, for all things are your servants&rdquo; (119:91). Creation is obedient to the word of God; the heavens and the earth keep their appointed ways; and this cosmic faithfulness is a parable and a guarantee of the faithfulness of God&rsquo;s word to his people.",
+      "Two later verses reinforce the theme with crisp simplicity. Verse 152: &ldquo;Long have I known from your testimonies that you have founded them forever.&rdquo; The psalmist is not making a philosophical argument; he is reporting an experiential discovery. He has known for a long time &mdash; through reading, meditating, testing, and living &mdash; that God&rsquo;s word has an eternal foundation. It has not failed him in crisis; it has not proven false under examination; it has borne the weight of his life. Verse 160 opens with a comprehensive declaration: &ldquo;The sum of your word is truth, and every one of your righteous rules endures forever.&rdquo; Not some of it; the sum of it. Not most of the rules; every one.",
+      "The significance of the word&rsquo;s eternality is not merely theoretical. For the psalmist, who lives in a world of enemies, affliction, and uncertainty, the permanence of God&rsquo;s word is a personal comfort and a practical anchor. Human institutions rise and fall; kingdoms come and go; the promises of powerful people prove hollow; the wisdom of the age is overturned by the next generation. But the word of the Lord &ldquo;stands firm in the heavens&rdquo; above all of this. To build one&rsquo;s life on God&rsquo;s word is to build on something that cannot be shaken.",
+      "This theme finds its fullest expression in Jesus&rsquo;s teaching. In the Sermon on the Mount he declared: &ldquo;Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them. For truly, I say to you, until heaven and earth pass away, not an iota, not a dot, will pass from the Law until all is accomplished&rdquo; (Matthew 5:17&ndash;18). The eternal word of Psalm 119 is ultimately the eternal Word that &ldquo;became flesh and dwelt among us&rdquo; (John 1:14) &mdash; the living Word who is the same yesterday and today and forever (Hebrews 13:8).",
+      "The church has always found in the eternality of God&rsquo;s word a source of confidence for mission in a changing world. Cultures shift, technologies transform human life, empires rise and collapse &mdash; but the word that went out from the mouth of God does not return empty (Isaiah 55:11). The psalmist who sang of God&rsquo;s word standing firm in the heavens could not have imagined the digital age or the global spread of the scriptures, but his faith would have found its deepest confirmation there. The word that was fixed in the heavens in his day is still fixed there, still reaching into every generation, still accomplishing the purposes for which God sent it.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "PK9bMGrSXeA", title: "Psalm 119 - The Longest Chapter in the Bible Explained" },
+  { videoId: "m7Xq3R8bWkY", title: "BibleProject - Overview of Psalms: Book 5" },
+  { videoId: "Lv4nR6QkT9s", title: "Meditating on God's Word - A Study of Psalm 119" },
+  { videoId: "Wr2dJpN8cFm", title: "Psalm 119 Verse by Verse - God's Word as Lamp and Light" },
+];
+
+export default function Psalm119GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            Old Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Psalm 119 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The longest chapter in the Bible &mdash; an acrostic poem of 176 verses celebrating God&rsquo;s Word as the lamp for life&rsquo;s journey, the source of delight deeper than honey, the eternal anchor that stands firm in the heavens, and the faithful companion through every affliction and trial.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Psalm 119 through these video teachings on the longest chapter in the Bible &mdash; God&rsquo;s Word as lamp, delight, eternal anchor, and the faithful companion through every season of life.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Your Word Is a Lamp to My Feet</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Psalm 119 invites every generation into a lifelong love of God&rsquo;s Word &mdash; not as a legal burden but as a lamp, a delight, a living companion that gives wisdom to the simple, comfort to the afflicted, and an anchor that holds firm when everything else is shifting. The God who spoke has not fallen silent, and his word that was fixed in the heavens still illuminates the path of those who seek him with their whole heart.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

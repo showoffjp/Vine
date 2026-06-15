@@ -2788,6 +2788,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 9 Chapter": "proverbs-9-guide",
   "Wisdom Has Built Her House Seven Pillars Proverbs 9": "proverbs-9-guide",
   "Folly Calls Stolen Water Sweet Proverbs 9 Contrast": "proverbs-9-guide",
+  "Mark 7 Chapter": "mark-7-guide",
+  "Tradition of Elders Defilement Heart Mark 7": "mark-7-guide",
+  "Syrophoenician Woman Deaf Man Ephphatha Mark": "mark-7-guide",
+  "Isaiah 3 Chapter": "isaiah-3-guide",
+  "Judgment on Jerusalem Leaders Daughters of Zion Isaiah": "isaiah-3-guide",
+  "Lord Enters Judgment Elders Princes Spoil Poor Isaiah": "isaiah-3-guide",
+  "Proverbs 10 Chapter": "proverbs-10-guide",
+  "Wise Son Glad Father Solomon Proverbs of Proverbs 10": "proverbs-10-guide",
+  "Mouth of Righteous Fountain of Life Hatred Love Proverbs": "proverbs-10-guide",
+  "Daniel 2 Chapter": "daniel-2-guide",
+  "Nebuchadnezzar Dream Statue Gold Silver Bronze Iron Daniel": "daniel-2-guide",
+  "Stone Cut Without Hands Kingdom That Shall Never End Daniel": "daniel-2-guide",
 };
 
 
@@ -3986,6 +3998,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 16 Chapter" },
   { label: "Isaiah 2 Chapter" },
   { label: "Proverbs 9 Chapter" },
+  { label: "Mark 7 Chapter" },
+  { label: "Isaiah 3 Chapter" },
+  { label: "Proverbs 10 Chapter" },
+  { label: "Daniel 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2548,6 +2548,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Kings 7 Chapter": "1-kings-7-guide",
   "Solomon Palace Bronze Sea Two Pillars Temple": "1-kings-7-guide",
   "Hiram Bronze Work Temple Furnishings Kings": "1-kings-7-guide",
+  "Matthew 10 Chapter": "matthew-10-guide",
+  "Twelve Apostles Sent Out Sheep Among Wolves": "matthew-10-guide",
+  "Not Peace But Sword Take Up Cross Follow": "matthew-10-guide",
+  "Romans 14 Chapter": "romans-14-guide",
+  "Weak in Faith Disputable Matters Do Not Judge": "romans-14-guide",
+  "Each Stand or Fall Own Master Kingdom Romans": "romans-14-guide",
+  "Luke 9 Chapter": "luke-9-guide",
+  "Feeding Five Thousand Luke Twelve Baskets": "luke-9-guide",
+  "Transfiguration Luke Moses Elijah Peter": "luke-9-guide",
+  "1 Kings 9 Chapter": "1-kings-9-guide",
+  "God Appears Solomon Second Time Covenant": "1-kings-9-guide",
+  "Solomon Cities Forced Labor Ships Ophir Gold": "1-kings-9-guide",
 };
 
 
@@ -3666,6 +3678,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Romans 13 Chapter" },
   { label: "Psalm 63 Chapter" },
   { label: "1 Kings 7 Chapter" },
+  { label: "Matthew 10 Chapter" },
+  { label: "Romans 14 Chapter" },
+  { label: "Luke 9 Chapter" },
+  { label: "1 Kings 9 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

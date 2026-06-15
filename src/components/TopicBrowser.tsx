@@ -2680,6 +2680,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 8 Chapter": "1-corinthians-8-guide",
   "Food Sacrificed to Idols Knowledge Puffs Up Love": "1-corinthians-8-guide",
   "Weak Conscience Stumbling Block Brother Paul": "1-corinthians-8-guide",
+  "Luke 20 Chapter": "luke-20-guide",
+  "Render to Caesar Wicked Tenants Vineyard Luke": "luke-20-guide",
+  "Resurrection Question Sadducees David Lord Luke": "luke-20-guide",
+  "Acts 28 Chapter": "acts-28-guide",
+  "Paul Malta Viper Shipwreck Healings Acts": "acts-28-guide",
+  "Paul Arrives Rome Preaches Kingdom Boldly": "acts-28-guide",
+  "Genesis 43 Chapter": "genesis-43-guide",
+  "Brothers Return Egypt Benjamin Joseph Feast": "genesis-43-guide",
+  "Judah Surety Benjamin Joseph Weeps Genesis": "genesis-43-guide",
+  "1 Corinthians 9 Chapter": "1-corinthians-9-guide",
+  "Paul Rights as Apostle Forgo Reward Gospel": "1-corinthians-9-guide",
+  "All Things to All People Run to Win Prize": "1-corinthians-9-guide",
 };
 
 
@@ -3842,6 +3854,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Genesis 42 Chapter" },
   { label: "Acts 27 Chapter" },
   { label: "1 Corinthians 8 Chapter" },
+  { label: "Luke 20 Chapter" },
+  { label: "Acts 28 Chapter" },
+  { label: "Genesis 43 Chapter" },
+  { label: "1 Corinthians 9 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

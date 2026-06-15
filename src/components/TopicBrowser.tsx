@@ -2632,6 +2632,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Corinthians 5 Chapter": "1-corinthians-5-guide",
   "Expel the Immoral Brother Church Discipline Paul": "1-corinthians-5-guide",
   "Cleanse Out the Old Leaven Christ Our Passover": "1-corinthians-5-guide",
+  "Luke 16 Chapter": "luke-16-guide",
+  "Parable of the Shrewd Dishonest Manager Luke": "luke-16-guide",
+  "Rich Man and Lazarus Abraham Bosom Luke": "luke-16-guide",
+  "2 Kings 18 Chapter": "2-kings-18-guide",
+  "Hezekiah Reforms Bronze Serpent Trust Lord": "2-kings-18-guide",
+  "Sennacherib Rabshakeh Threatens Jerusalem Assyria": "2-kings-18-guide",
+  "Acts 24 Chapter": "acts-24-guide",
+  "Paul Before Felix Tertullus Accusation Defense": "acts-24-guide",
+  "Felix Trembles Righteousness Self-Control Judgment": "acts-24-guide",
+  "1 Corinthians 6 Chapter": "1-corinthians-6-guide",
+  "Lawsuits Among Believers Judge Angels Paul": "1-corinthians-6-guide",
+  "Body Temple of Holy Spirit Flee Immorality": "1-corinthians-6-guide",
 };
 
 
@@ -3778,6 +3790,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Kings 17 Chapter" },
   { label: "Acts 23 Chapter" },
   { label: "1 Corinthians 5 Chapter" },
+  { label: "Luke 16 Chapter" },
+  { label: "2 Kings 18 Chapter" },
+  { label: "Acts 24 Chapter" },
+  { label: "1 Corinthians 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

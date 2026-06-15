@@ -1,0 +1,179 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#3B82F6";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Great Catch of Fish",
+  "Healing and Calling",
+  "New Wine New Wineskins",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Luke 5",
+    reference: "Luke 5:1&ndash;39",
+    paragraphs: [
+      "Luke 5 is one of the most densely packed chapters in the Gospels &mdash; a sustained sequence of episodes that together build a portrait of Jesus as healer, teacher, forgiver, and the inaugurator of something so radically new that old categories cannot contain it. The chapter moves from a lakeside scene of miraculous abundance, through two dramatic healings, into a festive dinner that scandalizes the religious establishment, and closes with the parable of new wine and old wineskins. Every episode builds on the one before, and by the end the reader has watched Jesus gather the first of his disciples, demonstrate authority over disease and sin alike, and announce the nature of the kingdom he is bringing.",
+      "The chapter opens at Lake Gennesaret &mdash; the Sea of Galilee &mdash; where crowds are pressing upon Jesus to hear the word of God. Luke&rsquo;s detail about the crowd pressing in captures the atmosphere: people are hungry for what Jesus is saying, pressing so close that normal conversation is impossible. Jesus solves the problem by borrowing Simon&rsquo;s boat and pushing out from the shore, using the water as a natural amphitheater. It is a small detail, but characteristic of Luke&rsquo;s Jesus &mdash; practical, attentive, resourceful, always teaching.",
+      "After the miraculous catch of fish and the calling of Simon, James, and John, the chapter turns to healing. A leper approaches &mdash; an act of extraordinary boldness given the strict purity codes that required lepers to keep their distance and announce their own uncleanness. His words to Jesus are a model of faith that does not presume: &ldquo;Lord, if you will, you can make me clean&rdquo; (v.12). Jesus&rsquo; response &mdash; both words and touch &mdash; is equally striking: &ldquo;I will; be clean.&rdquo; The touch of an unclean person would normally defile; here the reverse happens, and the man is instantly cleansed.",
+      "The healing of the paralytic brought by his friends through a roof introduces a new dimension: Jesus&rsquo; claim to forgive sins. The scribes and Pharisees, for the first time in Luke, appear as observers whose theological objections frame Jesus&rsquo; actions. Their charge of blasphemy is not unreasonable on their own terms &mdash; only God can forgive sins, and Jesus is claiming to do exactly that. Jesus&rsquo; response is to prove his authority through the visible healing of the paralytic: &ldquo;that you may know that the Son of Man has authority on earth to forgive sins.&rdquo;",
+      "The calling of Levi at his tax booth and the subsequent feast broaden the conflict with the religious establishment. Tax collectors were despised figures in first-century Jewish society &mdash; collaborators with Rome who typically enriched themselves at their neighbors&rsquo; expense. That Jesus not only calls Levi as a disciple but reclines at table with a houseful of tax collectors and &ldquo;sinners&rdquo; is deeply offensive to the Pharisees and their scribes. But Jesus&rsquo; answer is definitive and programmatic: &ldquo;I have not come to call the righteous but sinners to repentance&rdquo; (v.32).",
+      "The chapter&rsquo;s final movement addresses the question of fasting, and Jesus answers with two parables &mdash; the wedding garment and the new wine in old wineskins &mdash; that point to the radical newness of what he is inaugurating. The disciples of John the Baptist fast; the disciples of the Pharisees fast; but Jesus&rsquo; disciples are feasting, because they are wedding guests in the presence of the bridegroom. The time for fasting will come &mdash; when the bridegroom is taken away &mdash; but that time is not now. What Jesus is bringing cannot be patched onto the old order; it requires entirely new containers.",
+    ],
+  },
+  {
+    id: "The Great Catch of Fish",
+    heading: "The Great Catch of Fish",
+    reference: "Luke 5:1&ndash;11",
+    paragraphs: [
+      "The story of the miraculous catch of fish is Luke&rsquo;s account of how Simon Peter and his partners were first called to follow Jesus. Luke has already mentioned Simon in 4:38&ndash;39, where Jesus healed his mother-in-law &mdash; so the two men are not strangers when this scene unfolds. What Luke gives us here is not a first encounter but the moment of definitive calling, set against the backdrop of an ordinary workday that suddenly becomes extraordinary.",
+      "Simon and his partners have been fishing all night without catching anything. This is not a detail to pass over lightly: professional fishermen on Galilee knew their craft, worked the best hours for fishing (the night), and came up empty. They have already given up for the day and are washing their nets &mdash; the final task before going home to sleep &mdash; when Jesus finishes his lakeside teaching and turns his attention to Simon. &ldquo;Put out into the deep and let down your nets for a catch&rdquo; (v.4).",
+      "Simon&rsquo;s response reveals the inner tension of a man who is wrestling between experience and deference: &ldquo;Master, we toiled all night and took nothing! But at your word I will let down the nets&rdquo; (v.5). The title he uses, &ldquo;Master&rdquo; (epistates in Greek), is significant &mdash; it is a word of respect and authority, but not yet the full confession of &ldquo;Lord&rdquo; that will come moments later. Simon obeys reluctantly, on the strength of Jesus&rsquo; word alone. And what happens staggers him: such a large catch that the nets begin to break and both boats begin to sink.",
+      "It is the catch of fish that breaks Simon. Not a sermon, not a healing, but a supernatural abundance of fish in the middle of the morning, after an exhausted night of failure. The gap between what Simon&rsquo;s experience told him was possible and what actually happened in the presence of Jesus was too large to process. He falls to Jesus&rsquo; knees and cries out: &ldquo;Depart from me, for I am a sinful man, O Lord!&rdquo; (v.8). This is the moment when &ldquo;Master&rdquo; becomes &ldquo;Lord&rdquo; &mdash; and it comes not through theological reflection but through an overwhelming encounter with power and holiness.",
+      "Simon&rsquo;s response echoes the pattern of prophetic call narratives throughout the Old Testament. Isaiah, confronted with the holiness of God in the Temple, cried, &ldquo;Woe is me! For I am lost; for I am a man of unclean lips&rdquo; (Isaiah 6:5). The experience of genuine divine presence consistently produces a sense of one&rsquo;s own unworthiness. Peter is not performing false modesty; he is experiencing what always happens when a finite, sinful human being encounters the unbounded holiness of God. His instinct is to push Jesus away, because that holiness is too much for him.",
+      "Jesus&rsquo; response to Simon&rsquo;s confession is not to grant the request for distance but to name his future: &ldquo;Do not be afraid; from now on you will be catching men&rdquo; (v.10). The Greek is vivid &mdash; the same word &ldquo;catch&rdquo; used for fish is now applied to people, but with a key difference: fish are caught for death, but the people Simon will catch will be caught for life. The miraculous haul of fish was a sign, not of what the fishing industry would hold for Simon, but of what the kingdom of God would look like through him. When the boats reached shore, the text records simply: &ldquo;they left everything and followed him&rdquo; (v.11). No negotiation, no hesitation. Everything.",
+    ],
+  },
+  {
+    id: "Healing and Calling",
+    heading: "Healing and Calling",
+    reference: "Luke 5:12&ndash;32",
+    paragraphs: [
+      "Luke 5:12&ndash;32 weaves together three distinct episodes &mdash; the cleansing of the leper, the healing of the paralytic, and the calling of Levi &mdash; that together develop the portrait of Jesus as the one who restores outcasts, forgives sinners, and calls the most unlikely people to discipleship. Each episode escalates the claims Luke is making about who Jesus is and what his mission entails.",
+      "The leper who approaches Jesus in verses 12&ndash;16 is taking a significant risk. Mosaic law required those with skin diseases categorized as &ldquo;leprosy&rdquo; (a broad term in the Old Testament encompassing various conditions) to live outside the community, announce their own uncleanness if anyone approached, and avoid all contact with others. His request is phrased with extraordinary theological precision: &ldquo;Lord, if you will, you can make me clean.&rdquo; He does not doubt Jesus&rsquo; power &mdash; he says &ldquo;you can.&rdquo; He holds open the question of Jesus&rsquo; will: &ldquo;if you will.&rdquo; This is not weak faith but honest faith, faith that trusts power without presuming on the will of God.",
+      "Jesus&rsquo; response is physical before it is verbal: &ldquo;he stretched out his hand and touched him&rdquo; (v.13). For a man who had not been touched in who knows how long, perhaps years, the touch of Jesus was itself a kind of healing before the words came. Then Jesus says: &ldquo;I will; be clean.&rdquo; The leprosy leaves &ldquo;immediately.&rdquo; Luke then notes that Jesus withdrew &ldquo;to desolate places and prayed&rdquo; (v.16) &mdash; a pattern in Luke of Jesus retreating to prayer precisely when his public ministry is generating its greatest intensity. The one who heals others knows how to seek the Father in the wilderness.",
+      "The healing of the paralytic in verses 17&ndash;26 is staged for theological drama. Pharisees and teachers of the law have gathered from every village of Galilee and Judea and from Jerusalem &mdash; a hint that Jesus&rsquo; reputation has drawn official scrutiny. Four men bring their paralyzed friend but cannot get through the crowd, so they go up on the roof, remove the tiles, and lower him on his mat before Jesus. Luke notes that Jesus &ldquo;saw their faith&rdquo; (v.20) &mdash; faith demonstrated by persistent, creative action when conventional access was blocked.",
+      "What Jesus says next is the hinge of the episode: &ldquo;Man, your sins are forgiven you&rdquo; (v.20). He does not say &ldquo;be healed.&rdquo; He addresses the deeper need first. The scribes and Pharisees immediately recognize what this implies: &ldquo;Who is this who speaks blasphemies? Who can forgive sins but God alone?&rdquo; (v.21). They are theologically correct that only God can forgive sin. The question is whether Jesus is a blasphemer making a false claim, or whether he is who he is implicitly claiming to be. Jesus addresses their inner reasoning, asks which is easier to say, and then heals the paralytic explicitly &ldquo;that you may know that the Son of Man has authority on earth to forgive sins&rdquo; (v.24). The visible miracle authenticates the invisible claim.",
+      "The calling of Levi in verses 27&ndash;32 moves from healing to inclusion. Tax collectors were among the most reviled members of first-century Jewish society &mdash; they had purchased the right to collect taxes from Rome, kept a percentage for themselves, and were seen as both traitors and extortioners. That Jesus would call one of them as a disciple, and then accept an invitation to recline at table in his house with a large crowd of tax collectors and &ldquo;sinners,&rdquo; is deliberately and publicly provocative. The Pharisees&rsquo; question &mdash; &ldquo;Why do you eat and drink with tax collectors and sinners?&rdquo; &mdash; frames Jesus&rsquo; reply: &ldquo;Those who are well have no need of a physician, but those who are sick. I have not come to call the righteous but sinners to repentance&rdquo; (vv.31&ndash;32). The mission is to the margins, to the lost, to those who know their need.",
+    ],
+  },
+  {
+    id: "New Wine New Wineskins",
+    heading: "New Wine and Old Wineskins",
+    reference: "Luke 5:33&ndash;39",
+    paragraphs: [
+      "The chapter&rsquo;s final section (5:33&ndash;39) addresses a question about fasting that conceals a deeper question about the nature of the kingdom Jesus is inaugurating. The disciples of John the Baptist fast regularly, as do the disciples of the Pharisees. But Jesus&rsquo; disciples are eating and drinking &mdash; feasting, in fact, at Levi&rsquo;s table. To observers shaped by the tradition of religious discipline and mourning, this looks like irresponsibility at best, irreverence at worst. Why are Jesus&rsquo; people not fasting?",
+      "Jesus answers with an image from celebration rather than religion: the wedding feast. &ldquo;Can you make wedding guests fast while the bridegroom is with them?&rdquo; (v.34). In Jewish tradition the wedding feast was the paradigmatic image of joy &mdash; a festive occasion on which fasting was explicitly forbidden. To fast at a wedding was not piety; it was an insult to the occasion. Jesus is saying that his presence with his disciples is exactly that kind of occasion: a wedding feast, a time of unrestrained joy, because the bridegroom himself is present.",
+      "But Jesus does not leave it there. He adds: &ldquo;The days will come when the bridegroom is taken away from them, and then they will fast in those days&rdquo; (v.35). This is a veiled but unmistakable reference to his death &mdash; the first hint in Luke&rsquo;s Gospel that the one who is being celebrated will also be taken by violence. The present feasting is not ignorance of what is coming; it is the appropriate response to the present reality of the bridegroom&rsquo;s presence. When he is gone, fasting will be appropriate. But not now.",
+      "Then follow two brief parables that press the point further. No one tears a piece of new cloth to patch an old garment &mdash; the new cloth will tear away the old, making things worse. No one puts new wine into old wineskins &mdash; the fermenting wine will burst the rigid old skins, and both the wine and the skins will be lost. New wine requires new wineskins. Jesus is not a reformer patching up the existing religious system; he is inaugurating something so new that the old forms cannot contain it.",
+      "What are the &ldquo;old wineskins&rdquo;? They are not the Old Testament itself, which Jesus explicitly came to fulfill (Matthew 5:17). They are the accumulated traditions, the system of purity regulations and fasting schedules and ritual boundaries that had developed around the Torah but had in many cases displaced or distorted it. More broadly, they represent any attempt to pour the life of the Spirit and the grace of the new covenant into forms that were designed for a different era and a different work of God. The forms themselves were not wrong in their time; they simply cannot stretch to hold what God is now doing.",
+      "The final verse is often overlooked but is theologically pointed: &ldquo;And no one after drinking old wine desires new, for he says, &lsquo;The old is good&rsquo;&rdquo; (v.39). This is Jesus acknowledging the natural conservatism of those who are comfortable in the old forms. Those who have drunk deeply of one tradition do not easily desire something new &mdash; they are satisfied with what they have. This is not a rebuke; it is a recognition of a deep human reality. The tragedy is that those most shaped by the old ways &mdash; the scribes, the Pharisees, the experts in the law &mdash; are precisely the ones least positioned to receive what Jesus is offering. They are full of old wine. The new wine of the kingdom is for those who know their emptiness: sinners, tax collectors, fishermen who have toiled all night and caught nothing.",
+      "Taken together, the episodes of Luke 5 form a coherent whole. The miraculous catch of fish, the cleansing of the leper, the forgiveness of the paralytic, the calling of Levi, the feast with sinners, and the parables of new wine all point in the same direction: Jesus is doing something unprecedented, calling unexpected people, healing those society had written off, forgiving what only God can forgive, and bringing a joy so new that the old categories strain and finally burst at their seams. The invitation of Luke 5 is to leave the empty nets, leave the tax booth, leave the old wineskins, and follow the one who is making all things new.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "F5rMBT1JFzI", title: "Luke 5 - Peter's Call and the Miraculous Catch" },
+  { videoId: "2RIXhP8CTBU", title: "Healing the Paralytic - Luke 5 Explained" },
+  { videoId: "MQsTSGy6X5E", title: "New Wine and Old Wineskins - What Did Jesus Mean?" },
+  { videoId: "r8gbYv_8wHY", title: "Levi's Calling and the Feast with Sinners - Luke 5" },
+];
+
+export default function Luke5GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Luke 5
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Peter&rsquo;s call from the miraculous catch of fish, the healing of a leper and a paralytic, the calling of Levi, a feast with sinners, and the parable of new wine in old wineskins &mdash; Jesus gathering the unlikely and inaugurating something too new for old containers.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section style={{ marginTop: "3rem" }}>
+          <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+          <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+            Deepen your study of Luke 5 through visual teaching on Peter&rsquo;s miraculous catch of fish, the healings of the leper and paralytic, the calling of Levi, and the meaning of new wine in old wineskins.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {videoItems.map((v) => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <VideoEmbed videoId={v.videoId} title={v.title} />
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Leave Everything and Follow Him</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Luke 5 presents a Jesus who seeks out those whom the religious world had dismissed &mdash; the exhausted fisherman, the untouchable leper, the paralyzed man lowered through a roof, the collaborator at his tax booth &mdash; and calls them into something so new that old wineskins cannot hold it. The invitation of this chapter is still extended: leave the empty nets, confess your sinfulness, and follow the one who catches men for life, heals the outcast with a touch, and forgives what only God can forgive.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

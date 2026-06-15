@@ -1,0 +1,180 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Walk in Love and Light",
+  "Be Filled with the Spirit",
+  "Marriage and the Gospel",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Ephesians 5",
+    reference: "Ephesians 5:1&ndash;33",
+    paragraphs: [
+      "Ephesians 5 stands at the center of Paul&rsquo;s great letter as the place where the breathtaking theological vision of the first three chapters meets the most intimate and demanding dimensions of daily life. The chapter moves from the call to imitate God as beloved children (v.1) through the positive imperatives of walking in love and light, to the interior life of the Spirit-filled community, and finally to the most extended treatment of Christian marriage in the New Testament. Every section is governed by the controlling analogy: the relationship between Christ and the church.",
+      "The chapter does not begin with a new subject. It flows directly from the end of chapter 4, where Paul has been speaking about putting off the old self and putting on the new. The opening &ldquo;therefore&rdquo; of verse 1 (implied in the Greek &ldquo;Be imitators of God&rdquo;) ties what follows to what Paul has said about the new humanity created in Christ. To walk in love as Christ loved us (v.2) is to enact in the present what was accomplished in the past &mdash; the self-giving of Christ as a fragrant offering and sacrifice to God.",
+      "The ethical content of the chapter is organized around three great &ldquo;walk&rdquo; commands: walk in love (v.2), walk as children of light (v.8), and walk carefully as wise people (v.15). These three imperatives structure the entire first half of the chapter and provide the framework within which the warnings about sexual immorality, covetousness, crude speech, and drunkenness are set. The negative warnings are not the main point; they define the territory that must be left behind in order to walk in the positive direction Paul is pointing.",
+      "The latter half of the chapter (vv.22&ndash;33) has generated more commentary and controversy than almost any passage in Paul&rsquo;s letters. The household code that Paul introduces here &mdash; addressing wives and husbands, children and parents, slaves and masters across chapters 5 and 6 &mdash; was a recognized literary form in the ancient world, but Paul fills it with an entirely new content. The relationship between husband and wife is not merely analogized to the relationship between Christ and the church; it is said to be a participation in that mystery. The great mystery (v.32) that Paul quotes from Genesis 2:24 is not merely about human marriage but about Christ and the church.",
+      "Throughout Ephesians 5 the reader must keep in view the entire theological arc of the letter. Paul has spoken in chapters 1&ndash;3 about the Father&rsquo;s eternal purpose, the Son&rsquo;s cosmic achievement, and the Spirit&rsquo;s sealing and empowering work. Chapter 5 shows what life looks like when that Trinitarian reality has taken root in a community of believers. The Spirit fills, the Son is the model, and the Father receives the worship of thanksgiving that the Spirit-filled community offers. Ephesians 5 is not ethics added on to theology &mdash; it is theology embodied in the texture of everyday life.",
+    ],
+  },
+  {
+    id: "Walk in Love and Light",
+    heading: "Walk in Love and Light",
+    reference: "Ephesians 5:1&ndash;14",
+    paragraphs: [
+      "Paul opens with an astonishing imperative: &ldquo;Therefore be imitators of God, as beloved children&rdquo; (v.1). To imitate God is not the hubris of a creature seeking to overreach its creaturely status; it is the calling of a beloved child who is meant to reflect the Father&rsquo;s character. Immediately Paul focuses this imitation: &ldquo;And walk in love, as Christ loved us and gave himself up for us, a fragrant offering and sacrifice to God&rdquo; (v.2). The model of love is not an abstract principle but a concrete historical act &mdash; Christ&rsquo;s self-giving death, described in the language of Old Testament sacrifice as an aroma pleasing to God. Christian love has a cruciform shape from the very beginning.",
+      "The next verses (3&ndash;7) move to a series of sharp negatives, but the negative is framed by the positive standard of verse 2. Sexual immorality, covetousness, and filthiness must not even be &ldquo;named among you, as is proper among saints&rdquo; (v.3). The language is precise: not merely not practiced but not named, not treated as a live option, not normalized in conversation. The standard Paul sets is not merely legal avoidance but the entire orientation of a community whose identity is shaped by Christ&rsquo;s self-sacrifice. In place of filthiness, foolish talk, and crude joking, Paul calls for &ldquo;thanksgiving&rdquo; (v.4) &mdash; a word that recurs throughout this letter as the characteristic speech of those who know what God has done.",
+      "The warning of verses 5&ndash;7 is sobering and demanding: &ldquo;For you may be sure of this, that everyone who is sexually immoral or impure, or who is covetous (that is, an idolater), has no inheritance in the kingdom of Christ and God&rdquo; (v.5). Paul identifies covetousness as idolatry &mdash; a stunning equation that exposes the spiritual root of what might look like merely a financial or material sin. To covet is to set the desire of the heart on something other than God; it is the worship of a substitute god. The empty words of deceivers who might suggest that such things are compatible with Christian life must not find a hearing (v.6); the wrath of God comes upon the sons of disobedience, and believers must not become partners with them (v.7).",
+      "The great positive counterpart arrives in verse 8: &ldquo;For at one time you were darkness, but now you are light in the Lord. Walk as children of light.&rdquo; Paul does not say the Ephesians were merely in darkness &mdash; they were darkness itself. The transformation is total. Now they are light in the Lord, and they are called to walk as what they already are. The fruit of light is defined as &ldquo;all that is good and right and true&rdquo; (v.9), and the calling is to &ldquo;try to discern what is pleasing to the Lord&rdquo; (v.10) &mdash; an active, ongoing exercise of moral and spiritual perception.",
+      "Verse 11 introduces the surprising vocation of exposure: &ldquo;Take no part in the unfruitful works of darkness, but instead expose them.&rdquo; The community of light does not merely refrain from darkness; it shines into it and reveals it for what it is. Paul acknowledges (v.12) that some of what is done in secret is too shameful to speak of directly, but the light of Christ exposes it, reveals its true character, and transforms what it touches. The catechetical fragment of verses 13&ndash;14 is perhaps a fragment of an early Christian hymn: &ldquo;Awake, O sleeper, and arise from the dead, and Christ will shine on you.&rdquo; It may have been used in connection with baptism &mdash; the moment when a person crosses from darkness to light, from the sleep of death to the waking life of resurrection.",
+      "The connection between walking in love and walking in light is not incidental. In Johannine theology (and clearly Paul shares this framework) love and light belong together: to walk in darkness is to hate your brother; to walk in the light is to love him. In Ephesians 5 the specific content of the love that walks in light is cruciform self-giving, the love of verse 2 that gave itself up as a fragrant sacrifice. The exposing work of light is not the harshness of judgment but the transforming, healing work of truth spoken in love. Ephesians 4:15 and 5:8&ndash;14 belong together: speaking the truth in love and walking as children of light are two descriptions of the same Spirit-shaped life.",
+    ],
+  },
+  {
+    id: "Be Filled with the Spirit",
+    heading: "Be Filled with the Spirit",
+    reference: "Ephesians 5:15&ndash;21",
+    paragraphs: [
+      "The third great walk command arrives in verse 15: &ldquo;Look carefully then how you walk, not as unwise but as wise, making the best use of the time, because the days are evil&rdquo; (vv.15&ndash;16). The language of wisdom echoes the wisdom literature of the Old Testament; to walk wisely is to order one&rsquo;s life in accordance with the true reality of the world as God has ordered it. Paul adds the eschatological pressure: the days are evil. The community lives in a moment of cosmic urgency where the time must be redeemed, bought back, used with intentionality because of the hostile character of the present age.",
+      "The contrast between folly and wisdom is then cashed out in terms of what fills you: &ldquo;Do not get drunk with wine, for that is debauchery, but be filled with the Spirit&rdquo; (v.18). The comparison is not merely rhetorical. In the ancient world, religious ecstasy and divine inspiration were sometimes sought through wine and intoxicants. Paul is drawing a sharp line: the Christian community does not find its transcendence, its sense of elevation, its corporate joy in wine but in the Spirit of God. The grammar of the verb is significant &mdash; &ldquo;be filled&rdquo; is passive (the Spirit fills, not us), plural (addressed to the community, not just the individual), and present continuous (an ongoing state, not a one-time event).",
+      "What does Spirit-filling look like in practice? Paul gives an immediate answer in verses 19&ndash;20, and the description is communal and worshipful: &ldquo;addressing one another in psalms and hymns and spiritual songs, singing and making melody to the Lord with your heart, giving thanks always and for everything to God the Father in the name of our Lord Jesus Christ.&rdquo; The Spirit-filled community is a singing community. The word addressed to one another and the song addressed to the Lord are two dimensions of the same Spirit-shaped life. Note that Paul says &ldquo;giving thanks always and for everything&rdquo; (v.20) &mdash; not just for pleasant circumstances but for everything, in the confidence that God is sovereign over all things and works all things together for good.",
+      "Verse 21 is one of the most significant pivots in the chapter: &ldquo;submitting to one another out of reverence for Christ.&rdquo; This verse is both the conclusion of the Spirit-filling section and the introduction to the household code that follows. The mutual submission of verse 21 is the overarching principle within which all the specific relationships of the household code are to be understood. Wives and husbands, children and parents, slaves and masters &mdash; all of these relationships are expressions of the community-wide posture of mutual submission that flows from being filled with the Spirit and standing in reverence before Christ.",
+      "The Spirit-filling passage (vv.18&ndash;21) is often read in isolation from its context, as if it were a freestanding instruction about worship or charismatic experience. But Paul embeds it in the walk-in-wisdom section (vv.15&ndash;17) and immediately connects it to the household relationships (vv.22&ndash;33). To be filled with the Spirit is not primarily about subjective ecstasy; it is about the transformation of the ordinary structures of human life &mdash; marriage, family, work &mdash; by the reality of Christ. The singing, the thanksgiving, and the submission of verses 19&ndash;21 are not separate from the marriage teaching of verses 22&ndash;33; they are its inner animating spring.",
+      "There is a striking parallel here with Colossians 3:16&ndash;18, where Paul gives an almost identical set of instructions (letting the word of Christ dwell richly, singing, giving thanks) that lead into the same household code. The parallel suggests that for Paul the word of Christ and the Spirit of Christ are closely related means by which the community is shaped for its life together. To be filled with the Spirit and to let the word of Christ dwell richly are two sides of the same transforming work, producing in the community the same fruit of song, gratitude, and ordered love.",
+    ],
+  },
+  {
+    id: "Marriage and the Gospel",
+    heading: "Marriage and the Gospel",
+    reference: "Ephesians 5:22&ndash;33",
+    paragraphs: [
+      "The household code that begins in verse 22 is introduced without a separate verb in the Greek &mdash; the verb &ldquo;submitting&rdquo; from verse 21 carries forward into verse 22. This grammatical fact is theologically significant: the wife&rsquo;s submission to her husband is not a free-standing rule imposed from outside but a specific application of the community-wide mutual submission of verse 21. It flows from being filled with the Spirit and from standing in reverence before Christ. The first address is to wives: &ldquo;Wives, submit to your own husbands, as to the Lord. For the husband is the head of the wife even as Christ is the head of the church, his body, and is himself its Savior&rdquo; (vv.22&ndash;23).",
+      "The analogy Paul draws is not merely illustrative. He is not saying the marriage relationship is like the Christ-church relationship in the way that two similar things might resemble each other. He is saying that the marriage relationship participates in the Christ-church relationship &mdash; that the husband-wife bond is a real, if creaturely, instantiation of the bond between Christ and his people. This is why the address to husbands (vv.25&ndash;33) is so much longer and more demanding than the address to wives. The husband&rsquo;s headship is defined entirely by the pattern of Christ&rsquo;s self-giving love, and Christ&rsquo;s love for the church is the most demanding standard conceivable.",
+      "&ldquo;Husbands, love your wives, as Christ loved the church and gave himself up for her&rdquo; (v.25). The headship Paul calls husbands to exercise is not domination or superiority; it is cruciform service. The love that is commanded is the love of verse 2 &mdash; the love that gives itself as a fragrant offering and sacrifice. Paul then specifies the purpose of Christ&rsquo;s self-giving: &ldquo;that he might sanctify her, having cleansed her by the washing of water with the word, so that he might present the church to himself in splendor, without spot or wrinkle or any such thing, that she might be holy and without blemish&rdquo; (vv.26&ndash;27). The husband&rsquo;s love is oriented toward the flourishing and holiness of his wife, not his own satisfaction.",
+      "Verse 28 makes the application explicit: &ldquo;In the same way husbands should love their wives as their own bodies. He who loves his wife loves himself.&rdquo; Paul appeals here to the one-flesh reality of Genesis 2:24 and to the ordinary human instinct to care for one&rsquo;s own body. Because husband and wife are one flesh, to love your wife is not a sacrifice of self-interest but an expression of it &mdash; rightly understood. And the model for this is not merely natural logic but the way Christ nourishes and cherishes the church, which is his body (v.29). The husband is to think of his wife the way Christ thinks of the church &mdash; with a tending, protective, nurturing love.",
+      "Verse 31 is the interpretive key to the entire passage: Paul quotes Genesis 2:24 &mdash; &ldquo;Therefore a man shall leave his father and mother and hold fast to his wife, and the two shall become one flesh&rdquo; &mdash; and then makes the startling claim: &ldquo;This mystery is profound, and I am saying that it refers to Christ and the church&rdquo; (v.32). Paul does not merely use the Genesis text as an illustration; he claims that the deep meaning of human marriage &mdash; the one-flesh union &mdash; was always, from the beginning, a testimony to the union of Christ and his people. The mystery hidden in marriage is the gospel itself. This means that every faithful Christian marriage is, in a real sense, a piece of enacted theology, a living parable of Christ&rsquo;s love for the church.",
+      "The chapter ends with a simple summary: &ldquo;However, let each one of you love his wife as himself, and let the wife see that she respects her husband&rdquo; (v.33). After the cosmic sweep of the mystery, Paul comes back to the ordinary, daily, face-to-face reality of a husband and wife. Love and respect &mdash; these are the two words that carry the weight of the entire theological vision. For Paul they are not separate virtues standing alongside the Christ-church analogy; they are the human-scale, daily embodiment of a reality that reaches from the eternal decree of the Father, through the self-giving of the Son, to the transforming work of the Spirit in the community of the new creation.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "9l0xb7GZxdA", title: "Walk in Love - Ephesians 5 Explained" },
+  { videoId: "VgFWP-9LMSY", title: "Walk as Children of Light - Ephesians 5:8-14" },
+  { videoId: "kl3x0bxOUhc", title: "Be Filled with the Spirit - Ephesians 5:18-21" },
+  { videoId: "RdxHUhL1AOo", title: "Marriage and the Gospel Mystery - Ephesians 5:22-33" },
+];
+
+export default function Ephesians5GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Ephesians Chapter 5
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The call to walk in love as Christ loved us, to walk as children of light exposing the darkness, to be filled with the Spirit in song and thanksgiving and mutual submission, and the profound mystery of Christian marriage as a living image of Christ&rsquo;s love for the church.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Ephesians 5 through video teaching on walking in love and light, being filled with the Spirit, and the great mystery of Christian marriage reflecting Christ and the church.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Great Mystery: Christ and the Church</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Ephesians 5 reveals that the whole pattern of Christian life &mdash; walking in love, shining as light, being filled with the Spirit, submitting to one another, loving a spouse with sacrificial care &mdash; is a participation in the great mystery of Christ&rsquo;s union with his church. Every act of cruciform love enacted in a Christian home is a small, faithful embodiment of the gospel that the Son of God enacted on the cross.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -2464,6 +2464,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 6 Chapter": "acts-6-guide",
   "Stephen Chosen Seven Deacons Widows Acts": "acts-6-guide",
   "Stephen Full Faith Spirit Power Great Wonders": "acts-6-guide",
+  "Isaiah 7 Chapter": "isaiah-7-guide",
+  "Virgin Conceive Immanuel Sign Isaiah": "isaiah-7-guide",
+  "Ahaz Fear Not Trust God Isaiah": "isaiah-7-guide",
+  "Luke 5 Chapter": "luke-5-guide",
+  "Calling Disciples Fishermen Deep Water Luke": "luke-5-guide",
+  "Depart Me Sinful Man Lord Peter Luke": "luke-5-guide",
+  "1 John 2 Chapter": "1-john-2-guide",
+  "Do Not Love World 1 John Advocate": "1-john-2-guide",
+  "Antichrist Last Hour Anointing 1 John": "1-john-2-guide",
+  "Ephesians 5 Chapter": "ephesians-5-guide",
+  "Husbands Love Wives Christ Church Mystery": "ephesians-5-guide",
+  "Walk in Love Light Wisdom Ephesians": "ephesians-5-guide",
 };
 
 
@@ -3554,6 +3566,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 3 Chapter" },
   { label: "John 9 Chapter" },
   { label: "Acts 6 Chapter" },
+  { label: "Isaiah 7 Chapter" },
+  { label: "Luke 5 Chapter" },
+  { label: "1 John 2 Chapter" },
+  { label: "Ephesians 5 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

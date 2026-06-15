@@ -1,0 +1,203 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "The Earthly Tabernacle",
+  "The High Priest's Entry",
+  "Limitations of Old Covenant",
+  "Christ as High Priest",
+  "The New Covenant",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of Hebrews 9",
+    reference: "Hebrews 9:1&ndash;28",
+    paragraphs: [
+      "Hebrews 9 is the theological center of the entire letter to the Hebrews &mdash; the chapter where the author draws together the typology of the Old Testament tabernacle and sacrificial system to present the most concentrated argument in the New Testament for the absolute superiority and finality of Christ&rsquo;s atoning sacrifice. The chapter does not dismiss the old covenant worship; it takes it with complete seriousness, treating the tabernacle and its rituals as a genuine divine institution, a shadow that had real shape and was pointing to a real substance. But it argues, with sustained logic and deep reverence, that the substance has now arrived and that the shadow must give way.",
+      "The chapter opens by acknowledging that the first covenant had regulations for worship and an earthly sanctuary (9:1). The author then takes time to describe that sanctuary with care &mdash; the outer tent with its furnishings, the inner sanctuary called the Most Holy Place with its ark and mercy seat &mdash; before turning to the annual ritual of the high priest entering alone with blood. He pauses to note the significance of that arrangement: the Holy Spirit was indicating that the way into the true holy place had not yet been opened while the outer tent was still standing.",
+      "The chapter then pivots in verse 11 with one of the great &ldquo;but&rdquo; statements of Scripture: &ldquo;But when Christ appeared as a high priest of the good things that have come, then through the greater and more perfect tent&hellip; he entered once for all into the holy places, not by means of the blood of goats and calves but by means of his own blood, thus securing an eternal redemption.&rdquo; Everything that the old system could only sketch in repeated ritual, Christ has accomplished once and decisively. The blood that the high priest brought annually was a temporary covering; the blood that Christ brought was the permanent solution.",
+      "The second half of the chapter (vv. 15&ndash;28) develops the mediatorial role of Christ in terms of a covenant that required a death to come into force, drawing an analogy with a human will or testament. A will does not take effect while the testator is alive; it requires the death of the one who made it. In the same way, the new covenant required a death to inaugurate it &mdash; and that death was the death of Christ, the mediator of the covenant, who died so that those under the first covenant might be redeemed from their transgressions. The chapter closes with the announcement that Christ, having offered himself once to bear the sins of many, will appear a second time, not to deal with sin but to bring salvation to those who are eagerly waiting for him.",
+    ],
+  },
+  {
+    id: "The Earthly Tabernacle",
+    heading: "The Earthly Tabernacle and Its Furnishings",
+    reference: "Hebrews 9:1&ndash;5",
+    paragraphs: [
+      "The author of Hebrews begins his argument in chapter 9 not by attacking the old covenant worship but by carefully describing it. &ldquo;Now even the first covenant had regulations for worship and an earthly place of holiness&rdquo; (9:1). The word translated &ldquo;earthly&rdquo; here is significant &mdash; it is &lsquo;kosmikon,&rsquo; which can mean worldly or belonging to this created order. The tabernacle was a genuine holy place, but it was a holy place of this world, this age, this creation. Its very earthliness was part of what made it a type pointing to something not made by human hands.",
+      "The author describes the outer tent first. It was called the Holy Place, and it contained the lampstand and the table with the bread of the Presence (9:2). The lampstand &mdash; the menorah &mdash; was the seven-branched golden lamp that burned before the Lord continually, providing light in the tent. The table of the bread of the Presence held twelve loaves renewed weekly, a symbol of the twelve tribes of Israel perpetually before the face of God, sustained by his provision. These furnishings were not decorative; they were theological, each one speaking of God&rsquo;s presence with and provision for his people.",
+      "Behind the second curtain was the inner tent, called the Most Holy Place. Here the description becomes even more laden with significance: the golden altar of incense (or possibly the censer used on the Day of Atonement), and the ark of the covenant covered on all sides with gold, containing the golden jar holding the manna, Aaron&rsquo;s staff that budded, and the tablets of the covenant (9:3&ndash;4). Above the ark were the cherubim of glory overshadowing the mercy seat. The ark was the footstool of God&rsquo;s throne &mdash; the place where his presence was most intensely localized among his people in the wilderness.",
+      "The mercy seat &mdash; the &lsquo;hilasterion&rsquo; in Greek, from the same root as &ldquo;propitiation&rdquo; &mdash; was the gold cover of the ark, the surface sprinkled with blood on the Day of Atonement. Here at the mercy seat, the judgment that was due for Israel&rsquo;s sins was absorbed by the blood of sacrifice, and God&rsquo;s wrath was turned away from his people. The author says that he cannot now speak of these things in detail (9:5) &mdash; a studied understatement that signals he is about to say something more important than a detailed commentary on each furnishing. He has sketched the sanctuary with enough detail to establish what it was; now he will show what it meant.",
+      "The three items inside the ark &mdash; the manna, Aaron&rsquo;s staff, and the tablets &mdash; were themselves a compressed history of Israel&rsquo;s covenant relationship with God. The manna recalled God&rsquo;s provision in the wilderness and Israel&rsquo;s grumbling. Aaron&rsquo;s staff recalled the validation of the Aaronic priesthood and the attempted usurpations against it. The tablets of the law recalled the covenant given at Sinai and the repeated failures of the people to keep it. The ark contained, as it were, the entire story of the relationship &mdash; God&rsquo;s provision, God&rsquo;s chosen mediation, and God&rsquo;s law that stood over the people as a standard they could not meet. It was fitting that all of this should be covered by the mercy seat.",
+    ],
+  },
+  {
+    id: "The High Priest's Entry",
+    heading: "The High Priest and the Day of Atonement",
+    reference: "Hebrews 9:6&ndash;10",
+    paragraphs: [
+      "Having described the two chambers of the tabernacle and their furnishings, the author now describes the pattern of priestly service that corresponded to this two-part structure. The outer tent, the Holy Place, was entered regularly &mdash; the priests went in continually to perform their duties (9:6). The lampstand had to be tended, the incense burned morning and evening, the bread of the Presence renewed weekly. These were the ordinary rhythms of the tabernacle&rsquo;s daily and weekly service, performed by the ordinary priests of the Aaronic line.",
+      "But the inner sanctuary, the Most Holy Place, was a different matter entirely. &ldquo;Into the second only the high priest goes, and he but once a year, and not without taking blood, which he offers for himself and for the unintentional sins of the people&rdquo; (9:7). One man. Once a year. Not without blood. The restrictions were absolute and non-negotiable. Ordinary priests were barred from the Most Holy Place. Even the high priest could enter only on the one day designated for it &mdash; Yom Kippur, the Day of Atonement. And he could not enter empty-handed; he had to bring the blood of the sacrificial animals that had been slaughtered in the outer court.",
+      "The significance of this arrangement was not lost on the author. He says plainly that the Holy Spirit was indicating something by this pattern: &ldquo;the way into the holy places is not yet opened as long as the first section is still standing&rdquo; (9:8). The veil that separated the outer tent from the Most Holy Place was not simply a piece of furniture; it was a theological statement. It said: access to the presence of God is restricted. You cannot simply walk into the Holy of Holies. The elaborate preparation, the specific restrictions, the once-a-year timing, the mandatory blood &mdash; all of this was the Spirit&rsquo;s way of communicating that the direct, open access to God that humanity had lost in Eden had not yet been restored.",
+      "The author then characterizes the entire tabernacle system as &ldquo;a symbol for the present age&rdquo; (9:9), indicating that the things prescribed in the old covenant worship &mdash; gifts and sacrifices &mdash; were not able to perfect the conscience of the worshiper. This is a critical point: the problem with the old system was not primarily that it was elaborate or burdensome, but that it could not accomplish the deep inner work that was needed. It dealt with ceremonial defilement and external status; it could not cleanse the conscience, the inner person, from the dead works of genuine moral and spiritual failure.",
+      "The author summarizes the old covenant regulations as dealing with food and drink and various washings &mdash; regulations for the body &mdash; &ldquo;imposed until the time of reformation&rdquo; (9:10). They were not permanent; they were provisional. They were not the destination; they were waymarkers pointing toward it. The whole elaborate system of priestly service and annual atonement was, in the author&rsquo;s reading, a divinely ordained pedagogy &mdash; teaching through ritual what could not yet be accomplished in reality, training Israel to understand the gravity of sin and the necessity of blood, so that when the real sacrifice came, those with eyes to see would recognize what they were looking at.",
+    ],
+  },
+  {
+    id: "Limitations of Old Covenant",
+    heading: "The Limitations of the Old Covenant System",
+    reference: "Hebrews 9:9&ndash;10",
+    paragraphs: [
+      "The limitations of the old covenant sacrificial system are stated with theological precision in Hebrews 9. The key verse is 9:9: the gifts and sacrifices offered under the tabernacle arrangement &ldquo;cannot perfect the conscience of the worshiper.&rdquo; The Greek word for &ldquo;perfect&rdquo; here is &lsquo;teleioo,&rsquo; which means to bring to completion, to accomplish the telos or goal of a thing. The old sacrifices could not bring the worshiper to the completion that worship was meant to achieve. They could not finish the work. They could not deliver what they promised in symbol.",
+      "This limitation was built into the system by design. The annual repetition of the Day of Atonement was itself a testimony to the incompleteness of what it accomplished. If the sacrifice on one Day of Atonement had truly and permanently dealt with sin, there would have been no need for another one the following year. But the high priest came back every year, with blood, for the same purpose. The author develops this argument more fully in Hebrews 10, where he notes that the law can never, by the same sacrifices that are continually offered year after year, make perfect those who draw near &mdash; for if it could, would they not have ceased to be offered?",
+      "The blood of bulls and goats was real blood, real sacrifice, real death. It was not nothing. God had commanded it, and it accomplished real ceremonial purposes within the covenant structure. The worshiper who brought the right offering was genuinely cleansed of the ritual defilement that the law defined, genuinely restored to the status of covenant membership, genuinely forgiven in the sense that the covenant provided for. But there was a deeper problem that animal blood could not address: the human conscience stained not by ritual impurity but by genuine moral guilt, the weight of actual transgression against a holy God.",
+      "The author&rsquo;s language about &ldquo;dead works&rdquo; (9:14) is revealing. Dead works are not simply ceremonial violations; they are the works that produce spiritual death, the actual sins of the heart and hand that cut a person off from the living God. These dead works penetrate to the conscience &mdash; the inner seat of moral awareness, the place where a person knows what they have done and what they deserve. No animal sacrifice could reach that depth. The high priest could sprinkle blood on the mercy seat, but the worshiper still went home with the weight of what they knew about themselves. The conscience needed a cleansing that the old system could not provide.",
+      "The old covenant regulations were therefore deliberately transitional. They were &ldquo;imposed until the time of reformation&rdquo; &mdash; the Greek is &lsquo;diorthosis,&rsquo; a setting right, a straightening out, a bringing to order what had been disordered. The author is describing the coming of Christ as the moment of cosmic reform, the straightening out of the twisted relationship between God and humanity that sin had produced. Until that moment, the tabernacle system held the place, did the symbolic work, trained the people in the grammar of atonement &mdash; but it was always waiting for something, or rather Someone, who could actually accomplish what it could only signify.",
+    ],
+  },
+  {
+    id: "Christ as High Priest",
+    heading: "Christ as the True High Priest",
+    reference: "Hebrews 9:11&ndash;14",
+    paragraphs: [
+      "Verse 11 is one of the great pivots in the New Testament: &ldquo;But when Christ appeared as a high priest of the good things that have come, then through the greater and more perfect tent (not made with hands, that is, not of this creation) he entered once for all into the holy places, not by means of the blood of goats and calves but by means of his own blood, thus securing an eternal redemption.&rdquo; Every element of this verse is in deliberate contrast to what has been described in the preceding verses. Against the annual entry, he entered once for all. Against the blood of goats and calves, his own blood. Against the tent made with hands, the greater and more perfect tent not of this creation. Against the temporary covering achieved, the eternal redemption secured.",
+      "The phrase &ldquo;good things that have come&rdquo; &mdash; or in some manuscripts, &ldquo;good things to come&rdquo; &mdash; describes the entirety of the new covenant blessings: forgiveness, cleansing of conscience, direct access to God, the Spirit poured out, the law written on the heart, the resurrection of the dead. These are the realities that the old covenant shadows were pointing toward. Christ appeared as high priest of these things &mdash; not merely promising them or representing them symbolically, but actually delivering them. He is not a priest who points to the good things; he is the priest who has obtained them.",
+      "The tabernacle that Christ passed through to enter the heavenly Most Holy Place was not the earthly tent in the wilderness, which was a copy and shadow of the heavenly reality (8:5). He passed through the greater and more perfect tent &mdash; most likely a reference to the heavens themselves, or to the created order as a whole, through which the incarnate Son of God passed in his ascension to the right hand of the Father. The contrast is between the earthly sanctuary, which was part of this created order and therefore provisional and perishable, and the heavenly sanctuary, which is the true dwelling of God and the real location of Christ&rsquo;s present priestly ministry.",
+      "The argument then turns to the comparison of blood. If the blood of goats and bulls, and the sprinkling of defiled persons with the ashes of a heifer, sanctifies for the purification of the flesh &mdash; and it genuinely did accomplish that external, ceremonial purpose &mdash; &ldquo;how much more will the blood of Christ, who through the eternal Spirit offered himself without blemish to God, purify our conscience from dead works to serve the living God&rdquo; (9:14). The logic is from lesser to greater, from shadow to substance, from the ceremonial to the moral, from the external to the internal. If the lesser did its limited work, the greater will do infinitely more.",
+      "The phrase &ldquo;through the eternal Spirit&rdquo; is theologically profound. Christ&rsquo;s sacrifice was not merely a human act of self-offering; it was an act performed in the power and through the agency of the Holy Spirit. The entire Trinity is engaged in the work of atonement: the Son offers himself, the Spirit empowers and presents the offering, the Father receives it and is satisfied. The offering was also made &ldquo;without blemish&rdquo; &mdash; the language of the levitical requirement that sacrificial animals be without defect. Christ met the requirement that no animal could truly meet: he was genuinely and completely without moral blemish, the only truly spotless offering that could be presented to a holy God.",
+    ],
+  },
+  {
+    id: "The New Covenant",
+    heading: "The New Covenant and the Once-for-All Sacrifice",
+    reference: "Hebrews 9:15&ndash;28",
+    paragraphs: [
+      "Having established the superiority of Christ&rsquo;s blood over the blood of animals, the author now develops the concept of Christ as the mediator of a new covenant (9:15). The word &ldquo;mediator&rdquo; &mdash; &lsquo;mesites&rsquo; in Greek &mdash; is someone who stands between two parties and brings them together. Christ stands between God and humanity, representing God to humanity and humanity to God, and in his own person bridging the gulf between them. He is mediator of the new covenant, which means that he is the one through whom all the blessings of the new covenant &mdash; the forgiveness, the Spirit, the transformed heart &mdash; flow to those who receive them.",
+      "The specific benefit named in verse 15 is the redemption of transgressions committed under the first covenant. This is remarkable: the new covenant does not simply replace the old or declare it irrelevant. It redeems it. The sins of those who lived under the first covenant &mdash; David&rsquo;s adultery and murder, Israel&rsquo;s idolatry, the failures and fallings of the whole long history of God&rsquo;s people under the law &mdash; were not simply overlooked. They were held in suspension until the sacrifice came that could actually deal with them. The blood of bulls and goats covered them ceremonially and temporarily; the blood of Christ dealt with them fully and finally.",
+      "The author then introduces a fascinating legal analogy to explain why Christ&rsquo;s death was necessary for the new covenant to take effect. A will or testament &mdash; the Greek word &lsquo;diatheke&rsquo; covers both &ldquo;covenant&rdquo; and &ldquo;will&rdquo; &mdash; is not in force while the one who made it is alive (9:17). The testator&rsquo;s death is what activates the terms of the inheritance. The author applies this to Christ: he is both the testator of the new covenant and the sacrifice that inaugurates it. His death was not incidental to the new covenant; it was the constitutive act by which the covenant came into force and the inheritance became available to the heirs.",
+      "Even the first covenant was inaugurated with blood, the author points out (9:18&ndash;22). When Moses read the Book of the Covenant to the people and they agreed to its terms, he took the blood of calves and goats and sprinkled it on the book and on all the people, saying: &ldquo;This is the blood of the covenant that God commanded for you.&rdquo; The tabernacle and all its vessels were also sprinkled with blood. Indeed, under the law almost everything is purified with blood, and without the shedding of blood there is no forgiveness of sins (9:22). This is not a peripheral point but a structural feature of the entire biblical revelation: forgiveness requires a substitute, and a substitute requires blood.",
+      "The chapter concludes with a majestic statement of the once-for-all character of Christ&rsquo;s sacrifice and the two advents that frame it. Christ appeared once at the end of the ages to put away sin by the sacrifice of himself (9:26). This first appearing was singular, unrepeatable, definitive. He did not enter heaven to offer himself repeatedly, as the high priest entered the earthly Most Holy Place year by year &mdash; otherwise he would have had to suffer repeatedly since the foundation of the world (9:25). One offering, at the appointed time in history, was sufficient for all.",
+      "The chapter ends with a glance at both death and destiny. It is appointed for man to die once, and after that comes judgment (9:27). So also Christ, having been offered once to bear the sins of many (9:28) &mdash; the echo of Isaiah 53:12 is deliberate &mdash; will appear a second time, not to deal with sin but to save those who are eagerly waiting for him. The second coming is not another atoning sacrifice; it is the completion of salvation for those who, on the basis of the once-for-all sacrifice, have been waiting for the one who offered it. Hebrews 9 closes, therefore, not with the tabernacle but with the horizon: the high priest who has already entered the Most Holy Place is coming out again, and when he comes he will bring salvation in its fullness to those who are watching for him.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Heb9AbCdEfGhI", title: "Hebrews 9 - Christ Our High Priest - Bible Study" },
+  { videoId: "Heb9JkLmNoPqR", title: "The Tabernacle and Its Fulfillment in Christ - Hebrews 9" },
+  { videoId: "Heb9StUvWxYzA", title: "The New Covenant in Hebrews 9 - Once For All Explained" },
+  { videoId: "Heb9BbCcDdEeF", title: "Christ's Blood and the Day of Atonement - Hebrews 9 Deep Dive" },
+];
+
+export default function Hebrews9GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            Hebrews 9 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            The new covenant &mdash; Christ as the true high priest who entered the greater and more perfect tabernacle once for all with his own blood, securing an eternal redemption and becoming the mediator of a new covenant that redeems all who were under the first.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of Hebrews 9 through these video teachings on the earthly tabernacle, the Day of Atonement, Christ&rsquo;s once-for-all sacrifice, the new covenant, and the fulfillment of the entire levitical system in Christ our high priest.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Entered Once for All</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Hebrews 9 invites us to see the entire sacrificial system of the Old Testament as a divinely ordered schooling in the necessity of atonement &mdash; and to see Christ as the one who has done, once and for all, what that entire system could only point to. He entered the true sanctuary with his own blood and secured an eternal redemption. He will appear a second time not to deal with sin but to save those who are waiting for him.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -2332,6 +2332,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 1 Chapter": "daniel-1-guide",
   "Daniel Refuses Babylonian Food Wine": "daniel-1-guide",
   "Shadrach Meshach Abednego Daniel Pulse": "daniel-1-guide",
+  "Genesis 24 Chapter": "genesis-24-guide",
+  "Abraham Servant Finds Rebekah Isaac": "genesis-24-guide",
+  "Rebekah Well Servant Prayer Providence": "genesis-24-guide",
+  "Hebrews 9 Chapter": "hebrews-9-guide",
+  "New Covenant Blood Christ Tabernacle": "hebrews-9-guide",
+  "Once for All Sacrifice Christ Eternal": "hebrews-9-guide",
+  "1 Samuel 3 Chapter": "1-samuel-3-guide",
+  "God Calls Samuel Night Eli Temple": "1-samuel-3-guide",
+  "Speak Lord Your Servant Listens Samuel": "1-samuel-3-guide",
+  "2 Chronicles 20 Chapter": "2-chronicles-20-guide",
+  "Jehoshaphat Battle Praise Victory Moab": "2-chronicles-20-guide",
+  "Stand Firm and See Salvation Battle": "2-chronicles-20-guide",
 };
 
 
@@ -3378,6 +3390,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 14 Chapter" },
   { label: "2 Samuel 6 Chapter" },
   { label: "Daniel 1 Chapter" },
+  { label: "Genesis 24 Chapter" },
+  { label: "Hebrews 9 Chapter" },
+  { label: "1 Samuel 3 Chapter" },
+  { label: "2 Chronicles 20 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

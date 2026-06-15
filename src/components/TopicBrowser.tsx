@@ -2224,6 +2224,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Mark 1 Chapter": "mark-1-guide",
   "Jesus Baptism Galilee Ministry Begin": "mark-1-guide",
   "Fishermen Follow Me Jesus Call": "mark-1-guide",
+  "John 4 Chapter": "john-4-guide",
+  "Woman at the Well Samaria": "john-4-guide",
+  "Jesus Living Water Samaritan Woman": "john-4-guide",
+  "Ezra 3 Chapter": "ezra-3-guide",
+  "Temple Foundation Laid Ezra": "ezra-3-guide",
+  "Weeping Joy Foundation Temple": "ezra-3-guide",
+  "1 Peter 2 Chapter": "1-peter-2-guide",
+  "Living Stones Holy Nation Peter": "1-peter-2-guide",
+  "Royal Priesthood Chosen People God": "1-peter-2-guide",
+  "2 Timothy 4 Chapter": "2-timothy-4-guide",
+  "I Have Fought Good Fight Paul": "2-timothy-4-guide",
+  "Paul Final Charge Timothy Preach": "2-timothy-4-guide",
 };
 
 
@@ -3234,6 +3246,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Nehemiah 9 Chapter" },
   { label: "1 Corinthians 3 Chapter" },
   { label: "Mark 1 Chapter" },
+  { label: "John 4 Chapter" },
+  { label: "Ezra 3 Chapter" },
+  { label: "1 Peter 2 Chapter" },
+  { label: "2 Timothy 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

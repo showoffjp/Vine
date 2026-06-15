@@ -1,0 +1,208 @@
+"use client";
+import { useState, useEffect } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const ACCENT = "#E11D48";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+const TABS = [
+  "Overview",
+  "Preach the Word",
+  "Paul's Farewell",
+  "The Crown of Righteousness",
+  "Faithful Companions",
+  "The Lord's Rescue",
+  "Videos",
+] as const;
+type Tab = (typeof TABS)[number];
+
+interface Section {
+  id: Tab;
+  heading: string;
+  reference: string;
+  paragraphs: string[];
+}
+
+const sections: Section[] = [
+  {
+    id: "Overview",
+    heading: "Overview of 2 Timothy 4",
+    reference: "2 Timothy 4:1&ndash;22",
+    paragraphs: [
+      "Second Timothy 4 is among the most personally charged chapters in the entire New Testament &mdash; the last words of the apostle Paul that we possess, written from a Roman prison as he faced almost certain execution. The letter as a whole has been building toward this farewell, but in chapter 4 the urgency becomes unmistakable. Paul is not writing a theological treatise or a pastoral handbook; he is writing a final charge from a father to a son, a mentor to his closest protege, a seasoned soldier to the younger officer he is leaving in command.",
+      "The chapter divides naturally into three sections. First, Paul delivers his most solemn charge to Timothy, solemnized before God and Christ Jesus: preach the word, in season and out of season, because a time is coming when people will not tolerate sound doctrine but will surround themselves with teachers who tell them what they want to hear (vv. 1&ndash;5). Second, Paul speaks of his own departure from the field, using the language of athletic competition and military service to describe a life given wholly to Christ (vv. 6&ndash;8). Third, the letter becomes unexpectedly intimate as Paul lists those who have accompanied him, those who have abandoned him, and his specific requests for Timothy to come quickly and bring what he needs (vv. 9&ndash;22).",
+      "The contrast Paul draws between Timothy&rsquo;s calling and the temptations of the age is stark. The culture surrounding the Ephesian church was one in which religious taste was varied and flexible, philosophical teachers competed for audiences by flattering them, and the appetite for novelty was insatiable. In this environment, the charge to preach the word &ldquo;in season and out of season&rdquo; &mdash; whether convenient or not, welcome or not, popular or not &mdash; is a charge to swim against the current of the age.",
+      "The theological weight of the chapter is carried by three short phrases in verse 7: &ldquo;I have fought the good fight, I have finished the race, I have kept the faith.&rdquo; These nine words summarize a lifetime of apostolic ministry &mdash; imprisonment, beatings, shipwrecks, betrayals, sleeplessness, hunger, and unrelenting opposition. That Paul can say them with confidence and not bitterness is itself a kind of testimony to the grace that sustained him through it all.",
+      "Despite its gravity, chapter 4 is also a remarkably human document. Paul mentions his winter cloak left at Troas, asks for his books and parchments, warns about Alexander the coppersmith, and above all pleads repeatedly for Timothy to come to him. The great apostle, facing death, wants the company of his beloved son in the faith. The theology of 2 Timothy is grounded in a relationship, and that relationship, we see here, was a genuine and costly friendship.",
+    ],
+  },
+  {
+    id: "Preach the Word",
+    heading: "Preach the Word: In Season and Out",
+    reference: "2 Timothy 4:1&ndash;5",
+    paragraphs: [
+      "Paul frames his final charge to Timothy with a gravity that leaves no room for casual reading: &ldquo;In the presence of God and of Christ Jesus, who will judge the living and the dead, and in view of his appearing and his kingdom, I give you this charge&rdquo; (4:1). The charge that follows is not a suggestion or a preference or even an apostolic guideline; it is a solemn commission delivered in the sight of the God who will one day judge every word that was preached and every silence that was kept.",
+      "&ldquo;Preach the word; be prepared in season and out of season; correct, rebuke and encourage &mdash; with great patience and careful instruction&rdquo; (4:2). The word translated &ldquo;preach&rdquo; (kerusso) is the word of the herald, the official envoy who delivers a message from the king. The herald does not editorialize, does not soften the message to suit the audience, does not wait for favorable conditions. He delivers what he has been given to deliver, and the authority behind the message belongs to the one who sent it, not to the one who carries it.",
+      "The phrase &ldquo;in season and out of season&rdquo; deserves careful attention. The Greek eutairos (in season) and akairos (out of season) together cover the full range of human circumstances &mdash; the moments when preaching is welcomed and the moments when it is not, the times of cultural openness to the gospel and the times of cultural hostility. Paul is not calling Timothy to be tone-deaf or insensitive to context; he is calling him to a faithfulness that does not depend on favorable reception. The word must be preached whether or not the cultural conditions are propitious.",
+      "The reason for this urgency is spelled out in verses 3&ndash;4: &ldquo;For the time will come when people will not put up with sound doctrine. Instead, to suit their own desires, they will gather around them a great number of teachers to say what their itching ears want to hear. They will turn their ears away from the truth and turn aside to myths.&rdquo; Paul is not describing a distant future catastrophe; he is describing a tendency that is already present and will intensify. The appetite for comfortable doctrine that does not challenge, convict, or demand anything is perennial. Every generation faces its own version of this temptation.",
+      "Paul&rsquo;s description of &ldquo;itching ears&rdquo; (knetho ten akoen) is one of the most memorable images in the pastoral letters. The word knetho suggests a physical itch &mdash; an irritation that demands to be scratched. People whose ears itch for pleasant doctrine will find teachers eager to provide the scratching, and in the resulting arrangement everyone is satisfied in the short term while the truth is quietly abandoned. The accumulation of such teachers (&ldquo;a great number&rdquo;) suggests the forum of the spiritual consumer, shopping for the message that best confirms what they already want to believe.",
+      "Against this backdrop, Timothy&rsquo;s charge is to &ldquo;keep your head in all situations, endure hardship, do the work of an evangelist, discharge all the duties of your ministry&rdquo; (4:5). The call to keep one&rsquo;s head &mdash; to remain sober, clear-minded, unswayed by cultural fashion or personal pressure &mdash; is the spiritual posture required for faithful ministry in every age. The work of the evangelist is not optional or supplementary; it is the core commission. And the discharge of all the duties of ministry implies a comprehensive faithfulness, not the selective fulfillment of the parts of ministry that come naturally or attract appreciation.",
+    ],
+  },
+  {
+    id: "Paul's Farewell",
+    heading: "Paul's Farewell: The Good Fight",
+    reference: "2 Timothy 4:6&ndash;8",
+    paragraphs: [
+      "With a transition from command to testimony, Paul shifts from what Timothy must do to what Paul himself has already done. The opening word of verse 6 in the Greek is &ldquo;for&rdquo; &mdash; the urgency of the charge to Timothy flows directly from the imminence of Paul&rsquo;s departure. &ldquo;For I am already being poured out like a drink offering, and the time for my departure is near&rdquo; (4:6). The image of the drink offering, drawn from Old Testament sacrifice, is striking: the drink offering is poured out completely at the altar, nothing held back. Paul does not describe his coming death as a tragedy or a defeat; he describes it as the completion of a sacrifice that has been in progress throughout his entire ministry.",
+      "The word &ldquo;departure&rdquo; (analusis) was used in the ancient world for several kinds of release &mdash; loosing a ship from its moorings, breaking camp, or releasing a prisoner. Paul appears to have all of these connotations in view. Death is the loosing from the harbor, the breaking of the camp, the release from the chains of mortal life. It is not an ending but a departure toward something else &mdash; something Paul has already described in Philippians 1:23 as &ldquo;better by far&rdquo; than remaining in the flesh.",
+      "&ldquo;I have fought the good fight, I have finished the race, I have kept the faith&rdquo; (4:7). These three parallel declarations carry the weight of a lifetime. The &ldquo;good fight&rdquo; (kalos agon) is the athletic and military contest that is not merely difficult but honorable &mdash; worth fighting because of what is at stake. Paul is not claiming to have won every engagement, to have been without failure, or to have been immune to discouragement. He is claiming that he stayed in the arena until the end, that he did not quit when quitting would have been understandable.",
+      "The image of the race shifts the metaphor to the athletics of the stadium. The Greek games placed enormous premium on finishing &mdash; a runner who collapsed before the finish line received no prize, regardless of how brilliantly he had run until that moment. Paul&rsquo;s claim is not that he ran without stumbling or that he ran faster than everyone else; it is that he finished. He crossed the line. The course assigned to him by the grace of God (Acts 20:24) has been completed.",
+      "&ldquo;I have kept the faith&rdquo; is perhaps the most theologically freighted of the three declarations. The faith here is not merely the subjective act of trusting; it is the body of truth that Paul received and was charged to transmit &mdash; what he elsewhere calls &ldquo;the faith that was once for all entrusted to the saints&rdquo; (Jude 3). Paul has not revised it to suit the times, not softened it to avoid controversy, not abandoned it under pressure. He has kept it &mdash; not because he was strong enough to keep it in his own power, but because the God who entrusted it to him is faithful to preserve what has been committed to him (1:12).",
+      "The confidence of verse 7 creates the confidence of verse 8: &ldquo;Now there is in store for me the crown of righteousness, which the Lord, the righteous Judge, will award to me on that day &mdash; and not only to me, but also to all who have longed for his appearing.&rdquo; The crown (stephanos) of the athletic victor, awarded by the righteous Judge who cannot be bribed or deceived, awaits not only the apostle but every believer who has loved the appearing of their Lord. Paul&rsquo;s farewell is not a private valediction; it is an invitation to the same life, the same fight, the same finish line.",
+    ],
+  },
+  {
+    id: "The Crown of Righteousness",
+    heading: "The Crown of Righteousness",
+    reference: "2 Timothy 4:8",
+    paragraphs: [
+      "The &ldquo;crown of righteousness&rdquo; (stephanos tes dikaiosunes) that Paul anticipates receiving from the Lord Jesus on the last day is one of the most carefully worded promises in the pastoral letters. The genitive &ldquo;of righteousness&rdquo; is capable of more than one reading, and the richness of the phrase may be intentional. It is the crown that is righteous in the sense of being a just reward, given by a Judge who sees truly and cannot be manipulated. It is also the crown that corresponds to the righteousness that Paul has lived &mdash; not the righteousness of his own achievement, but the righteousness of faith in Christ that has shaped his entire life and ministry.",
+      "The &ldquo;righteous Judge&rdquo; (dikaios krites) stands in deliberate contrast to the unjust human judges before whom Paul has appeared. He has stood before Felix, before Festus, before Agrippa, and most recently before the imperial tribunal in Rome. These judges were subject to political calculation, personal interest, and the pressures of the moment. The divine Judge is subject to none of these. His judgment will be accurate, thorough, and final &mdash; which is precisely what makes the crown Paul anticipates so secure.",
+      "The phrase &ldquo;on that day&rdquo; (en ekeine te hemera) points to the Day of the Lord, the eschatological horizon that gives the entire second letter to Timothy its urgency. Paul has already used the same phrase in 1:12 (&ldquo;he is able to guard what I have entrusted to him until that day&rdquo;) and 1:18 (&ldquo;the Lord grant that he will find mercy from the Lord on that day&rdquo;). The day of Christ&rsquo;s appearing is the fixed point on the horizon toward which all Christian life is oriented; it is the moment when the verdicts rendered in the sight of human beings will be either confirmed or overturned by the verdict of God.",
+      "The democratization of the crown in the second half of verse 8 is essential to the theology of the passage. Paul is not the only one for whom it is reserved; it awaits &ldquo;all who have longed for his appearing.&rdquo; The criterion for receiving it is not apostolic office, nor extraordinary ministry, nor suffering of a particular kind. It is the orientation of the heart: longing for the appearing of the Lord Jesus. This longing &mdash; the Greek word is agapao, the love that has been directed toward the day of his coming &mdash; is the defining mark of those who belong to him.",
+      "The crown Paul describes is not a reward for works accomplished in human strength. The entire letter has been emphatic that the power for ministry comes from God (1:7&ndash;8, 2:1), that the preservation of the faith is God&rsquo;s work (1:12), and that the ability to endure comes from the grace that is in Christ Jesus (2:1). The crown of righteousness is the gracious recognition, by the righteous Judge, of a life that was lived in dependence on that grace. It is grace rewarding grace &mdash; God honoring in his servants the work that he himself accomplished through them.",
+      "For Timothy and for every subsequent reader of this letter, the vision of the crown functions as both encouragement and orientation. The hardships of ministry &mdash; the false accusations, the loneliness, the cultural pressure, the opposition of those who prefer comfortable doctrine &mdash; are not meaningless endurance. They are the substance of the fight, the content of the race, the cost of keeping the faith. And at the end of the course, the righteous Judge will award what human judges cannot: a crown that will not wither, given by one who cannot be wrong.",
+    ],
+  },
+  {
+    id: "Faithful Companions",
+    heading: "Faithful Companions and Painful Deserters",
+    reference: "2 Timothy 4:9&ndash;18",
+    paragraphs: [
+      "The theology of 2 Timothy 4 touches down in the particularity of actual relationships in verses 9&ndash;18. Paul names names &mdash; some with warmth, some with grief, some with a note of warning. The combination gives us a window into the apostle&rsquo;s world at the end of his life: a world of extraordinary relationships, some of which held under pressure and some of which did not. The list of names is not incidental to the theology; it is the theology lived out in the texture of real human community.",
+      "Demas receives the most painful mention: &ldquo;Demas, because he loved this world, has deserted me and gone to Thessalonica&rdquo; (4:10). Demas had been a fellow worker (Philemon 24) who traveled with Paul and was known to the churches. His departure is described not as a failure of nerve but as a love &mdash; a love of &ldquo;this present age.&rdquo; The world had captured his affections and drawn him away from the costly fellowship of an imprisoned apostle. Paul names the dynamic clearly: the pull of the age is felt most acutely when faithfulness has a price tag.",
+      "Against Demas&rsquo; departure, the faithfulness of Luke stands out: &ldquo;Only Luke is with me&rdquo; (4:11). Luke, the physician and author of the Gospel and Acts, is the last companion remaining with Paul in Rome. His presence represents the kind of friendship that does not recalculate when the circumstances change. He stayed. In a world where proximity to a condemned prisoner carried real social and legal risk, Luke&rsquo;s continued companionship was an act of courage as well as devotion.",
+      "The request for Mark in verse 11 is one of the most quietly significant moments in the letter: &ldquo;Get Mark and bring him with you, because he is helpful to me in my ministry.&rdquo; Mark had been the occasion of a sharp dispute between Paul and Barnabas at the beginning of the second missionary journey, when Paul refused to take him because he had deserted them in Pamphylia (Acts 15:38). The man who was once a reason for conflict has become, in the fullness of time, &ldquo;helpful to me in my ministry.&rdquo; Restoration and usefulness after failure are woven into the fabric of the apostolic story.",
+      "The warning about Alexander the coppersmith (4:14&ndash;15) reveals that not all of Paul&rsquo;s opposition came from theological adversaries. Alexander &ldquo;did me a great deal of harm&rdquo; &mdash; the exact nature of which is not specified, but may include testimony against Paul at his first hearing before the imperial court. Paul&rsquo;s response is striking in what it does and does not say. He does not call for vengeance; he says, &ldquo;The Lord will repay him for what he has done.&rdquo; And then he turns immediately to warning Timothy: &ldquo;you too should be on your guard against him.&rdquo; The response to personal betrayal is entrusted to God and converted into a practical warning to protect the one who comes after.",
+      "The account of the &ldquo;first defense&rdquo; in verses 16&ndash;17 opens another window on Paul&rsquo;s imprisonment. At his first hearing before the court, &ldquo;no one came to my support, but everyone deserted me.&rdquo; The loneliness of that moment &mdash; standing before an imperial tribunal without a single human supporter &mdash; is palpable. Paul adds, &ldquo;May it not be held against them&rdquo; (4:16), a forgiveness that echoes Stephen&rsquo;s prayer at his own martyrdom (Acts 7:60) and, behind both, the prayer of Jesus on the cross. The capacity to extend forgiveness in the moment of abandonment is not natural; it is the fruit of the Spirit in a life shaped by the gospel.",
+    ],
+  },
+  {
+    id: "The Lord's Rescue",
+    heading: "The Lord Stood with Me",
+    reference: "2 Timothy 4:16&ndash;22",
+    paragraphs: [
+      "&ldquo;But the Lord stood at my side and gave me strength&rdquo; (4:17). The contrast could not be more stark: everyone deserted him, but the Lord stood with him. The verb &ldquo;stood&rdquo; (paresteemi) in Greek suggests a strong, close, reliable presence &mdash; the Lord did not merely observe from a distance or send comfort through intermediaries. He stood at Paul&rsquo;s side in the courtroom, the way a loyal advocate stands beside a defendant, providing what no human supporter could have provided.",
+      "The purpose of this divine presence was not merely comfort but mission: &ldquo;so that through me the message might be fully proclaimed and all the Gentiles might hear it&rdquo; (4:17). Paul&rsquo;s trial before the imperial court became an occasion for the gospel to reach the highest levels of Roman power. The defendant became the witness; the judicial proceeding became a platform for proclamation. This is consistent with Jesus&rsquo; own promise that his followers, when brought before governors and kings on account of his name, would have an opportunity to testify (Matthew 10:18).",
+      "The claim that Paul was &ldquo;rescued from the lion&rsquo;s mouth&rdquo; (4:17) has generated considerable discussion about the specific circumstances of his imprisonment. The phrase may be figurative &mdash; a reference to the power and ferocity of imperial justice rather than to a literal encounter with lions in the arena. Or it may reflect an actual deliverance at the first hearing that postponed his execution. Either way, the theological point is clear: the Lord who stood with Paul also preserved him long enough to finish his apostolic work.",
+      "The confidence of verse 18 summarizes the entire chapter&rsquo;s theology of trust: &ldquo;The Lord will rescue me from every evil attack and will bring me safely to his heavenly kingdom.&rdquo; Paul does not say that the Lord will prevent his death &mdash; he expects to die very soon. He says that the Lord will bring him safely to his heavenly kingdom. The rescue from &ldquo;every evil attack&rdquo; is not deliverance from physical death; it is preservation through death to the kingdom beyond it. Death itself is the final rescue &mdash; the ultimate deliverance from a world of opposition and trial to the presence of the one whose face Paul has longed to see.",
+      "The doxology that closes verse 18 &mdash; &ldquo;To him be glory for ever and ever. Amen&rdquo; &mdash; is the natural overflow of confidence in God&rsquo;s faithfulness. A man facing execution who can break into doxology is not in denial about his circumstances; he has a frame of reference larger than his circumstances. The glory of God, which has been Paul&rsquo;s governing concern throughout his ministry, remains his governing concern in the face of death. He ends where he began: everything for the glory of the one who called him on the Damascus road and has accompanied him every step of the way.",
+      "The final greetings of verses 19&ndash;22 bring the letter to a warmly personal close. Priscilla and Aquila, the tentmakers who risked their lives for Paul (Romans 16:3&ndash;4), receive greetings. The household of Onesiphorus, who had searched for Paul and visited him in prison (1:16&ndash;18), is remembered. Erastus, Trophimus, Eubulus, Pudens, Linus, Claudia, and the brothers and sisters all appear, the actual human texture of the apostolic movement in Rome. And the letter closes with the simple grace-benediction: &ldquo;The Lord be with your spirit. Grace be with you all.&rdquo; Even in his final words, Paul cannot give anything other than what he has always given: the grace that was given to him, and the presence of the Lord who never left his side.",
+    ],
+  },
+];
+
+const videoItems = [
+  { videoId: "Hm3pLqBvTnY", title: "2 Timothy 4 - I Have Fought the Good Fight" },
+  { videoId: "WsKx7cRdFpA", title: "Paul's Final Charge to Timothy - 2 Timothy 4 Explained" },
+  { videoId: "NqJvLmTkP3c", title: "The Crown of Righteousness - 2 Timothy 4:8" },
+  { videoId: "XbGnRsZwV9e", title: "Preach the Word In Season and Out - 2 Timothy 4:1-5" },
+];
+
+export default function Timothy4GuidePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return null;
+
+  const currentSection = sections.find((s) => s.id === activeTab);
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
+        <header style={{ marginBottom: "2rem" }}>
+          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
+            New Testament Study
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
+            2 Timothy 4 Chapter Guide
+          </h1>
+          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
+            Paul&rsquo;s final charge to Timothy &mdash; preach the word in season and out, endure the age of itching ears, and take courage from the testimony of an apostle who fought the good fight, finished the race, and kept the faith, awaiting a crown of righteousness from the righteous Judge.
+          </p>
+        </header>
+
+        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTab(t)}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
+                background: activeTab === t ? ACCENT : CARD,
+                color: activeTab === t ? "#fff" : MUTED,
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "inherit",
+                transition: "all 0.15s",
+              }}
+              dangerouslySetInnerHTML={{ __html: t }}
+            />
+          ))}
+        </nav>
+
+        {currentSection && activeTab !== "Videos" && (
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
+            </div>
+            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {currentSection.paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "Videos" && (
+          <section>
+            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
+            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
+              Deepen your study of 2 Timothy 4 through these video teachings on Paul&rsquo;s final charge, the dangers of itching ears, the crown of righteousness, and the Lord who stood with Paul at his first defense.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {videoItems.map((v) => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <VideoEmbed videoId={v.videoId} title={v.title} />
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
+          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Have Kept the Faith</h3>
+          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+            Second Timothy 4 is the apostle Paul&rsquo;s final word to the church &mdash; a charge to preach faithfully in a faithless age, a farewell from one who finished his course with confidence, and a promise that the righteous Judge will award a crown of righteousness to all who have loved his appearing. The Lord who stood with Paul in the Roman courtroom is the same Lord who stands with his people in every age of pressure and testing.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}

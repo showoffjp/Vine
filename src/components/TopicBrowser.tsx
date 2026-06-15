@@ -2716,6 +2716,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ezekiel 1 Chapter": "ezekiel-1-guide",
   "Ezekiel Vision Living Creatures Wheels Chariot": "ezekiel-1-guide",
   "Glory of the Lord Throne Rainbow Ezekiel": "ezekiel-1-guide",
+  "2 Kings 25 Chapter": "2-kings-25-guide",
+  "Fall of Jerusalem Temple Burned Zedekiah Captured": "2-kings-25-guide",
+  "Babylon Exile Gedaliah Jehoiachin Released Kings": "2-kings-25-guide",
+  "Genesis 46 Chapter": "genesis-46-guide",
+  "Jacob Goes Down to Egypt Seventy Souls Vision": "genesis-46-guide",
+  "Joseph Reunites Father Goshen Genesis": "genesis-46-guide",
+  "Ezekiel 34 Chapter": "ezekiel-34-guide",
+  "Shepherds of Israel Rebuked I Myself Will Shepherd": "ezekiel-34-guide",
+  "One Shepherd David Covenant of Peace Ezekiel": "ezekiel-34-guide",
+  "Psalm 90 Chapter": "psalm-90-guide",
+  "Prayer of Moses Lord Our Dwelling Place Generations": "psalm-90-guide",
+  "Teach Us to Number Our Days Wisdom Psalm": "psalm-90-guide",
 };
 
 
@@ -3890,6 +3902,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Kings 24 Chapter" },
   { label: "Jeremiah 1 Chapter" },
   { label: "Ezekiel 1 Chapter" },
+  { label: "2 Kings 25 Chapter" },
+  { label: "Genesis 46 Chapter" },
+  { label: "Ezekiel 34 Chapter" },
+  { label: "Psalm 90 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2512,6 +2512,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Acts 11 Chapter": "acts-11-guide",
   "Peter Reports Gentiles Cornelius Antioch Christians": "acts-11-guide",
   "Barnabas Antioch First Called Christians": "acts-11-guide",
+  "Matthew 8 Chapter": "matthew-8-guide",
+  "Centurion Faith Jesus Healing Servant Matthew": "matthew-8-guide",
+  "Jesus Calms Storm Gadarene Demoniacs Pigs": "matthew-8-guide",
+  "Genesis 11 Chapter": "genesis-11-guide",
+  "Tower Babel Scattered Languages Confusion": "genesis-11-guide",
+  "Shem Descendants Terah Abram Genesis Eleven": "genesis-11-guide",
+  "1 Corinthians 2 Chapter": "1-corinthians-2-guide",
+  "Wisdom Cross Spirit Reveals Foolishness God": "1-corinthians-2-guide",
+  "Natural Man Does Not Accept Spirit God Discerned": "1-corinthians-2-guide",
+  "Acts 12 Chapter": "acts-12-guide",
+  "Peter Prison Angel Rescues Herod Agrippa James": "acts-12-guide",
+  "Rhoda Peter Knocks Herod Eaten Worms Acts Twelve": "acts-12-guide",
 };
 
 
@@ -3618,6 +3630,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 5 Chapter" },
   { label: "Psalm 16 Chapter" },
   { label: "Acts 11 Chapter" },
+  { label: "Matthew 8 Chapter" },
+  { label: "Genesis 11 Chapter" },
+  { label: "1 Corinthians 2 Chapter" },
+  { label: "Acts 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

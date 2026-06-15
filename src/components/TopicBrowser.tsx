@@ -2752,6 +2752,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 4 Chapter": "proverbs-4-guide",
   "Get Wisdom Get Insight Above All Else Proverbs": "proverbs-4-guide",
   "Guard Your Heart Springs of Life Path Righteous": "proverbs-4-guide",
+  "Genesis 49 Chapter": "genesis-49-guide",
+  "Jacob Blesses His Twelve Sons Prophecy Genesis": "genesis-49-guide",
+  "Judah Lion Scepter Shiloh Joseph Fruitful Bough": "genesis-49-guide",
+  "1 Kings 14 Chapter": "1-kings-14-guide",
+  "Ahijah Prophesies Against Jeroboam Sick Child": "1-kings-14-guide",
+  "Rehoboam Reign Shishak Egypt Plunders Temple": "1-kings-14-guide",
+  "2 Corinthians 9 Chapter": "2-corinthians-9-guide",
+  "God Loves a Cheerful Giver Generous Sowing Paul": "2-corinthians-9-guide",
+  "Collection for Saints Bountiful Harvest Thanks God": "2-corinthians-9-guide",
+  "Mark 2 Chapter": "mark-2-guide",
+  "Mark Paralytic Through Roof Healed Forgiven": "mark-2-guide",
+  "Levi Called New Wineskins Lord of the Sabbath Mark": "mark-2-guide",
 };
 
 
@@ -3938,6 +3950,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Kings 13 Chapter" },
   { label: "1 Corinthians 14 Chapter" },
   { label: "Proverbs 4 Chapter" },
+  { label: "Genesis 49 Chapter" },
+  { label: "1 Kings 14 Chapter" },
+  { label: "2 Corinthians 9 Chapter" },
+  { label: "Mark 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

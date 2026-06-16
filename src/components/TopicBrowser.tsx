@@ -2896,6 +2896,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 18 Chapter": "proverbs-18-guide",
   "Name of the LORD Strong Tower Righteous Run In Proverbs 18": "proverbs-18-guide",
   "Death and Life in the Power of the Tongue Friend Closer Brother Proverbs": "proverbs-18-guide",
+  "Romans 10 Chapter": "romans-10-guide",
+  "Confess with Your Mouth Believe in Your Heart Saved Romans 10": "romans-10-guide",
+  "How Will They Hear Faith Comes by Hearing Romans 10": "romans-10-guide",
+  "Matthew 2 Chapter": "matthew-2-guide",
+  "Wise Men Magi Star Gold Frankincense Myrrh Matthew 2": "matthew-2-guide",
+  "Flight to Egypt Herod Slaughter Innocents Nazareth Matthew 2": "matthew-2-guide",
+  "Isaiah 15 Chapter": "isaiah-15-guide",
+  "Oracle Concerning Moab Wailing Desolation Isaiah 15": "isaiah-15-guide",
+  "Moab Ar Laid Waste in a Night Weeping Isaiah 15": "isaiah-15-guide",
+  "Proverbs 19 Chapter": "proverbs-19-guide",
+  "Better a Poor Man Who Walks in Integrity Proverbs 19": "proverbs-19-guide",
+  "House and Wealth Inherited from Fathers Prudent Wife from LORD Proverbs": "proverbs-19-guide",
 };
 
 
@@ -4130,6 +4142,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Acts 5 Chapter" },
   { label: "Isaiah 14 Chapter" },
   { label: "Proverbs 18 Chapter" },
+  { label: "Romans 10 Chapter" },
+  { label: "Matthew 2 Chapter" },
+  { label: "Isaiah 15 Chapter" },
+  { label: "Proverbs 19 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

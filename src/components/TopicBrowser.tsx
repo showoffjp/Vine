@@ -2956,6 +2956,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 21 Chapter": "proverbs-21-guide",
   "Kings Heart a Stream of Water in the LORD Hand Proverbs 21": "proverbs-21-guide",
   "To Do Righteousness and Justice More Acceptable Than Sacrifice Proverbs 21": "proverbs-21-guide",
+  "Isaiah 20 Chapter": "isaiah-20-guide",
+  "Sign and Portent Egypt Cush Isaiah Goes Naked Barefoot Isaiah 20": "isaiah-20-guide",
+  "Coastland Nations Shamefaced at Egypt Their Hope Isaiah 20": "isaiah-20-guide",
+  "Proverbs 22 Chapter": "proverbs-22-guide",
+  "A Good Name Is More Desirable Than Riches Proverbs 22": "proverbs-22-guide",
+  "Train Up a Child in the Way He Should Go Proverbs 22": "proverbs-22-guide",
+  "Hebrews 7 Chapter": "hebrews-7-guide",
+  "Melchizedek Priest Forever Order of Melchizedek Hebrews 7": "hebrews-7-guide",
+  "Jesus Perfect High Priest Intercedes Forever Hebrews 7": "hebrews-7-guide",
+  "2 Corinthians 11 Chapter": "2-corinthians-11-guide",
+  "False Apostles Deceitful Workers Paul Boasts in Weakness 2 Corinthians 11": "2-corinthians-11-guide",
+  "Thorn in the Flesh Satan Angel Paul Sufferings 2 Corinthians 11": "2-corinthians-11-guide",
 };
 
 
@@ -4210,6 +4222,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Corinthians 10 Chapter" },
   { label: "Isaiah 19 Chapter" },
   { label: "Proverbs 21 Chapter" },
+  { label: "Isaiah 20 Chapter" },
+  { label: "Proverbs 22 Chapter" },
+  { label: "Hebrews 7 Chapter" },
+  { label: "2 Corinthians 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

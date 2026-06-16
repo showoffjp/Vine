@@ -3178,6 +3178,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Revelation 13 Chapter": "revelation-13-guide",
   "The Beast from the Sea and the Beast from the Earth Revelation 13": "revelation-13-guide",
   "The Number of the Beast 666 Revelation 13": "revelation-13-guide",
+  "Revelation 14 Chapter": "revelation-14-guide",
+  "The 144000 on Mount Zion and the Three Angels Messages Revelation 14": "revelation-14-guide",
+  "The Harvest of the Earth and the Winepress of Gods Wrath Revelation 14": "revelation-14-guide",
+  "Revelation 15 Chapter": "revelation-15-guide",
+  "The Seven Angels with the Seven Plagues Song of Moses Revelation 15": "revelation-15-guide",
+  "Great and Marvelous Are Your Deeds Lord God Almighty Revelation 15": "revelation-15-guide",
+  "Revelation 16 Chapter": "revelation-16-guide",
+  "The Seven Bowls of Gods Wrath Poured Out on the Earth Revelation 16": "revelation-16-guide",
+  "Armageddon and the Great Earthquake Revelation 16": "revelation-16-guide",
+  "Proverbs 2 Chapter": "proverbs-2-guide",
+  "My Son If You Receive My Words Hidden Treasures of Wisdom Proverbs 2": "proverbs-2-guide",
+  "The LORD Gives Wisdom Knowledge and Understanding Proverbs 2": "proverbs-2-guide",
 };
 
 
@@ -4506,6 +4518,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Revelation 11 Chapter" },
   { label: "Revelation 12 Chapter" },
   { label: "Revelation 13 Chapter" },
+  { label: "Revelation 14 Chapter" },
+  { label: "Revelation 15 Chapter" },
+  { label: "Revelation 16 Chapter" },
+  { label: "Proverbs 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

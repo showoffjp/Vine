@@ -2977,9 +2977,6 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hebrews 8 Chapter": "hebrews-8-guide",
   "Jesus High Priest True Tabernacle New Covenant Hebrews 8": "hebrews-8-guide",
   "Better Covenant Enacted on Better Promises Hebrews 8": "hebrews-8-guide",
-  "2 Corinthians 12 Chapter": "2-corinthians-12-guide",
-  "Caught Up to Third Heaven Paradise Paul Boasts Weakness 2 Corinthians 12": "2-corinthians-12-guide",
-  "Thorn in Flesh Power of Christ Rests on Me 2 Corinthians 12": "2-corinthians-12-guide",
 };
 
 
@@ -4241,7 +4238,6 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 21 Chapter" },
   { label: "Proverbs 23 Chapter" },
   { label: "Hebrews 8 Chapter" },
-  { label: "2 Corinthians 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

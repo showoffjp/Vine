@@ -2848,6 +2848,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 10 Chapter": "daniel-10-guide",
   "Vision by the Tigris Man Clothed in Linen Daniel 10": "daniel-10-guide",
   "Prince of Persia Michael Spiritual Warfare Daniel Strengthened": "daniel-10-guide",
+  "Mark 14 Chapter": "mark-14-guide",
+  "Anointing at Bethany Last Supper Gethsemane Mark 14": "mark-14-guide",
+  "Judas Betrays Peter Denies Jesus Arrested Mark 14": "mark-14-guide",
+  "Isaiah 11 Chapter": "isaiah-11-guide",
+  "Shoot from the Stump of Jesse Branch Spirit of the LORD Isaiah 11": "isaiah-11-guide",
+  "Wolf Dwell with the Lamb Peaceable Kingdom Isaiah 11": "isaiah-11-guide",
+  "Proverbs 15 Chapter": "proverbs-15-guide",
+  "Soft Answer Turns Away Wrath Harsh Word Stirs Anger Proverbs 15": "proverbs-15-guide",
+  "Eyes of the LORD in Every Place Gentle Tongue Tree of Life Proverbs": "proverbs-15-guide",
+  "Daniel 11 Chapter": "daniel-11-guide",
+  "Kings of the North and South Prophecy Daniel 11": "daniel-11-guide",
+  "Antiochus Abomination Contemptible Person Daniel 11": "daniel-11-guide",
 };
 
 
@@ -4066,6 +4078,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 10 Chapter" },
   { label: "Proverbs 14 Chapter" },
   { label: "Daniel 10 Chapter" },
+  { label: "Mark 14 Chapter" },
+  { label: "Isaiah 11 Chapter" },
+  { label: "Proverbs 15 Chapter" },
+  { label: "Daniel 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

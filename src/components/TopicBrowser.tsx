@@ -3013,6 +3013,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ephesians 3 Chapter": "ephesians-3-guide",
   "Mystery of Christ Revealed to Paul Gentiles Fellow Heirs Ephesians 3": "ephesians-3-guide",
   "Strengthened in Inner Being Love of Christ Surpasses Knowledge Ephesians 3": "ephesians-3-guide",
+  "Isaiah 25 Chapter": "isaiah-25-guide",
+  "God Has Done Wonderful Things Feast of Rich Food All Nations Isaiah 25": "isaiah-25-guide",
+  "He Will Swallow Up Death Forever Wipe Away Tears Isaiah 25": "isaiah-25-guide",
+  "Proverbs 27 Chapter": "proverbs-27-guide",
+  "Do Not Boast About Tomorrow You Do Not Know What a Day May Bring Proverbs 27": "proverbs-27-guide",
+  "As Iron Sharpens Iron So One Man Sharpens Another Proverbs 27": "proverbs-27-guide",
+  "Galatians 4 Chapter": "galatians-4-guide",
+  "When the Fullness of Time Had Come God Sent Forth His Son Galatians 4": "galatians-4-guide",
+  "Cast Out the Slave Woman and Her Son Children of Promise Galatians 4": "galatians-4-guide",
+  "Galatians 6 Chapter": "galatians-6-guide",
+  "Bear One Another Burdens Fulfill Law of Christ Galatians 6": "galatians-6-guide",
+  "Whatever a Man Sows That He Will Also Reap Galatians 6": "galatians-6-guide",
 };
 
 
@@ -4286,6 +4298,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 26 Chapter" },
   { label: "Galatians 3 Chapter" },
   { label: "Ephesians 3 Chapter" },
+  { label: "Isaiah 25 Chapter" },
+  { label: "Proverbs 27 Chapter" },
+  { label: "Galatians 4 Chapter" },
+  { label: "Galatians 6 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

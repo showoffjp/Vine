@@ -2944,6 +2944,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 20 Chapter": "proverbs-20-guide",
   "Wine Is a Mocker Strong Drink a Brawler Proverbs 20": "proverbs-20-guide",
   "Spirit of Man Lamp of the LORD Searches Heart Proverbs 20": "proverbs-20-guide",
+  "Hebrews 6 Chapter": "hebrews-6-guide",
+  "Leave Elementary Doctrine Press On to Maturity Hebrews 6": "hebrews-6-guide",
+  "God Swore by Himself Anchor of the Soul Hope Hebrews 6": "hebrews-6-guide",
+  "2 Corinthians 10 Chapter": "2-corinthians-10-guide",
+  "Weapons Not of the Flesh Take Every Thought Captive 2 Corinthians 10": "2-corinthians-10-guide",
+  "Boast in the Lord Not Commending Themselves 2 Corinthians 10": "2-corinthians-10-guide",
+  "Isaiah 19 Chapter": "isaiah-19-guide",
+  "Oracle Concerning Egypt the LORD Rides on a Cloud Isaiah 19": "isaiah-19-guide",
+  "Altar to the LORD in Egypt Highway Assyria Blessed Isaiah 19": "isaiah-19-guide",
+  "Proverbs 21 Chapter": "proverbs-21-guide",
+  "Kings Heart a Stream of Water in the LORD Hand Proverbs 21": "proverbs-21-guide",
+  "To Do Righteousness and Justice More Acceptable Than Sacrifice Proverbs 21": "proverbs-21-guide",
 };
 
 
@@ -4194,6 +4206,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Corinthians 8 Chapter" },
   { label: "Isaiah 18 Chapter" },
   { label: "Proverbs 20 Chapter" },
+  { label: "Hebrews 6 Chapter" },
+  { label: "2 Corinthians 10 Chapter" },
+  { label: "Isaiah 19 Chapter" },
+  { label: "Proverbs 21 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

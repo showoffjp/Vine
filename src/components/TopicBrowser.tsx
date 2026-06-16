@@ -2836,6 +2836,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 8 Chapter": "daniel-8-guide",
   "Vision of the Ram and the Goat Little Horn Daniel 8": "daniel-8-guide",
   "2300 Evenings Mornings Sanctuary Cleansed Gabriel Daniel": "daniel-8-guide",
+  "Mark 13 Chapter": "mark-13-guide",
+  "Olivet Discourse Signs of the End Temple Destroyed Mark 13": "mark-13-guide",
+  "Son of Man Coming in Clouds Stay Awake Watch Mark 13": "mark-13-guide",
+  "Isaiah 10 Chapter": "isaiah-10-guide",
+  "Woe to Assyria the Rod of My Anger Isaiah 10": "isaiah-10-guide",
+  "Remnant of Jacob Shall Return Stump of Jesse Isaiah": "isaiah-10-guide",
+  "Proverbs 14 Chapter": "proverbs-14-guide",
+  "Wise Woman Builds Her House Folly Tears Down Proverbs 14": "proverbs-14-guide",
+  "Way That Seems Right Ends in Death Righteousness Exalts Nation": "proverbs-14-guide",
+  "Daniel 10 Chapter": "daniel-10-guide",
+  "Vision by the Tigris Man Clothed in Linen Daniel 10": "daniel-10-guide",
+  "Prince of Persia Michael Spiritual Warfare Daniel Strengthened": "daniel-10-guide",
 };
 
 
@@ -4050,6 +4062,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 8 Chapter" },
   { label: "Proverbs 13 Chapter" },
   { label: "Daniel 8 Chapter" },
+  { label: "Mark 13 Chapter" },
+  { label: "Isaiah 10 Chapter" },
+  { label: "Proverbs 14 Chapter" },
+  { label: "Daniel 10 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

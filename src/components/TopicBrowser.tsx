@@ -3118,6 +3118,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 33 Chapter": "isaiah-33-guide",
   "The LORD Is Our Judge King and Savior Isaiah 33": "isaiah-33-guide",
   "Woe to You Destroyer Who Has Not Been Destroyed Isaiah 33": "isaiah-33-guide",
+  "2 John Chapter": "2-john-guide",
+  "Walking in Truth and Love 2 John": "2-john-guide",
+  "Watch Yourselves Do Not Lose What We Have Worked For 2 John": "2-john-guide",
+  "3 John Chapter": "3-john-guide",
+  "Dear Friend I Pray That You May Prosper 3 John": "3-john-guide",
+  "Diotrephes Who Loves to Be First 3 John": "3-john-guide",
+  "Revelation 1 Chapter": "revelation-1-guide",
+  "The Revelation of Jesus Christ Who Is and Who Was and Who Is to Come": "revelation-1-guide",
+  "I Am the Alpha and the Omega the First and the Last Revelation 1": "revelation-1-guide",
+  "Revelation 2 Chapter": "revelation-2-guide",
+  "Letters to Ephesus Smyrna Pergamum Thyatira Revelation 2": "revelation-2-guide",
+  "He Who Has an Ear Let Him Hear What the Spirit Says to the Churches": "revelation-2-guide",
 };
 
 
@@ -4426,6 +4438,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Peter 2 Chapter" },
   { label: "2 Peter 3 Chapter" },
   { label: "Isaiah 33 Chapter" },
+  { label: "2 John Chapter" },
+  { label: "3 John Chapter" },
+  { label: "Revelation 1 Chapter" },
+  { label: "Revelation 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3001,6 +3001,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ephesians 1 Chapter": "ephesians-1-guide",
   "Blessed with Every Spiritual Blessing in Heavenly Places Ephesians 1": "ephesians-1-guide",
   "Predestined in Love Sealed with Holy Spirit of Promise Ephesians 1": "ephesians-1-guide",
+  "Isaiah 24 Chapter": "isaiah-24-guide",
+  "Isaiah Apocalypse Earth Laid Waste City of Chaos Isaiah 24": "isaiah-24-guide",
+  "They Shall Lift Up Their Voices Sing for Majesty of the LORD Isaiah 24": "isaiah-24-guide",
+  "Proverbs 26 Chapter": "proverbs-26-guide",
+  "Like Snow in Summer Like a Sparrow Flitting Proverbs 26": "proverbs-26-guide",
+  "Answer a Fool According to His Folly Do Not Answer a Fool Proverbs 26": "proverbs-26-guide",
+  "Galatians 3 Chapter": "galatians-3-guide",
+  "Are You So Foolish Having Begun by Spirit Now Flesh Galatians 3": "galatians-3-guide",
+  "Justified by Faith Not Works of Law Abraham Believed Galatians 3": "galatians-3-guide",
+  "Ephesians 3 Chapter": "ephesians-3-guide",
+  "Mystery of Christ Revealed to Paul Gentiles Fellow Heirs Ephesians 3": "ephesians-3-guide",
+  "Strengthened in Inner Being Love of Christ Surpasses Knowledge Ephesians 3": "ephesians-3-guide",
 };
 
 
@@ -4270,6 +4282,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 25 Chapter" },
   { label: "Galatians 1 Chapter" },
   { label: "Ephesians 1 Chapter" },
+  { label: "Isaiah 24 Chapter" },
+  { label: "Proverbs 26 Chapter" },
+  { label: "Galatians 3 Chapter" },
+  { label: "Ephesians 3 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2989,6 +2989,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Corinthians 13 Chapter": "2-corinthians-13-guide",
   "Examine Yourselves Whether in the Faith Test Yourselves 2 Corinthians 13": "2-corinthians-13-guide",
   "The Grace of the Lord Jesus Christ Love of God Fellowship Spirit 2 Corinthians 13": "2-corinthians-13-guide",
+  "Isaiah 23 Chapter": "isaiah-23-guide",
+  "Oracle Concerning Tyre Wail Ships of Tarshish Isaiah 23": "isaiah-23-guide",
+  "Tyre Forgotten Seventy Years Then Restored Isaiah 23": "isaiah-23-guide",
+  "Proverbs 25 Chapter": "proverbs-25-guide",
+  "These Also Are Proverbs of Solomon Copied by Hezekiah Proverbs 25": "proverbs-25-guide",
+  "A Word Fitly Spoken Apples of Gold in Settings of Silver Proverbs 25": "proverbs-25-guide",
+  "Galatians 1 Chapter": "galatians-1-guide",
+  "No Other Gospel Accursed Paul Did Not Receive Gospel from Man Galatians 1": "galatians-1-guide",
+  "Paul Called by Grace Revealed Son of God Galatians 1": "galatians-1-guide",
+  "Ephesians 1 Chapter": "ephesians-1-guide",
+  "Blessed with Every Spiritual Blessing in Heavenly Places Ephesians 1": "ephesians-1-guide",
+  "Predestined in Love Sealed with Holy Spirit of Promise Ephesians 1": "ephesians-1-guide",
 };
 
 
@@ -4254,6 +4266,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 24 Chapter" },
   { label: "Hebrews 13 Chapter" },
   { label: "2 Corinthians 13 Chapter" },
+  { label: "Isaiah 23 Chapter" },
+  { label: "Proverbs 25 Chapter" },
+  { label: "Galatians 1 Chapter" },
+  { label: "Ephesians 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

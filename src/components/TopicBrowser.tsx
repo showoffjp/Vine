@@ -3061,6 +3061,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Timothy 1 Chapter": "1-timothy-1-guide",
   "Christ Jesus Came into the World to Save Sinners 1 Timothy 1": "1-timothy-1-guide",
   "The Goal of Our Instruction Is Love from a Pure Heart 1 Timothy 1": "1-timothy-1-guide",
+  "Isaiah 29 Chapter": "isaiah-29-guide",
+  "Woe to Ariel City Where David Encamped Isaiah 29": "isaiah-29-guide",
+  "Wisdom of Wise Perishes Understanding Hidden Isaiah 29": "isaiah-29-guide",
+  "1 Thessalonians 4 Chapter": "1-thessalonians-4-guide",
+  "Sanctification Abstain from Sexual Immorality 1 Thessalonians 4": "1-thessalonians-4-guide",
+  "Dead in Christ Shall Rise First Caught Up Together 1 Thessalonians 4": "1-thessalonians-4-guide",
+  "1 Thessalonians 5 Chapter": "1-thessalonians-5-guide",
+  "Day of the Lord Comes Like a Thief in the Night 1 Thessalonians 5": "1-thessalonians-5-guide",
+  "Rejoice Always Pray Without Ceasing Give Thanks 1 Thessalonians 5": "1-thessalonians-5-guide",
+  "1 Timothy 2 Chapter": "1-timothy-2-guide",
+  "Pray for All People Kings and All in High Positions 1 Timothy 2": "1-timothy-2-guide",
+  "One God One Mediator Between God and Men Christ Jesus 1 Timothy 2": "1-timothy-2-guide",
 };
 
 
@@ -4350,6 +4362,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Thessalonians 3 Chapter" },
   { label: "2 Thessalonians 3 Chapter" },
   { label: "1 Timothy 1 Chapter" },
+  { label: "Isaiah 29 Chapter" },
+  { label: "1 Thessalonians 4 Chapter" },
+  { label: "1 Thessalonians 5 Chapter" },
+  { label: "1 Timothy 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2932,6 +2932,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 17 Chapter": "isaiah-17-guide",
   "Oracle Concerning Damascus Glory of Jacob Brought Low Isaiah 17": "isaiah-17-guide",
   "In That Day Man Will Look to His Maker Holy One of Israel Isaiah 17": "isaiah-17-guide",
+  "Hebrews 5 Chapter": "hebrews-5-guide",
+  "Christ High Priest Order of Melchizedek Hebrews 5": "hebrews-5-guide",
+  "Learned Obedience Through Suffering Milk Solid Food Hebrews 5": "hebrews-5-guide",
+  "2 Corinthians 8 Chapter": "2-corinthians-8-guide",
+  "Grace of Giving Macedonian Churches Generosity 2 Corinthians 8": "2-corinthians-8-guide",
+  "Though Rich He Became Poor for Your Sake 2 Corinthians 8": "2-corinthians-8-guide",
+  "Isaiah 18 Chapter": "isaiah-18-guide",
+  "Oracle Concerning Cush Land of Whirring Wings Isaiah 18": "isaiah-18-guide",
+  "Gifts Brought to Mount Zion the LORD of Hosts Isaiah 18": "isaiah-18-guide",
+  "Proverbs 20 Chapter": "proverbs-20-guide",
+  "Wine Is a Mocker Strong Drink a Brawler Proverbs 20": "proverbs-20-guide",
+  "Spirit of Man Lamp of the LORD Searches Heart Proverbs 20": "proverbs-20-guide",
 };
 
 
@@ -4178,6 +4190,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hebrews 3 Chapter" },
   { label: "2 Corinthians 7 Chapter" },
   { label: "Isaiah 17 Chapter" },
+  { label: "Hebrews 5 Chapter" },
+  { label: "2 Corinthians 8 Chapter" },
+  { label: "Isaiah 18 Chapter" },
+  { label: "Proverbs 20 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

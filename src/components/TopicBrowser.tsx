@@ -3025,6 +3025,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Galatians 6 Chapter": "galatians-6-guide",
   "Bear One Another Burdens Fulfill Law of Christ Galatians 6": "galatians-6-guide",
   "Whatever a Man Sows That He Will Also Reap Galatians 6": "galatians-6-guide",
+  "Isaiah 26 Chapter": "isaiah-26-guide",
+  "We Have a Strong City Trust in the LORD Forever Isaiah 26": "isaiah-26-guide",
+  "You Will Keep in Perfect Peace Whose Mind Is Stayed on You Isaiah 26": "isaiah-26-guide",
+  "Proverbs 29 Chapter": "proverbs-29-guide",
+  "A Man Who Hardens His Neck After Much Reproof Proverbs 29": "proverbs-29-guide",
+  "Where There Is No Prophetic Vision the People Cast Off Restraint Proverbs 29": "proverbs-29-guide",
+  "1 Thessalonians 1 Chapter": "1-thessalonians-1-guide",
+  "Thessalonians Turned from Idols to Serve the Living God 1 Thessalonians 1": "1-thessalonians-1-guide",
+  "Election of God Work of Faith Labor of Love Steadfastness of Hope 1 Thessalonians 1": "1-thessalonians-1-guide",
+  "2 Thessalonians 1 Chapter": "2-thessalonians-1-guide",
+  "God Counts You Worthy of His Kingdom Repay Affliction 2 Thessalonians 1": "2-thessalonians-1-guide",
+  "Relief with Us When Lord Jesus Revealed from Heaven 2 Thessalonians 1": "2-thessalonians-1-guide",
 };
 
 
@@ -4302,6 +4314,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 27 Chapter" },
   { label: "Galatians 4 Chapter" },
   { label: "Galatians 6 Chapter" },
+  { label: "Isaiah 26 Chapter" },
+  { label: "Proverbs 29 Chapter" },
+  { label: "1 Thessalonians 1 Chapter" },
+  { label: "2 Thessalonians 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

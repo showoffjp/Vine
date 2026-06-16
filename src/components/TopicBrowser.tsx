@@ -2908,6 +2908,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 19 Chapter": "proverbs-19-guide",
   "Better a Poor Man Who Walks in Integrity Proverbs 19": "proverbs-19-guide",
   "House and Wealth Inherited from Fathers Prudent Wife from LORD Proverbs": "proverbs-19-guide",
+  "1 Corinthians 1 Chapter": "1-corinthians-1-guide",
+  "Christ Crucified Wisdom and Power of God 1 Corinthians 1": "1-corinthians-1-guide",
+  "Foolishness of God Wiser Than Men Divisions Paul 1 Corinthians": "1-corinthians-1-guide",
+  "Hebrews 2 Chapter": "hebrews-2-guide",
+  "So Great a Salvation Drift Away Hebrews 2": "hebrews-2-guide",
+  "Jesus Not Ashamed to Call Them Brothers Tasted Death Hebrews 2": "hebrews-2-guide",
+  "2 Corinthians 6 Chapter": "2-corinthians-6-guide",
+  "Now Is the Day of Salvation Hardships Paul 2 Corinthians 6": "2-corinthians-6-guide",
+  "Do Not Be Unequally Yoked Temple of the Living God 2 Corinthians": "2-corinthians-6-guide",
+  "Isaiah 16 Chapter": "isaiah-16-guide",
+  "Send the Lamb to the Ruler Refuge for Moab Isaiah 16": "isaiah-16-guide",
+  "Throne Established in Steadfast Love Glory of Moab Isaiah 16": "isaiah-16-guide",
 };
 
 
@@ -4146,6 +4158,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 2 Chapter" },
   { label: "Isaiah 15 Chapter" },
   { label: "Proverbs 19 Chapter" },
+  { label: "1 Corinthians 1 Chapter" },
+  { label: "Hebrews 2 Chapter" },
+  { label: "2 Corinthians 6 Chapter" },
+  { label: "Isaiah 16 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

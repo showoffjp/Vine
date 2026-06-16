@@ -3082,6 +3082,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Timothy 1 Chapter": "2-timothy-1-guide",
   "God Gave Us Spirit Not of Fear But Power Love Self-Control 2 Timothy 1": "2-timothy-1-guide",
   "Not Ashamed of the Gospel Guard Good Deposit 2 Timothy 1": "2-timothy-1-guide",
+  "Isaiah 31 Chapter": "isaiah-31-guide",
+  "Woe to Those Who Go Down to Egypt for Help Isaiah 31": "isaiah-31-guide",
+  "The LORD of Hosts Will Come Down to Fight on Mount Zion Isaiah 31": "isaiah-31-guide",
+  "1 Timothy 5 Chapter": "1-timothy-5-guide",
+  "Honor Widows Who Are Truly Widows 1 Timothy 5": "1-timothy-5-guide",
+  "Elders Who Rule Well Are Worthy of Double Honor 1 Timothy 5": "1-timothy-5-guide",
+  "1 Timothy 6 Chapter": "1-timothy-6-guide",
+  "Godliness with Contentment Is Great Gain 1 Timothy 6": "1-timothy-6-guide",
+  "Fight the Good Fight of Faith Take Hold of Eternal Life 1 Timothy 6": "1-timothy-6-guide",
+  "2 Timothy 2 Chapter": "2-timothy-2-guide",
+  "Be Strong in the Grace That Is in Christ Jesus 2 Timothy 2": "2-timothy-2-guide",
+  "Rightly Handling the Word of Truth Workman Not Ashamed 2 Timothy 2": "2-timothy-2-guide",
 };
 
 
@@ -4378,6 +4390,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Timothy 3 Chapter" },
   { label: "1 Timothy 4 Chapter" },
   { label: "2 Timothy 1 Chapter" },
+  { label: "Isaiah 31 Chapter" },
+  { label: "1 Timothy 5 Chapter" },
+  { label: "1 Timothy 6 Chapter" },
+  { label: "2 Timothy 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

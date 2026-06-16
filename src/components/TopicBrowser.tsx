@@ -2920,6 +2920,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 16 Chapter": "isaiah-16-guide",
   "Send the Lamb to the Ruler Refuge for Moab Isaiah 16": "isaiah-16-guide",
   "Throne Established in Steadfast Love Glory of Moab Isaiah 16": "isaiah-16-guide",
+  "1 Corinthians 16 Chapter": "1-corinthians-16-guide",
+  "Collection for the Saints Be Watchful Stand Firm 1 Corinthians 16": "1-corinthians-16-guide",
+  "Let All You Do Be Done in Love Maranatha 1 Corinthians 16": "1-corinthians-16-guide",
+  "Hebrews 3 Chapter": "hebrews-3-guide",
+  "Jesus Greater Than Moses Faithful Son Over House Hebrews 3": "hebrews-3-guide",
+  "Do Not Harden Your Hearts Rebellion Wilderness Hebrews 3": "hebrews-3-guide",
+  "2 Corinthians 7 Chapter": "2-corinthians-7-guide",
+  "Godly Grief Produces Repentance 2 Corinthians 7": "2-corinthians-7-guide",
+  "Comfort in Affliction Titus Joy Paul 2 Corinthians 7": "2-corinthians-7-guide",
+  "Isaiah 17 Chapter": "isaiah-17-guide",
+  "Oracle Concerning Damascus Glory of Jacob Brought Low Isaiah 17": "isaiah-17-guide",
+  "In That Day Man Will Look to His Maker Holy One of Israel Isaiah 17": "isaiah-17-guide",
 };
 
 
@@ -4162,6 +4174,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hebrews 2 Chapter" },
   { label: "2 Corinthians 6 Chapter" },
   { label: "Isaiah 16 Chapter" },
+  { label: "1 Corinthians 16 Chapter" },
+  { label: "Hebrews 3 Chapter" },
+  { label: "2 Corinthians 7 Chapter" },
+  { label: "Isaiah 17 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

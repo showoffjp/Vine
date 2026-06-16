@@ -3154,6 +3154,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 37 Chapter": "isaiah-37-guide",
   "Hezekiah Prays Before the LORD and God Delivers Jerusalem Isaiah 37": "isaiah-37-guide",
   "The Angel of the LORD Strikes Down 185000 Assyrian Soldiers Isaiah 37": "isaiah-37-guide",
+  "Revelation 8 Chapter": "revelation-8-guide",
+  "The Seventh Seal Silence in Heaven and the Seven Trumpets Revelation 8": "revelation-8-guide",
+  "The Four Trumpets Earth Sea Rivers Sun Struck Revelation 8": "revelation-8-guide",
+  "Revelation 9 Chapter": "revelation-9-guide",
+  "The Fifth Trumpet Locusts from the Abyss Revelation 9": "revelation-9-guide",
+  "The Sixth Trumpet Four Angels at the Euphrates River Revelation 9": "revelation-9-guide",
+  "Isaiah 38 Chapter": "isaiah-38-guide",
+  "Hezekiah Illness and Healing Add Fifteen Years to His Life Isaiah 38": "isaiah-38-guide",
+  "Hezekiahs Song of Thanksgiving Isaiah 38": "isaiah-38-guide",
+  "Isaiah 39 Chapter": "isaiah-39-guide",
+  "Hezekiah Shows Babylon All His Treasures Isaiah 39": "isaiah-39-guide",
+  "Isaiah Predicts the Babylonian Exile Isaiah 39": "isaiah-39-guide",
 };
 
 
@@ -4474,6 +4486,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Revelation 7 Chapter" },
   { label: "Isaiah 36 Chapter" },
   { label: "Isaiah 37 Chapter" },
+  { label: "Revelation 8 Chapter" },
+  { label: "Revelation 9 Chapter" },
+  { label: "Isaiah 38 Chapter" },
+  { label: "Isaiah 39 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

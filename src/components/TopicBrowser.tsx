@@ -3130,6 +3130,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Revelation 2 Chapter": "revelation-2-guide",
   "Letters to Ephesus Smyrna Pergamum Thyatira Revelation 2": "revelation-2-guide",
   "He Who Has an Ear Let Him Hear What the Spirit Says to the Churches": "revelation-2-guide",
+  "Revelation 4 Chapter": "revelation-4-guide",
+  "The Throne Room of Heaven Holy Holy Holy Revelation 4": "revelation-4-guide",
+  "The Four Living Creatures and Twenty-Four Elders Revelation 4": "revelation-4-guide",
+  "Revelation 5 Chapter": "revelation-5-guide",
+  "The Lamb Who Was Slain Worthy to Open the Scroll Revelation 5": "revelation-5-guide",
+  "Worthy Is the Lamb Revelation 5": "revelation-5-guide",
+  "Isaiah 34 Chapter": "isaiah-34-guide",
+  "The LORD Is Enraged Against All the Nations Isaiah 34": "isaiah-34-guide",
+  "Edom Laid Waste Judgment on the Nations Isaiah 34": "isaiah-34-guide",
+  "Isaiah 35 Chapter": "isaiah-35-guide",
+  "The Wilderness and the Dry Land Shall Be Glad Isaiah 35": "isaiah-35-guide",
+  "The Way of Holiness and the Return of the Redeemed Isaiah 35": "isaiah-35-guide",
 };
 
 
@@ -4442,6 +4454,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "3 John Chapter" },
   { label: "Revelation 1 Chapter" },
   { label: "Revelation 2 Chapter" },
+  { label: "Revelation 4 Chapter" },
+  { label: "Revelation 5 Chapter" },
+  { label: "Isaiah 34 Chapter" },
+  { label: "Isaiah 35 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

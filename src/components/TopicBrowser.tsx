@@ -3064,9 +3064,6 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 29 Chapter": "isaiah-29-guide",
   "Woe to Ariel City Where David Encamped Isaiah 29": "isaiah-29-guide",
   "Wisdom of Wise Perishes Understanding Hidden Isaiah 29": "isaiah-29-guide",
-  "1 Thessalonians 4 Chapter": "1-thessalonians-4-guide",
-  "Sanctification Abstain from Sexual Immorality 1 Thessalonians 4": "1-thessalonians-4-guide",
-  "Dead in Christ Shall Rise First Caught Up Together 1 Thessalonians 4": "1-thessalonians-4-guide",
   "1 Thessalonians 5 Chapter": "1-thessalonians-5-guide",
   "Day of the Lord Comes Like a Thief in the Night 1 Thessalonians 5": "1-thessalonians-5-guide",
   "Rejoice Always Pray Without Ceasing Give Thanks 1 Thessalonians 5": "1-thessalonians-5-guide",
@@ -4363,7 +4360,6 @@ const ALL_TOPICS: Topic[] = [
   { label: "2 Thessalonians 3 Chapter" },
   { label: "1 Timothy 1 Chapter" },
   { label: "Isaiah 29 Chapter" },
-  { label: "1 Thessalonians 4 Chapter" },
   { label: "1 Thessalonians 5 Chapter" },
   { label: "1 Timothy 2 Chapter" },
 ];

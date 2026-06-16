@@ -3166,6 +3166,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 39 Chapter": "isaiah-39-guide",
   "Hezekiah Shows Babylon All His Treasures Isaiah 39": "isaiah-39-guide",
   "Isaiah Predicts the Babylonian Exile Isaiah 39": "isaiah-39-guide",
+  "Revelation 10 Chapter": "revelation-10-guide",
+  "The Mighty Angel and the Little Scroll Revelation 10": "revelation-10-guide",
+  "There Will Be No More Delay the Mystery of God Will Be Accomplished Revelation 10": "revelation-10-guide",
+  "Revelation 11 Chapter": "revelation-11-guide",
+  "The Two Witnesses Prophesy for 1260 Days Revelation 11": "revelation-11-guide",
+  "The Seventh Trumpet The Kingdom of Our Lord Revelation 11": "revelation-11-guide",
+  "Revelation 12 Chapter": "revelation-12-guide",
+  "The Woman and the Dragon War in Heaven Michael Casts Out Satan Revelation 12": "revelation-12-guide",
+  "They Overcame Him by the Blood of the Lamb Revelation 12": "revelation-12-guide",
+  "Revelation 13 Chapter": "revelation-13-guide",
+  "The Beast from the Sea and the Beast from the Earth Revelation 13": "revelation-13-guide",
+  "The Number of the Beast 666 Revelation 13": "revelation-13-guide",
 };
 
 
@@ -4490,6 +4502,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Revelation 9 Chapter" },
   { label: "Isaiah 38 Chapter" },
   { label: "Isaiah 39 Chapter" },
+  { label: "Revelation 10 Chapter" },
+  { label: "Revelation 11 Chapter" },
+  { label: "Revelation 12 Chapter" },
+  { label: "Revelation 13 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -2872,6 +2872,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 12 Chapter": "daniel-12-guide",
   "Michael Shall Arise Time of Trouble Resurrection Daniel 12": "daniel-12-guide",
   "Those Who Are Wise Shall Shine Like the Stars Daniel 12": "daniel-12-guide",
+  "Romans 1 Chapter": "romans-1-guide",
+  "Gospel Power of God Righteousness Revealed Romans 1": "romans-1-guide",
+  "Wrath Revealed Suppress Truth Exchange Glory Romans 1": "romans-1-guide",
+  "Matthew 7 Chapter": "matthew-7-guide",
+  "Judge Not Speck and Log Golden Rule Matthew 7": "matthew-7-guide",
+  "Narrow Gate Wolves Sheep Wise Builder Rock Matthew 7": "matthew-7-guide",
+  "Isaiah 13 Chapter": "isaiah-13-guide",
+  "Oracle Concerning Babylon Day of the LORD Isaiah 13": "isaiah-13-guide",
+  "Babylon Will Fall Like Sodom Gomorrah Isaiah 13": "isaiah-13-guide",
+  "Proverbs 17 Chapter": "proverbs-17-guide",
+  "Better a Dry Morsel with Quiet Friend Loves at All Times Proverbs 17": "proverbs-17-guide",
+  "Cheerful Heart Good Medicine Crushed Spirit Proverbs 17": "proverbs-17-guide",
 };
 
 
@@ -4098,6 +4110,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 12 Chapter" },
   { label: "Proverbs 16 Chapter" },
   { label: "Daniel 12 Chapter" },
+  { label: "Romans 1 Chapter" },
+  { label: "Matthew 7 Chapter" },
+  { label: "Isaiah 13 Chapter" },
+  { label: "Proverbs 17 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

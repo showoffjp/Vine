@@ -2884,6 +2884,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 17 Chapter": "proverbs-17-guide",
   "Better a Dry Morsel with Quiet Friend Loves at All Times Proverbs 17": "proverbs-17-guide",
   "Cheerful Heart Good Medicine Crushed Spirit Proverbs 17": "proverbs-17-guide",
+  "Romans 2 Chapter": "romans-2-guide",
+  "God Righteous Judgment No Partiality Romans 2": "romans-2-guide",
+  "Doers of the Law Justified Circumcision of the Heart Romans 2": "romans-2-guide",
+  "Acts 5 Chapter": "acts-5-guide",
+  "Ananias and Sapphira Lie to the Holy Spirit Acts 5": "acts-5-guide",
+  "Apostles Imprisoned Angel Gamaliel If From God Acts 5": "acts-5-guide",
+  "Isaiah 14 Chapter": "isaiah-14-guide",
+  "How You Are Fallen Day Star Son of Dawn Isaiah 14": "isaiah-14-guide",
+  "Taunt Against the King of Babylon Lucifer Brought Down Isaiah": "isaiah-14-guide",
+  "Proverbs 18 Chapter": "proverbs-18-guide",
+  "Name of the LORD Strong Tower Righteous Run In Proverbs 18": "proverbs-18-guide",
+  "Death and Life in the Power of the Tongue Friend Closer Brother Proverbs": "proverbs-18-guide",
 };
 
 
@@ -4114,6 +4126,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Matthew 7 Chapter" },
   { label: "Isaiah 13 Chapter" },
   { label: "Proverbs 17 Chapter" },
+  { label: "Romans 2 Chapter" },
+  { label: "Acts 5 Chapter" },
+  { label: "Isaiah 14 Chapter" },
+  { label: "Proverbs 18 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

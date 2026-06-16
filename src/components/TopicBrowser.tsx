@@ -2968,6 +2968,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Corinthians 11 Chapter": "2-corinthians-11-guide",
   "False Apostles Deceitful Workers Paul Boasts in Weakness 2 Corinthians 11": "2-corinthians-11-guide",
   "Thorn in the Flesh Satan Angel Paul Sufferings 2 Corinthians 11": "2-corinthians-11-guide",
+  "Isaiah 21 Chapter": "isaiah-21-guide",
+  "Oracle Concerning Wilderness of the Sea Babylon Falls Isaiah 21": "isaiah-21-guide",
+  "Watchman What of the Night Edom Seir Arabia Isaiah 21": "isaiah-21-guide",
+  "Proverbs 23 Chapter": "proverbs-23-guide",
+  "Do Not Eat Bread of a Stingy Man Proverbs 23": "proverbs-23-guide",
+  "Buy Truth Wisdom Instruction Understanding Proverbs 23": "proverbs-23-guide",
+  "Hebrews 8 Chapter": "hebrews-8-guide",
+  "Jesus High Priest True Tabernacle New Covenant Hebrews 8": "hebrews-8-guide",
+  "Better Covenant Enacted on Better Promises Hebrews 8": "hebrews-8-guide",
+  "2 Corinthians 12 Chapter": "2-corinthians-12-guide",
+  "Caught Up to Third Heaven Paradise Paul Boasts Weakness 2 Corinthians 12": "2-corinthians-12-guide",
+  "Thorn in Flesh Power of Christ Rests on Me 2 Corinthians 12": "2-corinthians-12-guide",
 };
 
 
@@ -4226,6 +4238,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 22 Chapter" },
   { label: "Hebrews 7 Chapter" },
   { label: "2 Corinthians 11 Chapter" },
+  { label: "Isaiah 21 Chapter" },
+  { label: "Proverbs 23 Chapter" },
+  { label: "Hebrews 8 Chapter" },
+  { label: "2 Corinthians 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

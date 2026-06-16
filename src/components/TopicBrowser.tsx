@@ -3049,6 +3049,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Thessalonians 2 Chapter": "2-thessalonians-2-guide",
   "Man of Lawlessness Revealed Son of Destruction 2 Thessalonians 2": "2-thessalonians-2-guide",
   "Stand Firm Hold to Traditions You Were Taught 2 Thessalonians 2": "2-thessalonians-2-guide",
+  "Isaiah 28 Chapter": "isaiah-28-guide",
+  "Woe to the Drunkards of Ephraim Crown of Pride Isaiah 28": "isaiah-28-guide",
+  "A Tested Stone Precious Cornerstone Sure Foundation Isaiah 28": "isaiah-28-guide",
+  "1 Thessalonians 3 Chapter": "1-thessalonians-3-guide",
+  "Timothy Sent to Establish Encourage Faith 1 Thessalonians 3": "1-thessalonians-3-guide",
+  "We Live If You Are Standing Fast in the Lord 1 Thessalonians 3": "1-thessalonians-3-guide",
+  "2 Thessalonians 3 Chapter": "2-thessalonians-3-guide",
+  "If Anyone Will Not Work Let Him Not Eat 2 Thessalonians 3": "2-thessalonians-3-guide",
+  "Do Not Grow Weary in Doing Good 2 Thessalonians 3": "2-thessalonians-3-guide",
+  "1 Timothy 1 Chapter": "1-timothy-1-guide",
+  "Christ Jesus Came into the World to Save Sinners 1 Timothy 1": "1-timothy-1-guide",
+  "The Goal of Our Instruction Is Love from a Pure Heart 1 Timothy 1": "1-timothy-1-guide",
 };
 
 
@@ -4334,6 +4346,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 30 Chapter" },
   { label: "1 Thessalonians 2 Chapter" },
   { label: "2 Thessalonians 2 Chapter" },
+  { label: "Isaiah 28 Chapter" },
+  { label: "1 Thessalonians 3 Chapter" },
+  { label: "2 Thessalonians 3 Chapter" },
+  { label: "1 Timothy 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3094,6 +3094,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Timothy 2 Chapter": "2-timothy-2-guide",
   "Be Strong in the Grace That Is in Christ Jesus 2 Timothy 2": "2-timothy-2-guide",
   "Rightly Handling the Word of Truth Workman Not Ashamed 2 Timothy 2": "2-timothy-2-guide",
+  "Isaiah 32 Chapter": "isaiah-32-guide",
+  "Behold a King Will Reign in Righteousness Isaiah 32": "isaiah-32-guide",
+  "The Spirit Poured Out from on High Isaiah 32": "isaiah-32-guide",
+  "1 John 3 Chapter": "1-john-3-guide",
+  "How Great Is the Love the Father Has Lavished on Us 1 John 3": "1-john-3-guide",
+  "Dear Children Do Not Sin We Know We Have Passed from Death to Life 1 John 3": "1-john-3-guide",
+  "James 3 Chapter": "james-3-guide",
+  "Taming the Tongue James 3": "james-3-guide",
+  "Wisdom from Above Is Pure Peaceable Gentle James 3": "james-3-guide",
+  "1 Peter 1 Chapter": "1-peter-1-guide",
+  "Living Hope Through the Resurrection of Jesus Christ 1 Peter 1": "1-peter-1-guide",
+  "Be Holy for I Am Holy 1 Peter 1": "1-peter-1-guide",
 };
 
 
@@ -4394,6 +4406,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 Timothy 5 Chapter" },
   { label: "1 Timothy 6 Chapter" },
   { label: "2 Timothy 2 Chapter" },
+  { label: "Isaiah 32 Chapter" },
+  { label: "1 John 3 Chapter" },
+  { label: "James 3 Chapter" },
+  { label: "1 Peter 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

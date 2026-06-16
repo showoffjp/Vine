@@ -3142,6 +3142,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 35 Chapter": "isaiah-35-guide",
   "The Wilderness and the Dry Land Shall Be Glad Isaiah 35": "isaiah-35-guide",
   "The Way of Holiness and the Return of the Redeemed Isaiah 35": "isaiah-35-guide",
+  "Revelation 6 Chapter": "revelation-6-guide",
+  "The Seven Seals and the Four Horsemen of the Apocalypse Revelation 6": "revelation-6-guide",
+  "How Long O Lord Souls Under the Altar Revelation 6": "revelation-6-guide",
+  "Revelation 7 Chapter": "revelation-7-guide",
+  "The 144000 Sealed from Every Tribe of Israel Revelation 7": "revelation-7-guide",
+  "The Great Multitude from Every Nation Before the Throne Revelation 7": "revelation-7-guide",
+  "Isaiah 36 Chapter": "isaiah-36-guide",
+  "Sennacherib Threatens Jerusalem Do Not Trust in Egypt Isaiah 36": "isaiah-36-guide",
+  "Rabshakeh Blasphemes the LORD God of Israel Isaiah 36": "isaiah-36-guide",
+  "Isaiah 37 Chapter": "isaiah-37-guide",
+  "Hezekiah Prays Before the LORD and God Delivers Jerusalem Isaiah 37": "isaiah-37-guide",
+  "The Angel of the LORD Strikes Down 185000 Assyrian Soldiers Isaiah 37": "isaiah-37-guide",
 };
 
 
@@ -4458,6 +4470,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Revelation 5 Chapter" },
   { label: "Isaiah 34 Chapter" },
   { label: "Isaiah 35 Chapter" },
+  { label: "Revelation 6 Chapter" },
+  { label: "Revelation 7 Chapter" },
+  { label: "Isaiah 36 Chapter" },
+  { label: "Isaiah 37 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

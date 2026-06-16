@@ -3106,6 +3106,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Peter 1 Chapter": "1-peter-1-guide",
   "Living Hope Through the Resurrection of Jesus Christ 1 Peter 1": "1-peter-1-guide",
   "Be Holy for I Am Holy 1 Peter 1": "1-peter-1-guide",
+  "James 5 Chapter": "james-5-guide",
+  "The Prayer of Faith Will Save the Sick James 5": "james-5-guide",
+  "Be Patient Until the Coming of the Lord James 5": "james-5-guide",
+  "2 Peter 2 Chapter": "2-peter-2-guide",
+  "False Prophets and Teachers Among You 2 Peter 2": "2-peter-2-guide",
+  "Balaam Loved Gain from Wrongdoing 2 Peter 2": "2-peter-2-guide",
+  "2 Peter 3 Chapter": "2-peter-3-guide",
+  "The Lord Is Not Slow to Fulfill His Promise 2 Peter 3": "2-peter-3-guide",
+  "Day of the Lord Will Come Like a Thief in the Night 2 Peter 3": "2-peter-3-guide",
+  "Isaiah 33 Chapter": "isaiah-33-guide",
+  "The LORD Is Our Judge King and Savior Isaiah 33": "isaiah-33-guide",
+  "Woe to You Destroyer Who Has Not Been Destroyed Isaiah 33": "isaiah-33-guide",
 };
 
 
@@ -4410,6 +4422,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "1 John 3 Chapter" },
   { label: "James 3 Chapter" },
   { label: "1 Peter 1 Chapter" },
+  { label: "James 5 Chapter" },
+  { label: "2 Peter 2 Chapter" },
+  { label: "2 Peter 3 Chapter" },
+  { label: "Isaiah 33 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3070,6 +3070,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "1 Timothy 2 Chapter": "1-timothy-2-guide",
   "Pray for All People Kings and All in High Positions 1 Timothy 2": "1-timothy-2-guide",
   "One God One Mediator Between God and Men Christ Jesus 1 Timothy 2": "1-timothy-2-guide",
+  "Isaiah 30 Chapter": "isaiah-30-guide",
+  "Woe to Rebellious Children Who Carry Out Plan Not Mine Isaiah 30": "isaiah-30-guide",
+  "In Returning and Rest You Shall Be Saved In Quietness Strength Isaiah 30": "isaiah-30-guide",
+  "1 Timothy 3 Chapter": "1-timothy-3-guide",
+  "Overseer Above Reproach Husband of One Wife Temperate 1 Timothy 3": "1-timothy-3-guide",
+  "Great Indeed Is the Mystery of Godliness God Manifested in Flesh 1 Timothy 3": "1-timothy-3-guide",
+  "1 Timothy 4 Chapter": "1-timothy-4-guide",
+  "Train Yourself for Godliness Bodily Training Some Value 1 Timothy 4": "1-timothy-4-guide",
+  "Let No One Despise You for Your Youth Set Believers an Example 1 Timothy 4": "1-timothy-4-guide",
+  "2 Timothy 1 Chapter": "2-timothy-1-guide",
+  "God Gave Us Spirit Not of Fear But Power Love Self-Control 2 Timothy 1": "2-timothy-1-guide",
+  "Not Ashamed of the Gospel Guard Good Deposit 2 Timothy 1": "2-timothy-1-guide",
 };
 
 
@@ -4362,6 +4374,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 29 Chapter" },
   { label: "1 Thessalonians 5 Chapter" },
   { label: "1 Timothy 2 Chapter" },
+  { label: "Isaiah 30 Chapter" },
+  { label: "1 Timothy 3 Chapter" },
+  { label: "1 Timothy 4 Chapter" },
+  { label: "2 Timothy 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

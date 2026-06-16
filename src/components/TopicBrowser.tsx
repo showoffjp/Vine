@@ -3037,6 +3037,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "2 Thessalonians 1 Chapter": "2-thessalonians-1-guide",
   "God Counts You Worthy of His Kingdom Repay Affliction 2 Thessalonians 1": "2-thessalonians-1-guide",
   "Relief with Us When Lord Jesus Revealed from Heaven 2 Thessalonians 1": "2-thessalonians-1-guide",
+  "Isaiah 27 Chapter": "isaiah-27-guide",
+  "Leviathan Slain Dragon in the Sea Isaiah 27": "isaiah-27-guide",
+  "In That Day Israel Shall Blossom and Put Forth Shoots Isaiah 27": "isaiah-27-guide",
+  "Proverbs 30 Chapter": "proverbs-30-guide",
+  "Agur Son of Jakeh Words of the Man Weary to God Proverbs 30": "proverbs-30-guide",
+  "Give Me Neither Poverty Nor Riches Feed Me with Bread Proverbs 30": "proverbs-30-guide",
+  "1 Thessalonians 2 Chapter": "1-thessalonians-2-guide",
+  "We Speak Not to Please Man But God Who Tests Our Hearts 1 Thessalonians 2": "1-thessalonians-2-guide",
+  "You Are Our Glory and Joy Thessalonians 1 Thessalonians 2": "1-thessalonians-2-guide",
+  "2 Thessalonians 2 Chapter": "2-thessalonians-2-guide",
+  "Man of Lawlessness Revealed Son of Destruction 2 Thessalonians 2": "2-thessalonians-2-guide",
+  "Stand Firm Hold to Traditions You Were Taught 2 Thessalonians 2": "2-thessalonians-2-guide",
 };
 
 
@@ -4318,6 +4330,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 29 Chapter" },
   { label: "1 Thessalonians 1 Chapter" },
   { label: "2 Thessalonians 1 Chapter" },
+  { label: "Isaiah 27 Chapter" },
+  { label: "Proverbs 30 Chapter" },
+  { label: "1 Thessalonians 2 Chapter" },
+  { label: "2 Thessalonians 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

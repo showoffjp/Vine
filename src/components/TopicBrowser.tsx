@@ -2977,6 +2977,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hebrews 8 Chapter": "hebrews-8-guide",
   "Jesus High Priest True Tabernacle New Covenant Hebrews 8": "hebrews-8-guide",
   "Better Covenant Enacted on Better Promises Hebrews 8": "hebrews-8-guide",
+  "Isaiah 22 Chapter": "isaiah-22-guide",
+  "Valley of Vision Burden Concerning Jerusalem Isaiah 22": "isaiah-22-guide",
+  "Shebna Removed Eliakim Son of Hilkiah Isaiah 22": "isaiah-22-guide",
+  "Proverbs 24 Chapter": "proverbs-24-guide",
+  "Do Not Envy Evil Men Do Not Desire Their Company Proverbs 24": "proverbs-24-guide",
+  "A Wise Man Is Mightier Than a Strong Man Proverbs 24": "proverbs-24-guide",
+  "Hebrews 13 Chapter": "hebrews-13-guide",
+  "Let Brotherly Love Continue Entertain Strangers Angels Hebrews 13": "hebrews-13-guide",
+  "Jesus Christ Same Yesterday Today and Forever Hebrews 13": "hebrews-13-guide",
+  "2 Corinthians 13 Chapter": "2-corinthians-13-guide",
+  "Examine Yourselves Whether in the Faith Test Yourselves 2 Corinthians 13": "2-corinthians-13-guide",
+  "The Grace of the Lord Jesus Christ Love of God Fellowship Spirit 2 Corinthians 13": "2-corinthians-13-guide",
 };
 
 
@@ -4238,6 +4250,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 21 Chapter" },
   { label: "Proverbs 23 Chapter" },
   { label: "Hebrews 8 Chapter" },
+  { label: "Isaiah 22 Chapter" },
+  { label: "Proverbs 24 Chapter" },
+  { label: "Hebrews 13 Chapter" },
+  { label: "2 Corinthians 13 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

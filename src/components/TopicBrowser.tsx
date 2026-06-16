@@ -2860,6 +2860,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Daniel 11 Chapter": "daniel-11-guide",
   "Kings of the North and South Prophecy Daniel 11": "daniel-11-guide",
   "Antiochus Abomination Contemptible Person Daniel 11": "daniel-11-guide",
+  "Mark 15 Chapter": "mark-15-guide",
+  "Jesus Before Pilate Barabbas Crucifixion Mark 15": "mark-15-guide",
+  "Crucified at Golgotha Darkness Temple Curtain Torn Mark 15": "mark-15-guide",
+  "Isaiah 12 Chapter": "isaiah-12-guide",
+  "Songs of Salvation You Will Say in That Day Isaiah 12": "isaiah-12-guide",
+  "Wells of Salvation Sing Praises Great is the Holy One Isaiah": "isaiah-12-guide",
+  "Proverbs 16 Chapter": "proverbs-16-guide",
+  "Commit Your Work to the LORD Plans Established Proverbs 16": "proverbs-16-guide",
+  "Pride Goes Before Destruction Gray Hair Crown of Glory Proverbs": "proverbs-16-guide",
+  "Daniel 12 Chapter": "daniel-12-guide",
+  "Michael Shall Arise Time of Trouble Resurrection Daniel 12": "daniel-12-guide",
+  "Those Who Are Wise Shall Shine Like the Stars Daniel 12": "daniel-12-guide",
 };
 
 
@@ -4082,6 +4094,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 11 Chapter" },
   { label: "Proverbs 15 Chapter" },
   { label: "Daniel 11 Chapter" },
+  { label: "Mark 15 Chapter" },
+  { label: "Isaiah 12 Chapter" },
+  { label: "Proverbs 16 Chapter" },
+  { label: "Daniel 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

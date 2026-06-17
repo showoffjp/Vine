@@ -3190,6 +3190,19 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 2 Chapter": "proverbs-2-guide",
   "My Son If You Receive My Words Hidden Treasures of Wisdom Proverbs 2": "proverbs-2-guide",
   "The LORD Gives Wisdom Knowledge and Understanding Proverbs 2": "proverbs-2-guide",
+  "Revelation 17 Chapter": "revelation-17-guide",
+  "Mystery Babylon the Great Mother of Harlots Revelation 17": "revelation-17-guide",
+  "The Beast That Was and Is Not and Is to Come Revelation 17": "revelation-17-guide",
+  "Revelation 18 Chapter": "revelation-18-guide",
+  "Fallen Is Babylon the Great Revelation 18": "revelation-18-guide",
+  "Come Out of Her My People Revelation 18": "revelation-18-guide",
+  "Revelation 19 Chapter": "revelation-19-guide",
+  "Hallelujah Salvation Glory and Power Belong to Our God Revelation 19": "revelation-19-guide",
+  "The Marriage Supper of the Lamb Revelation 19": "revelation-19-guide",
+  "Rider on the White Horse King of Kings and Lord of Lords Revelation 19": "revelation-19-guide",
+  "Proverbs 5 Chapter": "proverbs-5-guide",
+  "Drink Water from Your Own Cistern Running Water from Your Own Well Proverbs 5": "proverbs-5-guide",
+  "Let Your Fountain Be Blessed Rejoice in the Wife of Your Youth Proverbs 5": "proverbs-5-guide",
 };
 
 
@@ -4522,6 +4535,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Revelation 15 Chapter" },
   { label: "Revelation 16 Chapter" },
   { label: "Proverbs 2 Chapter" },
+  { label: "Revelation 17 Chapter" },
+  { label: "Revelation 18 Chapter" },
+  { label: "Revelation 19 Chapter" },
+  { label: "Proverbs 5 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

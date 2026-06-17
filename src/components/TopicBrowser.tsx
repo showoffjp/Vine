@@ -3263,6 +3263,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 65 Chapter": "isaiah-65-guide",
   "Behold I Create New Heavens and a New Earth Isaiah 65": "isaiah-65-guide",
   "The Wolf and the Lamb Will Feed Together Isaiah 65": "isaiah-65-guide",
+  "Isaiah 57 Chapter": "isaiah-57-guide",
+  "The High and Exalted One Who Lives Forever Also Dwells With the Contrite Isaiah 57": "isaiah-57-guide",
+  "Peace Peace to Those Far and Near Isaiah 57": "isaiah-57-guide",
+  "Isaiah 63 Chapter": "isaiah-63-guide",
+  "I Will Tell of the Kindnesses of the LORD Isaiah 63": "isaiah-63-guide",
+  "Where Is He Who Brought Them Up From the Sea Isaiah 63": "isaiah-63-guide",
+  "Isaiah 64 Chapter": "isaiah-64-guide",
+  "Oh That You Would Rend the Heavens and Come Down Isaiah 64": "isaiah-64-guide",
+  "We Are the Clay You Are the Potter Isaiah 64": "isaiah-64-guide",
+  "Isaiah 66 Chapter": "isaiah-66-guide",
+  "Heaven Is My Throne and the Earth Is My Footstool Isaiah 66": "isaiah-66-guide",
+  "As a Mother Comforts Her Child So Will I Comfort You Isaiah 66": "isaiah-66-guide",
 };
 
 
@@ -4619,6 +4631,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 56 Chapter" },
   { label: "Isaiah 59 Chapter" },
   { label: "Isaiah 65 Chapter" },
+  { label: "Isaiah 57 Chapter" },
+  { label: "Isaiah 63 Chapter" },
+  { label: "Isaiah 64 Chapter" },
+  { label: "Isaiah 66 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

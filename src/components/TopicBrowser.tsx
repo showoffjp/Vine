@@ -3311,6 +3311,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Zechariah 12 Chapter": "zechariah-12-guide",
   "They Will Look on Me Whom They Have Pierced Zechariah 12": "zechariah-12-guide",
   "Spirit of Grace and Pleas for Mercy Zechariah 12": "zechariah-12-guide",
+  "Jeremiah 7 Chapter": "jeremiah-7-guide",
+  "Temple Sermon Do Not Trust Deceptive Words Jeremiah 7": "jeremiah-7-guide",
+  "Amend Your Ways and Your Deeds Jeremiah 7": "jeremiah-7-guide",
+  "Amos 9 Chapter": "amos-9-guide",
+  "I Will Restore the Booth of David Amos 9": "amos-9-guide",
+  "The Eyes of the Lord Are on the Sinful Kingdom Amos 9": "amos-9-guide",
+  "Micah 1 Chapter": "micah-1-guide",
+  "Hear You Peoples All of Them Micah 1": "micah-1-guide",
+  "Samaria Falls and Judah Warned Micah 1": "micah-1-guide",
+  "Zechariah 14 Chapter": "zechariah-14-guide",
+  "The LORD Will Be King over All the Earth Zechariah 14": "zechariah-14-guide",
+  "His Feet Shall Stand on the Mount of Olives Zechariah 14": "zechariah-14-guide",
 };
 
 
@@ -4683,6 +4695,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Amos 7 Chapter" },
   { label: "Micah 7 Chapter" },
   { label: "Zechariah 12 Chapter" },
+  { label: "Jeremiah 7 Chapter" },
+  { label: "Amos 9 Chapter" },
+  { label: "Micah 1 Chapter" },
+  { label: "Zechariah 14 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3287,6 +3287,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Hosea 11 Chapter": "hosea-11-guide",
   "When Israel Was a Child I Loved Him Hosea 11": "hosea-11-guide",
   "How Can I Give You Up Ephraim Hosea 11": "hosea-11-guide",
+  "Jeremiah 2 Chapter": "jeremiah-2-guide",
+  "Israel Forsook God Like a Broken Cistern Jeremiah 2": "jeremiah-2-guide",
+  "What Wrong Did Your Fathers Find in Me Jeremiah 2": "jeremiah-2-guide",
+  "Amos 3 Chapter": "amos-3-guide",
+  "Can Two Walk Together Unless They Agree Amos 3": "amos-3-guide",
+  "The Lion Has Roared Who Will Not Fear Amos 3": "amos-3-guide",
+  "Micah 5 Chapter": "micah-5-guide",
+  "But You Bethlehem Ephrathah Micah 5": "micah-5-guide",
+  "Ruler Whose Origin Is from of Old Micah 5": "micah-5-guide",
+  "Zechariah 8 Chapter": "zechariah-8-guide",
+  "I Am Jealous for Zion with Great Jealousy Zechariah 8": "zechariah-8-guide",
+  "Old Men and Women Shall Again Sit in Streets Zechariah 8": "zechariah-8-guide",
 };
 
 
@@ -4651,6 +4663,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jeremiah 33 Chapter" },
   { label: "Ezekiel 33 Chapter" },
   { label: "Hosea 11 Chapter" },
+  { label: "Jeremiah 2 Chapter" },
+  { label: "Amos 3 Chapter" },
+  { label: "Micah 5 Chapter" },
+  { label: "Zechariah 8 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

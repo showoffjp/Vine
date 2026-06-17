@@ -3239,6 +3239,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 60 Chapter": "isaiah-60-guide",
   "Arise Shine for Your Light Has Come Isaiah 60": "isaiah-60-guide",
   "The Glory of the LORD Rises Upon You Isaiah 60": "isaiah-60-guide",
+  "Isaiah 46 Chapter": "isaiah-46-guide",
+  "I Am God and There Is No Other I Am God and There Is None Like Me Isaiah 46": "isaiah-46-guide",
+  "I Have Made You and I Will Carry You Isaiah 46": "isaiah-46-guide",
+  "Isaiah 48 Chapter": "isaiah-48-guide",
+  "I Am the LORD Your God Who Teaches You What Is Best Isaiah 48": "isaiah-48-guide",
+  "Leave Babylon Flee From the Babylonians Isaiah 48": "isaiah-48-guide",
+  "Isaiah 51 Chapter": "isaiah-51-guide",
+  "Look to the Rock from Which You Were Cut Isaiah 51": "isaiah-51-guide",
+  "Awake Awake Put On Your Strength O Arm of the LORD Isaiah 51": "isaiah-51-guide",
+  "Isaiah 62 Chapter": "isaiah-62-guide",
+  "For Zion Sake I Will Not Keep Silent Isaiah 62": "isaiah-62-guide",
+  "You Will Be Called by a New Name Isaiah 62": "isaiah-62-guide",
 };
 
 
@@ -4587,6 +4599,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 50 Chapter" },
   { label: "Isaiah 52 Chapter" },
   { label: "Isaiah 60 Chapter" },
+  { label: "Isaiah 46 Chapter" },
+  { label: "Isaiah 48 Chapter" },
+  { label: "Isaiah 51 Chapter" },
+  { label: "Isaiah 62 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

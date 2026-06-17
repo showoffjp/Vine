@@ -3203,6 +3203,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Proverbs 5 Chapter": "proverbs-5-guide",
   "Drink Water from Your Own Cistern Running Water from Your Own Well Proverbs 5": "proverbs-5-guide",
   "Let Your Fountain Be Blessed Rejoice in the Wife of Your Youth Proverbs 5": "proverbs-5-guide",
+  "Proverbs 6 Chapter": "proverbs-6-guide",
+  "Go to the Ant You Sluggard Consider Her Ways and Be Wise Proverbs 6": "proverbs-6-guide",
+  "Six Things the LORD Hates Seven That Are an Abomination Proverbs 6": "proverbs-6-guide",
+  "Proverbs 7 Chapter": "proverbs-7-guide",
+  "My Son Keep My Words Store Up My Commands Proverbs 7": "proverbs-7-guide",
+  "The Wayward Woman Seduces the Young Man Proverbs 7": "proverbs-7-guide",
+  "Proverbs 28 Chapter": "proverbs-28-guide",
+  "The Wicked Flee Though No One Pursues Proverbs 28": "proverbs-28-guide",
+  "Whoever Conceals His Sins Will Not Prosper Proverbs 28": "proverbs-28-guide",
+  "Isaiah 41 Chapter": "isaiah-41-guide",
+  "Fear Not For I Am With You Do Not Be Afraid Isaiah 41": "isaiah-41-guide",
+  "I Will Strengthen You I Will Help You Isaiah 41": "isaiah-41-guide",
 };
 
 
@@ -4539,6 +4551,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Revelation 18 Chapter" },
   { label: "Revelation 19 Chapter" },
   { label: "Proverbs 5 Chapter" },
+  { label: "Proverbs 6 Chapter" },
+  { label: "Proverbs 7 Chapter" },
+  { label: "Proverbs 28 Chapter" },
+  { label: "Isaiah 41 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

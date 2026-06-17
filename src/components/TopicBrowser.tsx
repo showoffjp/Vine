@@ -3251,6 +3251,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 62 Chapter": "isaiah-62-guide",
   "For Zion Sake I Will Not Keep Silent Isaiah 62": "isaiah-62-guide",
   "You Will Be Called by a New Name Isaiah 62": "isaiah-62-guide",
+  "Isaiah 47 Chapter": "isaiah-47-guide",
+  "Come Down and Sit in the Dust Daughter of Babylon Isaiah 47": "isaiah-47-guide",
+  "Your Wisdom and Knowledge Led You Astray Isaiah 47": "isaiah-47-guide",
+  "Isaiah 56 Chapter": "isaiah-56-guide",
+  "Maintain Justice and Do What Is Right Isaiah 56": "isaiah-56-guide",
+  "My House Will Be Called a House of Prayer for All Nations Isaiah 56": "isaiah-56-guide",
+  "Isaiah 59 Chapter": "isaiah-59-guide",
+  "The LORD Arm Is Not Too Short to Save Isaiah 59": "isaiah-59-guide",
+  "A Redeemer Will Come to Zion Isaiah 59": "isaiah-59-guide",
+  "Isaiah 65 Chapter": "isaiah-65-guide",
+  "Behold I Create New Heavens and a New Earth Isaiah 65": "isaiah-65-guide",
+  "The Wolf and the Lamb Will Feed Together Isaiah 65": "isaiah-65-guide",
 };
 
 
@@ -4603,6 +4615,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 48 Chapter" },
   { label: "Isaiah 51 Chapter" },
   { label: "Isaiah 62 Chapter" },
+  { label: "Isaiah 47 Chapter" },
+  { label: "Isaiah 56 Chapter" },
+  { label: "Isaiah 59 Chapter" },
+  { label: "Isaiah 65 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

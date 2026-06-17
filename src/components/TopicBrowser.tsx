@@ -3227,6 +3227,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 54 Chapter": "isaiah-54-guide",
   "Sing Barren Woman Your Maker Is Your Husband Isaiah 54": "isaiah-54-guide",
   "No Weapon Formed Against You Shall Prosper Isaiah 54": "isaiah-54-guide",
+  "Isaiah 45 Chapter": "isaiah-45-guide",
+  "I Am the LORD and There Is No Other Besides Me Isaiah 45": "isaiah-45-guide",
+  "To Me Every Knee Will Bow Every Tongue Will Swear Isaiah 45": "isaiah-45-guide",
+  "Isaiah 50 Chapter": "isaiah-50-guide",
+  "The Third Servant Song I Set My Face Like Flint Isaiah 50": "isaiah-50-guide",
+  "Who Is Among You That Fears the LORD Isaiah 50": "isaiah-50-guide",
+  "Isaiah 52 Chapter": "isaiah-52-guide",
+  "Awake Awake Put On Your Strength O Zion Isaiah 52": "isaiah-52-guide",
+  "How Beautiful on the Mountains the Feet of Those Who Bring Good News Isaiah 52": "isaiah-52-guide",
+  "Isaiah 60 Chapter": "isaiah-60-guide",
+  "Arise Shine for Your Light Has Come Isaiah 60": "isaiah-60-guide",
+  "The Glory of the LORD Rises Upon You Isaiah 60": "isaiah-60-guide",
 };
 
 
@@ -4571,6 +4583,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 44 Chapter" },
   { label: "Isaiah 49 Chapter" },
   { label: "Isaiah 54 Chapter" },
+  { label: "Isaiah 45 Chapter" },
+  { label: "Isaiah 50 Chapter" },
+  { label: "Isaiah 52 Chapter" },
+  { label: "Isaiah 60 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

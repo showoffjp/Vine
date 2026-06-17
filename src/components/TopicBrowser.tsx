@@ -3275,6 +3275,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 66 Chapter": "isaiah-66-guide",
   "Heaven Is My Throne and the Earth Is My Footstool Isaiah 66": "isaiah-66-guide",
   "As a Mother Comforts Her Child So Will I Comfort You Isaiah 66": "isaiah-66-guide",
+  "Jeremiah 17 Chapter": "jeremiah-17-guide",
+  "The Heart Is Deceitful Above All Things Jeremiah 17": "jeremiah-17-guide",
+  "Blessed Is the Man Who Trusts in the LORD Jeremiah 17": "jeremiah-17-guide",
+  "Jeremiah 33 Chapter": "jeremiah-33-guide",
+  "Call to Me and I Will Answer You Jeremiah 33": "jeremiah-33-guide",
+  "The Righteous Branch of David Jeremiah 33": "jeremiah-33-guide",
+  "Ezekiel 33 Chapter": "ezekiel-33-guide",
+  "Son of Man I Have Made You a Watchman Ezekiel 33": "ezekiel-33-guide",
+  "Turn Turn from Your Evil Ways Why Will You Die Ezekiel 33": "ezekiel-33-guide",
+  "Hosea 11 Chapter": "hosea-11-guide",
+  "When Israel Was a Child I Loved Him Hosea 11": "hosea-11-guide",
+  "How Can I Give You Up Ephraim Hosea 11": "hosea-11-guide",
 };
 
 
@@ -4635,6 +4647,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Isaiah 63 Chapter" },
   { label: "Isaiah 64 Chapter" },
   { label: "Isaiah 66 Chapter" },
+  { label: "Jeremiah 17 Chapter" },
+  { label: "Jeremiah 33 Chapter" },
+  { label: "Ezekiel 33 Chapter" },
+  { label: "Hosea 11 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

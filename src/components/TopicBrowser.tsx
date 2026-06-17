@@ -3299,6 +3299,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Zechariah 8 Chapter": "zechariah-8-guide",
   "I Am Jealous for Zion with Great Jealousy Zechariah 8": "zechariah-8-guide",
   "Old Men and Women Shall Again Sit in Streets Zechariah 8": "zechariah-8-guide",
+  "Jeremiah 4 Chapter": "jeremiah-4-guide",
+  "Circumcise Your Hearts Jeremiah 4": "jeremiah-4-guide",
+  "Blow the Trumpet in the Land Jeremiah 4": "jeremiah-4-guide",
+  "Amos 7 Chapter": "amos-7-guide",
+  "Thus Showed Me the Lord Amos 7": "amos-7-guide",
+  "Amaziah Priest of Bethel Versus Amos Amos 7": "amos-7-guide",
+  "Micah 7 Chapter": "micah-7-guide",
+  "Who Is a God Like You Pardoning Iniquity Micah 7": "micah-7-guide",
+  "I Will Look to the LORD and Wait Micah 7": "micah-7-guide",
+  "Zechariah 12 Chapter": "zechariah-12-guide",
+  "They Will Look on Me Whom They Have Pierced Zechariah 12": "zechariah-12-guide",
+  "Spirit of Grace and Pleas for Mercy Zechariah 12": "zechariah-12-guide",
 };
 
 
@@ -4667,6 +4679,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Amos 3 Chapter" },
   { label: "Micah 5 Chapter" },
   { label: "Zechariah 8 Chapter" },
+  { label: "Jeremiah 4 Chapter" },
+  { label: "Amos 7 Chapter" },
+  { label: "Micah 7 Chapter" },
+  { label: "Zechariah 12 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

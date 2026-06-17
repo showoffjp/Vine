@@ -144,7 +144,7 @@ export default function Isaiah52GuidePage() {
         fontFamily: "Georgia, 'Times New Roman', serif",
       }}
     >
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      {/* -- HERO ------------------------------------------------------- */}
       <section
         style={{
           background:
@@ -211,7 +211,7 @@ export default function Isaiah52GuidePage() {
         </p>
       </section>
 
-      {/* ── TAB BAR ──────────────────────────────────────────────────── */}
+      {/* -- TAB BAR ---------------------------------------------------- */}
       <div
         style={{
           background: "#12121F",
@@ -255,10 +255,10 @@ export default function Isaiah52GuidePage() {
         </div>
       </div>
 
-      {/* ── MAIN CONTENT ─────────────────────────────────────────────── */}
+      {/* -- MAIN CONTENT ----------------------------------------------- */}
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "48px 24px 100px" }}>
 
-        {/* ── VIDEO GRID ────────────────────────────────────────────── */}
+        {/* -- VIDEO GRID ---------------------------------------------- */}
         <section style={{ marginBottom: "64px" }}>
           <h2
             style={{
@@ -308,7 +308,7 @@ export default function Isaiah52GuidePage() {
           </div>
         </section>
 
-        {/* ── OVERVIEW TAB ──────────────────────────────────────────── */}
+        {/* -- OVERVIEW TAB -------------------------------------------- */}
         {activeTab === "Overview" && (
           <section>
             <div
@@ -488,7 +488,7 @@ export default function Isaiah52GuidePage() {
           </section>
         )}
 
-        {/* ── KEY THEMES TAB ────────────────────────────────────────── */}
+        {/* -- KEY THEMES TAB ------------------------------------------ */}
         {activeTab === "Key Themes" && (
           <section>
             <p
@@ -589,7 +589,7 @@ export default function Isaiah52GuidePage() {
           </section>
         )}
 
-        {/* ── VERSE BY VERSE TAB ────────────────────────────────────── */}
+        {/* -- VERSE BY VERSE TAB -------------------------------------- */}
         {activeTab === "Verse by Verse" && (
           <section>
             <div
@@ -746,7 +746,7 @@ export default function Isaiah52GuidePage() {
           </section>
         )}
 
-        {/* ── APPLICATION TAB ───────────────────────────────────────── */}
+        {/* -- APPLICATION TAB ----------------------------------------- */}
         {activeTab === "Application" && (
           <section>
             <div
@@ -967,7 +967,7 @@ export default function Isaiah52GuidePage() {
         )}
       </div>
 
-      {/* ── FOOTER STRIP ─────────────────────────────────────────────── */}
+      {/* -- FOOTER STRIP ----------------------------------------------- */}
       <div
         style={{
           borderTop: "1px solid #1E1E32",

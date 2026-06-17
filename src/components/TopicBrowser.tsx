@@ -3215,6 +3215,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Isaiah 41 Chapter": "isaiah-41-guide",
   "Fear Not For I Am With You Do Not Be Afraid Isaiah 41": "isaiah-41-guide",
   "I Will Strengthen You I Will Help You Isaiah 41": "isaiah-41-guide",
+  "Isaiah 42 Chapter": "isaiah-42-guide",
+  "Here Is My Servant Whom I Uphold First Servant Song Isaiah 42": "isaiah-42-guide",
+  "A Bruised Reed He Will Not Break Isaiah 42": "isaiah-42-guide",
+  "Isaiah 44 Chapter": "isaiah-44-guide",
+  "I Am the First and I Am the Last There Is No God Besides Me Isaiah 44": "isaiah-44-guide",
+  "Folly of Idols Who Fashions a God and Worships His Own Handiwork Isaiah 44": "isaiah-44-guide",
+  "Isaiah 49 Chapter": "isaiah-49-guide",
+  "Can a Mother Forget Her Nursing Child Isaiah 49": "isaiah-49-guide",
+  "I Will Not Forget You See I Have Engraved You on Palms of My Hands Isaiah 49": "isaiah-49-guide",
+  "Isaiah 54 Chapter": "isaiah-54-guide",
+  "Sing Barren Woman Your Maker Is Your Husband Isaiah 54": "isaiah-54-guide",
+  "No Weapon Formed Against You Shall Prosper Isaiah 54": "isaiah-54-guide",
 };
 
 
@@ -4555,6 +4567,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Proverbs 7 Chapter" },
   { label: "Proverbs 28 Chapter" },
   { label: "Isaiah 41 Chapter" },
+  { label: "Isaiah 42 Chapter" },
+  { label: "Isaiah 44 Chapter" },
+  { label: "Isaiah 49 Chapter" },
+  { label: "Isaiah 54 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

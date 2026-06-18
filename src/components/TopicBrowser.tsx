@@ -3335,6 +3335,16 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Malachi 2 Chapter": "malachi-2-guide",
   "The LORD Was Witness to Your Marriage Covenant Malachi 2": "malachi-2-guide",
   "You Have Wearied the LORD with Your Words Malachi 2": "malachi-2-guide",
+  "Jeremiah 23 Chapter": "jeremiah-23-guide",
+  "Woe to the Shepherds Who Destroy My Sheep Jeremiah 23": "jeremiah-23-guide",
+  "The LORD Is Our Righteousness Jeremiah 23": "jeremiah-23-guide",
+  "Hosea 3 Chapter": "hosea-3-guide",
+  "Go Again Love a Woman Who Is Loved by Another Hosea 3": "hosea-3-guide",
+  "Hosea 4 Chapter": "hosea-4-guide",
+  "My People Are Destroyed for Lack of Knowledge Hosea 4": "hosea-4-guide",
+  "Malachi 4 Chapter": "malachi-4-guide",
+  "The Sun of Righteousness Shall Rise Malachi 4": "malachi-4-guide",
+  "Behold I Will Send You Elijah the Prophet Malachi 4": "malachi-4-guide",
 };
 
 
@@ -4715,6 +4725,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hosea 1 Chapter" },
   { label: "Malachi 1 Chapter" },
   { label: "Malachi 2 Chapter" },
+  { label: "Jeremiah 23 Chapter" },
+  { label: "Hosea 3 Chapter" },
+  { label: "Hosea 4 Chapter" },
+  { label: "Malachi 4 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

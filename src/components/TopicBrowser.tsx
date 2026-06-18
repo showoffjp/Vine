@@ -3369,6 +3369,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ezekiel 47 Chapter": "ezekiel-47-guide",
   "Water Flowing from the Temple Ezekiel 47": "ezekiel-47-guide",
   "Everything Will Live Where the River Goes Ezekiel 47": "ezekiel-47-guide",
+  "Hosea 14 Chapter": "hosea-14-guide",
+  "Return O Israel to the LORD Your God Hosea 14": "hosea-14-guide",
+  "I Will Heal Their Apostasy Hosea 14": "hosea-14-guide",
+  "Amos 1 Chapter": "amos-1-guide",
+  "The LORD Roars from Zion Amos 1": "amos-1-guide",
+  "Fire on Damascus Gaza Tyre and Edom Amos 1": "amos-1-guide",
+  "Micah 4 Chapter": "micah-4-guide",
+  "In the Latter Days the Mountain of the House of the LORD Micah 4": "micah-4-guide",
+  "They Shall Beat Their Swords into Plowshares Micah 4": "micah-4-guide",
+  "Zechariah 1 Chapter": "zechariah-1-guide",
+  "Return to Me Says the LORD of Hosts Zechariah 1": "zechariah-1-guide",
+  "The Man on the Red Horse Among the Myrtle Trees Zechariah 1": "zechariah-1-guide",
 };
 
 
@@ -4761,6 +4773,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Ezekiel 11 Chapter" },
   { label: "Ezekiel 18 Chapter" },
   { label: "Ezekiel 47 Chapter" },
+  { label: "Hosea 14 Chapter" },
+  { label: "Amos 1 Chapter" },
+  { label: "Micah 4 Chapter" },
+  { label: "Zechariah 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

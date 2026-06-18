@@ -3405,6 +3405,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Haggai 1 Chapter": "haggai-1-guide",
   "Is It a Time for You to Dwell in Paneled Houses Haggai 1": "haggai-1-guide",
   "Consider Your Ways and Rebuild the Temple Haggai 1": "haggai-1-guide",
+  "Nahum 1 Chapter": "nahum-1-guide",
+  "The LORD Is a Jealous and Avenging God Nahum 1": "nahum-1-guide",
+  "Who Can Stand Before His Indignation Nahum 1": "nahum-1-guide",
+  "Nahum 2 Chapter": "nahum-2-guide",
+  "The Destroyer Has Come Against Nineveh Nahum 2": "nahum-2-guide",
+  "The Heart of Nineveh Melts and Her Knees Tremble Nahum 2": "nahum-2-guide",
+  "Zephaniah 1 Chapter": "zephaniah-1-guide",
+  "I Will Utterly Sweep Away Everything Zephaniah 1": "zephaniah-1-guide",
+  "The Great Day of the LORD Is Near Zephaniah 1": "zephaniah-1-guide",
+  "Zephaniah 2 Chapter": "zephaniah-2-guide",
+  "Seek the LORD All You Humble of the Land Zephaniah 2": "zephaniah-2-guide",
+  "Oracles Against Philistia Moab and Assyria Zephaniah 2": "zephaniah-2-guide",
 };
 
 
@@ -4809,6 +4821,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jonah 2 Chapter" },
   { label: "Jonah 3 Chapter" },
   { label: "Haggai 1 Chapter" },
+  { label: "Nahum 1 Chapter" },
+  { label: "Nahum 2 Chapter" },
+  { label: "Zephaniah 1 Chapter" },
+  { label: "Zephaniah 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3357,6 +3357,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Ezekiel 10 Chapter": "ezekiel-10-guide",
   "The Glory of the LORD Departed Ezekiel 10": "ezekiel-10-guide",
   "Cherubim and Wheels Ezekiel 10": "ezekiel-10-guide",
+  "Jeremiah 36 Chapter": "jeremiah-36-guide",
+  "Baruch Reads the Scroll Jeremiah 36": "jeremiah-36-guide",
+  "Jehoiakim Burns the Scroll Jeremiah 36": "jeremiah-36-guide",
+  "Ezekiel 11 Chapter": "ezekiel-11-guide",
+  "I Will Give You a New Heart Ezekiel 11": "ezekiel-11-guide",
+  "The Glory Departs to the Mount of Olives Ezekiel 11": "ezekiel-11-guide",
+  "Ezekiel 18 Chapter": "ezekiel-18-guide",
+  "The Soul Who Sins Shall Die Ezekiel 18": "ezekiel-18-guide",
+  "Turn and Live Ezekiel 18": "ezekiel-18-guide",
+  "Ezekiel 47 Chapter": "ezekiel-47-guide",
+  "Water Flowing from the Temple Ezekiel 47": "ezekiel-47-guide",
+  "Everything Will Live Where the River Goes Ezekiel 47": "ezekiel-47-guide",
 };
 
 
@@ -4745,6 +4757,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Jeremiah 32 Chapter" },
   { label: "Ezekiel 2 Chapter" },
   { label: "Ezekiel 10 Chapter" },
+  { label: "Jeremiah 36 Chapter" },
+  { label: "Ezekiel 11 Chapter" },
+  { label: "Ezekiel 18 Chapter" },
+  { label: "Ezekiel 47 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

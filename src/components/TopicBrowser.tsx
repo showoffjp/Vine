@@ -3345,6 +3345,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Malachi 4 Chapter": "malachi-4-guide",
   "The Sun of Righteousness Shall Rise Malachi 4": "malachi-4-guide",
   "Behold I Will Send You Elijah the Prophet Malachi 4": "malachi-4-guide",
+  "Jeremiah 30 Chapter": "jeremiah-30-guide",
+  "The Time of Jacob's Trouble Jeremiah 30": "jeremiah-30-guide",
+  "I Will Restore Fortunes of Jacob Jeremiah 30": "jeremiah-30-guide",
+  "Jeremiah 32 Chapter": "jeremiah-32-guide",
+  "Buy the Field at Anathoth Jeremiah 32": "jeremiah-32-guide",
+  "Nothing Is Too Hard for You Jeremiah 32": "jeremiah-32-guide",
+  "Ezekiel 2 Chapter": "ezekiel-2-guide",
+  "Son of Man I Send You to Israel Ezekiel 2": "ezekiel-2-guide",
+  "You Shall Eat This Scroll Ezekiel 2": "ezekiel-2-guide",
+  "Ezekiel 10 Chapter": "ezekiel-10-guide",
+  "The Glory of the LORD Departed Ezekiel 10": "ezekiel-10-guide",
+  "Cherubim and Wheels Ezekiel 10": "ezekiel-10-guide",
 };
 
 
@@ -4729,6 +4741,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Hosea 3 Chapter" },
   { label: "Hosea 4 Chapter" },
   { label: "Malachi 4 Chapter" },
+  { label: "Jeremiah 30 Chapter" },
+  { label: "Jeremiah 32 Chapter" },
+  { label: "Ezekiel 2 Chapter" },
+  { label: "Ezekiel 10 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

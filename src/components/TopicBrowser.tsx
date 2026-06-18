@@ -3323,6 +3323,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Zechariah 14 Chapter": "zechariah-14-guide",
   "The LORD Will Be King over All the Earth Zechariah 14": "zechariah-14-guide",
   "His Feet Shall Stand on the Mount of Olives Zechariah 14": "zechariah-14-guide",
+  "Jeremiah 20 Chapter": "jeremiah-20-guide",
+  "Cursed Be the Day I Was Born Jeremiah 20": "jeremiah-20-guide",
+  "O LORD You Have Deceived Me Jeremiah 20": "jeremiah-20-guide",
+  "Hosea 1 Chapter": "hosea-1-guide",
+  "The Word of the LORD to Hosea Hosea 1": "hosea-1-guide",
+  "Go Take a Wife of Whoredom Hosea 1": "hosea-1-guide",
+  "Malachi 1 Chapter": "malachi-1-guide",
+  "I Have Loved You Says the LORD Malachi 1": "malachi-1-guide",
+  "You Offer Polluted Food on My Altar Malachi 1": "malachi-1-guide",
+  "Malachi 2 Chapter": "malachi-2-guide",
+  "The LORD Was Witness to Your Marriage Covenant Malachi 2": "malachi-2-guide",
+  "You Have Wearied the LORD with Your Words Malachi 2": "malachi-2-guide",
 };
 
 
@@ -4699,6 +4711,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Amos 9 Chapter" },
   { label: "Micah 1 Chapter" },
   { label: "Zechariah 14 Chapter" },
+  { label: "Jeremiah 20 Chapter" },
+  { label: "Hosea 1 Chapter" },
+  { label: "Malachi 1 Chapter" },
+  { label: "Malachi 2 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

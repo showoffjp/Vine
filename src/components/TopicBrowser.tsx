@@ -3381,6 +3381,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Zechariah 1 Chapter": "zechariah-1-guide",
   "Return to Me Says the LORD of Hosts Zechariah 1": "zechariah-1-guide",
   "The Man on the Red Horse Among the Myrtle Trees Zechariah 1": "zechariah-1-guide",
+  "Amos 2 Chapter": "amos-2-guide",
+  "For Three Transgressions of Moab and Judah Amos 2": "amos-2-guide",
+  "I Raised Up Prophets and Nazirites Among You Amos 2": "amos-2-guide",
+  "Habakkuk 1 Chapter": "habakkuk-1-guide",
+  "How Long O LORD Shall I Cry for Help Habakkuk 1": "habakkuk-1-guide",
+  "I Am Raising Up the Chaldeans Habakkuk 1": "habakkuk-1-guide",
+  "Habakkuk 2 Chapter": "habakkuk-2-guide",
+  "The Righteous Shall Live by His Faith Habakkuk 2": "habakkuk-2-guide",
+  "Woe to the Proud and Violent Nation Habakkuk 2": "habakkuk-2-guide",
+  "Joel 1 Chapter": "joel-1-guide",
+  "A Nation Has Come Up Against My Land Locusts Joel 1": "joel-1-guide",
+  "Lament and Call to Repentance Joel 1": "joel-1-guide",
 };
 
 
@@ -4777,6 +4789,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Amos 1 Chapter" },
   { label: "Micah 4 Chapter" },
   { label: "Zechariah 1 Chapter" },
+  { label: "Amos 2 Chapter" },
+  { label: "Habakkuk 1 Chapter" },
+  { label: "Habakkuk 2 Chapter" },
+  { label: "Joel 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

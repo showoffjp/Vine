@@ -3393,6 +3393,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Joel 1 Chapter": "joel-1-guide",
   "A Nation Has Come Up Against My Land Locusts Joel 1": "joel-1-guide",
   "Lament and Call to Repentance Joel 1": "joel-1-guide",
+  "Joel 3 Chapter": "joel-3-guide",
+  "I Will Pour Out My Spirit on All Flesh Joel 3": "joel-3-guide",
+  "The Valley of Jehoshaphat and the Day of the LORD Joel 3": "joel-3-guide",
+  "Jonah 2 Chapter": "jonah-2-guide",
+  "Jonah Prayer from the Belly of the Fish": "jonah-2-guide",
+  "Out of the Belly of Sheol I Cried Jonah 2": "jonah-2-guide",
+  "Jonah 3 Chapter": "jonah-3-guide",
+  "Nineveh Repented at the Preaching of Jonah": "jonah-3-guide",
+  "The Greatest Revival in Scripture Jonah 3": "jonah-3-guide",
+  "Haggai 1 Chapter": "haggai-1-guide",
+  "Is It a Time for You to Dwell in Paneled Houses Haggai 1": "haggai-1-guide",
+  "Consider Your Ways and Rebuild the Temple Haggai 1": "haggai-1-guide",
 };
 
 
@@ -4793,6 +4805,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Habakkuk 1 Chapter" },
   { label: "Habakkuk 2 Chapter" },
   { label: "Joel 1 Chapter" },
+  { label: "Joel 3 Chapter" },
+  { label: "Jonah 2 Chapter" },
+  { label: "Jonah 3 Chapter" },
+  { label: "Haggai 1 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

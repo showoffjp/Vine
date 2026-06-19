@@ -3547,6 +3547,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 100 Chapter": "psalm-100-guide",
   "Make a Joyful Noise to the LORD All the Lands Psalm 100": "psalm-100-guide",
   "Enter His Gates with Thanksgiving Psalm 100": "psalm-100-guide",
+  "Psalm 126 Chapter": "psalm-126-guide",
+  "When the LORD Restored the Fortunes of Zion Psalm 126": "psalm-126-guide",
+  "Those Who Sow in Tears Shall Reap with Shouts of Joy Psalm 126": "psalm-126-guide",
+  "Psalm 127 Chapter": "psalm-127-guide",
+  "Unless the LORD Builds the House Psalm 127": "psalm-127-guide",
+  "Children Are a Heritage from the LORD Psalm 127": "psalm-127-guide",
+  "Psalm 130 Chapter": "psalm-130-guide",
+  "Out of the Depths I Cry to You O LORD Psalm 130": "psalm-130-guide",
+  "With the LORD There Is Steadfast Love and Plentiful Redemption Psalm 130": "psalm-130-guide",
+  "Psalm 133 Chapter": "psalm-133-guide",
+  "How Good and Pleasant When Brothers Dwell in Unity Psalm 133": "psalm-133-guide",
+  "Like the Precious Oil on the Head Psalm 133": "psalm-133-guide",
 };
 
 
@@ -4997,6 +5009,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 96 Chapter" },
   { label: "Psalm 98 Chapter" },
   { label: "Psalm 100 Chapter" },
+  { label: "Psalm 126 Chapter" },
+  { label: "Psalm 127 Chapter" },
+  { label: "Psalm 130 Chapter" },
+  { label: "Psalm 133 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

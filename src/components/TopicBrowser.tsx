@@ -3535,6 +3535,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 118 Chapter": "psalm-118-guide",
   "The Stone the Builders Rejected Has Become the Cornerstone Psalm 118": "psalm-118-guide",
   "This Is the Day the LORD Has Made Psalm 118": "psalm-118-guide",
+  "Psalm 95 Chapter": "psalm-95-guide",
+  "O Come Let Us Sing to the LORD Psalm 95": "psalm-95-guide",
+  "Today If You Hear His Voice Do Not Harden Your Hearts Psalm 95": "psalm-95-guide",
+  "Psalm 96 Chapter": "psalm-96-guide",
+  "Oh Sing to the LORD a New Song Psalm 96": "psalm-96-guide",
+  "Ascribe to the LORD Glory and Strength Psalm 96": "psalm-96-guide",
+  "Psalm 98 Chapter": "psalm-98-guide",
+  "Oh Sing to the LORD a New Song for He Has Done Marvelous Things Psalm 98": "psalm-98-guide",
+  "Make a Joyful Noise to the LORD All the Earth Psalm 98": "psalm-98-guide",
+  "Psalm 100 Chapter": "psalm-100-guide",
+  "Make a Joyful Noise to the LORD All the Lands Psalm 100": "psalm-100-guide",
+  "Enter His Gates with Thanksgiving Psalm 100": "psalm-100-guide",
 };
 
 
@@ -4981,6 +4993,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 45 Chapter" },
   { label: "Psalm 110 Chapter" },
   { label: "Psalm 118 Chapter" },
+  { label: "Psalm 95 Chapter" },
+  { label: "Psalm 96 Chapter" },
+  { label: "Psalm 98 Chapter" },
+  { label: "Psalm 100 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

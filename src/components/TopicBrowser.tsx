@@ -3451,6 +3451,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 31 Chapter": "psalm-31-guide",
   "Into Your Hand I Commit My Spirit Psalm 31": "psalm-31-guide",
   "My Times Are in Your Hand Psalm 31": "psalm-31-guide",
+  "Psalm 2 Chapter": "psalm-2-guide",
+  "Why Do the Nations Rage Psalm 2": "psalm-2-guide",
+  "You Are My Son Today I Have Begotten You Psalm 2": "psalm-2-guide",
+  "Psalm 5 Chapter": "psalm-5-guide",
+  "Give Ear to My Words O LORD Psalm 5": "psalm-5-guide",
+  "In the Morning I Prepare a Sacrifice and Watch Psalm 5": "psalm-5-guide",
+  "Psalm 6 Chapter": "psalm-6-guide",
+  "O LORD Do Not Rebuke Me in Your Anger Psalm 6": "psalm-6-guide",
+  "The LORD Has Heard My Weeping Psalm 6": "psalm-6-guide",
+  "Psalm 24 Chapter": "psalm-24-guide",
+  "The Earth Is the LORD's and the Fullness Thereof Psalm 24": "psalm-24-guide",
+  "Lift Up Your Heads O Gates the King of Glory Psalm 24": "psalm-24-guide",
 };
 
 
@@ -4869,6 +4881,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 4 Chapter" },
   { label: "Psalm 25 Chapter" },
   { label: "Psalm 31 Chapter" },
+  { label: "Psalm 2 Chapter" },
+  { label: "Psalm 5 Chapter" },
+  { label: "Psalm 6 Chapter" },
+  { label: "Psalm 24 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

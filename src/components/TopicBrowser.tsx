@@ -3463,6 +3463,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 24 Chapter": "psalm-24-guide",
   "The Earth Is the LORD's and the Fullness Thereof Psalm 24": "psalm-24-guide",
   "Lift Up Your Heads O Gates the King of Glory Psalm 24": "psalm-24-guide",
+  "Psalm 15 Chapter": "psalm-15-guide",
+  "O LORD Who Shall Dwell in Your Tent Psalm 15": "psalm-15-guide",
+  "He Who Walks Blamelessly and Does What Is Right Psalm 15": "psalm-15-guide",
+  "Psalm 20 Chapter": "psalm-20-guide",
+  "May the LORD Answer You in the Day of Trouble Psalm 20": "psalm-20-guide",
+  "Some Trust in Chariots but We Trust in the Name of the LORD Psalm 20": "psalm-20-guide",
+  "Psalm 33 Chapter": "psalm-33-guide",
+  "Shout for Joy in the LORD O You Righteous Psalm 33": "psalm-33-guide",
+  "By the Word of the LORD the Heavens Were Made Psalm 33": "psalm-33-guide",
+  "Psalm 36 Chapter": "psalm-36-guide",
+  "Your Steadfast Love O LORD Extends to the Heavens Psalm 36": "psalm-36-guide",
+  "With You Is the Fountain of Life Psalm 36": "psalm-36-guide",
 };
 
 
@@ -4885,6 +4897,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 5 Chapter" },
   { label: "Psalm 6 Chapter" },
   { label: "Psalm 24 Chapter" },
+  { label: "Psalm 15 Chapter" },
+  { label: "Psalm 20 Chapter" },
+  { label: "Psalm 33 Chapter" },
+  { label: "Psalm 36 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

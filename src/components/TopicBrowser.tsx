@@ -3595,6 +3595,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 138 Chapter": "psalm-138-guide",
   "I Give You Thanks O LORD with My Whole Heart Psalm 138": "psalm-138-guide",
   "The LORD Will Fulfill His Purpose for Me Psalm 138": "psalm-138-guide",
+  "Psalm 18 Chapter": "psalm-18-guide",
+  "I Love You O LORD My Strength Psalm 18": "psalm-18-guide",
+  "The LORD Is My Rock and My Fortress and My Deliverer Psalm 18": "psalm-18-guide",
+  "Psalm 65 Chapter": "psalm-65-guide",
+  "Praise Is Due to You O God in Zion Psalm 65": "psalm-65-guide",
+  "You Crown the Year with Your Bounty Psalm 65": "psalm-65-guide",
+  "Psalm 71 Chapter": "psalm-71-guide",
+  "In You O LORD Do I Take Refuge Psalm 71": "psalm-71-guide",
+  "Do Not Cast Me Off in the Time of Old Age Psalm 71": "psalm-71-guide",
+  "Psalm 72 Chapter": "psalm-72-guide",
+  "Give the King Your Justice O God Psalm 72": "psalm-72-guide",
+  "May He Have Dominion from Sea to Sea Psalm 72": "psalm-72-guide",
 };
 
 
@@ -5061,6 +5073,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 107 Chapter" },
   { label: "Psalm 116 Chapter" },
   { label: "Psalm 138 Chapter" },
+  { label: "Psalm 18 Chapter" },
+  { label: "Psalm 65 Chapter" },
+  { label: "Psalm 71 Chapter" },
+  { label: "Psalm 72 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

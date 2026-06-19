@@ -3559,6 +3559,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 133 Chapter": "psalm-133-guide",
   "How Good and Pleasant When Brothers Dwell in Unity Psalm 133": "psalm-133-guide",
   "Like the Precious Oil on the Head Psalm 133": "psalm-133-guide",
+  "Psalm 145 Chapter": "psalm-145-guide",
+  "I Will Extol You My God and King Psalm 145": "psalm-145-guide",
+  "The LORD Is Gracious and Merciful Slow to Anger Psalm 145": "psalm-145-guide",
+  "Psalm 146 Chapter": "psalm-146-guide",
+  "Praise the LORD O My Soul Psalm 146": "psalm-146-guide",
+  "Put Not Your Trust in Princes Psalm 146": "psalm-146-guide",
+  "Psalm 147 Chapter": "psalm-147-guide",
+  "He Heals the Brokenhearted and Binds Up Their Wounds Psalm 147": "psalm-147-guide",
+  "He Determines the Number of the Stars Psalm 147": "psalm-147-guide",
+  "Psalm 148 Chapter": "psalm-148-guide",
+  "Praise the LORD from the Heavens Psalm 148": "psalm-148-guide",
+  "Let Them Praise the Name of the LORD Psalm 148": "psalm-148-guide",
 };
 
 
@@ -5013,6 +5025,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 127 Chapter" },
   { label: "Psalm 130 Chapter" },
   { label: "Psalm 133 Chapter" },
+  { label: "Psalm 145 Chapter" },
+  { label: "Psalm 146 Chapter" },
+  { label: "Psalm 147 Chapter" },
+  { label: "Psalm 148 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

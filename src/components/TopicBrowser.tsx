@@ -3607,6 +3607,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 72 Chapter": "psalm-72-guide",
   "Give the King Your Justice O God Psalm 72": "psalm-72-guide",
   "May He Have Dominion from Sea to Sea Psalm 72": "psalm-72-guide",
+  "Psalm 67 Chapter": "psalm-67-guide",
+  "May God Be Gracious to Us and Bless Us Psalm 67": "psalm-67-guide",
+  "Let the Peoples Praise You O God Psalm 67": "psalm-67-guide",
+  "Psalm 68 Chapter": "psalm-68-guide",
+  "God Shall Arise Let His Enemies Be Scattered Psalm 68": "psalm-68-guide",
+  "Father of the Fatherless and Protector of Widows Psalm 68": "psalm-68-guide",
+  "Psalm 89 Chapter": "psalm-89-guide",
+  "I Will Sing of the Steadfast Love of the LORD Forever Psalm 89": "psalm-89-guide",
+  "The Covenant with David Psalm 89": "psalm-89-guide",
+  "Psalm 137 Chapter": "psalm-137-guide",
+  "By the Waters of Babylon We Sat Down and Wept Psalm 137": "psalm-137-guide",
+  "How Shall We Sing the LORD's Song in a Foreign Land Psalm 137": "psalm-137-guide",
 };
 
 
@@ -5077,6 +5089,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 65 Chapter" },
   { label: "Psalm 71 Chapter" },
   { label: "Psalm 72 Chapter" },
+  { label: "Psalm 67 Chapter" },
+  { label: "Psalm 68 Chapter" },
+  { label: "Psalm 89 Chapter" },
+  { label: "Psalm 137 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

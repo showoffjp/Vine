@@ -3571,6 +3571,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 148 Chapter": "psalm-148-guide",
   "Praise the LORD from the Heavens Psalm 148": "psalm-148-guide",
   "Let Them Praise the Name of the LORD Psalm 148": "psalm-148-guide",
+  "Psalm 104 Chapter": "psalm-104-guide",
+  "Bless the LORD O My Soul You Are Very Great Psalm 104": "psalm-104-guide",
+  "O LORD How Manifold Are Your Works Psalm 104": "psalm-104-guide",
+  "Psalm 136 Chapter": "psalm-136-guide",
+  "Give Thanks to the LORD for His Steadfast Love Endures Forever Psalm 136": "psalm-136-guide",
+  "The Great Hallel Psalm 136": "psalm-136-guide",
+  "Psalm 149 Chapter": "psalm-149-guide",
+  "Sing to the LORD a New Song Psalm 149": "psalm-149-guide",
+  "Let the Godly Exult in Glory Psalm 149": "psalm-149-guide",
+  "Psalm 150 Chapter": "psalm-150-guide",
+  "Let Everything That Has Breath Praise the LORD Psalm 150": "psalm-150-guide",
+  "Praise God in His Sanctuary Psalm 150": "psalm-150-guide",
 };
 
 
@@ -5029,6 +5041,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 146 Chapter" },
   { label: "Psalm 147 Chapter" },
   { label: "Psalm 148 Chapter" },
+  { label: "Psalm 104 Chapter" },
+  { label: "Psalm 136 Chapter" },
+  { label: "Psalm 149 Chapter" },
+  { label: "Psalm 150 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

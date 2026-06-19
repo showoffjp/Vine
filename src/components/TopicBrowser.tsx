@@ -3619,6 +3619,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 137 Chapter": "psalm-137-guide",
   "By the Waters of Babylon We Sat Down and Wept Psalm 137": "psalm-137-guide",
   "How Shall We Sing the LORD's Song in a Foreign Land Psalm 137": "psalm-137-guide",
+  "Psalm 69 Chapter": "psalm-69-guide",
+  "Save Me O God for the Waters Have Come Up to My Neck Psalm 69": "psalm-69-guide",
+  "Zeal for Your House Has Consumed Me Psalm 69": "psalm-69-guide",
+  "Psalm 88 Chapter": "psalm-88-guide",
+  "O LORD God of My Salvation I Cry Out Day and Night Psalm 88": "psalm-88-guide",
+  "Darkness Is My Closest Friend Psalm 88": "psalm-88-guide",
+  "Psalm 102 Chapter": "psalm-102-guide",
+  "Hear My Prayer O LORD Let My Cry Come to You Psalm 102": "psalm-102-guide",
+  "You Will Arise and Have Pity on Zion Psalm 102": "psalm-102-guide",
+  "Psalm 143 Chapter": "psalm-143-guide",
+  "Teach Me to Do Your Will for You Are My God Psalm 143": "psalm-143-guide",
+  "Let Me Hear in the Morning of Your Steadfast Love Psalm 143": "psalm-143-guide",
 };
 
 
@@ -5093,6 +5105,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 68 Chapter" },
   { label: "Psalm 89 Chapter" },
   { label: "Psalm 137 Chapter" },
+  { label: "Psalm 69 Chapter" },
+  { label: "Psalm 88 Chapter" },
+  { label: "Psalm 102 Chapter" },
+  { label: "Psalm 143 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

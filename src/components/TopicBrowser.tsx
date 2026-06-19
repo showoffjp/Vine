@@ -3487,6 +3487,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 14 Chapter": "psalm-14-guide",
   "The Fool Says in His Heart There Is No God Psalm 14": "psalm-14-guide",
   "There Is None Who Does Good Not Even One Psalm 14": "psalm-14-guide",
+  "Psalm 12 Chapter": "psalm-12-guide",
+  "The Words of the LORD Are Pure Words Psalm 12": "psalm-12-guide",
+  "Save O LORD for the Godly One Is Gone Psalm 12": "psalm-12-guide",
+  "Psalm 17 Chapter": "psalm-17-guide",
+  "Keep Me as the Apple of Your Eye Psalm 17": "psalm-17-guide",
+  "Hear a Just Cause O LORD Psalm 17": "psalm-17-guide",
+  "Psalm 28 Chapter": "psalm-28-guide",
+  "The LORD Is My Strength and My Shield Psalm 28": "psalm-28-guide",
+  "Blessed Be the LORD for He Has Heard My Pleas Psalm 28": "psalm-28-guide",
+  "Psalm 29 Chapter": "psalm-29-guide",
+  "The Voice of the LORD Is Over the Waters Psalm 29": "psalm-29-guide",
+  "Ascribe to the LORD Glory and Strength Psalm 29": "psalm-29-guide",
 };
 
 
@@ -4917,6 +4929,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 10 Chapter" },
   { label: "Psalm 11 Chapter" },
   { label: "Psalm 14 Chapter" },
+  { label: "Psalm 12 Chapter" },
+  { label: "Psalm 17 Chapter" },
+  { label: "Psalm 28 Chapter" },
+  { label: "Psalm 29 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

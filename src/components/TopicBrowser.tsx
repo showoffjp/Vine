@@ -3475,6 +3475,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 36 Chapter": "psalm-36-guide",
   "Your Steadfast Love O LORD Extends to the Heavens Psalm 36": "psalm-36-guide",
   "With You Is the Fountain of Life Psalm 36": "psalm-36-guide",
+  "Psalm 9 Chapter": "psalm-9-guide",
+  "I Will Give Thanks to the LORD with My Whole Heart Psalm 9": "psalm-9-guide",
+  "The LORD Is a Stronghold for the Oppressed Psalm 9": "psalm-9-guide",
+  "Psalm 10 Chapter": "psalm-10-guide",
+  "Why O LORD Do You Stand Far Away Psalm 10": "psalm-10-guide",
+  "The LORD Is King Forever the Helper of the Fatherless Psalm 10": "psalm-10-guide",
+  "Psalm 11 Chapter": "psalm-11-guide",
+  "In the LORD I Take Refuge Psalm 11": "psalm-11-guide",
+  "The LORD Is in His Holy Temple His Throne in Heaven Psalm 11": "psalm-11-guide",
+  "Psalm 14 Chapter": "psalm-14-guide",
+  "The Fool Says in His Heart There Is No God Psalm 14": "psalm-14-guide",
+  "There Is None Who Does Good Not Even One Psalm 14": "psalm-14-guide",
 };
 
 
@@ -4901,6 +4913,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 20 Chapter" },
   { label: "Psalm 33 Chapter" },
   { label: "Psalm 36 Chapter" },
+  { label: "Psalm 9 Chapter" },
+  { label: "Psalm 10 Chapter" },
+  { label: "Psalm 11 Chapter" },
+  { label: "Psalm 14 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

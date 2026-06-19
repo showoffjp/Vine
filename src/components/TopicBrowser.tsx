@@ -3439,6 +3439,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 34 Chapter": "psalm-34-guide",
   "Taste and See That the LORD Is Good Psalm 34": "psalm-34-guide",
   "The LORD Is Near to the Brokenhearted Psalm 34": "psalm-34-guide",
+  "Psalm 3 Chapter": "psalm-3-guide",
+  "O LORD How Many Are My Foes Psalm 3": "psalm-3-guide",
+  "I Lay Down and Slept I Woke for the LORD Sustained Me Psalm 3": "psalm-3-guide",
+  "Psalm 4 Chapter": "psalm-4-guide",
+  "Answer Me When I Call O God of My Righteousness Psalm 4": "psalm-4-guide",
+  "In Peace I Will Both Lie Down and Sleep Psalm 4": "psalm-4-guide",
+  "Psalm 25 Chapter": "psalm-25-guide",
+  "To You O LORD I Lift Up My Soul Psalm 25": "psalm-25-guide",
+  "Make Me to Know Your Ways O LORD Psalm 25": "psalm-25-guide",
+  "Psalm 31 Chapter": "psalm-31-guide",
+  "Into Your Hand I Commit My Spirit Psalm 31": "psalm-31-guide",
+  "My Times Are in Your Hand Psalm 31": "psalm-31-guide",
 };
 
 
@@ -4853,6 +4865,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 30 Chapter" },
   { label: "Psalm 32 Chapter" },
   { label: "Psalm 34 Chapter" },
+  { label: "Psalm 3 Chapter" },
+  { label: "Psalm 4 Chapter" },
+  { label: "Psalm 25 Chapter" },
+  { label: "Psalm 31 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

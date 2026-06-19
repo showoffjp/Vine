@@ -2,207 +2,451 @@
 import { useState, useEffect } from "react";
 import VideoEmbed from "@/components/VideoEmbed";
 
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#6B4FBB";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
+const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
+const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
+const ROSE = "#E11D48", BLUE = "#3B82F6";
+const ACCENT = TEAL;
 
-const TABS = [
-  "Overview",
-  "Judgment on Jerusalem",
-  "The Humble Remnant",
-  "The Mighty Warrior",
-  "Rejoicing Over You with Singing",
-  "Application",
-  "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+const TABS = ["overview", "themes", "verse", "application"];
+const TAB_LABELS: Record<string, string> = {
+  overview: "Overview",
+  themes: "Key Themes",
+  verse: "Verse by Verse",
+  application: "Application",
+};
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const THEMES = [
   {
-    id: "Overview",
-    heading: "Overview of Zephaniah 3",
-    reference: "Zephaniah 3:1&ndash;20",
-    paragraphs: [
-      "Zephaniah 3 is the culmination of one of the most relentlessly severe prophetic books in the Old Testament. The Book of Zephaniah opens with a declaration of comprehensive judgment that makes even Isaiah&rsquo;s most thunderous passages seem measured by comparison: the LORD will sweep away everything from the face of the earth &mdash; man and beast, birds and fish (1:2&ndash;3). The Day of the LORD that Zephaniah describes in chapter 1 is a day of wrath, distress, anguish, ruin, devastation, darkness, and gloom. Nations and cities are condemned in chapter 2. And then chapter 3 arrives, and the movement of the book performs a kind of theological miracle: out of the ruins of judgment, extraordinary promises of salvation emerge.",
-      "The chapter divides naturally into two unequal halves. The first half (verses 1&ndash;13) continues and deepens the indictment of Jerusalem and the nations, then pivots to the promise of a purified remnant. The second half (verses 14&ndash;20) is a song of salvation and joy that many scholars regard as one of the most beautiful passages in the entire prophetic literature. Its centerpiece is verse 17: &ldquo;The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing.&rdquo; This single verse has become one of the most quoted and preached promises in all of Scripture.",
-      "The theological movement of Zephaniah 3 &mdash; from indictment to promise, from judgment to salvation, from shame to exultation &mdash; is the movement of the gospel in miniature. God does not ignore or minimize the rebellion and corruption that characterize Jerusalem&rsquo;s leadership. He names it precisely and warns of its consequences. But the final word is not condemnation; it is the image of a God who cannot contain his joy over the people he has saved, who breaks into song over the remnant he has gathered. This movement from wrath to singing is the shape of biblical hope.",
-      "Zephaniah prophesied in the reign of King Josiah (640&ndash;609 BC), the great reforming king of Judah who rediscovered the Book of the Law and led the most thoroughgoing religious reform in the nation&rsquo;s history. The prophecy likely predates or accompanies the early stages of that reform, when the deep corruption of the Manasseh era still pervaded Judah&rsquo;s religious and civic life. The pride, injustice, and syncretism that Zephaniah attacks were the fruits of a long period in which the worship of Baal, Molech, and the host of heaven had been officially sponsored. His condemnation of &ldquo;the officials, the judges, the priests, and the prophets&rdquo; (3:3&ndash;4) maps directly onto this historical context.",
-      "The chapter&rsquo;s ultimate subject is not Jerusalem&rsquo;s sin, which is merely the foil, but the LORD himself &mdash; his character, his purposes, and his undefeatable determination to save. Three great assertions about God structure the chapter&rsquo;s second half: the LORD is in the midst of his people (v. 15), the LORD is a Mighty Warrior who saves (v. 17), and the LORD rejoices and sings over his people (v. 17). These are not abstractions; they are the declarations of a God who has committed himself irrevocably to a people who could not save themselves.",
-    ],
+    id: "corrupt-leaders",
+    color: ROSE,
+    title: "The Indictment of Jerusalem&rsquo;s Leaders",
+    html: "Zephaniah 3:1&ndash;4 contains one of the most concentrated leadership indictments in the Minor Prophets. Four institutions are charged in four verses, each with its own devastating metaphor. The officials (princes/rulers) are &ldquo;roaring lions&rdquo; (v. 3) &mdash; predators within the city rather than protectors of it. The judges are &ldquo;evening wolves that leave nothing till the morning&rdquo; &mdash; so rapacious that by dawn nothing remains of what they have consumed. The prophets are &ldquo;wanton, faithless persons&rdquo; (NRSV: &ldquo;reckless, treacherous men&rdquo;) &mdash; the word in Hebrew suggests someone who effervesces, someone light and untethered, unable to be trusted with the word of God. The priests &ldquo;profane what is holy and do violence to the law.&rdquo; Each institution has failed at its core function: rulers protect but devour; judges adjudicate but consume; prophets speak truth but are faithless; priests guard holiness but desecrate it. The cumulative indictment is of a city whose entire institutional architecture has inverted. This is not peripheral corruption &mdash; it is systemic. And yet God remains in the city&rsquo;s midst (v. 5), righteous every morning, revealing his justice &mdash; a standing rebuke to the corruption around him.",
   },
   {
-    id: "Judgment on Jerusalem",
-    heading: "Judgment on Jerusalem &mdash; The Rebellious City",
-    reference: "Zephaniah 3:1&ndash;8",
-    paragraphs: [
-      "Zephaniah 3 opens with a cry of woe that is almost unique in its layered accusation: &ldquo;Woe to her who is rebellious and defiled, the oppressing city!&rdquo; (3:1). Though the city is not immediately named, the context makes clear that this is Jerusalem &mdash; a breathtaking indictment of the city that bore the name of God, housed his Temple, and was charged with being the center of his covenant purposes. The woe oracle typically preceded a death announcement in the ancient world, and its application here to the holy city carries the full force of prophetic daring. The prophet is not attacking a pagan nation; he is pronouncing judgment on his own community.",
-      "Three charges are laid against the rebellious city in verse 2: she listened to no voice, she accepted no correction, she did not trust in the LORD, she did not draw near to her God. The fourfold structure is deliberate. The first two charges (not listening, not accepting correction) speak to her relationship to God&rsquo;s word and its human mediators &mdash; the prophets, the priests, the warnings and rebukes that had been addressed to her over generations. The second two charges (not trusting, not drawing near) go deeper, to the condition of the heart. Jerusalem&rsquo;s failure was not merely disobedience; it was a fundamental rupture of the personal relationship with the LORD that was the foundation of the covenant.",
-      "The specific leaders of the city are then indicted in terms drawn from the natural world: &ldquo;Her officials within her are roaring lions; her judges are evening wolves that leave nothing till the morning. Her prophets are fickle, treacherous men; her priests have profaned what is holy; they have done violence to the law&rdquo; (3:3&ndash;4). The officials and judges are predators &mdash; the lion who tears and the evening wolf who hunts in darkness. The prophets are characterized by their unreliability and treachery; the priests, whose task was to guard the holy and teach the Torah, have instead profaned the sacred and violated the very law they were charged to uphold. Every order of leadership has failed.",
-      "The contrast in verse 5 is devastating in its quiet simplicity: &ldquo;The LORD within her is righteous; he does no injustice; every morning he shows forth his justice; each dawn he does not fail; but the unjust knows no shame.&rdquo; While the city&rsquo;s leaders devour and profane, the LORD who dwells in their midst is morning by morning displaying his righteousness, holding out his justice like a lamp, refusing to fail. The contrast is between the God who is faithful and the people who have refused his faithfulness. The tragedy is not that God has been absent; it is that he has been present, patient, and persistently just, while the city&rsquo;s leadership has simply refused to look.",
-      "God then rehearses the object lessons he has given to Jerusalem through the fates of other nations. He has cut off nations, made their corners desolate, destroyed their streets &mdash; all in the hope that Jerusalem would fear and accept correction (3:6&ndash;7). But the response has been exactly the opposite: &ldquo;They were the more eager to make all their deeds corrupt&rdquo; (3:7). History&rsquo;s warnings, which should have produced humility and repentance, instead produced an acceleration of corruption. The people looked at the judgment of the nations and concluded that they were exempt rather than warned.",
-      "The first half of the chapter closes with an arresting word about the LORD&rsquo;s patient waiting and decisive action: &ldquo;Therefore wait for me, declares the LORD, for the day when I rise up to seize the prey. For my decision is to gather nations, to assemble kingdoms, to pour out upon them my indignation, all my burning anger; for in the fire of my jealousy all the earth shall be consumed&rdquo; (3:8). The tone here is not of a God who has been surprised or defeated; it is of a God who has been patiently waiting for his appointed moment. The &ldquo;jealousy&rdquo; of the LORD is his fierce, exclusive commitment to his own covenant purposes and his own people&rsquo;s welfare. When he acts, no power on earth can withstand it.",
-    ],
+    id: "gods-righteousness",
+    color: GOLD,
+    title: "The Contrast with God&rsquo;s Steadfast Righteousness",
+    html: "Verse 5 is the theological hinge of the chapter&rsquo;s opening section: &ldquo;The LORD within her is righteous; he does no injustice; every morning he shows forth his justice; each dawn he does not fail; but the unjust knows no shame.&rdquo; The structure is deliberate: verses 1&ndash;4 catalog the failure of every human institution in Jerusalem; verse 5 plants God himself in the center of the city as the one who has not failed. Every morning &mdash; the same phrase used of God&rsquo;s new mercies in Lamentations 3:23 &mdash; God reveals his justice. The contrast with the leaders could not be sharper: they hide injustice at night; God reveals righteousness at dawn. The tragedy noted in the verse&rsquo;s second half is the city&rsquo;s response: &ldquo;the unjust knows no shame.&rdquo; God&rsquo;s visible righteousness does not produce repentance &mdash; the corrupt have become anesthetized to the contrast between themselves and the God in their midst. This is one of Scripture&rsquo;s most searching descriptions of moral hardening: not ignorance of God&rsquo;s righteousness, but indifference to it.",
   },
   {
-    id: "The Humble Remnant",
-    heading: "The Humble Remnant &mdash; A People Left in the Midst",
-    reference: "Zephaniah 3:9&ndash;13",
-    paragraphs: [
-      "The pivot from judgment to promise in Zephaniah 3:9 is one of the most striking theological transitions in prophetic literature. Without any break in the literary flow, without any intervening human action or confession, the LORD announces what he will do &ldquo;at that time&rdquo; &mdash; the time of his decisive intervention: &ldquo;For at that time I will change the speech of the peoples to a pure speech, that all of them may call upon the name of the LORD and serve him with one accord&rdquo; (3:9). The reversal of the Tower of Babel is implied: the confusion of languages that scattered humanity is now reversed as God gives a pure language that enables unified worship. The nations that were gathered for judgment are now gathered for worship.",
-      "The promise of a &ldquo;pure speech&rdquo; (literally &ldquo;a pure lip&rdquo; in Hebrew) connects to the great tradition in which corrupted speech represents a corrupted people. Isaiah&rsquo;s lips were unclean and needed the coal from the altar (Isaiah 6:5&ndash;7). Zephaniah&rsquo;s own name means &ldquo;the LORD has hidden,&rdquo; and the call to humble &ldquo;seekers&rdquo; in chapter 2:3 was a call to the hidden remnant. Now God promises to purify the very organ of worship and witness &mdash; the lips &mdash; so that the speech of his people will be holy, aligned with his truth, and capable of genuine praise.",
-      "The geographical scope of the restoration is then expanded: &ldquo;From beyond the rivers of Cush my worshipers, the daughter of my dispersed ones, shall bring my offering&rdquo; (3:10). Cush, the region south of Egypt, represented the farthest reaches of the known world in ancient Israelite geography. The promise that worshipers will come from &ldquo;beyond the rivers of Cush&rdquo; is a way of saying that the gathering will be truly universal &mdash; from the edges of the earth, from the ends of the human dispersal, God&rsquo;s people will be brought home to worship.",
-      "The nature of the purified community is then described in three complementary promises. First, shame is removed: &ldquo;On that day you shall not be put to shame because of the deeds by which you have rebelled against me; for then I will remove from your midst your proudly exultant ones&rdquo; (3:11). The proud, those who had been the engines of Jerusalem&rsquo;s rebellion, are removed. The community that remains is not defined by its own achievement but by what God has taken away and what God has left. This is already the shape of grace.",
-      "The character of the remnant is then positively described: &ldquo;But I will leave in your midst a people humble and lowly. They shall seek refuge in the name of the LORD &mdash; those who are left in Israel; they shall do no injustice and speak no lies, nor shall there be found in their mouth a deceitful tongue&rdquo; (3:12&ndash;13). Humility, refuge-seeking, justice, and truthful speech &mdash; these are the marks of the renewed people. The remnant is not a group of spiritual heroes who have preserved their righteousness through the fires of judgment; they are people defined by their dependence on the LORD, their refuge in his name rather than their own strength.",
-      "The final image of the remnant in verse 13 is one of the Bible&rsquo;s most beautiful pictures of covenant rest: &ldquo;For they shall graze and lie down, and none shall make them afraid.&rdquo; The pastoral image invokes the language of Psalm 23 and the great promise that the LORD will lead his flock to rest. The remnant, who will be people without deceit and without injustice, will also be people without fear &mdash; not because they are strong, but because the Mighty Warrior is in their midst and no enemy can ultimately reach them under his protection.",
-    ],
+    id: "purified-remnant",
+    color: TEAL,
+    title: "The Purified Remnant: No Lies, No Deceit",
+    html: "Zephaniah 3:9&ndash;13 introduces one of the most striking features of the prophetic restoration vision: the purified people who speak no lies and have no deceitful tongue. Verse 9 promises a &ldquo;pure speech&rdquo; (Hebrew: <em>saphah berurah</em> &mdash; literally &ldquo;a purified lip&rdquo;) given to the peoples so they may call on the LORD and serve him with one accord. This echoes and reverses Babel (Genesis 11), where diverse language scattered the nations; here, purified speech re-gathers them around the worship of God. The remnant that remains in Israel is described with striking specificity (v. 13): they &ldquo;shall do no injustice and speak no lies; nor shall there be found in their mouth a deceitful tongue.&rdquo; The three offenses &mdash; injustice, lies, deceit &mdash; are precisely the offenses named in the indictment of Jerusalem&rsquo;s leaders (v. 1&ndash;4). The remnant is defined by the absence of what destroyed the city. They are humble and lowly (v. 12), seeking refuge in the name of the LORD &mdash; the opposite of the proud and arrogant who did not trust God (v. 2). They will &ldquo;pasture and lie down, and none shall make them afraid&rdquo; (v. 13) &mdash; an image of shalom as secure rest, echoing the pastoral images of Micah 4:4 and Ezekiel 34:25.",
   },
   {
-    id: "The Mighty Warrior",
-    heading: "The Mighty Warrior &mdash; The LORD Is in Your Midst",
-    reference: "Zephaniah 3:14&ndash;17",
-    paragraphs: [
-      "The transition from prophetic oracle to lyric song in verse 14 is abrupt and deliberate: &ldquo;Sing aloud, O daughter of Zion; shout, O Israel! Rejoice and exult with all your heart, O daughter of Jerusalem!&rdquo; After verses of woe, indictment, and severe warning, the command to sing arrives like a sudden burst of light. The imperative is plural and emphatic &mdash; not a tentative suggestion but a summons to full-throated, wholehearted celebration. Three different verbs of joyful expression are stacked on top of one another: sing, shout, rejoice and exult. The community that has heard its sins named with precision is now called to celebrate with everything it has.",
-      "The grounds for celebration are then given in verses 15&ndash;17, which form one of the most condensed and powerful theological statements in the Old Testament. Three things are declared in rapid succession: &ldquo;The LORD has taken away the judgments against you; he has cleared away your enemies. The King of Israel, the LORD, is in your midst; you shall never again fear evil&rdquo; (3:15). Judgment removed. Enemies cleared. The LORD &mdash; named explicitly as the King of Israel, the sovereign ruler of the covenant nation &mdash; present in the community&rsquo;s midst. And the consequence: never again will they fear evil. The combination of presence and power makes fear impossible.",
-      "The address then shifts to comfort the desolate: &ldquo;On that day it shall be said to Jerusalem: Fear not, O Zion; let not your hands grow weak&rdquo; (3:16). The &ldquo;weak hands&rdquo; is a vivid image of a community so overwhelmed by threat and disaster that its hands have dropped to its sides in exhaustion and hopelessness. The command not to let the hands grow weak is simultaneously a recognition that they have been growing weak and an infusion of the courage needed to lift them again. It is the kind of word that can only be spoken credibly when the one speaking it has the power to make it true.",
-      "Then comes the great verse around which the entire chapter turns, the declaration that has echoed through the history of biblical devotion and Christian worship: &ldquo;The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing&rdquo; (3:17). The verse is structured as a series of five divine actions: being present, saving, rejoicing with gladness, quieting with love, and exulting with loud singing. Each action reveals a different facet of God&rsquo;s relationship with his people.",
-      "The word translated &ldquo;mighty one&rdquo; is gibbor, the same word used of God as the &ldquo;Mighty God&rdquo; in Isaiah 9:6 and of the mighty warriors of ancient Israel. The gibbor is a man of power, a champion, a proven fighter whose strength in battle is not theoretical. The LORD is not only present and savingly active; he is present as a gibbor, a warrior-champion who has come into the midst of his people to fight for them. The enemies who threatened the community cannot stand against him. The salvation he brings is not a distant divine decree but the personal, powerful intervention of the Mighty Warrior in the thick of the battle.",
-      "The final movement of the verse &mdash; God rejoicing, quieting, and singing over his people &mdash; has no precise parallel anywhere in the Old Testament. The image of God singing is unique in Scripture. The Hebrew word translated &ldquo;exult&rdquo; (gil) means to spin around in joy, to leap, to be transported with gladness. The LORD does not observe the salvation of his people from a distance with cool satisfaction; he is caught up in joy over them, he sings over them. The community that was told to sing aloud in verse 14 discovers that their singing is met by the singing of God himself. The joy of redemption is mutual.",
-    ],
+    id: "reversal-joy",
+    color: PURPLE,
+    title: "The Great Reversal: From Judgment to Uncontainable Joy",
+    html: "Zephaniah 3:14&ndash;17 is among the most astonishing reversals in the entire Old Testament. Without narrative transition, the voice of doom becomes a voice of exultation: &ldquo;Sing aloud, O daughter of Zion; shout, O Israel! Rejoice and exult with all your heart, O daughter of Jerusalem!&rdquo; (v. 14). The imperative to sing comes immediately after the description of the humble, speechless remnant &mdash; as if the only appropriate response to what God has done is the song that was silenced during judgment. The theological explanation for the reversal is given in verse 15: &ldquo;The LORD has taken away the judgments against you; he has cleared away your enemies. The King of Israel, the LORD, is in your midst; you shall never again fear evil.&rdquo; Two things have happened: the sentence has been lifted, and the enemy has been removed. And the presence of the King in the midst of the city &mdash; which in 3:5 was a rebuke to corruption &mdash; is now the source of total security. The climax of the reversal is verse 17, which contains what is arguably the most beautiful verse in the Minor Prophets. The fear that characterized Judah throughout the judgment period is directly addressed: &ldquo;Do not fear, O Zion; let not your hands grow weak&rdquo; (v. 16). God himself will replace the city&rsquo;s fear with his own presence.",
   },
   {
-    id: "Rejoicing Over You with Singing",
-    heading: "Rejoicing Over You with Singing &mdash; The Final Restoration",
-    reference: "Zephaniah 3:17&ndash;20",
-    paragraphs: [
-      "The closing verses of Zephaniah 3 unfold the promises of final restoration in language that has shaped the Christian imagination across centuries. Beginning from the central declaration that God rejoices and sings over his people, the chapter moves toward an account of what the restored future will look like in concrete terms. The movement is from the interior reality of God&rsquo;s joy to the exterior realities of gathered exiles, reversed shame, and universal praise. It is a movement from the divine heart outward to the reordered world.",
-      "The LORD addresses those who are grieved about the festivals &mdash; those who sorrow over the loss of the appointed gatherings that were the rhythm of Israel&rsquo;s covenant life: &ldquo;I will gather those of you who mourn for the festival, so that you will no longer suffer reproach&rdquo; (3:18). The reproach that Israel bore among the nations &mdash; the shame of exile, the humiliation of defeat and displacement &mdash; was experienced most painfully at the moments when they could not gather at the Temple for the appointed feasts. Zephaniah promises not merely personal consolation but the restoration of the communal, liturgical life of the people. The festivals will return. The gathering will happen.",
-      "The promise of verse 19 addresses the specific people most devastated by the catastrophes of judgment: &ldquo;Behold, at that time I will deal with all your oppressors. And I will save the lame and gather the outcast, and I will change their shame into praise and renown in all the earth.&rdquo; The lame and the outcast &mdash; those who in the ancient world were most vulnerable, most excluded from normal participation in community life, most likely to be overlooked when larger events dominated the scene &mdash; are named by God as the specific objects of his saving attention. His eye is on the ones no one else is watching. His hand reaches first for the ones everyone else has left behind.",
-      "The reversal of shame into &ldquo;praise and renown in all the earth&rdquo; is one of the most sweeping promises in the prophetic literature. The Hebrew word translated &ldquo;praise&rdquo; (shem) carries the sense of name, reputation, renown. The community that had been a byword of disgrace among the nations will become a community whose name is spoken with praise wherever it is known. This is not the natural consequence of improved circumstances; it is a divine reversal, a deliberate revaluation performed by the LORD himself, in which what was degraded is honored and what was hidden is brought into the light.",
-      "The chapter and the book close with a promise of homecoming: &ldquo;At that time I will bring you in, at the time when I gather you together; for I will make you renowned and praised among all the peoples of the earth, when I restore your fortunes before your eyes, says the LORD&rdquo; (3:20). The phrase &ldquo;restore your fortunes&rdquo; is sometimes translated &ldquo;bring back your captives&rdquo; &mdash; in either case it points to a reversal of the exile, a return from the places of dispersion to the place of belonging. The restoration will be visible: &ldquo;before your eyes.&rdquo; The God who has been acting in history, sometimes invisibly and always in ways that challenge human understanding, will at last perform a work so undeniable that his people will see it with their own eyes and know without question that the LORD has done it.",
-      "For the New Testament community, the promises of Zephaniah 3:14&ndash;20 are read through the lens of Jesus Christ and the Holy Spirit. The Mighty Warrior who saves has come in the flesh, has defeated the enemies of sin and death by his cross and resurrection, and is present in the community of his people through the indwelling Spirit. The joy with which the LORD sings over his people is the joy that Jesus spoke of when he said that there is rejoicing in heaven over one sinner who repents (Luke 15:7). The gathering of the outcast and lame has been dramatically enacted in Jesus&rsquo; ministry to tax collectors, sinners, women, foreigners, and the ceremonially unclean. And the final homecoming that Zephaniah announces remains the horizon of Christian hope &mdash; the coming day when all God&rsquo;s scattered, exiled, and redeemed people will be gathered and their shame permanently exchanged for the praise of the one who loved them first.",
-    ],
-  },
-  {
-    id: "Application",
-    heading: "Applying Zephaniah 3 Today",
-    reference: "Zephaniah 3 &mdash; For the Life of the Believer",
-    paragraphs: [
-      "Zephaniah 3 begins with a description of a community whose leaders have failed completely &mdash; officials who are predators, judges who are wolves, prophets who are treacherous, priests who have profaned the holy. The chapter does not call on Israel to overthrow its corrupt leadership; it calls the nation to account and then announces what God himself will do. This pattern speaks into situations of institutional failure and corruption in every generation: the appropriate response is not despair or vigilante action but the honest acknowledgment of failure and the patient trust that the God who sees morning by morning, who displays his righteousness without fail every day, will act in his own time and according to his own purposes.",
-      "The description of the proud being removed and the humble remnant being left (3:11&ndash;12) is one of the most counter-cultural passages in prophetic literature. In every age, the community of God is tempted to identify itself by its powerful, influential, impressive members &mdash; the ones with platforms, resources, and cultural access. Zephaniah describes the community that God builds as one from which the proudly exultant are removed, leaving a people who are &ldquo;humble and lowly&rdquo; and who &ldquo;seek refuge in the name of the LORD.&rdquo; The beatitude Jesus pronounced &mdash; &ldquo;Blessed are the poor in spirit, for theirs is the kingdom of heaven&rdquo; &mdash; is Zephaniah&rsquo;s theological offspring.",
-      "The command to &ldquo;fear not, let not your hands grow weak&rdquo; (3:16) addresses a form of spiritual and emotional exhaustion that is not primarily the result of too much work but of too little hope. Hands grow weak when the gap between what we believe God has promised and what we can currently observe in the world becomes too large to bridge with ordinary faith. Zephaniah&rsquo;s answer to this exhaustion is not a technique or a method but a Person: the LORD your God is in your midst, and he is a Mighty Warrior. The hands that have dropped can be lifted again, not because the circumstances have changed but because the one who commands them to lift has the power to make the command good.",
-      "Zephaniah 3:17 has become one of the most beloved verses in the pastoral vocabulary of the Christian church, and for good reason. The image of God singing over his people addresses something that lies very deep in the human need for acceptance and delight. Many people believe, at least intellectually, that God tolerates them or that he forgives them when they confess &mdash; but the idea that God actually rejoices over them, that he is glad about their existence, that he quiets them with his love and sings over them &mdash; this exceeds what most people allow themselves to believe. Zephaniah 3:17 insists that this is exactly what is true. The God of the burning holiness of chapter 1 is also the God who sings.",
-      "The particular care of God for &ldquo;the lame and the outcast&rdquo; (3:19) is one of the most consistent themes across both Testaments, and it has direct implications for the priorities and practices of the church. The community that reflects the character of the God of Zephaniah will be a community that watches for those whom everyone else is overlooking, that reaches toward those whose lives have been marked by exclusion and defeat, that takes the shame of the marginalized seriously enough to stand with them in it rather than at a comfortable distance from it. Jesus&rsquo; table fellowship with sinners and outcasts was not a peripheral feature of his ministry; it was the enactment of Zephaniah&rsquo;s promise in flesh and blood.",
-      "The closing promise that God will &ldquo;restore your fortunes before your eyes&rdquo; (3:20) calls the church to hold its specific sorrows and losses before God with expectation rather than resignation. Christian hope is not the generic optimism that things will generally improve; it is the specific, grounded confidence that the God who has acted decisively in history &mdash; in the exodus, in the return from exile, above all in the resurrection of Jesus Christ from the dead &mdash; is still acting, and that the restoration he has promised will be visible. The same God who reversed the shame of exile, who gathered the scattered, who turned the lame person&rsquo;s shame into praise, is the one who says to the church in every generation of waiting: I will restore your fortunes before your eyes.",
-    ],
+    id: "god-singing",
+    color: GREEN,
+    title: "The Singing God: Zephaniah 3:17 and the Only Place in the Old Testament Where God Sings",
+    html: "Zephaniah 3:17 contains a theological datum of extraordinary significance: <strong>this is the only place in the entire Old Testament where God is described as singing</strong>. &ldquo;The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing.&rdquo; Every element of this verse is theologically dense. <em>Mighty one who will save</em>: the combination of power and salvation is the gospel in miniature &mdash; the mighty one does not merely have the ability to save but actively, personally does so. <em>Rejoice over you with gladness</em>: God&rsquo;s emotional state is gladness, directed toward his people &mdash; not reluctant mercy but genuine delight. <em>He will quiet you by his love</em>: the Hebrew here is disputed. Some translations have &ldquo;he will be silent in his love&rdquo; (the silent contemplation of deep love) or &ldquo;he will renew you in his love.&rdquo; Either way the image is of love so deep it produces either reverent silence or transformative renewal. <em>He will exult over you with loud singing</em>: the word for &ldquo;exult&rdquo; (gil) describes the spinning, leaping joy of celebration; the word for &ldquo;singing&rdquo; (rinnah) is the shout of joy used in the psalms. The God who created music and commanded his people to sing is here himself singing &mdash; and his song is about them. This verse has been called &ldquo;the gospel in the Old Testament&rdquo; by multiple commentators. It anticipates the NT image of the rejoicing father running to meet the prodigal son, and ultimately the joy of the Lamb&rsquo;s wedding supper in Revelation 19.",
   },
 ];
 
-const videoItems = [
-  { videoId: "oFCiSB7sJHI", title: "BibleProject Overview - Zephaniah" },
-  { videoId: "4YPH16VZMWQ", title: "Zephaniah 3 - The Mighty Warrior Who Saves" },
-  { videoId: "e6HaTJABOEg", title: "God Rejoices Over You with Singing - Zephaniah 3:17 Explained" },
-  { videoId: "HRiaz9LlQaM", title: "The Humble Remnant - Zephaniah 3 and the Hope of Restoration" },
+const VERSES = [
+  {
+    id: "v1-5",
+    ref: "Zephaniah 3:1&ndash;5",
+    color: ROSE,
+    title: "Woe to Jerusalem: Pollution, Oppression, Faithless Leaders",
+    html: "The chapter opens with a woe oracle that turns from Nineveh (Zephaniah 2:13&ndash;15) to Jerusalem itself &mdash; a move as shocking in its original context as it would be to a congregation today. Verse 1: &ldquo;Woe to her who is rebellious and defiled, the oppressing city!&rdquo; The Hebrew word translated &ldquo;defiled&rdquo; (ga&rsquo;al) has connotations of ritual pollution, perhaps with the double sense of ceremonial uncleanness and moral corruption. The word &ldquo;oppressing&rdquo; (yonah) means &ldquo;dove&rdquo; but is used here in its verbal form meaning to oppress or do violence. Verse 2 delivers four parallel failures, each using a negative: she has not obeyed God&rsquo;s voice, she has not accepted correction, she has not trusted in the LORD, she has not drawn near to her God. The negative is doing important theological work: Jerusalem&rsquo;s failure is not a failure to perform religious acts (the temple was active and busy) but a failure to actually orient toward God. Performance without trust; ritual without reliance. Verses 3&ndash;4 apply the indictment to each institutional sector: rulers as predatory lions, judges as nocturnal wolves, prophets as light and faithless, priests as desecrators. Verse 5 plants God himself in Jerusalem&rsquo;s midst as the righteous exception: &ldquo;every morning he shows forth his justice; each dawn he does not fail.&rdquo; The shamelessness of the corrupt is the tragedy: they are surrounded by God&rsquo;s visible righteousness and feel nothing.",
+  },
+  {
+    id: "v6-8",
+    ref: "Zephaniah 3:6&ndash;8",
+    color: GOLD,
+    title: "God&rsquo;s Universal Judgment Prepares the Way: Wait for the Day",
+    html: "Verses 6&ndash;8 describe God&rsquo;s prior acts of judgment on the nations as failed pedagogical opportunities for Jerusalem. God has &ldquo;cut off nations&rdquo; and made &ldquo;their streets desolate, with no one passing through&rdquo; (v. 6) &mdash; historical examples of divine judgment that Jerusalem could have taken as warnings. His expectation: &ldquo;Surely you will fear me; you will accept correction&rdquo; (v. 7). The result: &ldquo;But all the more they were eager to make all their deeds corrupt.&rdquo; This is a chilling picture of moral deterioration: divine warning and historical example produce not repentance but acceleration of wickedness. The mechanism of hardening is not ignorance but eagerness to corrupt. Verse 8 pivots to divine resolve: &ldquo;Therefore wait for me, declares the LORD, for the day when I rise up to seize the prey.&rdquo; The word &ldquo;wait&rdquo; (chakah) is the same word used in Isaiah 40:31 (&ldquo;they who wait for the LORD shall renew their strength&rdquo;). It is a call to patient, expectant trust. The judgment described in verse 8 is comprehensive &mdash; &ldquo;all the earth shall be consumed by the fire of my jealous wrath&rdquo; &mdash; but it sets the stage for the global restoration that follows in verses 9&ndash;13. Universal judgment is not the last word; it is the clearing of the ground.",
+  },
+  {
+    id: "v9-13",
+    ref: "Zephaniah 3:9&ndash;13",
+    color: TEAL,
+    title: "The Purified Remnant: Pure Speech, No Lies, Safe in the LORD",
+    html: "Verses 9&ndash;13 describe the post-judgment restoration with two interlocking promises: one for the nations and one for the remnant of Israel. For the nations (v. 9): God will give &ldquo;purified speech&rdquo; (Hebrew: <em>saphah berurah</em>, a purified lip) so that &ldquo;all of them may call upon the name of the LORD and serve him with one accord.&rdquo; The language of &ldquo;one accord&rdquo; (a single shoulder, as in bearing a yoke together) suggests unified, cooperative worship replacing the fragmented, competing worship of the nations&rsquo; idols. Verse 10 promises that even the most distant peoples (&ldquo;from beyond the rivers of Cush&rdquo;) will bring offerings to God. This is a vision of global worship that anticipates Acts 2 and Revelation 7. For Israel (vv. 11&ndash;13): the proud and arrogant who were the cause of shame will be removed from the midst of the city. What remains is a people defined not by pride or power but by humility: &ldquo;a people humble and lowly&rdquo; who &ldquo;shall seek refuge in the name of the LORD&rdquo; (v. 12). The remnant&rsquo;s character is described negatively &mdash; what they do not do: no injustice, no lies, no deceit in the mouth (v. 13). The silence of deceit is replaced by the rest of shalom: they &ldquo;shall pasture and lie down, and none shall make them afraid.&rdquo;",
+  },
+  {
+    id: "v14-17",
+    ref: "Zephaniah 3:14&ndash;17",
+    color: PURPLE,
+    title: "The Great Reversal: Sing! The King Is in Your Midst. He Rejoices Over You with Singing.",
+    html: "This is the theological and emotional climax of the entire book of Zephaniah and one of the most luminous passages in the Minor Prophets. Verse 14 opens with a cascade of imperatives: &ldquo;Sing aloud, O daughter of Zion; shout, O Israel! Rejoice and exult with all your heart, O daughter of Jerusalem!&rdquo; Four verbs of celebration in one verse &mdash; rinnah (shout of joy), ruah (shout), samach (rejoice), alas (exult) &mdash; express a joy that cannot be contained in a single word. The theological basis is given in verse 15: &ldquo;The LORD has taken away the judgments against you; he has cleared away your enemies.&rdquo; The sentence is lifted. The enemy is gone. The King &mdash; God himself &mdash; is in the midst of the city. Verse 16 directly addresses the fear that had characterized Judah throughout: &ldquo;On that day it shall be said to Jerusalem: Do not fear, O Zion; let not your hands grow weak.&rdquo; The &ldquo;weak hands&rdquo; image appears elsewhere in the prophets as a description of terror-induced paralysis (Isaiah 35:3; Jeremiah 6:24). God&rsquo;s answer to weak hands and fearful hearts is not exhortation but presence. And then verse 17: &ldquo;The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing.&rdquo; <strong>This is the only place in the Old Testament where God is described as singing.</strong> The God who commanded psalms of praise now sings his own song of joy &mdash; and his people are the subject of the song. It is perhaps the most tender image of God in all the Minor Prophets.",
+  },
+  {
+    id: "v18-20",
+    ref: "Zephaniah 3:18&ndash;20",
+    color: BLUE,
+    title: "Gathering the Outcasts, Dealing with Oppressors, Bringing Praise in Every Land",
+    html: "The chapter concludes with three specific promises that complete the reversal begun in verse 14. Verse 18 is grammatically difficult and variously translated, but the sense is clear: God will gather those who sorrow over the appointed feasts &mdash; those who could not participate in worship because of exile or oppression. What was pain will become praise. Verse 19 promises direct action against the oppressors: &ldquo;I will deal with all your oppressors at that time. And I will save the lame and gather the outcast, and I will change their shame into praise and renown in all the earth.&rdquo; The reversal of shame into renown (literally, a name and a praise) is a structural reversal of the shame language used in the book&rsquo;s judgments. Those who were shamed by exile and oppression will be named and praised. Verse 20 closes with the comprehensive promise: &ldquo;At that time I will bring you in, at the time when I gather you together; for I will make you renowned and praised among all the peoples of the earth, when I restore your fortunes before your eyes.&rdquo; The phrase &ldquo;restore your fortunes&rdquo; (shub shebut) is a standard prophetic formula for complete reversal &mdash; the full undoing of what exile had done. The book of Zephaniah, which opened with the terrifying global destruction of the &ldquo;Day of the LORD&rdquo; sweeping everything from the face of the earth (1:2&ndash;3), closes with a song of God singing over his gathered, restored, and beloved people.",
+  },
 ];
 
-export default function Zephaniah3GuidePage() {
+const APP_SECTIONS = [
+  {
+    id: "app-leaders",
+    color: ROSE,
+    title: "Holding Leaders Accountable Without Losing Hope",
+    html: "Zephaniah 3:1&ndash;4 provides a template for evaluating institutional leadership: rulers should protect, not devour; judges should adjudicate, not consume; prophets should speak truth faithfully, not effervescently; priests should guard holiness, not desecrate it. The chapter is ruthless in its diagnosis of leadership failure while simultaneously maintaining hope &mdash; God himself is in the city&rsquo;s midst, righteous every morning. Christians engaging with institutions &mdash; churches, governments, organizations &mdash; need both the clarity of Zephaniah&rsquo;s diagnostic and the theological grounding of verse 5. The diagnostic without hope produces cynicism; hope without the diagnostic produces complicity. Zephaniah holds both: name the failure clearly, and know that God&rsquo;s righteousness remains and will ultimately prevail.",
+  },
+  {
+    id: "app-singing-god",
+    color: GOLD,
+    title: "The Singing God and the Transformation of Self-Understanding",
+    html: "Zephaniah 3:17 &mdash; the only place in the Old Testament where God is described as singing &mdash; has profound implications for how we understand our identity before God. If God sings over his people with <em>rinnah</em> (the shout of joy) and <em>gil</em> (spinning, leaping exultation), then the fundamental posture of God toward those he has redeemed is not merely tolerant acceptance but active, joyful delight. This is the theological ground on which Paul&rsquo;s declaration in Romans 8:1 (&ldquo;there is therefore now no condemnation&rdquo;) stands. The singing God of Zephaniah 3 is the same God who, in the parable of the prodigal son, runs to meet his returning child and calls for celebration. If the God of the universe sings over you &mdash; a song of gladness, of love that quiets, of exultant joy &mdash; then the voice of condemnation, shame, and self-rejection is speaking from outside the gospel. The transformative pastoral application of Zephaniah 3:17 is learning to receive the song.",
+  },
+  {
+    id: "app-remnant",
+    color: TEAL,
+    title: "The Remnant: Humility, Truth, and Refuge as the Shape of Faithful Community",
+    html: "The remnant described in Zephaniah 3:12&ndash;13 is defined by three negative characteristics (no injustice, no lies, no deceit) and three positive ones (humble, lowly, seeking refuge in the name of the LORD). The positive characteristics are relational and dispositional; the negative ones are ethical and communicative. Together they describe a community that has learned to live without the strategies of power &mdash; lies, manipulation, exploitation &mdash; because it trusts in the LORD as its actual refuge. This is counter-cultural in any era. Contemporary Western culture rewards self-promotion, strategic ambiguity, and the pursuit of advantage. The Zephaniah remnant practices the opposite: truthful speech (no lies, no deceit), humble posture (lowly, not self-promoting), and genuine trust (refuge in the LORD rather than in the accumulation of resources or influence). The challenge for churches is whether they form communities that look like this remnant or communities that adopt the surrounding culture&rsquo;s strategies for survival and success.",
+  },
+  {
+    id: "app-reversal",
+    color: PURPLE,
+    title: "Living in the Already-Not-Yet of Zephaniah&rsquo;s Reversal",
+    html: "Zephaniah 3:14&ndash;20 describes a reversal so total that it requires eschatological fulfillment &mdash; the gathered outcasts, the shame turned to renown, the oppressors dealt with, the fortunes fully restored. Christians read this passage in the light of its partial fulfillment in the return from exile and its deeper fulfillment in the resurrection of Jesus (the definitive reversal of shame-to-glory) and its final fulfillment in the new creation. This means Christians live in the &ldquo;already-not-yet&rdquo; tension that Zephaniah&rsquo;s vision creates: the reversal has begun in Christ (shame into glory, exile into adoption, weakness into strength), but it is not yet complete (outcasts are still not all gathered, oppressors are still active, fortunes are not yet fully restored). The pastoral challenge is learning to be simultaneously honest about the &ldquo;not yet&rdquo; (the lament of Zephaniah 1) and anchored in the &ldquo;already&rdquo; (the song of Zephaniah 3). Both are real; neither negates the other.",
+  },
+];
+
+const QUESTIONS = [
+  "Zephaniah 3:5 says God is righteous &ldquo;every morning&rdquo; but &ldquo;the unjust knows no shame.&rdquo; Where in your own life have you become so accustomed to God&rsquo;s visible righteousness that it no longer produces any response in you? What would it mean to recover the capacity to be moved by God&rsquo;s character?",
+  "Zephaniah 3:17 is the only place in the Old Testament where God is described as singing. Spend time sitting with this image: God singing over you with gladness, quieting you with his love, exulting over you with a shout of joy. What does that do to the way you see yourself? What would change if you genuinely believed this was God&rsquo;s posture toward you?",
+  "The remnant of Zephaniah 3:12&ndash;13 is characterized by no lies and no deceit. Where in your relationships or professional life are you tempted to use strategic ambiguity, half-truths, or impression management rather than straightforward truthfulness? What would it cost to live like the remnant?",
+  "Zephaniah 3:1&ndash;4 indicts four institutional sectors: rulers, judges, prophets, priests. Apply this diagnostic to an institution you are part of (a church, workplace, community organization). Where does the institution protect rather than devour? Where has it inverted its core function? What is your response?",
+  "The chapter moves from lament (vv. 1&ndash;8) to restoration (vv. 9&ndash;20) without any narrative of how the transition happens &mdash; God simply acts. Where are you in danger of making the &ldquo;not yet&rdquo; of lament the final word, when God has already spoken a song of restoration? How do you hold the tension honestly without collapsing into either despair or denial?",
+  "Zephaniah 3:19 promises that God will &ldquo;change their shame into praise and renown in all the earth.&rdquo; Where are the places of deepest shame in your life or community? How does this promise speak into those places? What would it mean to begin living now as if the reversal is coming?",
+];
+
+const VIDEO_ITEMS = [
+  { id: "rNcERbkSTXU", title: "Zephaniah: The Day of the LORD and the Song of Joy" },
+  { id: "OjJ7GkWCHvA", title: "The Book of Zephaniah Overview" },
+  { id: "pHBzJ2dVXgk", title: "Zephaniah 3:17 &mdash; God Rejoices Over You" },
+  { id: "XpNxCPHrRIY", title: "Minor Prophets: Zephaniah and the Remnant" },
+];
+
+export default function Zephaniah3Guide() {
+  const [tab, setTab] = useState("overview");
+  const [openTheme, setOpenTheme] = useState<string | null>(null);
+  const [openVerse, setOpenVerse] = useState<string | null>(null);
+  const [openApp, setOpenApp] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
+  useEffect(() => { setLoaded(true); }, []);
   if (!loaded) return null;
 
-  const currentSection = sections.find((s) => s.id === activeTab);
+  const toggleTheme = (id: string) => setOpenTheme(openTheme === id ? null : id);
+  const toggleVerse = (id: string) => setOpenVerse(openVerse === id ? null : id);
+  const toggleApp = (id: string) => setOpenApp(openApp === id ? null : id);
 
   return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Zephaniah 3 &mdash; The Mighty Warrior Who Sings
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            After sweeping indictment of Jerusalem&rsquo;s proud leaders, Zephaniah 3 pivots to promises of extraordinary beauty: a humble remnant, the Mighty Warrior who saves, and the God who &ldquo;will exult over you with loud singing&rdquo; &mdash; one of Scripture&rsquo;s most astonishing images of divine joy.
-          </p>
-        </header>
+    <div style={{ background: BG, minHeight: "100vh", paddingTop: "var(--header-height, 80px)", color: TEXT, fontFamily: "system-ui, sans-serif" }}>
 
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
+      {/* Hero */}
+      <div style={{ background: `linear-gradient(135deg, #00161a 0%, ${CARD} 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "48px 24px 40px" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+            <span style={{ background: ACCENT, color: "#fff", borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1 }}>MINOR PROPHETS</span>
+            <span style={{ color: MUTED, fontSize: 14 }}>3 Chapters &middot; 7th Century BC</span>
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem,5vw,3.2rem)", fontWeight: 800, margin: "0 0 16px", lineHeight: 1.15, color: TEXT }}>
+            Zephaniah 3: From Judgment on Jerusalem to the Great Song of Joy
+          </h1>
+          <div style={{ background: CARD, border: `1px solid ${TEAL}33`, borderRadius: 10, padding: "16px 20px", marginBottom: 16, maxWidth: 700 }}>
+            <p style={{ color: TEAL, fontSize: 17, fontWeight: 700, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>
+              &ldquo;The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing.&rdquo;
+            </p>
+            <p style={{ color: MUTED, fontSize: 13, margin: "8px 0 0" }}>Zephaniah 3:17 &mdash; the only place in the entire Old Testament where God is described as singing</p>
+          </div>
+          <p style={{ fontSize: "clamp(1rem,2vw,1.15rem)", color: MUTED, maxWidth: 680, lineHeight: 1.7, margin: 0 }}>
+            The final chapter of Zephaniah moves from the sharpest possible indictment of Jerusalem&rsquo;s corrupt leadership to one of the most tender and joyful passages in all of Scripture &mdash; God himself singing over his restored, beloved people.
+          </p>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ borderBottom: `1px solid ${BORDER}`, overflowX: "auto" }}>
+        <div style={{ display: "flex", maxWidth: 860, margin: "0 auto", padding: "0 16px" }}>
+          {TABS.map(t => (
             <button
               key={t}
-              onClick={() => setActiveTab(t)}
+              type="button"
+              onClick={() => setTab(t)}
               style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
+                padding: "16px 18px",
+                border: "none",
+                background: "none",
                 cursor: "pointer",
                 fontSize: 14,
                 fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
+                whiteSpace: "nowrap",
+                color: tab === t ? ACCENT : MUTED,
+                borderBottom: tab === t ? `2px solid ${ACCENT}` : "2px solid transparent",
+                transition: "color 0.15s",
               }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
+            >
+              {TAB_LABELS[t]}
+            </button>
           ))}
-        </nav>
+        </div>
+      </div>
 
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
+      {/* Content */}
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "40px 24px 80px" }}>
 
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Explore Zephaniah 3 through these video teachings on the judgment of Jerusalem&rsquo;s pride, the humble remnant, the Mighty Warrior who saves, and God&rsquo;s extraordinary promise to rejoice over his people with singing.
+        {/* OVERVIEW */}
+        {tab === "overview" && (
+          <div>
+            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: 8, color: TEXT }}>Overview</h2>
+            <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: 28 }}>
+              Zephaniah 3 is the climax of a book that begins with one of the Bible&rsquo;s most sweeping descriptions of divine judgment. Zephaniah 1:2&ndash;3 threatens to &ldquo;utterly sweep away everything from the face of the earth&rdquo; &mdash; human beings, animals, birds, fish, and &ldquo;the rubble with the wicked.&rdquo; Chapter 2 moves through oracles against surrounding nations. Chapter 3 turns the same devastating lens on Jerusalem before pivoting, without warning or transition, into the most tender song of divine joy in the entire Old Testament.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: ACCENT, fontWeight: 700, marginBottom: 16 }}>The Structure of Zephaniah 3</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[
+                  { ref: "3:1&ndash;5", desc: "Woe to Jerusalem &mdash; polluted, oppressing city; her officials, judges, prophets, priests all corrupt; the LORD within her is righteous" },
+                  { ref: "3:6&ndash;8", desc: "God&rsquo;s universal judgment prepares the way; the nations were cut off but Jerusalem did not learn; wait for the day I arise" },
+                  { ref: "3:9&ndash;13", desc: "The purified remnant &mdash; pure speech, seeking refuge in the LORD, no lies, no deceit; they shall pasture and none shall make them afraid" },
+                  { ref: "3:14&ndash;17", desc: "The great reversal &mdash; sing aloud O daughter of Zion; the King of Israel is in your midst; do not fear; he rejoices over you with singing" },
+                  { ref: "3:18&ndash;20", desc: "Gathering the outcasts, dealing with oppressors, bringing praise and renown in every land; I will restore your fortunes before your eyes" },
+                ].map(p => (
+                  <div key={p.ref} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                    <span
+                      style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 90, paddingTop: 2 }}
+                      dangerouslySetInnerHTML={{ __html: p.ref }}
+                    />
+                    <span
+                      style={{ color: MUTED, fontSize: 14, lineHeight: 1.5 }}
+                      dangerouslySetInnerHTML={{ __html: p.desc }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 14, marginBottom: 20 }}>
+              {[
+                { label: "Book", value: "Zephaniah" },
+                { label: "Chapter", value: "3 (final chapter)" },
+                { label: "Period", value: "7th century BC" },
+                { label: "Historical context", value: "Reign of Josiah, before the Babylonian exile" },
+                { label: "Movement", value: "Judgment to joy; indictment to song" },
+                { label: "Key verse", value: "Zephaniah 3:17" },
+              ].map(item => (
+                <div key={item.label} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "14px 16px" }}>
+                  <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>{item.label}</div>
+                  <div style={{ fontWeight: 600, fontSize: 14, color: TEXT }}>{item.value}</div>
                 </div>
               ))}
             </div>
-          </section>
+
+            <div style={{ background: CARD, border: `1px solid ${TEAL}33`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h3 style={{ color: TEAL, fontWeight: 700, marginBottom: 12 }}>The Most Beautiful Verse in the Minor Prophets</h3>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 14px" }}>
+                Zephaniah 3:17 has been called &ldquo;the climax of the whole prophetic tradition&rdquo; by some commentators. It is unique in all of Scripture: the only place in the Old Testament where God is described as singing. The verse gathers up every dimension of the divine-human relationship &mdash; presence (&ldquo;in your midst&rdquo;), power (&ldquo;mighty one who will save&rdquo;), joy (&ldquo;rejoice over you with gladness&rdquo;), love (&ldquo;quiet you by his love&rdquo;), and exultation (&ldquo;exult over you with loud singing&rdquo;) &mdash; and places them all in the mode of God&rsquo;s response to his restored people.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+                This is remarkable in itself. But it becomes even more remarkable when read against the backdrop of Zephaniah 3:1&ndash;8: the same God who pronounced woe on Jerusalem&rsquo;s corrupt leaders and declared universal judgment on the unrepentant is now &mdash; after judgment has done its work &mdash; singing. The song is possible because the sentence has been lifted (v. 15), the enemy removed, and the people restored. Zephaniah 3:17 is the gospel in a single verse: the mighty God who saves is also the joyful God who sings.
+              </p>
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+              <h3 style={{ fontWeight: 700, marginBottom: 12, color: TEXT }}>Zephaniah in Context</h3>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 14px" }}>
+                Zephaniah prophesied during the reign of King Josiah of Judah (640&ndash;609 BC), probably before Josiah&rsquo;s great reform in 621 BC (2 Kings 22&ndash;23). His concern is with the pre-reform Jerusalem: a city still engaged in syncretistic worship, with leaders who have adopted the customs of surrounding nations, and a population that has become indifferent to its covenant relationship with God. The superscription (1:1) traces Zephaniah&rsquo;s genealogy back four generations, unusually far, possibly to indicate a connection to the royal house of Hezekiah.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+                The book&rsquo;s theological framework is organized around &ldquo;the Day of the LORD&rdquo; &mdash; the phrase appears more densely in Zephaniah than in almost any other prophetic book. But what distinguishes Zephaniah from other Day-of-the-LORD prophets is precisely chapter 3: after the Day brings judgment, it becomes the occasion for the most extravagant restoration promise in the Minor Prophets. The Day is not finally a day of destruction; it is a day of clearing and renewal.
+              </p>
+            </div>
+          </div>
         )}
 
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>He Will Exult Over You with Loud Singing</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Zephaniah 3 moves from the woe of a rebellious city to the song of a rejoicing God, and in doing so it traces the shape of the gospel itself: honest reckoning with sin, the removal of what is proud and corrupt, the gathering of the humble remnant, and the final, astonishing word that the LORD your God &mdash; the Mighty Warrior who saves &mdash; will quiet you by his love and exult over you with loud singing. This is the character of the God who gave his Son, and who will not rest until every exile is home.
-          </p>
-        </div>
-      </main>
+        {/* THEMES */}
+        {tab === "themes" && (
+          <div>
+            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: 8, color: TEXT }}>Key Themes</h2>
+            <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: 28 }}>
+              Zephaniah 3 contains some of the richest theological material in the Minor Prophets, weaving together themes of institutional failure, divine faithfulness, remnant theology, and the astonishing reversal from judgment to joy.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {THEMES.map(t => (
+                <div key={t.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <button
+                    type="button"
+                    onClick={() => toggleTheme(t.id)}
+                    style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 20px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: t.color, flexShrink: 0 }} />
+                      <span style={{ fontWeight: 700, color: TEXT, fontSize: 15 }} dangerouslySetInnerHTML={{ __html: t.title }} />
+                    </div>
+                    <span style={{ color: MUTED, fontSize: 20, lineHeight: 1, flexShrink: 0, marginLeft: 12 }}>{openTheme === t.id ? "-" : "+"}</span>
+                  </button>
+                  {openTheme === t.id && (
+                    <div
+                      style={{ padding: "0 20px 22px 42px", color: MUTED, lineHeight: 1.8, fontSize: 14 }}
+                      dangerouslySetInnerHTML={{ __html: t.html }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${GOLD}33`, borderRadius: 12, padding: 24, marginTop: 28 }}>
+              <h3 style={{ color: GOLD, fontWeight: 700, marginBottom: 12 }}>Zephaniah 3 and the New Testament</h3>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 14px" }}>
+                The New Testament draws on Zephaniah 3 at several key moments. The &ldquo;pure speech&rdquo; promise of verse 9, where peoples of all languages call on the LORD with one accord, is fulfilled at Pentecost (Acts 2) when the Spirit enables cross-language proclamation and the gathering of people from every nation under heaven. The gathering of the outcast and the reversal of shame in verses 18&ndash;20 are reflected in Luke&rsquo;s Gospel, which consistently features the inclusion of those on the margins &mdash; the poor, the despised, the Gentile.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 14px" }}>
+                Zephaniah 3:17&rsquo;s image of God rejoicing over his people with gladness anticipates the parables of the lost sheep, lost coin, and lost son in Luke 15, where the explicit point is the joy of the one who finds what was lost (&ldquo;there is joy before the angels of God over one sinner who repents,&rdquo; Luke 15:10). The singing God of Zephaniah is the celebrating father who runs, embraces, and calls for the best robe and the feast.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+                Finally, Revelation 19 &mdash; the marriage supper of the Lamb, with multitudes singing &ldquo;Hallelujah!&rdquo; and the Bride made ready &mdash; is the eschatological fulfillment of Zephaniah 3:14&ndash;17: the daughter of Zion called to sing aloud, the King present in her midst, all fear removed, the shame reversed into eternal glory.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* VERSE BY VERSE */}
+        {tab === "verse" && (
+          <div>
+            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: 8, color: TEXT }}>Verse by Verse</h2>
+            <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: 28 }}>
+              A section-by-section study of Zephaniah 3, tracing the remarkable movement from the sharpest prophetic indictment of Jerusalem through the promise of the purified remnant to the climactic song of divine joy.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {VERSES.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <button
+                    type="button"
+                    onClick={() => toggleVerse(v.id)}
+                    style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 20px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                      <span
+                        style={{ background: `${v.color}20`, border: `1px solid ${v.color}40`, borderRadius: 6, padding: "3px 10px", fontSize: 12, color: v.color, fontWeight: 700, flexShrink: 0 }}
+                        dangerouslySetInnerHTML={{ __html: v.ref }}
+                      />
+                      <span style={{ fontWeight: 700, color: TEXT, fontSize: 15 }}>{v.title}</span>
+                    </div>
+                    <span style={{ color: MUTED, fontSize: 20, lineHeight: 1, flexShrink: 0, marginLeft: 12 }}>{openVerse === v.id ? "-" : "+"}</span>
+                  </button>
+                  {openVerse === v.id && (
+                    <div
+                      style={{ padding: "0 20px 22px 20px", color: MUTED, lineHeight: 1.8, fontSize: 14 }}
+                      dangerouslySetInnerHTML={{ __html: v.html }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${TEAL}33`, borderRadius: 12, padding: 24, marginTop: 28 }}>
+              <h3 style={{ color: TEAL, fontWeight: 700, marginBottom: 12 }}>Zephaniah 3:17 &mdash; The Unique Verse</h3>
+              <div style={{ background: BG, borderRadius: 10, padding: "18px 22px", marginBottom: 16 }}>
+                <p style={{ color: TEAL, fontSize: 17, fontWeight: 700, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>
+                  &ldquo;The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing.&rdquo;
+                </p>
+                <p style={{ color: MUTED, fontSize: 13, margin: "8px 0 0" }}>Zephaniah 3:17 (ESV)</p>
+              </div>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 14px" }}>
+                This is the only verse in the entire Old Testament where God is described as singing. Five Hebrew words or phrases carry the weight of the verse: (1) <em>beqirbek</em> (&ldquo;in your midst&rdquo;) &mdash; the incarnational promise of presence; (2) <em>gibbor yoshia</em> (&ldquo;mighty one who will save&rdquo;) &mdash; power joined to salvation; (3) <em>yasis alayik besimchah</em> (&ldquo;rejoice over you with gladness&rdquo;) &mdash; God&rsquo;s emotional response to his restored people; (4) <em>yacharis be&rsquo;ahavato</em> (&ldquo;quiet/silent in his love&rdquo; or &ldquo;renew in his love&rdquo;) &mdash; love that reaches beyond expression; (5) <em>yagil alayik berinah</em> (&ldquo;exult over you with singing&rdquo;) &mdash; the shout of joy, <em>gil</em> (spinning, leaping celebration) combined with <em>rinnah</em> (the triumphant shout of victory and praise).
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
+                The God who created music, who commanded the psalms of lament and praise, who caused David to dance before the ark &mdash; this God is now himself singing. And the subject of his song is his people. This is the theological culmination of the entire book: after the Day of the LORD has done its work of judgment and purification, what remains is a God who cannot contain his joy over those he loves.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* APPLICATION */}
+        {tab === "application" && (
+          <div>
+            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: 8, color: TEXT }}>Application</h2>
+            <p style={{ color: MUTED, lineHeight: 1.8, marginBottom: 28 }}>
+              Zephaniah 3 speaks into multiple dimensions of Christian life: the courageous diagnosis of institutional failure, the formation of truthful community, the transformation of self-understanding through the singing God, and the hope of the final reversal that grounds endurance in the present.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 36 }}>
+              {APP_SECTIONS.map(s => (
+                <div key={s.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <button
+                    type="button"
+                    onClick={() => toggleApp(s.id)}
+                    style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 20px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
+                      <span style={{ fontWeight: 700, color: TEXT, fontSize: 15 }} dangerouslySetInnerHTML={{ __html: s.title }} />
+                    </div>
+                    <span style={{ color: MUTED, fontSize: 20, lineHeight: 1, flexShrink: 0, marginLeft: 12 }}>{openApp === s.id ? "-" : "+"}</span>
+                  </button>
+                  {openApp === s.id && (
+                    <div
+                      style={{ padding: "0 20px 22px 42px", color: MUTED, lineHeight: 1.8, fontSize: 14 }}
+                      dangerouslySetInnerHTML={{ __html: s.html }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Study Questions */}
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 32 }}>
+              <h3 style={{ fontWeight: 700, marginBottom: 16, color: TEXT }}>Discussion &amp; Reflection Questions</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {QUESTIONS.map((q, i) => (
+                  <div key={i} style={{ display: "flex", gap: 14, padding: "14px 16px", background: BG, borderRadius: 8, border: `1px solid ${BORDER}` }}>
+                    <span style={{ color: ACCENT, fontWeight: 800, flexShrink: 0, fontSize: 15 }}>{i + 1}.</span>
+                    <span style={{ color: MUTED, fontSize: 14, lineHeight: 1.7 }} dangerouslySetInnerHTML={{ __html: q }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Videos */}
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 32 }}>
+              <h3 style={{ fontWeight: 700, marginBottom: 6, color: TEXT }}>Teaching Videos</h3>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>Video teaching on Zephaniah, the Day of the LORD, and the song of divine joy.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                {VIDEO_ITEMS.map(v => (
+                  <div key={v.id} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <VideoEmbed videoId={v.id} title={v.title} />
+                    <div style={{ padding: "12px 16px" }}>
+                      <h4 style={{ color: TEAL, fontWeight: 700, fontSize: 15, margin: "0 0 4px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Prayer */}
+            <div style={{ background: CARD, border: `1px solid ${GREEN}33`, borderRadius: 12, padding: 28 }}>
+              <h3 style={{ color: GREEN, fontWeight: 700, marginBottom: 14 }}>A Prayer from Zephaniah 3</h3>
+              <p style={{ color: MUTED, lineHeight: 1.85, margin: "0 0 14px", fontSize: 15, fontStyle: "italic" }}>
+                Lord, you are the righteous one in the midst of the city. Every morning you show forth your justice; each dawn you do not fail. We confess that we have often been like the unjust who know no shame &mdash; surrounded by your visible righteousness, unmoved and unchanged. Forgive us for the way we have accumulated shame and lies and injustice while calling ourselves your people.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.85, margin: "0 0 14px", fontSize: 15, fontStyle: "italic" }}>
+                Thank you that you are also the singing God. That after judgment has done its work, what remains is not your anger but your song &mdash; a song of gladness and love and exultation, sung over us. Let that song reach the places in us where shame has gone deepest, where we have felt most far from you, where we have been most afraid that your verdict against us was final.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.85, margin: "0 0 14px", fontSize: 15, fontStyle: "italic" }}>
+                Form us as the remnant of Zephaniah 3:12&ndash;13: humble and lowly, seeking refuge in your name alone, speaking truth in our mouths, doing no injustice in our hands. And keep before us the vision of verse 17 &mdash; the mighty one who saves, who rejoices over us with gladness, who quiets us by love, who exults over us with singing.
+              </p>
+              <p style={{ color: MUTED, lineHeight: 1.85, margin: 0, fontSize: 15, fontStyle: "italic" }}>
+                We say with the daughter of Zion: do not let our hands grow weak. The King of Israel, the LORD, is in our midst. In the name of Jesus, who is himself the singing God made flesh, the Word of joy become incarnate among us. Amen.
+              </p>
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

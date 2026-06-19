@@ -3499,6 +3499,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 29 Chapter": "psalm-29-guide",
   "The Voice of the LORD Is Over the Waters Psalm 29": "psalm-29-guide",
   "Ascribe to the LORD Glory and Strength Psalm 29": "psalm-29-guide",
+  "Psalm 7 Chapter": "psalm-7-guide",
+  "O LORD My God in You Do I Take Refuge Psalm 7": "psalm-7-guide",
+  "God Is a Righteous Judge Psalm 7": "psalm-7-guide",
+  "Psalm 21 Chapter": "psalm-21-guide",
+  "O LORD in Your Strength the King Rejoices Psalm 21": "psalm-21-guide",
+  "You Meet Him with Rich Blessings Psalm 21": "psalm-21-guide",
+  "Psalm 26 Chapter": "psalm-26-guide",
+  "Vindicate Me O LORD for I Have Walked in My Integrity Psalm 26": "psalm-26-guide",
+  "I Love the Habitation of Your House Psalm 26": "psalm-26-guide",
+  "Psalm 38 Chapter": "psalm-38-guide",
+  "O LORD Rebuke Me Not in Your Anger Psalm 38": "psalm-38-guide",
+  "For You O LORD Do I Wait Psalm 38": "psalm-38-guide",
 };
 
 
@@ -4933,6 +4945,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 17 Chapter" },
   { label: "Psalm 28 Chapter" },
   { label: "Psalm 29 Chapter" },
+  { label: "Psalm 7 Chapter" },
+  { label: "Psalm 21 Chapter" },
+  { label: "Psalm 26 Chapter" },
+  { label: "Psalm 38 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

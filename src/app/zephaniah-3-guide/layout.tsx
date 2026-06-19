@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Zephaniah 3 Guide — Christian Study",
-  description: "A deep guide to Zephaniah 3 — judgment on Jerusalem's proud leaders, the humble remnant, the Mighty Warrior who saves, and God rejoicing over his people with loud singing.",
-  openGraph: { title: "Zephaniah 3 Guide — Vine", description: "A guide to Zephaniah 3 — the humble remnant, the Mighty Warrior who saves, and God exulting over his people with singing.", images: ["/api/og?title=Zephaniah+3+Guide"] },
-  twitter: { card: "summary_large_image", title: "Zephaniah 3 Guide — Vine", description: "A deep guide to Zephaniah 3 — from judgment on Jerusalem to the song of the Mighty Warrior.", images: ["/api/og?title=Zephaniah+3+Guide"] },
+  title: "Zephaniah 3 Study Guide &mdash; The LORD Your God Is in Your Midst",
+  description: "A verse-by-verse guide to Zephaniah 3 &mdash; the indictment of Jerusalem, the purified remnant who speak no lies, and the great song of joy as the LORD takes away judgment and rejoices over his people with singing.",
 };
-export default function Layout({ children }: { children: React.ReactNode }) { return <>{children}</>; }
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}

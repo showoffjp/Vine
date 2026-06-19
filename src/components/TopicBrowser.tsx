@@ -3631,6 +3631,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 143 Chapter": "psalm-143-guide",
   "Teach Me to Do Your Will for You Are My God Psalm 143": "psalm-143-guide",
   "Let Me Hear in the Morning of Your Steadfast Love Psalm 143": "psalm-143-guide",
+  "Psalm 47 Chapter": "psalm-47-guide",
+  "Clap Your Hands All Peoples Psalm 47": "psalm-47-guide",
+  "God Has Gone Up with a Shout Psalm 47": "psalm-47-guide",
+  "Psalm 93 Chapter": "psalm-93-guide",
+  "The LORD Reigns He Is Robed in Majesty Psalm 93": "psalm-93-guide",
+  "Mightier Than the Waves of the Sea Psalm 93": "psalm-93-guide",
+  "Psalm 97 Chapter": "psalm-97-guide",
+  "The LORD Reigns Let the Earth Rejoice Psalm 97": "psalm-97-guide",
+  "Light Is Sown for the Righteous Psalm 97": "psalm-97-guide",
+  "Psalm 99 Chapter": "psalm-99-guide",
+  "The LORD Reigns Let the Peoples Tremble Psalm 99": "psalm-99-guide",
+  "Holy Is He Exalt the LORD Our God Psalm 99": "psalm-99-guide",
 };
 
 
@@ -5109,6 +5121,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 88 Chapter" },
   { label: "Psalm 102 Chapter" },
   { label: "Psalm 143 Chapter" },
+  { label: "Psalm 47 Chapter" },
+  { label: "Psalm 93 Chapter" },
+  { label: "Psalm 97 Chapter" },
+  { label: "Psalm 99 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

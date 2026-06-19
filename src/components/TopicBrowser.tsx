@@ -3511,6 +3511,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 38 Chapter": "psalm-38-guide",
   "O LORD Rebuke Me Not in Your Anger Psalm 38": "psalm-38-guide",
   "For You O LORD Do I Wait Psalm 38": "psalm-38-guide",
+  "Psalm 42 Chapter": "psalm-42-guide",
+  "As a Deer Pants for Flowing Streams Psalm 42": "psalm-42-guide",
+  "Why Are You Cast Down O My Soul Psalm 42": "psalm-42-guide",
+  "Psalm 61 Chapter": "psalm-61-guide",
+  "Lead Me to the Rock That Is Higher Than I Psalm 61": "psalm-61-guide",
+  "Let Me Dwell in Your Tent Forever Psalm 61": "psalm-61-guide",
+  "Psalm 62 Chapter": "psalm-62-guide",
+  "For God Alone My Soul Waits in Silence Psalm 62": "psalm-62-guide",
+  "He Only Is My Rock and My Salvation Psalm 62": "psalm-62-guide",
+  "Psalm 84 Chapter": "psalm-84-guide",
+  "How Lovely Is Your Dwelling Place O LORD of Hosts Psalm 84": "psalm-84-guide",
+  "A Day in Your Courts Is Better Than a Thousand Psalm 84": "psalm-84-guide",
 };
 
 
@@ -4949,6 +4961,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 21 Chapter" },
   { label: "Psalm 26 Chapter" },
   { label: "Psalm 38 Chapter" },
+  { label: "Psalm 42 Chapter" },
+  { label: "Psalm 61 Chapter" },
+  { label: "Psalm 62 Chapter" },
+  { label: "Psalm 84 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

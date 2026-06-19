@@ -3523,6 +3523,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 84 Chapter": "psalm-84-guide",
   "How Lovely Is Your Dwelling Place O LORD of Hosts Psalm 84": "psalm-84-guide",
   "A Day in Your Courts Is Better Than a Thousand Psalm 84": "psalm-84-guide",
+  "Psalm 40 Chapter": "psalm-40-guide",
+  "I Waited Patiently for the LORD Psalm 40": "psalm-40-guide",
+  "He Put a New Song in My Mouth Psalm 40": "psalm-40-guide",
+  "Psalm 45 Chapter": "psalm-45-guide",
+  "My Heart Overflows with a Pleasing Theme Psalm 45": "psalm-45-guide",
+  "Your Throne O God Is Forever and Ever Psalm 45": "psalm-45-guide",
+  "Psalm 110 Chapter": "psalm-110-guide",
+  "The LORD Says to My Lord Sit at My Right Hand Psalm 110": "psalm-110-guide",
+  "A Priest Forever After the Order of Melchizedek Psalm 110": "psalm-110-guide",
+  "Psalm 118 Chapter": "psalm-118-guide",
+  "The Stone the Builders Rejected Has Become the Cornerstone Psalm 118": "psalm-118-guide",
+  "This Is the Day the LORD Has Made Psalm 118": "psalm-118-guide",
 };
 
 
@@ -4965,6 +4977,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 61 Chapter" },
   { label: "Psalm 62 Chapter" },
   { label: "Psalm 84 Chapter" },
+  { label: "Psalm 40 Chapter" },
+  { label: "Psalm 45 Chapter" },
+  { label: "Psalm 110 Chapter" },
+  { label: "Psalm 118 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

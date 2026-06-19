@@ -3427,6 +3427,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Jonah 4 Chapter": "jonah-4-guide",
   "Should I Not Pity Nineveh That Great City Jonah 4": "jonah-4-guide",
   "Jonah Angry at God's Compassion Jonah 4": "jonah-4-guide",
+  "Psalm 13 Chapter": "psalm-13-guide",
+  "How Long O LORD Will You Forget Me Psalm 13": "psalm-13-guide",
+  "A Lament Turning to Trust Psalm 13": "psalm-13-guide",
+  "Psalm 30 Chapter": "psalm-30-guide",
+  "Weeping May Tarry for the Night but Joy Comes with the Morning Psalm 30": "psalm-30-guide",
+  "You Have Turned My Mourning into Dancing Psalm 30": "psalm-30-guide",
+  "Psalm 32 Chapter": "psalm-32-guide",
+  "Blessed Is the One Whose Transgression Is Forgiven Psalm 32": "psalm-32-guide",
+  "I Acknowledged My Sin and You Forgave Psalm 32": "psalm-32-guide",
+  "Psalm 34 Chapter": "psalm-34-guide",
+  "Taste and See That the LORD Is Good Psalm 34": "psalm-34-guide",
+  "The LORD Is Near to the Brokenhearted Psalm 34": "psalm-34-guide",
 };
 
 
@@ -4837,6 +4849,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Zephaniah 2 Chapter" },
   { label: "Nahum 3 Chapter" },
   { label: "Jonah 4 Chapter" },
+  { label: "Psalm 13 Chapter" },
+  { label: "Psalm 30 Chapter" },
+  { label: "Psalm 32 Chapter" },
+  { label: "Psalm 34 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

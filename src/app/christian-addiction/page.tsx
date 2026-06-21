@@ -171,7 +171,7 @@ const relatedPages = [
   { href: "/christian-mental-health", label: "Christian Mental Health" },
   { href: "/christian-suffering", label: "Christian Suffering" },
   { href: "/grace", label: "Grace" },
-  { href: "/repentance", label: "Repentance" },
+  { href: "/repentance-guide", label: "Repentance" },
   { href: "/community", label: "Community" },
   { href: "/forgiveness", label: "Forgiveness" },
 ];

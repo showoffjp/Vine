@@ -402,7 +402,7 @@ export default function HamartiologyGuidePage() {
           {[
             { label: "Soteriology Guide", href: "/soteriology-guide" },
             { label: "Sanctification", href: "/sanctification" },
-            { label: "Repentance", href: "/repentance" },
+            { label: "Repentance", href: "/repentance-guide" },
             { label: "Justification by Faith", href: "/justification-by-faith" },
           ].map((l) => (
             <Link key={l.href} href={l.href} style={{ padding: "0.4rem 1rem", borderRadius: 999, fontSize: "0.82rem", fontWeight: 700, border: `1px solid ${BORDER}`, color: MUTED, textDecoration: "none" }}>

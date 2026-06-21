@@ -171,10 +171,10 @@ const videos = [
 
 const relatedPages = [
   { href: "/christian-simplicity", label: "Christian Simplicity" },
-  { href: "/christian-silence-and-solitude", label: "Silence and Solitude" },
+  { href: "/silence-and-solitude", label: "Silence and Solitude" },
   { href: "/christian-fasting", label: "Christian Fasting" },
   { href: "/theology-of-work", label: "Theology of Work" },
-  { href: "/christian-contemplative-prayer", label: "Contemplative Prayer" },
+  { href: "/christian-prayer-guide", label: "Contemplative Prayer" },
   { href: "/fruit-of-the-spirit", label: "Fruit of the Spirit" },
 ];
 

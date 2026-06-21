@@ -208,7 +208,7 @@ const RELATED = [
   { label: "Psalm 130 Guide", href: "/psalm-130-guide" },
   { label: "Psalm 143 Guide", href: "/psalm-143-guide" },
   { label: "Biblical Lament", href: "/lament-guide" },
-  { label: "The Eternity of God", href: "/attributes-of-god-guide" },
+  { label: "The Eternity of God", href: "/attributes-of-god" },
 ];
 
 export default function Psalm102Guide() {

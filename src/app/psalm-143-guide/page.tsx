@@ -207,7 +207,7 @@ const videoItems = [
 const RELATED = [
   { label: "Psalm 130 Guide", href: "/psalm-130-guide" },
   { label: "Psalm 102 Guide", href: "/psalm-102-guide" },
-  { label: "Justification by Grace", href: "/justification-guide" },
+  { label: "Justification by Grace", href: "/justification-by-faith" },
   { label: "Walking by the Spirit", href: "/holy-spirit-guide" },
 ];
 

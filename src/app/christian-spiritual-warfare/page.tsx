@@ -174,8 +174,8 @@ const videos = [
 ];
 
 const relatedPages = [
-  { href: "/christian-prayer", label: "Christian Prayer" },
-  { href: "/christian-temptation", label: "Temptation" },
+  { href: "/christian-prayer-guide", label: "Christian Prayer" },
+  { href: "/christian-self-control", label: "Temptation" },
   { href: "/holy-spirit", label: "The Holy Spirit" },
   { href: "/christian-identity", label: "Identity in Christ" },
   { href: "/christian-suffering", label: "Suffering & the Cross" },

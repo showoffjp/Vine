@@ -1010,7 +1010,7 @@ export default function ChristianSufferingGuidePage() {
                 Christian Hope
               </Link>{" "}
               for the resurrection ground that sustains this faith, or the{" "}
-              <Link href="/christian-prayer" style={{ color: RED, textDecoration: "underline" }}>
+              <Link href="/christian-prayer-guide" style={{ color: RED, textDecoration: "underline" }}>
                 Christian Prayer guide
               </Link>{" "}
               for the practice of lament and intercession in more depth.

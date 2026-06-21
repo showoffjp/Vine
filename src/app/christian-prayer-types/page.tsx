@@ -561,7 +561,7 @@ export default function ChristianPrayerTypesPage() {
                   praying in the Spirit — is the full range of the relationship, because the God
                   being addressed is larger than any single approach to him. Explore more of the
                   spiritual disciplines in our{" "}
-                  <Link href="/christian-spiritual-disciplines" style={{ color: PURPLE, textDecoration: "underline" }}>
+                  <Link href="/christian-spiritual-disciplines-guide" style={{ color: PURPLE, textDecoration: "underline" }}>
                     Spiritual Disciplines guide
                   </Link>
                   , or go deeper on listening in{" "}
@@ -986,7 +986,7 @@ export default function ChristianPrayerTypesPage() {
             </p>
             <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
               Keep growing: explore the full{" "}
-              <Link href="/christian-spiritual-disciplines" style={{ color: PURPLE, textDecoration: "underline" }}>
+              <Link href="/christian-spiritual-disciplines-guide" style={{ color: PURPLE, textDecoration: "underline" }}>
                 Spiritual Disciplines
               </Link>
               , let Scripture deepen your prayer with{" "}

@@ -177,8 +177,8 @@ const relatedPages = [
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
   { href: "/christian-sabbatical", label: "Christian Sabbatical" },
   { href: "/spiritual-disciplines", label: "Spiritual Disciplines" },
-  { href: "/theology-of-place", label: "Theology of Place" },
-  { href: "/psalms", label: "The Psalms" },
+  { href: "/christian-pilgrimage-sites", label: "Theology of Place" },
+  { href: "/psalms-guide", label: "The Psalms" },
   { href: "/christian-perseverance", label: "Christian Perseverance" },
 ];
 

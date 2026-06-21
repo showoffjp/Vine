@@ -176,9 +176,9 @@ const videos = [
 const relatedPages = [
   { href: "/christian-compassion", label: "Christian Compassion" },
   { href: "/stewardship", label: "Stewardship" },
-  { href: "/shalom", label: "Shalom" },
+  { href: "/biblical-justice-theology", label: "Shalom" },
   { href: "/kingdom-of-god", label: "Kingdom of God" },
-  { href: "/imago-dei", label: "Imago Dei" },
+  { href: "/image-of-god-guide", label: "Imago Dei" },
   { href: "/christian-poverty", label: "Poverty &amp; the Church" },
 ];
 

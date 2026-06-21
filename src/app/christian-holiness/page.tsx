@@ -550,7 +550,7 @@ export default function ChristianHolinessPage() {
                     Fruit of the Spirit guide
                   </Link>{" "}
                   or go deeper on the interior life in{" "}
-                  <Link href="/contemplative-prayer" style={{ color: PURPLE, textDecoration: "underline" }}>
+                  <Link href="/christian-prayer-guide" style={{ color: PURPLE, textDecoration: "underline" }}>
                     Contemplative Prayer
                   </Link>
                   .
@@ -997,7 +997,7 @@ export default function ChristianHolinessPage() {
                 Fruit of the Spirit
               </Link>
               , practice the interior life in{" "}
-              <Link href="/contemplative-prayer" style={{ color: PURPLE, textDecoration: "underline" }}>
+              <Link href="/christian-prayer-guide" style={{ color: PURPLE, textDecoration: "underline" }}>
                 Contemplative Prayer
               </Link>
               , resist the disordered heart in{" "}

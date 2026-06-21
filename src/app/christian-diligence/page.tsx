@@ -1017,7 +1017,7 @@ export default function ChristianDiligencePage() {
                 The Sabbath
               </Link>
               , or strengthen the will in{" "}
-              <Link href="/self-control" style={{ color: AMBER, textDecoration: "underline" }}>
+              <Link href="/christian-self-control" style={{ color: AMBER, textDecoration: "underline" }}>
                 Self-Control
               </Link>
               .

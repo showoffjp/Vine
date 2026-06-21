@@ -565,7 +565,7 @@ export default function ChristianApologeticsPage() {
                   for the gospel proclamation that apologetics serves, or explore the theological
                   foundations in{" "}
                   <Link
-                    href="/theology-of-grace"
+                    href="/christian-theology-of-grace"
                     style={{ color: BLUE, textDecoration: "underline" }}
                   >
                     Theology of Grace

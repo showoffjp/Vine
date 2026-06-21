@@ -566,7 +566,7 @@ export default function ChristianHumilityPage() {
                   </Link>
                   , or see how it shapes service in{" "}
                   <Link
-                    href="/christian-service"
+                    href="/christian-vocation"
                     style={{ color: PURPLE, textDecoration: "underline" }}
                   >
                     Christian Service
@@ -1043,7 +1043,7 @@ export default function ChristianHumilityPage() {
               </Link>
               , deepen your prayer in{" "}
               <Link
-                href="/christian-prayer"
+                href="/christian-prayer-guide"
                 style={{ color: PURPLE, textDecoration: "underline" }}
               >
                 Christian Prayer

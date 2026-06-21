@@ -563,7 +563,7 @@ export default function ChristianVocationPage() {
                   </Link>
                   , or see how calling connects to justice in{" "}
                   <Link
-                    href="/social-justice"
+                    href="/social-justice-guide"
                     style={{ color: BLUE, textDecoration: "underline" }}
                   >
                     Social Justice

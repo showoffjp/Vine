@@ -572,7 +572,7 @@ export default function ChristianTechnologyEthicsPage() {
                     Sabbath guide
                   </Link>
                   , or consider how desire is ordered toward God in{" "}
-                  <Link href="/christian-prayer" style={{ color: BLUE, textDecoration: "underline" }}>
+                  <Link href="/christian-prayer-guide" style={{ color: BLUE, textDecoration: "underline" }}>
                     Christian Prayer
                   </Link>
                   .
@@ -1020,7 +1020,7 @@ export default function ChristianTechnologyEthicsPage() {
             </p>
             <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
               Keep growing: explore the practice of unhurried attention in{" "}
-              <Link href="/christian-prayer" style={{ color: BLUE, textDecoration: "underline" }}>
+              <Link href="/christian-prayer-guide" style={{ color: BLUE, textDecoration: "underline" }}>
                 Christian Prayer
               </Link>
               , deepen the Sabbath theology in our{" "}
@@ -1028,7 +1028,7 @@ export default function ChristianTechnologyEthicsPage() {
                 Sabbath guide
               </Link>
               , or consider how formation happens through community in{" "}
-              <Link href="/church" style={{ color: BLUE, textDecoration: "underline" }}>
+              <Link href="/theology-of-the-church" style={{ color: BLUE, textDecoration: "underline" }}>
                 The Church
               </Link>
               .

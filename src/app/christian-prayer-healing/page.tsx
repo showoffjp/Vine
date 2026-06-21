@@ -174,12 +174,12 @@ const videos = [
 ];
 
 const relatedPages = [
-  { href: "/christian-prayer", label: "Christian Prayer" },
+  { href: "/christian-prayer-guide", label: "Christian Prayer" },
   { href: "/christian-suffering", label: "Suffering & the Cross" },
   { href: "/holy-spirit", label: "The Holy Spirit" },
   { href: "/spiritual-gifts", label: "Spiritual Gifts" },
-  { href: "/christian-faith", label: "Christian Faith" },
-  { href: "/theology-of-the-body", label: "Theology of the Body" },
+  { href: "/christian-faith-guide", label: "Christian Faith" },
+  { href: "/theology-of-body", label: "Theology of the Body" },
 ];
 
 const tabs = [

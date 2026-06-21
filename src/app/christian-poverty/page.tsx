@@ -178,8 +178,8 @@ const relatedPages = [
   { href: "/justice", label: "Justice" },
   { href: "/generosity", label: "Generosity" },
   { href: "/stewardship", label: "Stewardship" },
-  { href: "/the-kingdom-of-god", label: "The Kingdom of God" },
-  { href: "/the-church", label: "The Church" },
+  { href: "/kingdom-of-god", label: "The Kingdom of God" },
+  { href: "/theology-of-the-church", label: "The Church" },
 ];
 
 const tabs = [

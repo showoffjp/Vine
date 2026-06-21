@@ -563,7 +563,7 @@ export default function ChristianWorkTheologyPage() {
                     Christian Guide to Money
                   </Link>
                   , or explore calling and purpose in the{" "}
-                  <Link href="/christian-purpose" style={{ color: BLUE, textDecoration: "underline" }}>
+                  <Link href="/christian-purpose-calling-guide" style={{ color: BLUE, textDecoration: "underline" }}>
                     Christian Purpose guide
                   </Link>
                   .
@@ -1020,7 +1020,7 @@ export default function ChristianWorkTheologyPage() {
                 Christian Guide to Money
               </Link>
               , or explore purpose and calling in the{" "}
-              <Link href="/christian-purpose" style={{ color: BLUE, textDecoration: "underline" }}>
+              <Link href="/christian-purpose-calling-guide" style={{ color: BLUE, textDecoration: "underline" }}>
                 Christian Purpose guide
               </Link>
               .

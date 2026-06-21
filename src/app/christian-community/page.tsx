@@ -174,7 +174,7 @@ const videos = [
 ];
 
 const relatedPages = [
-  { href: "/church", label: "The Church" },
+  { href: "/theology-of-the-church", label: "The Church" },
   { href: "/christian-witness", label: "Christian Witness" },
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
   { href: "/prayer", label: "Prayer" },

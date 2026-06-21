@@ -584,7 +584,7 @@ export default function ChristianLamentPage() {
                     Christian Suffering
                   </Link>{" "}
                   or to honest prayer in{" "}
-                  <Link href="/christian-prayer" style={{ color: PURPLE, textDecoration: "underline" }}>
+                  <Link href="/christian-prayer-guide" style={{ color: PURPLE, textDecoration: "underline" }}>
                     Christian Prayer
                   </Link>
                   .

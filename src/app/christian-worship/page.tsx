@@ -174,8 +174,8 @@ const videos = [
 ];
 
 const relatedPages = [
-  { href: "/christian-prayer", label: "Christian Prayer" },
-  { href: "/christian-sabbath", label: "Christian Sabbath" },
+  { href: "/christian-prayer-guide", label: "Christian Prayer" },
+  { href: "/christian-sabbath-guide", label: "Christian Sabbath" },
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
   { href: "/fruit-of-the-spirit", label: "Fruit of the Spirit" },
   { href: "/christian-confession", label: "Christian Confession" },

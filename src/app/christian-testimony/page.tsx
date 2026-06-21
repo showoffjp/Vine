@@ -1037,7 +1037,7 @@ export default function ChristianTestimonyPage() {
                 Christian Obedience
               </Link>
               , explore the Gospel you are testifying to in{" "}
-              <Link href="/the-gospel" style={{ color: ROSE, textDecoration: "underline" }}>
+              <Link href="/salvation" style={{ color: ROSE, textDecoration: "underline" }}>
                 The Gospel
               </Link>
               , or strengthen the courage to speak in{" "}

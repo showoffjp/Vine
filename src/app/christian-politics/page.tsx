@@ -987,7 +987,7 @@ export default function ChristianPoliticsPage() {
                 Christian Justice
               </Link>
               , or deepen your prophetic witness through{" "}
-              <Link href="/christian-service" style={{ color: BLUE, textDecoration: "underline" }}>
+              <Link href="/christian-vocation" style={{ color: BLUE, textDecoration: "underline" }}>
                 Christian Service
               </Link>
               .

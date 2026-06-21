@@ -171,9 +171,9 @@ const videos = [
 
 const relatedPages = [
   { href: "/christian-justice", label: "Christian Justice" },
-  { href: "/christian-mercy", label: "Christian Mercy" },
+  { href: "/christian-compassion", label: "Christian Mercy" },
   { href: "/incarnation", label: "The Incarnation" },
-  { href: "/good-samaritan", label: "The Good Samaritan" },
+  { href: "/parables-of-jesus", label: "The Good Samaritan" },
   { href: "/spiritual-disciplines", label: "Spiritual Disciplines" },
   { href: "/christian-hospitality", label: "Hospitality" },
 ];

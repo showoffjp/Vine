@@ -175,7 +175,7 @@ const videos = [
 
 const relatedPages = [
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
-  { href: "/christian-repentance", label: "Christian Repentance" },
+  { href: "/repentance-guide", label: "Christian Repentance" },
   { href: "/christian-forgiveness", label: "Christian Forgiveness" },
   { href: "/christian-humility", label: "Christian Humility" },
   { href: "/prayer", label: "Prayer" },

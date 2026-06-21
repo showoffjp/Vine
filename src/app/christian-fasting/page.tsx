@@ -541,7 +541,7 @@ export default function ChristianFastingPage() {
                   separate topics but seven facets of a single reality: the creature in urgent,
                   embodied, whole-person seeking of the Creator. Fasting is what happens when the soul
                   takes God seriously enough to involve the body. Explore the related practice of{" "}
-                  <Link href="/christian-prayer" style={{ color: GOLD, textDecoration: "underline" }}>
+                  <Link href="/christian-prayer-guide" style={{ color: GOLD, textDecoration: "underline" }}>
                     Christian Prayer
                   </Link>{" "}
                   or the interior discipline of{" "}
@@ -987,7 +987,7 @@ export default function ChristianFastingPage() {
                 Christian Meditation
               </Link>
               , strengthen your prayer life with the{" "}
-              <Link href="/christian-prayer" style={{ color: GOLD, textDecoration: "underline" }}>
+              <Link href="/christian-prayer-guide" style={{ color: GOLD, textDecoration: "underline" }}>
                 Prayer guide
               </Link>
               , or practice generosity with the{" "}

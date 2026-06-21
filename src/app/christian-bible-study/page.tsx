@@ -562,7 +562,7 @@ export default function ChristianBibleStudyPage() {
                     Types of Christian Prayer
                   </Link>
                   , or take Scripture into community through{" "}
-                  <Link href="/christian-spiritual-disciplines" style={{ color: GOLD, textDecoration: "underline" }}>
+                  <Link href="/christian-spiritual-disciplines-guide" style={{ color: GOLD, textDecoration: "underline" }}>
                     Spiritual Disciplines
                   </Link>
                   .
@@ -991,7 +991,7 @@ export default function ChristianBibleStudyPage() {
                 Types of Christian Prayer
               </Link>
               , carry the Word into community through{" "}
-              <Link href="/christian-spiritual-disciplines" style={{ color: GOLD, textDecoration: "underline" }}>
+              <Link href="/christian-spiritual-disciplines-guide" style={{ color: GOLD, textDecoration: "underline" }}>
                 Spiritual Disciplines
               </Link>
               , or share what you&rsquo;re learning through{" "}

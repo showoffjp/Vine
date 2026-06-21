@@ -542,7 +542,7 @@ export default function ChristianMeditationPage() {
                   and his speech deserves slow, repeated, reverent attention. The mind formed by that
                   attention becomes the mind that Paul describes in Romans 12 — renewed, discerning,
                   capable of proving what is the will of God. Explore the related practice of{" "}
-                  <Link href="/christian-prayer" style={{ color: INDIGO, textDecoration: "underline" }}>
+                  <Link href="/christian-prayer-guide" style={{ color: INDIGO, textDecoration: "underline" }}>
                     Christian Prayer
                   </Link>{" "}
                   or go deeper on the Word with{" "}
@@ -986,7 +986,7 @@ export default function ChristianMeditationPage() {
             </p>
             <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
               Keep growing: explore{" "}
-              <Link href="/christian-prayer" style={{ color: INDIGO, textDecoration: "underline" }}>
+              <Link href="/christian-prayer-guide" style={{ color: INDIGO, textDecoration: "underline" }}>
                 Christian Prayer
               </Link>
               , practice fasting with our{" "}

@@ -170,7 +170,7 @@ const relatedPages = [
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
   { href: "/discipleship", label: "Discipleship" },
   { href: "/spiritual-disciplines", label: "Spiritual Disciplines" },
-  { href: "/bearing-one-anothers-burdens", label: "Bearing Burdens" },
+  { href: "/christian-community", label: "Bearing Burdens" },
 ];
 
 const tabs = [

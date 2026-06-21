@@ -176,7 +176,7 @@ const videos = [
 const relatedPages = [
   { href: "/christian-grief-guide", label: "Christian Grief Guide" },
   { href: "/apologetics", label: "Christian Apologetics" },
-  { href: "/faith", label: "Theology of Faith" },
+  { href: "/doubt-faith-guide", label: "Theology of Faith" },
   { href: "/christian-suffering", label: "Christian Suffering" },
   { href: "/prayer", label: "Prayer" },
   { href: "/christian-perseverance", label: "Christian Perseverance" },

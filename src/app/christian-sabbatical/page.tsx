@@ -178,7 +178,7 @@ const relatedPages = [
   { href: "/sabbath", label: "The Sabbath" },
   { href: "/spiritual-disciplines", label: "Spiritual Disciplines" },
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
-  { href: "/pastoral-theology", label: "Pastoral Theology" },
+  { href: "/pastoral-care-guide", label: "Pastoral Theology" },
   { href: "/christian-perseverance", label: "Christian Perseverance" },
 ];
 

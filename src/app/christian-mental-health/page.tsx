@@ -174,7 +174,7 @@ const videos = [
 const relatedPages = [
   { href: "/christian-suffering", label: "Christian Suffering" },
   { href: "/christian-addiction", label: "Christian Addiction" },
-  { href: "/christian-anxiety", label: "Christian Anxiety" },
+  { href: "/christian-anxiety-guide", label: "Christian Anxiety" },
   { href: "/lament", label: "Lament" },
   { href: "/incarnation", label: "The Incarnation" },
 ];

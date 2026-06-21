@@ -177,9 +177,9 @@ const relatedPages = [
   { href: "/christian-poverty", label: "Christian Response to Poverty" },
   { href: "/justice", label: "Justice" },
   { href: "/lament", label: "Lament" },
-  { href: "/imago-dei", label: "Imago Dei" },
-  { href: "/reconciliation", label: "Reconciliation" },
-  { href: "/the-church", label: "The Church" },
+  { href: "/image-of-god-guide", label: "Imago Dei" },
+  { href: "/race-reconciliation", label: "Reconciliation" },
+  { href: "/theology-of-the-church", label: "The Church" },
 ];
 
 const tabs = [

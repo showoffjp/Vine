@@ -174,7 +174,7 @@ const videos = [
 ];
 
 const relatedPages = [
-  { href: "/great-commission", label: "The Great Commission" },
+  { href: "/evangelism", label: "The Great Commission" },
   { href: "/holy-spirit", label: "The Holy Spirit" },
   { href: "/christian-faithfulness", label: "Christian Faithfulness" },
   { href: "/apologetics", label: "Apologetics" },

@@ -568,7 +568,7 @@ export default function ChristianHospitalityGuidePage() {
                     Christian Community
                   </Link>{" "}
                   or deepen the love that hospitality expresses in{" "}
-                  <Link href="/christian-love" style={{ color: GOLD, textDecoration: "underline" }}>
+                  <Link href="/christian-love-guide" style={{ color: GOLD, textDecoration: "underline" }}>
                     Christian Love
                   </Link>
                   .
@@ -1023,7 +1023,7 @@ export default function ChristianHospitalityGuidePage() {
             </p>
             <p style={{ color: MUTED, lineHeight: 1.78, fontSize: "0.93rem" }}>
               Keep growing: explore the love that hospitality expresses in{" "}
-              <Link href="/christian-love" style={{ color: GOLD, textDecoration: "underline" }}>
+              <Link href="/christian-love-guide" style={{ color: GOLD, textDecoration: "underline" }}>
                 Christian Love
               </Link>
               , understand the community that hospitality builds in{" "}

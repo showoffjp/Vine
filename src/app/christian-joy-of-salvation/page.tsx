@@ -555,7 +555,7 @@ export default function ChristianJoyOfSalvationPage() {
                     Fruit of the Spirit guide
                   </Link>
                   , or deepen your prayer life with{" "}
-                  <Link href="/christian-prayer" style={{ color: AMBER, textDecoration: "underline" }}>
+                  <Link href="/christian-prayer-guide" style={{ color: AMBER, textDecoration: "underline" }}>
                     Christian Prayer
                   </Link>
                   .

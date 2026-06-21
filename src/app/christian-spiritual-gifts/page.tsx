@@ -184,7 +184,7 @@ const relatedPages = [
   { href: "/christian-discipleship", label: "Christian Discipleship" },
   { href: "/holy-spirit", label: "The Holy Spirit" },
   { href: "/christian-community", label: "Christian Community" },
-  { href: "/christian-service", label: "Christian Service" },
+  { href: "/christian-vocation", label: "Christian Service" },
   { href: "/prayer", label: "Prayer" },
 ];
 

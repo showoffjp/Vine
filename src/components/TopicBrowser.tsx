@@ -3748,6 +3748,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 117 Chapter": "psalm-117-guide",
   "Praise the LORD All Nations Psalm 117": "psalm-117-guide",
   "Shortest Psalm in the Bible": "psalm-117-guide",
+  "Psalm 120 Chapter": "psalm-120-guide",
+  "In My Distress I Called to the LORD Psalm 120": "psalm-120-guide",
+  "Woe to Me That I Sojourn in Meshech Psalm 120": "psalm-120-guide",
+  "Psalm 123 Chapter": "psalm-123-guide",
+  "To You I Lift Up My Eyes Psalm 123": "psalm-123-guide",
+  "Have Mercy Upon Us O LORD Psalm 123": "psalm-123-guide",
+  "Psalm 124 Chapter": "psalm-124-guide",
+  "If It Had Not Been the LORD Psalm 124": "psalm-124-guide",
+  "Our Help Is in the Name of the LORD Psalm 124": "psalm-124-guide",
+  "Psalm 125 Chapter": "psalm-125-guide",
+  "Those Who Trust in the LORD Are Like Mount Zion Psalm 125": "psalm-125-guide",
+  "Do Good O LORD to Those Who Are Good Psalm 125": "psalm-125-guide",
 };
 
 
@@ -5265,6 +5277,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 114 Chapter" },
   { label: "Psalm 115 Chapter" },
   { label: "Psalm 117 Chapter" },
+  { label: "Psalm 120 Chapter" },
+  { label: "Psalm 123 Chapter" },
+  { label: "Psalm 124 Chapter" },
+  { label: "Psalm 125 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

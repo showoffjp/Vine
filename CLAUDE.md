@@ -50,18 +50,19 @@
 - **Batch 236** (pushed): Psalm 113, 114, 115, 117 — Egyptian Hallel
 - **Batch 237** (pushed): Psalm 120, 123, 124, 125 — Songs of Ascents gaps
 - **Batch 238** (pushed): Psalm 92, 94, 111, 112 — Wisdom cluster
+- **Batch 239** (pushed): Psalm 128, 129, 131, 132 — Songs of Ascents (collection now needs only 134)
 - **Bible Manuscript Evidence** apologetics page (`/bible-manuscript-evidence`) — wired in Navbar + TopicBrowser
 - Also: dynamic sitemap.ts, Footer trim, 35 broken-link fixes
-- Latest commit: `df93cbd`
+- Latest commit: `64ec676`
 
-## Missing Psalms (as of batch 238, ~20 remaining)
+## Missing Psalms (as of batch 239, ~16 remaining)
 44, 66, 70, 78, 85, 101, 105, 106, 108, 109,
-128, 129, 131, 132, 134, 135, 140, 141, 142, 144
+134, 135, 140, 141, 142, 144
 
-## Next Batch (239) — suggestions
-- Songs of Ascents remainder: Psalm 128, 129, 131, 132
-- Davidic clusters: Psalm 101, 108, 109, 144
-- Orphans: Psalm 44, 66, 70, 78, 85
+## Next Batch (240) — suggestions
+- Davidic cluster: Psalm 101, 108, 109, 144
+- Orphans: Psalm 44, 66, 70, 78
+- Hallel/historical: Psalm 105, 106, 134, 135
 Confirm missing on disk and unwired in TopicBrowser before writing.
 
 ## New Content Pages — remaining

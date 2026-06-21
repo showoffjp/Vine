@@ -3659,6 +3659,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 122 Chapter": "psalm-122-guide",
   "Let Us Go to the House of the LORD Psalm 122": "psalm-122-guide",
   "I Was Glad When They Said to Me Psalm 122": "psalm-122-guide",
+  "Psalm 35 Chapter": "psalm-35-guide",
+  "Plead My Cause O LORD Psalm 35": "psalm-35-guide",
+  "Fight Against Those Who Fight Against Me Psalm 35": "psalm-35-guide",
+  "Psalm 39 Chapter": "psalm-39-guide",
+  "I Will Watch My Ways Psalm 39": "psalm-39-guide",
+  "Man Is a Mere Breath Psalm 39": "psalm-39-guide",
+  "Psalm 41 Chapter": "psalm-41-guide",
+  "Blessed Is He Who Considers the Poor Psalm 41": "psalm-41-guide",
+  "Even My Close Friend Has Lifted His Heel Psalm 41": "psalm-41-guide",
+  "Psalm 43 Chapter": "psalm-43-guide",
+  "Vindicate Me O God Psalm 43": "psalm-43-guide",
+  "Send Out Your Light and Your Truth Psalm 43": "psalm-43-guide",
 };
 
 
@@ -5146,6 +5158,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 76 Chapter" },
   { label: "Psalm 87 Chapter" },
   { label: "Psalm 122 Chapter" },
+  { label: "Psalm 35 Chapter" },
+  { label: "Psalm 39 Chapter" },
+  { label: "Psalm 41 Chapter" },
+  { label: "Psalm 43 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

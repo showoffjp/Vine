@@ -219,6 +219,7 @@ const navLinks: NavLink[] = [
           { label: "Tough Questions Answered", href: "/apologetics-questions" },
           { label: "Arguments for God", href: "/apologetics-arguments" },
           { label: "Messianic Prophecies", href: "/messianic-prophecies" },
+          { label: "Bible Manuscript Evidence", href: "/bible-manuscript-evidence" },
           { label: "Faith & Science", href: "/faith-science" },
           { label: "Christian Worldview", href: "/christian-worldview" },
           { label: "Christian Philosophy", href: "/christian-philosophy" },

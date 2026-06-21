@@ -3683,6 +3683,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 53 Chapter": "psalm-53-guide",
   "The Fool Says in His Heart There Is No God Psalm 53": "psalm-53-guide",
   "God Looks Down from Heaven on the Children of Man Psalm 53": "psalm-53-guide",
+  "Psalm 54 Chapter": "psalm-54-guide",
+  "Save Me O God by Your Name Psalm 54": "psalm-54-guide",
+  "Behold God Is My Helper Psalm 54": "psalm-54-guide",
+  "Psalm 55 Chapter": "psalm-55-guide",
+  "Cast Your Burden on the LORD Psalm 55": "psalm-55-guide",
+  "Oh That I Had Wings Like a Dove Psalm 55": "psalm-55-guide",
+  "Psalm 56 Chapter": "psalm-56-guide",
+  "When I Am Afraid I Put My Trust in You Psalm 56": "psalm-56-guide",
+  "You Have Kept Count of My Tossings Psalm 56": "psalm-56-guide",
+  "Psalm 57 Chapter": "psalm-57-guide",
+  "Be Merciful to Me O God Psalm 57": "psalm-57-guide",
+  "My Heart Is Steadfast I Will Awake the Dawn Psalm 57": "psalm-57-guide",
 };
 
 
@@ -5178,6 +5190,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 50 Chapter" },
   { label: "Psalm 52 Chapter" },
   { label: "Psalm 53 Chapter" },
+  { label: "Psalm 54 Chapter" },
+  { label: "Psalm 55 Chapter" },
+  { label: "Psalm 56 Chapter" },
+  { label: "Psalm 57 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3772,6 +3772,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 112 Chapter": "psalm-112-guide",
   "Blessed Is the Man Who Fears the LORD Psalm 112": "psalm-112-guide",
   "He Has Distributed He Has Given to the Poor Psalm 112": "psalm-112-guide",
+  "Psalm 128 Chapter": "psalm-128-guide",
+  "Blessed Is Everyone Who Fears the LORD Psalm 128": "psalm-128-guide",
+  "Your Wife a Fruitful Vine Psalm 128": "psalm-128-guide",
+  "Psalm 129 Chapter": "psalm-129-guide",
+  "Greatly Have They Afflicted Me from My Youth Psalm 129": "psalm-129-guide",
+  "The Plowers Plowed Upon My Back Psalm 129": "psalm-129-guide",
+  "Psalm 131 Chapter": "psalm-131-guide",
+  "O LORD My Heart Is Not Lifted Up Psalm 131": "psalm-131-guide",
+  "Like a Weaned Child Is My Soul Psalm 131": "psalm-131-guide",
+  "Psalm 132 Chapter": "psalm-132-guide",
+  "Remember O LORD in David's Favor Psalm 132": "psalm-132-guide",
+  "The LORD Swore to David a Sure Oath Psalm 132": "psalm-132-guide",
 };
 
 
@@ -5297,6 +5309,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 94 Chapter" },
   { label: "Psalm 111 Chapter" },
   { label: "Psalm 112 Chapter" },
+  { label: "Psalm 128 Chapter" },
+  { label: "Psalm 129 Chapter" },
+  { label: "Psalm 131 Chapter" },
+  { label: "Psalm 132 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

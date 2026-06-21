@@ -3671,6 +3671,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 43 Chapter": "psalm-43-guide",
   "Vindicate Me O God Psalm 43": "psalm-43-guide",
   "Send Out Your Light and Your Truth Psalm 43": "psalm-43-guide",
+  "Psalm 49 Chapter": "psalm-49-guide",
+  "Why Should I Fear in Times of Trouble Psalm 49": "psalm-49-guide",
+  "Man in His Pomp Will Not Remain Psalm 49": "psalm-49-guide",
+  "Psalm 50 Chapter": "psalm-50-guide",
+  "The Mighty One God the LORD Speaks Psalm 50": "psalm-50-guide",
+  "Offer to God a Sacrifice of Thanksgiving Psalm 50": "psalm-50-guide",
+  "Psalm 52 Chapter": "psalm-52-guide",
+  "Why Do You Boast in Evil O Mighty Man Psalm 52": "psalm-52-guide",
+  "I Am Like a Green Olive Tree Psalm 52": "psalm-52-guide",
+  "Psalm 53 Chapter": "psalm-53-guide",
+  "The Fool Says in His Heart There Is No God Psalm 53": "psalm-53-guide",
+  "God Looks Down from Heaven on the Children of Man Psalm 53": "psalm-53-guide",
 };
 
 
@@ -5162,6 +5174,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 39 Chapter" },
   { label: "Psalm 41 Chapter" },
   { label: "Psalm 43 Chapter" },
+  { label: "Psalm 49 Chapter" },
+  { label: "Psalm 50 Chapter" },
+  { label: "Psalm 52 Chapter" },
+  { label: "Psalm 53 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

@@ -3760,6 +3760,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 125 Chapter": "psalm-125-guide",
   "Those Who Trust in the LORD Are Like Mount Zion Psalm 125": "psalm-125-guide",
   "Do Good O LORD to Those Who Are Good Psalm 125": "psalm-125-guide",
+  "Psalm 92 Chapter": "psalm-92-guide",
+  "It Is Good to Give Thanks to the LORD Psalm 92": "psalm-92-guide",
+  "The Righteous Flourish Like the Palm Tree Psalm 92": "psalm-92-guide",
+  "Psalm 94 Chapter": "psalm-94-guide",
+  "O LORD God of Vengeance Shine Forth Psalm 94": "psalm-94-guide",
+  "Who Rises Up for Me Against the Wicked Psalm 94": "psalm-94-guide",
+  "Psalm 111 Chapter": "psalm-111-guide",
+  "Praise the LORD I Will Give Thanks Psalm 111": "psalm-111-guide",
+  "The Fear of the LORD Is the Beginning of Wisdom Psalm 111": "psalm-111-guide",
+  "Psalm 112 Chapter": "psalm-112-guide",
+  "Blessed Is the Man Who Fears the LORD Psalm 112": "psalm-112-guide",
+  "He Has Distributed He Has Given to the Poor Psalm 112": "psalm-112-guide",
 };
 
 
@@ -5281,6 +5293,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 123 Chapter" },
   { label: "Psalm 124 Chapter" },
   { label: "Psalm 125 Chapter" },
+  { label: "Psalm 92 Chapter" },
+  { label: "Psalm 94 Chapter" },
+  { label: "Psalm 111 Chapter" },
+  { label: "Psalm 112 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

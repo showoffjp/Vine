@@ -3736,6 +3736,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 83 Chapter": "psalm-83-guide",
   "Do Not Keep Silence O God Psalm 83": "psalm-83-guide",
   "Fill Their Faces with Shame Psalm 83": "psalm-83-guide",
+  "Psalm 113 Chapter": "psalm-113-guide",
+  "Praise the LORD O Servants of the LORD Psalm 113": "psalm-113-guide",
+  "Who Is Like the LORD Our God Psalm 113": "psalm-113-guide",
+  "Psalm 114 Chapter": "psalm-114-guide",
+  "When Israel Went Out of Egypt Psalm 114": "psalm-114-guide",
+  "The Sea Fled and Jordan Turned Back Psalm 114": "psalm-114-guide",
+  "Psalm 115 Chapter": "psalm-115-guide",
+  "Not to Us O LORD Not to Us Psalm 115": "psalm-115-guide",
+  "Their Idols Are Silver and Gold Psalm 115": "psalm-115-guide",
+  "Psalm 117 Chapter": "psalm-117-guide",
+  "Praise the LORD All Nations Psalm 117": "psalm-117-guide",
+  "Shortest Psalm in the Bible": "psalm-117-guide",
 };
 
 
@@ -5249,6 +5261,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 81 Chapter" },
   { label: "Psalm 82 Chapter" },
   { label: "Psalm 83 Chapter" },
+  { label: "Psalm 113 Chapter" },
+  { label: "Psalm 114 Chapter" },
+  { label: "Psalm 115 Chapter" },
+  { label: "Psalm 117 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

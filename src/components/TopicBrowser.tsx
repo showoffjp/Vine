@@ -3647,6 +3647,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 99 Chapter": "psalm-99-guide",
   "The LORD Reigns Let the Peoples Tremble Psalm 99": "psalm-99-guide",
   "Holy Is He Exalt the LORD Our God Psalm 99": "psalm-99-guide",
+  "Psalm 48 Chapter": "psalm-48-guide",
+  "Great Is the LORD in the City of Our God Psalm 48": "psalm-48-guide",
+  "Mount Zion Beautiful in Elevation Psalm 48": "psalm-48-guide",
+  "Psalm 76 Chapter": "psalm-76-guide",
+  "God Is Known in Judah Psalm 76": "psalm-76-guide",
+  "His Abode Has Been Established in Salem Psalm 76": "psalm-76-guide",
+  "Psalm 87 Chapter": "psalm-87-guide",
+  "His Foundation Is on the Holy Mountain Psalm 87": "psalm-87-guide",
+  "Glorious Things Are Said of You City of God Psalm 87": "psalm-87-guide",
+  "Psalm 122 Chapter": "psalm-122-guide",
+  "Let Us Go to the House of the LORD Psalm 122": "psalm-122-guide",
+  "I Was Glad When They Said to Me Psalm 122": "psalm-122-guide",
 };
 
 
@@ -5130,6 +5142,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 93 Chapter" },
   { label: "Psalm 97 Chapter" },
   { label: "Psalm 99 Chapter" },
+  { label: "Psalm 48 Chapter" },
+  { label: "Psalm 76 Chapter" },
+  { label: "Psalm 87 Chapter" },
+  { label: "Psalm 122 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

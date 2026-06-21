@@ -40,19 +40,21 @@
 7. Next batch
 
 ## Last Completed Batch
-- **Batch 228** (committed, pushed): Psalm 47, 93, 97, 99 — enthronement psalms
-- **Messianic Prophecies** apologetics page (`/messianic-prophecies`) — wired in Navbar + TopicBrowser
-- Latest commit: `dbb1f9d`
+- **Batch 229** (pushed): Psalm 48, 76, 87, 122 — Songs of Zion
+- **Batch 230** (pushed): Psalm 35, 39, 41, 43 — Davidic laments
+- **Batch 231** (pushed): Psalm 49, 50, 52, 53 — wisdom & judgment
+- **Batch 232** (pushed): Psalm 54, 55, 56, 57 — David in flight
+- Also: dynamic sitemap.ts, Footer trim, 35 broken-link fixes
+- Latest commit: `69eea9e`
 
-## Missing Psalms (as of batch 228, ~60 remaining)
-35, 39, 41, 43, 44, 48, 49, 50, 52, 53, 54, 55, 56, 57, 58, 59, 60, 64, 66, 70,
-74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 85, 87, 92, 94, 101, 105, 106, 108, 109,
-111, 112, 113, 114, 115, 117, 120, 122, 123, 124, 125, 128, 129, 131, 132, 134,
-135, 140, 141, 142, 144
+## Missing Psalms (as of batch 232, ~44 remaining)
+44, 58, 59, 60, 64, 66, 70, 74, 75, 77, 78, 79, 80, 81, 82, 83, 85, 92, 94, 101,
+105, 106, 108, 109, 111, 112, 113, 114, 115, 117, 120, 123, 124, 125, 128, 129,
+131, 132, 134, 135, 140, 141, 142, 144
 
-## Next Batch (229) — Pre-cleared, no collisions
-Songs of Zion cluster: Psalm 48, 76, 87, 122
-All four confirmed missing on disk and unwired in TopicBrowser.
+## Next Batch (233) — Pre-cleared, no collisions
+Complete the miktam series + Asaph: Psalm 58, 59, 60, 64
+Confirm missing on disk and unwired in TopicBrowser before writing.
 
 ## Content Quality Standard
 - Verse-by-verse commentary citing Calvin, Spurgeon, Matthew Henry, Derek Kidner, Tremper Longman

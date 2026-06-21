@@ -3695,6 +3695,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 57 Chapter": "psalm-57-guide",
   "Be Merciful to Me O God Psalm 57": "psalm-57-guide",
   "My Heart Is Steadfast I Will Awake the Dawn Psalm 57": "psalm-57-guide",
+  "Psalm 58 Chapter": "psalm-58-guide",
+  "Do You Indeed Decree What Is Right Psalm 58": "psalm-58-guide",
+  "Surely There Is a God Who Judges on Earth Psalm 58": "psalm-58-guide",
+  "Psalm 59 Chapter": "psalm-59-guide",
+  "Deliver Me from My Enemies O My God Psalm 59": "psalm-59-guide",
+  "O My Strength I Will Watch for You Psalm 59": "psalm-59-guide",
+  "Psalm 60 Chapter": "psalm-60-guide",
+  "O God You Have Rejected Us Psalm 60": "psalm-60-guide",
+  "With God We Shall Do Valiantly Psalm 60": "psalm-60-guide",
+  "Psalm 64 Chapter": "psalm-64-guide",
+  "Hear My Voice O God in My Complaint Psalm 64": "psalm-64-guide",
+  "The Righteous Will Rejoice in the LORD Psalm 64": "psalm-64-guide",
 };
 
 
@@ -5194,6 +5206,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 55 Chapter" },
   { label: "Psalm 56 Chapter" },
   { label: "Psalm 57 Chapter" },
+  { label: "Psalm 58 Chapter" },
+  { label: "Psalm 59 Chapter" },
+  { label: "Psalm 60 Chapter" },
+  { label: "Psalm 64 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

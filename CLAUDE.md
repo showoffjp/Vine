@@ -46,19 +46,20 @@
 - **Batch 232** (pushed): Psalm 54, 55, 56, 57 — David in flight
 - **Batch 233** (pushed): Psalm 58, 59, 60, 64 — miktam & lament
 - **Batch 234** (pushed): Psalm 74, 75, 77, 79 — Asaph
+- **Batch 235** (pushed): Psalm 80, 81, 82, 83 — completes Asaph 73-83
 - **Bible Manuscript Evidence** apologetics page (`/bible-manuscript-evidence`) — wired in Navbar + TopicBrowser
 - Also: dynamic sitemap.ts, Footer trim, 35 broken-link fixes
-- Latest commit: `97edc53`
+- Latest commit: `387c998`
 
-## Missing Psalms (as of batch 234, ~36 remaining)
-44, 66, 70, 78, 80, 81, 82, 83, 85, 92, 94, 101, 105, 106, 108, 109, 111, 112,
+## Missing Psalms (as of batch 235, ~32 remaining)
+44, 66, 70, 78, 85, 92, 94, 101, 105, 106, 108, 109, 111, 112,
 113, 114, 115, 117, 120, 123, 124, 125, 128, 129, 131, 132, 134, 135, 140, 141,
 142, 144
 
-## Next Batch (235) — suggestions
-- Asaph cluster cont.: Psalm 80, 81, 82, 83 (completes Asaph 73-83)
+## Next Batch (236) — suggestions
 - Egyptian Hallel: Psalm 113, 114, 115, 117
 - Songs of Ascents gap: Psalm 120, 123, 124, 125
+- Wisdom cluster: Psalm 92, 94, 111, 112
 Confirm missing on disk and unwired in TopicBrowser before writing.
 
 ## New Content Pages — remaining

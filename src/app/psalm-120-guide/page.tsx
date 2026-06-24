@@ -1,55 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import PsalmGuideTemplate, { GUIDE_COLORS, type PsalmGuideData, type VideoEntry } from "@/components/PsalmGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = GUIDE_COLORS;
 
-const ACCENT = TEAL;
-
-type VideoEntry = { videoId: string; title: string };
-
-const VIDEOS: VideoEntry[] = [
+const VIDEOS = [
   { videoId: "xyzABC123", title: "Psalm 120 -- Songs of Ascents Introduction" },
   { videoId: "defGHI456", title: "Living Among Liars -- Psalm 120 Expository" },
 ];
-
-function VideoEmbed({ v }: { v: VideoEntry }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ marginBottom: "1rem" }}>
-      {open ? (
-        <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-          <iframe
-            src={`https://www.youtube.com/embed/${v.videoId}?autoplay=1`}
-            title={v.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
-          />
-        </div>
-      ) : (
-        <button
-          onClick={() => setOpen(true)}
-          style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: "8px", padding: "1rem", cursor: "pointer", textAlign: "left", color: TEXT }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ fontSize: "1.25rem" }}>&#9654;</span>
-            </div>
-            <div>
-              <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>{v.title}</div>
-              <div style={{ fontSize: "0.85rem", color: MUTED }}>Click to play</div>
-            </div>
-          </div>
-        </button>
-      )}
-    </div>
-  );
-}
-
-const TABS = ["Overview", "Themes", "Verse by Verse", "Application"];
 
 const KEY_DETAILS = [
   { label: "Author", value: "Anonymous (possibly David or a returning exile)" },
@@ -187,145 +144,31 @@ But the Songs of Ascents tradition invites us not to stop at Psalm 120. The coll
   },
 ];
 
-export default function Psalm120Guide() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [openTheme, setOpenTheme] = useState<number | null>(null);
-  const [openVerse, setOpenVerse] = useState<number | null>(null);
+const data: PsalmGuideData = {
+  accent: TEAL,
+  heroGradientEnd: "#0a1a1a",
+  badge: `Psalm 120`,
+  metaLine: `Song of Ascents &bull; 7 Verses`,
+  title: `In My Distress I Called to the LORD`,
+  heroIntro: `The first Song of Ascents opens the great pilgrim collection with raw honesty: a lament from one living among liars and warmongers, crying to God from the depths of social and spiritual exile, yet already beginning the journey toward Zion.`,
+  blockquote: `&ldquo;I am for peace, but when I speak, they are for war.&rdquo;`,
+  blockquoteRef: `&mdash; Psalm 120:7`,
+  overviewHeading: `Overview of Psalm 120`,
+  overviewParagraphs: [
+    `Psalm 120 stands at the head of one of Scripture&rsquo;s most distinctive literary collections: the fifteen Songs of Ascents (Psalms 120&ndash;134). Bearing the Hebrew superscription <em>shir hama&rsquo;alot</em> (&ldquo;a song of the goings up&rdquo;), these psalms were almost certainly the pilgrim songs of ancient Israel, sung by worshippers making their way to Jerusalem for the great annual festivals. To read Psalm 120 is to enter a journey already begun &mdash; the journey from exile toward the presence of God.`,
+    `The psalm is brief &mdash; seven verses &mdash; yet it compresses an entire spiritual situation into its lines. The speaker is surrounded by people of lying lips and deceitful tongue (v. 2). He has appealed to the LORD before and been answered (v. 1), and he appeals again. He voices a curse on the deceitful tongue in the form of a rhetorical question (vv. 3&ndash;4). And then, with devastating honesty, he names his situation: he sojourns in Meshech, dwells among the tents of Kedar (v. 5) &mdash; among barbarians and warmongers, far from God&rsquo;s people. He is for peace; they are for war (v. 7).`,
+    `The scholarly debate about the Songs of Ascents touches Psalm 120 directly. If these psalms were composed for or during the return from Babylonian exile, then Meshech and Kedar represent the literal dispersions of Israel among the nations &mdash; the experience of God&rsquo;s people scattered to the far ends of the earth. If they were composed earlier for regular pilgrimage festivals, then Meshech and Kedar are metaphors for moral and spiritual alienation. Either reading is spiritually rich. Derek Kidner writes: &ldquo;Whether the setting is the exile or the ordinary life of the godly man in an ungodly world, the experience is the same &mdash; loneliness, hostility, and longing for the house of God.&rdquo;`,
+    `The psalm is structured in three movements: (1) testimony of past rescue and present petition (vv. 1&ndash;2); (2) imprecatory response to the lying tongue (vv. 3&ndash;4); (3) lament of the peacemaker in a war-loving world (vv. 5&ndash;7). The movement from petition to imprecation to lament reflects the psalmist&rsquo;s realism: he is not about to be delivered immediately. The psalm ends not in resolution but in honest statement &mdash; which is itself a form of trust, because the pilgrimage has already begun.`,
+    `For Christians reading Psalm 120 as part of the Songs of Ascents, the journey it inaugurates points ultimately to Christ, who himself made the final ascent to Jerusalem (Luke 9:51), who came offering peace and was met with war, and who is now the true Temple and true Zion. The pilgrim road of the Songs of Ascents has become the road of discipleship &mdash; following the crucified and risen Lord from the far country of this present age to the new Jerusalem of the age to come.`,
+  ],
+  keyDetails: KEY_DETAILS,
+  videos: VIDEOS,
+  themes: THEMES,
+  verses: VERSES,
+  applications: APPLICATIONS,
+  applicationIntro: `How Psalm 120 speaks to daily Christian life.`,
+};
 
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
-      {/* Hero */}
-      <div style={{ background: `linear-gradient(135deg, ${CARD} 0%, #0a1a1a 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 1.5rem 2.5rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-            <span style={{ background: ACCENT, color: "#fff", fontSize: "0.75rem", fontFamily: "sans-serif", fontWeight: 700, letterSpacing: "0.08em", padding: "0.25rem 0.75rem", borderRadius: "999px", textTransform: "uppercase" }}>Psalm 120</span>
-            <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif" }}>Song of Ascents &bull; 7 Verses</span>
-          </div>
-          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, lineHeight: 1.2, margin: "0 0 1rem" }}>
-            In My Distress I Called to the LORD
-          </h1>
-          <p style={{ fontSize: "1.1rem", color: MUTED, lineHeight: 1.7, maxWidth: "680px", margin: "0 0 1.5rem" }}>
-            The first Song of Ascents opens the great pilgrim collection with raw honesty: a lament from one living among liars and warmongers, crying to God from the depths of social and spiritual exile, yet already beginning the journey toward Zion.
-          </p>
-          <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1.25rem", margin: "0", color: TEXT, fontStyle: "italic", fontSize: "1.05rem", lineHeight: 1.7 }}>
-            &ldquo;I am for peace, but when I speak, they are for war.&rdquo;
-            <span style={{ display: "block", fontSize: "0.85rem", color: MUTED, fontStyle: "normal", marginTop: "0.5rem" }}>&mdash; Psalm 120:7</span>
-          </blockquote>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ borderBottom: `1px solid ${BORDER}`, background: CARD }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto", display: "flex", overflowX: "auto" }}>
-          {TABS.map((tab, i) => (
-            <button key={tab} onClick={() => setActiveTab(i)} style={{ padding: "1rem 1.5rem", background: "none", border: "none", borderBottom: activeTab === i ? `2px solid ${ACCENT}` : "2px solid transparent", color: activeTab === i ? ACCENT : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "sans-serif", fontSize: "0.95rem", transition: "color 0.2s" }}>
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "2rem 1.5rem" }}>
-
-        {/* OVERVIEW */}
-        {activeTab === 0 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1.25rem", color: ACCENT }}>Overview of Psalm 120</h2>
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `Psalm 120 stands at the head of one of Scripture&rsquo;s most distinctive literary collections: the fifteen Songs of Ascents (Psalms 120&ndash;134). Bearing the Hebrew superscription <em>shir hama&rsquo;alot</em> (&ldquo;a song of the goings up&rdquo;), these psalms were almost certainly the pilgrim songs of ancient Israel, sung by worshippers making their way to Jerusalem for the great annual festivals. To read Psalm 120 is to enter a journey already begun &mdash; the journey from exile toward the presence of God.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The psalm is brief &mdash; seven verses &mdash; yet it compresses an entire spiritual situation into its lines. The speaker is surrounded by people of lying lips and deceitful tongue (v. 2). He has appealed to the LORD before and been answered (v. 1), and he appeals again. He voices a curse on the deceitful tongue in the form of a rhetorical question (vv. 3&ndash;4). And then, with devastating honesty, he names his situation: he sojourns in Meshech, dwells among the tents of Kedar (v. 5) &mdash; among barbarians and warmongers, far from God&rsquo;s people. He is for peace; they are for war (v. 7).` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The scholarly debate about the Songs of Ascents touches Psalm 120 directly. If these psalms were composed for or during the return from Babylonian exile, then Meshech and Kedar represent the literal dispersions of Israel among the nations &mdash; the experience of God&rsquo;s people scattered to the far ends of the earth. If they were composed earlier for regular pilgrimage festivals, then Meshech and Kedar are metaphors for moral and spiritual alienation. Either reading is spiritually rich. Derek Kidner writes: &ldquo;Whether the setting is the exile or the ordinary life of the godly man in an ungodly world, the experience is the same &mdash; loneliness, hostility, and longing for the house of God.&rdquo;` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The psalm is structured in three movements: (1) testimony of past rescue and present petition (vv. 1&ndash;2); (2) imprecatory response to the lying tongue (vv. 3&ndash;4); (3) lament of the peacemaker in a war-loving world (vv. 5&ndash;7). The movement from petition to imprecation to lament reflects the psalmist&rsquo;s realism: he is not about to be delivered immediately. The psalm ends not in resolution but in honest statement &mdash; which is itself a form of trust, because the pilgrimage has already begun.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "2rem" }} dangerouslySetInnerHTML={{ __html: `For Christians reading Psalm 120 as part of the Songs of Ascents, the journey it inaugurates points ultimately to Christ, who himself made the final ascent to Jerusalem (Luke 9:51), who came offering peace and was met with war, and who is now the true Temple and true Zion. The pilgrim road of the Songs of Ascents has become the road of discipleship &mdash; following the crucified and risen Lord from the far country of this present age to the new Jerusalem of the age to come.` }} />
-
-            {/* Key Details */}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "12px", padding: "1.5rem", marginBottom: "2rem" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: ACCENT, fontFamily: "sans-serif" }}>Key Details</h3>
-              <div style={{ display: "grid", gap: "0.75rem" }}>
-                {KEY_DETAILS.map(({ label, value }) => (
-                  <div key={label} style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: "0.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0.75rem" }}>
-                    <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif", fontWeight: 600 }}>{label}</span>
-                    <span style={{ color: TEXT, fontSize: "0.95rem" }}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Videos */}
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: TEXT, fontFamily: "sans-serif" }}>Video Resources</h3>
-            {VIDEOS.map((v) => <VideoEmbed key={v.videoId} v={v} />)}
-          </div>
-        )}
-
-        {/* THEMES */}
-        {activeTab === 1 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Major Themes</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each theme to expand the full discussion.</p>
-            {THEMES.map((theme, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenTheme(openTheme === i ? null : i)} style={{ width: "100%", background: openTheme === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: theme.color, flexShrink: 0 }} />
-                    <span style={{ color: TEXT, fontWeight: 600, fontSize: "1rem" }}>{theme.title}</span>
-                  </div>
-                  <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openTheme === i ? "-" : "+"}</span>
-                </button>
-                {openTheme === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: theme.body }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* VERSE BY VERSE */}
-        {activeTab === 2 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Verse-by-Verse Commentary</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each verse to expand the commentary.</p>
-            {VERSES.map((v, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenVerse(openVerse === i ? null : i)} style={{ width: "100%", background: openVerse === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer" }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
-                    <div>
-                      <span style={{ color: ACCENT, fontWeight: 700, fontFamily: "sans-serif", fontSize: "0.85rem", display: "block", marginBottom: "0.35rem" }}>{v.ref}</span>
-                      <span style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.6 }}>&ldquo;{v.text}&rdquo;</span>
-                    </div>
-                    <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openVerse === i ? "-" : "+"}</span>
-                  </div>
-                </button>
-                {openVerse === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: v.comment }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* APPLICATION */}
-        {activeTab === 3 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Application</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>How Psalm 120 speaks to daily Christian life.</p>
-            {APPLICATIONS.map((app, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${app.color}`, borderRadius: "10px", padding: "1.5rem", marginBottom: "1.25rem" }}>
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: app.color, marginBottom: "0.75rem", fontFamily: "sans-serif" }}>{app.title}</h3>
-                <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: app.body }} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <PsalmGuideTemplate data={data} />;
 }

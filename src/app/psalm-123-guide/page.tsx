@@ -1,55 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import PsalmGuideTemplate, { GUIDE_COLORS, type PsalmGuideData, type VideoEntry } from "@/components/PsalmGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = GUIDE_COLORS;
 
-const ACCENT = PURPLE;
-
-type VideoEntry = { videoId: string; title: string };
-
-const VIDEOS: VideoEntry[] = [
+const VIDEOS = [
   { videoId: "abc123def", title: "Psalm 123 -- Eyes Fixed on God" },
   { videoId: "ghi456jkl", title: "Songs of Ascents: Waiting on the LORD" },
 ];
-
-function VideoEmbed({ v }: { v: VideoEntry }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ marginBottom: "1rem" }}>
-      {open ? (
-        <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-          <iframe
-            src={`https://www.youtube.com/embed/${v.videoId}?autoplay=1`}
-            title={v.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
-          />
-        </div>
-      ) : (
-        <button
-          onClick={() => setOpen(true)}
-          style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: "8px", padding: "1rem", cursor: "pointer", textAlign: "left", color: TEXT }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ fontSize: "1.25rem" }}>&#9654;</span>
-            </div>
-            <div>
-              <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>{v.title}</div>
-              <div style={{ fontSize: "0.85rem", color: MUTED }}>Click to play</div>
-            </div>
-          </div>
-        </button>
-      )}
-    </div>
-  );
-}
-
-const TABS = ["Overview", "Themes", "Verse by Verse", "Application"];
 
 const KEY_DETAILS = [
   { label: "Author", value: "Anonymous (possibly David or Hezekiah)" },
@@ -181,145 +138,31 @@ For the Christian, Psalm 123 is not merely a historical document about an ancien
   },
 ];
 
-export default function Psalm123Guide() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [openTheme, setOpenTheme] = useState<number | null>(null);
-  const [openVerse, setOpenVerse] = useState<number | null>(null);
+const data: PsalmGuideData = {
+  accent: PURPLE,
+  heroGradientEnd: "#0d0a1a",
+  badge: `Psalm 123`,
+  metaLine: `Song of Ascents &bull; 4 Verses`,
+  title: `To You I Lift Up My Eyes`,
+  heroIntro: `A communal Song of Ascents that models the posture of prayer: as servants watch their master's hand for the signal of grace, so the pilgrim community fixes its gaze on the enthroned God, waiting in patient dependence until he has mercy upon us.`,
+  blockquote: `&ldquo;As the eyes of servants look to the hand of their master...so our eyes look to the LORD our God, till he has mercy upon us.&rdquo;`,
+  blockquoteRef: `&mdash; Psalm 123:2`,
+  overviewHeading: `Overview of Psalm 123`,
+  overviewParagraphs: [
+    `Psalm 123 is one of the shorter Songs of Ascents, but it packs extraordinary theological depth into four verses. It is a communal lament that moves from individual prayer ("to you I lift up my eyes," v. 1) to communal petition ("have mercy upon us, O LORD," vv. 3&ndash;4), tracing the same movement from solitary pilgrim to worshipping community that characterizes the Songs of Ascents collection as a whole.`,
+    `The psalm&rsquo;s structure is elegantly simple. Verse 1 establishes the physical posture and theological orientation of prayer: eyes lifted to the enthroned God. Verse 2 develops this through an extended analogy: as servants watch their master&rsquo;s hand for signals of command or grace, so the community watches God. Verses 3&ndash;4 present the double petition for mercy and the reason for its urgency: the community has been saturated with contempt and scorn from those who are at ease and proud.`,
+    `The setting of Psalm 123 in the Songs of Ascents places it between Psalm 122 (the joy of arriving in Jerusalem &mdash; "our feet are standing within your gates, O Jerusalem!") and Psalm 124 (the thanksgiving for rescue &mdash; "If it had not been the LORD who was on our side..."). This placement gives Psalm 123 a liturgical function: it is the cry of need that the collected community brings to God in the very house of God, surrounded by the joy of Psalm 122 but in acute need of the rescue that Psalm 124 will celebrate.`,
+    `Scholars have noted that the central analogy of the servant watching the master&rsquo;s hand is particularly powerful as an image of prayer. Derek Kidner writes: &ldquo;The picture is of those who live to serve, whose attention is wholly given to the master&rsquo;s least indication of his will &mdash; here transposed to the key of need rather than duty, as they wait not for a command but for a sign of mercy.&rdquo; Tremper Longman III adds that the analogy captures &ldquo;both the attentiveness and the vulnerability of the one who waits &mdash; the servant cannot demand; he can only watch and wait.&rdquo;`,
+    `For Christians, Psalm 123 finds its deepest fulfillment in Christ, who himself endured contempt and scorn (Isaiah 53:3; Hebrews 12:2) and who now sits enthroned at the right hand of the Father (Ephesians 1:20). To lift our eyes to the enthroned God is now to look to the crucified and risen Lord, who has both modeled the suffering servant&rsquo;s patience and provided the ultimate mercy for which the psalmist longs.`,
+  ],
+  keyDetails: KEY_DETAILS,
+  videos: VIDEOS,
+  themes: THEMES,
+  verses: VERSES,
+  applications: APPLICATIONS,
+  applicationIntro: `How Psalm 123 shapes Christian prayer and community.`,
+};
 
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
-      {/* Hero */}
-      <div style={{ background: `linear-gradient(135deg, ${CARD} 0%, #0d0a1a 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 1.5rem 2.5rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-            <span style={{ background: ACCENT, color: "#fff", fontSize: "0.75rem", fontFamily: "sans-serif", fontWeight: 700, letterSpacing: "0.08em", padding: "0.25rem 0.75rem", borderRadius: "999px", textTransform: "uppercase" }}>Psalm 123</span>
-            <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif" }}>Song of Ascents &bull; 4 Verses</span>
-          </div>
-          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, lineHeight: 1.2, margin: "0 0 1rem" }}>
-            To You I Lift Up My Eyes
-          </h1>
-          <p style={{ fontSize: "1.1rem", color: MUTED, lineHeight: 1.7, maxWidth: "680px", margin: "0 0 1.5rem" }}>
-            A communal Song of Ascents that models the posture of prayer: as servants watch their master's hand for the signal of grace, so the pilgrim community fixes its gaze on the enthroned God, waiting in patient dependence until he has mercy upon us.
-          </p>
-          <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1.25rem", margin: "0", color: TEXT, fontStyle: "italic", fontSize: "1.05rem", lineHeight: 1.7 }}>
-            &ldquo;As the eyes of servants look to the hand of their master...so our eyes look to the LORD our God, till he has mercy upon us.&rdquo;
-            <span style={{ display: "block", fontSize: "0.85rem", color: MUTED, fontStyle: "normal", marginTop: "0.5rem" }}>&mdash; Psalm 123:2</span>
-          </blockquote>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ borderBottom: `1px solid ${BORDER}`, background: CARD }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto", display: "flex", overflowX: "auto" }}>
-          {TABS.map((tab, i) => (
-            <button key={tab} onClick={() => setActiveTab(i)} style={{ padding: "1rem 1.5rem", background: "none", border: "none", borderBottom: activeTab === i ? `2px solid ${ACCENT}` : "2px solid transparent", color: activeTab === i ? ACCENT : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "sans-serif", fontSize: "0.95rem", transition: "color 0.2s" }}>
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "2rem 1.5rem" }}>
-
-        {/* OVERVIEW */}
-        {activeTab === 0 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1.25rem", color: ACCENT }}>Overview of Psalm 123</h2>
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `Psalm 123 is one of the shorter Songs of Ascents, but it packs extraordinary theological depth into four verses. It is a communal lament that moves from individual prayer ("to you I lift up my eyes," v. 1) to communal petition ("have mercy upon us, O LORD," vv. 3&ndash;4), tracing the same movement from solitary pilgrim to worshipping community that characterizes the Songs of Ascents collection as a whole.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The psalm&rsquo;s structure is elegantly simple. Verse 1 establishes the physical posture and theological orientation of prayer: eyes lifted to the enthroned God. Verse 2 develops this through an extended analogy: as servants watch their master&rsquo;s hand for signals of command or grace, so the community watches God. Verses 3&ndash;4 present the double petition for mercy and the reason for its urgency: the community has been saturated with contempt and scorn from those who are at ease and proud.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The setting of Psalm 123 in the Songs of Ascents places it between Psalm 122 (the joy of arriving in Jerusalem &mdash; "our feet are standing within your gates, O Jerusalem!") and Psalm 124 (the thanksgiving for rescue &mdash; "If it had not been the LORD who was on our side..."). This placement gives Psalm 123 a liturgical function: it is the cry of need that the collected community brings to God in the very house of God, surrounded by the joy of Psalm 122 but in acute need of the rescue that Psalm 124 will celebrate.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `Scholars have noted that the central analogy of the servant watching the master&rsquo;s hand is particularly powerful as an image of prayer. Derek Kidner writes: &ldquo;The picture is of those who live to serve, whose attention is wholly given to the master&rsquo;s least indication of his will &mdash; here transposed to the key of need rather than duty, as they wait not for a command but for a sign of mercy.&rdquo; Tremper Longman III adds that the analogy captures &ldquo;both the attentiveness and the vulnerability of the one who waits &mdash; the servant cannot demand; he can only watch and wait.&rdquo;` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "2rem" }} dangerouslySetInnerHTML={{ __html: `For Christians, Psalm 123 finds its deepest fulfillment in Christ, who himself endured contempt and scorn (Isaiah 53:3; Hebrews 12:2) and who now sits enthroned at the right hand of the Father (Ephesians 1:20). To lift our eyes to the enthroned God is now to look to the crucified and risen Lord, who has both modeled the suffering servant&rsquo;s patience and provided the ultimate mercy for which the psalmist longs.` }} />
-
-            {/* Key Details */}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "12px", padding: "1.5rem", marginBottom: "2rem" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: ACCENT, fontFamily: "sans-serif" }}>Key Details</h3>
-              <div style={{ display: "grid", gap: "0.75rem" }}>
-                {KEY_DETAILS.map(({ label, value }) => (
-                  <div key={label} style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: "0.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0.75rem" }}>
-                    <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif", fontWeight: 600 }}>{label}</span>
-                    <span style={{ color: TEXT, fontSize: "0.95rem" }}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Videos */}
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: TEXT, fontFamily: "sans-serif" }}>Video Resources</h3>
-            {VIDEOS.map((v) => <VideoEmbed key={v.videoId} v={v} />)}
-          </div>
-        )}
-
-        {/* THEMES */}
-        {activeTab === 1 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Major Themes</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each theme to expand the full discussion.</p>
-            {THEMES.map((theme, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenTheme(openTheme === i ? null : i)} style={{ width: "100%", background: openTheme === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: theme.color, flexShrink: 0 }} />
-                    <span style={{ color: TEXT, fontWeight: 600, fontSize: "1rem" }}>{theme.title}</span>
-                  </div>
-                  <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openTheme === i ? "-" : "+"}</span>
-                </button>
-                {openTheme === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: theme.body }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* VERSE BY VERSE */}
-        {activeTab === 2 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Verse-by-Verse Commentary</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each verse to expand the commentary.</p>
-            {VERSES.map((v, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenVerse(openVerse === i ? null : i)} style={{ width: "100%", background: openVerse === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer" }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
-                    <div>
-                      <span style={{ color: ACCENT, fontWeight: 700, fontFamily: "sans-serif", fontSize: "0.85rem", display: "block", marginBottom: "0.35rem" }}>{v.ref}</span>
-                      <span style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.6 }}>&ldquo;{v.text}&rdquo;</span>
-                    </div>
-                    <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openVerse === i ? "-" : "+"}</span>
-                  </div>
-                </button>
-                {openVerse === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: v.comment }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* APPLICATION */}
-        {activeTab === 3 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Application</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>How Psalm 123 shapes Christian prayer and community.</p>
-            {APPLICATIONS.map((app, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${app.color}`, borderRadius: "10px", padding: "1.5rem", marginBottom: "1.25rem" }}>
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: app.color, marginBottom: "0.75rem", fontFamily: "sans-serif" }}>{app.title}</h3>
-                <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: app.body }} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <PsalmGuideTemplate data={data} />;
 }

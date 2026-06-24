@@ -1,52 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import PsalmGuideTemplate, { GUIDE_COLORS, type PsalmGuideData, type VideoEntry } from "@/components/PsalmGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
-
-const ACCENT = PURPLE;
-
-type VideoEntry = { videoId: string; title: string };
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = GUIDE_COLORS;
 
 const VIDEOS: VideoEntry[] = [];
-
-function VideoEmbed({ v }: { v: VideoEntry }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ marginBottom: "1rem" }}>
-      {open ? (
-        <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-          <iframe
-            src={`https://www.youtube.com/embed/${v.videoId}?autoplay=1`}
-            title={v.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
-          />
-        </div>
-      ) : (
-        <button
-          onClick={() => setOpen(true)}
-          style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: "8px", padding: "1rem", cursor: "pointer", textAlign: "left", color: TEXT }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ fontSize: "1.25rem" }}>&#9654;</span>
-            </div>
-            <div>
-              <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>{v.title}</div>
-              <div style={{ fontSize: "0.85rem", color: MUTED }}>Click to play</div>
-            </div>
-          </div>
-        </button>
-      )}
-    </div>
-  );
-}
-
-const TABS = ["Overview", "Themes", "Verse by Verse", "Application"];
 
 const KEY_DETAILS = [
   { label: "Author", value: "David (superscription: 'A Song of Ascents. Of David')" },
@@ -162,143 +119,31 @@ Hebrews 6:19 describes this hope as "a sure and steadfast anchor of the soul" --
   },
 ];
 
-export default function Psalm131Guide() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [openTheme, setOpenTheme] = useState<number | null>(null);
-  const [openVerse, setOpenVerse] = useState<number | null>(null);
+const data: PsalmGuideData = {
+  accent: PURPLE,
+  heroGradientEnd: "#0d0a1a",
+  badge: `Psalm 131`,
+  metaLine: `Song of Ascents &bull; David &bull; 3 Verses`,
+  title: `Like a Weaned Child Is My Soul`,
+  heroIntro: `One of the shortest and tenderest psalms -- David's portrait of humble, quieted trust: a heart not lifted up, a soul calmed like a weaned child with its mother, and a call for all Israel to hope in the LORD from this time forth and forevermore.`,
+  blockquote: `&ldquo;I have calmed and quieted my soul, like a weaned child with its mother; like a weaned child is my soul within me.&rdquo;`,
+  blockquoteRef: `&mdash; Psalm 131:2`,
+  overviewHeading: `Overview of Psalm 131`,
+  overviewParagraphs: [
+    `Psalm 131 is one of the shortest psalms in the Psalter -- only three verses -- yet it is among the most beloved for its tender portrait of humble, quieted trust. Attributed to David and the twelfth of the fifteen Songs of Ascents, it presents a soul that has learned to rest in God like a weaned child resting with its mother. Charles Spurgeon called it "one of the shortest psalms to read, but one of the longest to learn."`,
+    `The psalm's structure is simple and profound. Verse 1 is a triple renunciation of pride: David testifies that his heart is not lifted up, his eyes are not raised too high, and he does not occupy himself with things too great and too marvelous for him. Verse 2 is the psalm's heart: David describes how he has calmed and quieted his soul, "like a weaned child with its mother." Verse 3 turns outward, commending to all Israel the same hope in the LORD that David has found, "from this time forth and forevermore."`,
+    `The choice of the weaned child as the central image is the psalm's most distinctive feature. A weaned child is different from a nursing infant: the nursing infant is content only while being fed, its peace dependent on getting what it wants, but the weaned child has passed through the painful process of weaning and learned to rest in its mother's presence for her own sake. This is a picture of mature faith that values God for himself, not merely for his gifts &mdash; faith that has been "weaned" from demanding things of God and has learned simply to rest in him.`,
+    `It is striking that this psalm of humility is attributed to David &mdash; the anointed king, the giant-slayer, the man whose life was filled with great deeds and great responsibilities. That such a man could say "my heart is not lifted up" and describe his soul as a weaned child reveals that this humility is not the humility of those who have no reason for pride, but the achieved humility of one who has deliberately stilled his soul before God. It is the fruit of long spiritual discipline and the grace of God working in a great man.`,
+    `For Christians, Psalm 131 anticipates Jesus's teaching that we must "become like children" to enter the kingdom (Matthew 18:3) and Peter's call to "humble yourselves under the mighty hand of God...casting all your anxieties on him" (1 Peter 5:6&ndash;7). The non-grasping humility of the psalm finds its perfection in Christ himself, who "did not count equality with God a thing to be grasped, but emptied himself" (Philippians 2:6&ndash;7). The weaned soul at rest in God is the soul conformed to the image of the humble Son.`,
+  ],
+  keyDetails: KEY_DETAILS,
+  videos: VIDEOS,
+  themes: THEMES,
+  verses: VERSES,
+  applications: APPLICATIONS,
+  applicationIntro: `How Psalm 131 shapes humility, rest, and hope.`,
+};
 
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
-      {/* Hero */}
-      <div style={{ background: `linear-gradient(135deg, ${CARD} 0%, #0d0a1a 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 1.5rem 2.5rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-            <span style={{ background: ACCENT, color: "#fff", fontSize: "0.75rem", fontFamily: "sans-serif", fontWeight: 700, letterSpacing: "0.08em", padding: "0.25rem 0.75rem", borderRadius: "999px", textTransform: "uppercase" }}>Psalm 131</span>
-            <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif" }}>Song of Ascents &bull; David &bull; 3 Verses</span>
-          </div>
-          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, lineHeight: 1.2, margin: "0 0 1rem" }}>
-            Like a Weaned Child Is My Soul
-          </h1>
-          <p style={{ fontSize: "1.1rem", color: MUTED, lineHeight: 1.7, maxWidth: "680px", margin: "0 0 1.5rem" }}>
-            One of the shortest and tenderest psalms -- David's portrait of humble, quieted trust: a heart not lifted up, a soul calmed like a weaned child with its mother, and a call for all Israel to hope in the LORD from this time forth and forevermore.
-          </p>
-          <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1.25rem", margin: "0", color: TEXT, fontStyle: "italic", fontSize: "1.05rem", lineHeight: 1.7 }}>
-            &ldquo;I have calmed and quieted my soul, like a weaned child with its mother; like a weaned child is my soul within me.&rdquo;
-            <span style={{ display: "block", fontSize: "0.85rem", color: MUTED, fontStyle: "normal", marginTop: "0.5rem" }}>&mdash; Psalm 131:2</span>
-          </blockquote>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ borderBottom: `1px solid ${BORDER}`, background: CARD }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto", display: "flex", overflowX: "auto" }}>
-          {TABS.map((tab, i) => (
-            <button key={tab} onClick={() => setActiveTab(i)} style={{ padding: "1rem 1.5rem", background: "none", border: "none", borderBottom: activeTab === i ? `2px solid ${ACCENT}` : "2px solid transparent", color: activeTab === i ? ACCENT : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "sans-serif", fontSize: "0.95rem", transition: "color 0.2s" }}>
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "2rem 1.5rem" }}>
-
-        {/* OVERVIEW */}
-        {activeTab === 0 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1.25rem", color: ACCENT }}>Overview of Psalm 131</h2>
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `Psalm 131 is one of the shortest psalms in the Psalter -- only three verses -- yet it is among the most beloved for its tender portrait of humble, quieted trust. Attributed to David and the twelfth of the fifteen Songs of Ascents, it presents a soul that has learned to rest in God like a weaned child resting with its mother. Charles Spurgeon called it "one of the shortest psalms to read, but one of the longest to learn."` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The psalm's structure is simple and profound. Verse 1 is a triple renunciation of pride: David testifies that his heart is not lifted up, his eyes are not raised too high, and he does not occupy himself with things too great and too marvelous for him. Verse 2 is the psalm's heart: David describes how he has calmed and quieted his soul, "like a weaned child with its mother." Verse 3 turns outward, commending to all Israel the same hope in the LORD that David has found, "from this time forth and forevermore."` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The choice of the weaned child as the central image is the psalm's most distinctive feature. A weaned child is different from a nursing infant: the nursing infant is content only while being fed, its peace dependent on getting what it wants, but the weaned child has passed through the painful process of weaning and learned to rest in its mother's presence for her own sake. This is a picture of mature faith that values God for himself, not merely for his gifts &mdash; faith that has been "weaned" from demanding things of God and has learned simply to rest in him.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `It is striking that this psalm of humility is attributed to David &mdash; the anointed king, the giant-slayer, the man whose life was filled with great deeds and great responsibilities. That such a man could say "my heart is not lifted up" and describe his soul as a weaned child reveals that this humility is not the humility of those who have no reason for pride, but the achieved humility of one who has deliberately stilled his soul before God. It is the fruit of long spiritual discipline and the grace of God working in a great man.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "2rem" }} dangerouslySetInnerHTML={{ __html: `For Christians, Psalm 131 anticipates Jesus's teaching that we must "become like children" to enter the kingdom (Matthew 18:3) and Peter's call to "humble yourselves under the mighty hand of God...casting all your anxieties on him" (1 Peter 5:6&ndash;7). The non-grasping humility of the psalm finds its perfection in Christ himself, who "did not count equality with God a thing to be grasped, but emptied himself" (Philippians 2:6&ndash;7). The weaned soul at rest in God is the soul conformed to the image of the humble Son.` }} />
-
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "12px", padding: "1.5rem", marginBottom: "2rem" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: ACCENT, fontFamily: "sans-serif" }}>Key Details</h3>
-              <div style={{ display: "grid", gap: "0.75rem" }}>
-                {KEY_DETAILS.map(({ label, value }) => (
-                  <div key={label} style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: "0.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0.75rem" }}>
-                    <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif", fontWeight: 600 }}>{label}</span>
-                    <span style={{ color: TEXT, fontSize: "0.95rem" }}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: TEXT, fontFamily: "sans-serif" }}>Video Resources</h3>
-            {VIDEOS.map((v) => <VideoEmbed key={v.videoId} v={v} />)}
-          </div>
-        )}
-
-        {/* THEMES */}
-        {activeTab === 1 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Major Themes</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each theme to expand the full discussion.</p>
-            {THEMES.map((theme, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenTheme(openTheme === i ? null : i)} style={{ width: "100%", background: openTheme === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: theme.color, flexShrink: 0 }} />
-                    <span style={{ color: TEXT, fontWeight: 600, fontSize: "1rem" }}>{theme.title}</span>
-                  </div>
-                  <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openTheme === i ? "-" : "+"}</span>
-                </button>
-                {openTheme === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: theme.body }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* VERSE BY VERSE */}
-        {activeTab === 2 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Verse-by-Verse Commentary</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each verse to expand the commentary.</p>
-            {VERSES.map((v, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenVerse(openVerse === i ? null : i)} style={{ width: "100%", background: openVerse === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer" }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
-                    <div>
-                      <span style={{ color: ACCENT, fontWeight: 700, fontFamily: "sans-serif", fontSize: "0.85rem", display: "block", marginBottom: "0.35rem" }}>{v.ref}</span>
-                      <span style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.6 }}>&ldquo;{v.text}&rdquo;</span>
-                    </div>
-                    <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openVerse === i ? "-" : "+"}</span>
-                  </div>
-                </button>
-                {openVerse === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: v.comment }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* APPLICATION */}
-        {activeTab === 3 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Application</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>How Psalm 131 shapes humility, rest, and hope.</p>
-            {APPLICATIONS.map((app, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${app.color}`, borderRadius: "10px", padding: "1.5rem", marginBottom: "1.25rem" }}>
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: app.color, marginBottom: "0.75rem", fontFamily: "sans-serif" }}>{app.title}</h3>
-                <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: app.body }} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <PsalmGuideTemplate data={data} />;
 }

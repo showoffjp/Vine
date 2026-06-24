@@ -1,52 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import PsalmGuideTemplate, { GUIDE_COLORS, type PsalmGuideData, type VideoEntry } from "@/components/PsalmGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
-
-const ACCENT = GREEN;
-
-type VideoEntry = { videoId: string; title: string };
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = GUIDE_COLORS;
 
 const VIDEOS: VideoEntry[] = [];
-
-function VideoEmbed({ v }: { v: VideoEntry }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ marginBottom: "1rem" }}>
-      {open ? (
-        <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-          <iframe
-            src={`https://www.youtube.com/embed/${v.videoId}?autoplay=1`}
-            title={v.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
-          />
-        </div>
-      ) : (
-        <button
-          onClick={() => setOpen(true)}
-          style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: "8px", padding: "1rem", cursor: "pointer", textAlign: "left", color: TEXT }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ fontSize: "1.25rem" }}>&#9654;</span>
-            </div>
-            <div>
-              <div style={{ fontWeight: 600, marginBottom: "0.25rem" }}>{v.title}</div>
-              <div style={{ fontSize: "0.85rem", color: MUTED }}>Click to play</div>
-            </div>
-          </div>
-        </button>
-      )}
-    </div>
-  );
-}
-
-const TABS = ["Overview", "Themes", "Verse by Verse", "Application"];
 
 const KEY_DETAILS = [
   { label: "Author", value: "Anonymous" },
@@ -167,143 +124,31 @@ Hebrews 12:22-24 declares that Christians have come "to Mount Zion and to the ci
   },
 ];
 
-export default function Psalm128Guide() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [openTheme, setOpenTheme] = useState<number | null>(null);
-  const [openVerse, setOpenVerse] = useState<number | null>(null);
+const data: PsalmGuideData = {
+  accent: GREEN,
+  heroGradientEnd: "#071507",
+  badge: `Psalm 128`,
+  metaLine: `Song of Ascents &bull; 6 Verses`,
+  title: `Blessed Is Everyone Who Fears the LORD`,
+  heroIntro: `A Song of Ascents that brings the fear of the LORD home to ordinary life -- the dignity of honest labor, the fruitful vine of a flourishing wife, the olive shoots of children around the table, and the blessing that flows from Zion to the third generation.`,
+  blockquote: `&ldquo;Your wife will be like a fruitful vine within your house; your children will be like olive shoots around your table.&rdquo;`,
+  blockquoteRef: `&mdash; Psalm 128:3`,
+  overviewHeading: `Overview of Psalm 128`,
+  overviewParagraphs: [
+    `Psalm 128 is the ninth of the fifteen Songs of Ascents and forms a natural pair with Psalm 127, which precedes it. Both psalms treat the themes of home, labor, and children, but from complementary angles: Psalm 127 emphasizes that without the LORD all human building is in vain ("Unless the LORD builds the house, those who build it labor in vain"), while Psalm 128 portrays the positive blessing that flows to the household of the one who fears the LORD. Together they form a meditation on the God-fearing home.`,
+    `The structure of Psalm 128 is straightforward and symmetrical. It opens with a beatitude (v. 1) establishing the fear of the LORD as the root of all that follows. It then describes the blessings of the God-fearer in two spheres: vocational (v. 2, the enjoyment of one's labor) and domestic (v. 3, the flourishing wife and children). A summary verse seals these promises (v. 4), and the psalm closes with a priestly benediction invoking blessing from Zion, the prosperity of Jerusalem, the sight of grandchildren, and peace upon Israel (vv. 5&ndash;6).`,
+    `The psalm belongs to the wisdom tradition, sharing the beatitude form and the theme of the fear of the LORD with Psalms 1, 112, and 127. But Psalm 128 is distinctive in its concrete domesticity: it brings the lofty theology of the fear of the LORD down to the kitchen table, the workplace, and the family meal. This is wisdom applied to the most ordinary spheres of human life, affirming that the fear of the LORD bears its fruit not primarily in extraordinary religious experiences but in the faithful conduct of daily life.`,
+    `A crucial feature of the psalm is its binding of domestic flourishing to Zion. The blessings of home and family are not self-generated or merely natural; they flow "from Zion" (v. 5) &mdash; from the place where God dwells among his worshipping people. The Songs of Ascents are pilgrimage psalms, and Psalm 128 reminds the pilgrim that the welfare of the home is connected to the worship of God in the covenant community. The private and the public, the domestic and the liturgical, are woven together.`,
+    `For Christians, Psalm 128 anticipates the New Testament's vision of the household as a sphere of discipleship (Ephesians 5:22&ndash;6:4) and a microcosm of "the household of God" (1 Timothy 3:15). The blessing that flows "from Zion" now flows from the heavenly Zion (Hebrews 12:22) through Christ and his church. And the closing benediction, "Peace be upon Israel," finds its fullest meaning in the peace Christ has made through his blood, bringing the whole family of God &mdash; Jew and Gentile &mdash; into the flourishing household of the Father.`,
+  ],
+  keyDetails: KEY_DETAILS,
+  videos: VIDEOS,
+  themes: THEMES,
+  verses: VERSES,
+  applications: APPLICATIONS,
+  applicationIntro: `How Psalm 128 shapes work, family, and the worshipping community.`,
+};
 
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
-      {/* Hero */}
-      <div style={{ background: `linear-gradient(135deg, ${CARD} 0%, #071507 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 1.5rem 2.5rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-            <span style={{ background: ACCENT, color: "#fff", fontSize: "0.75rem", fontFamily: "sans-serif", fontWeight: 700, letterSpacing: "0.08em", padding: "0.25rem 0.75rem", borderRadius: "999px", textTransform: "uppercase" }}>Psalm 128</span>
-            <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif" }}>Song of Ascents &bull; 6 Verses</span>
-          </div>
-          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, lineHeight: 1.2, margin: "0 0 1rem" }}>
-            Blessed Is Everyone Who Fears the LORD
-          </h1>
-          <p style={{ fontSize: "1.1rem", color: MUTED, lineHeight: 1.7, maxWidth: "680px", margin: "0 0 1.5rem" }}>
-            A Song of Ascents that brings the fear of the LORD home to ordinary life -- the dignity of honest labor, the fruitful vine of a flourishing wife, the olive shoots of children around the table, and the blessing that flows from Zion to the third generation.
-          </p>
-          <blockquote style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1.25rem", margin: "0", color: TEXT, fontStyle: "italic", fontSize: "1.05rem", lineHeight: 1.7 }}>
-            &ldquo;Your wife will be like a fruitful vine within your house; your children will be like olive shoots around your table.&rdquo;
-            <span style={{ display: "block", fontSize: "0.85rem", color: MUTED, fontStyle: "normal", marginTop: "0.5rem" }}>&mdash; Psalm 128:3</span>
-          </blockquote>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ borderBottom: `1px solid ${BORDER}`, background: CARD }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto", display: "flex", overflowX: "auto" }}>
-          {TABS.map((tab, i) => (
-            <button key={tab} onClick={() => setActiveTab(i)} style={{ padding: "1rem 1.5rem", background: "none", border: "none", borderBottom: activeTab === i ? `2px solid ${ACCENT}` : "2px solid transparent", color: activeTab === i ? ACCENT : MUTED, fontWeight: activeTab === i ? 700 : 400, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "sans-serif", fontSize: "0.95rem", transition: "color 0.2s" }}>
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "2rem 1.5rem" }}>
-
-        {/* OVERVIEW */}
-        {activeTab === 0 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1.25rem", color: ACCENT }}>Overview of Psalm 128</h2>
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `Psalm 128 is the ninth of the fifteen Songs of Ascents and forms a natural pair with Psalm 127, which precedes it. Both psalms treat the themes of home, labor, and children, but from complementary angles: Psalm 127 emphasizes that without the LORD all human building is in vain ("Unless the LORD builds the house, those who build it labor in vain"), while Psalm 128 portrays the positive blessing that flows to the household of the one who fears the LORD. Together they form a meditation on the God-fearing home.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The structure of Psalm 128 is straightforward and symmetrical. It opens with a beatitude (v. 1) establishing the fear of the LORD as the root of all that follows. It then describes the blessings of the God-fearer in two spheres: vocational (v. 2, the enjoyment of one's labor) and domestic (v. 3, the flourishing wife and children). A summary verse seals these promises (v. 4), and the psalm closes with a priestly benediction invoking blessing from Zion, the prosperity of Jerusalem, the sight of grandchildren, and peace upon Israel (vv. 5&ndash;6).` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The psalm belongs to the wisdom tradition, sharing the beatitude form and the theme of the fear of the LORD with Psalms 1, 112, and 127. But Psalm 128 is distinctive in its concrete domesticity: it brings the lofty theology of the fear of the LORD down to the kitchen table, the workplace, and the family meal. This is wisdom applied to the most ordinary spheres of human life, affirming that the fear of the LORD bears its fruit not primarily in extraordinary religious experiences but in the faithful conduct of daily life.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `A crucial feature of the psalm is its binding of domestic flourishing to Zion. The blessings of home and family are not self-generated or merely natural; they flow "from Zion" (v. 5) &mdash; from the place where God dwells among his worshipping people. The Songs of Ascents are pilgrimage psalms, and Psalm 128 reminds the pilgrim that the welfare of the home is connected to the worship of God in the covenant community. The private and the public, the domestic and the liturgical, are woven together.` }} />
-            <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "2rem" }} dangerouslySetInnerHTML={{ __html: `For Christians, Psalm 128 anticipates the New Testament's vision of the household as a sphere of discipleship (Ephesians 5:22&ndash;6:4) and a microcosm of "the household of God" (1 Timothy 3:15). The blessing that flows "from Zion" now flows from the heavenly Zion (Hebrews 12:22) through Christ and his church. And the closing benediction, "Peace be upon Israel," finds its fullest meaning in the peace Christ has made through his blood, bringing the whole family of God &mdash; Jew and Gentile &mdash; into the flourishing household of the Father.` }} />
-
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "12px", padding: "1.5rem", marginBottom: "2rem" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: ACCENT, fontFamily: "sans-serif" }}>Key Details</h3>
-              <div style={{ display: "grid", gap: "0.75rem" }}>
-                {KEY_DETAILS.map(({ label, value }) => (
-                  <div key={label} style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: "0.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0.75rem" }}>
-                    <span style={{ color: MUTED, fontSize: "0.85rem", fontFamily: "sans-serif", fontWeight: 600 }}>{label}</span>
-                    <span style={{ color: TEXT, fontSize: "0.95rem" }}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", color: TEXT, fontFamily: "sans-serif" }}>Video Resources</h3>
-            {VIDEOS.map((v) => <VideoEmbed key={v.videoId} v={v} />)}
-          </div>
-        )}
-
-        {/* THEMES */}
-        {activeTab === 1 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Major Themes</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each theme to expand the full discussion.</p>
-            {THEMES.map((theme, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenTheme(openTheme === i ? null : i)} style={{ width: "100%", background: openTheme === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: theme.color, flexShrink: 0 }} />
-                    <span style={{ color: TEXT, fontWeight: 600, fontSize: "1rem" }}>{theme.title}</span>
-                  </div>
-                  <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openTheme === i ? "-" : "+"}</span>
-                </button>
-                {openTheme === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: theme.body }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* VERSE BY VERSE */}
-        {activeTab === 2 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Verse-by-Verse Commentary</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>Click each verse to expand the commentary.</p>
-            {VERSES.map((v, i) => (
-              <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
-                <button onClick={() => setOpenVerse(openVerse === i ? null : i)} style={{ width: "100%", background: openVerse === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer" }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
-                    <div>
-                      <span style={{ color: ACCENT, fontWeight: 700, fontFamily: "sans-serif", fontSize: "0.85rem", display: "block", marginBottom: "0.35rem" }}>{v.ref}</span>
-                      <span style={{ color: TEXT, fontStyle: "italic", lineHeight: 1.6 }}>&ldquo;{v.text}&rdquo;</span>
-                    </div>
-                    <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openVerse === i ? "-" : "+"}</span>
-                  </div>
-                </button>
-                {openVerse === i && (
-                  <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
-                    <div style={{ height: "1rem" }} />
-                    <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: v.comment }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* APPLICATION */}
-        {activeTab === 3 && (
-          <div>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem", color: ACCENT }}>Application</h2>
-            <p style={{ color: MUTED, marginBottom: "1.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>How Psalm 128 shapes work, family, and the worshipping community.</p>
-            {APPLICATIONS.map((app, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${app.color}`, borderRadius: "10px", padding: "1.5rem", marginBottom: "1.25rem" }}>
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: app.color, marginBottom: "0.75rem", fontFamily: "sans-serif" }}>{app.title}</h3>
-                <div style={{ lineHeight: 1.8, color: TEXT }} dangerouslySetInnerHTML={{ __html: app.body }} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <PsalmGuideTemplate data={data} />;
 }

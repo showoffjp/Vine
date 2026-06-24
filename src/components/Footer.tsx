@@ -47,11 +47,13 @@ const RESOURCES_LINKS: LinkEntry[] = [
 
 const COMPANY_LINKS: LinkEntry[] = [
   { label: "About", href: "/about" },
+  { label: "Statement of Faith", href: "/statement-of-faith" },
+  { label: "The Gospel", href: "/salvation" },
+  { label: "Merch", href: "/merch" },
   { label: "Blog", href: "/blog" },
   { label: "Newsletter", href: "/newsletter" },
   { label: "Contact", href: "/contact" },
   { label: "Give", href: "/giving" },
-  { label: "Settings", href: "/settings" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
 ];
@@ -374,6 +376,7 @@ export default function Footer() {
 
         {/* Main grid: brand + link columns */}
         <div
+          className="footer-main-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "minmax(220px, 260px) 1fr",
@@ -432,9 +435,9 @@ export default function Footer() {
                 marginBottom: "1.4rem",
               }}
             >
-              Christianity&apos;s first all-in-one platform — community,
-              Scripture, wellness, life guides, and more, for every believer on
-              earth.
+              Built to point every believer deeper into Jesus Christ &mdash;
+              through His Word, His people, and His Spirit. Free forever, for
+              every nation on earth.
             </p>
 
             <p
@@ -470,6 +473,7 @@ export default function Footer() {
 
           {/* Link columns */}
           <div
+            className="footer-link-columns"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",

@@ -1,8 +1,8 @@
 const STATS = [
-  { value: "2.4B+", label: "Christians Worldwide" },
-  { value: "341+", label: "Topics & Resources" },
   { value: "66", label: "Books of the Bible" },
-  { value: "One", label: "Platform for All of It" },
+  { value: "341+", label: "Study Guides & Resources" },
+  { value: "1", label: "Lord, Jesus Christ" },
+  { value: "2.4B+", label: "Christians Worldwide" },
 ];
 
 export default function TrustBar() {
@@ -16,6 +16,7 @@ export default function TrustBar() {
       }}
     >
       <div
+        className="trust-bar-grid"
         style={{
           maxWidth: 1200,
           margin: "0 auto",

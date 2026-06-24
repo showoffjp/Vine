@@ -496,6 +496,16 @@ const navLinks: NavLink[] = [
           { label: "Elder & Deacon Training", href: "/elder-deacon-training" },
         ],
       },
+      {
+        title: "The Vine",
+        items: [
+          { label: "Statement of Faith", href: "/statement-of-faith" },
+          { label: "Merch", href: "/merch" },
+          { label: "Give", href: "/giving" },
+          { label: "About", href: "/about" },
+          { label: "Contact", href: "/contact" },
+        ],
+      },
     ],
   },
 ];
@@ -650,8 +660,8 @@ export default function Navbar() {
         >
           <Sparkles size={12} style={{ color: "#c9a227", flexShrink: 0 }} />
           <span style={{ color: "#c9b98a", fontFamily: "var(--font-jost, system-ui, sans-serif)", fontSize: "0.8rem" }}>
-            <span className="font-bold" style={{ color: "#e8c162" }}>The Vine Beta is live.</span>{" "}
-            <span className="hidden sm:inline">Join early and shape the future of Christian community.</span>{" "}
+            <span className="font-bold" style={{ color: "#e8c162" }}>Jesus is Lord.</span>{" "}
+            <span className="hidden sm:inline">The Vine exists to help you abide in Him &mdash; through His Word, His people, His Spirit.</span>{" "}
             <button onClick={() => { setAuthMode("signup"); setAuthOpen(true); }} className="underline font-semibold" style={{ color: "#c9a227" }}>
               Join free →
             </button>

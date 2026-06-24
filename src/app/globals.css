@@ -958,9 +958,56 @@ a { color: inherit; }
   .section-gap-sm { padding: 2rem 0; }
   .container-vine { padding: 0 1rem; }
   .stat-number { font-size: 2rem; }
+
+  /* Footer responsive stacking */
+  .footer-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .footer-link-columns {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Component grids → single column on mobile */
+  .three-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .four-col-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .two-col-form {
+    flex-direction: column !important;
+  }
+
+  /* Trust bar stacks 2x2 on mobile */
+  .trust-bar-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  .trust-bar-grid > div {
+    border-right: none !important;
+    border-bottom: 0.5px solid rgba(201,162,39,0.18);
+    padding: 1rem !important;
+  }
+
+  /* Hero adjustments */
+  .hero-ctas {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .hero-ctas a, .hero-ctas button {
+    text-align: center !important;
+  }
 }
 
 @media (max-width: 480px) {
   .btn-xl { padding: 0.85rem 1.75rem; font-size: 0.9rem; }
   .tabs { flex-wrap: wrap; }
+  .footer-link-columns {
+    grid-template-columns: 1fr !important;
+  }
+  .trust-bar-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

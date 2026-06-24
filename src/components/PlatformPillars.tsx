@@ -69,6 +69,7 @@ export default function PlatformPillars() {
 
         {/* Feature grid */}
         <div
+          className="three-col-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",

@@ -1,0 +1,134 @@
+"use client";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
+const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
+const GOLD = "#D97706", PURPLE = "#6B4FBB", TEAL = "#0D9488";
+
+const ARTICLES = [
+  {
+    num: "I",
+    title: "The Holy Scriptures",
+    color: GOLD,
+    body: `We believe the Bible -- the sixty-six books of the Old and New Testaments -- to be the inspired, inerrant, and infallible Word of God. Scripture is God-breathed (2 Timothy 3:16) and is the supreme and final authority in all matters of faith and conduct. It is to be interpreted according to its plain and natural meaning, in light of its historical and literary context, with the Holy Spirit as its interpreter. No human tradition, experience, or council stands above the Word of God. The Bible alone (sola Scriptura) is the foundation upon which all Christian doctrine is built.`,
+  },
+  {
+    num: "II",
+    title: "The Holy Trinity",
+    color: PURPLE,
+    body: `We believe in one God, eternally existing in three co-equal, co-eternal Persons: Father, Son, and Holy Spirit. Each Person is fully God; there is but one God. The Father is unbegotten; the Son is eternally begotten of the Father; the Holy Spirit eternally proceeds from the Father and the Son. The three Persons are distinct but not separate -- one in essence, will, power, and glory. This is not a doctrine invented by councils but revealed in Scripture: Matthew 28:19, 2 Corinthians 13:14, John 1:1-3, Acts 5:3-4. The triune nature of God is the foundation of all Christian worship, prayer, and salvation.`,
+  },
+  {
+    num: "III",
+    title: "The Lord Jesus Christ",
+    color: GREEN,
+    body: `We believe that Jesus Christ is the eternal Son of God, the second Person of the Holy Trinity, who became fully human without ceasing to be fully divine (John 1:14; Philippians 2:6-8). He was conceived by the Holy Spirit, born of the Virgin Mary, lived a sinless life, performed mighty miracles, and proclaimed the Kingdom of God. He was crucified under Pontius Pilate as the substitutionary atonement for the sins of all who believe -- bearing in his body the wrath of God that our sins deserved (Isaiah 53:5-6; Romans 3:25; 1 Peter 2:24). He rose bodily from the dead on the third day, appeared to many witnesses, ascended to the right hand of the Father, and will come again in power and glory to judge the living and the dead. There is no other name under heaven given among men by which we must be saved (Acts 4:12). Jesus Christ is Lord of all.`,
+  },
+  {
+    num: "IV",
+    title: "The Holy Spirit",
+    color: TEAL,
+    body: `We believe in the Holy Spirit, the third Person of the Trinity, who convicts the world of sin, righteousness, and judgment (John 16:8), regenerates the hearts of those who believe (Titus 3:5), indwells every believer permanently (Romans 8:9), seals them for the day of redemption (Ephesians 4:30), and produces the fruit of Christlike character (Galatians 5:22-23). The Holy Spirit illumines the Scriptures, empowers prayer, distributes spiritual gifts for the building up of the church, and intercedes for believers with groanings too deep for words (Romans 8:26). He is a Person, not a force, and is to be honored and not quenched.`,
+  },
+  {
+    num: "V",
+    title: "The Fall and Human Sin",
+    color: GOLD,
+    body: `We believe that God created humanity -- male and female -- in His own image (Genesis 1:27), upright and holy, for fellowship with Himself. Through the sin of Adam and Eve, the entire human race fell into spiritual death, moral corruption, and just condemnation before God (Romans 5:12-19; Genesis 3). Every person born into the world is a sinner by nature and by choice, unable to save themselves or commend themselves to God by their own merit. The wages of sin is death -- physical, spiritual, and eternal -- and apart from Christ, all stand under God's righteous judgment (Romans 6:23; John 3:36).`,
+  },
+  {
+    num: "VI",
+    title: "Salvation by Grace Through Faith",
+    color: GREEN,
+    body: `We believe that salvation from sin and its consequences is the free gift of God, received through faith alone, in Christ alone, by grace alone -- to the glory of God alone (Ephesians 2:8-9; Romans 3:21-26). No one is justified by works of the law, moral effort, religious performance, or human merit. Justification is the act of God in which He declares the sinner righteous on the basis of Christ's righteousness imputed to them by faith. Genuine saving faith is never alone but produces repentance, obedience, and the fruit of the Holy Spirit. Those whom God has genuinely saved are kept by His power and will persevere to the end (John 10:28-29; Philippians 1:6).`,
+  },
+  {
+    num: "VII",
+    title: "The Church",
+    color: PURPLE,
+    body: `We believe in the holy catholic church -- the universal body of all who have been regenerated by the Holy Spirit and united to Christ by faith, drawn from every nation, tribe, people, and language (Revelation 7:9). The local church is the primary expression of this body: a gathered community of baptized believers, committed to the preaching of the Word, the right administration of the sacraments (baptism and the Lord's Supper), the exercise of church discipline, and mutual edification in love (Acts 2:42; Hebrews 10:24-25). The Vine is not a church and does not replace the local church. We exist to resource and strengthen believers and churches, not to substitute for them.`,
+  },
+  {
+    num: "VIII",
+    title: "The Resurrection and Eternal Life",
+    color: TEAL,
+    body: `We believe in the bodily resurrection of Jesus Christ as the first fruits of the resurrection of all the dead (1 Corinthians 15:20-23). At the final judgment, all who have ever lived will be raised -- some to eternal life in the presence of God, and some to eternal separation from God (John 5:28-29; Revelation 20:11-15). Eternal life is not the mere continuation of the soul but the restoration and glorification of the whole person -- body and soul -- in the renewed creation (Romans 8:23; Revelation 21:1-5). We believe that Jesus Christ will return bodily, visibly, and personally to consummate His Kingdom, judge the living and the dead, and make all things new. Maranatha -- Come, Lord Jesus (Revelation 22:20).`,
+  },
+];
+
+export default function StatementOfFaithPage() {
+  const [loaded, setLoaded] = useState(false);
+  const [openArticle, setOpenArticle] = useState<number | null>(null);
+  useEffect(() => setLoaded(true), []);
+  if (!loaded) return null;
+
+  return (
+    <div style={{ paddingTop: "var(--header-height, 80px)", background: BG, minHeight: "100vh", color: TEXT, fontFamily: "Georgia, serif" }}>
+      {/* Hero */}
+      <div style={{ background: `linear-gradient(135deg, ${CARD} 0%, #050e07 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "3.5rem 1.5rem 3rem" }}>
+        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
+            <span style={{ background: GREEN, color: "#fff", fontSize: "0.75rem", fontFamily: "sans-serif", fontWeight: 700, letterSpacing: "0.08em", padding: "0.25rem 0.75rem", borderRadius: "999px", textTransform: "uppercase" }}>Doctrine</span>
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 700, lineHeight: 1.15, margin: "0 0 1.25rem", fontFamily: "Georgia, serif" }}>
+            Statement of Faith
+          </h1>
+          <p style={{ fontSize: "1.05rem", color: MUTED, lineHeight: 1.75, maxWidth: "640px", margin: "0 0 1.75rem", fontFamily: "sans-serif" }}>
+            These are the convictions upon which The Vine is built. We hold them not as denominational preferences but as the revealed truth of God in Scripture -- non-negotiable, life-giving, and worth dying for.
+          </p>
+          <blockquote style={{ borderLeft: `3px solid ${GOLD}`, paddingLeft: "1.25rem", margin: 0, color: TEXT, fontStyle: "italic", fontSize: "1.1rem", lineHeight: 1.7 }}>
+            &ldquo;Jesus said to him, &lsquo;I am the way, and the truth, and the life. No one comes to the Father except through me.&rsquo;&rdquo;
+            <span style={{ display: "block", fontSize: "0.85rem", color: MUTED, fontStyle: "normal", marginTop: "0.5rem" }}>&mdash; John 14:6</span>
+          </blockquote>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "760px", margin: "0 auto", padding: "3rem 1.5rem" }}>
+        <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "1.25rem" }} dangerouslySetInnerHTML={{ __html: `The Vine exists to point every person toward Jesus Christ -- the eternal Son of God, crucified for sin, risen from the dead, and coming again. We are not a denomination, a church, or a theological college. We are a platform built to serve the whole body of Christ across every tradition that confesses Jesus as Lord and Savior. But platform-neutrality does not mean doctrinal emptiness. There are things we believe, and we state them plainly here.` }} />
+        <p style={{ lineHeight: 1.8, color: TEXT, marginBottom: "2.5rem" }} dangerouslySetInnerHTML={{ __html: `We affirm the ancient ecumenical consensus of the church as expressed in the Apostles' Creed and the Nicene Creed. We also affirm the five Reformation solas: Scripture alone, Christ alone, grace alone, faith alone, to the glory of God alone. On questions within these boundaries -- baptism, church polity, eschatology, spiritual gifts, worship style -- we extend generous orthodoxy and welcome Christians from every tradition.` }} />
+
+        <h2 style={{ fontSize: "1.4rem", fontWeight: 700, marginBottom: "1.5rem", color: GOLD }}>Articles of Faith</h2>
+
+        {ARTICLES.map((a, i) => (
+          <div key={i} style={{ border: `1px solid ${BORDER}`, borderRadius: "10px", marginBottom: "1rem", overflow: "hidden" }}>
+            <button
+              onClick={() => setOpenArticle(openArticle === i ? null : i)}
+              style={{ width: "100%", background: openArticle === i ? CARD : "transparent", border: "none", padding: "1.25rem 1.5rem", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <span style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontSize: "1.1rem", color: a.color, flexShrink: 0, minWidth: "2rem" }}>{a.num}.</span>
+                <span style={{ color: TEXT, fontWeight: 700, fontSize: "1.05rem", fontFamily: "sans-serif" }}>{a.title}</span>
+              </div>
+              <span style={{ color: MUTED, fontSize: "1.25rem", flexShrink: 0 }}>{openArticle === i ? "-" : "+"}</span>
+            </button>
+            {openArticle === i && (
+              <div style={{ padding: "0 1.5rem 1.5rem", borderTop: `1px solid ${BORDER}` }}>
+                <div style={{ height: "1rem" }} />
+                <div style={{ lineHeight: 1.85, color: TEXT, fontFamily: "sans-serif", fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: a.body }} />
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Creed section */}
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${GOLD}`, borderRadius: "10px", padding: "2rem", margin: "2.5rem 0" }}>
+          <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: GOLD, marginBottom: "1rem", fontFamily: "sans-serif" }}>We Affirm the Apostles&rsquo; Creed</h3>
+          <p style={{ lineHeight: 2, color: TEXT, fontStyle: "italic", fontSize: "0.95rem" }} dangerouslySetInnerHTML={{ __html: `I believe in God, the Father Almighty, Creator of heaven and earth.<br/>I believe in Jesus Christ, His only Son, our Lord,<br/>who was conceived by the Holy Spirit, born of the Virgin Mary,<br/>suffered under Pontius Pilate, was crucified, died, and was buried;<br/>He descended to the dead. On the third day He rose again;<br/>He ascended into heaven, and is seated at the right hand of the Father;<br/>from there He will come to judge the living and the dead.<br/>I believe in the Holy Spirit, the holy catholic church,<br/>the communion of saints, the forgiveness of sins,<br/>the resurrection of the body, and life everlasting. Amen.` }} />
+        </div>
+
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: "10px", padding: "2rem", marginBottom: "2.5rem" }}>
+          <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: GREEN, marginBottom: "1rem", fontFamily: "sans-serif" }}>Questions? Dialogue?</h3>
+          <p style={{ lineHeight: 1.75, color: MUTED, fontFamily: "sans-serif", fontSize: "0.9rem", marginBottom: "1rem" }}>
+            We welcome theological conversation. The Vine is a place for honest inquiry, robust doctrine, and generous orthodoxy. If you have questions about our beliefs or want to explore any of these articles further, join the theology discussions or reach out.
+          </p>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <Link href="/theology" style={{ background: GREEN, color: "#fff", padding: "0.6rem 1.4rem", borderRadius: "6px", textDecoration: "none", fontFamily: "sans-serif", fontSize: "0.85rem", fontWeight: 600 }}>Explore Theology</Link>
+            <Link href="/apologetics-101" style={{ background: "transparent", color: GOLD, border: `1px solid ${GOLD}`, padding: "0.6rem 1.4rem", borderRadius: "6px", textDecoration: "none", fontFamily: "sans-serif", fontSize: "0.85rem" }}>Apologetics 101</Link>
+            <Link href="/salvation" style={{ background: "transparent", color: TEXT, border: `1px solid ${BORDER}`, padding: "0.6rem 1.4rem", borderRadius: "6px", textDecoration: "none", fontFamily: "sans-serif", fontSize: "0.85rem" }}>The Gospel</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

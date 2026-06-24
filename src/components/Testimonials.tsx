@@ -86,9 +86,9 @@ export default function Testimonials() {
               lineHeight: 1.15,
             }}
           >
-            Built for Christians
+            One body. One Lord.
             <br />
-            <em style={{ fontStyle: "italic", color: "#e8c162" }}>around the world.</em>
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}>Every nation, tongue, and tribe.</em>
           </h2>
           <p
             style={{
@@ -99,7 +99,7 @@ export default function Testimonials() {
               fontStyle: "italic",
             }}
           >
-            The voices below illustrate who The Vine is built to serve.
+            Illustrative voices of the community The Vine is built to serve &mdash; followers of Christ from every corner of His earth.
           </p>
         </div>
 

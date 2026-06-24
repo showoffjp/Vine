@@ -10,10 +10,7 @@ const ACCENT = GOLD;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps112v01", title: "Psalm 112 -- Blessed Is the Man Who Fears the LORD" },
-  { videoId: "ps112v02", title: "The Generous Life -- Psalm 112 on Giving and Fearlessness" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

@@ -10,10 +10,7 @@ const ACCENT = GREEN;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps92vid01", title: "Psalm 92 -- The Sabbath Psalm of Praise" },
-  { videoId: "ps92vid02", title: "Flourishing in Old Age -- Psalm 92 Expository" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

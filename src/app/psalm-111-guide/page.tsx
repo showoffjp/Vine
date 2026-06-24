@@ -10,10 +10,7 @@ const ACCENT = TEAL;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps111v01", title: "Psalm 111 -- The Acrostic Praise of God's Works" },
-  { videoId: "ps111v02", title: "Fear of the LORD Is the Beginning of Wisdom -- Psalm 111" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

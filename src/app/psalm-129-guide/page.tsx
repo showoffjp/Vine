@@ -10,10 +10,7 @@ const ACCENT = ROSE;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps129v01", title: "Psalm 129 -- Afflicted but Not Defeated" },
-  { videoId: "ps129v02", title: "Songs of Ascents: The Endurance of God's People" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

@@ -150,7 +150,7 @@ export default function Hero() {
               flexShrink: 0,
             }}
           />
-          Christianity&apos;s All-In-One Platform
+          Jesus Christ &mdash; Lord and Savior
         </div>
 
         {/* Headline */}
@@ -165,12 +165,12 @@ export default function Hero() {
             letterSpacing: "-0.01em",
           }}
         >
-          Every branch.
+          Christ is the vine.
           <br />
-          Every believer.
+          You are His branch.
           <br />
           <em style={{ fontStyle: "italic", color: "#e8c162" }}>
-            Connected.
+            Come and abide.
           </em>
         </h1>
 
@@ -186,9 +186,11 @@ export default function Hero() {
             fontFamily: "var(--font-jost, system-ui, sans-serif)",
           }}
         >
-          The world&apos;s first truly comprehensive Christian platform &mdash;
-          community, Scripture, mental wellness, life guides, theology, video,
-          and more. One home for every stage of your faith.
+          A home for all who belong to Jesus Christ &mdash; Lord and Savior,
+          through whom all things were made and in whom all things hold
+          together. Come to be fed by His Word, carried in prayer, and
+          welcomed by His people. Whoever you are, there is room for you at
+          His table.
         </p>
 
         {/* CTAs */}
@@ -201,7 +203,7 @@ export default function Hero() {
           }}
         >
           <Link
-            href="/feed"
+            href="/salvation"
             style={{
               background: "#c9a227",
               color: "#1a0e00",
@@ -230,7 +232,7 @@ export default function Hero() {
               (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
             }}
           >
-            Join The Vine &mdash; Free
+            Come to Christ
           </Link>
           <Link
             href="/explore"

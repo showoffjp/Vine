@@ -10,10 +10,7 @@ const ACCENT = PURPLE;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps131v01", title: "Psalm 131 -- The Weaned Soul at Rest" },
-  { videoId: "ps131v02", title: "Songs of Ascents: Humility and Quiet Trust" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

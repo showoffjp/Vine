@@ -3,12 +3,12 @@
 import Link from "next/link";
 
 const PERKS = [
-  "Access every resource, guide, and article — free forever",
-  "Join discussions and connect with Christians worldwide",
-  "Daily verse, devotional, and personalized reading plans",
-  "Save articles, build your library, track your growth",
-  "Find Christians who share your exact interests",
-  "Mental health resources, prayer walls, and real community",
+  "Deep verse-by-verse Bible study guides and commentaries",
+  "Discussions with Christians across every tradition worldwide",
+  "Daily Scripture, devotionals, and guided reading plans",
+  "Apologetics, theology, and answers to hard questions",
+  "Prayer walls, mental health support rooted in the Word",
+  "Free forever — no ads, no algorithm, no catch",
 ];
 
 export default function JoinCTA() {
@@ -65,7 +65,7 @@ export default function JoinCTA() {
             fontFamily: "var(--font-jost, system-ui, sans-serif)",
           }}
         >
-          Free Forever. No Ads. No Catch.
+          For Everyone Who Belongs to Christ
         </div>
 
         {/* Headline */}
@@ -80,10 +80,9 @@ export default function JoinCTA() {
             marginBottom: "1.5rem",
           }}
         >
-          Ready to put down roots
+          Abide in Christ.
           <br />
-          in{" "}
-          <em style={{ fontStyle: "italic", color: "#e8c162" }}>The Vine?</em>
+          <em style={{ fontStyle: "italic", color: "#e8c162" }}>Grow together.</em>
         </h2>
 
         <p
@@ -97,8 +96,10 @@ export default function JoinCTA() {
             fontFamily: "var(--font-jost, system-ui, sans-serif)",
           }}
         >
-          Join the world&apos;s most comprehensive Christian community. Free forever
-          for every believer, everywhere.
+          Jesus said, &ldquo;I am the vine; you are the branches. Whoever abides
+          in me and I in him, he it is that bears much fruit.&rdquo; The Vine
+          exists to help you do exactly that &mdash; through His Word, His
+          people, and His Spirit.
         </p>
 
         {/* Perks */}
@@ -150,7 +151,7 @@ export default function JoinCTA() {
           }}
         >
           <Link
-            href="/feed"
+            href="/salvation"
             style={{
               background: "#c9a227",
               color: "#1a0e00",
@@ -179,7 +180,7 @@ export default function JoinCTA() {
               (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
             }}
           >
-            Create Your Free Account
+            Know Christ
           </Link>
           <Link
             href="/about"
@@ -199,7 +200,7 @@ export default function JoinCTA() {
               display: "inline-block",
             }}
           >
-            See All Features
+            Explore The Vine
           </Link>
         </div>
 

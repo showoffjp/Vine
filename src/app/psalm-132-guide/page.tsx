@@ -10,10 +10,7 @@ const ACCENT = GOLD;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps132v01", title: "Psalm 132 -- The LORD's Oath to David" },
-  { videoId: "ps132v02", title: "Songs of Ascents: Zion and the Davidic Covenant" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

@@ -47,7 +47,7 @@ export default function PlatformPillars() {
         {/* Header */}
         <div style={{ marginBottom: "4rem" }}>
           <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
-            Why The Vine
+            Rooted in Christ. Built for His People.
           </div>
           <h2
             style={{
@@ -59,10 +59,10 @@ export default function PlatformPillars() {
               lineHeight: 1.15,
             }}
           >
-            Built different.
+            Christ is sufficient.
             <br />
             <em style={{ fontStyle: "italic", color: "#e8c162" }}>
-              Built for believers.
+              We exist to point you to Him.
             </em>
           </h2>
         </div>

@@ -10,10 +10,7 @@ const ACCENT = ROSE;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps94vid01", title: "Psalm 94 -- God of Vengeance, Rise Up" },
-  { videoId: "ps94vid02", title: "Divine Justice and the Wicked Rulers -- Psalm 94" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

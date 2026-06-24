@@ -10,10 +10,7 @@ const ACCENT = GREEN;
 
 type VideoEntry = { videoId: string; title: string };
 
-const VIDEOS: VideoEntry[] = [
-  { videoId: "ps128v01", title: "Psalm 128 -- The Blessing of the God-Fearing Home" },
-  { videoId: "ps128v02", title: "Songs of Ascents: Work, Family, and the Fear of the LORD" },
-];
+const VIDEOS: VideoEntry[] = [];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {
   const [open, setOpen] = useState(false);

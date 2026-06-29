@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3a7d56";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "The Lord My Shepherd",
@@ -16,17 +8,9 @@ const TABS = [
   "A Table Before Me",
   "Dwelling in the House of the Lord",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "The Lord My Shepherd",
     heading: "The Lord Is My Shepherd",
@@ -101,95 +85,20 @@ const videoItems = [
   { videoId: "jbeQAUEDoNc", title: "Surely Goodness and Mercy - Hope at the End of Life" },
 ];
 
-export default function Psalm23GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3a7d56",
+  badge: `Psalms Deep Dive`,
+  title: `Psalm 23: The Lord Is My Shepherd`,
+  intro: `A verse-by-verse journey through the most beloved psalm &mdash; green pastures and still waters, the restoring of the soul, the walk through the valley of the shadow of death without fear, the table prepared in the presence of enemies, and the promise of dwelling in the house of the Lord forever. Comfort for the grieving, the anxious, and the dying, in the care of Jesus the Good Shepherd.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your meditation on Psalm 23 through teaching on the Shepherd&rsquo;s care, the walk through the valley in seasons of grief, the connection to Jesus the Good Shepherd, and the hope of dwelling in the house of the Lord forever.`,
+  calloutTitle: `You Are Not Alone in the Valley`,
+  calloutBody: `Psalm 23 does not promise a life without dark valleys, but a Shepherd who walks through every one of them at our side. Whatever grief, fear, or shadow you are facing, the same Lord who is David&rsquo;s Shepherd is revealed in Jesus, the Good Shepherd who laid down His life for the sheep. Goodness and mercy are pursuing you all your days, and He is leading you home to dwell in the house of the Lord forever.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Psalms Deep Dive
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 23: The Lord Is My Shepherd
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            A verse-by-verse journey through the most beloved psalm &mdash; green pastures and still waters, the restoring of the soul, the walk through the valley of the shadow of death without fear, the table prepared in the presence of enemies, and the promise of dwelling in the house of the Lord forever. Comfort for the grieving, the anxious, and the dying, in the care of Jesus the Good Shepherd.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your meditation on Psalm 23 through teaching on the Shepherd&rsquo;s care, the walk through the valley in seasons of grief, the connection to Jesus the Good Shepherd, and the hope of dwelling in the house of the Lord forever.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>You Are Not Alone in the Valley</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Psalm 23 does not promise a life without dark valleys, but a Shepherd who walks through every one of them at our side. Whatever grief, fear, or shadow you are facing, the same Lord who is David&rsquo;s Shepherd is revealed in Jesus, the Good Shepherd who laid down His life for the sheep. Goodness and mercy are pursuing you all your days, and He is leading you home to dwell in the house of the Lord forever.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

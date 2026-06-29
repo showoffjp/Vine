@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#D97706";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -17,17 +9,9 @@ const TABS = [
   "Affliction and Growth",
   "The Eternal Word",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Psalm 119",
@@ -114,95 +98,20 @@ const videoItems = [
   { videoId: "Wr2dJpN8cFm", title: "Psalm 119 Verse by Verse - God's Word as Lamp and Light" },
 ];
 
-export default function Psalm119GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#D97706",
+  badge: `Old Testament Study`,
+  title: `Psalm 119 Chapter Guide`,
+  intro: `The longest chapter in the Bible &mdash; an acrostic poem of 176 verses celebrating God&rsquo;s Word as the lamp for life&rsquo;s journey, the source of delight deeper than honey, the eternal anchor that stands firm in the heavens, and the faithful companion through every affliction and trial.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Psalm 119 through these video teachings on the longest chapter in the Bible &mdash; God&rsquo;s Word as lamp, delight, eternal anchor, and the faithful companion through every season of life.`,
+  calloutTitle: `Your Word Is a Lamp to My Feet`,
+  calloutBody: `Psalm 119 invites every generation into a lifelong love of God&rsquo;s Word &mdash; not as a legal burden but as a lamp, a delight, a living companion that gives wisdom to the simple, comfort to the afflicted, and an anchor that holds firm when everything else is shifting. The God who spoke has not fallen silent, and his word that was fixed in the heavens still illuminates the path of those who seek him with their whole heart.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 119 Chapter Guide
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            The longest chapter in the Bible &mdash; an acrostic poem of 176 verses celebrating God&rsquo;s Word as the lamp for life&rsquo;s journey, the source of delight deeper than honey, the eternal anchor that stands firm in the heavens, and the faithful companion through every affliction and trial.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && activeTab !== "Videos" && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Psalm 119 through these video teachings on the longest chapter in the Bible &mdash; God&rsquo;s Word as lamp, delight, eternal anchor, and the faithful companion through every season of life.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Your Word Is a Lamp to My Feet</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Psalm 119 invites every generation into a lifelong love of God&rsquo;s Word &mdash; not as a legal burden but as a lamp, a delight, a living companion that gives wisdom to the simple, comfort to the afflicted, and an anchor that holds firm when everything else is shifting. The God who spoke has not fallen silent, and his word that was fixed in the heavens still illuminates the path of those who seek him with their whole heart.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

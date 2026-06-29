@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3a7d56";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "God Is My Refuge",
   "You Will Not Abandon Me",
   "Fullness of Joy",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Psalm 16 &mdash; A Miktam of David",
@@ -86,91 +70,19 @@ const videoItems = [
   { videoId: "UfMi_Zpe4aw", title: "Fullness of Joy &mdash; In Your Presence, Psalm 16:11" },
 ];
 
-export default function Psalm16GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3a7d56",
+  badge: `Old Testament Study`,
+  title: `Psalm 16`,
+  intro: `A Miktam of David &mdash; &ldquo;Preserve me, O God, for in you I take refuge.&rdquo; A short lyric of eleven verses that moves from petition to unshakeable confidence, from the beauty of God as an inheritance to the resurrection promise that the LORD will not abandon his holy one to Sheol &mdash; the text that Peter and Paul both cite to proclaim the resurrection of Jesus.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  calloutTitle: `In Your Presence There Is Fullness of Joy`,
+  calloutBody: `Psalm 16 distills the whole of biblical faith into eleven verses: God alone is good, God alone is the inheritance worth having, God alone can keep his holy one from the final power of death. What David foresaw in hope, Jesus accomplished in history &mdash; raised from the dead and ascended to the right hand of the Father where pleasures are forevermore. The path of life he walked is the path now open to all who take refuge in him.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 16
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            A Miktam of David &mdash; &ldquo;Preserve me, O God, for in you I take refuge.&rdquo; A short lyric of eleven verses that moves from petition to unshakeable confidence, from the beauty of God as an inheritance to the resurrection promise that the LORD will not abandon his holy one to Sheol &mdash; the text that Peter and Paul both cite to proclaim the resurrection of Jesus.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", marginBottom: "2rem" }}>
-          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, margin: "0 0 1.25rem", color: TEXT }}>Video Teaching</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-            {videoItems.map((v) => (
-              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>In Your Presence There Is Fullness of Joy</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Psalm 16 distills the whole of biblical faith into eleven verses: God alone is good, God alone is the inheritance worth having, God alone can keep his holy one from the final power of death. What David foresaw in hope, Jesus accomplished in history &mdash; raised from the dead and ascended to the right hand of the Father where pleasures are forevermore. The path of life he walked is the path now open to all who take refuge in him.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

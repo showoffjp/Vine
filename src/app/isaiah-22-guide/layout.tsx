@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Isaiah Chapter 22 Guide - The Valley of Vision | The Vine",
   description: "A deep guide to Isaiah 22 - the Valley of Vision oracle, God's judgment on Jerusalem for faithlessness during the Assyrian crisis, the removal of Shebna, and the appointment of Eliakim with the key of the house of David.",

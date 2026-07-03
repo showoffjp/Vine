@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Hosea 3 Study Guide &mdash; Go Again Love a Woman Who Is Loved by Another",
   description: "A verse-by-verse guide to Hosea 3 &mdash; God's command to Hosea to redeem Gomer, the period of waiting without king or sacrifice, and the final restoration of Israel to seek the LORD and David their king.",

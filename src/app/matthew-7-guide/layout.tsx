@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Matthew 7 Guide - The Conclusion of the Sermon on the Mount - Christian Study",
   description: "A deep study of Matthew 7 - the climax of the Sermon on the Mount where Jesus teaches about judging rightly rather than hypocritically, removing the log from our own eye, the call to ask, seek, and knock in persistent prayer, the Golden Rule that sums up the Law and the Prophets, the narrow gate and the hard way that leads to life, recognizing false prophets by their fruit, the danger of saying Lord, Lord without doing the will of the Father, and the two builders on rock and sand. Explore discernment, the two ways, fruit as evidence of faith, and the unprecedented authority of Jesus.",

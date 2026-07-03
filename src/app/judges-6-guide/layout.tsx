@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Judges 6 Guide — Christian Study",
   description: "A deep guide to Judges 6 — Israel oppressed by Midian for seven years, the angel of the LORD appearing to Gideon in a winepress, the call of Gideon as a mighty man of valor, tearing down the altar of Baal, and the double fleece test confirming God's calling.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Daniel 5 Guide - The Writing on the Wall",
   description: "A deep guide to Daniel 5 - Belshazzar's feast and the profaning of the temple vessels, the human hand that writes on the wall, Daniel's interpretation of MENE MENE TEKEL PARSIN, and the fall of Babylon to the Medes and Persians.",

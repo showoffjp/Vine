@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "James 4 Guide — Draw Near to God — Christian Study",
   description: "A deep Bible study guide to James 4 — the call to submit to God, resist the devil, humble ourselves before the Lord, and draw near to the God who gives grace to the humble and opposes the proud. Explore the roots of conflict, the danger of worldliness, the power of humility, and the promise that if we draw near to God, he will draw near to us.",

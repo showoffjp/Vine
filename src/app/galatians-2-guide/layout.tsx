@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Galatians 2 Guide — Crucified with Christ — Christian Study",
   description: "A deep study of Galatians 2 — Paul's declaration that he has been crucified with Christ and no longer lives but Christ lives in him, the bedrock doctrine of justification by faith alone and not by works of the law, and Paul's bold confrontation of Peter at Antioch when his conduct was not in step with the truth of the gospel.",

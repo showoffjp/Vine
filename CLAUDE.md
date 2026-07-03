@@ -4,88 +4,52 @@
 # The Vine — Perpetual Build Session Memory
 
 ## Standing Mandates
-- Push ALL changes to `main` AND `claude/vibrant-pascal-eOo9I` (via `git push -u origin main:claude/vibrant-pascal-eOo9I`)
+- Push ALL changes to BOTH branches: `git push -u origin claude/vibrant-pascal-eOo9I` then `git push origin claude/vibrant-pascal-eOo9I:main`
 - Commit session URL trailer: `https://claude.ai/code/session_01CBtt1v7SvrE9ADQ7hP9z8L`
-- tsc gate before every commit: `npx tsc --noEmit --skipLibCheck` must exit 0
-- Non-ASCII gate: every page.tsx must have 0 bytes > 127
-- No background agents — write pages directly in this session (keeps app fast, keeps Opus pinned)
-- Model: Opus 4.8, foreground only
+- tsc gate before every commit: `npx tsc --noEmit --skipLibCheck` must exit 0 (check `${PIPESTATUS[0]}` if piping!)
+- Non-ASCII gate: every page.tsx must have 0 bytes > 127 (layouts may contain em-dashes in metadata)
+- NEVER run `pkill -f "tsc"` in the same command as a job whose script contains that text — it kills itself
 
-## Critical Page Rules
-- `"use client";` must be byte 0, line 1 — no BOM, no blank line before it
-- All paragraph text via `dangerouslySetInnerHTML={{ __html: "..." }}`
-- HTML entities inside those strings: `&mdash;` `&ldquo;` `&rdquo;` `&hellip;` `&amp;`
-- camelCase CSS only: `borderTop` not `bordertop`, `paddingTop` not `paddingtop`
-- VideoEmbed: `{ videoId: "ID", title: "..." }` and `v.videoId` / `v.title` — NOT `v.id`
-- Outermost div first style: `paddingTop: "var(--header-height, 80px)"`
-- loaded guard: `useState(false)` + `useEffect(() => setLoaded(true), [])` + `if (!loaded) return null`
-- Module-scope colors (copy exactly):
-  ```
-  const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-  const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-  const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-  const ROSE = "#E11D48";
-  ```
-- layout.tsx: server component, no "use client", exports `const metadata: Metadata`
-- Page size: >20,000 bytes minimum
-- 4 tabs: overview, themes, verse, application
+## Architecture (post-refactor, July 2026)
+The old "copy a 180-line page template per chapter" workflow is DEAD. Do not write standalone guide page boilerplate anymore.
 
-## Batch Workflow
-1. Pre-check: `ls -d src/app/BOOK-N-guide` AND `grep "BOOK N Chapter" src/components/TopicBrowser.tsx`
-2. Wire TopicBrowser (TOPIC_SLUGS + ALL_TOPICS) + create layout.tsx
-3. Commit wiring
-4. Write 4 page files directly (no background agents)
-5. Validate: python3 non-ASCII check + `npx tsc --noEmit --skipLibCheck`
-6. Commit + push to both branches
-7. Next batch
+- **Shared guide templates** (in `src/components/`):
+  - `PsalmGuideTemplate.tsx` — canonical 4-tab design (Overview/Themes/Verse/Application, hero + Key Details + accordions). Data shape: `PsalmGuideData`.
+  - `SectionGuideTemplate.tsx` — "deep dive" design (custom section tabs, reference line, Videos tab, pastoral callout). Data shape: `SectionGuideData`.
+  - `TabbedGuideTemplate.tsx` — tabbed design with Key Verse box, reflection questions, closing prayer. Data shape: `TabbedGuideData`.
+- **384 guide pages already converted** to thin data wrappers importing these templates (all Section-generation pages across every book + 30 psalms). ~35,000 lines of boilerplate deleted. URLs unchanged.
+- **NEW chapter guides must be data-only wrappers**: `"use client";` + import a template + typed data object + `export default function Page() { return <Template data={data} />; }`. Pick the template whose design fits; do NOT hand-roll render JSX.
+- **Guide routes render on demand**: 815 `src/app/*-guide/layout.tsx` files export `const dynamic = "force-dynamic"` because their pages sit behind a loaded guard (SSR output is an empty shell — prerendering them wastes build time). Book-level guides WITHOUT the loaded guard (163) stay static because their SSR HTML carries real content. When adding a new chapter guide with a loaded-guard template, include the force-dynamic export in its layout.
+- **next.config.ts**: `typescript.ignoreBuildErrors: true` — type-checking happens in our commit gate, not inside `next build`. Do not remove without replacing the gate.
+- **Topic pages** (anxiety, grief, marriage… ~935 dirs) are client components WITHOUT loaded guards — their prerendered HTML is real SEO content. They must STAY statically prerendered. Never add force-dynamic or a loaded guard to them.
 
-## Last Completed Batch
-- **Batch 229** (pushed): Psalm 48, 76, 87, 122 — Songs of Zion
-- **Batch 230** (pushed): Psalm 35, 39, 41, 43 — Davidic laments
-- **Batch 231** (pushed): Psalm 49, 50, 52, 53 — wisdom & judgment
-- **Batch 232** (pushed): Psalm 54, 55, 56, 57 — David in flight
-- **Batch 233** (pushed): Psalm 58, 59, 60, 64 — miktam & lament
-- **Batch 234** (pushed): Psalm 74, 75, 77, 79 — Asaph
-- **Batch 235** (pushed): Psalm 80, 81, 82, 83 — completes Asaph 73-83
-- **Batch 236** (pushed): Psalm 113, 114, 115, 117 — Egyptian Hallel
-- **Batch 237** (pushed): Psalm 120, 123, 124, 125 — Songs of Ascents gaps
-- **Batch 238** (pushed): Psalm 92, 94, 111, 112 — Wisdom cluster
-- **Batch 239** (pushed): Psalm 128, 129, 131, 132 — Songs of Ascents (collection now needs only 134)
-- **Bible Manuscript Evidence** apologetics page (`/bible-manuscript-evidence`) — wired in Navbar + TopicBrowser
-- Also: dynamic sitemap.ts, Footer trim, 35 broken-link fixes
-- Latest commit: `64ec676`
+## Measured build impact (local container, full clean builds)
+- Baseline: 510 s total, 2,017 prerendered HTML, 926 MB `.next`, 56,133 files
+- After consolidation + force-dynamic + no in-build typecheck: **170 s total (3x faster)**, 1,204 prerendered, 858 MB, 48,859 files
+- Turbopack compile alone: 173 s → 133 s. (An earlier "687 MB" size claim was measured mid-build — wrong; real size win is ~7%. Time is the headline, size is not.)
 
-## Missing Psalms (as of batch 239, ~16 remaining)
-44, 66, 70, 78, 85, 101, 105, 106, 108, 109,
-134, 135, 140, 141, 142, 144
+## Voice & Soul Standard (do not regress)
+- The site proclaims **Jesus Christ as Lord and Savior** — never generic "faith/spirituality platform" SaaS copy
+- Hero: "Christ is the vine. / You are His branch. / Come and abide." Primary CTA → `/salvation`
+- `/statement-of-faith` (8 articles + Apostles' Creed) and `/merch` exist and are wired in Navbar ("The Vine" section under Explore) + Footer
+- Testimonials are labeled illustrative; do not fabricate "real user" social proof or fake engagement metrics
+- NEVER ship placeholder YouTube IDs (`ps128v01` style). Real 11-char IDs or `VIDEOS: []`.
 
-## Next Batch (240) — suggestions
-- Davidic cluster: Psalm 101, 108, 109, 144
-- Orphans: Psalm 44, 66, 70, 78
-- Hallel/historical: Psalm 105, 106, 134, 135
-Confirm missing on disk and unwired in TopicBrowser before writing.
-
-## New Content Pages — remaining
-- `/historical-jesus` — extrabiblical sources (Josephus, Tacitus, Pliny)
-- `/christian-reading-plans` — chronological, thematic, etc.
-
-## Content Quality Standard
+## Content Quality Standard (unchanged)
 - Verse-by-verse commentary citing Calvin, Spurgeon, Matthew Henry, Derek Kidner, Tremper Longman
-- Apologetics angles woven into every page
-- NT fulfillment cross-references in every psalm
-- 600+ word overviews, 4-5 themes with 200+ words each
-- 4 application sections with prayer prompts
+- Apologetics angles; NT fulfillment cross-references in every psalm
+- 600+ word overviews, 4-5 themes with 200+ words each, 4 application sections with prayer prompts
+- Wire every new guide in TopicBrowser (TOPIC_SLUGS + ALL_TOPICS) and create layout.tsx with metadata
 
-## After Psalms — Largest Gaps
-- Job: ~41 chapters missing
-- Jeremiah: ~39 chapters missing
-- Ezekiel: ~38 chapters missing
-- Exodus: ~35 chapters missing
-- Deuteronomy: ~32 chapters missing
-- 2 Chronicles: ~32 chapters missing
+## Current State / Remaining Work
+- **Missing psalms (16)**: 44, 66, 70, 78, 85, 101, 105, 106, 108, 109, 134, 135, 140, 141, 142, 144 — write as PsalmGuideTemplate data wrappers
+- **Bespoke guide pages not consolidated**: ~99 "tabs-var" (component-scoped tabs, custom card grids) + ~359 older one-offs. Hand-authored JSX; do NOT force into templates mechanically — convert only with per-page review, or leave as-is
+- **~800 pages carry fake video IDs** — replace with real teaching videos or empty arrays as encountered
+- **Community features are UI shells** (feed, discussions, prayer wall) — no backend yet
+- **Vercel failure log still never seen** — if user provides it, target the actual bottleneck before further build work
+- New content pages wanted: `/historical-jesus`, `/christian-reading-plans`
+- After psalms: Job (~41 ch), Jeremiah (~39), Ezekiel (~38), Exodus (~35), Deuteronomy (~32), 2 Chronicles (~32)
 
-## New Content Pages to Build (not chapter guides)
-- `/bible-manuscript-evidence` — textual reliability, Dead Sea Scrolls, manuscript counts
-- `/historical-jesus` — extrabiblical sources (Josephus, Tacitus, Pliny)
-- `/christian-reading-plans` — chronological Bible, thematic, etc.
+## Codemods (ephemeral — scratchpad wiped on container restart)
+Conversion scripts lived at scratchpad `convert_psalm.py` / `convert_section.py` / `convert_tabbed.py`. Pattern to recreate: extract prose consts verbatim by bracket-matching; regex hero fields anchored to adjacent JSX; escape `` ` `` and `${`; **prose-preservation gate** = every >60-char double-quoted string containing a sentence must survive verbatim or SKIP the file; then full tsc + non-ASCII gates before commit.
 <!-- END:session-memory -->

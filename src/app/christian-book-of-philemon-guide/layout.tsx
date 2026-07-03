@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book of Philemon Guide — Christian Study",
   description: "A deep guide to the Book of Philemon — Paul's short personal letter from prison, the runaway slave Onesimus who became a believer, Paul's tender appeal of love rather than command, the transformation of a master-slave relationship into brotherhood in Christ, and the gospel's power to reconcile.",

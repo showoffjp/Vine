@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book of Lamentations Guide — Christian Study",
   description: "A deep guide to the Book of Lamentations — Jeremiah's grief over the fall of Jerusalem, the desolation of Zion, the stunning hope at the book's center that the Lord's mercies are new every morning, the honest confession of suffering under God's righteous judgment, and the closing prayer for restoration.",

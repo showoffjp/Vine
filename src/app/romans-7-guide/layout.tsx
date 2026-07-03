@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Romans 7 Guide -- The Wretched Man -- Christian Study",
   description: "A deep guide to Romans 7 -- Paul's most searching chapter on the Law, sin, and the agonizing inner conflict between the flesh and the spirit. Explore the wretched man passage, the role of the Mosaic Law in exposing sin, and the triumphant answer to 'Who will deliver me?' found in Jesus Christ our Lord, opening into the freedom of Romans 8.",

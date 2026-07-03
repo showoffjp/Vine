@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "2 Timothy 2 Study Guide -- Soldier, Athlete, Farmer: The Call to Endure",
   description: "A verse-by-verse guide to 2 Timothy 2 -- Paul's charge to be strong in grace, entrust the gospel to faithful people, endure as a soldier, and rightly handle the word of truth.",

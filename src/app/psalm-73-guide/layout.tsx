@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Psalm 73 Chapter Guide - Why Do the Wicked Prosper? Asaph's Wrestle | The Vine",
   description: "A deep study of Psalm 73 - Asaph's honest struggle with why the wicked prosper, his near stumbling, the perspective-shifting moment in God's sanctuary, and the profound declaration 'Whom have I in heaven but you?'",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Titus 1 Chapter Guide – Elder Qualifications and Sound Doctrine | The Vine",
   description: "A deep study of Titus 1 – Paul’s instructions on elder qualifications for the churches in Crete, the need for sound doctrine against false teachers, and the foundational link between right belief and godly living.",

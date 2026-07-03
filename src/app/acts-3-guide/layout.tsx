@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Acts 3 Guide — Silver and Gold Have I None — Christian Study",
   description: "A deep Bible study guide to Acts 3 — Peter and John heal a man lame from birth at the Beautiful Gate of the Temple, declaring 'Silver and gold have I none; but what I have I give thee: In the name of Jesus Christ of Nazareth rise up and walk.' Explore the miracle, Peter's bold sermon at Solomon's Portico, the call to repentance, and the times of refreshing from the presence of the Lord.",

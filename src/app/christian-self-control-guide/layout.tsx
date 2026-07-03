@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Self-Control",
   description: "Self-control and the Christian faith - the fruit of the Spirit, mastering the passions, self-control over the tongue, appetite, and anger, the role of spiritual disciplines, and the freedom that comes from godly self-mastery.",

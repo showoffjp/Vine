@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Isaiah 9 Guide — For Unto Us a Child Is Born — Christian Study",
   description: "A deep study of Isaiah 9 — the Messianic prophecy of the child born and son given who bears the names Wonderful Counselor, Mighty God, Everlasting Father, and Prince of Peace. Explore how this vision of light breaking into darkness was fulfilled in Jesus Christ and how his kingdom of justice and righteousness will increase without end.",

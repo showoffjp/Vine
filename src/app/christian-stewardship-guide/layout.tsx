@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Christian Stewardship Guide",
   description: "A biblical theology of stewardship — oikonomia, the parable of the talents, tithing, radical generosity, time and talent, creation care, and giving as worship. Everything belongs to God.",

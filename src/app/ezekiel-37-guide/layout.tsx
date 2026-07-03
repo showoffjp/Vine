@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Ezekiel 37 Guide -- The Valley of Dry Bones -- Christian Study",
   description: "A deep study guide to Ezekiel 37 -- the Vision of the Valley of Dry Bones -- exploring God's power to resurrect and restore his people. Discover how the prophet Ezekiel's vision of dry bones coming to life speaks to spiritual renewal, the new covenant, the life-giving Spirit, and the ultimate resurrection hope fulfilled in Jesus Christ.",

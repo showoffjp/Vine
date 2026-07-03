@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Purpose and Calling",
   description: "Discovering your calling as a Christian — the theology of vocation, the difference between calling and career, how to discern God's will, the universal call to follow Christ and the particular call to specific work, and finding purpose in every season of life.",

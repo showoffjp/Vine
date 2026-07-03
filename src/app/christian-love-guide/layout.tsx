@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Love",
   description: "Love and the Christian faith - the four loves, agape as self-giving love, God is love, the great commandment, the love chapter of 1 Corinthians 13, loving your enemies, and how love is the mark of the Christian.",

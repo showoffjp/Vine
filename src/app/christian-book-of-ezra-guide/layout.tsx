@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book of Ezra Guide — Christian Study",
   description: "A deep guide to the Book of Ezra — the decree of Cyrus, the return from exile under Zerubbabel, the rebuilding of the temple in Jerusalem amid opposition, the ministry of Ezra the scribe, and the painful renewal of the covenant in devotion to the Law of God.",

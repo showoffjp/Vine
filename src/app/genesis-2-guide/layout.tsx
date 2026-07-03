@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Genesis 2 Chapter Guide – Garden of Eden and Marriage | The Vine",
   description: "A deep guide to Genesis 2 -- the seventh day Sabbath rest, the Garden of Eden, God forming Adam from dust and breathing life, Eve formed from Adam's side, the institution of marriage as covenant, and the mystery pointing to Christ and the church in Ephesians 5.",

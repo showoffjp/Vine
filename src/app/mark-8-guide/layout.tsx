@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Mark 8 Guide - The Turning Point of the Gospel - Christian Study",
   description: "A deep study of Mark 8 - the feeding of the four thousand in Gentile territory, the Pharisees demand for a sign, the leaven of the Pharisees and Herod, the unique two-stage healing of the blind man at Bethsaida, Peter confession at Caesarea Philippi, the first prediction of the passion, and the call to deny self, take up the cross, and follow the suffering Messiah. Explore the structural and theological center of Mark and what it means to gain the world yet lose the soul.",

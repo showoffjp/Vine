@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Singleness",
   description: "Singleness and the Christian faith — Paul's theology of celibacy as gift (1 Corinthians 7), Jesus as the unmarried Son of God, the church as the primary family, loneliness vs. solitude, dating as a Christian, and flourishing as a single adult in a marriage-centered church culture.",

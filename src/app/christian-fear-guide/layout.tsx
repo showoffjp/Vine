@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Fear",
   description: "Fear and the Christian faith - the most repeated command in the Bible (fear not), the difference between godly fear and sinful fear, the fear of death and judgment, perfect love casting out fear, and practical steps for facing fear with faith.",

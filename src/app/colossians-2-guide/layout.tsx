@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Colossians 2 Guide — Christian Study",
   description: "A deep guide to Colossians 2 — Paul warns against philosophy and empty deceit, declares the fullness of deity in Christ, the cancellation of the record of debt nailed to the cross, disarming rulers and powers, and the warning against legalism and false asceticism. The substance belongs to Christ.",

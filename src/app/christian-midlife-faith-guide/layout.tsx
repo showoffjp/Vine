@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Midlife Faith Guide",
   description: "Faith in the middle years — the theology of midlife crisis, disillusionment with church and religion, the dark night of the soul in midlife, rediscovering vocation and purpose, confronting mortality for the first time, and what it means to deepen rather than abandon faith at midlife.",

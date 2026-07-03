@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "1 Samuel 2 Chapter Guide – Hannah's Song and the Fall of Eli's House | The Vine",
   description: "1 Samuel 2 covers Hannah's magnificent song of praise, the wickedness of Eli's sons Hophni and Phinehas, the faithful boy Samuel growing in favor with God and man, and God's word of judgment on Eli's house through the man of God.",

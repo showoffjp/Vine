@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Song of Solomon Guide — Christian Study",
   description: "A deep guide to the Song of Solomon (Song of Songs) — the celebration of love and marriage as a good gift of God, the dialogue of the lover and the beloved, the call not to awaken love before its time, the declaration that love is strong as death, and the church's reading of the Song as a picture of Christ's love for his bride.",

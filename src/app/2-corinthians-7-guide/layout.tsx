@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "2 Corinthians 7 Guide - Godly Grief and the Joy of Reconciliation - Christian Study",
   description: "A deep study guide to 2 Corinthians 7 - the call to cleanse ourselves and complete holiness in the fear of God, Paul's appeal to make room in your hearts, his restless comfort through the coming of Titus, the vital distinction between godly grief that leads to repentance and worldly grief that produces death, and the sevenfold fruit of genuine repentance.",

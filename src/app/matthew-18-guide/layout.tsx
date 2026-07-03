@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Matthew 18 Guide — Greatness and Forgiveness in the Kingdom — Christian Study",
   description: "A deep study of Matthew 18 — Jesus' Community Discourse on becoming like children, the parable of the Lost Sheep, confronting sin in love, and the radical call to seventy-times-seven forgiveness as a reflection of the boundless mercy of God.",

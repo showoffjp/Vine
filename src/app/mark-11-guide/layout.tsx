@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Mark 11 Guide - The Triumphal Entry and the Temple",
   description: "A deep guide to Mark 11 - the triumphal entry on the colt that no one had ridden, the cursing of the fig tree, the cleansing of the temple as a house of prayer for all nations, mountain-moving faith and forgiveness, and the question of authority.",

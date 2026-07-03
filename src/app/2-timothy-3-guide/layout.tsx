@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "2 Timothy 3 Guide — Scripture Is God-Breathed — Christian Study",
   description: "A deep study of 2 Timothy 3 — Paul's final charge to Timothy warning about the perilous moral conditions of the last days and declaring that all Scripture is God-breathed (theopneustos) and profitable for teaching, reproof, correction, and training in righteousness, so that the man of God may be complete and equipped for every good work.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Romans 4 Guide — Abraham Believed God — Christian Study",
   description: "A deep guide to Romans 4 — Paul's argument that Abraham was justified by faith before circumcision and centuries before the Law, showing that justification has always been by faith alone through grace. Explore Abraham as the father of all who believe, the meaning of righteousness credited by faith, hoping against hope, and how the resurrection of Jesus grounds the justification of all believers.",

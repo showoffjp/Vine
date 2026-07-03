@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian New Marriage Guide",
   description: "Building a marriage on Christ — the theology of Christian marriage (Ephesians 5), leaving and cleaving, navigating conflict as newlyweds, building spiritual intimacy, sex and the Christian covenant, money and marriage, and what the first years actually require.",

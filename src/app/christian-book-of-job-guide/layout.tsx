@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book of Job Guide - Christian Study",
   description: "A deep guide to the Book of Job - the problem of innocent suffering, the heavenly wager, the failure of Jobs friends, Jobs honest lament, the whirlwind speeches of God, and what Job teaches about suffering, faith, and the sovereignty of God.",

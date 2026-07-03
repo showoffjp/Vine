@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Revelation 4 Guide — The Heavenly Throne Room and the Worship of the Creator",
   description: "A deep verse-by-verse guide to Revelation 4 — the open door into heaven, the throne of God encircled by the emerald rainbow of covenant, the twenty-four elders, the four living creatures crying Holy Holy Holy, and the creation doxology of the elders casting their crowns.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Acts 11 Chapter Guide – Gentiles Receive the Spirit, Antioch | The Vine",
   description: "A deep guide to Acts 11 — Peter defending his visit to Cornelius before the Jerusalem church, the founding of the church at Antioch, Barnabas and Saul's year of ministry there, and disciples first called Christians.",

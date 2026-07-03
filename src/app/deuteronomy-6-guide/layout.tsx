@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Deuteronomy 6 Guide — The Shema — Christian Study",
   description: "A deep guide to Deuteronomy 6 and the Shema — Israel's foundational confession that the Lord is one — exploring the command to love God with all your heart, soul, and strength, to teach that covenant love to your children in the rhythms of daily life, and to guard against the forgetfulness that prosperity breeds. The Shema is the bedrock of covenant faith, quoted by Jesus as the greatest commandment and fulfilled in him.",

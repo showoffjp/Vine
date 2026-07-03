@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "1 Kings 19 Guide — The Still Small Voice — Christian Study",
   description: "An in-depth guide to 1 Kings 19 — Elijah's flight from Jezebel, his collapse under the juniper tree, the angel's provision of food and water, the forty-day journey to Horeb, and God meeting Elijah not in wind or earthquake or fire but in a still small voice. A study in divine gentleness, prophetic burnout, and the grace of being recommissioned.",

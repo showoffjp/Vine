@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "John 15 Guide — The True Vine — Christian Study",
   description: "A deep guide to John 15 — Jesus as the true vine and the Father as the vinedresser, the call to abide in him and bear much fruit, the truth that apart from him we can do nothing, the command to love one another, and the dignity of being chosen and appointed by Christ.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Philippians 3 Chapter Guide — Christian Study",
   description: "A deep guide to Philippians 3 — Paul warning against confidence in the flesh, counting all as loss for the surpassing worth of knowing Christ, pressing on toward the goal, and the hope of resurrection as citizens of heaven.",

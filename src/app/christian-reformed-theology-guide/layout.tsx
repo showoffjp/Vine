@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Reformed Theology Guide",
   description: "An introduction to Reformed theology — the legacy of John Calvin, the five points of Calvinism (TULIP), covenant theology, the sovereignty of God, the doctrines of grace, and the major debates between Calvinism and Arminianism. A fair, substantive overview.",

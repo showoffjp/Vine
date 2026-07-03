@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Christian Courage Guide — Be Strong and Courageous",
   description: "A deep guide to Christian courage — Joshua 1:9, andreia as a virtue, spiritual warfare, courage in suffering, Shadrach Meshach and Abednego, and the boldness to speak truth.",

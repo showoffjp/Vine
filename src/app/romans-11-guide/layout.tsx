@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Romans 11 Chapter Guide – Olive Tree, Remnant, Mystery of Israel | The Vine",
   description: "Romans 11 explores God's faithfulness to Israel through the remnant by grace, the olive tree illustration of Jew and Gentile, the mystery that all Israel will be saved, and the doxology of wonder that closes three chapters of sustained theological argument.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Micah 6 Guide — Act Justly, Love Mercy, Walk Humbly",
   description: "A deep guide to Micah 6 — the Lord’s case against Israel, the great rhetorical question about what to bring before God, and the prophetic climax of Micah 6:8: to do justice, love kindness (hesed), and walk humbly with your God.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Shame",
   description: "Shame and the Christian faith - the difference between guilt and shame, shame in the garden of Eden, the God who clothes the naked, how the gospel covers shame, breaking free from toxic shame, and finding a new identity in Christ.",

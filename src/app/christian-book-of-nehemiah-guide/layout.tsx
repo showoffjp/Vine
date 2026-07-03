@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book of Nehemiah Guide — Christian Study",
   description: "A deep guide to the Book of Nehemiah — the cupbearer's burden and prayer over ruined Jerusalem, the rebuilding of the walls, the opposition of Sanballat and Tobiah, the reading of the Law and the people's revival, and the lasting covenant reforms. A study in prayerful, persevering leadership.",

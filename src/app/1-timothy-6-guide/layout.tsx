@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "1 Timothy 6 Study Guide &mdash; Godliness, Contentment, and the Fight of Faith",
   description: "A verse-by-verse guide to 1 Timothy 6 -- the final chapter covering godliness with contentment, the love of money as root of all evil, the fight of faith, and Paul's charge to Timothy and the wealthy.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Loneliness",
   description: "Loneliness and the Christian faith — the difference between loneliness and solitude, the God who is community (the Trinity), Jesus and the experience of abandonment, the loneliness epidemic, the church as belonging, and finding companionship with God in the lonely place.",

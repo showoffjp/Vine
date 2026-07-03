@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Isaiah 5 Guide - The Song of the Vineyard and the Six Woes",
   description: "A deep guide to Isaiah 5 - the Song of the Vineyard that becomes a lawsuit. God planted a vineyard, cleared it, and tended it, yet it yielded wild grapes. He looked for justice (mishpat) but saw bloodshed (mispach), for righteousness (tsedaqah) but heard a cry (tseaqah). Explore the six woes and the gathering judgment.",

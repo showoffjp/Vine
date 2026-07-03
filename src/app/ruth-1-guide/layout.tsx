@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Ruth 1 Guide — Naomi, Ruth, and Covenant Loyalty",
   description: "A deep guide to Ruth 1 — Elimelech and Naomi in Moab, the deaths of Mahlon and Chilion, Naomi urging her daughters-in-law to return home, Ruth's unforgettable pledge of loyalty, and Naomi returning to Bethlehem in bitterness, yet held by the providence of God.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book of Micah Guide — Christian Study",
   description: "A deep guide to the Book of Micah — the prophet of Moresheth, judgment on Samaria and Jerusalem, the rebuke of corrupt leaders, the promise of a ruler from Bethlehem fulfilled in Christ, the call to do justice and love mercy, and the incomparable pardoning love of God.",

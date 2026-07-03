@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Daniel 9 Chapter Guide – Daniel's Prayer and the Seventy Weeks | The Vine",
   description: "A deep guide to Daniel 9 — Daniel's great prayer of confession and intercession for Israel, Gabriel's swift appearance in response, and the mysterious prophecy of seventy weeks pointing to the Messiah who would be cut off.",

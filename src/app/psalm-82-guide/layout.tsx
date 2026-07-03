@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Psalm 82 Study Guide -- God Has Taken His Place in the Divine Council",
   description: "Verse-by-verse study of Psalm 82 -- the most theologically arresting psalm in the Psalter: God judges the corrupt 'gods,' defends the poor, and the Son of God quotes this text in John 10 to defend his own deity.",

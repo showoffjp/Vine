@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Hebrews 10 Guide — Hold Fast Our Confession — Christian Study",
   description: "A deep study guide to Hebrews 10 — the once-for-all sacrifice of Christ that perfects forever those who are being sanctified, the call to hold fast the confession of hope without wavering, and the urgent command not to forsake assembling together as the Day draws near.",

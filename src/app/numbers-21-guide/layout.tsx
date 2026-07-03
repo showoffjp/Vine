@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Numbers 21 Chapter Guide – Bronze Serpent and Wilderness Journey | The Vine",
   description: "A deep guide to Numbers 21 -- Israel's complaints about manna and water, God sending fiery serpents as judgment, Moses' intercession, the bronze serpent lifted on a pole for healing, Jesus' reference in John 3:14, victories over Sihon and Og, and the Song of the Well.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "1 Kings 21 Chapter Guide – Ahab, Naboth, and Justice | The Vine",
   description: "A deep study of 1 Kings 21: Ahab covets Naboth's vineyard, Jezebel engineers his murder through false witnesses, and Elijah pronounces God's judgment on Ahab's house -- while Ahab's unexpected repentance reveals the mercy at the heart of divine justice.",

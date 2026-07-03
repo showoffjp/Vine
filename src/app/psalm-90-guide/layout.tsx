@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Psalm 90 Guide - Christian Study",
   description: "A deep guide to Psalm 90 - the prayer of Moses, the man of God, contrasting the eternity of God with the brevity of human life, the call to number our days for a heart of wisdom, and the prayer to establish the work of our hands.",

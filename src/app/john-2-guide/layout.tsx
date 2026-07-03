@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "John 2 Chapter Guide – Wedding at Cana, Temple Cleansing | The Vine",
   description: "A deep guide to John 2 — Jesus turning water into wine at Cana as his first sign, his mother's faith, the cleansing of the temple in Jerusalem, and the disciples believing after his resurrection.",

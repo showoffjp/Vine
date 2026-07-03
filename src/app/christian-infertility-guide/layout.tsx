@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Christian Guide to Infertility",
   description: "Infertility and the Christian faith — the grief of barrenness, biblical women who waited (Sarah, Hannah, Elizabeth), the theology of children as gift not guarantee, navigating IVF and reproductive technology, the calling of adoption, and finding hope when the answer is no.",

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+// Rendered on demand: guide pages are client components behind a loaded
+// guard, so their prerendered HTML is an empty shell. Skipping build-time
+// prerender for this route cuts build work; metadata still renders per request.
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Leviticus 16 Chapter Guide – Day of Atonement, Scapegoat | The Vine",
   description: "A deep guide to Leviticus 16's institution of the Day of Atonement (Yom Kippur) — Aaron's entry into the Holy of Holies, the two goats (one sacrificed, one the scapegoat sent into the wilderness), and its complete fulfillment in Christ's once-for-all sacrifice as shown in Hebrews 9-10.",

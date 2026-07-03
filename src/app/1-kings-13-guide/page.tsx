@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#E11D48";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "The Old Prophet's Deception",
   "Judgment on the Road",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of 1 Kings 13",
@@ -90,93 +74,20 @@ const videoItems = [
   { videoId: "Es9gBy1Cn4M", title: "Judgment on the Road and the Sin of Jeroboam" },
 ];
 
-export default function FirstKings13GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#E11D48",
+  badge: `Old Testament Study`,
+  title: `The First Book of Kings, Chapter 13`,
+  intro: `A solemn and strange narrative of prophetic obedience and disobedience. A man of God from Judah cries out against Jeroboam&rsquo;s altar at Bethel, prophesying that a future king, Josiah, will defile it, and gives a sign &mdash; the altar splits and the king&rsquo;s hand withers and is healed. An old prophet lures the man of God to eat with him by lying that an angel had spoken, and for his disobedience the man of God is killed by a lion on the road. The chapter closes noting that Jeroboam did not turn from his evil way.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of 1 Kings 13 through visual teaching on the man of God who confronts Jeroboam&rsquo;s altar at Bethel and foretells the coming of Josiah, the sign of the split altar and the withered and restored hand, the deception of the old prophet who lures the man of God back with a false claim of angelic revelation, and the swift and sobering judgment on the road that marks the deadly seriousness of obeying the word of God exactly.`,
+  calloutTitle: `The Seriousness of God&rsquo;s Word`,
+  calloutBody: `First Kings 13 stands as a sober warning planted in the heart of the account of Israel&rsquo;s apostasy. It shows the power of God&rsquo;s prophetic word to confront kings and overturn altars, and at the same time the deadly seriousness with which that word must be obeyed by those who bear it. Even a genuine word from God, plainly heard, must not be overturned by a contradicting new revelation, however plausibly delivered. The chapter ends with the chilling note that Jeroboam, having seen the altar split and his hand restored, still did not turn from his evil way.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The First Book of Kings, Chapter 13
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            A solemn and strange narrative of prophetic obedience and disobedience. A man of God from Judah cries out against Jeroboam&rsquo;s altar at Bethel, prophesying that a future king, Josiah, will defile it, and gives a sign &mdash; the altar splits and the king&rsquo;s hand withers and is healed. An old prophet lures the man of God to eat with him by lying that an angel had spoken, and for his disobedience the man of God is killed by a lion on the road. The chapter closes noting that Jeroboam did not turn from his evil way.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of 1 Kings 13 through visual teaching on the man of God who confronts Jeroboam&rsquo;s altar at Bethel and foretells the coming of Josiah, the sign of the split altar and the withered and restored hand, the deception of the old prophet who lures the man of God back with a false claim of angelic revelation, and the swift and sobering judgment on the road that marks the deadly seriousness of obeying the word of God exactly.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Seriousness of God&rsquo;s Word</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            First Kings 13 stands as a sober warning planted in the heart of the account of Israel&rsquo;s apostasy. It shows the power of God&rsquo;s prophetic word to confront kings and overturn altars, and at the same time the deadly seriousness with which that word must be obeyed by those who bear it. Even a genuine word from God, plainly heard, must not be overturned by a contradicting new revelation, however plausibly delivered. The chapter ends with the chilling note that Jeroboam, having seen the altar split and his hand restored, still did not turn from his evil way.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

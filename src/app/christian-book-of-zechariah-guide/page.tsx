@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#0D9488";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Return to Me",
@@ -16,17 +8,9 @@ const TABS = [
   "The Coming King",
   "The Pierced One",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Return to Me",
     heading: "Return to Me",
@@ -101,95 +85,20 @@ const videoItems = [
   { videoId: "yvLpHPgrCq0", title: "The One They Pierced - Messianic Prophecy in Zechariah" },
 ];
 
-export default function ChristianBookOfZechariahGuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#0D9488",
+  badge: `Old Testament Study`,
+  title: `The Book of Zechariah`,
+  intro: `A prophet of restoration calling the returned exiles to return to the Lord &mdash; through eight symbolic night visions, the crowning of Joshua the high priest, the promise of the Branch, and the glorious prophecies of the humble King and the pierced Shepherd fulfilled in Christ.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Zechariah through visual teaching on the call to return, the eight night visions, the coming King on a donkey, and the prophecies of the pierced One fulfilled in Christ.`,
+  calloutTitle: `Return to Me, and I Will Return to You`,
+  calloutBody: `Zechariah speaks to every discouraged believer who feels that God has forgotten. Its very name means &ldquo;the Lord remembers,&rdquo; and through visions, the Branch, the humble King, and the pierced Shepherd it points unwaveringly to Christ. Its enduring call still sounds across the centuries: return to the Lord, and he will return to you.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The Book of Zechariah
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            A prophet of restoration calling the returned exiles to return to the Lord &mdash; through eight symbolic night visions, the crowning of Joshua the high priest, the promise of the Branch, and the glorious prophecies of the humble King and the pierced Shepherd fulfilled in Christ.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Zechariah through visual teaching on the call to return, the eight night visions, the coming King on a donkey, and the prophecies of the pierced One fulfilled in Christ.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Return to Me, and I Will Return to You</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Zechariah speaks to every discouraged believer who feels that God has forgotten. Its very name means &ldquo;the Lord remembers,&rdquo; and through visions, the Branch, the humble King, and the pierced Shepherd it points unwaveringly to Christ. Its enduring call still sounds across the centuries: return to the Lord, and he will return to you.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#E11D48";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "Naboth's Vineyard",
   "Jezebel's Plot",
   "Elijah's Confrontation",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of 1 Kings 21",
@@ -90,97 +74,18 @@ const videoItems = [
   { videoId: "qc8JHiTlj5s", title: "Divine Justice and Mercy in the Ahab Narrative" },
 ];
 
-export default function Kings21GuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  const [loaded, setLoaded] = useState(false);
+const data: SectionGuideData = {
+  accent: "#E11D48",
+  badge: `Old Testament Study`,
+  title: `1 Kings 21 &mdash; Ahab, Naboth, and Justice`,
+  intro: `One of Scripture&rsquo;s most morally concentrated chapters: Ahab covets a vineyard he cannot buy, Jezebel engineers its owner&rsquo;s judicial murder, and Elijah is sent by God to pronounce judgment on the house of Ahab &mdash; while the divine response to Ahab&rsquo;s unexpected repentance reveals the astonishing mercy at the heart of God&rsquo;s justice.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  calloutTitle: `Video Teaching`,
+  calloutBody: `Explore the story of Naboth&rsquo;s vineyard through these video teachings on Ahab&rsquo;s covetousness, Jezebel&rsquo;s corruption of justice, Elijah&rsquo;s prophetic confrontation, and the theology of divine judgment and mercy in 1 Kings 21.`,
+};
 
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
-
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            1 Kings 21 &mdash; Ahab, Naboth, and Justice
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            One of Scripture&rsquo;s most morally concentrated chapters: Ahab covets a vineyard he cannot buy, Jezebel engineers its owner&rsquo;s judicial murder, and Elijah is sent by God to pronounce judgment on the house of Ahab &mdash; while the divine response to Ahab&rsquo;s unexpected repentance reveals the astonishing mercy at the heart of God&rsquo;s justice.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: 1 }}>
-            Video Teaching
-          </h3>
-          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.8, margin: "0 0 1.5rem" }}>
-            Explore the story of Naboth&rsquo;s vineyard through these video teachings on Ahab&rsquo;s covetousness, Jezebel&rsquo;s corruption of justice, Elijah&rsquo;s prophetic confrontation, and the theology of divine judgment and mercy in 1 Kings 21.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
-            {videoItems.map((v) => (
-              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "10px 14px" }}>{v.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Have You Murdered and Also Taken Possession?</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            First Kings 21 reminds every generation that God sees the Naboths of the world &mdash; those whose rights are trampled by the powerful, whose voices are silenced by false witnesses, whose inheritance is seized by those who have everything but want more. The word of the Lord through Elijah still sounds: &ldquo;Have you murdered and also taken possession?&rdquo; No injustice is invisible to God, no repentance too late for his mercy, and no prophecy of his too small to be fulfilled.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

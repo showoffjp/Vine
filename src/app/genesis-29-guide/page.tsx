@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3a7d56";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "The Deceiver Deceived",
   "Leah's Sons",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Jacob in Paddan-aram: Love, Deceit, and the Birth of the Tribes",
@@ -87,95 +71,20 @@ const videoItems = [
   { videoId: "Zc4dK9Mp2Wn", title: "From Reuben to Judah - The Birth of the Tribes" },
 ];
 
-export default function Genesis29GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3a7d56",
+  badge: `Genesis Study`,
+  title: `Genesis 29`,
+  intro: `Jacob arrives in Paddan-aram, meets Rachel at the well, and is welcomed by Laban &mdash; only to be deceived into marrying Leah. The deceiver is now deceived, yet through the unloved Leah&rsquo;s sons God begins to build the tribes of Israel and the line that leads to Christ.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Genesis 29 through visual teaching on the providential meeting at the well, the irony of the deceiver deceived, the Lord&rsquo;s tender care for the unloved Leah, and the birth of the tribes of Israel.`,
+  calloutTitle: `Grace for the Overlooked and the Afflicted`,
+  calloutBody: `Genesis 29 holds together the seriousness of human sin and the patient sovereignty of God. The same chapter that shows Laban&rsquo;s treachery and a bitter rivalry also shows a God who sees the unloved, hears the afflicted, and weaves the line of redemption &mdash; through Levi&rsquo;s priesthood and Judah&rsquo;s royal line &mdash; right through Leah&rsquo;s tears toward Christ.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Genesis Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Genesis 29
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            Jacob arrives in Paddan-aram, meets Rachel at the well, and is welcomed by Laban &mdash; only to be deceived into marrying Leah. The deceiver is now deceived, yet through the unloved Leah&rsquo;s sons God begins to build the tribes of Israel and the line that leads to Christ.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Genesis 29 through visual teaching on the providential meeting at the well, the irony of the deceiver deceived, the Lord&rsquo;s tender care for the unloved Leah, and the birth of the tribes of Israel.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{item.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Grace for the Overlooked and the Afflicted</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Genesis 29 holds together the seriousness of human sin and the patient sovereignty of God. The same chapter that shows Laban&rsquo;s treachery and a bitter rivalry also shows a God who sees the unloved, hears the afflicted, and weaves the line of redemption &mdash; through Levi&rsquo;s priesthood and Judah&rsquo;s royal line &mdash; right through Leah&rsquo;s tears toward Christ.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

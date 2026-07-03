@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#E11D48";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -17,17 +9,9 @@ const TABS = [
   "The Death of Uriah",
   "Application",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of 2 Samuel 11",
@@ -115,95 +99,20 @@ const videoItems = [
   { videoId: "j6Gs8jJMJwo", title: "Psalm 51 - A Broken and Contrite Heart" },
 ];
 
-export default function Samuel11GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#E11D48",
+  badge: `Old Testament Study`,
+  title: `2 Samuel 11 &mdash; David, Bathsheba, and the Death of Uriah`,
+  intro: `David remains in Jerusalem while his army is at war. From his roof he sees Bathsheba bathing and sends for her. When she becomes pregnant, David attempts a cover-up &mdash; recalling Uriah from battle and trying to get him to sleep at home. Uriah&rsquo;s honor is greater than David&rsquo;s. David writes his death warrant and sends it by Uriah&rsquo;s own hand. &ldquo;But the thing that David had done displeased the LORD.&rdquo;`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of 2 Samuel 11 through these video teachings on David and Bathsheba, the integrity of Uriah the Hittite, the nature of power and sin, and the path of restoration through Psalm 51.`,
+  calloutTitle: `A Broken and Contrite Heart He Will Not Despise`,
+  calloutBody: `Second Samuel 11 is one of the most honest chapters in all of Scripture &mdash; honest about the capacity for moral failure even in the most spiritually gifted person, honest about the compounding logic of sin and cover-up, and honest about the fact that nothing is hidden from God. But the story does not end with &ldquo;the thing that David had done displeased the LORD.&rdquo; It ends, chapters later, with a king on his knees, a psalm of repentance, and a God who does not despise the broken and contrite heart. The grace that reaches David in the depths of his failure is the same grace that reaches every sinner who turns to God in honest confession.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            2 Samuel 11 &mdash; David, Bathsheba, and the Death of Uriah
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            David remains in Jerusalem while his army is at war. From his roof he sees Bathsheba bathing and sends for her. When she becomes pregnant, David attempts a cover-up &mdash; recalling Uriah from battle and trying to get him to sleep at home. Uriah&rsquo;s honor is greater than David&rsquo;s. David writes his death warrant and sends it by Uriah&rsquo;s own hand. &ldquo;But the thing that David had done displeased the LORD.&rdquo;
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && activeTab !== "Videos" && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of 2 Samuel 11 through these video teachings on David and Bathsheba, the integrity of Uriah the Hittite, the nature of power and sin, and the path of restoration through Psalm 51.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A Broken and Contrite Heart He Will Not Despise</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Second Samuel 11 is one of the most honest chapters in all of Scripture &mdash; honest about the capacity for moral failure even in the most spiritually gifted person, honest about the compounding logic of sin and cover-up, and honest about the fact that nothing is hidden from God. But the story does not end with &ldquo;the thing that David had done displeased the LORD.&rdquo; It ends, chapters later, with a king on his knees, a psalm of repentance, and a God who does not despise the broken and contrite heart. The grace that reaches David in the depths of his failure is the same grace that reaches every sinner who turns to God in honest confession.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

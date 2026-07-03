@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#D97706";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "Famine Administration",
   "Jacob's Final Request",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Genesis 47",
@@ -90,93 +74,20 @@ const videoItems = [
   { videoId: "Ns9gBy1Cn4M", title: "Israel Settled in Goshen and Jacob&rsquo;s Final Request" },
 ];
 
-export default function Genesis47GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#D97706",
+  badge: `Old Testament Study`,
+  title: `The Book of Genesis, Chapter 47`,
+  intro: `Joseph presents five of his brothers and then his father Jacob to Pharaoh, who grants them the land of Goshen, and Jacob blesses Pharaoh. As the famine intensifies, Joseph administers Egypt, gathering money, livestock, and finally the land and people themselves in exchange for grain, instituting a one-fifth tax to Pharaoh. Israel settles and multiplies in Goshen, and Jacob, near death, makes Joseph swear to bury him with his fathers in Canaan, not in Egypt.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Genesis 47 through visual teaching on Joseph&rsquo;s presentation of his family before Pharaoh, the dignified scene of the aged patriarch blessing the king and speaking of his years of sojourning, the remarkable administration of the famine by which Joseph preserves the life of nations, and the closing chapter of Israel&rsquo;s settling in Goshen and Jacob&rsquo;s last request to be buried with his fathers in the land of promise.`,
+  calloutTitle: `The Providence That Preserves a People`,
+  calloutBody: `Genesis 47 holds together the grand and the tender, the political and the personal. It shows the shrewd stewardship of Joseph that preserves life through disaster, and the quiet faith of Jacob whose hope reaches beyond Egypt to the land of promise. The famine that drives the nations to the brink of ruin becomes, in the wisdom of God, the means by which Israel is brought to a place of safety and abundance in Goshen, where the covenant seed begins to swell into the great nation that God had promised to Abraham long before.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The Book of Genesis, Chapter 47
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            Joseph presents five of his brothers and then his father Jacob to Pharaoh, who grants them the land of Goshen, and Jacob blesses Pharaoh. As the famine intensifies, Joseph administers Egypt, gathering money, livestock, and finally the land and people themselves in exchange for grain, instituting a one-fifth tax to Pharaoh. Israel settles and multiplies in Goshen, and Jacob, near death, makes Joseph swear to bury him with his fathers in Canaan, not in Egypt.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Genesis 47 through visual teaching on Joseph&rsquo;s presentation of his family before Pharaoh, the dignified scene of the aged patriarch blessing the king and speaking of his years of sojourning, the remarkable administration of the famine by which Joseph preserves the life of nations, and the closing chapter of Israel&rsquo;s settling in Goshen and Jacob&rsquo;s last request to be buried with his fathers in the land of promise.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Providence That Preserves a People</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Genesis 47 holds together the grand and the tender, the political and the personal. It shows the shrewd stewardship of Joseph that preserves life through disaster, and the quiet faith of Jacob whose hope reaches beyond Egypt to the land of promise. The famine that drives the nations to the brink of ruin becomes, in the wisdom of God, the means by which Israel is brought to a place of safety and abundance in Goshen, where the covenant seed begins to swell into the great nation that God had promised to Abraham long before.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

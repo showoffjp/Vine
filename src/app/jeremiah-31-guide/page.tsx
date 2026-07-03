@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#0D9488";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -17,17 +9,9 @@ const TABS = [
   "The Permanence of God's Promise",
   "Application",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Jeremiah 31",
@@ -115,95 +99,20 @@ const videoItems = [
   { videoId: "Q0oIoEN4OGE", title: "The New Covenant and the Heart of God - Jeremiah 31:31-34" },
 ];
 
-export default function Jeremiah31GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#0D9488",
+  badge: `Old Testament Study`,
+  title: `Jeremiah 31 &mdash; The New Covenant`,
+  intro: `One of the most hope-filled chapters in the Old Testament &mdash; God promises to gather his exiled people with everlasting love, comforts Rachel&rsquo;s weeping with the promise of return, and declares the New Covenant: &ldquo;I will put my law within them, and I will write it on their hearts&rdquo; &mdash; sins remembered no more.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Jeremiah 31 through these video teachings on the return from exile, Rachel weeping, the New Covenant, and the permanence of God&rsquo;s promise.`,
+  calloutTitle: `I Will Write It on Their Hearts`,
+  calloutBody: `Jeremiah 31 is the Old Testament&rsquo;s greatest declaration of a future that God alone can bring about &mdash; a gathering of exiles, a comforting of mourners, a covenant written not on stone but on hearts, a forgiveness so complete that sin is remembered no more. In Jesus Christ, this new covenant has been inaugurated through his blood. The church that lives in him lives already in the age of hearts transformed, direct knowledge of God, and permanent forgiveness &mdash; anchored by a promise as fixed as the sun and moon that rise each day over a world God has not abandoned.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Jeremiah 31 &mdash; The New Covenant
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            One of the most hope-filled chapters in the Old Testament &mdash; God promises to gather his exiled people with everlasting love, comforts Rachel&rsquo;s weeping with the promise of return, and declares the New Covenant: &ldquo;I will put my law within them, and I will write it on their hearts&rdquo; &mdash; sins remembered no more.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && activeTab !== "Videos" && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Jeremiah 31 through these video teachings on the return from exile, Rachel weeping, the New Covenant, and the permanence of God&rsquo;s promise.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>I Will Write It on Their Hearts</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Jeremiah 31 is the Old Testament&rsquo;s greatest declaration of a future that God alone can bring about &mdash; a gathering of exiles, a comforting of mourners, a covenant written not on stone but on hearts, a forgiveness so complete that sin is remembered no more. In Jesus Christ, this new covenant has been inaugurated through his blood. The church that lives in him lives already in the age of hearts transformed, direct knowledge of God, and permanent forgiveness &mdash; anchored by a promise as fixed as the sun and moon that rise each day over a world God has not abandoned.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

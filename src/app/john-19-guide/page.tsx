@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#E11D48";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "The Crucifixion",
   "It Is Finished",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of John 19",
@@ -90,95 +74,20 @@ const videoItems = [
   { videoId: "Tz6bQm4Vw0N", title: "It Is Finished - Tetelestai and the Lamb of God" },
 ];
 
-export default function John19GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#E11D48",
+  badge: `New Testament Study`,
+  title: `The Gospel of John, Chapter 19`,
+  intro: `Pilate presents the scourged and thorn-crowned Jesus &mdash; &ldquo;Behold the man!&rdquo; &mdash; then yields to the crowd. Jesus is crucified at Golgotha as King of the Jews, entrusts his mother to the beloved disciple, cries &ldquo;It is finished,&rdquo; and is buried in a garden tomb, every detail fulfilling Scripture.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of John 19 through visual teaching on the trial before Pilate and &ldquo;Behold the man,&rdquo; the crucifixion at Golgotha and the title &ldquo;King of the Jews,&rdquo; the word from the cross to his mother, and the cry &ldquo;It is finished&rdquo; that announces the completed work of the Lamb of God.`,
+  calloutTitle: `A King Reigning from the Cross`,
+  calloutBody: `John 19 presents the crucifixion not as the defeat of Jesus but as the throne of his glory. Every detail &mdash; the trilingual title, the seamless robe, the unbroken bones, the pierced side, the garden tomb &mdash; is woven into the fabric of Scripture, declaring that nothing here is accident. The cry &ldquo;It is finished&rdquo; is the shout of completion, the finishing of the work the Father gave the Son, the redemption of the world accomplished in the death of the Lamb of God.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The Gospel of John, Chapter 19
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            Pilate presents the scourged and thorn-crowned Jesus &mdash; &ldquo;Behold the man!&rdquo; &mdash; then yields to the crowd. Jesus is crucified at Golgotha as King of the Jews, entrusts his mother to the beloved disciple, cries &ldquo;It is finished,&rdquo; and is buried in a garden tomb, every detail fulfilling Scripture.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of John 19 through visual teaching on the trial before Pilate and &ldquo;Behold the man,&rdquo; the crucifixion at Golgotha and the title &ldquo;King of the Jews,&rdquo; the word from the cross to his mother, and the cry &ldquo;It is finished&rdquo; that announces the completed work of the Lamb of God.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{item.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A King Reigning from the Cross</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            John 19 presents the crucifixion not as the defeat of Jesus but as the throne of his glory. Every detail &mdash; the trilingual title, the seamless robe, the unbroken bones, the pierced side, the garden tomb &mdash; is woven into the fabric of Scripture, declaring that nothing here is accident. The cry &ldquo;It is finished&rdquo; is the shout of completion, the finishing of the work the Father gave the Son, the redemption of the world accomplished in the death of the Lamb of God.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

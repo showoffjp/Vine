@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#6B4FBB";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "The Damascus Road",
   "Almost Persuaded",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Acts 26",
@@ -90,95 +74,20 @@ const videoItems = [
   { videoId: "Ud2fKw6Bp4L", title: "Almost Persuaded - The Gospel Before King Agrippa" },
 ];
 
-export default function Acts26GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#6B4FBB",
+  badge: `New Testament Study`,
+  title: `The Acts of the Apostles, Chapter 26`,
+  intro: `Paul makes his great defense before King Agrippa and Festus &mdash; the fullest of his conversion accounts in Acts. He recounts his life as a Pharisee and persecutor, his Damascus road encounter and commission to the Gentiles, and his obedient ministry of repentance, until Festus cries, &ldquo;You are out of your mind, Paul!&rdquo; and Agrippa asks, &ldquo;In a short time would you persuade me to be a Christian?&rdquo;`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Acts 26 through visual teaching on Paul&rsquo;s defense before Agrippa, his life as a Pharisee and persecutor transformed on the Damascus road, the risen Christ&rsquo;s commission to open the eyes of the Gentiles, and the courtroom that became a pulpit when a prisoner in chains pleaded that all who heard him might become such as he is.`,
+  calloutTitle: `The Gospel on Trial`,
+  calloutBody: `In Acts 26 the gospel stands on trial before the powers of the world, and the prisoner becomes the true judge of his judges. Paul stands in chains, yet he is the freest man in the room, pleading not for himself but for the souls of those who hear him. His longing &mdash; that all who hear him this day might become such as he is, except for these chains &mdash; turns a courtroom into a pulpit and reveals the heart of a man wholly captured by the risen Christ who met him on the Damascus road.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The Acts of the Apostles, Chapter 26
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            Paul makes his great defense before King Agrippa and Festus &mdash; the fullest of his conversion accounts in Acts. He recounts his life as a Pharisee and persecutor, his Damascus road encounter and commission to the Gentiles, and his obedient ministry of repentance, until Festus cries, &ldquo;You are out of your mind, Paul!&rdquo; and Agrippa asks, &ldquo;In a short time would you persuade me to be a Christian?&rdquo;
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Acts 26 through visual teaching on Paul&rsquo;s defense before Agrippa, his life as a Pharisee and persecutor transformed on the Damascus road, the risen Christ&rsquo;s commission to open the eyes of the Gentiles, and the courtroom that became a pulpit when a prisoner in chains pleaded that all who heard him might become such as he is.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{item.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>The Gospel on Trial</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            In Acts 26 the gospel stands on trial before the powers of the world, and the prisoner becomes the true judge of his judges. Paul stands in chains, yet he is the freest man in the room, pleading not for himself but for the souls of those who hear him. His longing &mdash; that all who hear him this day might become such as he is, except for these chains &mdash; turns a courtroom into a pulpit and reveals the heart of a man wholly captured by the risen Christ who met him on the Damascus road.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3B82F6";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -17,17 +9,9 @@ const TABS = [
   "The Covenant Ceremony",
   "The Promise of the Land",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Genesis 15",
@@ -109,95 +93,20 @@ const videoItems = [
   { videoId: "Bq3nNhF5dKw", title: "Justified by Faith - Genesis 15:6 and the Gospel" },
 ];
 
-export default function Genesis15GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3B82F6",
+  badge: `Old Testament Study`,
+  title: `Genesis 15 Chapter Guide`,
+  intro: `God appears to Abram in a vision as shield and great reward, takes him outside to count the stars, credits his faith as righteousness, and seals the covenant in darkness &mdash; passing alone between the pieces as a smoking firepot and a flaming torch while Abram sleeps, binding himself by oath to give the Promised Land to Abram&rsquo;s descendants.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Genesis 15 through these video teachings on God&rsquo;s covenant with Abram, the stars and the smoking firepot, the meaning of faith credited as righteousness, and the boundaries of the Promised Land.`,
+  calloutTitle: `He Believed God, and It Was Credited to Him as Righteousness`,
+  calloutBody: `Genesis 15 is the covenant charter of biblical faith: God as shield and reward, a night under uncountable stars, faith credited as righteousness before circumcision and before the Law, and a covenant ceremony in which God alone passes between the pieces &mdash; staking himself on the promise so that not even human failure can void what he has sworn. The smoking firepot and the flaming torch cast their light all the way to the cross, where the promise finds its ultimate fulfillment in the one who is both the offspring of Abraham and the God who swore in the darkness.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Genesis 15 Chapter Guide
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            God appears to Abram in a vision as shield and great reward, takes him outside to count the stars, credits his faith as righteousness, and seals the covenant in darkness &mdash; passing alone between the pieces as a smoking firepot and a flaming torch while Abram sleeps, binding himself by oath to give the Promised Land to Abram&rsquo;s descendants.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && activeTab !== "Videos" && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Genesis 15 through these video teachings on God&rsquo;s covenant with Abram, the stars and the smoking firepot, the meaning of faith credited as righteousness, and the boundaries of the Promised Land.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>He Believed God, and It Was Credited to Him as Righteousness</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Genesis 15 is the covenant charter of biblical faith: God as shield and reward, a night under uncountable stars, faith credited as righteousness before circumcision and before the Law, and a covenant ceremony in which God alone passes between the pieces &mdash; staking himself on the promise so that not even human failure can void what he has sworn. The smoking firepot and the flaming torch cast their light all the way to the cross, where the promise finds its ultimate fulfillment in the one who is both the offspring of Abraham and the God who swore in the darkness.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

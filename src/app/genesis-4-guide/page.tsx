@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#E11D48";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "The First Murder",
   "After the Fall",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Genesis 4: Overview",
@@ -86,117 +70,20 @@ const videoItems = [
   { videoId: "T9bqCcZPfFk", title: "The Mark of Cain and the Grace of God" },
 ];
 
-export default function Genesis4GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#E11D48",
+  badge: `Old Testament Study`,
+  title: `Genesis 4: Cain and Abel`,
+  intro: `The first siblings, the first act of worship, the first murder, the mark of God&rsquo;s protection, and the birth of human civilization &mdash; Genesis 4 presses into the deepest questions of sin, grace, justice, and the cry of innocent blood from the ground.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your understanding of Genesis 4 &mdash; Cain and Abel, the nature of acceptable worship, the anatomy of sin, and the mark of God&rsquo;s mercy &mdash; through these video resources.`,
+  calloutTitle: `Am I My Brother&rsquo;s Keeper?`,
+  calloutBody: `The answer Scripture gives to Cain&rsquo;s dismissive question is a resounding yes. Abel&rsquo;s blood speaks from the ground; Jesus&rsquo; blood speaks a better word. Where Cain refused to rule over sin and descended into murder, Christ absorbed the full weight of human violence to inaugurate a community defined not by Lamech&rsquo;s seventy-sevenfold revenge but by seventy times seven forgiveness. Genesis 4 is not just ancient history &mdash; it is the anatomy of every human heart that has refused God&rsquo;s warning and let sin master it, and the beginning of the long story of the God who pursues even the exile with mercy.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Genesis 4: Cain and Abel
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            The first siblings, the first act of worship, the first murder, the mark of God&rsquo;s protection, and the birth of human civilization &mdash; Genesis 4 presses into the deepest questions of sin, grace, justice, and the cry of innocent blood from the ground.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your understanding of Genesis 4 &mdash; Cain and Abel, the nature of acceptable worship, the anatomy of sin, and the mark of God&rsquo;s mercy &mdash; through these video resources.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Am I My Brother&rsquo;s Keeper?</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            The answer Scripture gives to Cain&rsquo;s dismissive question is a resounding yes. Abel&rsquo;s blood speaks from the ground; Jesus&rsquo; blood speaks a better word. Where Cain refused to rule over sin and descended into murder, Christ absorbed the full weight of human violence to inaugurate a community defined not by Lamech&rsquo;s seventy-sevenfold revenge but by seventy times seven forgiveness. Genesis 4 is not just ancient history &mdash; it is the anatomy of every human heart that has refused God&rsquo;s warning and let sin master it, and the beginning of the long story of the God who pursues even the exile with mercy.
-          </p>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Key New Testament Connections</h3>
-          <ul style={{ color: MUTED, lineHeight: 2, margin: 0, paddingLeft: "1.5rem" }}>
-            <li><strong style={{ color: TEXT }}>Hebrews 11:4</strong> &mdash; Abel offered &ldquo;by faith&rdquo; a more acceptable sacrifice than Cain; through his faith he still speaks even though he is dead.</li>
-            <li><strong style={{ color: TEXT }}>1 John 3:11&ndash;12</strong> &mdash; We should love one another and not be like Cain, who was of the evil one and murdered his brother because Cain&rsquo;s own deeds were evil and his brother&rsquo;s were righteous.</li>
-            <li><strong style={{ color: TEXT }}>Jude 11</strong> &mdash; &ldquo;Woe to them! For they walked in the way of Cain&rdquo; &mdash; the archetype of faithless, violent religion.</li>
-            <li><strong style={{ color: TEXT }}>Hebrews 12:24</strong> &mdash; Jesus&rsquo; sprinkled blood speaks a better word than the blood of Abel, whose cry was for justice; Jesus&rsquo; cry is for mercy.</li>
-            <li><strong style={{ color: TEXT }}>Matthew 18:22</strong> &mdash; Jesus&rsquo; command to forgive &ldquo;seventy-seven times&rdquo; (or seventy times seven) deliberately reverses Lamech&rsquo;s boast of seventy-sevenfold vengeance.</li>
-          </ul>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Study Questions for Reflection</h3>
-          <ol style={{ color: MUTED, lineHeight: 2, margin: 0, paddingLeft: "1.5rem" }}>
-            <li>What does it reveal about true worship that God had regard for Abel and his offering but not Cain and his? What might Cain have done differently, and what might that mean for our own approach to God?</li>
-            <li>God warns Cain that &ldquo;sin is crouching at the door&rdquo; and that he must rule over it. What does this image tell us about the nature of temptation and the possibility of obedience? How does this tension between crouching sin and commanded mastery relate to Paul&rsquo;s teaching in Romans 6?</li>
-            <li>The mark of Cain is a mark of protection, not condemnation. What does this tell us about how God holds together justice and mercy? How does it foreshadow the gospel?</li>
-            <li>Cain&rsquo;s line produces music, agriculture, and metallurgy &mdash; the foundations of civilization. What does it mean that cultural achievement can emerge from a line that begins in murder? How does this shape a Christian theology of culture and common grace?</li>
-            <li>The chapter ends with people calling on the name of the Lord. After everything that has happened in this chapter, why is this small verse so significant? What does it mean for us that worship emerged even from this context of exile and violence?</li>
-          </ol>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#D97706";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "Three Heavenly Visitors",
   "Sarah Laughs",
   "Abraham Intercedes",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Genesis 18: The Lord Visits Abraham",
@@ -87,135 +71,20 @@ const videoItems = [
   { videoId: "HGbCL-8f-Hg", title: "Is Anything Too Hard for God? - Genesis 18 Teaching" },
 ];
 
-export default function Genesis18GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#D97706",
+  badge: `Old Testament Study`,
+  title: `Genesis 18`,
+  intro: `Three heavenly visitors appear to Abraham at Mamre in the heat of the day. The promise of a son is renewed with a timetable. Sarah overhears and laughs. And then Abraham, standing before the LORD, intercedes with breathtaking boldness for the city of Sodom &mdash; appealing to the justice of the Judge of all the earth.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Genesis 18 with video teaching on Abraham and the three visitors, the promise of Isaac, Sarah&rsquo;s laughter, and Abraham&rsquo;s bold intercession before the Lord.`,
+  calloutTitle: `Key Verse`,
+  calloutBody: `&ldquo;Is anything too hard for the LORD? At the appointed time I will return to you, about this time next year, and Sarah shall have a son.&rdquo;`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Genesis 18
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            Three heavenly visitors appear to Abraham at Mamre in the heat of the day. The promise of a son is renewed with a timetable. Sarah overhears and laughs. And then Abraham, standing before the LORD, intercedes with breathtaking boldness for the city of Sodom &mdash; appealing to the justice of the Judge of all the earth.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem", marginBottom: "2.5rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: 13, textTransform: "uppercase", letterSpacing: 1 }}>Key Verse</h3>
-          <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 0.5rem", fontSize: "1.1rem", fontStyle: "italic" }}>
-            &ldquo;Is anything too hard for the LORD? At the appointed time I will return to you, about this time next year, and Sarah shall have a son.&rdquo;
-          </p>
-          <p style={{ color: ACCENT, fontSize: 13, fontWeight: 700, margin: 0 }}>Genesis 18:14</p>
-        </div>
-
-        <div style={{ marginBottom: "2.5rem" }}>
-          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, margin: "0 0 1rem" }}>Video Teaching</h2>
-          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 1.5rem" }}>
-            Deepen your study of Genesis 18 with video teaching on Abraham and the three visitors, the promise of Isaac, Sarah&rsquo;s laughter, and Abraham&rsquo;s bold intercession before the Lord.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-            {videoItems.map((v) => (
-              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: "2.5rem" }}>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Theological Themes</h4>
-            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
-              <li>Divine hospitality and incarnation</li>
-              <li>Promise and human doubt</li>
-              <li>The omnipotence of God</li>
-              <li>Intercessory prayer</li>
-              <li>God as just judge</li>
-              <li>Friendship with God</li>
-            </ul>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>New Testament Connections</h4>
-            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
-              <li dangerouslySetInnerHTML={{ __html: "Hebrews 13:2 &mdash; entertaining angels" }} />
-              <li dangerouslySetInnerHTML={{ __html: "Romans 4:19&ndash;21 &mdash; Abraham&rsquo;s faith" }} />
-              <li dangerouslySetInnerHTML={{ __html: "Hebrews 7:25 &mdash; Christ&rsquo;s intercession" }} />
-              <li dangerouslySetInnerHTML={{ __html: "Luke 1:37 &mdash; nothing impossible with God" }} />
-              <li dangerouslySetInnerHTML={{ __html: "James 2:23 &mdash; friend of God" }} />
-            </ul>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Key Figures</h4>
-            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
-              <li>Abraham &mdash; patriarch and intercessor</li>
-              <li>Sarah &mdash; the laughing mother-to-be</li>
-              <li>The LORD &mdash; present in the three visitors</li>
-              <li>Lot &mdash; the one Abraham prays to save</li>
-            </ul>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "1rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Shall Not the Judge of All the Earth Do Right?</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Genesis 18 gives the people of God a model for prayer that is bold without being presumptuous, urgent without being faithless. Abraham does not avoid the hard question of judgment; he runs toward it, leans into God&rsquo;s own character, and pleads from it. The same Judge who promised Sarah a son is the Judge whose justice and mercy are held together perfectly &mdash; and who calls his people to stand in the gap.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

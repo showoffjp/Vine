@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#6B4FBB";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "Children and the Rich Man",
   "Rewards of the Kingdom",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Matthew 19",
@@ -90,95 +74,20 @@ const videoItems = [
   { videoId: "Lf2bYw5Vs9K", title: "First and Last - The Economy of Grace and Reward" },
 ];
 
-export default function Matthew19GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#6B4FBB",
+  badge: `New Testament Study`,
+  title: `The Gospel of Matthew, Chapter 19`,
+  intro: `Leaving Galilee for Judea, Jesus answers the Pharisees on marriage and divorce by appealing to creation, honors singleness for the kingdom&rsquo;s sake, blesses the little children, calls the rich young man to sell all and follow him, and promises a hundredfold reward to those who have left everything &mdash; for &ldquo;many who are first will be last, and the last first.&rdquo;`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Matthew 19 through visual teaching on the Creator&rsquo;s design for marriage and the call to singleness for the kingdom, the blessing of the children and the sorrowful turning of the rich young man, and the promise of a hundredfold reward where the first are last and the last first.`,
+  calloutTitle: `Receiving the Kingdom`,
+  calloutBody: `Matthew 19 measures the kingdom of heaven against the assumptions of the world. Where the world bargains over marriage, overlooks children, clings to wealth, and counts on reward by merit, the kingdom honors the lifelong covenant, welcomes the little ones, calls the rich to open-handed surrender, and pours out a reward shaped not by human bookkeeping but by the boundless generosity of God. Through every encounter the same summons sounds &mdash; receive the kingdom as a gift, and follow the King wherever he leads, for many who are first will be last, and the last first.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The Gospel of Matthew, Chapter 19
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            Leaving Galilee for Judea, Jesus answers the Pharisees on marriage and divorce by appealing to creation, honors singleness for the kingdom&rsquo;s sake, blesses the little children, calls the rich young man to sell all and follow him, and promises a hundredfold reward to those who have left everything &mdash; for &ldquo;many who are first will be last, and the last first.&rdquo;
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Matthew 19 through visual teaching on the Creator&rsquo;s design for marriage and the call to singleness for the kingdom, the blessing of the children and the sorrowful turning of the rich young man, and the promise of a hundredfold reward where the first are last and the last first.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{item.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Receiving the Kingdom</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Matthew 19 measures the kingdom of heaven against the assumptions of the world. Where the world bargains over marriage, overlooks children, clings to wealth, and counts on reward by merit, the kingdom honors the lifelong covenant, welcomes the little ones, calls the rich to open-handed surrender, and pours out a reward shaped not by human bookkeeping but by the boundless generosity of God. Through every encounter the same summons sounds &mdash; receive the kingdom as a gift, and follow the King wherever he leads, for many who are first will be last, and the last first.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

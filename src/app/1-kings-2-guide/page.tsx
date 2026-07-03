@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#D97706";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "David's Charge to Solomon",
   "Solomon's Early Reign",
   "Justice and Kingship",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of 1 Kings 2",
@@ -88,142 +72,18 @@ const videoItems = [
   { videoId: "7K7tGlvHzBk", title: "Solomon Establishes His Kingdom - Justice in 1 Kings 2" },
 ];
 
-export default function Kings2GuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  const [loaded, setLoaded] = useState(false);
+const data: SectionGuideData = {
+  accent: "#D97706",
+  badge: `Old Testament &mdash; 1 Kings`,
+  title: `1 Kings 2: David&rsquo;s Final Charge to Solomon`,
+  intro: `David&rsquo;s deathbed charge to Solomon &mdash; &ldquo;Be strong and show yourself a man, keep the charge of the LORD your God&rdquo; &mdash; and Solomon&rsquo;s establishment of his kingdom through covenant justice, fulfilling the law of Moses and the word of the prophets.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  calloutTitle: `Keep the Charge of the LORD Your God`,
+  calloutBody: `David&rsquo;s dying words to Solomon are not a political strategy but a covenant commission: walk in God&rsquo;s ways, keep his statutes and commandments as written in the Law of Moses, and you will prosper. The rest of 1 Kings is the story of how that charge was honored and broken &mdash; and what that cost the nation.`,
+};
 
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
-
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament &mdash; 1 Kings
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            1 Kings 2: David&rsquo;s Final Charge to Solomon
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            David&rsquo;s deathbed charge to Solomon &mdash; &ldquo;Be strong and show yourself a man, keep the charge of the LORD your God&rdquo; &mdash; and Solomon&rsquo;s establishment of his kingdom through covenant justice, fulfilling the law of Moses and the word of the prophets.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-          {videoItems.map((v) => (
-            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-              <VideoEmbed videoId={v.videoId} title={v.title} />
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>
-            Keep the Charge of the LORD Your God
-          </h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 1rem" }}>
-            David&rsquo;s dying words to Solomon are not a political strategy but a covenant commission: walk in God&rsquo;s ways, keep his statutes and commandments as written in the Law of Moses, and you will prosper. The rest of 1 Kings is the story of how that charge was honored and broken &mdash; and what that cost the nation.
-          </p>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            The four judgments of chapter 2 are not brutal realpolitik but the establishing of a kingdom of justice &mdash; clearing from the foundation every corruption that would eventually undermine it. In this, Solomon points ahead to a greater King who will one day establish a kingdom on a foundation of perfect righteousness, where every wrong is righted and every covenant promise fully kept.
-          </p>
-        </div>
-
-        <div style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Key Verse</div>
-            <p style={{ color: TEXT, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
-              &ldquo;Be strong, and show yourself a man, and keep the charge of the LORD your God, walking in his ways and keeping his statutes&hellip; that you may prosper in all that you do and wherever you turn.&rdquo;
-            </p>
-            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>1 Kings 2:2&ndash;3</p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>The Davidic Covenant</div>
-            <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
-              The promise is conditional: &ldquo;if your sons pay close attention to their way, to walk before me in faithfulness with all their heart and with all their soul, you shall not lack a man on the throne of Israel.&rdquo;
-            </p>
-            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>1 Kings 2:4</p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Kingdom Established</div>
-            <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
-              After David&rsquo;s death and Solomon&rsquo;s four judgments, the chapter closes: &ldquo;So the kingdom was established in the hand of Solomon.&rdquo; Justice is the foundation on which the kingdom rests.
-            </p>
-            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>1 Kings 2:46</p>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Cross-References and Background</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Deut 17:14&ndash;20</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The law of the king &mdash; must write out and read the law, not acquiring too many horses, wives, or wealth; the structural background for David&rsquo;s charge.</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>1 Sam 2:31&ndash;33</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The word against the house of Eli, fulfilled when Abiathar is exiled to Anathoth (1 Kgs 2:27), ending the priestly line of Ithamar.</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>2 Sam 3:27&ndash;30</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>Joab&rsquo;s murder of Abner at the gate of Hebron &mdash; the first of the innocent blood that David named and Solomon was charged to avenge.</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Num 35:33</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>Blood pollutes the land; the altar cannot shelter a deliberate murderer &mdash; the legal principle behind Joab&rsquo;s execution at the horns of the altar.</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Josh 1:6&ndash;7</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The LORD&rsquo;s charge to Joshua echoes David&rsquo;s charge to Solomon: &ldquo;Be strong and courageous&hellip; be careful to do according to all the law.&rdquo;</span>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

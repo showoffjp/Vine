@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#D97706";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "Entering the Holy of Holies",
   "Fulfilled in Christ",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Leviticus 16: Overview",
@@ -86,134 +70,20 @@ const videoItems = [
   { videoId: "PQGe5lsB1xs", title: "How Leviticus Points to Jesus - Hebrews 9-10" },
 ];
 
-export default function Leviticus16GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#D97706",
+  badge: `Old Testament Study`,
+  title: `Leviticus 16: The Day of Atonement`,
+  intro: `The most solemn day in Israel&rsquo;s calendar &mdash; the high priest entering the Most Holy Place alone, the two goats bearing the nation&rsquo;s sin, and the once-for-all sacrifice of Christ that renders every prior Yom Kippur both real and radically incomplete.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Explore the Day of Atonement in Leviticus 16 &mdash; the two goats, the entry into the Most Holy Place, and the complete fulfillment of Yom Kippur in the sacrifice of Jesus Christ &mdash; through these teaching videos.`,
+  calloutTitle: `Once for All`,
+  calloutBody: `The Day of Atonement was Israel&rsquo;s holiest day, a &ldquo;statute forever&rdquo; in which the nation came before God not on the basis of its own merit but on the basis of the blood of the sacrifice God had prescribed. Its very annual repetition confessed both its necessity and its incompleteness. Jesus entered not an earthly Most Holy Place but heaven itself, not with the blood of goats but with his own blood, securing not a year&rsquo;s reprieve but an eternal redemption. The veil is torn. The way is open. Those who trust in Christ draw near to God with full assurance &mdash; not because they bring something worthy, but because the once-for-all High Priest has gone before them and his blood speaks mercy without end.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Leviticus 16: The Day of Atonement
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            The most solemn day in Israel&rsquo;s calendar &mdash; the high priest entering the Most Holy Place alone, the two goats bearing the nation&rsquo;s sin, and the once-for-all sacrifice of Christ that renders every prior Yom Kippur both real and radically incomplete.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Explore the Day of Atonement in Leviticus 16 &mdash; the two goats, the entry into the Most Holy Place, and the complete fulfillment of Yom Kippur in the sacrifice of Jesus Christ &mdash; through these teaching videos.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((v) => (
-                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed videoId={v.videoId} title={v.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Once for All</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            The Day of Atonement was Israel&rsquo;s holiest day, a &ldquo;statute forever&rdquo; in which the nation came before God not on the basis of its own merit but on the basis of the blood of the sacrifice God had prescribed. Its very annual repetition confessed both its necessity and its incompleteness. Jesus entered not an earthly Most Holy Place but heaven itself, not with the blood of goats but with his own blood, securing not a year&rsquo;s reprieve but an eternal redemption. The veil is torn. The way is open. Those who trust in Christ draw near to God with full assurance &mdash; not because they bring something worthy, but because the once-for-all High Priest has gone before them and his blood speaks mercy without end.
-          </p>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Key New Testament Connections</h3>
-          <ul style={{ color: MUTED, lineHeight: 2, margin: 0, paddingLeft: "1.5rem" }}>
-            <li><strong style={{ color: TEXT }}>Hebrews 9:1&ndash;15</strong> &mdash; Christ entered the greater and more perfect tabernacle not made with hands, securing eternal redemption by his own blood rather than that of goats and calves.</li>
-            <li><strong style={{ color: TEXT }}>Hebrews 9:24&ndash;28</strong> &mdash; Christ appeared once for all at the end of the ages to put away sin by the sacrifice of himself; he will appear a second time not to deal with sin but to save those eagerly waiting for him.</li>
-            <li><strong style={{ color: TEXT }}>Hebrews 10:1&ndash;14</strong> &mdash; The law has only a shadow of the good things to come; the repeated annual sacrifices could not make the worshiper perfect, but by a single offering Christ has perfected for all time those who are being sanctified.</li>
-            <li><strong style={{ color: TEXT }}>Isaiah 53:4&ndash;6</strong> &mdash; The Servant of the Lord bears our griefs, carries our sorrows, is wounded for our transgressions &mdash; the scapegoat typology applied to the Messiah.</li>
-            <li><strong style={{ color: TEXT }}>Matthew 27:51</strong> &mdash; At the moment of Jesus&rsquo; death the curtain of the temple was torn in two from top to bottom &mdash; the veil of the Most Holy Place removed, the way to God opened for all.</li>
-            <li><strong style={{ color: TEXT }}>Hebrews 10:19&ndash;22</strong> &mdash; We have confidence to enter the holy places by the blood of Jesus, through the new and living way he opened; therefore draw near with full assurance of faith.</li>
-          </ul>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>The Structure of the Day of Atonement Ritual</h3>
-          <ol style={{ color: MUTED, lineHeight: 2.1, margin: 0, paddingLeft: "1.5rem" }}>
-            <li>Aaron bathes and puts on plain white linen garments (v.4) &mdash; not the ornate priestly robe but humble white.</li>
-            <li>A bull is brought as a sin offering for Aaron himself and his household (v.6, 11).</li>
-            <li>Two goats are brought for the congregation; lots are cast over them to determine which is for the LORD and which for the scapegoat (vv.7&ndash;10).</li>
-            <li>Aaron slaughters the bull and takes a censer of burning coals and sweet incense behind the veil; the incense cloud covers the mercy seat (vv.12&ndash;13).</li>
-            <li>Aaron sprinkles the bull&rsquo;s blood on the mercy seat once and before it seven times (v.14).</li>
-            <li>The goat for the LORD is killed; its blood is brought behind the veil and sprinkled similarly (v.15).</li>
-            <li>Blood is applied to the altar to make atonement for the sanctuary (vv.18&ndash;19).</li>
-            <li>Aaron lays both hands on the live goat, confesses all Israel&rsquo;s sins over it, and sends it into the wilderness (vv.20&ndash;22).</li>
-            <li>Aaron reenters, removes the linen garments, bathes, puts on regular priestly garments, and offers burnt offerings (vv.23&ndash;24).</li>
-            <li>The appointed man who led the scapegoat out washes and returns to camp (v.26); the remains of the bull and goat are burned outside the camp (v.27&ndash;28).</li>
-          </ol>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Study Questions for Reflection</h3>
-          <ol style={{ color: MUTED, lineHeight: 2, margin: 0, paddingLeft: "1.5rem" }}>
-            <li>The high priest had to offer a sacrifice for his own sins before he could represent the people. What does this reveal about the qualifications required to mediate between God and humanity, and how does Christ meet those qualifications in a way Aaron never could?</li>
-            <li>The two goats together portray two aspects of what atonement accomplishes: the penalty paid (first goat) and the sin removed (scapegoat). How does this dual picture help you understand what Jesus accomplished on the cross? Which aspect do you think about more often?</li>
-            <li>The Day of Atonement was a day of fasting and complete rest &mdash; no work permitted. What does it mean for us, as Christians, to &ldquo;rest&rdquo; in the atonement Christ has made rather than trying to earn our standing before God?</li>
-            <li>Hebrews says the annual repetition of the Day of Atonement was itself evidence that the sacrifices could not make the worshiper perfect. What are the &ldquo;sacrifices&rdquo; you find yourself returning to repeatedly in your own life &mdash; performances, religious rituals, moral efforts &mdash; that may be shadows rather than the substance?</li>
-            <li>The veil was torn at the moment of Jesus&rsquo; death. What does it mean practically that you now have direct, confident access to God through Christ? How should this change the way you pray, worship, and understand your standing before God?</li>
-          </ol>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

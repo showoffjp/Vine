@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#6B4FBB";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "Faith That Moves Mountains",
   "The Coin in the Fish",
   "Videos",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of Matthew 17",
@@ -90,95 +74,20 @@ const videoItems = [
   { videoId: "Cn4dRp0Tx7M", title: "The Coin in the Fish - Sonship, Freedom, and Grace" },
 ];
 
-export default function Matthew17GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#6B4FBB",
+  badge: `New Testament Study`,
+  title: `The Gospel of Matthew, Chapter 17`,
+  intro: `On a high mountain Jesus is transfigured in glory before Peter, James, and John, and the Father&rsquo;s voice commands, &ldquo;Listen to him&rdquo;; in the valley a boy the disciples could not heal is delivered, and Jesus teaches the power of faith like a mustard seed; he foretells his death a second time; and a coin found in a fish&rsquo;s mouth pays the temple tax &mdash; the chapter joins glory and the cross.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your study of Matthew 17 through visual teaching on the Transfiguration and the Father&rsquo;s command to listen to his beloved Son, the healing of the boy in the valley and the faith that moves mountains, and the quiet grace of the coin found in the fish&rsquo;s mouth.`,
+  calloutTitle: `Glory and the Cross`,
+  calloutBody: `Matthew 17 sets the radiant glory of the mountain beside the suffering of the valley and the shadow of the cross, and insists that they belong to one and the same Lord. The face that shone like the sun is the face that will be marred for our sake; the One the Father calls his beloved Son is the One who will be delivered into the hands of men. Through every scene the disciples are summoned to a single response &mdash; to listen to him, to trust a great God with even the smallest faith, and to follow the beloved Son from the mountain down into the valley and on toward Jerusalem.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            The Gospel of Matthew, Chapter 17
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            On a high mountain Jesus is transfigured in glory before Peter, James, and John, and the Father&rsquo;s voice commands, &ldquo;Listen to him&rdquo;; in the valley a boy the disciples could not heal is delivered, and Jesus teaches the power of faith like a mustard seed; he foretells his death a second time; and a coin found in a fish&rsquo;s mouth pays the temple tax &mdash; the chapter joins glory and the cross.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "Videos" && (
-          <section>
-            <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: "0 0 8px" }}>Video Teaching</h2>
-            <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.8, margin: "0 0 2rem" }}>
-              Deepen your study of Matthew 17 through visual teaching on the Transfiguration and the Father&rsquo;s command to listen to his beloved Son, the healing of the boy in the valley and the faith that moves mountains, and the quiet grace of the coin found in the fish&rsquo;s mouth.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {videoItems.map((item) => (
-                <div key={item.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <VideoEmbed key={item.videoId} videoId={item.videoId} title={item.title} />
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{item.title}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Glory and the Cross</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Matthew 17 sets the radiant glory of the mountain beside the suffering of the valley and the shadow of the cross, and insists that they belong to one and the same Lord. The face that shone like the sun is the face that will be marred for our sake; the One the Father calls his beloved Son is the One who will be delivered into the hands of men. Through every scene the disciples are summoned to a single response &mdash; to listen to him, to trust a great God with even the smallest faith, and to follow the beloved Son from the mountain down into the valley and on toward Jerusalem.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

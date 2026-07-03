@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3B82F6";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "The Genealogy",
   "The Virgin Birth",
   "Immanuel God With Us",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Matthew 1 &mdash; Overview",
@@ -85,159 +69,18 @@ const videoItems = [
   { videoId: "pPGPU7r8Yik", title: "Joseph&rsquo;s Dream and the Fulfillment of Prophecy" },
 ];
 
-export default function Matthew1GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3B82F6",
+  badge: `New Testament Study`,
+  title: `Matthew 1 &mdash; Genealogy, Virgin Birth &amp; Immanuel`,
+  intro: `The opening chapter of Matthew&rsquo;s Gospel announces Jesus as the Son of David and the Son of Abraham, traces the scarlet thread of grace through five unlikely women, narrates Joseph&rsquo;s dream and the virgin birth, and fulfills Isaiah&rsquo;s great prophecy: &ldquo;Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel&rdquo; &mdash; God with us.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  calloutTitle: `God With Us &mdash; The Promise of Immanuel`,
+  calloutBody: `Matthew 1 compresses the entire sweep of Israel&rsquo;s story &mdash; from Abraham&rsquo;s call to David&rsquo;s throne to the exile and beyond &mdash; into a single genealogy that ends at the manger. The God who spoke to the patriarchs, who sustained the line of David through centuries of uncertainty, who promised through Isaiah that he himself would come and be with his people, has kept every word. In Jesus, Immanuel, the covenant God of Israel has arrived &mdash; not merely near his people but among them, as one of them, to save them from their sins.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Matthew 1 &mdash; Genealogy, Virgin Birth &amp; Immanuel
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            The opening chapter of Matthew&rsquo;s Gospel announces Jesus as the Son of David and the Son of Abraham, traces the scarlet thread of grace through five unlikely women, narrates Joseph&rsquo;s dream and the virgin birth, and fulfills Isaiah&rsquo;s great prophecy: &ldquo;Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel&rdquo; &mdash; God with us.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-          {videoItems.map((v) => (
-            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-              <VideoEmbed videoId={v.videoId} title={v.title} />
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
-            </div>
-          ))}
-        </div>
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>God With Us &mdash; The Promise of Immanuel</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Matthew 1 compresses the entire sweep of Israel&rsquo;s story &mdash; from Abraham&rsquo;s call to David&rsquo;s throne to the exile and beyond &mdash; into a single genealogy that ends at the manger. The God who spoke to the patriarchs, who sustained the line of David through centuries of uncertainty, who promised through Isaiah that he himself would come and be with his people, has kept every word. In Jesus, Immanuel, the covenant God of Israel has arrived &mdash; not merely near his people but among them, as one of them, to save them from their sins.
-          </p>
-        </div>
-
-        <div style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
-            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>The Scarlet Thread</div>
-            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              From Tamar&rsquo;s risk to Rahab&rsquo;s faith, from Ruth&rsquo;s loyalty to Bathsheba&rsquo;s grief, from Mary&rsquo;s obedience to Joseph&rsquo;s trust &mdash; God weaves the scarlet thread of redemption through the most unexpected human stories.
-            </p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
-            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Son of David</div>
-            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              God promised David an eternal throne. Matthew traces every link in the chain from David to Jesus, showing that the Davidic promise, though it passed through exile, survived &mdash; and has arrived at its appointed King.
-            </p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
-            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Salvation from Sin</div>
-            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              The angel&rsquo;s word to Joseph names Jesus&rsquo; mission: &ldquo;he will save his people from their sins.&rdquo; Before a single parable is told or miracle performed, Matthew announces the deepest purpose of Christ&rsquo;s coming.
-            </p>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>The Five Women of the Genealogy</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>Tamar (Matthew 1:3)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Disguised herself as a prostitute to obtain from Judah the offspring he had unjustly withheld from her. Through this act of desperate courage, she became the mother of Perez &mdash; the branch through which the Messianic line would eventually run. Judah himself declared: &ldquo;She is more righteous than I&rdquo; (Genesis 38:26).</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>Rahab (Matthew 1:5)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>A Canaanite prostitute in Jericho who hid Israel&rsquo;s spies and confessed faith in the God of Israel: &ldquo;The Lord your God, he is God in the heavens above and on the earth beneath&rdquo; (Joshua 2:11). Her scarlet cord became a sign of salvation. She married into Israel and became the mother of Boaz.</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>Ruth (Matthew 1:5)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>A Moabite widow who pledged loyalty to her Israelite mother-in-law with words that have echoed through centuries: &ldquo;Where you go I will go, and where you lodge I will lodge. Your people shall be my people, and your God my God&rdquo; (Ruth 1:16). Her faithfulness was rewarded with a kinsman-redeemer, Boaz &mdash; and a place in the Messianic line.</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>Bathsheba &mdash; &ldquo;the wife of Uriah&rdquo; (Matthew 1:6)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Matthew deliberately refuses to name her, reminding the reader instead of her first husband Uriah, whom David had killed. The union between David and Bathsheba began in sin; their first child died under divine judgment. Yet from them came Solomon, and through Solomon the line continued. Grace operates through human failure without excusing it.</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>Mary (Matthew 1:16)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>The culminating figure, whose story the second half of the chapter tells. Like the women before her, she stands at a socially and morally precarious moment &mdash; pregnant before marriage, in a culture where this was deeply shameful. Unlike those before her, her situation is not the product of human failure but of divine initiative. She is the vessel through which God himself enters history.</p>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>Three Epochs &mdash; The Shape of Redemption History</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem" }}>
-              <div style={{ color: ACCENT, fontSize: 28, fontWeight: 800, marginBottom: 4 }}>14</div>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Abraham to David</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>From the patriarch of faith to the warrior-poet king. The era of promise maturing into covenant monarchy. God calling a people to himself and establishing them in the land.</p>
-            </div>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem" }}>
-              <div style={{ color: ACCENT, fontSize: 28, fontWeight: 800, marginBottom: 4 }}>14</div>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>David to the Exile</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>From the heights of Solomon&rsquo;s glory to the destruction of Jerusalem and the Babylonian deportation. The era of the kingdom&rsquo;s tragic unraveling through unfaithfulness.</p>
-            </div>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem" }}>
-              <div style={{ color: ACCENT, fontSize: 28, fontWeight: 800, marginBottom: 4 }}>14</div>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Exile to the Messiah</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>From the darkness of captivity to the dawning of the One who ends all exile. The era of patient waiting, and at its close the arrival of Immanuel &mdash; God with us.</p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

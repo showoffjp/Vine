@@ -1,13 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3B82F6";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
@@ -15,17 +7,9 @@ const TABS = [
   "The Angel and the Journey",
   "The Still Small Voice",
   "Application",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of 1 Kings 19",
@@ -99,90 +83,18 @@ const videoItems = [
   { videoId: "rjT_FrHQXFs", title: "Elijah and the Prophets &mdash; God&rsquo;s Power in 1 Kings" },
 ];
 
-export default function Kings19GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3B82F6",
+  badge: `Old Testament Study`,
+  title: `1 Kings 19 &mdash; The Still Small Voice`,
+  intro: `After the triumph of Carmel, Elijah collapses under a juniper tree and asks to die. In the wilderness, God meets him &mdash; not in wind, earthquake, or fire, but in a still small voice. A study of prophetic burnout, divine gentleness, and what it means to be recommissioned after you have come to the end of yourself.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  calloutTitle: `Video Teaching on 1 Kings 19`,
+  calloutBody: `First Kings 19 stands as one of Scripture&rsquo;s most compassionate passages. It refuses to sanitize the prophet&rsquo;s despair, refuses to rebuke it away, and refuses to leave him in it. Instead God tends him, questions him, reveals himself in a still small voice, and sends him back to work. Whatever wilderness you are in today, the God of Elijah is asking the same gentle question: &ldquo;What are you doing here?&rdquo; &mdash; and offering the same bread, the same water, and the same renewed commission.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Old Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            1 Kings 19 &mdash; The Still Small Voice
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            After the triumph of Carmel, Elijah collapses under a juniper tree and asks to die. In the wilderness, God meets him &mdash; not in wind, earthquake, or fire, but in a still small voice. A study of prophetic burnout, divine gentleness, and what it means to be recommissioned after you have come to the end of yourself.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              dangerouslySetInnerHTML={{ __html: t }}
-            />
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>Video Teaching on 1 Kings 19</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-            {videoItems.map((v) => (
-              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>Arise and Eat &mdash; the Journey Is Too Great</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            First Kings 19 stands as one of Scripture&rsquo;s most compassionate passages. It refuses to sanitize the prophet&rsquo;s despair, refuses to rebuke it away, and refuses to leave him in it. Instead God tends him, questions him, reveals himself in a still small voice, and sends him back to work. Whatever wilderness you are in today, the God of Elijah is asking the same gentle question: &ldquo;What are you doing here?&rdquo; &mdash; and offering the same bread, the same water, and the same renewed commission.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#0D9488";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "Letters Written on Hearts",
   "The Veil of Moses",
   "Spirit Gives Life",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Overview of 2 Corinthians 3",
@@ -88,142 +72,18 @@ const videoItems = [
   { videoId: "lFAIVWKz0tI", title: "Transformed from Glory to Glory - 2 Corinthians 3:18" },
 ];
 
-export default function Corinthians3GuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  const [loaded, setLoaded] = useState(false);
+const data: SectionGuideData = {
+  accent: "#0D9488",
+  badge: `New Testament &mdash; 2 Corinthians`,
+  title: `2 Corinthians 3: New Covenant, Spirit and Letter`,
+  intro: `The surpassing glory of the new covenant &mdash; letters of stone versus hearts of flesh, the letter that kills versus the Spirit that gives life, Moses&rsquo; fading glory versus the permanent glory of Christ, and the transformation of all believers from one degree of glory to another.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  calloutTitle: `Beholding the Glory of the Lord`,
+  calloutBody: `Second Corinthians 3 makes a staggering claim: every believer now stands where Moses once stood alone &mdash; unveiled before the glory of God &mdash; and is being changed by that encounter into the image of Christ. The veil that kept Israel from seeing the end of the old covenant has been removed by the Spirit for all who turn to the Lord.`,
+};
 
-  useEffect(() => setLoaded(true), []);
-  if (!loaded) return null;
-
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament &mdash; 2 Corinthians
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            2 Corinthians 3: New Covenant, Spirit and Letter
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            The surpassing glory of the new covenant &mdash; letters of stone versus hearts of flesh, the letter that kills versus the Spirit that gives life, Moses&rsquo; fading glory versus the permanent glory of Christ, and the transformation of all believers from one degree of glory to another.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-          {videoItems.map((v) => (
-            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-              <VideoEmbed videoId={v.videoId} title={v.title} />
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>
-            Beholding the Glory of the Lord
-          </h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: "0 0 1rem" }}>
-            Second Corinthians 3 makes a staggering claim: every believer now stands where Moses once stood alone &mdash; unveiled before the glory of God &mdash; and is being changed by that encounter into the image of Christ. The veil that kept Israel from seeing the end of the old covenant has been removed by the Spirit for all who turn to the Lord.
-          </p>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            The transformation Paul describes is not the fruit of greater effort but of greater beholding. The community of the new covenant is the living letter of Christ to the world, written not with ink but with the Spirit of the living God &mdash; not on stone but on human hearts.
-          </p>
-        </div>
-
-        <div style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Key Verse</div>
-            <p style={{ color: TEXT, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
-              &ldquo;And we all, with unveiled face, beholding the glory of the Lord, are being transformed into the same image from one degree of glory to another. For this comes from the Lord who is the Spirit.&rdquo;
-            </p>
-            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>2 Corinthians 3:18</p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Letter vs. Spirit</div>
-            <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
-              &ldquo;He has made us sufficient to be ministers of a new covenant, not of the letter but of the Spirit. For the letter kills, but the Spirit gives life.&rdquo;
-            </p>
-            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>2 Corinthians 3:6</p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Where the Spirit Is</div>
-            <p style={{ color: MUTED, lineHeight: 1.7, margin: 0, fontSize: "0.95rem" }}>
-              &ldquo;Now the Lord is the Spirit, and where the Spirit of the Lord is, there is freedom.&rdquo; The freedom of the new covenant is not from righteousness but freedom to live righteously from a transformed heart.
-            </p>
-            <p style={{ color: MUTED, fontSize: 12, margin: "8px 0 0", fontWeight: 600 }}>2 Corinthians 3:17</p>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.1rem" }}>Cross-References and Background</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Exod 34:29&ndash;35</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>Moses&rsquo; face shining after receiving the law; the veil he wore before the people &mdash; the direct scriptural background for Paul&rsquo;s veil meditation in vv.7&ndash;16.</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Jer 31:31&ndash;34</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The new covenant promise: God will write his law on hearts, not on stone. Paul applies this directly when he speaks of the Corinthians as a letter written on &ldquo;tablets of human hearts.&rdquo;</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Ezek 36:26&ndash;27</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>God promises a new heart, a heart of flesh replacing a heart of stone &mdash; the prophetic background for Paul&rsquo;s contrast between tablets of stone and tablets of human hearts (v.3).</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Rom 8:1&ndash;4</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The Spirit accomplishes what the law could not do in sinful flesh &mdash; the requirement of the law is fulfilled in those who walk according to the Spirit. Directly parallel to the letter/Spirit contrast here.</span>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ color: ACCENT, fontWeight: 700, fontSize: 13, minWidth: 120, flexShrink: 0 }}>Heb 10:19&ndash;22</span>
-              <span style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.6 }}>The confidence to enter the holy places &mdash; what Moses alone did at Sinai is now the privilege of all believers through the blood of Jesus, the same democratization of access that underlies Paul&rsquo;s &ldquo;we all.&rdquo;</span>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

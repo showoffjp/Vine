@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3a7d56";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "Healing at Bethesda",
   "The Son and the Father",
   "Witnesses to Jesus",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "John 5 &mdash; Overview",
@@ -85,160 +69,18 @@ const videoItems = [
   { videoId: "8oaYXCKQADo", title: "The Four Witnesses to Jesus &mdash; John 5:31&ndash;47" },
 ];
 
-export default function John5GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3a7d56",
+  badge: `New Testament Study`,
+  title: `John 5 &mdash; Bethesda, the Son of God &amp; Four Witnesses`,
+  intro: `A paralyzed man healed after thirty-eight years, a Sabbath controversy that erupts into the highest Christological discourse of the Gospel, and a fourfold testimony to Jesus from John the Baptist, the works, the Father, and the Scriptures &mdash; John 5 holds together the most compassionate miracle with the most exalted theology.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  calloutTitle: `He Who Hears My Word Has Passed from Death to Life`,
+  calloutBody: `John 5 traces the same arc that the whole Gospel follows: from a specific, physical act of mercy to the theological reality that act reveals. The man who lay helpless for thirty-eight years stands as the face of every human being whose spiritual condition is one of paralysis &mdash; unable to help themselves, waiting for something they cannot obtain by their own effort. Jesus walks toward that helplessness with a question (&ldquo;Do you want to be healed?&rdquo;) and a command (&ldquo;Get up and walk&rdquo;). The same one whose voice healed at Bethesda is the one whose voice will one day call the dead from their tombs. To hear him is to live.`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}33`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            John 5 &mdash; Bethesda, the Son of God &amp; Four Witnesses
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            A paralyzed man healed after thirty-eight years, a Sabbath controversy that erupts into the highest Christological discourse of the Gospel, and a fourfold testimony to Jesus from John the Baptist, the works, the Father, and the Scriptures &mdash; John 5 holds together the most compassionate miracle with the most exalted theology.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-          {videoItems.map((v) => (
-            <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-              <VideoEmbed videoId={v.videoId} title={v.title} />
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }} dangerouslySetInnerHTML={{ __html: v.title }} />
-            </div>
-          ))}
-        </div>
-
-        <div style={{ marginTop: "3.5rem", background: CARD, border: `1px solid ${ACCENT}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>He Who Hears My Word Has Passed from Death to Life</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            John 5 traces the same arc that the whole Gospel follows: from a specific, physical act of mercy to the theological reality that act reveals. The man who lay helpless for thirty-eight years stands as the face of every human being whose spiritual condition is one of paralysis &mdash; unable to help themselves, waiting for something they cannot obtain by their own effort. Jesus walks toward that helplessness with a question (&ldquo;Do you want to be healed?&rdquo;) and a command (&ldquo;Get up and walk&rdquo;). The same one whose voice healed at Bethesda is the one whose voice will one day call the dead from their tombs. To hear him is to live.
-          </p>
-        </div>
-
-        <div style={{ marginTop: "2rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
-            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Signs and Identity</div>
-            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              Every miracle in John is a &ldquo;sign&rdquo; &mdash; not a proof that compels belief, but a window into who Jesus is. The healing at Bethesda is a sign of the Son&rsquo;s life-giving authority. To see the sign without seeing what it points to is to miss the point entirely.
-            </p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
-            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Realized Eschatology</div>
-            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              The life of the age to come is available now for those who believe. John 5:24 is one of the clearest statements of realized eschatology in Scripture: those who believe have &ldquo;passed from death to life&rdquo; &mdash; past tense, present reality, not merely future hope.
-            </p>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: ACCENT, fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Theme</div>
-            <div style={{ color: TEXT, fontWeight: 600, marginBottom: 6 }}>Scripture as Witness</div>
-            <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              Jesus charges his hearers with reading the Scriptures as an end in themselves rather than as a witness. Moses wrote of Jesus. The Old Testament is not a self-contained system but a voice crying, page after page, &ldquo;Look to the one who is coming.&rdquo;
-            </p>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>The Four Witnesses &mdash; A Legal Case for Christ</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>1. John the Baptist (John 5:33&ndash;35)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;He was a burning and shining lamp.&rdquo; John the Baptist&rsquo;s whole ministry was a finger pointing beyond himself. His testimony at the Jordan (&ldquo;Behold, the Lamb of God who takes away the sin of the world&rdquo;) and his insistence that he must decrease while Jesus increases &mdash; all of this constitutes a powerful witness. Jesus appeals to John not because he depends on human testimony but because his hearers had trusted John. If they believed the lamp, they should follow the direction of its light.</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>2. The Works (John 5:36)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;The very works that I am doing bear witness about me.&rdquo; The miracles Jesus performed were not merely humanitarian acts but revelatory signs. They testified that the Father had sent him. Greater than John&rsquo;s testimony, the works speak with divine authority &mdash; no merely human agent could consistently heal the blind, raise the dead, and feed thousands with five loaves. The works invite the question: where does this power come from?</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>3. The Father (John 5:37&ndash;38)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;The Father who sent me has himself borne witness about me.&rdquo; The Father&rsquo;s witness came at Jesus&rsquo; baptism (&ldquo;This is my beloved Son, with whom I am well pleased&rdquo;), through the Scriptures the Father inspired, and through the inner witness of the Spirit in receptive hearts. To have God&rsquo;s word truly dwelling in oneself is to be prepared to recognize the Son when he appears.</p>
-            </div>
-            <div style={{ borderLeft: `3px solid ${ACCENT}`, paddingLeft: "1rem" }}>
-              <div style={{ color: TEXT, fontWeight: 600, marginBottom: 4 }}>4. The Scriptures &mdash; and Moses (John 5:39&ndash;47)</div>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>&ldquo;It is they that bear witness about me.&rdquo; The entire Hebrew Bible is, for Jesus, a body of testimony pointing to him. Moses, who wrote the Torah they revered, wrote of Jesus. The prophets spoke of him. The Psalms anticipated him. To use the Scriptures as a closed system of religious obligation while missing the one to whom every page pointed is one of the most tragic misreadings possible &mdash; and yet one of the most common. Moses himself becomes the accuser of those who reject his Lord.</p>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "2rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: TEXT, fontWeight: 700, margin: "0 0 1rem", fontSize: "1.15rem" }}>Key Verses of John 5</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;Get up, take up your bed, and walk.&rdquo;</p>
-              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:8 &mdash; The Command That Healed</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>Three imperatives directed at a man who had not walked in thirty-eight years. The power was entirely in the one who spoke. No preparation, no gradual steps, no conditions to be met &mdash; only the word of Jesus, and immediate restoration.</p>
-            </div>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;My Father is working until now, and I am working.&rdquo;</p>
-              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:17 &mdash; Equal Activity with the Father</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>The statement that ignited the Sabbath controversy into something far larger. Jesus is not claiming merely to work on a Sabbath; he is claiming to share in the unceasing activity of God himself. His opponents heard him correctly &mdash; and were horrified.</p>
-            </div>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;Truly, truly, I say to you, whoever hears my word and believes him who sent me has eternal life. He does not come into judgment, but has passed from death to life.&rdquo;</p>
-              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:24 &mdash; Eternal Life Now</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>One of the most sweeping soteriological statements in the Gospel. Eternal life is not only future; it begins at the moment of faith. The verdict of the final judgment &mdash; &ldquo;not guilty&rdquo; &mdash; is handed down in the present. The believer has already crossed the line from death to life.</p>
-            </div>
-            <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-              <p style={{ color: TEXT, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 6px", fontStyle: "italic" }}>&ldquo;You search the Scriptures because you think that in them you have eternal life; and it is they that bear witness about me, yet you refuse to come to me that you may have life.&rdquo;</p>
-              <div style={{ color: ACCENT, fontSize: 13, fontWeight: 700 }}>John 5:39&ndash;40 &mdash; Scripture Points to a Person</div>
-              <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "8px 0 0" }}>Perhaps the most searching challenge Jesus ever directed at religious people. The Scriptures are not the source of life &mdash; they are the witness to the one who is. Searching the text without coming to the person is like studying a map of a country and refusing to go there.</p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

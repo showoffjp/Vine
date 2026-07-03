@@ -1,30 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
-
-const BG = "#07070F";
-const CARD = "#12121F";
-const BORDER = "#1E1E32";
-const ACCENT = "#3B82F6";
-const TEXT = "#F2F2F8";
-const MUTED = "#9898B3";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
 
 const TABS = [
   "Overview",
   "John the Baptist",
   "Baptism of Jesus",
   "Fruit of Repentance",
-] as const;
-type Tab = (typeof TABS)[number];
+]
 
-interface Section {
-  id: Tab;
-  heading: string;
-  reference: string;
-  paragraphs: string[];
-}
-
-const sections: Section[] = [
+const sections = [
   {
     id: "Overview",
     heading: "Matthew 3: The Kingdom Announced",
@@ -87,136 +71,20 @@ const videoItems = [
   { videoId: "6rU0b5vEFbU", title: "Repentance and the Kingdom of Heaven - Matthew 3 Teaching" },
 ];
 
-export default function Matthew3GuidePage() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: SectionGuideData = {
+  accent: "#3B82F6",
+  badge: `New Testament Study`,
+  title: `Matthew 3`,
+  intro: `John the Baptist preaches repentance in the wilderness, confronts the Pharisees and Sadducees with the demand for genuine fruit, and announces the one coming after him who will baptize with the Holy Spirit and fire. Then Jesus arrives from Galilee &mdash; and at his baptism, the Trinity is revealed.`,
+  tabs: TABS as unknown as string[],
+  sections,
+  videos: videoItems,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Explore Matthew 3 through video teaching on John the Baptist, the call to repentance, the baptism of Jesus in the Jordan, and the trinitarian revelation at the start of his ministry.`,
+  calloutTitle: `Key Verse`,
+  calloutBody: `&ldquo;And when Jesus was baptized, immediately he went up from the water, and behold, the heavens were opened to him, and he saw the Spirit of God descending like a dove and coming to rest on him; and behold, a voice from heaven said, &lsquo;This is my beloved Son, with whom I am well pleased.&rsquo;&rdquo;`,
+};
 
-  const currentSection = sections.find((s) => s.id === activeTab);
-
-  return (
-    <div style={{ paddingTop: "var(--header-height, 80px)", minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "inline-block", background: `${ACCENT}22`, color: ACCENT, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            New Testament Study
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Matthew 3
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: 0 }}>
-            John the Baptist preaches repentance in the wilderness, confronts the Pharisees and Sadducees with the demand for genuine fruit, and announces the one coming after him who will baptize with the Holy Spirit and fire. Then Jesus arrives from Galilee &mdash; and at his baptism, the Trinity is revealed.
-          </p>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: `1px solid ${activeTab === t ? ACCENT : BORDER}`,
-                background: activeTab === t ? ACCENT : CARD,
-                color: activeTab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </nav>
-
-        {currentSection && (
-          <section>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h2 style={{ fontSize: "1.7rem", fontWeight: 700, margin: 0 }} dangerouslySetInnerHTML={{ __html: currentSection.heading }} />
-            </div>
-            <div style={{ color: ACCENT, fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: "1.75rem" }} dangerouslySetInnerHTML={{ __html: currentSection.reference }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              {currentSection.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{ color: i === 0 ? TEXT : MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: "3rem", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.75rem 2rem", marginBottom: "2.5rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: 13, textTransform: "uppercase", letterSpacing: 1 }}>Key Verse</h3>
-          <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 0.5rem", fontSize: "1.1rem", fontStyle: "italic" }}>
-            &ldquo;And when Jesus was baptized, immediately he went up from the water, and behold, the heavens were opened to him, and he saw the Spirit of God descending like a dove and coming to rest on him; and behold, a voice from heaven said, &lsquo;This is my beloved Son, with whom I am well pleased.&rsquo;&rdquo;
-          </p>
-          <p style={{ color: ACCENT, fontSize: 13, fontWeight: 700, margin: 0 }}>Matthew 3:16&ndash;17</p>
-        </div>
-
-        <div style={{ marginBottom: "2.5rem" }}>
-          <h2 style={{ fontSize: "1.4rem", fontWeight: 700, margin: "0 0 1rem" }}>Video Teaching</h2>
-          <p style={{ color: MUTED, fontSize: "1rem", lineHeight: 1.75, margin: "0 0 1.5rem" }}>
-            Explore Matthew 3 through video teaching on John the Baptist, the call to repentance, the baptism of Jesus in the Jordan, and the trinitarian revelation at the start of his ministry.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-            {videoItems.map((v) => (
-              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <VideoEmbed videoId={v.videoId} title={v.title} />
-                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: "2.5rem" }}>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Theological Themes</h4>
-            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
-              <li>Repentance and the kingdom</li>
-              <li>Fruit as evidence of faith</li>
-              <li>Fulfillment of prophecy</li>
-              <li>The identity of Jesus</li>
-              <li>The Trinity revealed</li>
-              <li>Judgment and mercy</li>
-            </ul>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Old Testament Connections</h4>
-            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
-              <li dangerouslySetInnerHTML={{ __html: "Isaiah 40:3 &mdash; voice in the wilderness" }} />
-              <li dangerouslySetInnerHTML={{ __html: "Malachi 4:5 &mdash; Elijah to come" }} />
-              <li dangerouslySetInnerHTML={{ __html: "Psalm 2:7 &mdash; You are my Son" }} />
-              <li dangerouslySetInnerHTML={{ __html: "Isaiah 42:1 &mdash; my chosen servant" }} />
-              <li dangerouslySetInnerHTML={{ __html: "2 Kings 1:8 &mdash; Elijah&rsquo;s leather belt" }} />
-            </ul>
-          </div>
-          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <h4 style={{ color: ACCENT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", margin: "0 0 0.6rem" }}>Key Figures</h4>
-            <ul style={{ color: MUTED, fontSize: "0.95rem", lineHeight: 1.8, margin: 0, paddingLeft: "1.2rem" }}>
-              <li>John the Baptist &mdash; the forerunner</li>
-              <li>Jesus &mdash; the beloved Son</li>
-              <li>The Pharisees &mdash; confronted</li>
-              <li>The Sadducees &mdash; confronted</li>
-              <li>The Spirit &mdash; descending as a dove</li>
-            </ul>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "1rem", background: CARD, border: `1px solid ${ACCENT}44`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-          <h3 style={{ color: ACCENT, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>This Is My Beloved Son</h3>
-          <p style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}>
-            Matthew 3 does not merely record a historical event; it announces an identity. The voice from heaven at the Jordan declares who Jesus is in the most authoritative terms possible: the royal Son of Psalm 2 and the suffering Servant of Isaiah 42, held together in one person. Everything that follows in Matthew&rsquo;s Gospel is the unfolding of what it means that this one &mdash; and no other &mdash; is the beloved Son with whom the Father is well pleased.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
 }

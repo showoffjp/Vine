@@ -1,21 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
+import TabbedGuideTemplate, { TABBED_COLORS, type TabbedGuideData } from "@/components/TabbedGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = TABBED_COLORS;
 
-const TABS = ["overview", "themes", "verse", "application"];
-const TAB_LABELS: Record<string, string> = {
-  overview: "Overview",
-  themes: "Key Themes",
-  verse: "Verse by Verse",
-  application: "Application",
-};
-
-const overviewBlocks: { heading: string; body: string }[] = [
+const overviewBlocks = [
   {
     heading: "A New Song for a New Salvation",
     body: "Psalm 98 is one of the great enthronement psalms, a burst of pure exultation that the Latin tradition named the &ldquo;Cantate Domino&rdquo; from its opening words, &lsquo;Oh sing to the LORD a new song.&rsquo; It is a psalm with no complaint in it, no lament, no enemy threatening at the gate. From the first syllable to the last it is praise, and the reason for the praise is everywhere the same: &lsquo;he has done marvelous things.&rsquo; Something has happened. God has acted. He has worked salvation by his own right hand and his holy arm, and the only fitting response to a fresh act of God is a fresh song.",
@@ -34,7 +22,7 @@ const overviewBlocks: { heading: string; body: string }[] = [
   },
 ];
 
-const themeItems: { id: string; title: string; color: string; body: string }[] = [
+const themeItems = [
   {
     id: "t-newsong",
     title: "The New Song and the Marvelous Deed",
@@ -73,7 +61,7 @@ const themeItems: { id: string; title: string; color: string; body: string }[] =
   },
 ];
 
-const verseSections: { id: string; ref: string; label: string; body: string }[] = [
+const verseSections = [
   {
     id: "v-1",
     ref: "Psalm 98:1",
@@ -100,7 +88,7 @@ const verseSections: { id: string; ref: string; label: string; body: string }[] 
   },
 ];
 
-const applicationBlocks: { heading: string; color: string; body: string }[] = [
+const applicationBlocks = [
   {
     heading: "Let a New Mercy Give You a New Song",
     color: GREEN,
@@ -123,7 +111,7 @@ const applicationBlocks: { heading: string; color: string; body: string }[] = [
   },
 ];
 
-const reflectionQuestions: string[] = [
+const reflectionQuestions = [
   "What &lsquo;marvelous thing&rsquo; has God done in your life recently that deserves a new song of praise? Have you actually thanked him for it?",
   "Psalm 98 celebrates a salvation made known &lsquo;in the sight of the nations.&rsquo; In what concrete way could you help make God&rsquo;s salvation known to someone this week?",
   "The psalm grounds salvation in God&rsquo;s remembered &lsquo;steadfast love and faithfulness.&rsquo; How does knowing that God&rsquo;s rescue flows from his covenant character change the way you trust him?",
@@ -139,185 +127,31 @@ const videoItems = [
   { videoId: "fNk_zzaMoSs", title: "Judgment as Good News: He Comes to Set All Things Right" },
 ];
 
-export default function Psalm98Guide() {
-  const [tab, setTab] = useState("overview");
-  const [open, setOpen] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: TabbedGuideData = {
+  accent: GREEN,
+  badge: `Psalms Deep Dive`,
+  title: `Psalm 98: Sing to the LORD a New Song`,
+  intro: `The &lsquo;Cantate Domino&rsquo; &mdash; a psalm of pure exultation over the salvation the LORD has worked by his own right hand and made known in the sight of the nations. All the earth is summoned to a joyful noise, and the sea, the rivers, and the hills are called to roar and clap and sing &mdash; for the King comes to judge the world with righteousness and the peoples with equity.`,
+  keyVerseLabel: `Key Verse &mdash; Psalm 98:1`,
+  keyVerse: `&ldquo;Oh sing to the LORD a new song, for he has done marvelous things! His right hand and his holy arm have worked salvation for him.&rdquo;`,
+  overviewBlocks,
+  overviewClosingHeading: `Joy to the World`,
+  overviewClosingBody: `Isaac Watts&rsquo;s beloved hymn &lsquo;Joy to the World&rsquo; is a paraphrase of Psalm 98 &mdash; written originally not as a Christmas carol but as a song of Christ&rsquo;s second coming to judge and to reign. When we sing &lsquo;let earth receive her King&rsquo; and &lsquo;he comes to make his blessings flow far as the curse is found,&rsquo; we are singing the very hope of this psalm: the salvation of our God seen by all the ends of the earth, and the King who comes to set the whole groaning creation right.`,
+  themesHeading: `Key Themes of Psalm 98`,
+  themeItems,
+  verseIntro: `Walk through Psalm 98 in its three movements &mdash; the salvation accomplished and revealed, the joyful noise of all the earth, and the coming of the King to judge. Tap each section to open it.`,
+  verseSections,
+  applicationHeading: `Living Psalm 98`,
+  applicationBlocks,
+  reflectionHeading: `Questions for Reflection`,
+  reflectionQuestions,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your meditation on Psalm 98 through teaching on the new song, the salvation revealed to the nations, the hymn &lsquo;Joy to the World,&rsquo; and the good news of the coming Judge.`,
+  videos: videoItems,
+  closingTitle: `A Closing Prayer`,
+  closingBody: `O LORD, you have done marvelous things, and your own right hand and holy arm have worked salvation for us. We praise you that you did not keep your salvation hidden but revealed it in the sight of the nations, so that all the ends of the earth might see the salvation of our God. Teach us to sing a new song for every fresh mercy, and make our worship a joyful noise that is not ashamed. Set our hope on the day when you come to judge the earth with righteousness and the peoples with equity, when the sea will roar and the rivers clap their hands and the hills sing for joy. Even so, come, Lord Jesus, and let earth receive her King. Amen.`,
+};
 
-  const toggle = (id: string) => setOpen(open === id ? null : id);
-
-  return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: "var(--header-height, 80px)", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 880, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2.25rem" }}>
-          <div style={{ display: "inline-block", background: `${GREEN}22`, color: GREEN, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Psalms Deep Dive
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 98: Sing to the LORD a New Song
-          </h1>
-          <p
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: "0 0 1.75rem" }}
-            dangerouslySetInnerHTML={{ __html: "The &lsquo;Cantate Domino&rsquo; &mdash; a psalm of pure exultation over the salvation the LORD has worked by his own right hand and made known in the sight of the nations. All the earth is summoned to a joyful noise, and the sea, the rivers, and the hills are called to roar and clap and sing &mdash; for the King comes to judge the world with righteousness and the peoples with equity." }}
-          />
-          <div style={{ background: CARD, border: `1px solid ${GREEN}55`, borderLeft: `4px solid ${GREEN}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: GREEN, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Verse &mdash; Psalm 98:1</div>
-            <p
-              style={{ margin: 0, fontSize: "1.15rem", lineHeight: 1.7, fontStyle: "italic", color: TEXT }}
-              dangerouslySetInnerHTML={{ __html: "&ldquo;Oh sing to the LORD a new song, for he has done marvelous things! His right hand and his holy arm have worked salvation for him.&rdquo;" }}
-            />
-          </div>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              style={{
-                padding: "8px 18px",
-                borderRadius: 8,
-                border: `1px solid ${tab === t ? GREEN : BORDER}`,
-                background: tab === t ? GREEN : CARD,
-                color: tab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {TAB_LABELS[t]}
-            </button>
-          ))}
-        </nav>
-
-        {tab === "overview" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
-            {overviewBlocks.map((b, i) => (
-              <div key={i}>
-                <h2 style={{ fontSize: "1.45rem", fontWeight: 700, margin: "0 0 0.75rem", color: TEXT }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-              </div>
-            ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 1.75rem" }}>
-              <h3 style={{ color: GOLD, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: "Joy to the World" }} />
-              <p
-                style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}
-                dangerouslySetInnerHTML={{ __html: "Isaac Watts&rsquo;s beloved hymn &lsquo;Joy to the World&rsquo; is a paraphrase of Psalm 98 &mdash; written originally not as a Christmas carol but as a song of Christ&rsquo;s second coming to judge and to reign. When we sing &lsquo;let earth receive her King&rsquo; and &lsquo;he comes to make his blessings flow far as the curse is found,&rsquo; we are singing the very hope of this psalm: the salvation of our God seen by all the ends of the earth, and the King who comes to set the whole groaning creation right." }}
-              />
-            </div>
-          </section>
-        )}
-
-        {tab === "themes" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Key Themes of Psalm 98</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {themeItems.map((item) => (
-                <div key={item.id} style={{ background: CARD, border: `1px solid ${open === item.id ? item.color : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(item.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: "1.1rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                    </span>
-                    <span style={{ color: item.color, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === item.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === item.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: item.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "verse" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.5rem" }}>Verse by Verse</h2>
-            <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Walk through Psalm 98 in its three movements &mdash; the salvation accomplished and revealed, the joyful noise of all the earth, and the coming of the King to judge. Tap each section to open it." }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {verseSections.map((v) => (
-                <div key={v.id} style={{ background: CARD, border: `1px solid ${open === v.id ? GREEN : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(v.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span>
-                      <span style={{ display: "block", color: GREEN, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: v.ref }} />
-                      <span style={{ fontSize: "1.08rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: v.label }} />
-                    </span>
-                    <span style={{ color: GREEN, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === v.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === v.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: v.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "application" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Living Psalm 98</h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {applicationBlocks.map((b, i) => (
-                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${b.color}`, borderRadius: 10, padding: "1.3rem 1.6rem" }}>
-                    <h3 style={{ color: b.color, fontWeight: 700, margin: "0 0 0.6rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Questions for Reflection</h2>
-              <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
-                {reflectionQuestions.map((q, i) => (
-                  <li key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: `${PURPLE}33`, color: PURPLE, fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.7, margin: 0, paddingTop: 2 }} dangerouslySetInnerHTML={{ __html: q }} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.75rem" }}>Video Teaching</h2>
-              <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Deepen your meditation on Psalm 98 through teaching on the new song, the salvation revealed to the nations, the hymn &lsquo;Joy to the World,&rsquo; and the good news of the coming Judge." }} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-                {videoItems.map((v) => (
-                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ background: CARD, border: `1px solid ${GREEN}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-              <h3 style={{ color: GREEN, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A Closing Prayer</h3>
-              <p
-                style={{ color: MUTED, lineHeight: 1.85, margin: 0, fontStyle: "italic" }}
-                dangerouslySetInnerHTML={{ __html: "O LORD, you have done marvelous things, and your own right hand and holy arm have worked salvation for us. We praise you that you did not keep your salvation hidden but revealed it in the sight of the nations, so that all the ends of the earth might see the salvation of our God. Teach us to sing a new song for every fresh mercy, and make our worship a joyful noise that is not ashamed. Set our hope on the day when you come to judge the earth with righteousness and the peoples with equity, when the sea will roar and the rivers clap their hands and the hills sing for joy. Even so, come, Lord Jesus, and let earth receive her King. Amen." }}
-              />
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <TabbedGuideTemplate data={data} />;
 }

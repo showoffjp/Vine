@@ -1,21 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
+import TabbedGuideTemplate, { TABBED_COLORS, type TabbedGuideData } from "@/components/TabbedGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = TABBED_COLORS;
 
-const TABS = ["overview", "themes", "verse", "application"];
-const TAB_LABELS: Record<string, string> = {
-  overview: "Overview",
-  themes: "Key Themes",
-  verse: "Verse by Verse",
-  application: "Application",
-};
-
-const overviewBlocks: { heading: string; body: string }[] = [
+const overviewBlocks = [
   {
     heading: "A Hallelujah Psalm of Power and Tenderness",
     body: "Psalm 147 belongs to the great cluster of &lsquo;Hallelujah&rsquo; psalms (146&ndash;150) that bring the whole Psalter to its soaring close. Each of these five psalms opens and shuts with the cry &lsquo;Praise the LORD!&rsquo; &mdash; in Hebrew, &lsquo;Hallelu Yah&rsquo; &mdash; and Psalm 147 takes up that summons by weaving together two truths that lesser minds keep apart: the cosmic majesty of God who numbers and names the stars, and the intimate tenderness of God who heals the brokenhearted and binds up their wounds. The same hand that flung the galaxies into being stoops to bandage a broken heart. This is the theological heart of the psalm, and it is one of the most moving juxtapositions in all of Scripture.",
@@ -34,7 +22,7 @@ const overviewBlocks: { heading: string; body: string }[] = [
   },
 ];
 
-const themeItems: { id: string; title: string; color: string; body: string }[] = [
+const themeItems = [
   {
     id: "t-fitting",
     title: "It Is Good and Fitting to Sing His Praise",
@@ -73,7 +61,7 @@ const themeItems: { id: string; title: string; color: string; body: string }[] =
   },
 ];
 
-const verseSections: { id: string; ref: string; label: string; body: string }[] = [
+const verseSections = [
   {
     id: "v-13",
     ref: "Psalm 147:1&ndash;3",
@@ -106,7 +94,7 @@ const verseSections: { id: string; ref: string; label: string; body: string }[] 
   },
 ];
 
-const applicationBlocks: { heading: string; color: string; body: string }[] = [
+const applicationBlocks = [
   {
     heading: "Bring Your Broken Heart to the Healer",
     color: TEAL,
@@ -129,7 +117,7 @@ const applicationBlocks: { heading: string; color: string; body: string }[] = [
   },
 ];
 
-const reflectionQuestions: string[] = [
+const reflectionQuestions = [
   "Psalm 147 sets &lsquo;he heals the brokenhearted&rsquo; right beside &lsquo;he determines the number of the stars.&rsquo; How does holding God&rsquo;s cosmic power and his tender care together change the way you bring your wounds to him?",
   "The psalm says it is &lsquo;good,&rsquo; &lsquo;pleasant,&rsquo; and &lsquo;fitting&rsquo; to praise God. Which of these three words most challenges or reshapes how you think about worship right now, and why?",
   "God&rsquo;s delight is not in the strength of the horse but in those who hope in his steadfast love. Where are you tempted to trust in your own strength instead of hoping in his love?",
@@ -145,185 +133,31 @@ const videoItems = [
   { videoId: "fNk_zzaMoSs", title: "He Declares His Word to His People" },
 ];
 
-export default function Psalm147Guide() {
-  const [tab, setTab] = useState("overview");
-  const [open, setOpen] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: TabbedGuideData = {
+  accent: TEAL,
+  badge: `Psalms Deep Dive`,
+  title: `Psalm 147: He Heals the Brokenhearted`,
+  intro: `A Hallelujah psalm that joins God&rsquo;s cosmic power and his tender care &mdash; the LORD who builds up Jerusalem and gathers the outcasts, who heals the brokenhearted and binds up their wounds, who determines the number of the stars and gives to all of them their names. He delights not in the strength of the horse but in those who fear him and hope in his steadfast love, and he declares his word and his statutes to his people as to no other nation.`,
+  keyVerseLabel: `Key Verse &mdash; Psalm 147:3&ndash;4`,
+  keyVerse: `&ldquo;He heals the brokenhearted and binds up their wounds. He determines the number of the stars; he gives to all of them their names.&rdquo;`,
+  overviewBlocks,
+  overviewClosingHeading: `The Astronomer Who Is Also the Physician`,
+  overviewClosingBody: `The genius of Psalm 147 is its refusal to choose between transcendence and tenderness. In a single breath it declares that the LORD &lsquo;heals the brokenhearted and binds up their wounds&rsquo; and that he &lsquo;determines the number of the stars&rsquo; and &lsquo;gives to all of them their names.&rsquo; The God of the galaxies is the God of the wounded heart. Because he can count and name the uncountable stars, he surely knows your name and your sorrow &mdash; and the same word that governs the falling snow and the melting frost is the saving word he has declared to his people, fulfilled at last in Jesus Christ, the Word made flesh.`,
+  themesHeading: `Key Themes of Psalm 147`,
+  themeItems,
+  verseIntro: `Walk through Psalm 147 in its three movements of praise &mdash; the Healer who names the stars, the Provider who delights in those who hope in him, and the God whose word governs the snow and is declared to his people. Tap each section to open it.`,
+  verseSections,
+  applicationHeading: `Living Psalm 147`,
+  applicationBlocks,
+  reflectionHeading: `Questions for Reflection`,
+  reflectionQuestions,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your meditation on Psalm 147 through teaching on the God who heals the brokenhearted and names the stars, who delights in those who hope in his steadfast love, and who declares his word and statutes to his people.`,
+  videos: videoItems,
+  closingTitle: `A Closing Prayer`,
+  closingBody: `O LORD our God, great and abundant in power, your understanding is beyond measure. You determine the number of the stars and call each one by name, and yet you stoop to heal the brokenhearted and bind up our wounds. We praise you, for it is good and pleasant and fitting to sing to you. Teach us not to trust in our own strength, but to fear you and to hope in your steadfast love, in which you take such delight. Provide for us as you feed the ravens, guard us as you strengthen the gates of your city, and let your word dwell richly in us &mdash; the word you declared to your people and fulfilled in Jesus Christ, the Word made flesh. Praise the LORD! Amen.`,
+};
 
-  const toggle = (id: string) => setOpen(open === id ? null : id);
-
-  return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: "var(--header-height, 80px)", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 880, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2.25rem" }}>
-          <div style={{ display: "inline-block", background: `${TEAL}22`, color: TEAL, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Psalms Deep Dive
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 147: He Heals the Brokenhearted
-          </h1>
-          <p
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: "0 0 1.75rem" }}
-            dangerouslySetInnerHTML={{ __html: "A Hallelujah psalm that joins God&rsquo;s cosmic power and his tender care &mdash; the LORD who builds up Jerusalem and gathers the outcasts, who heals the brokenhearted and binds up their wounds, who determines the number of the stars and gives to all of them their names. He delights not in the strength of the horse but in those who fear him and hope in his steadfast love, and he declares his word and his statutes to his people as to no other nation." }}
-          />
-          <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderLeft: `4px solid ${TEAL}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Verse &mdash; Psalm 147:3&ndash;4</div>
-            <p
-              style={{ margin: 0, fontSize: "1.15rem", lineHeight: 1.7, fontStyle: "italic", color: TEXT }}
-              dangerouslySetInnerHTML={{ __html: "&ldquo;He heals the brokenhearted and binds up their wounds. He determines the number of the stars; he gives to all of them their names.&rdquo;" }}
-            />
-          </div>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              style={{
-                padding: "8px 18px",
-                borderRadius: 8,
-                border: `1px solid ${tab === t ? TEAL : BORDER}`,
-                background: tab === t ? TEAL : CARD,
-                color: tab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {TAB_LABELS[t]}
-            </button>
-          ))}
-        </nav>
-
-        {tab === "overview" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
-            {overviewBlocks.map((b, i) => (
-              <div key={i}>
-                <h2 style={{ fontSize: "1.45rem", fontWeight: 700, margin: "0 0 0.75rem", color: TEXT }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-              </div>
-            ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 1.75rem" }}>
-              <h3 style={{ color: GOLD, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: "The Astronomer Who Is Also the Physician" }} />
-              <p
-                style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}
-                dangerouslySetInnerHTML={{ __html: "The genius of Psalm 147 is its refusal to choose between transcendence and tenderness. In a single breath it declares that the LORD &lsquo;heals the brokenhearted and binds up their wounds&rsquo; and that he &lsquo;determines the number of the stars&rsquo; and &lsquo;gives to all of them their names.&rsquo; The God of the galaxies is the God of the wounded heart. Because he can count and name the uncountable stars, he surely knows your name and your sorrow &mdash; and the same word that governs the falling snow and the melting frost is the saving word he has declared to his people, fulfilled at last in Jesus Christ, the Word made flesh." }}
-              />
-            </div>
-          </section>
-        )}
-
-        {tab === "themes" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Key Themes of Psalm 147</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {themeItems.map((item) => (
-                <div key={item.id} style={{ background: CARD, border: `1px solid ${open === item.id ? item.color : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(item.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: "1.1rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                    </span>
-                    <span style={{ color: item.color, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === item.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === item.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: item.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "verse" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.5rem" }}>Verse by Verse</h2>
-            <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Walk through Psalm 147 in its three movements of praise &mdash; the Healer who names the stars, the Provider who delights in those who hope in him, and the God whose word governs the snow and is declared to his people. Tap each section to open it." }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {verseSections.map((v) => (
-                <div key={v.id} style={{ background: CARD, border: `1px solid ${open === v.id ? TEAL : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(v.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span>
-                      <span style={{ display: "block", color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: v.ref }} />
-                      <span style={{ fontSize: "1.08rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: v.label }} />
-                    </span>
-                    <span style={{ color: TEAL, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === v.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === v.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: v.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "application" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Living Psalm 147</h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {applicationBlocks.map((b, i) => (
-                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${b.color}`, borderRadius: 10, padding: "1.3rem 1.6rem" }}>
-                    <h3 style={{ color: b.color, fontWeight: 700, margin: "0 0 0.6rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Questions for Reflection</h2>
-              <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
-                {reflectionQuestions.map((q, i) => (
-                  <li key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: `${PURPLE}33`, color: PURPLE, fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.7, margin: 0, paddingTop: 2 }} dangerouslySetInnerHTML={{ __html: q }} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.75rem" }}>Video Teaching</h2>
-              <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Deepen your meditation on Psalm 147 through teaching on the God who heals the brokenhearted and names the stars, who delights in those who hope in his steadfast love, and who declares his word and statutes to his people." }} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-                {videoItems.map((v) => (
-                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-              <h3 style={{ color: TEAL, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A Closing Prayer</h3>
-              <p
-                style={{ color: MUTED, lineHeight: 1.85, margin: 0, fontStyle: "italic" }}
-                dangerouslySetInnerHTML={{ __html: "O LORD our God, great and abundant in power, your understanding is beyond measure. You determine the number of the stars and call each one by name, and yet you stoop to heal the brokenhearted and bind up our wounds. We praise you, for it is good and pleasant and fitting to sing to you. Teach us not to trust in our own strength, but to fear you and to hope in your steadfast love, in which you take such delight. Provide for us as you feed the ravens, guard us as you strengthen the gates of your city, and let your word dwell richly in us &mdash; the word you declared to your people and fulfilled in Jesus Christ, the Word made flesh. Praise the LORD! Amen." }}
-              />
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <TabbedGuideTemplate data={data} />;
 }

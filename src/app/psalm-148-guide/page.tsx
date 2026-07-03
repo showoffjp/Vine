@@ -1,21 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
+import TabbedGuideTemplate, { TABBED_COLORS, type TabbedGuideData } from "@/components/TabbedGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = TABBED_COLORS;
 
-const TABS = ["overview", "themes", "verse", "application"];
-const TAB_LABELS: Record<string, string> = {
-  overview: "Overview",
-  themes: "Key Themes",
-  verse: "Verse by Verse",
-  application: "Application",
-};
-
-const overviewBlocks: { heading: string; body: string }[] = [
+const overviewBlocks = [
   {
     heading: "The Cosmic Summons to Praise",
     body: "Psalm 148 is the grandest of all the praise psalms &mdash; a sweeping, all-encompassing summons for the entire created order to praise the LORD. Standing in the heart of the &lsquo;Hallelujah&rsquo; cluster (146&ndash;150) that crowns the Psalter, it does not merely praise God; it conscripts the whole universe into a choir. From the highest angels to the deepest sea creatures, from the blazing sun to the creeping things of the ground, from kings on their thrones to children at play, every category of creation is named and called to lift up the name of the LORD. It is one of the great creation-praise psalms, standing alongside Psalm 19, 104, and 150, and it gives us an Old Testament vision of the cosmic worship that the book of Revelation finally fulfills.",
@@ -34,7 +22,7 @@ const overviewBlocks: { heading: string; body: string }[] = [
   },
 ];
 
-const themeItems: { id: string; title: string; color: string; body: string }[] = [
+const themeItems = [
   {
     id: "t-allcreation",
     title: "All Creation Is Summoned to Praise",
@@ -73,7 +61,7 @@ const themeItems: { id: string; title: string; color: string; body: string }[] =
   },
 ];
 
-const verseSections: { id: string; ref: string; label: string; body: string }[] = [
+const verseSections = [
   {
     id: "v-12",
     ref: "Psalm 148:1&ndash;2",
@@ -106,7 +94,7 @@ const verseSections: { id: string; ref: string; label: string; body: string }[] 
   },
 ];
 
-const applicationBlocks: { heading: string; color: string; body: string }[] = [
+const applicationBlocks = [
   {
     heading: "Join the Choir of All Creation",
     color: GOLD,
@@ -129,7 +117,7 @@ const applicationBlocks: { heading: string; color: string; body: string }[] = [
   },
 ];
 
-const reflectionQuestions: string[] = [
+const reflectionQuestions = [
   "Psalm 148 summons every creature &mdash; angels, stars, storms, mountains, animals, and people &mdash; to praise. How does knowing that you join such a vast choir change the way you approach worship?",
   "The psalm calls the sun, moon, and stars &mdash; the very things others worshiped as gods &mdash; to praise their Maker. Where are you tempted to worship the gift rather than the Giver?",
   "The ground of praise is that &lsquo;he commanded and they were created.&rsquo; How does the truth that all things exist by God&rsquo;s word shape your sense of your own life and purpose?",
@@ -145,185 +133,31 @@ const videoItems = [
   { videoId: "3sO5FH2ybPY", title: "He Has Raised Up a Horn for His People" },
 ];
 
-export default function Psalm148Guide() {
-  const [tab, setTab] = useState("overview");
-  const [open, setOpen] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: TabbedGuideData = {
+  accent: TEAL,
+  badge: `Psalms Deep Dive`,
+  title: `Psalm 148: Let All Creation Praise the LORD`,
+  intro: `The cosmic summons for all creation to praise the LORD &mdash; in two great movements, praise from the heavens (angels, hosts, sun, moon, stars) and praise from the earth (sea creatures, weather, mountains, trees, beasts, birds, and every order of humanity). The ground of praise is that he commanded and they were created; the climax is that his name alone is exalted; and the final note is that he has raised up a horn for his people.`,
+  keyVerseLabel: `Key Verse &mdash; Psalm 148:13`,
+  keyVerse: `&ldquo;Let them praise the name of the LORD, for his name alone is exalted; his majesty is above earth and heaven.&rdquo;`,
+  overviewBlocks,
+  overviewClosingHeading: `The Canticle of All Things`,
+  overviewClosingBody: `Psalm 148 has shaped the worship of the church for centuries. It inspired the ancient canticle &lsquo;Benedicite, omnia opera&rsquo; &mdash; &lsquo;O all you works of the Lord, bless the Lord&rsquo; &mdash; and stands behind Saint Francis of Assisi&rsquo;s beloved &lsquo;Canticle of the Sun.&rsquo; Above all, it gives us an Old Testament glimpse of the worship the book of Revelation finally fulfills, when &lsquo;every creature in heaven and on earth and under the earth and in the sea&rsquo; cries out, &lsquo;To him who sits on the throne and to the Lamb be blessing and honor and glory and might forever and ever!&rsquo; (Revelation 5:13).`,
+  themesHeading: `Key Themes of Psalm 148`,
+  themeItems,
+  verseIntro: `Walk through Psalm 148 as it sweeps from the highest heavens down to the earth and every creature, gathering all into one great act of praise that ends in the exalted name of the LORD and the horn of salvation raised for his people. Tap each section to open it.`,
+  verseSections,
+  applicationHeading: `Living Psalm 148`,
+  applicationBlocks,
+  reflectionHeading: `Questions for Reflection`,
+  reflectionQuestions,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your meditation on Psalm 148 through teaching on the cosmic summons for all creation to praise, the God who commanded and they were created, the supremacy of his exalted name, and the horn of salvation raised up for his people.`,
+  videos: videoItems,
+  closingTitle: `A Closing Prayer`,
+  closingBody: `O LORD, your name alone is exalted, and your majesty is above earth and heaven. With the angels and the hosts, with the sun and moon and shining stars, with the seas and the mountains, the storms and the trees, the beasts and the birds, and all the peoples of the earth, we praise your holy name. You commanded, and we were created; you gave a decree that shall not pass away. We thank you that your cosmic glory has come near to us, for you have raised up a horn of salvation for your people in your Son, Jesus Christ. Let our lives join the song of all creation, until the day when every creature in heaven and earth shall praise you forever. Praise the LORD! Amen.`,
+};
 
-  const toggle = (id: string) => setOpen(open === id ? null : id);
-
-  return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: "var(--header-height, 80px)", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 880, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2.25rem" }}>
-          <div style={{ display: "inline-block", background: `${TEAL}22`, color: TEAL, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Psalms Deep Dive
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 148: Let All Creation Praise the LORD
-          </h1>
-          <p
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: "0 0 1.75rem" }}
-            dangerouslySetInnerHTML={{ __html: "The cosmic summons for all creation to praise the LORD &mdash; in two great movements, praise from the heavens (angels, hosts, sun, moon, stars) and praise from the earth (sea creatures, weather, mountains, trees, beasts, birds, and every order of humanity). The ground of praise is that he commanded and they were created; the climax is that his name alone is exalted; and the final note is that he has raised up a horn for his people." }}
-          />
-          <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderLeft: `4px solid ${TEAL}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Verse &mdash; Psalm 148:13</div>
-            <p
-              style={{ margin: 0, fontSize: "1.15rem", lineHeight: 1.7, fontStyle: "italic", color: TEXT }}
-              dangerouslySetInnerHTML={{ __html: "&ldquo;Let them praise the name of the LORD, for his name alone is exalted; his majesty is above earth and heaven.&rdquo;" }}
-            />
-          </div>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              style={{
-                padding: "8px 18px",
-                borderRadius: 8,
-                border: `1px solid ${tab === t ? TEAL : BORDER}`,
-                background: tab === t ? TEAL : CARD,
-                color: tab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {TAB_LABELS[t]}
-            </button>
-          ))}
-        </nav>
-
-        {tab === "overview" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
-            {overviewBlocks.map((b, i) => (
-              <div key={i}>
-                <h2 style={{ fontSize: "1.45rem", fontWeight: 700, margin: "0 0 0.75rem", color: TEXT }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-              </div>
-            ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 1.75rem" }}>
-              <h3 style={{ color: GOLD, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: "The Canticle of All Things" }} />
-              <p
-                style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}
-                dangerouslySetInnerHTML={{ __html: "Psalm 148 has shaped the worship of the church for centuries. It inspired the ancient canticle &lsquo;Benedicite, omnia opera&rsquo; &mdash; &lsquo;O all you works of the Lord, bless the Lord&rsquo; &mdash; and stands behind Saint Francis of Assisi&rsquo;s beloved &lsquo;Canticle of the Sun.&rsquo; Above all, it gives us an Old Testament glimpse of the worship the book of Revelation finally fulfills, when &lsquo;every creature in heaven and on earth and under the earth and in the sea&rsquo; cries out, &lsquo;To him who sits on the throne and to the Lamb be blessing and honor and glory and might forever and ever!&rsquo; (Revelation 5:13)." }}
-              />
-            </div>
-          </section>
-        )}
-
-        {tab === "themes" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Key Themes of Psalm 148</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {themeItems.map((item) => (
-                <div key={item.id} style={{ background: CARD, border: `1px solid ${open === item.id ? item.color : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(item.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: "1.1rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                    </span>
-                    <span style={{ color: item.color, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === item.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === item.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: item.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "verse" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.5rem" }}>Verse by Verse</h2>
-            <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Walk through Psalm 148 as it sweeps from the highest heavens down to the earth and every creature, gathering all into one great act of praise that ends in the exalted name of the LORD and the horn of salvation raised for his people. Tap each section to open it." }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {verseSections.map((v) => (
-                <div key={v.id} style={{ background: CARD, border: `1px solid ${open === v.id ? TEAL : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(v.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span>
-                      <span style={{ display: "block", color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: v.ref }} />
-                      <span style={{ fontSize: "1.08rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: v.label }} />
-                    </span>
-                    <span style={{ color: TEAL, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === v.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === v.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: v.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "application" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Living Psalm 148</h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {applicationBlocks.map((b, i) => (
-                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${b.color}`, borderRadius: 10, padding: "1.3rem 1.6rem" }}>
-                    <h3 style={{ color: b.color, fontWeight: 700, margin: "0 0 0.6rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Questions for Reflection</h2>
-              <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
-                {reflectionQuestions.map((q, i) => (
-                  <li key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: `${PURPLE}33`, color: PURPLE, fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.7, margin: 0, paddingTop: 2 }} dangerouslySetInnerHTML={{ __html: q }} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.75rem" }}>Video Teaching</h2>
-              <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Deepen your meditation on Psalm 148 through teaching on the cosmic summons for all creation to praise, the God who commanded and they were created, the supremacy of his exalted name, and the horn of salvation raised up for his people." }} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-                {videoItems.map((v) => (
-                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-              <h3 style={{ color: TEAL, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A Closing Prayer</h3>
-              <p
-                style={{ color: MUTED, lineHeight: 1.85, margin: 0, fontStyle: "italic" }}
-                dangerouslySetInnerHTML={{ __html: "O LORD, your name alone is exalted, and your majesty is above earth and heaven. With the angels and the hosts, with the sun and moon and shining stars, with the seas and the mountains, the storms and the trees, the beasts and the birds, and all the peoples of the earth, we praise your holy name. You commanded, and we were created; you gave a decree that shall not pass away. We thank you that your cosmic glory has come near to us, for you have raised up a horn of salvation for your people in your Son, Jesus Christ. Let our lives join the song of all creation, until the day when every creature in heaven and earth shall praise you forever. Praise the LORD! Amen." }}
-              />
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <TabbedGuideTemplate data={data} />;
 }

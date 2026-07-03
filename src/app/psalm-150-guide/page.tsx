@@ -1,21 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
+import TabbedGuideTemplate, { TABBED_COLORS, type TabbedGuideData } from "@/components/TabbedGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = TABBED_COLORS;
 
-const TABS = ["overview", "themes", "verse", "application"];
-const TAB_LABELS: Record<string, string> = {
-  overview: "Overview",
-  themes: "Key Themes",
-  verse: "Verse by Verse",
-  application: "Application",
-};
-
-const overviewBlocks: { heading: string; body: string }[] = [
+const overviewBlocks = [
   {
     heading: "The Grand Finale of the Psalter",
     body: "Psalm 150 is the climax and crowning doxology of the entire book of Psalms. The long and varied journey of the Psalter &mdash; through lament and complaint, thanksgiving and praise, wisdom and royal hope &mdash; resolves at last into pure, unbroken, overflowing praise. Every word of this final psalm is praise; there is no petition, no complaint, no instruction, only the summons to worship the LORD. It is the last of the five &lsquo;Hallelujah&rsquo; psalms (146&ndash;150) that conclude the Psalter, and it functions as the doxology not merely of the fifth book but of all 150 psalms together. Whatever the believer has carried into the Psalms &mdash; sorrow, fear, gratitude, longing &mdash; is here gathered up and transformed into a single, glorious shout of praise that draws in all creation.",
@@ -34,7 +22,7 @@ const overviewBlocks: { heading: string; body: string }[] = [
   },
 ];
 
-const themeItems: { id: string; title: string; color: string; body: string }[] = [
+const themeItems = [
   {
     id: "t-where",
     title: "Where to Praise: Sanctuary and Heavens",
@@ -73,7 +61,7 @@ const themeItems: { id: string; title: string; color: string; body: string }[] =
   },
 ];
 
-const verseSections: { id: string; ref: string; label: string; body: string }[] = [
+const verseSections = [
   {
     id: "v-1",
     ref: "Psalm 150:1",
@@ -100,7 +88,7 @@ const verseSections: { id: string; ref: string; label: string; body: string }[] 
   },
 ];
 
-const applicationBlocks: { heading: string; color: string; body: string }[] = [
+const applicationBlocks = [
   {
     heading: "Make Praise the End of Your Journey",
     color: GOLD,
@@ -123,7 +111,7 @@ const applicationBlocks: { heading: string; color: string; body: string }[] = [
   },
 ];
 
-const reflectionQuestions: string[] = [
+const reflectionQuestions = [
   "Psalm 150 is the grand finale of the whole Psalter, resolving every emotion into praise. What burdens or joys do you need to bring before God and let be gathered up into worship?",
   "The psalm tells us to praise God both &lsquo;for his mighty deeds&rsquo; and &lsquo;according to his excellent greatness.&rsquo; Do you find it easier to praise God for what he does or for who he is, and why?",
   "The full temple orchestra is summoned for praise that holds nothing back. Where is your worship timid or half-hearted, and what would whole-hearted praise look like for you?",
@@ -139,185 +127,31 @@ const videoItems = [
   { videoId: "3sO5FH2ybPY", title: "Praise as the Purpose of Every Breath" },
 ];
 
-export default function Psalm150Guide() {
-  const [tab, setTab] = useState("overview");
-  const [open, setOpen] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: TabbedGuideData = {
+  accent: TEAL,
+  badge: `Psalms Deep Dive`,
+  title: `Psalm 150: Let Everything That Has Breath Praise the LORD`,
+  intro: `The grand finale and doxology of the entire book of Psalms &mdash; a climactic, all-encompassing call to praise built around WHERE to praise (sanctuary and mighty heavens), WHY to praise (his mighty deeds and excellent greatness), HOW to praise (the full temple orchestra), and WHO should praise (everything that has breath). The ten-fold &lsquo;praise him&rsquo; rises to a crescendo as the whole journey of the Psalter resolves into unbroken praise.`,
+  keyVerseLabel: `Key Verse &mdash; Psalm 150:6`,
+  keyVerse: `&ldquo;Let everything that has breath praise the LORD! Praise the LORD!&rdquo;`,
+  overviewBlocks,
+  overviewClosingHeading: `The Five Doxologies of the Psalter`,
+  overviewClosingBody: `The book of Psalms is divided into five &lsquo;books,&rsquo; and each one ends with a doxology &mdash; a short burst of praise: Psalm 41:13, 72:18&ndash;19, 89:52, and 106:48. Psalm 150 is the fifth and final doxology, but it is far more than the close of Book Five; it is the grand doxology that crowns the whole collection of 150 psalms. The Hebrew word for &lsquo;praise&rsquo; (hallelu) sounds thirteen times in these six verses &mdash; ten direct imperatives plus the framing Hallelujahs &mdash; building a deliberate crescendo. The Psalter that opened with the two ways (Psalm 1) and the raging nations (Psalm 2) ends with all creation, every breathing thing, united in praise of the LORD.`,
+  themesHeading: `Key Themes of Psalm 150`,
+  themeItems,
+  verseIntro: `Walk through Psalm 150 as it answers four questions about praise &mdash; the where, the why, the how, and the who &mdash; building to the final summons for everything that has breath to praise the LORD and bringing the entire Psalter to its triumphant close. Tap each section to open it.`,
+  verseSections,
+  applicationHeading: `Living Psalm 150`,
+  applicationBlocks,
+  reflectionHeading: `Questions for Reflection`,
+  reflectionQuestions,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your meditation on Psalm 150 through teaching on the grand doxology that closes the Psalter, the where and why and how and who of praise, the ten-fold &lsquo;praise him&rsquo; that builds to a crescendo, and the final summons for everything that has breath to praise the LORD.`,
+  videos: videoItems,
+  closingTitle: `A Closing Prayer`,
+  closingBody: `Praise the LORD! We praise you, O God, in your sanctuary and in your mighty heavens. We praise you for your mighty deeds &mdash; for creation and redemption, for the cross and the empty tomb &mdash; and we praise you according to your excellent greatness, for the boundless glory of who you are. Receive the praise of our whole selves, voice and hands and heart, holding nothing back. We bless you that the long journey of the Psalms, through every sorrow and every joy, ends in unbroken praise; and we long for the day when every creature in heaven and earth shall join the song before your throne and the Lamb. As long as we have breath, we will praise you. Let everything that has breath praise the LORD! Praise the LORD! Amen.`,
+};
 
-  const toggle = (id: string) => setOpen(open === id ? null : id);
-
-  return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: "var(--header-height, 80px)", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 880, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2.25rem" }}>
-          <div style={{ display: "inline-block", background: `${TEAL}22`, color: TEAL, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Psalms Deep Dive
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 150: Let Everything That Has Breath Praise the LORD
-          </h1>
-          <p
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: "0 0 1.75rem" }}
-            dangerouslySetInnerHTML={{ __html: "The grand finale and doxology of the entire book of Psalms &mdash; a climactic, all-encompassing call to praise built around WHERE to praise (sanctuary and mighty heavens), WHY to praise (his mighty deeds and excellent greatness), HOW to praise (the full temple orchestra), and WHO should praise (everything that has breath). The ten-fold &lsquo;praise him&rsquo; rises to a crescendo as the whole journey of the Psalter resolves into unbroken praise." }}
-          />
-          <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderLeft: `4px solid ${TEAL}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Verse &mdash; Psalm 150:6</div>
-            <p
-              style={{ margin: 0, fontSize: "1.15rem", lineHeight: 1.7, fontStyle: "italic", color: TEXT }}
-              dangerouslySetInnerHTML={{ __html: "&ldquo;Let everything that has breath praise the LORD! Praise the LORD!&rdquo;" }}
-            />
-          </div>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              style={{
-                padding: "8px 18px",
-                borderRadius: 8,
-                border: `1px solid ${tab === t ? TEAL : BORDER}`,
-                background: tab === t ? TEAL : CARD,
-                color: tab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {TAB_LABELS[t]}
-            </button>
-          ))}
-        </nav>
-
-        {tab === "overview" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
-            {overviewBlocks.map((b, i) => (
-              <div key={i}>
-                <h2 style={{ fontSize: "1.45rem", fontWeight: 700, margin: "0 0 0.75rem", color: TEXT }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-              </div>
-            ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 1.75rem" }}>
-              <h3 style={{ color: GOLD, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: "The Five Doxologies of the Psalter" }} />
-              <p
-                style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}
-                dangerouslySetInnerHTML={{ __html: "The book of Psalms is divided into five &lsquo;books,&rsquo; and each one ends with a doxology &mdash; a short burst of praise: Psalm 41:13, 72:18&ndash;19, 89:52, and 106:48. Psalm 150 is the fifth and final doxology, but it is far more than the close of Book Five; it is the grand doxology that crowns the whole collection of 150 psalms. The Hebrew word for &lsquo;praise&rsquo; (hallelu) sounds thirteen times in these six verses &mdash; ten direct imperatives plus the framing Hallelujahs &mdash; building a deliberate crescendo. The Psalter that opened with the two ways (Psalm 1) and the raging nations (Psalm 2) ends with all creation, every breathing thing, united in praise of the LORD." }}
-              />
-            </div>
-          </section>
-        )}
-
-        {tab === "themes" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Key Themes of Psalm 150</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {themeItems.map((item) => (
-                <div key={item.id} style={{ background: CARD, border: `1px solid ${open === item.id ? item.color : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(item.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: "1.1rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                    </span>
-                    <span style={{ color: item.color, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === item.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === item.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: item.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "verse" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.5rem" }}>Verse by Verse</h2>
-            <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Walk through Psalm 150 as it answers four questions about praise &mdash; the where, the why, the how, and the who &mdash; building to the final summons for everything that has breath to praise the LORD and bringing the entire Psalter to its triumphant close. Tap each section to open it." }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {verseSections.map((v) => (
-                <div key={v.id} style={{ background: CARD, border: `1px solid ${open === v.id ? TEAL : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(v.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span>
-                      <span style={{ display: "block", color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: v.ref }} />
-                      <span style={{ fontSize: "1.08rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: v.label }} />
-                    </span>
-                    <span style={{ color: TEAL, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === v.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === v.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: v.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "application" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Living Psalm 150</h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {applicationBlocks.map((b, i) => (
-                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${b.color}`, borderRadius: 10, padding: "1.3rem 1.6rem" }}>
-                    <h3 style={{ color: b.color, fontWeight: 700, margin: "0 0 0.6rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Questions for Reflection</h2>
-              <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
-                {reflectionQuestions.map((q, i) => (
-                  <li key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: `${PURPLE}33`, color: PURPLE, fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.7, margin: 0, paddingTop: 2 }} dangerouslySetInnerHTML={{ __html: q }} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.75rem" }}>Video Teaching</h2>
-              <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Deepen your meditation on Psalm 150 through teaching on the grand doxology that closes the Psalter, the where and why and how and who of praise, the ten-fold &lsquo;praise him&rsquo; that builds to a crescendo, and the final summons for everything that has breath to praise the LORD." }} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-                {videoItems.map((v) => (
-                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-              <h3 style={{ color: TEAL, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A Closing Prayer</h3>
-              <p
-                style={{ color: MUTED, lineHeight: 1.85, margin: 0, fontStyle: "italic" }}
-                dangerouslySetInnerHTML={{ __html: "Praise the LORD! We praise you, O God, in your sanctuary and in your mighty heavens. We praise you for your mighty deeds &mdash; for creation and redemption, for the cross and the empty tomb &mdash; and we praise you according to your excellent greatness, for the boundless glory of who you are. Receive the praise of our whole selves, voice and hands and heart, holding nothing back. We bless you that the long journey of the Psalms, through every sorrow and every joy, ends in unbroken praise; and we long for the day when every creature in heaven and earth shall join the song before your throne and the Lamb. As long as we have breath, we will praise you. Let everything that has breath praise the LORD! Praise the LORD! Amen." }}
-              />
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <TabbedGuideTemplate data={data} />;
 }

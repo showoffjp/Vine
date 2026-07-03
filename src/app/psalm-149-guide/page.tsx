@@ -1,21 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import VideoEmbed from "@/components/VideoEmbed";
+import TabbedGuideTemplate, { TABBED_COLORS, type TabbedGuideData } from "@/components/TabbedGuideTemplate";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const TEXT = "#F2F2F8", MUTED = "#9898B3", GREEN = "#3a7d56";
-const PURPLE = "#6B4FBB", GOLD = "#D97706", TEAL = "#0D9488";
-const ROSE = "#E11D48";
+const { GREEN, GOLD, TEAL, PURPLE, ROSE } = TABBED_COLORS;
 
-const TABS = ["overview", "themes", "verse", "application"];
-const TAB_LABELS: Record<string, string> = {
-  overview: "Overview",
-  themes: "Key Themes",
-  verse: "Verse by Verse",
-  application: "Application",
-};
-
-const overviewBlocks: { heading: string; body: string }[] = [
+const overviewBlocks = [
   {
     heading: "A New Song in the Assembly of the Godly",
     body: "Psalm 149 is the fourth of the five great &lsquo;Hallelujah&rsquo; psalms (146&ndash;150) that bring the entire Psalter to its triumphant close. It opens with the call to &lsquo;sing to the LORD a new song&rsquo; &mdash; the fresh praise of a redeemed people who have seen God act anew in their midst. This is not solitary devotion but the worship of a gathered community: his praise is to ring out &lsquo;in the assembly of the godly.&rsquo; The psalm gives us a vivid picture of the joy of God&rsquo;s people in their Maker and their King, a joy so full that it overflows into dancing, music, and exultation. Yet it ends on a startling note of holy warfare, with high praises in the mouth and a two-edged sword in the hand. It is a psalm of exuberant gladness and of fierce, God-honoring zeal.",
@@ -34,7 +22,7 @@ const overviewBlocks: { heading: string; body: string }[] = [
   },
 ];
 
-const themeItems: { id: string; title: string; color: string; body: string }[] = [
+const themeItems = [
   {
     id: "t-newsong",
     title: "Sing to the LORD a New Song",
@@ -73,7 +61,7 @@ const themeItems: { id: string; title: string; color: string; body: string }[] =
   },
 ];
 
-const verseSections: { id: string; ref: string; label: string; body: string }[] = [
+const verseSections = [
   {
     id: "v-12",
     ref: "Psalm 149:1&ndash;2",
@@ -100,7 +88,7 @@ const verseSections: { id: string; ref: string; label: string; body: string }[] 
   },
 ];
 
-const applicationBlocks: { heading: string; color: string; body: string }[] = [
+const applicationBlocks = [
   {
     heading: "Sing a New Song for New Mercies",
     color: GOLD,
@@ -123,7 +111,7 @@ const applicationBlocks: { heading: string; color: string; body: string }[] = [
   },
 ];
 
-const reflectionQuestions: string[] = [
+const reflectionQuestions = [
   "Psalm 149 calls us to &lsquo;sing a new song&rsquo; for the fresh mercies of God. What recent work of God in your life is calling you to a new song of praise?",
   "The psalm grounds joy in being glad in our Maker and rejoicing in our King. How does anchoring your joy in who God is, rather than in your circumstances, change the way you face this week?",
   "&lsquo;The LORD takes pleasure in his people.&rsquo; Do you truly believe that God delights in you, or do you secretly fear he merely tolerates you? How would resting in his delight change you?",
@@ -139,185 +127,31 @@ const videoItems = [
   { videoId: "fNk_zzaMoSs", title: "High Praises and the Two-Edged Sword" },
 ];
 
-export default function Psalm149Guide() {
-  const [tab, setTab] = useState("overview");
-  const [open, setOpen] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded) return null;
+const data: TabbedGuideData = {
+  accent: TEAL,
+  badge: `Psalms Deep Dive`,
+  title: `Psalm 149: The Praise of God&rsquo;s People`,
+  intro: `The fourth of the five closing Hallelujah psalms &mdash; a call to sing a new song in the assembly of the godly, to be glad in our Maker and rejoice in our King, and to praise with dancing and music. At its heart stands the tender truth that the LORD takes pleasure in his people and adorns the humble with salvation. It ends with high praises in the mouth and a two-edged sword in the hand &mdash; the spiritual warfare of the Word and worship.`,
+  keyVerseLabel: `Key Verse &mdash; Psalm 149:4`,
+  keyVerse: `&ldquo;For the LORD takes pleasure in his people; he adorns the humble with salvation.&rdquo;`,
+  overviewBlocks,
+  overviewClosingHeading: `Where Psalm 149 Stands in the Psalter`,
+  overviewClosingBody: `Psalm 149 is the fourth of the five &lsquo;Hallelujah&rsquo; psalms (146&ndash;150) that crown and conclude the book of Psalms, each beginning and ending with the cry &lsquo;Praise the LORD!&rsquo; Together they form a great fivefold doxology, gathering the whole journey of the Psalter &mdash; its laments, its thanksgivings, its wisdom, and its royal hope &mdash; into unbroken praise. Psalm 149 contributes its own distinct note: the joy of a redeemed community, glad in their Maker and rejoicing in their King, delighted in by God and armed with his Word. It leads directly into the final crescendo of Psalm 150, where every breathing creature joins the song.`,
+  themesHeading: `Key Themes of Psalm 149`,
+  themeItems,
+  verseIntro: `Walk through Psalm 149 as it moves from the new song of the gathered assembly, to the mutual delight between God and his people, to the joy that fills both public worship and private rest, and finally to the spiritual warfare of praise and the Word. Tap each section to open it.`,
+  verseSections,
+  applicationHeading: `Living Psalm 149`,
+  applicationBlocks,
+  reflectionHeading: `Questions for Reflection`,
+  reflectionQuestions,
+  videoHeading: `Video Teaching`,
+  videoIntro: `Deepen your meditation on Psalm 149 through teaching on the new song of the redeemed, the God who takes pleasure in his people and adorns the humble with salvation, the joy of being glad in our Maker and King, and the spiritual warfare of high praises and the two-edged sword of the Word.`,
+  videos: videoItems,
+  closingTitle: `A Closing Prayer`,
+  closingBody: `O LORD our Maker and our King, we sing to you a new song, for your mercies are new every morning. We are glad in you who formed us into a people, and we rejoice in you who reign over us. We marvel that you take pleasure in your people, and that you adorn the humble with salvation. Clothe us in your rescue and beautify us with your grace. Put your high praises in our mouths and the sword of your Word in our hands, that we may stand against the powers of darkness not with the weapons of this world but with worship and the truth of Christ. Let our praise fill the assembly and the secret place alike, until we sing the new song before your throne forever. Praise the LORD! Amen.`,
+};
 
-  const toggle = (id: string) => setOpen(open === id ? null : id);
-
-  return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: "var(--header-height, 80px)", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
-      <main style={{ maxWidth: 880, margin: "0 auto", padding: "2.5rem 1.25rem 5rem" }}>
-        <header style={{ marginBottom: "2.25rem" }}>
-          <div style={{ display: "inline-block", background: `${TEAL}22`, color: TEAL, borderRadius: 6, padding: "4px 12px", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 16 }}>
-            Psalms Deep Dive
-          </div>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, margin: "0 0 1rem", lineHeight: 1.15 }}>
-            Psalm 149: The Praise of God&rsquo;s People
-          </h1>
-          <p
-            style={{ fontSize: "clamp(1rem, 2vw, 1.15rem)", color: MUTED, lineHeight: 1.7, margin: "0 0 1.75rem" }}
-            dangerouslySetInnerHTML={{ __html: "The fourth of the five closing Hallelujah psalms &mdash; a call to sing a new song in the assembly of the godly, to be glad in our Maker and rejoice in our King, and to praise with dancing and music. At its heart stands the tender truth that the LORD takes pleasure in his people and adorns the humble with salvation. It ends with high praises in the mouth and a two-edged sword in the hand &mdash; the spiritual warfare of the Word and worship." }}
-          />
-          <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderLeft: `4px solid ${TEAL}`, borderRadius: 10, padding: "1.25rem 1.5rem" }}>
-            <div style={{ color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 8 }}>Key Verse &mdash; Psalm 149:4</div>
-            <p
-              style={{ margin: 0, fontSize: "1.15rem", lineHeight: 1.7, fontStyle: "italic", color: TEXT }}
-              dangerouslySetInnerHTML={{ __html: "&ldquo;For the LORD takes pleasure in his people; he adorns the humble with salvation.&rdquo;" }}
-            />
-          </div>
-        </header>
-
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "2.5rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "1.25rem" }}>
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              style={{
-                padding: "8px 18px",
-                borderRadius: 8,
-                border: `1px solid ${tab === t ? TEAL : BORDER}`,
-                background: tab === t ? TEAL : CARD,
-                color: tab === t ? "#fff" : MUTED,
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-            >
-              {TAB_LABELS[t]}
-            </button>
-          ))}
-        </nav>
-
-        {tab === "overview" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
-            {overviewBlocks.map((b, i) => (
-              <div key={i}>
-                <h2 style={{ fontSize: "1.45rem", fontWeight: 700, margin: "0 0 0.75rem", color: TEXT }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.85, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-              </div>
-            ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "1.5rem 1.75rem" }}>
-              <h3 style={{ color: GOLD, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: "Where Psalm 149 Stands in the Psalter" }} />
-              <p
-                style={{ color: MUTED, lineHeight: 1.8, margin: 0 }}
-                dangerouslySetInnerHTML={{ __html: "Psalm 149 is the fourth of the five &lsquo;Hallelujah&rsquo; psalms (146&ndash;150) that crown and conclude the book of Psalms, each beginning and ending with the cry &lsquo;Praise the LORD!&rsquo; Together they form a great fivefold doxology, gathering the whole journey of the Psalter &mdash; its laments, its thanksgivings, its wisdom, and its royal hope &mdash; into unbroken praise. Psalm 149 contributes its own distinct note: the joy of a redeemed community, glad in their Maker and rejoicing in their King, delighted in by God and armed with his Word. It leads directly into the final crescendo of Psalm 150, where every breathing creature joins the song." }}
-              />
-            </div>
-          </section>
-        )}
-
-        {tab === "themes" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Key Themes of Psalm 149</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {themeItems.map((item) => (
-                <div key={item.id} style={{ background: CARD, border: `1px solid ${open === item.id ? item.color : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(item.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <span style={{ width: 10, height: 10, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: "1.1rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: item.title }} />
-                    </span>
-                    <span style={{ color: item.color, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === item.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === item.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: item.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "verse" && (
-          <section>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.5rem" }}>Verse by Verse</h2>
-            <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Walk through Psalm 149 as it moves from the new song of the gathered assembly, to the mutual delight between God and his people, to the joy that fills both public worship and private rest, and finally to the spiritual warfare of praise and the Word. Tap each section to open it." }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {verseSections.map((v) => (
-                <div key={v.id} style={{ background: CARD, border: `1px solid ${open === v.id ? TEAL : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.15s" }}>
-                  <button
-                    onClick={() => toggle(v.id)}
-                    style={{ width: "100%", textAlign: "left", background: "transparent", border: "none", cursor: "pointer", padding: "1.1rem 1.4rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, color: TEXT, fontFamily: "inherit" }}
-                  >
-                    <span>
-                      <span style={{ display: "block", color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }} dangerouslySetInnerHTML={{ __html: v.ref }} />
-                      <span style={{ fontSize: "1.08rem", fontWeight: 700 }} dangerouslySetInnerHTML={{ __html: v.label }} />
-                    </span>
-                    <span style={{ color: TEAL, fontSize: 22, fontWeight: 400, lineHeight: 1, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: open === v.id ? "&minus;" : "&#43;" }} />
-                  </button>
-                  {open === v.id && (
-                    <div style={{ padding: "0 1.4rem 1.3rem", borderTop: `1px solid ${BORDER}` }}>
-                      <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.85, margin: "1rem 0 0" }} dangerouslySetInnerHTML={{ __html: v.body }} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {tab === "application" && (
-          <section style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.5rem" }}>Living Psalm 149</h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {applicationBlocks.map((b, i) => (
-                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${b.color}`, borderRadius: 10, padding: "1.3rem 1.6rem" }}>
-                    <h3 style={{ color: b.color, fontWeight: 700, margin: "0 0 0.6rem", fontSize: "1.15rem" }} dangerouslySetInnerHTML={{ __html: b.heading }} />
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: 0 }} dangerouslySetInnerHTML={{ __html: b.body }} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 1.25rem" }}>Questions for Reflection</h2>
-              <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
-                {reflectionQuestions.map((q, i) => (
-                  <li key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                    <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: `${PURPLE}33`, color: PURPLE, fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
-                    <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.7, margin: 0, paddingTop: 2 }} dangerouslySetInnerHTML={{ __html: q }} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 700, margin: "0 0 0.75rem" }}>Video Teaching</h2>
-              <p style={{ color: MUTED, fontSize: "1.03rem", lineHeight: 1.8, margin: "0 0 1.75rem" }} dangerouslySetInnerHTML={{ __html: "Deepen your meditation on Psalm 149 through teaching on the new song of the redeemed, the God who takes pleasure in his people and adorns the humble with salvation, the joy of being glad in our Maker and King, and the spiritual warfare of high praises and the two-edged sword of the Word." }} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-                {videoItems.map((v) => (
-                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                    <VideoEmbed videoId={v.videoId} title={v.title} />
-                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.5, margin: 0, padding: "12px 16px" }}>{v.title}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ background: CARD, border: `1px solid ${TEAL}55`, borderRadius: 12, padding: "1.75rem 2rem" }}>
-              <h3 style={{ color: TEAL, fontWeight: 700, margin: "0 0 0.75rem", fontSize: "1.2rem" }}>A Closing Prayer</h3>
-              <p
-                style={{ color: MUTED, lineHeight: 1.85, margin: 0, fontStyle: "italic" }}
-                dangerouslySetInnerHTML={{ __html: "O LORD our Maker and our King, we sing to you a new song, for your mercies are new every morning. We are glad in you who formed us into a people, and we rejoice in you who reign over us. We marvel that you take pleasure in your people, and that you adorn the humble with salvation. Clothe us in your rescue and beautify us with your grace. Put your high praises in our mouths and the sword of your Word in our hands, that we may stand against the powers of darkness not with the weapons of this world but with worship and the truth of Christ. Let our praise fill the assembly and the secret place alike, until we sing the new song before your throne forever. Praise the LORD! Amen." }}
-              />
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  );
+export default function Page() {
+  return <TabbedGuideTemplate data={data} />;
 }

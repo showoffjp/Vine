@@ -3784,6 +3784,18 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 132 Chapter": "psalm-132-guide",
   "Remember O LORD in David's Favor Psalm 132": "psalm-132-guide",
   "The LORD Swore to David a Sure Oath Psalm 132": "psalm-132-guide",
+  "Psalm 101 Chapter": "psalm-101-guide",
+  "I Will Sing of Steadfast Love and Justice Psalm 101": "psalm-101-guide",
+  "I Will Walk with Integrity of Heart Psalm 101": "psalm-101-guide",
+  "Psalm 108 Chapter": "psalm-108-guide",
+  "My Heart Is Steadfast O God Psalm 108": "psalm-108-guide",
+  "With God We Shall Do Valiantly Psalm 108": "psalm-108-guide",
+  "Psalm 109 Chapter": "psalm-109-guide",
+  "Be Not Silent O God of My Praise Psalm 109": "psalm-109-guide",
+  "Let Another Take His Office Psalm 109": "psalm-109-guide",
+  "Psalm 144 Chapter": "psalm-144-guide",
+  "Blessed Be the LORD My Rock Psalm 144": "psalm-144-guide",
+  "What Is Man That You Regard Him Psalm 144": "psalm-144-guide",
 };
 
 
@@ -5313,6 +5325,10 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 129 Chapter" },
   { label: "Psalm 131 Chapter" },
   { label: "Psalm 132 Chapter" },
+  { label: "Psalm 101 Chapter" },
+  { label: "Psalm 108 Chapter" },
+  { label: "Psalm 109 Chapter" },
+  { label: "Psalm 144 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -5623,7 +5639,7 @@ export default function TopicBrowser() {
               (e.currentTarget as HTMLButtonElement).style.color = "#c9b98a";
             }}
           >
-            {suggested ? "✓ Thanks — Topic Suggested" : "+ Suggest a Topic"}
+            {suggested ? "\u2713 Thanks \u2014 Topic Suggested" : "+ Suggest a Topic"}
           </button>
         </div>
       </div>

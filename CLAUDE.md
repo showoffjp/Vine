@@ -42,7 +42,7 @@ The old "copy a 180-line page template per chapter" workflow is DEAD. Do not wri
 - Wire every new guide in TopicBrowser (TOPIC_SLUGS + ALL_TOPICS) and create layout.tsx with metadata
 
 ## Current State / Remaining Work
-- **Missing psalms (7)**: 44, 66, 70, 78, 85, 105, 106 — write as PsalmGuideTemplate data wrappers (Batches 240-242 delivered 101, 108, 109, 144, 134, 135, 140, 141, 142 this way; each page ~21-27KB data-only, VIDEOS: [], layout carries force-dynamic; wire TopicBrowser in the SAME commit as the pages so no dead links ship). Suggested next: Korahite/thanksgiving cluster (44, 66, 70, 85), then the long historical pair 105, 106 and Asaph's 78
+- **Missing psalms (5)**: 66, 70, 78, 105, 106 — write as PsalmGuideTemplate data wrappers (Batches 240-243 delivered 101, 108, 109, 144, 134, 135, 140, 141, 142, 44, 85 this way; each page ~21-27KB data-only, VIDEOS: [], layout carries force-dynamic; wire TopicBrowser in the SAME commit as the pages so no dead links ship). Suggested next: thanksgiving pair 66 + 70, then the long historical trio 78, 105, 106 to finish the Psalter
 - **Bespoke guide pages not consolidated**: ~99 "tabs-var" (component-scoped tabs, custom card grids) + ~359 older one-offs. Hand-authored JSX; do NOT force into templates mechanically — convert only with per-page review, or leave as-is
 - **~800 pages carry fake video IDs** — replace with real teaching videos or empty arrays as encountered
 - **Community features are UI shells** (feed, discussions, prayer wall) — no backend yet

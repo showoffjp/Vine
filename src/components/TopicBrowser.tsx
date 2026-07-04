@@ -3802,6 +3802,15 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 135 Chapter": "psalm-135-guide",
   "Praise the LORD for the LORD Is Good Psalm 135": "psalm-135-guide",
   "Whatever the LORD Pleases He Does Psalm 135": "psalm-135-guide",
+  "Psalm 140 Chapter": "psalm-140-guide",
+  "Deliver Me O LORD from Evil Men Psalm 140": "psalm-140-guide",
+  "You Have Covered My Head in the Day of Battle Psalm 140": "psalm-140-guide",
+  "Psalm 141 Chapter": "psalm-141-guide",
+  "Let My Prayer Be Counted as Incense Psalm 141": "psalm-141-guide",
+  "Set a Guard Over My Mouth Psalm 141": "psalm-141-guide",
+  "Psalm 142 Chapter": "psalm-142-guide",
+  "With My Voice I Cry Out to the LORD Psalm 142": "psalm-142-guide",
+  "You Are My Refuge My Portion Psalm 142": "psalm-142-guide",
 };
 
 
@@ -5337,6 +5346,9 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 144 Chapter" },
   { label: "Psalm 134 Chapter" },
   { label: "Psalm 135 Chapter" },
+  { label: "Psalm 140 Chapter" },
+  { label: "Psalm 141 Chapter" },
+  { label: "Psalm 142 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

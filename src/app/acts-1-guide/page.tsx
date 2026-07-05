@@ -89,7 +89,6 @@ const sections = [
 
 const videoItems = [
   { videoId: "AH4kmwMTRhc", title: "Acts 1 - The Ascension and the Promise of the Holy Spirit" },
-  { videoId: "BibleProjectActs", title: "BibleProject - Overview of Acts 1-12" },
   { videoId: "Xk9mPqL7rWs", title: "Acts Chapter 1 - Verse by Verse Bible Study" },
   { videoId: "Dv3NpTq8MnL", title: "The Ascension of Jesus - Acts 1 Explained" },
 ];

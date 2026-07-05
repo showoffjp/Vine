@@ -87,12 +87,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Sam7xAbCdEfGhIj", title: "1 Samuel 7 - The Ebenezer Stone and Israel's Revival Explained" },
-  { videoId: "Sam7KlMnOpQrStUv", title: "Samuel Leads Israel to Repentance at Mizpah - 1 Samuel 7 Bible Study" },
-  { videoId: "Sam7WxYzAbCdEfGh", title: "Thus Far the Lord Has Helped Us - The Meaning of Ebenezer (1 Samuel 7)" },
-  { videoId: "Sam7IjKlMnOpQrSt", title: "The Lord Thunders at Mizpah - God's Victory Over the Philistines in 1 Samuel" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#D97706",

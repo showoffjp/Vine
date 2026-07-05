@@ -90,12 +90,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Matt14AaBbCcD", title: "Matthew 14 - Feeding 5000 and Walking on Water" },
-  { videoId: "Matt14EeFfGgH", title: "Matthew 14 Bible Study - Miracles of Compassion and Power" },
-  { videoId: "Matt14IiJjKkL", title: "Peter Walks on Water - Faith, Doubt, and the Eyes of Jesus" },
-  { videoId: "Matt14MmNnOoP", title: "You Give Them Something to Eat - Matthew 14 Explained" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#3B82F6",

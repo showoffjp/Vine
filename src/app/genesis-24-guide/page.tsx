@@ -86,12 +86,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Gen24AbCdEfGh", title: "Genesis 24 - Providence in Marriage - Bible Study" },
-  { videoId: "Gen24IjKlMnOp", title: "Finding Rebekah - Divine Guidance in Genesis 24" },
-  { videoId: "Gen24QrStUvWx", title: "The Servant's Prayer at the Well - Genesis 24 Explained" },
-  { videoId: "Gen24YzAaBbCc", title: "Isaac and Rebekah - A Marriage Appointed by God" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#E11D48",

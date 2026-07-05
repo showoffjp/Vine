@@ -85,12 +85,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "1Kg4AbCdEfGh1", title: "1 Kings 4 - Solomon's Kingdom and Wisdom - Bible Study" },
-  { videoId: "1Kg4IjKlMnOp2", title: "The Wisdom of Solomon - 1 Kings 4 Explained" },
-  { videoId: "1Kg4QrStUvWx3", title: "Solomon's Administration and Provision - 1 Kings 4" },
-  { videoId: "1Kg4YzAaBbCc4", title: "Peace Under Solomon - The Golden Age of Israel" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#D97706",

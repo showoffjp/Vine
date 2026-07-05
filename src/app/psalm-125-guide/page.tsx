@@ -11,8 +11,6 @@ const ACCENT = GOLD;
 type VideoEntry = { videoId: string; title: string };
 
 const VIDEOS: VideoEntry[] = [
-  { videoId: "yzaABC789", title: "Psalm 125 -- Like Mount Zion, Unshakeable" },
-  { videoId: "defDEF012", title: "Songs of Ascents: The Security of the Trusting Soul" },
 ];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {

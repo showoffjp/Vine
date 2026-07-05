@@ -90,7 +90,6 @@ const sections = [
 
 const videoItems = [
   { videoId: "Kp3mNqL8vWx", title: "Ruth 4 - The Kinsman Redeemer and the City Gate" },
-  { videoId: "BibleProjectRuth", title: "BibleProject - Overview of Ruth" },
   { videoId: "Tz7wQnRm2Ys", title: "Ruth Chapter 4 - Verse by Verse Bible Study" },
   { videoId: "Jn5xLpQk9Vb", title: "Boaz and Ruth - A Picture of Redemption" },
 ];

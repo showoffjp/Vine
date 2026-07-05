@@ -85,12 +85,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Exod32AbCdEf1", title: "Exodus 32 - The Golden Calf - Bible Study" },
-  { videoId: "Exod32GhIjKl2", title: "Moses Intercedes for Israel - Exodus 32 Explained" },
-  { videoId: "Exod32MnOpQr3", title: "The Sin of the Golden Calf and God's Holiness" },
-  { videoId: "Exod32StUvWx4", title: "Exodus 32 - Moses the Mediator Sermon" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#E11D48",

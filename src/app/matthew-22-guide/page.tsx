@@ -90,12 +90,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Matt22xYzAbCdEf", title: "Matthew 22 - The Wedding Banquet and the Great Commandment Explained" },
-  { videoId: "Matt22GhIjKlMnO", title: "Render to Caesar - Jesus on Taxes and God's Sovereignty (Matthew 22)" },
-  { videoId: "Matt22PqRsTuVwX", title: "The Greatest Commandment - Love God and Neighbor - Matthew 22 Bible Study" },
-  { videoId: "Matt22YzAbCdEfG", title: "Whose Son Is the Christ? - Psalm 110 and Matthew 22 Deep Dive" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#3B82F6",

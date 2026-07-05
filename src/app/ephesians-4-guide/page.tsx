@@ -91,12 +91,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Eph4WalkWorthy", title: "Walk Worthy of Your Calling - Ephesians 4 Sermon" },
-  { videoId: "Eph4UnityBody1", title: "The Seven Unities of the Body - Ephesians 4:1-6 Study" },
-  { videoId: "Eph4GiftsChrc", title: "Christ's Gifts to the Church - Apostles, Prophets, Evangelists" },
-  { videoId: "Eph4OldNewSlf", title: "Put Off the Old Self, Put On the New - Ephesians 4:17-32" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#6B4FBB",

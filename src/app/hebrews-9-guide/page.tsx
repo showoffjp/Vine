@@ -86,12 +86,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Heb9AbCdEfGhI", title: "Hebrews 9 - Christ Our High Priest - Bible Study" },
-  { videoId: "Heb9JkLmNoPqR", title: "The Tabernacle and Its Fulfillment in Christ - Hebrews 9" },
-  { videoId: "Heb9StUvWxYzA", title: "The New Covenant in Hebrews 9 - Once For All Explained" },
-  { videoId: "Heb9BbCcDdEeF", title: "Christ's Blood and the Day of Atonement - Hebrews 9 Deep Dive" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#6B4FBB",

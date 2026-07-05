@@ -88,12 +88,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Jhn7FeastWtr1", title: "John 7 - Jesus at the Feast of Tabernacles" },
-  { videoId: "Jhn7LivingWtr", title: "Rivers of Living Water - John 7:37-39 Sermon" },
-  { videoId: "Jhn7DivisionC", title: "Division Over Jesus - A Study of John 7" },
-  { videoId: "Jhn7SpiritGft", title: "The Spirit and the Feast - John 7 in Context" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#0D9488",

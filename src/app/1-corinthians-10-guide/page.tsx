@@ -89,12 +89,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "1Cor10AbCdEfG", title: "1 Corinthians 10 - Israel's Example and Idolatry - Bible Study" },
-  { videoId: "1Cor10HiJkLmN", title: "Flee Idolatry - The Cup of the Lord vs. the Cup of Demons" },
-  { videoId: "1Cor10OpQrStU", title: "The Way of Escape - 1 Corinthians 10:13 Explained" },
-  { videoId: "1Cor10VwXyZaB", title: "Do All to the Glory of God - 1 Corinthians 10 Deep Dive" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#6B4FBB",

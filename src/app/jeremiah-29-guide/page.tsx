@@ -90,12 +90,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Jer29AaBbCcD", title: "Jeremiah 29 - Plans to Prosper You - Bible Study" },
-  { videoId: "Jer29EeFfGgH", title: "Jeremiah 29:11 in Context - What Does It Really Mean?" },
-  { videoId: "Jer29IiJjKkL", title: "Seek the Peace of Babylon - Life in Exile with God" },
-  { videoId: "Jer29MmNnOoP", title: "Jeremiah 29 - The Letter, the False Prophets, and the Promise" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#0D9488",

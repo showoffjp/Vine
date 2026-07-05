@@ -85,12 +85,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Gen50AbCdEf1x", title: "Genesis 50 - Joseph Forgives His Brothers - Bible Study" },
-  { videoId: "Gen50GhIjKl2y", title: "You Intended Evil but God Intended Good - Genesis 50 Sermon" },
-  { videoId: "Gen50MnOpQr3z", title: "The Death of Jacob and Joseph's Faith - Genesis 50 Explained" },
-  { videoId: "Gen50StUvWx4w", title: "Providence and Forgiveness in Genesis 50 - Teaching" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#0D9488",

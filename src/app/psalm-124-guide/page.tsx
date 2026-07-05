@@ -11,8 +11,6 @@ const ACCENT = GREEN;
 type VideoEntry = { videoId: string; title: string };
 
 const VIDEOS: VideoEntry[] = [
-  { videoId: "mno789pqr", title: "Psalm 124 -- If Not for the LORD" },
-  { videoId: "stu012vwx", title: "Songs of Ascents: Our Help in the Name of the LORD" },
 ];
 
 function VideoEmbed({ v }: { v: VideoEntry }) {

@@ -3,10 +3,7 @@ import PsalmGuideTemplate, { GUIDE_COLORS, type PsalmGuideData, type VideoEntry 
 
 const { GREEN, GOLD, TEAL, PURPLE, ROSE } = GUIDE_COLORS;
 
-const VIDEOS = [
-  { videoId: "xyzABC123", title: "Psalm 120 -- Songs of Ascents Introduction" },
-  { videoId: "defGHI456", title: "Living Among Liars -- Psalm 120 Expository" },
-];
+const VIDEOS: { videoId: string; title: string }[] = [];
 
 const KEY_DETAILS = [
   { label: "Author", value: "Anonymous (possibly David or a returning exile)" },

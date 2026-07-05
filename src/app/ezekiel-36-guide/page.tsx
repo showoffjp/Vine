@@ -85,12 +85,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "Ezek36AbCdEf1", title: "Ezekiel 36 - A New Heart and New Spirit - Bible Study" },
-  { videoId: "Ezek36GhIjKl2", title: "God's Promise of Restoration in Ezekiel 36 Explained" },
-  { videoId: "Ezek36MnOpQr3", title: "Ezekiel 36 - For My Holy Name's Sake - Sermon" },
-  { videoId: "Ezek36StUvWx4", title: "The New Covenant in Ezekiel 36 and Its Fulfillment in Christ" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#3a7d56",

@@ -3,10 +3,7 @@ import PsalmGuideTemplate, { GUIDE_COLORS, type PsalmGuideData, type VideoEntry 
 
 const { GREEN, GOLD, TEAL, PURPLE, ROSE } = GUIDE_COLORS;
 
-const VIDEOS = [
-  { videoId: "abc123def", title: "Psalm 123 -- Eyes Fixed on God" },
-  { videoId: "ghi456jkl", title: "Songs of Ascents: Waiting on the LORD" },
-];
+const VIDEOS: { videoId: string; title: string }[] = [];
 
 const KEY_DETAILS = [
   { label: "Author", value: "Anonymous (possibly David or Hezekiah)" },

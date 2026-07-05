@@ -89,12 +89,7 @@ const sections = [
   },
 ];
 
-const videoItems = [
-  { videoId: "John13AbCdEfGh", title: "John 13 - The Foot Washing and the New Commandment - Bible Study" },
-  { videoId: "John13IjKlMnOp", title: "Jesus Washes Feet - Servant Leadership in John 13 Explained" },
-  { videoId: "John13QrStUvWx", title: "The Betrayal of Judas and the Hour of Glory - John 13" },
-  { videoId: "John13YzAbCdEf", title: "Love One Another - The New Commandment of John 13 Deep Dive" },
-];
+const videoItems: { videoId: string; title: string }[] = [];
 
 const data: SectionGuideData = {
   accent: "#0D9488",

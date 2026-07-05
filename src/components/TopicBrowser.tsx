@@ -3817,6 +3817,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 85 Chapter": "psalm-85-guide",
   "Will You Not Revive Us Again Psalm 85": "psalm-85-guide",
   "Righteousness and Peace Kiss Each Other Psalm 85": "psalm-85-guide",
+  "Psalm 66 Chapter": "psalm-66-guide",
+  "Shout for Joy to God All the Earth Psalm 66": "psalm-66-guide",
+  "Come and See What God Has Done Psalm 66": "psalm-66-guide",
+  "Psalm 70 Chapter": "psalm-70-guide",
+  "Make Haste O God to Deliver Me Psalm 70": "psalm-70-guide",
+  "I Am Poor and Needy Hasten to Me Psalm 70": "psalm-70-guide",
 };
 
 
@@ -5357,6 +5363,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 142 Chapter" },
   { label: "Psalm 44 Chapter" },
   { label: "Psalm 85 Chapter" },
+  { label: "Psalm 66 Chapter" },
+  { label: "Psalm 70 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

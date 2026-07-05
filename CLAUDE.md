@@ -47,7 +47,7 @@ The old "copy a 180-line page template per chapter" workflow is DEAD. Do not wri
 - **~800 pages carry fake video IDs** — replace with real teaching videos or empty arrays as encountered
 - **Community features are UI shells** (feed, discussions, prayer wall) — no backend yet
 - **Vercel failure log still never seen** — if user provides it, target the actual bottleneck before further build work
-- New content pages wanted: `/historical-jesus`, `/christian-reading-plans`
+- New content pages: `/historical-jesus` DONE (apologetics, tabs-var style, wired Navbar + TopicBrowser, VIDEOS none); still wanted: `/christian-reading-plans`
 - After psalms: Job (~41 ch), Jeremiah (~39), Ezekiel (~38), Exodus (~35), Deuteronomy (~32), 2 Chronicles (~32)
 
 ## Codemods (ephemeral — scratchpad wiped on container restart)

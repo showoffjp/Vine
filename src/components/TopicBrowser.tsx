@@ -3823,6 +3823,9 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 70 Chapter": "psalm-70-guide",
   "Make Haste O God to Deliver Me Psalm 70": "psalm-70-guide",
   "I Am Poor and Needy Hasten to Me Psalm 70": "psalm-70-guide",
+  "Psalm 78 Chapter": "psalm-78-guide",
+  "Give Ear O My People to My Teaching Psalm 78": "psalm-78-guide",
+  "Tell to the Coming Generation Psalm 78": "psalm-78-guide",
 };
 
 
@@ -5365,6 +5368,7 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 85 Chapter" },
   { label: "Psalm 66 Chapter" },
   { label: "Psalm 70 Chapter" },
+  { label: "Psalm 78 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

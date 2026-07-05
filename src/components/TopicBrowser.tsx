@@ -3826,6 +3826,12 @@ const TOPIC_SLUGS: Record<string, string> = {
   "Psalm 78 Chapter": "psalm-78-guide",
   "Give Ear O My People to My Teaching Psalm 78": "psalm-78-guide",
   "Tell to the Coming Generation Psalm 78": "psalm-78-guide",
+  "Psalm 105 Chapter": "psalm-105-guide",
+  "He Remembers His Covenant Forever Psalm 105": "psalm-105-guide",
+  "Seek the LORD and His Strength Psalm 105": "psalm-105-guide",
+  "Psalm 106 Chapter": "psalm-106-guide",
+  "Both We and Our Fathers Have Sinned Psalm 106": "psalm-106-guide",
+  "He Remembered His Covenant and Relented Psalm 106": "psalm-106-guide",
 };
 
 
@@ -5369,6 +5375,8 @@ const ALL_TOPICS: Topic[] = [
   { label: "Psalm 66 Chapter" },
   { label: "Psalm 70 Chapter" },
   { label: "Psalm 78 Chapter" },
+  { label: "Psalm 105 Chapter" },
+  { label: "Psalm 106 Chapter" },
 ];
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

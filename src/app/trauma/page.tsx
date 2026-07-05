@@ -209,7 +209,6 @@ export default function TraumaPage() {
               { videoId: "53RX2ESIqLM", title: "The Body Keeps the Score — Bessel van der Kolk", channel: "The Commonwealth Club", description: "Van der Kolk explains how trauma is stored in the body, why traditional talk therapy alone is often insufficient, and what embodied healing approaches work — in conversation accessible to a general audience." },
               { videoId: "ZwDlGPCEUoE", title: "Healing Sexual Trauma — Dan Allender", channel: "The Allender Center", description: "Allender on the journey of healing from sexual trauma — what it requires, why the church often fails survivors, and what genuine restoration looks like. Pastoral, courageous, and theologically grounded." },
               { videoId: "6p_yaNFSYao", title: "Trauma and the Gospel", channel: "The Gospel Coalition", description: "How the gospel speaks specifically to trauma survivors — addressing the theological questions that trauma raises (Where was God? Why did he not stop it?) with pastoral honesty." },
-              { videoId: "XYZ123trauma", title: "Understanding Complex Trauma", channel: "CCEF", description: "A counseling-focused treatment of complex trauma — the kind that results from repeated, chronic experiences — and what the healing pathway looks like for those who have survived long-term abuse." },
             ].map(v => (
               <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
                 <VideoEmbed videoId={v.videoId} title={v.title} />

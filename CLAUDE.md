@@ -48,7 +48,8 @@ The old "copy a 180-line page template per chapter" workflow is DEAD. Do not wri
 - **Community features are UI shells** (feed, discussions, prayer wall) — no backend yet
 - **Vercel failure log still never seen** — if user provides it, target the actual bottleneck before further build work
 - New content pages: `/historical-jesus` DONE (apologetics, tabs-var style, wired Navbar + TopicBrowser, VIDEOS none); still wanted: `/christian-reading-plans`
-- After psalms: Job (~41 ch), Jeremiah (~39), Ezekiel (~38), Exodus (~35), Deuteronomy (~32), 2 Chronicles (~32)
+- **PSALTER COMPLETE: all 150 psalms have study guides** (Batches 240-246 delivered the final 14 as PsalmGuideTemplate data wrappers). Now working through Job: 1, 2, 3 done (SectionGuideTemplate data wrappers, custom section tabs, force-dynamic layouts) + pre-existing 38; remaining Job ch: 4-37, 39-42. Pattern: SectionGuideTemplate with 6 section tabs (Overview + 4 content + Application), accent hex, calloutTitle/Body, wire TopicBrowser same commit
+- After Job: Jeremiah (~39), Ezekiel (~38), Exodus (~35), Deuteronomy (~32), 2 Chronicles (~32)
 
 ## Codemods (ephemeral — scratchpad wiped on container restart)
 Conversion scripts lived at scratchpad `convert_psalm.py` / `convert_section.py` / `convert_tabbed.py`. Pattern to recreate: extract prose consts verbatim by bracket-matching; regex hero fields anchored to adjacent JSX; escape `` ` `` and `${`; **prose-preservation gate** = every >60-char double-quoted string containing a sentence must survive verbatim or SKIP the file; then full tsc + non-ASCII gates before commit.

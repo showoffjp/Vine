@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Source maps were ~340 MB of build output across 11,000+ .map files and are
+  // useless at runtime -- generating them was burning build memory and time on
+  // Vercel's small build machine. Disable all source-map generation.
+  productionBrowserSourceMaps: false,
+  experimental: {
+    serverSourceMaps: false,
+    turbopackSourceMaps: false,
+    enablePrerenderSourceMaps: false,
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "img.youtube.com" },

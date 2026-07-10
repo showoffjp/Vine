@@ -12,10 +12,12 @@ const nextConfig: NextConfig = {
   // useless at runtime -- generating them was burning build memory and time on
   // Vercel's small build machine. Disable all source-map generation.
   productionBrowserSourceMaps: false,
+  // Tree-shake the icon barrel import (120 files import from lucide-react)
+  // so only the icons actually used get compiled, not the whole library.
   experimental: {
+    optimizePackageImports: ["lucide-react"],
     serverSourceMaps: false,
     turbopackSourceMaps: false,
-    enablePrerenderSourceMaps: false,
   },
   images: {
     remotePatterns: [

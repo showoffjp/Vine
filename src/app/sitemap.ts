@@ -1,8 +1,9 @@
 import { MetadataRoute } from "next";
 import { readdirSync, statSync } from "fs";
 import { join } from "path";
+import { SITE_URL } from "@/lib/site";
 
-const BASE = "https://vine.community";
+const BASE = SITE_URL;
 
 // Pages excluded from the public sitemap (auth-gated / personal)
 const EXCLUDE = new Set([

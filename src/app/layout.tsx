@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Cormorant_Garamond, Jost } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NavProgress from "@/components/NavProgress";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,7 +37,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vine.community"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Vine — The Christian Everything Platform",
     template: "%s | Vine",
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://vine.community",
+    url: SITE_URL,
     siteName: "Vine",
     title: "Vine — Grow. Connect. Thrive in Faith.",
     description:

@@ -16,28 +16,22 @@ const DEVOTIONALS = [
     title: "Finding Peace in the Storm",
     excerpt:
       "When anxiety overwhelms us, Scripture offers not just comfort but a practical path back to peace. Today we explore what it means to cast our cares on Him, and why He actually cares for us.",
-    author: "Pastor David Chen",
+    theme: "Anxiety & Peace",
     readTime: "4 min read",
-    likes: 847,
-    saves: 312,
   },
   {
     title: "The Power of Community in Hard Times",
     excerpt:
       "God did not design us to walk alone. From the earliest days of the Church, believers have carried each other's burdens. Here is how to lean in when the weight feels unbearable.",
-    author: "Sarah Mwangi",
+    theme: "Community",
     readTime: "6 min read",
-    likes: 1204,
-    saves: 589,
   },
   {
     title: "What Forgiveness Actually Costs",
     excerpt:
       "We talk about forgiveness as if it were free. It is not. It costs something real — and that is exactly why it is so powerful and so transformative when we choose it anyway.",
-    author: "Dr. James Okafor",
+    theme: "Forgiveness",
     readTime: "5 min read",
-    likes: 2103,
-    saves: 917,
   },
 ];
 
@@ -373,34 +367,22 @@ export default function DailyBread() {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div
-                        style={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: "50%",
-                          background: "rgba(201,162,39,0.15)",
-                          border: "0.5px solid rgba(201,162,39,0.3)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                          fontSize: "0.6rem",
-                          fontWeight: 700,
-                          color: "#c9a227",
-                        }}
-                      >
-                        {d.author[0]}
-                      </div>
                       <span
                         style={{
                           fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                          fontSize: "0.72rem",
-                          color: "#9a8f72",
+                          fontSize: "0.62rem",
+                          fontWeight: 600,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          color: "#c9a227",
+                          background: "rgba(201,162,39,0.1)",
+                          border: "0.5px solid rgba(201,162,39,0.25)",
+                          borderRadius: 999,
+                          padding: "0.15rem 0.6rem",
                         }}
                       >
-                        {d.author}
+                        {d.theme}
                       </span>
-                      <span style={{ color: "rgba(201,162,39,0.3)", fontSize: "0.72rem" }}>·</span>
                       <span
                         style={{
                           fontFamily: "var(--font-jost, system-ui, sans-serif)",
@@ -411,34 +393,19 @@ export default function DailyBread() {
                         {d.readTime}
                       </span>
                     </div>
-                    <div style={{ display: "flex", gap: 12 }}>
-                      <span
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 4,
-                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                          fontSize: "0.72rem",
-                          color: "#9a8f72",
-                        }}
-                      >
-                        <Heart size={10} />
-                        {d.likes.toLocaleString()}
-                      </span>
-                      <span
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 4,
-                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                          fontSize: "0.72rem",
-                          color: "#9a8f72",
-                        }}
-                      >
-                        <Bookmark size={10} />
-                        {d.saves}
-                      </span>
-                    </div>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                        fontSize: "0.72rem",
+                        fontWeight: 500,
+                        color: "#c9a227",
+                      }}
+                    >
+                      Read <ChevronRight size={12} />
+                    </span>
                   </div>
                 </Link>
               ))}

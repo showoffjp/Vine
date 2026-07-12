@@ -4,52 +4,42 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowUp, MessageSquare, Bookmark, Share2, ChevronRight, Users, Check } from "lucide-react";
 
+// Illustrative discussion prompts — example conversations the hubs are built
+// for, not real user posts. No fabricated vote/comment counts or timestamps.
 const DISCUSSIONS = [
   {
     hub: "Faith & Doubt",
-    time: "3h ago",
     title:
       "How do you maintain faith when your prayers seem to go unanswered? Genuine question from a long-time believer.",
     preview:
       "I have been a believer for 15 years and I am going through the hardest season of my life. My wife and I have been praying for healing for two years and nothing has changed. I am not walking away but I am struggling...",
-    votes: 2847,
-    comments: 394,
-    saved: 821,
     flair: "Discussion",
   },
   {
     hub: "Christian Life",
-    time: "1h ago",
     title:
       "I rebuilt my morning routine entirely on Proverbs and it changed everything. Here is the breakdown.",
     preview:
       "5:30am — Silence and prayer (Psalm 46:10). 5:50am — One chapter of Scripture with coffee. 6:10am — Journal one gratitude and one trust. Six months in and the transformation is real...",
-    votes: 5102,
-    comments: 612,
-    saved: 2304,
     flair: "Life Practice",
   },
   {
     hub: "Mental Health & Faith",
-    time: "6h ago",
     title:
       "Christians who have gone to therapy — what was it like? Was it helpful? Did your faith factor in?",
     preview:
       "I have been struggling with anxiety for months and my pastor suggested therapy, but I am not sure how faith and clinical counseling intersect. Looking for real stories from believers who have been through it...",
-    votes: 3490,
-    comments: 501,
-    saved: 1100,
     flair: "Wellness",
   },
 ];
 
 const HUBS = [
-  { name: "Faith & Doubt", members: "Active" },
-  { name: "Daily Devotional", members: "Active" },
-  { name: "Christian Parenting", members: "Active" },
-  { name: "Life & Calling", members: "New" },
-  { name: "Worship & Music", members: "New" },
-  { name: "Mental Health", members: "Active" },
+  { name: "Faith & Doubt" },
+  { name: "Daily Devotional" },
+  { name: "Christian Parenting" },
+  { name: "Life & Calling" },
+  { name: "Worship & Music" },
+  { name: "Mental Health" },
 ];
 
 const VOTED_STORAGE_KEY = "vine:community:voted";
@@ -169,8 +159,9 @@ export default function CommunityPreview() {
               lineHeight: 1.65,
             }}
           >
-            Thousands of topic-specific hubs where Christians share openly,
-            debate respectfully, and grow together.
+            Topic-specific hubs where Christians share openly, debate
+            respectfully, and grow together. The prompts below are examples of
+            the conversations each hub is built for.
           </p>
         </div>
 
@@ -211,16 +202,6 @@ export default function CommunityPreview() {
                     }}
                   >
                     {post.hub}
-                  </span>
-                  <span style={{ color: "rgba(201,162,39,0.25)", fontSize: "0.7rem" }}>·</span>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                      fontSize: "0.7rem",
-                      color: "#9a8f72",
-                    }}
-                  >
-                    {post.time}
                   </span>
                   <span
                     style={{
@@ -296,44 +277,42 @@ export default function CommunityPreview() {
                     }}
                   >
                     <ArrowUp size={11} />
-                    {(post.votes + (voted[i] ? 1 : 0)).toLocaleString()}
+                    {voted[i] ? "Upvoted" : "Upvote"}
                   </button>
-                  {[
-                    { Icon: MessageSquare, val: post.comments, kind: "comment" as const },
-                    { Icon: Bookmark, val: post.saved, kind: "save" as const },
-                  ].map(({ Icon, val, kind }, j) => {
-                    const isSave = kind === "save";
-                    const active = isSave && saved[i];
-                    const displayVal = isSave && saved[i] ? post.saved + 1 : val;
-                    return (
-                      <button
-                        key={j}
-                        onClick={
-                          isSave
-                            ? (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                toggleSave(i);
-                              }
-                            : undefined
-                        }
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 5,
-                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                          fontSize: "0.72rem",
-                          color: active ? "#c9a227" : "#9a8f72",
-                          background: "transparent",
-                          border: "none",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <Icon size={11} fill={active ? "#c9a227" : "none"} />
-                        {typeof displayVal === "number" ? displayVal.toLocaleString() : displayVal}
-                      </button>
-                    );
-                  })}
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.72rem",
+                      color: "#9a8f72",
+                    }}
+                  >
+                    <MessageSquare size={11} />
+                    Reply
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleSave(i);
+                    }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.72rem",
+                      color: saved[i] ? "#c9a227" : "#9a8f72",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Bookmark size={11} fill={saved[i] ? "#c9a227" : "none"} />
+                    {saved[i] ? "Saved" : "Save"}
+                  </button>
                   <button
                     onClick={(e) => {
                       e.preventDefault();
@@ -448,15 +427,6 @@ export default function CommunityPreview() {
                         >
                           {hub.name}
                         </p>
-                        <p
-                          style={{
-                            fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                            fontSize: "0.68rem",
-                            color: "#9a8f72",
-                          }}
-                        >
-                          {hub.members} community
-                        </p>
                       </div>
                     </div>
                     <ChevronRight size={12} style={{ color: "rgba(201,162,39,0.3)" }} />
@@ -465,7 +435,7 @@ export default function CommunityPreview() {
               </div>
             </div>
 
-            {/* Online now */}
+            {/* How the hubs work */}
             <div
               style={{
                 background: "#050e07",
@@ -486,56 +456,21 @@ export default function CommunityPreview() {
                     color: "#f2e6c8",
                   }}
                 >
-                  Christians Online Now
+                  How the Hubs Work
                 </h3>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ display: "flex" }}>
-                  {["#c9a227", "#3a7d56", "#52a876", "#e8c162", "#1a3d26"].map((c, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: "50%",
-                        background: c,
-                        border: "2px solid #050e07",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                        fontSize: "0.6rem",
-                        fontWeight: 700,
-                        color: "#050e07",
-                        marginLeft: i > 0 ? -8 : 0,
-                      }}
-                    >
-                      {String.fromCharCode(65 + i)}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                      fontWeight: 600,
-                      fontSize: "0.9rem",
-                      color: "#f2e6c8",
-                    }}
-                  >
-                    3,842 online
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                      fontSize: "0.7rem",
-                      color: "#9a8f72",
-                    }}
-                  >
-                    from 47 countries
-                  </p>
-                </div>
-              </div>
+              <p
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.8rem",
+                  color: "#9a8f72",
+                  lineHeight: 1.65,
+                }}
+              >
+                Every hub is built around Scripture and centered on Christ. Post
+                a question, share what God is teaching you, or simply listen and
+                pray for others. All are welcome; grace and truth set the tone.
+              </p>
             </div>
 
             {/* Join CTA card */}
@@ -570,7 +505,7 @@ export default function CommunityPreview() {
                 }}
               >
                 Create your free account to post, vote, and connect with
-                thousands of Christians worldwide.
+                fellow believers seeking to abide in Christ.
               </p>
               <Link
                 href="/feed"

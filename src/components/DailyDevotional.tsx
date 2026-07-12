@@ -22,10 +22,7 @@ const devotionals = [
     verse: '"Because of the Lord\'s great love we are not consumed, for his compassions never fail. They are new every morning; great is your faithfulness."',
     verseRef: "Lamentations 3:22–23 (NIV)",
     title: "Mercies That Never Run Out",
-    author: "Dr. Emmanuel Asante",
-    authorRole: "Cape Town, South Africa · Theologian & Author",
-    authorInitials: "EA",
-    authorGradient: "linear-gradient(135deg, #6B4FBB, #4FBBAA)",
+    tagGradient: "linear-gradient(135deg, #6B4FBB, #4FBBAA)",
     readTime: "5 min read",
     content: [
       "There is a particular kind of mercy that most of us have never fully grasped — the kind that doesn't run dry. The kind that isn't rationed, thinned out, or withheld because of how many times we've needed it before. Jeremiah, writing from the rubble of Jerusalem, discovered this mercy in one of the darkest seasons of his life.",
@@ -56,10 +53,7 @@ const devotionals = [
     verse: '"The Lord is my shepherd; I shall not want. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul."',
     verseRef: "Psalm 23:1–3 (ESV)",
     title: "The Shepherd Who Leads You Home",
-    author: "Pastor Miriam Osei",
-    authorRole: "Accra, Ghana · Lead Pastor, Grace Tabernacle",
-    authorInitials: "MO",
-    authorGradient: "linear-gradient(135deg, #3a7d56, #4FBBAA)",
+    tagGradient: "linear-gradient(135deg, #3a7d56, #4FBBAA)",
     readTime: "6 min read",
     content: [
       "Psalm 23 may be the most memorized passage in all of Scripture, but familiarity has a way of making us deaf to what we most need to hear. David wasn't writing from a comfortable study. He was a man who had faced lions, bears, betrayal, exile, and the silence of God — and still he wrote: the Lord is my shepherd.",
@@ -90,10 +84,7 @@ const devotionals = [
     verse: '"And we know that in all things God works for the good of those who love him, who have been called according to his purpose... For I am convinced that neither death nor life, neither angels nor demons... will be able to separate us from the love of God that is in Christ Jesus our Lord."',
     verseRef: "Romans 8:28, 38–39 (NIV)",
     title: "Nothing Can Separate You",
-    author: "Rev. Charles Mwangi",
-    authorRole: "Nairobi, Kenya · Theologian & Bible Teacher",
-    authorInitials: "CM",
-    authorGradient: "linear-gradient(135deg, #BB4F7A, #6B4FBB)",
+    tagGradient: "linear-gradient(135deg, #BB4F7A, #6B4FBB)",
     readTime: "7 min read",
     content: [
       "Paul writes Romans 8 from a position of hard-won certainty. He had been beaten with rods, shipwrecked, imprisoned, abandoned by friends, and left for dead. He was not a man writing from a padded chair about abstract theology. When he says 'I am convinced,' he means it in the way a soldier means it after surviving a war — not as a theory, but as a testimony.",
@@ -124,10 +115,7 @@ const devotionals = [
     verse: '"Trust in the Lord with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths."',
     verseRef: "Proverbs 3:5–6 (ESV)",
     title: "Laying Down What You Think You Know",
-    author: "Dr. Sarah Whitfield",
-    authorRole: "Edinburgh, Scotland · Biblical Counselor & Author",
-    authorInitials: "SW",
-    authorGradient: "linear-gradient(135deg, #4FBBAA, #4F8FBB)",
+    tagGradient: "linear-gradient(135deg, #4FBBAA, #4F8FBB)",
     readTime: "5 min read",
     content: [
       'There is a reason this instruction comes in pairs: "trust God" is paired with "don\'t lean on your own understanding." Because for most of us, the primary obstacle to trusting God is not lack of desire — it\'s the competing voice of our own analysis. We have read the situation. We have done the math. We have a plan. And God is asking us to hold it loosely.',
@@ -158,10 +146,7 @@ const devotionals = [
     verse: '"I am the vine; you are the branches. Whoever abides in me and I in him, he it is that bears much fruit, for apart from me you can do nothing."',
     verseRef: "John 15:5 (ESV)",
     title: "The Fruit That Doesn't Force",
-    author: "Pastor Daniel Abara",
-    authorRole: "Lagos, Nigeria · Church Planter & Preacher",
-    authorInitials: "DA",
-    authorGradient: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
+    tagGradient: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
     readTime: "6 min read",
     content: [
       "Jesus spoke these words the night before his crucifixion, in the upper room, to the people he loved most. He was hours from the cross, and he chose to spend that time talking about abiding. Not about heroic sacrifice. Not about strategic mission. About staying connected — because everything else flows from that.",
@@ -192,10 +177,7 @@ const devotionals = [
     verse: '"He gives power to the faint, and to him who has no might he increases strength... They who wait for the Lord shall renew their strength; they shall mount up with wings like eagles."',
     verseRef: "Isaiah 40:29, 31 (ESV)",
     title: "The Gift Hidden in Waiting",
-    author: "Bishop James Nkosi",
-    authorRole: "Johannesburg, South Africa · Bishop, African Christian Fellowship",
-    authorInitials: "JN",
-    authorGradient: "linear-gradient(135deg, #E07030, #BB4F7A)",
+    tagGradient: "linear-gradient(135deg, #E07030, #BB4F7A)",
     readTime: "5 min read",
     content: [
       "We live in an age that has declared war on waiting. Same-day delivery, instant messages, streaming on demand — we have engineered patience out of our daily lives. And this cultural impatience has, quietly, shaped our expectations of God. We want answers quickly. We want prayers resolved efficiently. And when they aren't, we conclude something is wrong — either with us or with him.",
@@ -226,10 +208,7 @@ const devotionals = [
     verse: '"Now faith is the substance of things hoped for, the evidence of things not seen... And without faith it is impossible to please God, for whoever would draw near to him must believe that he exists and that he rewards those who seek him."',
     verseRef: "Hebrews 11:1, 6 (KJV/ESV)",
     title: "The Evidence of Things Not Seen",
-    author: "Dr. Lydia Chen",
-    authorRole: "Singapore · New Testament Scholar, Trinity Theological College",
-    authorInitials: "LC",
-    authorGradient: "linear-gradient(135deg, #4F8FBB, #4FBBAA)",
+    tagGradient: "linear-gradient(135deg, #4F8FBB, #4FBBAA)",
     readTime: "6 min read",
     content: [
       "The writer of Hebrews offers us one of the most precise definitions of faith in all of Scripture — and then, almost immediately, proceeds to spend the rest of the chapter illustrating it with people who were imperfect, uncertain, and often confused about what God was doing. That is not accidental. The hall of faith in Hebrews 11 is not a museum of religious superhumans. It's a gallery of ordinary people who chose to act on what they couldn't yet see.",
@@ -367,17 +346,17 @@ export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex
 
       {/* Devotional */}
       <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-        {/* Author */}
+        {/* Byline */}
         <div className="flex items-center gap-3 mb-5 pb-5" style={{ borderBottom: "1px solid #1E1E32" }}>
           <div
-            className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0"
-            style={{ background: d.authorGradient, color: "#07070F" }}
+            className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0"
+            style={{ background: d.tagGradient, color: "#07070F" }}
           >
-            {d.authorInitials}
+            <Pen size={16} />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>{d.author}</p>
-            <p className="text-xs" style={{ color: "#6A6A88" }}>{d.authorRole}</p>
+            <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>The Vine Devotional</p>
+            <p className="text-xs" style={{ color: "#6A6A88" }}>{d.tag} &middot; {d.ref}</p>
           </div>
           <div className="flex items-center gap-1.5 text-xs" style={{ color: "#8A8AA8" }}>
             <Clock size={12} />

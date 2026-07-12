@@ -2,68 +2,71 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Video, FileText, Mic, Users, PlusCircle, ArrowRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Video,
+  FileText,
+  Mic,
+  BookOpen,
+  Music,
+  Shield,
+  Heart,
+  Globe,
+  PlusCircle,
+  ArrowRight,
+} from "lucide-react";
 
-const CREATORS = [
+// Categories of voices The Vine is built to feature. These describe the kinds
+// of creators we welcome -- not real profiles, follower counts, or testimonials.
+const CALLINGS = [
   {
-    name: "Dr. Rachel Osei",
-    country: "Ghana",
-    flag: "🇬🇭",
-    title: "Bible Teacher & Theologian",
-    followers: "42.8K",
-    initials: "RO",
+    Icon: BookOpen,
+    name: "Bible Teachers & Theologians",
+    tagline: "Verse-by-verse depth",
     types: ["Video", "Articles"],
-    bio: "Bridging academic theology and everyday faith. Known for her deep dives into Romans and practical discipleship tools.",
+    description:
+      "Open the Scriptures with clarity and care -- expositional teaching that helps believers understand the text and live it.",
   },
   {
-    name: "Pastor Marcus Webb",
-    country: "United States",
-    flag: "🇺🇸",
-    title: "Preacher & Podcaster",
-    followers: "118K",
-    initials: "MW",
+    Icon: Mic,
+    name: "Preachers & Pastors",
+    tagline: "Proclaim the Word",
     types: ["Video", "Podcast"],
-    bio: "Senior pastor turned digital minister. His Sunday sermons reach over 100K listeners weekly across 40 countries.",
+    description:
+      "Preach Christ crucified and risen. Share sermons and series that call the Church to worship, repentance, and hope.",
   },
   {
-    name: "Miriam Santos",
-    country: "Brazil",
-    flag: "🇧🇷",
-    title: "Worship Leader & Songwriter",
-    followers: "67.2K",
-    initials: "MS",
+    Icon: Music,
+    name: "Worship Leaders & Songwriters",
+    tagline: "Lift the Name of Jesus",
     types: ["Video", "Podcast"],
-    bio: "Award-winning worship songwriter whose music has been sung in churches from São Paulo to Seoul.",
+    description:
+      "Write and lead songs that turn hearts toward God -- worship rooted in truth for the gathered and scattered Church.",
   },
   {
-    name: "James & Priya Nair",
-    country: "India",
-    flag: "🇮🇳",
-    title: "Christian Finance Educators",
-    followers: "29.4K",
-    initials: "JN",
-    types: ["Articles", "Podcast"],
-    bio: "Helping families steward God's resources with wisdom. Creators of the Kingdom Budget framework used globally.",
-  },
-  {
-    name: "Prof. Emmanuel Adeyemi",
-    country: "Nigeria",
-    flag: "🇳🇬",
-    title: "Apologist & Author",
-    followers: "55.1K",
-    initials: "EA",
+    Icon: Shield,
+    name: "Apologists & Authors",
+    tagline: "Contend for the faith",
     types: ["Video", "Articles"],
-    bio: "Philosophy professor and passionate defender of the faith. His debates have been watched over 8 million times.",
+    description:
+      "Give a reason for the hope within you. Answer hard questions with gentleness, respect, and the weight of the gospel.",
   },
   {
-    name: "Sofia Andersson",
-    country: "Sweden",
-    flag: "🇸🇪",
-    title: "Youth Ministry Leader",
-    followers: "18.7K",
-    initials: "SA",
+    Icon: Heart,
+    name: "Youth & Family Ministry",
+    tagline: "Reach the next generation",
     types: ["Video", "Articles", "Podcast"],
-    bio: "Reaching the next generation for Christ through creative storytelling, art, and community-driven ministry.",
+    description:
+      "Disciple students and families through creative storytelling, honest conversation, and Christ-centered community.",
+  },
+  {
+    Icon: Globe,
+    name: "Missionaries & Evangelists",
+    tagline: "Go and make disciples",
+    types: ["Video", "Podcast"],
+    description:
+      "Carry the good news across cultures and cities. Share the work God is doing among the nations and invite others in.",
   },
 ];
 
@@ -73,32 +76,10 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
   Podcast: <Mic size={10} />,
 };
 
-const FOLLOWED_STORAGE_KEY = "vine:creators:followed";
-
 export default function CreatorSpotlight() {
-  const [followed, setFollowed] = useState<Record<string, boolean>>(() => {
-    if (typeof window === "undefined") return {};
-    try {
-      const stored = localStorage.getItem(FOLLOWED_STORAGE_KEY);
-      return stored ? Object.fromEntries((JSON.parse(stored) as string[]).map((name) => [name, true])) : {};
-    } catch { return {}; }
-  });
   const [applied, setApplied] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const toggleFollow = (name: string) => {
-    setFollowed((prev) => {
-      const next = { ...prev, [name]: !prev[name] };
-      try {
-        const names = Object.keys(next).filter((key) => next[key]);
-        localStorage.setItem(FOLLOWED_STORAGE_KEY, JSON.stringify(names));
-      } catch {
-        /* ignore storage failures */
-      }
-      return next;
-    });
-  };
 
   const scroll = (dir: "left" | "right") => {
     scrollRef.current?.scrollBy({ left: dir === "right" ? 320 : -320, behavior: "smooth" });
@@ -140,7 +121,7 @@ export default function CreatorSpotlight() {
         >
           <div>
             <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
-              Featured Voices
+              For Creators
             </div>
             <h2
               style={{
@@ -152,31 +133,25 @@ export default function CreatorSpotlight() {
                 margin: 0,
               }}
             >
-              Creator
-              <em style={{ fontStyle: "italic", color: "#e8c162" }}> Spotlight.</em>
+              Share your
+              <em style={{ fontStyle: "italic", color: "#e8c162" }}> calling.</em>
             </h2>
-          </div>
-
-          {/* Header right: See all + scroll arrows */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <Link
-              href="/creators"
+            <p
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
                 fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                fontSize: "0.78rem",
-                fontWeight: 500,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "#c9a227",
-                textDecoration: "none",
+                fontSize: "0.95rem",
+                color: "#9a8f72",
+                fontWeight: 300,
+                marginTop: "0.8rem",
+                maxWidth: 480,
+                lineHeight: 1.65,
               }}
             >
-              All Creators <ArrowRight size={14} />
-            </Link>
+              The Vine is built to feature Christ-exalting voices from across the
+              global Church. Here are the kinds of creators we welcome.
+            </p>
           </div>
+
           {/* Scroll arrows */}
           <div style={{ display: "flex", gap: 8 }}>
             {(["left", "right"] as const).map((dir) => (
@@ -222,11 +197,11 @@ export default function CreatorSpotlight() {
             msOverflowStyle: "none",
           }}
         >
-          {CREATORS.map((creator) => {
-            const isFollowed = followed[creator.name];
+          {CALLINGS.map((calling) => {
+            const { Icon } = calling;
             return (
               <Link
-                key={creator.name}
+                key={calling.name}
                 href="/creators"
                 style={{
                   display: "flex",
@@ -263,7 +238,7 @@ export default function CreatorSpotlight() {
                   }}
                 />
 
-                {/* Avatar */}
+                {/* Icon badge */}
                 <div
                   style={{
                     width: 66,
@@ -274,28 +249,12 @@ export default function CreatorSpotlight() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontFamily: "var(--font-cormorant, Georgia, serif)",
-                    fontSize: "1.2rem",
-                    fontWeight: 700,
                     color: "#c9a227",
-                    letterSpacing: "0.05em",
                     marginBottom: "0.9rem",
-                    position: "relative",
                     flexShrink: 0,
                   }}
                 >
-                  {creator.initials}
-                  <span
-                    style={{
-                      position: "absolute",
-                      bottom: -2,
-                      right: -2,
-                      fontSize: "1rem",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {creator.flag}
-                  </span>
+                  <Icon size={26} />
                 </div>
 
                 <h3
@@ -307,37 +266,22 @@ export default function CreatorSpotlight() {
                     marginBottom: 3,
                   }}
                 >
-                  {creator.name}
+                  {calling.name}
                 </h3>
                 <p
                   style={{
                     fontFamily: "var(--font-jost, system-ui, sans-serif)",
                     fontSize: "0.72rem",
                     color: "#9a8f72",
-                    marginBottom: 8,
+                    marginBottom: 12,
                   }}
                 >
-                  {creator.title}
+                  {calling.tagline}
                 </p>
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 5,
-                    marginBottom: 10,
-                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                    fontSize: "0.75rem",
-                  }}
-                >
-                  <Users size={11} style={{ color: "#c9a227" }} />
-                  <strong style={{ color: "#c9a227" }}>{creator.followers}</strong>
-                  <span style={{ color: "#9a8f72" }}>followers</span>
-                </div>
-
                 {/* Type badges */}
-                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", justifyContent: "center", marginBottom: 10 }}>
-                  {creator.types.map((type) => (
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", justifyContent: "center", marginBottom: 12 }}>
+                  {calling.types.map((type) => (
                     <span
                       key={type}
                       style={{
@@ -368,42 +312,14 @@ export default function CreatorSpotlight() {
                     color: "#9a8f72",
                     lineHeight: 1.6,
                     fontWeight: 300,
-                    marginBottom: "1.2rem",
                     display: "-webkit-box",
-                    WebkitLineClamp: 3,
+                    WebkitLineClamp: 4,
                     WebkitBoxOrient: "vertical" as const,
                     overflow: "hidden",
                   }}
                 >
-                  {creator.bio}
+                  {calling.description}
                 </p>
-
-                <button
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFollow(creator.name); }}
-                  style={{
-                    width: "100%",
-                    padding: "8px 0",
-                    borderRadius: 2,
-                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                    fontSize: "0.75rem",
-                    fontWeight: 600,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    cursor: "pointer",
-                    transition: "all 0.2s",
-                    background: isFollowed ? "transparent" : "#c9a227",
-                    color: isFollowed ? "#c9a227" : "#1a0e00",
-                    border: isFollowed ? "0.5px solid rgba(201,162,39,0.4)" : "none",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isFollowed) (e.currentTarget as HTMLButtonElement).style.background = "#e8c162";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isFollowed) (e.currentTarget as HTMLButtonElement).style.background = "#c9a227";
-                  }}
-                >
-                  {isFollowed ? "Following" : "Follow"}
-                </button>
               </Link>
             );
           })}
@@ -481,8 +397,9 @@ export default function CreatorSpotlight() {
                 maxWidth: 520,
               }}
             >
-              Whether you preach, teach, sing, or write — the global Church needs your voice.
-              Join 2,400+ creators already building their ministry on The Vine.
+              Whether you preach, teach, sing, or write &mdash; the global Church needs
+              your voice. Help us build a home for Christ-centered creators and the
+              people they serve.
             </p>
             {showMore && (
               <p
@@ -496,9 +413,10 @@ export default function CreatorSpotlight() {
                   marginTop: "0.9rem",
                 }}
               >
-                Creators get a verified profile, publishing tools for video, audio, and
-                articles, audience analytics, and revenue sharing. Applications are reviewed
-                within 5 business days.
+                Our vision for creators includes a profile, publishing tools for video,
+                audio, and articles, and a growing audience of believers hungry for the
+                Word. Tell us about your ministry and we&apos;ll be in touch as these
+                tools come online.
               </p>
             )}
           </div>
@@ -533,7 +451,7 @@ export default function CreatorSpotlight() {
               onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#e8c162"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#c9a227"; }}
             >
-              {applied ? "Application Started ✓" : "Apply as a Creator"}
+              {applied ? "Thanks -- we'll be in touch" : "Express Interest"}
             </button>
             <button
               onClick={() => setShowMore((prev) => !prev)}

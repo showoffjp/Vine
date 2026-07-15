@@ -30,7 +30,7 @@ const COMMUNITY_LINKS: LinkEntry[] = [
 const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Bible Study Tools", href: "/bible-study" },
   { label: "Devotionals", href: "/daily" },
-  { label: "Reading Plans", href: "/reading-plan" },
+  { label: "Reading Plans", href: "/reading-plans" },
   { label: "Theology 101", href: "/theology" },
   { label: "Apologetics", href: "/apologetics-101" },
   { label: "Church History", href: "/church-history" },

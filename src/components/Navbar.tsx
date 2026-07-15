@@ -313,7 +313,7 @@ const navLinks: NavLink[] = [
           { label: "Gratitude Journal", href: "/gratitude" },
           { label: "Habit Tracker", href: "/habits" },
           { label: "Verse Memory", href: "/verse-memory" },
-          { label: "Reading Plans", href: "/reading-plan" },
+          { label: "Your Reading Journey", href: "/reading-plan" },
           { label: "Bible Reading Plans", href: "/reading-plans" },
           { label: "AI Companion", href: "/ai-companion" },
         ],

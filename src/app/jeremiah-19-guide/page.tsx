@@ -1,0 +1,83 @@
+"use client";
+import SectionGuideTemplate, { type SectionGuideData } from "@/components/SectionGuideTemplate";
+
+const TABS: string[] = [
+  "Overview",
+  "The Valley of Slaughter",
+  "Broken Beyond Mending",
+  "The Word in the Temple Court",
+  "Application",
+];
+
+const sections = [
+  {
+    id: "Overview",
+    heading: "Overview of Jeremiah 19",
+    reference: "Jeremiah 19:1&ndash;15",
+    paragraphs: [
+      "Jeremiah 19 is the dark companion to the potter's house. In chapter 18 the clay was still wet on the wheel &mdash; spoiled, but capable of being reworked. Now God commands a second sign-act with pottery, and this time the vessel is finished, fired, and hard. Jeremiah must buy an earthenware flask, lead the elders and senior priests out to the Valley of Ben Hinnom, pronounce judgment over the site of Judah's most monstrous sins, and then smash the flask before their eyes with the words: &lsquo;So will I break this people and this city, as one breaks a potter's vessel, so that it can never be mended&rsquo; (19:11).",
+      "The chapter unfolds in three movements. First, the summons to the valley and the terrible indictment spoken there &mdash; a place of idolatry and child sacrifice, sins so far from God's heart that he says they &lsquo;did not come into my mind,&rsquo; and a place whose very name will be changed to the Valley of Slaughter (19:1-9). Second, the shattering of the flask and its meaning &mdash; a judgment now hardened past remedy, with Topheth becoming a graveyard and the city itself defiled like the valley (19:10-13). Third, Jeremiah's return from the valley to the temple court, where he publicly announces that all the disaster is coming &lsquo;because they have stiffened their neck, refusing to hear my words&rsquo; (19:14-15).",
+      "The two pottery chapters together preach a single, urgent sermon about time. Wet clay can be reworked; a fired vessel can only shatter. There is a season when repentance can still reshape everything &mdash; and there is a point past which what a people has become is fixed, and judgment falls not as therapy but as demolition. Jeremiah 18 pleads while the wheel still turns; Jeremiah 19 announces that, for this generation of Judah, the kiln has done its work. The pot that would not be formed will now be broken. It is the Old Testament's starkest picture of the truth Hebrews states plainly: &lsquo;Today, if you hear his voice, do not harden your hearts&rsquo; (Hebrews 3:15).",
+      "Yet even this shattering chapter is not the Bible's last word about broken vessels or the cursed valley. Ben Hinnom &mdash; in Greek, <em>Gehenna</em> &mdash; became the very name Jesus used for hell, warning of the fire prepared for unrepented sin (Mark 9:43-48); the valley of Judah's worst sins became the Bible's enduring image of final judgment. But the gospel adds what Jeremiah 19 could not: the Lord Jesus was himself broken &mdash; &lsquo;this is my body, which is given for you&rsquo; (Luke 22:19) &mdash; poured out like water with all his bones out of joint (Psalm 22:14), so that shattered people might be made whole. The vessel that could never be mended meets, in Christ, the Potter who raises even broken things from the dead and makes them new (2 Corinthians 4:7-10; 5:17).",
+    ],
+  },
+  {
+    id: "The Valley of Slaughter",
+    heading: "Sins That Did Not Come into My Mind",
+    reference: "Jeremiah 19:1&ndash;9",
+    paragraphs: [
+      "The sign-act begins with a purchase and a procession: &ldquo;Thus says the Lord, &lsquo;Go, buy a potter's earthenware flask, and take some of the elders of the people and some of the elders of the priests, and go out to the Valley of the Son of Hinnom, at the entry of the Potsherd Gate&rsquo;&rdquo; (19:1-2). Every detail is staged for maximum witness: the leaders themselves must watch, and the location preaches before a word is spoken. The Valley of Ben Hinnom, just south of Jerusalem's walls, was the site of Topheth &mdash; the high place where Judah had burned incense to foreign gods and, most horrifically, burned their own children in the fire to Baal (19:4-5). Even the gate is called the Potsherd Gate, where broken pottery was discarded &mdash; the city's trash heap for shattered vessels.",
+      "The indictment God pronounces there is among the most severe in Scripture: &ldquo;Because the people have forsaken me and have profaned this place by making offerings in it to other gods&hellip; and because they have filled this place with the blood of innocents, and have built the high places of Baal to burn their sons in the fire as burnt offerings to Baal&rdquo; (19:4-5). Child sacrifice is the terminus of idolatry &mdash; the point where false worship devours the worshipers' own children. And then comes one of the most striking phrases in the prophets: these are things &ldquo;which I did not command or decree, nor did it come into my mind&rdquo; (19:5). The sins of Topheth are so alien to God's character that he speaks of them as unthinkable &mdash; a horror that never entered the divine mind. Whatever gods demand the blood of children, they are not the Lord.",
+      "Therefore the valley's name will change: &ldquo;behold, the days are coming, declares the Lord, when this place shall no more be called Topheth, or the Valley of the Son of Hinnom, but the Valley of Slaughter&rdquo; (19:6). The place where Judah slaughtered her children will become the place where the besieging armies slaughter Judah. The judgment is grimly symmetrical: &ldquo;I will make void the plans of Judah and Jerusalem in this place, and will cause their people to fall by the sword before their enemies&hellip; I will give their dead bodies for food to the birds of the air&rdquo; (19:7). The siege will be so desperate that the unthinkable curses of the covenant (Deuteronomy 28:53) will come literally true within the walls (19:9).",
+      "This passage stands as Scripture's permanent witness that God sees what is done to the innocent and the small, and that no religious language can sanctify cruelty. The God of Israel is not one more deity to be appeased with blood; he is the God who thunders against the very idea. And the New Testament carries the thought to its glorious inversion: the God who never asked for our children gave his own Son &mdash; not thrown into the fire by a desperate worshiper, but freely given by the Father and freely giving himself (John 3:16; Galatians 2:20). At Topheth, man sacrificed his children to demons and called it worship; at Calvary, God sacrificed himself for his children and called it love. Every false god takes; the true God gives.",
+    ],
+  },
+  {
+    id: "Broken Beyond Mending",
+    heading: "As One Breaks a Potter's Vessel",
+    reference: "Jeremiah 19:10&ndash;13",
+    paragraphs: [
+      "Now comes the act itself: &ldquo;Then you shall break the flask in the sight of the men who go with you, and shall say to them, &lsquo;Thus says the Lord of hosts: So will I break this people and this city, as one breaks a potter's vessel, so that it can never be mended&rsquo;&rdquo; (19:10-11). The elders watch the flask leave Jeremiah's hand, hear the crack against the stones of the Potsherd Gate, and see the pieces scatter among a thousand other shards. No one gathers broken pottery to repair it; fired clay does not go back on the wheel. The sermon needs no elaboration: this is what Jerusalem has become, and this is what is coming.",
+      "The contrast with chapter 18 is the whole point, and the original audience could not have missed it. There, the clay was &lsquo;spoiled in the potter's hand&rsquo; and he &lsquo;reworked it into another vessel&rsquo; (18:4) &mdash; the invitation to return was live, the future still soft. Here, the vessel is bought finished from the potter's shop &mdash; formed, fired, hardened into its final shape. Judah has passed from the wheel to the kiln. Decades of refused warnings &mdash; &lsquo;we will follow our own plans&rsquo; (18:12) &mdash; have baked the nation's character solid, and what will not bend must break. The window between chapters 18 and 19 is the space in which every sinner lives: still clay, or already fired; still forming, or fixed.",
+      "God extends the image over the whole city: &ldquo;Men shall bury in Topheth because there will be no place else to bury. Thus will I do to this place, declares the Lord, and to its inhabitants, making this city like Topheth&rdquo; (19:11-12). The valley of shattered pots and slaughtered children will overflow into a graveyard, and Jerusalem herself will become one great Topheth &mdash; &ldquo;the houses upon whose roofs offerings have been offered to all the host of heaven, and drink offerings have been poured out to other gods&rdquo; (19:13) will be defiled like the valley they fed. The rooftop altars, so private and domestic, are named publicly: there are no secret idolatries before the God who sees.",
+      "Is &lsquo;never be mended&rsquo; the Bible's final word? For that generation and that city, yes &mdash; Jerusalem fell, the temple burned, and no political skill glued the shards together. But the same prophet who shattered the flask was given the new covenant to proclaim (31:31-34), and the valley itself is touched by a promise: the day is coming when &lsquo;the whole valley of the dead bodies and the ashes&hellip; shall be sacred to the Lord&rsquo; (31:40). What judgment breaks beyond human mending, grace can resurrect beyond human hoping. The gospel's deepest logic runs through this very image: Christ's body was broken &mdash; deliberately, sacrificially, &lsquo;given for you&rsquo; (Luke 22:19; 1 Corinthians 11:24) &mdash; and raised whole, so that all who are shattered by sin and judgment might be &lsquo;afflicted in every way, but not crushed&hellip; struck down, but not destroyed&rsquo; (2 Corinthians 4:8-9). The Potter entered the Potsherd Gate himself, and came out the other side alive.",
+    ],
+  },
+  {
+    id: "The Word in the Temple Court",
+    heading: "Because They Have Stiffened Their Neck",
+    reference: "Jeremiah 19:14&ndash;15",
+    paragraphs: [
+      "The sign-act in the valley was performed before a delegation of elders; but the word is for everyone, so Jeremiah carries it back up into the city: &ldquo;Then Jeremiah came from Topheth, where the Lord had sent him to prophesy, and he stood in the court of the Lord's house and said to all the people&rdquo; (19:14). From the valley of shards to the temple court &mdash; from the place of Judah's shame to the place of Judah's pride &mdash; the prophet walks the sermon straight into the sanctuary. The people who avoided Topheth's ugliness could not avoid Topheth's message; it followed them to church.",
+      "The public announcement compresses the whole oracle into a single sentence: &ldquo;Thus says the Lord of hosts, the God of Israel, behold, I am bringing upon this city and upon all its towns all the disaster that I have pronounced against it, because they have stiffened their neck, refusing to hear my words&rdquo; (19:15). Notice where the final accent falls. Not on the idolatry, not even on the blood of innocents, but on the root beneath them all: a stiffened neck, a settled refusal to hear. The image is of an ox that will not take the yoke &mdash; strength turned wholly to resistance. Every particular sin of Topheth grew from this one soil: they would not listen.",
+      "This is the consistent testimony of the whole book: the damning sin is not ignorance but refusal. Judah had the law, the temple, and forty years of Jeremiah's preaching; what she lacked was not information but a bendable neck. &lsquo;I spoke to you persistently, but you did not listen; I called you, but you did not answer&rsquo; (7:13). Scripture everywhere treats hearing as the hinge of destiny: &lsquo;Today, if you hear his voice, do not harden your hearts&rsquo; (Hebrews 3:15); &lsquo;Take care then how you hear&rsquo; (Luke 8:18). The stiff neck, not the loud sin, is what finally fires the clay.",
+      "And the courageous figure of Jeremiah in the temple court &mdash; declaring an unwelcome word in the teeth of the establishment, knowing (as chapter 20 will immediately show) that beating and stocks await him &mdash; points forward to the Lord who also stood in that court and spoke truths that sealed his death (Luke 19:47; 21:37-38). Jesus wept over the city that stoned the prophets, longing to gather her children &lsquo;as a hen gathers her brood under her wings,&rsquo; and grieved: &lsquo;you were not willing&rsquo; (Matthew 23:37). The stiffened neck met, at last, the bowed head of the crucified Son &mdash; and everyone who bends the neck to his easy yoke finds what Judah refused: &lsquo;rest for your souls&rsquo; (Matthew 11:29).",
+    ],
+  },
+  {
+    id: "Application",
+    heading: "Living Jeremiah 19",
+    reference: "Reflections on Hardness and the Broken Vessel",
+    paragraphs: [
+      "<strong>Respond while you are still clay.</strong> The space between Jeremiah 18 and Jeremiah 19 &mdash; between the wheel and the kiln &mdash; is the space you are living in right now. Habits harden; hearts fire; what is soft today may be fixed tomorrow. Whatever God has been saying to you through his word, his Spirit, or his discipline, answer it today. &lsquo;Today, if you hear his voice, do not harden your hearts&rsquo; (Hebrews 3:15). No one is promised that the clay stays wet.",
+      "<strong>Call cruelty what God calls it &mdash; especially cruelty to the vulnerable.</strong> At Topheth, religion itself was recruited to justify the unthinkable, and God declared it had never entered his mind. Any ideology, ambition, or convenience that consumes children or the defenseless stands under the verdict of this chapter. Be a people who protect the small, for you serve the God who gives rather than takes. &lsquo;Rescue those who are being taken away to death&rsquo; (Proverbs 24:11).",
+      "<strong>Watch your neck, not just your record.</strong> The final indictment was not the list of sins but the stiffened neck &mdash; the settled refusal to hear. Ask honestly: is there a word from God you have been politely, persistently refusing? Correction you deflect, a conviction you postpone? The most dangerous posture in the world is the unbent neck under a patient God. &lsquo;Take my yoke upon you&hellip; and you will find rest for your souls&rsquo; (Matthew 11:29).",
+      "<strong>Bring your broken pieces to the One who was broken for you.</strong> The flask could never be mended &mdash; but the gospel is God's answer to shattered things. Christ's body was given and broken so that the crushed might be made new; no ruin you carry is beyond the Potter who walked out of the grave. Do not hide your shards; hand them over. <strong>Prayer prompt:</strong> &ldquo;Lord, while I am still clay, shape me &mdash; do not let me harden against your voice. Expose every place my neck has stiffened, every word of yours I have refused to hear, and make me quick to bend. Give me your heart for the vulnerable, and courage to defend them. And where my life lies in pieces, I bring the shards to Christ, broken for me and risen, trusting you to make what I cannot mend. Amen.&rdquo;",
+    ],
+  },
+];
+
+const data: SectionGuideData = {
+  accent: "#3a7d56",
+  badge: "Jeremiah 19",
+  title: "Jeremiah 19: Broken Beyond Mending",
+  intro: "The dark companion to the potter's house: this time the vessel is finished and fired. Jeremiah leads the elders to the Valley of Ben Hinnom -- site of child sacrifice, sins that 'did not come into my mind' -- renames it the Valley of Slaughter, and smashes the flask against the stones: 'So will I break this people and this city... so that it can never be mended.' Wet clay can be reworked; a fired pot can only shatter. Then he walks the sermon into the temple court: all this comes 'because they have stiffened their neck, refusing to hear my words.'",
+  tabs: TABS,
+  sections,
+  calloutTitle: "The Kiln, the Valley, and the Broken Body",
+  calloutBody: "Chapter 18 pleads while the wheel still turns; chapter 19 announces the kiln has done its work -- what will not bend must break. Ben Hinnom became Gehenna, the very name Jesus used for hell (Mark 9:43-48). But the gospel adds what this chapter could not: at Topheth man sacrificed his children to demons; at Calvary God gave himself for his children. Christ's body was broken -- 'given for you' (Luke 22:19) -- and raised whole, so that vessels shattered beyond human mending might be made new creations (2 Cor 4:8-9; 5:17).",
+};
+
+export default function Page() {
+  return <SectionGuideTemplate data={data} />;
+}
